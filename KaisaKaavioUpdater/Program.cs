@@ -11,8 +11,31 @@ using System.Windows.Forms;
 
 namespace KaisaKaavioUpdater
 {
+    /// <summary>
+    /// Komentorivityökalu joka lataa uusimman version KaisaKaavio ohjelmasta palvelimelta, ja päivittää nykyisen version uudempaan
+    /// jos on tarvis
+    /// </summary>
     static class Program
     {
+        static void Loki(string teksti, params object[] parametrit)
+        {
+            try
+            {
+#if DEBUG
+                Console.Out.WriteLine(string.Format(teksti, parametrit));
+#else
+                string kansio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaaviot", "Loki");
+                Directory.CreateDirectory(kansio);
+
+                string tiedosto = Path.Combine(kansio, string.Format("Paivitykset_{0:D2}_{1}.txt", DateTime.Now.Month, DateTime.Now.Year));
+                File.AppendAllText(tiedosto, DateTime.Now.ToString() + " : " + string.Format(teksti, parametrit) + Environment.NewLine);
+#endif
+            }
+            catch
+            { 
+            }
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -21,12 +44,20 @@ namespace KaisaKaavioUpdater
         {
             try
             {
+#if DEBUG
+                Console.Out.WriteLine("KaisaKaavioUpdater");
+                Console.Out.WriteLine("===================================================================================");
+#endif
+
                 string kaisaKaavioExe = args[0];    // Arg[0] = KaisaKaavio exe tiedoston nimi
                 int pid = Int32.Parse(args[1]);     // Arg[1] = KaisaKaavio prosessin id, joka kutsui päivitystä
+
+                Loki("Yritetään päivittää ohjelma {0} (pid {1})...", kaisaKaavioExe, pid);
 
                 // Odotetaan että KaisaKaavio on sulkeutunut ennen päivitystä...
                 if (!OdotaOhjelmanSulkeutumista(pid))
                 {
+                    Loki("KaisaKaavio.exe on käynnissä. Päivitys epäonnistui");
                     return -3;
                 }
 
@@ -42,7 +73,12 @@ namespace KaisaKaavioUpdater
                 // Jostain syystä exe on deletoitu. Kopioidaan uusin tilalle
                 if (!File.Exists(kaisaKaavioExe))
                 {
+                    Loki("KaisaKaavio.exe puuttuu. Kopioidaan uusin versio tilalle...");
+
                     File.Copy(downloadPath, kaisaKaavioExe);
+
+                    Loki("Valmis!");
+                    
                     return 2;
                 }
 
@@ -57,23 +93,40 @@ namespace KaisaKaavioUpdater
 
                     if (nyky < uusin)
                     {
+                        Loki("Päivitetään KaisaKaavio.exe versiosta {0} versioon {1}...", nyky, uusin);
+
                         File.Delete(kaisaKaavioExe);
                         File.Copy(downloadPath, kaisaKaavioExe);
 
+                        Loki("Valmis!");
+
                         return 1;
                     }
+                    else
+                    {
+                        Loki("KaisaKaavio.exe on uusimmassa versiossa {0}. Ei tarvetta päivittää...", nyky);
+
+                        return 0;
+                    }
                 }
+                else
+                {
+                    Loki("KaisaKaavion päivitysten nouto palvelimelta epäonnistui...");
 
-                return 0;
-
-                // Ei lataus käyttöliittymää (ainakaan toistaiseksi)
-                //Application.EnableVisualStyles();
-                //Application.SetCompatibleTextRenderingDefault(false);
-                //Application.Run(new Form1());
+                    return -4;
+                }
             }
             catch (Exception e)
             {
+                Loki("Virhe päivitettäessä KaisaKaavio ohjelmaa: {0}{1}{2}", e.Message, Environment.NewLine, e.StackTrace);
                 return -1;
+            }
+            finally 
+            {
+#if DEBUG
+                Console.Out.WriteLine("Press enter to quit...");
+                Console.In.ReadLine();
+#endif
             }
         }
 

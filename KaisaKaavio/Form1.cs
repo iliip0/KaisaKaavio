@@ -457,31 +457,34 @@ namespace KaisaKaavio
         {
             Tallenna();
 
-#if !DEBUG
-            if ((this.asetukset.PaivitaAutomaattisesti && this.asetukset.ViimeisimmanPaivityksenPaiva != DateTime.Now.Day) ||
-                this.haePaivityksiaOhjelmanSulkeuduttuaToolStripMenuItem.Checked)
+#if !DEBUG // Päivitetään ohjelma uusimpaan versioon suljettaessa
+            try
             {
-                this.loki.Kirjoita("Haetaan päivityksiä ohjelmaan...");
-
-                this.asetukset.ViimeisimmanPaivityksenPaiva = DateTime.Now.Day;
-
-                string exe = Assembly.GetExecutingAssembly().Location;
-                string kansio = Path.GetDirectoryName(exe);
-                string paivittaja = Path.Combine(kansio, "KaisaKaavioUpdater.exe");
-                if (Program.PuraResurssi("KaisaKaavio.Resources.KaisaKaavioUpdater.exe", paivittaja, this.loki))
+                if (!System.Diagnostics.Debugger.IsAttached)
                 {
-                    try
+                    if ((this.asetukset.PaivitaAutomaattisesti && this.asetukset.ViimeisimmanPaivityksenPaiva != DateTime.Now.Day) ||
+                        this.haePaivityksiaOhjelmanSulkeuduttuaToolStripMenuItem.Checked)
                     {
-                        string komentorivi = exe + " " + Process.GetCurrentProcess().Id;
-                        Process process = Process.Start(paivittaja, komentorivi);
+                        this.loki.Kirjoita("Haetaan päivityksiä ohjelmaan...");
 
-                        this.loki.Kirjoita("Käynnistettiin päivittäjä onnistuneesti", null, false);
-                    }
-                    catch (Exception ee)
-                    {
-                        this.loki.Kirjoita("Ohjelman päivitys epäonnistui", ee, false);
+                        this.asetukset.ViimeisimmanPaivityksenPaiva = DateTime.Now.Day;
+
+                        string exe = Assembly.GetExecutingAssembly().Location;
+                        string kansio = Path.GetDirectoryName(exe);
+                        string paivittaja = Path.Combine(kansio, "KaisaKaavioUpdater.exe");
+                        if (Program.PuraResurssi("KaisaKaavio.Resources.KaisaKaavioUpdater.exe", paivittaja, this.loki))
+                        {
+                            string komentorivi = exe + " " + Process.GetCurrentProcess().Id;
+                            Process process = Process.Start(paivittaja, komentorivi);
+
+                            this.loki.Kirjoita("Käynnistettiin päivittäjä onnistuneesti", null, false);
+                        }
                     }
                 }
+            }
+            catch (Exception ee)
+            {
+                this.loki.Kirjoita("Ohjelman päivitys epäonnistui", ee, false);
             }
 #endif
         }
