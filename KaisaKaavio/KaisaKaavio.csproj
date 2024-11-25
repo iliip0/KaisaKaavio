@@ -90,6 +90,13 @@
     <Compile Include="Pelaaja.cs" />
     <Compile Include="PelaajaTietue.cs" />
     <Compile Include="Peli.cs" />
+    <Compile Include="PelinDetaljit.cs" />
+    <Compile Include="PelinTiedotPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PelinTiedotPopup.Designer.cs">
+      <DependentUpon>PelinTiedotPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="PelinTilanne.cs" />
     <Compile Include="PelinTulos.cs" />
     <Compile Include="Poyta.cs" />
@@ -107,6 +114,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PelinTiedotPopup.resx">
+      <DependentUpon>PelinTiedotPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -158,6 +168,9 @@
     <EmbeddedResource Include="Resources\Tiedoksi.png" />
     <EmbeddedResource Include="Resources\Dice.png" />
     <EmbeddedResource Include="Resources\KaisaKaavioUpdater.exe" />
+    <None Include="Resources\Vasemmalle.png" />
+    <None Include="Resources\Ok.png" />
+    <None Include="Resources\Peruuta.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

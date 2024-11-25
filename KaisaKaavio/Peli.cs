@@ -315,6 +315,40 @@ namespace KaisaKaavio
                     s.Append(string.Format(" ({0} {1}. kierros)", this.Pelaaja2, this.KierrosPelaaja2));
                 }
 
+                var detaljit = this.Kilpailu.PelienDetaljit.FirstOrDefault(x => 
+                    (x.Kierros == Kierros) &&
+                    (x.Pelaaja1 == Id1) &&
+                    (x.Pelaaja2 == Id2));
+
+                if (detaljit != null)
+                {
+                    if (!string.IsNullOrEmpty(detaljit.PisinSarja1) && !string.IsNullOrEmpty(detaljit.ToiseksiPisinSarja1))
+                    {
+                        s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", this.Pelaaja1, detaljit.PisinSarja1, detaljit.ToiseksiPisinSarja1));
+                    }
+                    else if (!string.IsNullOrEmpty(detaljit.PisinSarja1))
+                    {
+                        s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja1, detaljit.PisinSarja1));
+                    }
+                    else if (!string.IsNullOrEmpty(detaljit.ToiseksiPisinSarja1))
+                    {
+                        s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja1, detaljit.ToiseksiPisinSarja1));
+                    }
+
+                    if (!string.IsNullOrEmpty(detaljit.PisinSarja2) && !string.IsNullOrEmpty(detaljit.ToiseksiPisinSarja2))
+                    {
+                        s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", this.Pelaaja2, detaljit.PisinSarja2, detaljit.ToiseksiPisinSarja2));
+                    }
+                    else if (!string.IsNullOrEmpty(detaljit.PisinSarja2))
+                    {
+                        s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja2, detaljit.PisinSarja2));
+                    }
+                    else if (!string.IsNullOrEmpty(detaljit.ToiseksiPisinSarja2))
+                    {
+                        s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja2, detaljit.ToiseksiPisinSarja2));
+                    }
+}
+
                 return s.ToString();
             }
         }

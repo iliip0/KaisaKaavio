@@ -36,12 +36,14 @@ namespace KaisaKaavio
         public string Palkinnot { get; set; }
         public string Ilmoittautuminen { get; set; }
         public decimal PelaajiaEnintaan { get; set; }
-        public ObservableCollection<Pelaaja> Osallistujat { get; set; }
+        public BindingList<Pelaaja> Osallistujat { get; set; }
+        public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
         public BindingList<Peli> Pelit { get; set; }
+        public BindingList<PelinDetaljit> PelienDetaljit { get; set; }
         public bool KilpailuOnViikkokisa { get; set; }
 
         [XmlIgnore]
-        public ObservableCollection<Pelaaja> OsallistujatJarjestyksessa { get; set; }
+        public BindingList<Pelaaja> OsallistujatJarjestyksessa { get; set; }
 
         [XmlIgnore]
         public string Tiedosto { get; set; }
@@ -72,14 +74,18 @@ namespace KaisaKaavio
 
         public Kilpailu()
         {
-            Osallistujat = new ObservableCollection<Pelaaja>();
-            Osallistujat.CollectionChanged += Osallistujat_CollectionChanged;
+            Osallistujat = new BindingList<Pelaaja>();
+            Osallistujat.ListChanged += Osallistujat_ListChanged;
 
-            OsallistujatJarjestyksessa = new ObservableCollection<Pelaaja>();
+            OsallistujatJarjestyksessa = new BindingList<Pelaaja>();
+
+            JalkiIlmoittautuneet = new BindingList<Pelaaja>();
 
             Pelit = new BindingList<Peli>();
             Pelit.ListChanged += Pelit_ListChanged;
-            
+
+            PelienDetaljit = new BindingList<PelinDetaljit>();
+
             Nimi = string.Format("Kaisan viikkokilpailu {0}.{1}.{2}", 
                 DateTime.Now.Day, 
                 DateTime.Now.Month, 
@@ -490,7 +496,7 @@ namespace KaisaKaavio
             }
         }
 
-        void Osallistujat_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void Osallistujat_ListChanged(object sender, ListChangedEventArgs e)
         {
             RaisePropertyChanged("ArvonnanTilanneTeksti");
             RaisePropertyChanged("ArvontaNappiPainettavissa");
@@ -611,6 +617,16 @@ namespace KaisaKaavio
                 this.TavoitePistemaara = kilpailu.TavoitePistemaara;
                 this.KilpailuOnViikkokisa = kilpailu.KilpailuOnViikkokisa;
 
+                this.JalkiIlmoittautuneet.Clear();
+
+                foreach (var j in kilpailu.JalkiIlmoittautuneet)
+                {
+                    if (!string.IsNullOrEmpty(j.Nimi))
+                    {
+                        this.JalkiIlmoittautuneet.Add(j);
+                    }
+                }
+
                 this.Osallistujat.Clear();
                 this.OsallistujatJarjestyksessa.Clear();
 
@@ -637,6 +653,18 @@ namespace KaisaKaavio
                 }
 
                 PaivitaOsallistujatJarjestyksessa();
+
+                this.PelienDetaljit.Clear();
+                foreach (var p in kilpailu.PelienDetaljit
+                    .Where(x => !x.Tyhja)
+                    .OrderBy(x => x.Pelaaja1)
+                    .OrderBy(x => x.Kierros))
+                {
+                    if (this.Pelit.Any(x => (x.Kierros == p.Kierros) && (x.Id1 == p.Pelaaja1) && (x.Id2 == p.Pelaaja2)))
+                    {
+                        this.PelienDetaljit.Add(p);
+                    }
+                }
 
                 this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             }
@@ -669,6 +697,25 @@ namespace KaisaKaavio
             }
 
             return nimi;
+        }
+
+        public void SiirraJalkiIlmoittautuneetOsallistujiin(Asetukset asetukset)
+        {
+            foreach (var j in this.JalkiIlmoittautuneet)
+            {
+                if (!string.IsNullOrEmpty(j.Nimi))
+                {
+                    var pelaaja = asetukset.Pelaajat.FirstOrDefault(x => string.Equals(j.Nimi, x.Nimi));
+                    if (pelaaja != null)
+                    {
+                        j.Seura = pelaaja.Seura;
+                    }
+
+                    this.Osallistujat.Add(j);
+                }
+            }
+
+            this.JalkiIlmoittautuneet.Clear();
         }
 
         public bool ArvoKaavio(out string virhe)
@@ -1263,7 +1310,14 @@ namespace KaisaKaavio
                     }
                     else
                     {
-                        return "Arvo kaavio";
+                        if (this.JalkiIlmoittautuneet.Any(x => !string.IsNullOrEmpty(x.Nimi)))
+                        {
+                            return "Arvo alakaavio";
+                        }
+                        else
+                        {
+                            return "Arvo kaavio";
+                        }
                     }
                 }
 

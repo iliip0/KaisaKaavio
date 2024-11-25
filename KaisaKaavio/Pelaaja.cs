@@ -8,12 +8,47 @@ using System.Xml.Serialization;
 namespace KaisaKaavio
 {
     public class Pelaaja
+        : NotifyPropertyChanged
     {
-        [XmlAttribute]
-        public string Nimi { get; set; }
+        private string nimi = string.Empty;
 
         [XmlAttribute]
-        public string Seura { get; set; }
+        public string Nimi 
+        {
+            get
+            {
+                return this.nimi;
+            }
+
+            set
+            {
+                if (!string.Equals(this.nimi, value))
+                {
+                    this.nimi = value;
+                    RaisePropertyChanged("Nimi");
+                }
+            }
+        }
+
+        private string seura = string.Empty;
+
+        [XmlAttribute]
+        public string Seura 
+        {
+            get
+            {
+                return this.seura;
+            }
+
+            set
+            {
+                if (!string.Equals(this.seura, value))
+                {
+                    this.seura = value;
+                    RaisePropertyChanged("Seura");
+                }
+            }
+        }
 
         [XmlAttribute]
         public string Sijoitettu { get; set; }
@@ -21,13 +56,13 @@ namespace KaisaKaavio
         [XmlAttribute]
         public string KabikeMaksu { get; set; }
 
-        [XmlAttribute]
+        [XmlIgnore]
         public string LisenssiMaksu { get; set; }
 
         [XmlAttribute]
         public string OsMaksu { get; set; }
 
-        [XmlAttribute]
+        [XmlIgnore]
         public string SeuranJasenMaksu { get; set; }
 
         [XmlAttribute]
@@ -36,8 +71,25 @@ namespace KaisaKaavio
         [XmlIgnore]
         public string IlmoittautumisNumero { get; set; }
 
+        private int id = 0;
+
         [XmlAttribute]
-        public int Id { get; set; }
+        public int Id 
+        {
+            get
+            {
+                return this.id;
+            }
+
+            set
+            {
+                if (this.id != value)
+                {
+                    this.id = value;
+                    RaisePropertyChanged("Id");
+                }
+            }
+        }
 
         [XmlIgnore]
         public int Voitot { get; set; }
