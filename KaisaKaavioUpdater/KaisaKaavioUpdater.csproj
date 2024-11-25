@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>8e6e7d0f-3ddd-4fe4-bfc5-75c252b805bb</ProjectGuid>
+    <ProjectGuid>{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KaisaKaavioUpdater</RootNamespace>

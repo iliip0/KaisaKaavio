@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavio", "KaisaKaavio.csproj", "{EA3A78F0-876A-4ECB-9607-290F750997A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavioUpdater", "..\KaisaKaavioUpdater\KaisaKaavioUpdater.csproj", "{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,14 @@ Global
 		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleasePvk|Any CPU.ActiveCfg = ReleasePvk|Any CPU
 		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleasePvk|Any CPU.Build.0 = ReleasePvk|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.DebugPvk|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.DebugPvk|Any CPU.Build.0 = Debug|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.ReleasePvk|Any CPU.ActiveCfg = Release|Any CPU
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.ReleasePvk|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
