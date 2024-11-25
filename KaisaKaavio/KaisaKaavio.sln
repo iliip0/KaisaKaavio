@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavio", "KaisaKaavio.csproj", "{EA3A78F0-876A-4ECB-9607-290F750997A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugPvk|Any CPU = DebugPvk|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleasePvk|Any CPU = ReleasePvk|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.DebugPvk|Any CPU.ActiveCfg = DebugPvk|Any CPU
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.DebugPvk|Any CPU.Build.0 = DebugPvk|Any CPU
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleasePvk|Any CPU.ActiveCfg = ReleasePvk|Any CPU
+		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleasePvk|Any CPU.Build.0 = ReleasePvk|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
