@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavio", "KaisaKaavio.csproj", "{EA3A78F0-876A-4ECB-9607-290F750997A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68} = {C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavioUpdater", "..\KaisaKaavioUpdater\KaisaKaavioUpdater.csproj", "{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}"
 EndProject

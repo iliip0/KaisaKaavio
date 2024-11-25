@@ -136,6 +136,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -156,10 +157,18 @@
     <EmbeddedResource Include="Resources\Kopioi.png" />
     <EmbeddedResource Include="Resources\Tiedoksi.png" />
     <EmbeddedResource Include="Resources\Dice.png" />
+    <EmbeddedResource Include="Resources\KaisaKaavioUpdater.exe" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy $(SolutionDir)..\KaisaKaavioUpdater\bin\Release\KaisaKaavioUpdater.exe $(SolutionDir)Resources\ /c /r /y /d /i /q
+xcopy $(SolutionDir)..\LICENSE $(SolutionDir)Resources\ /c /r /y /d /i /q</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy $(TargetPath) $(SolutionDir)..\ /c /r /y /d /i /q</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

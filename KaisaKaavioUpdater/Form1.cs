@@ -14,6 +14,7 @@ namespace KaisaKaavioUpdater
     {
         public Form1()
         {
+            //
             InitializeComponent();
         }
     }
