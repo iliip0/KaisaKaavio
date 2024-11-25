@@ -118,6 +118,8 @@ namespace KaisaKaavio
             this.sbilJakoTyyppiComboBox.SelectedIndex = 0;
             this.jarjestajaJakotyyppiComboBox.SelectedIndex = 0;
 
+            this.paivitaOhjelmaAutomaattisestiSuljettaessaToolStripMenuItem.Checked = this.asetukset.PaivitaAutomaattisesti;
+
             // Puh-veli kerhon erikoisuudet
 #if PVK
 #else
@@ -454,6 +456,34 @@ namespace KaisaKaavio
         void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Tallenna();
+
+#if !DEBUG
+            if ((this.asetukset.PaivitaAutomaattisesti && this.asetukset.ViimeisimmanPaivityksenPaiva != DateTime.Now.Day) ||
+                this.haePaivityksiaOhjelmanSulkeuduttuaToolStripMenuItem.Checked)
+            {
+                this.loki.Kirjoita("Haetaan päivityksiä ohjelmaan...");
+
+                this.asetukset.ViimeisimmanPaivityksenPaiva = DateTime.Now.Day;
+
+                string exe = Assembly.GetExecutingAssembly().Location;
+                string kansio = Path.GetDirectoryName(exe);
+                string paivittaja = Path.Combine(kansio, "KaisaKaavioUpdater.exe");
+                if (Program.PuraResurssi("KaisaKaavio.Resources.KaisaKaavioUpdater.exe", paivittaja, this.loki))
+                {
+                    try
+                    {
+                        string komentorivi = exe + " " + Process.GetCurrentProcess().Id;
+                        Process process = Process.Start(paivittaja, komentorivi);
+
+                        this.loki.Kirjoita("Käynnistettiin päivittäjä onnistuneesti", null, false);
+                    }
+                    catch (Exception ee)
+                    {
+                        this.loki.Kirjoita("Ohjelman päivitys epäonnistui", ee, false);
+                    }
+                }
+            }
+#endif
         }
 
         private void PaivitaIkkunanNimi()
@@ -2454,5 +2484,10 @@ namespace KaisaKaavio
         }
 
         #endregion
+
+        private void paivitaOhjelmaAutomaattisestiSuljettaessaToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            this.asetukset.PaivitaAutomaattisesti = this.paivitaOhjelmaAutomaattisestiSuljettaessaToolStripMenuItem.Checked;
+        }
     }
 }

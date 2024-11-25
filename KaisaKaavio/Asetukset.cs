@@ -40,12 +40,25 @@ namespace KaisaKaavio
         /// Kisoihin osallistuneet pelaajat
         /// </summary>
         public BindingList<PelaajaTietue> Pelaajat { get; set; }
- 
+
+        /// <summary>
+        /// Päivä jolloin edellisen kerran tarkistettiin, onko ohjelmasta päivityksiä
+        /// </summary>
+        public int ViimeisimmanPaivityksenPaiva { get; set; }
+
+        /// <summary>
+        /// Määrää onko automaattiset ohjelman päivitykset käytössä
+        /// </summary>
+        public bool PaivitaAutomaattisesti { get; set; }
+
         private string tiedosto = null;
 
         public Asetukset()
         {
             this.ViimeisinKilpailu = string.Empty;
+            this.ViimeisimmanPaivityksenPaiva = 0;
+            this.PaivitaAutomaattisesti = true;
+
             this.Sali = new Sali();
             this.Pelaajat = new BindingList<PelaajaTietue>(); 
 
@@ -80,6 +93,9 @@ namespace KaisaKaavio
                 if (asetukset != null)
                 {
                     this.ViimeisinKilpailu = asetukset.ViimeisinKilpailu;
+                    this.ViimeisimmanPaivityksenPaiva = asetukset.ViimeisimmanPaivityksenPaiva;
+                    this.PaivitaAutomaattisesti = asetukset.PaivitaAutomaattisesti;
+
                     this.Sali.Nimi = asetukset.Sali.Nimi;
                     this.Sali.Osoite = asetukset.Sali.Osoite;
                     this.Sali.PuhelinNumero = asetukset.Sali.PuhelinNumero;
@@ -114,6 +130,51 @@ namespace KaisaKaavio
             }
         }
 
+        private string MuotoileNimi(string nimi)
+        {
+            if (string.IsNullOrEmpty(nimi))
+            {
+                return nimi;
+            }
+
+            var nimet = nimi.Split(',');
+            if (nimet == null || nimet.Count() == 1)
+            {
+                return KapiteeliksiEkaKirjain(nimi);
+            }
+
+            List<string> kapiteeliNimet = new List<string>();
+            foreach (var n in nimet)
+            {
+                kapiteeliNimet.Add(KapiteeliksiEkaKirjain(n.Trim()));
+            }
+
+            return string.Join(" ", kapiteeliNimet);
+        }
+
+        private string KapiteeliksiEkaKirjain(string nimi)
+        {
+            if (string.IsNullOrEmpty(nimi))
+            {
+                return nimi;
+            }
+
+            if (Char.IsUpper(nimi[0]))
+            {
+                return nimi;
+            }
+
+            StringBuilder s = new StringBuilder();
+            s.Append(Char.ToUpper(nimi[0]));
+
+            if (nimi.Length > 1)
+            {
+                s.Append(nimi.Substring(1));
+            }
+
+            return s.ToString();
+        }
+
         public void TallennaPelaajat(Kilpailu kilpailu)
         {
             foreach (var osallistuja in kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
@@ -121,18 +182,23 @@ namespace KaisaKaavio
                 // Tallenna vain pelaajat joilla on vähintään kaksi nimeä (etu & suku)
                 if (osallistuja.Nimi.Split(' ').Count() > 1)
                 {
-                    PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, osallistuja.Nimi, StringComparison.OrdinalIgnoreCase));
+                    string nimi = MuotoileNimi(osallistuja.Nimi);
+
+                    PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, nimi, StringComparison.OrdinalIgnoreCase));
                     if (vanhaPelaaja != null)
                     {
                         vanhaPelaaja.Seura = osallistuja.Seura;
                     }
                     else
                     {
-                        Pelaajat.Add(new PelaajaTietue()
+                        PelaajaTietue p =
+                        new PelaajaTietue()
                         {
-                            Nimi = osallistuja.Nimi,
+                            Nimi = nimi,
                             Seura = osallistuja.Seura
-                        });
+                        };
+
+                        Pelaajat.Add(p);
                     }
                 }
             }
