@@ -578,7 +578,10 @@ namespace KaisaKaavio
 
         public void Avaa(string tiedosto)
         {
-            Loki.Kirjoita(string.Format("Avataan kilpailu tiedostosta {0}", tiedosto));
+            if (Loki != null)
+            {
+                Loki.Kirjoita(string.Format("Avataan kilpailu tiedostosta {0}", tiedosto));
+            }
 
             XmlSerializer serializer = new XmlSerializer(typeof(Kilpailu));
 

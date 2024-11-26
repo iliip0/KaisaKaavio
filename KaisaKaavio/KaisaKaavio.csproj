@@ -103,6 +103,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rahanjako.cs" />
+    <Compile Include="Ranking\Ranking.cs" />
+    <Compile Include="Ranking\RankingAsetukset.cs" />
+    <Compile Include="Ranking\RankingOsakilpailu.cs" />
+    <Compile Include="Ranking\RankingPelaajaTietue.cs" />
+    <Compile Include="Ranking\RankingPisteetPelista.cs" />
+    <Compile Include="Ranking\RankingPisteetSijoituksesta.cs" />
+    <Compile Include="Ranking\RankingPisteytysPelista.cs" />
+    <Compile Include="Ranking\RankingPisteytysSijoituksesta.cs" />
+    <Compile Include="Ranking\RankingSarja.cs" />
+    <Compile Include="Ranking\RankingSarjanPituus.cs" />
     <Compile Include="Sali.cs" />
     <Compile Include="Testaus\TestiAjo.cs" />
     <Compile Include="Testaus\TestiKilpailu.cs" />

@@ -42,6 +42,11 @@ namespace KaisaKaavio
         public BindingList<PelaajaTietue> Pelaajat { get; set; }
 
         /// <summary>
+        /// Rankingkisojen (viikkokisat) pisteytysasetukset
+        /// </summary>
+        public Ranking.RankingAsetukset RankingAsetukset { get; set; }
+
+        /// <summary>
         /// Päivä jolloin edellisen kerran tarkistettiin, onko ohjelmasta päivityksiä
         /// </summary>
         public int ViimeisimmanPaivityksenPaiva { get; set; }
@@ -60,7 +65,9 @@ namespace KaisaKaavio
             this.PaivitaAutomaattisesti = true;
 
             this.Sali = new Sali();
-            this.Pelaajat = new BindingList<PelaajaTietue>(); 
+            this.Pelaajat = new BindingList<PelaajaTietue>();
+            this.RankingAsetukset = new Ranking.RankingAsetukset();
+            this.RankingAsetukset.AsetaOletusasetukset();
 
             this.tiedosto = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaavioAsetukset.xml");
         }
@@ -125,6 +132,30 @@ namespace KaisaKaavio
                         {
                             this.Pelaajat.Add(pelaaja);
                         }
+                    }
+
+                    this.RankingAsetukset.PistetytysPeleista.Clear();
+                    foreach (var p in asetukset.RankingAsetukset.PistetytysPeleista)
+                    {
+                        if (p.Pisteet > 0)
+                        {
+                            this.RankingAsetukset.PistetytysPeleista.Add(p);
+                        }
+                    }
+
+                    this.RankingAsetukset.PisteytysSijoituksista.Clear();
+                    foreach (var p in asetukset.RankingAsetukset.PisteytysSijoituksista)
+                    {
+                        if (p.Pisteet > 0)
+                        {
+                            this.RankingAsetukset.PisteytysSijoituksista.Add(p);
+                        }
+                    }
+
+                    if (this.RankingAsetukset.PistetytysPeleista.Count == 0 &&
+                        this.RankingAsetukset.PisteytysSijoituksista.Count == 0)
+                    {
+                        this.RankingAsetukset.AsetaOletusasetukset();
                     }
                 }
             }

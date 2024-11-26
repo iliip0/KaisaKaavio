@@ -99,8 +99,6 @@ namespace KaisaKaavio
             // Puh-veli kerhon erikoisuudet
 #if PVK
 #else
-            this.tabControl1.TabPages.Remove(this.rankingTabPage);
-            this.rankingKisaCheckBox.Visible = false;
 #endif
 
 #if DEBUG
@@ -115,7 +113,7 @@ namespace KaisaKaavio
         // ========={( Kaavioiden luominen, tallennus ja lataus )}============================================= //
         #region Kaavio I/O
 
-        private string ToValidFileName(string s)
+        public static string ToValidFileName(string s)
         {
             string fileName = s;
             foreach (char c in System.IO.Path.GetInvalidFileNameChars())
@@ -320,7 +318,9 @@ namespace KaisaKaavio
 
             this.kabikeMaksuDataGridViewTextBoxColumn.Visible = !this.kilpailu.KilpailuOnViikkokisa;
             this.piilotaToinenKierrosCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
- 
+
+            this.rankingKisaCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
+
             // Todo: Näitä ei kai nykyään tarvita ikinä
             this.seuranJasenMaksuDataGridViewTextBoxColumn.Visible = false;
             this.lisenssiMaksuDataGridViewTextBoxColumn.Visible = false;
@@ -336,6 +336,11 @@ namespace KaisaKaavio
                 {
                     this.tabControl1.Controls.Remove(this.saliInfoTabPage);
                 }
+
+                if (!this.tabControl1.Contains(this.rankingTabPage))
+                {
+                    this.tabControl1.Controls.Add(this.rankingTabPage);
+                }
             }
             else
             {
@@ -347,6 +352,11 @@ namespace KaisaKaavio
                 if (!this.tabControl1.Contains(this.saliInfoTabPage))
                 {
                     this.tabControl1.Controls.Add(this.saliInfoTabPage);
+                }
+
+                if (this.tabControl1.Contains(this.rankingTabPage))
+                {
+                    this.tabControl1.Controls.Remove(this.rankingTabPage);
                 }
             }
         }
@@ -690,6 +700,10 @@ namespace KaisaKaavio
             {
                 AlustaRahanjako();
                 PaivitaRahanjako();
+            }
+            else if (this.tabControl1.SelectedTab == this.rankingTabPage)
+            {
+                PaivitaRankingPistetytysLiuut();
             }
 
             bool pelitTabilla = this.tabControl1.SelectedTab == this.pelitTabPage;
@@ -2648,5 +2662,168 @@ namespace KaisaKaavio
                 this.piilotaToinenKierrosCheckBox.Checked = false;
             }
         }
+
+        // ========={( Ranking )}============================================================================== //
+        #region Ranking
+
+        private bool rankingPisteliukujenPaivitysKesken = false;
+
+        private void PaivitaRankingPistetytysLiuut()
+        {
+            this.rankingPisteliukujenPaivitysKesken = true;
+
+            try
+            {
+                PaivitaRankingPisteytysPelistaLiuku(Ranking.RankingPisteetPelista.JokaisestaVoitosta, this.rpJokaPeliNumericUpDown);
+                PaivitaRankingPisteytysPelistaLiuku(Ranking.RankingPisteetPelista.EkanKierroksenVoitostaKunTokaKierrosOnPudari, this.rpEkaKierrosNumericUpDown);
+                PaivitaRankingPisteytysPelistaLiuku(Ranking.RankingPisteetPelista.RankingYkkosenVoitosta, this.rpRgYkkonenNumericUpDown);
+                PaivitaRankingPisteytysPelistaLiuku(Ranking.RankingPisteetPelista.RankingKakkosenVoitosta, this.rpRgKakkonenNumericUpDown);
+                PaivitaRankingPisteytysPelistaLiuku(Ranking.RankingPisteetPelista.RankingKolmosenVoitosta, this.rpRgKolmonenNumericUpDown);
+
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Voittajalle, this.rp1NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Kakkoselle, this.rp2NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Kolmoselle, this.rp3NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Neloselle, this.rp4NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Vitoselle, this.rp5NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Kutoselle, this.rp6NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Seiskalle, this.rp7NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Kasille, this.rp8NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Ysille, this.rp9NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.Kymmenennelle, this.rp10NumericUpDown);
+                PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta.KaikilleOsallistujille, this.rpOsallistuminenNumericUpDown);
+            }
+            catch
+            {
+            }
+            finally 
+            {
+                this.rankingPisteliukujenPaivitysKesken = false;
+            }
+        }
+
+        private void PaivitaRankingPisteytysPelistaLiuku(Ranking.RankingPisteetPelista peliEhto, NumericUpDown liuku)
+        {
+            var asetus = this.asetukset.RankingAsetukset.PistetytysPeleista.FirstOrDefault(x => x.Ehto == peliEhto);
+            if (asetus != null)
+            {
+                liuku.Value = (decimal)asetus.Pisteet;
+            }
+            else
+            {
+                liuku.Value = 0;
+            }
+        }
+
+        private void PaivitaRankingPisteytysSijoituksestaLiuku(Ranking.RankingPisteetSijoituksesta ehto, NumericUpDown liuku)
+        {
+            var asetus = this.asetukset.RankingAsetukset.PisteytysSijoituksista.FirstOrDefault(x => x.Ehto == ehto);
+            if (asetus != null)
+            {
+                liuku.Value = (decimal)asetus.Pisteet;
+            }
+            else
+            {
+                liuku.Value = 0;
+            }
+        }
+
+        private void RankingPisteytys_ValueChanged(object sender, EventArgs e)
+        {
+            if (!this.rankingPisteliukujenPaivitysKesken)
+            {
+                PaivitaRankingPisteytysPelista(Ranking.RankingPisteetPelista.JokaisestaVoitosta, this.rpJokaPeliNumericUpDown);
+                PaivitaRankingPisteytysPelista(Ranking.RankingPisteetPelista.EkanKierroksenVoitostaKunTokaKierrosOnPudari, this.rpEkaKierrosNumericUpDown);
+                PaivitaRankingPisteytysPelista(Ranking.RankingPisteetPelista.RankingYkkosenVoitosta, this.rpRgYkkonenNumericUpDown);
+                PaivitaRankingPisteytysPelista(Ranking.RankingPisteetPelista.RankingKakkosenVoitosta, this.rpRgKakkonenNumericUpDown);
+                PaivitaRankingPisteytysPelista(Ranking.RankingPisteetPelista.RankingKolmosenVoitosta, this.rpRgKolmonenNumericUpDown);
+
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Voittajalle, this.rp1NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Kakkoselle, this.rp2NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Kolmoselle, this.rp3NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Neloselle, this.rp4NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Vitoselle, this.rp5NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Kutoselle, this.rp6NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Seiskalle, this.rp7NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Kasille, this.rp8NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Ysille, this.rp9NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.Kymmenennelle, this.rp10NumericUpDown);
+                PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta.KaikilleOsallistujille, this.rpOsallistuminenNumericUpDown);
+            }
+
+            NumericUpDown liuku = (NumericUpDown)sender;
+            if (liuku != null)
+            {
+                if (liuku.Value > 0)
+                {
+                    liuku.Font = this.paksuFontti;
+                    liuku.BackColor = Color.LightGreen;
+                }
+                else
+                {
+                    liuku.Font = this.ohutFontti;
+                    liuku.BackColor = Color.White;
+                }
+            }
+        }
+
+        private void PaivitaRankingPisteytysSijoituksesta(Ranking.RankingPisteetSijoituksesta ehto, NumericUpDown liuku)
+        {
+            var asetus = this.asetukset.RankingAsetukset.PisteytysSijoituksista.FirstOrDefault(x => x.Ehto == ehto);
+
+            int pisteet = (int)liuku.Value;
+            if (pisteet > 0)
+            {
+                if (asetus == null)
+                {
+                    this.asetukset.RankingAsetukset.PisteytysSijoituksista.Add(new Ranking.RankingPisteytysSijoituksesta()
+                    {
+                        Ehto = ehto,
+                        Pisteet = pisteet
+                    });
+                }
+                else
+                {
+                    asetus.Pisteet = pisteet;
+                }
+            }
+            else
+            {
+                if (asetus != null)
+                {
+                    this.asetukset.RankingAsetukset.PisteytysSijoituksista.Remove(asetus);
+                }
+            }
+        }
+
+        private void PaivitaRankingPisteytysPelista(Ranking.RankingPisteetPelista peliEhto, NumericUpDown liuku)
+        {
+            var asetus = this.asetukset.RankingAsetukset.PistetytysPeleista.FirstOrDefault(x => x.Ehto == peliEhto);
+
+            int pisteet = (int)liuku.Value;
+            if (pisteet > 0)
+            {
+                if (asetus == null)
+                {
+                    this.asetukset.RankingAsetukset.PistetytysPeleista.Add(new Ranking.RankingPisteytysPelista()
+                    {
+                        Ehto = peliEhto,
+                        Pisteet = pisteet
+                    });
+                }
+                else
+                {
+                    asetus.Pisteet = pisteet;
+                }
+            }
+            else
+            {
+                if (asetus != null)
+                {
+                    this.asetukset.RankingAsetukset.PistetytysPeleista.Remove(asetus);
+                }
+            }
+        }
+
+        #endregion
     }
 }
