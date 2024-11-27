@@ -19,6 +19,7 @@ namespace KaisaKaavio.Ranking
         public string Tiedosto { get; private set; }
 
         public BindingList<RankingOsakilpailu> Osakilpailut { get; set; }
+        public BindingList<RankingPelaajaTietue> Osallistujat { get; set; }
 
         private bool muokattu = true;
 
@@ -29,6 +30,29 @@ namespace KaisaKaavio.Ranking
             this.Pituus = RankingSarjanPituus.Kuukausi;
             this.SarjanNumero = 0;
             this.Osakilpailut = new BindingList<RankingOsakilpailu>();
+            this.Osallistujat = new BindingList<RankingPelaajaTietue>();
+        }
+
+        /// <summary>
+        /// Rankingsarjan tilanneteksti rtf muodossa
+        /// </summary>
+        public string TilanneRtf
+        {
+            get
+            {
+                return "Tilanne";
+            }
+        }
+
+        /// <summary>
+        /// Rankingsarjan tilanneteksti SBiL keskustelupalstamuodossa
+        /// </summary>
+        public string TilanneSbil
+        {
+            get
+            {
+                return "Tilanne";
+            }
         }
 
         public void Avaa(Loki loki, string tiedosto)
@@ -59,53 +83,144 @@ namespace KaisaKaavio.Ranking
 
                 this.Osakilpailut.Clear();
 
-                foreach (var o in sarja.Osakilpailut)
+                foreach (var o in sarja.Osakilpailut.OrderByDescending(x => x.AlkamisAika))
                 {
+#if !DEBUG
                     if (!string.IsNullOrEmpty(o.Nimi) &&
                         o.Osallistujat.Count > 0)
                     {
+#endif
                         this.Osakilpailut.Add(o);
+#if !DEBUG
                     }
+#endif
                 }
             }
         }
 
         public void Tallenna(Loki loki, string kansio)
         {
-            if (!muokattu)
+            try
             {
-                return;
+                if (!muokattu)
+                {
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(this.Nimi))
+                {
+                    this.Nimi = string.Format("RankingSarja_{0}", this.SarjanNumero);
+                }
+
+                this.Tiedosto = Path.Combine(kansio, this.Nimi + ".xml");
+
+                if (loki != null)
+                {
+                    loki.Kirjoita(string.Format("Tallennetaan rankingsarja {0} tiedostoon {1}", this.Nimi, this.Tiedosto));
+                }
+
+                XmlSerializer serializer = new XmlSerializer(typeof(RankingSarja));
+
+                string nimiTmp = Path.GetTempFileName();
+
+                using (TextWriter writer = new StreamWriter(nimiTmp))
+                {
+                    serializer.Serialize(writer, this);
+                    writer.Close();
+                }
+
+                File.Copy(nimiTmp, this.Tiedosto, true);
+                File.Delete(nimiTmp);
             }
-
-            if (string.IsNullOrEmpty(this.Nimi))
-            { 
-                this.Nimi = string.Format("RankingSarja_{0}", this.SarjanNumero);
-            }
-
-            this.Tiedosto = Path.Combine(kansio, this.Nimi + ".xml");
-
-            if (loki != null)
+            catch (Exception e)
             {
-                loki.Kirjoita(string.Format("Tallennetaan rankingsarja {0} tiedostoon {1}", this.Nimi, this.Tiedosto));
+                if (loki != null)
+                {
+                    loki.Kirjoita("Rankingsarjan tallennus epäonnistui!", e, false);
+                }
             }
+        }
 
-            XmlSerializer serializer = new XmlSerializer(typeof(RankingSarja));
+        public void PaivitaTilanne()
+        {
+            this.Osallistujat.Clear();
 
-            string nimiTmp = Path.GetTempFileName();
-
-            using (TextWriter writer = new StreamWriter(nimiTmp))
+            List<RankingPelaajaTietue> kaikkiPelaajat = new List<RankingPelaajaTietue>();
+ 
+            foreach (var o in this.Osakilpailut)
             {
-                serializer.Serialize(writer, this);
-                writer.Close();
+                foreach (var p in o.Osallistujat)
+                {
+                    if (!kaikkiPelaajat.Any(x => x.Id == p.Id))
+                    {
+                        kaikkiPelaajat.Add(new RankingPelaajaTietue() 
+                        {
+                            Id = p.Id,
+                            Nimi = p.Nimi,
+                            Seura = p.Seura
+                        });
+                    }
+                }
             }
 
-            File.Copy(nimiTmp, this.Tiedosto, true);
-            File.Delete(nimiTmp);
+            foreach (var o in this.Osakilpailut)
+            {
+                foreach (var p in kaikkiPelaajat)
+                {
+                    var pelaaja = o.Osallistujat.FirstOrDefault(x => x.Id == p.Id);
+                    if (pelaaja == null)
+                    {
+                        p.LisaaOsakilpailunPisteet(0, "xxx");
+                    }
+                    else
+                    {
+                        p.LisaaOsakilpailunPisteet(pelaaja.RankingPisteet, pelaaja.RankingPisteString);
+                    }
+                }
+            }
+
+            foreach (var p in kaikkiPelaajat.OrderByDescending(x => x.RankingPisteet))
+            {
+                this.Osallistujat.Add(p);
+            }
         }
 
         public void LisaaKilpailu(Kilpailu kilpailu, RankingAsetukset asetukset)
         {
+            if (this.Osakilpailut.Any(x => x.AlkamisAika > kilpailu.AlkamisAika))
+            {
+                return; // Rankingkilpailuja voidaan lisätä vain sarjan loppuun
+            }
+
+            var osakilpailu = this.Osakilpailut.FirstOrDefault(x => string.Equals(x.Nimi, kilpailu.Nimi));
+            if (osakilpailu == null)
+            {
+                osakilpailu = new RankingOsakilpailu() 
+                {
+                    Nimi = kilpailu.Nimi,
+                    AlkamisAika = kilpailu.AlkamisAika
+                };
+
+                if (this.Osakilpailut.Count == 0)
+                {
+                    this.Osakilpailut.Add(osakilpailu);
+                }
+                else 
+                {
+                    this.Osakilpailut.Insert(0, osakilpailu);
+                }
+            }
+
+            osakilpailu.PaivitaKilpailu(kilpailu, this, asetukset);
+
+            PaivitaTilanne();
+
             muokattu = true;
+        }
+
+        public int PelaajanSijoitus(int id)
+        {
+            return 10; // TODO
         }
     }
 }

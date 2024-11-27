@@ -474,6 +474,50 @@ namespace KaisaKaavio
             return 0;
         }
 
+        public bool Voitti(int id)
+        {
+            if (this.tilanne == PelinTilanne.Pelattu && SisaltaaPelaajan(id))
+            {
+                bool voitti1 = false;
+                bool voitti2 = false;
+                bool havisi1 = false;
+                bool havisi2 = false;
+                int p1 = Pisteet(this.pisteet1, out voitti1, out havisi1);
+                int p2 = Pisteet(this.pisteet2, out voitti2, out havisi2);
+
+                if (voitti1)
+                {
+                    return id == Id1;
+                }
+
+                if (voitti2)
+                {
+                    return id == Id2;
+                }
+
+                if (havisi1 && id == Id1)
+                {
+                    return false;
+                }
+
+                if (havisi2 && id == Id2)
+                {
+                    return false;
+                }
+
+                if (id == Id1)
+                {
+                    return p1 > p2;
+                }
+                else
+                {
+                    return p1 < p2;
+                }
+            }
+
+            return false;
+        }
+
         public bool Havisi(int id)
         {
             if (this.tilanne == PelinTilanne.Pelattu && SisaltaaPelaajan(id))

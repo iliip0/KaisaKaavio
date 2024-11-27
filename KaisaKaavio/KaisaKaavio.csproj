@@ -141,6 +141,7 @@
     <EmbeddedResource Include="UusiKilpailuPopup.resx">
       <DependentUpon>UusiKilpailuPopup.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\KaisaKaavio.Ranking.Ranking.datasource" />
     <None Include="Properties\DataSources\Kilpailu.datasource" />
     <None Include="Properties\DataSources\Linkki.datasource" />
     <None Include="Properties\DataSources\Pelaaja.datasource" />

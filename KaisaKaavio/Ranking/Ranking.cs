@@ -1,20 +1,209 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace KaisaKaavio.Ranking
 {
     public class Ranking
+        : NotifyPropertyChanged
     {
         private string kansio = null;
-        private Dictionary<int, Dictionary<RankingSarjanPituus, List<RankingSarja>>> sarjat = new Dictionary<int, Dictionary<RankingSarjanPituus, List<RankingSarja>>>();
+        private Dictionary<int, Dictionary<RankingSarjanPituus, BindingList<RankingSarja>>> sarjat = 
+            new Dictionary<int, Dictionary<RankingSarjanPituus, BindingList<RankingSarja>>>();
 
-        public RankingAsetukset Asetukset { get; private set; }
-        public List<string> Vuodet { get; private set; }
+        public List<int> Vuodet { get; private set; }
+        public RankingAsetukset Asetukset = null;
         public Loki Loki = null;
+
+        BindingSource sarjatBindingSource = new BindingSource();
+        public BindingSource SarjatBindingSource
+        {
+            get
+            {
+                return this.sarjatBindingSource;
+            }
+        }
+
+        BindingSource kilpailutBindingSource = new BindingSource();
+        public BindingSource KilpailutBindingSource
+        {
+            get
+            {
+                return this.kilpailutBindingSource;
+            }
+        }
+
+        private int valittuVuosi = DateTime.Now.Year;
+        public int ValittuVuosi
+        {
+            get 
+            {
+                return this.valittuVuosi;
+            }
+
+            set
+            {
+                if (this.valittuVuosi != value)
+                {
+                    this.valittuVuosi = value;
+                    RaisePropertyChanged("ValittuVuosi");
+                    PaivitaValitutSarjat();
+                }
+            }
+        }
+
+        private RankingSarjanPituus valittuPituus = RankingSarjanPituus.Kuukausi;
+        public RankingSarjanPituus ValittuPituus
+        {
+            get
+            {
+                return this.valittuPituus;
+            }
+
+            set
+            {
+                if (this.valittuPituus != value)
+                {
+                    this.valittuPituus = value;
+                    RaisePropertyChanged("ValittuPituus");
+                    PaivitaValitutSarjat();
+                }
+            }
+        }
+
+        private BindingList<RankingSarja> valitutSarjat = null;
+        public BindingList<RankingSarja> ValitutSarjat
+        {
+            get
+            {
+                return this.valitutSarjat;
+            }
+
+            set
+            {
+                if (this.valitutSarjat != value)
+                {
+                    this.valitutSarjat = value;
+                    this.sarjatBindingSource.DataSource = this.valitutSarjat;
+
+                    RaisePropertyChanged("ValitutSarjat");
+                    RaisePropertyChanged("SarjojaValittavissa");
+
+                    PaivitaValittuSarja();
+                }
+            }
+        }
+
+        public bool SarjojaValittavissa
+        {
+            get
+            {
+                return this.valitutSarjat != null && this.valitutSarjat.Count > 0;
+            }
+        }
+
+        private RankingSarja valittuSarja = null;
+        public RankingSarja ValittuSarja
+        {
+            get
+            {
+                return this.valittuSarja;
+            }
+
+            set
+            {
+                if (this.valittuSarja != value)
+                {
+                    this.valittuSarja = value;
+                    this.kilpailutBindingSource.DataSource = this.valittuSarja != null ? this.valittuSarja.Osakilpailut : null;
+
+                    RaisePropertyChanged("ValittuSarja");
+                    RaisePropertyChanged("ValitutOsakilpailut");
+                    RaisePropertyChanged("KilpailujaValittavissa");
+                    RaisePropertyChanged("KokonaisTilanneRtf");
+                    RaisePropertyChanged("KokonaisTilanneSbil");
+
+                    PaivitaValittuOsakilpailu();
+                }
+            }
+        }
+
+        public bool KilpailujaValittavissa
+        {
+            get
+            {
+                return (this.valittuSarja != null) && 
+                    (this.valittuSarja.Osakilpailut != null) && 
+                    (this.valittuSarja.Osakilpailut.Count > 0);
+            }
+        }
+
+        public BindingList<RankingOsakilpailu> ValitutOsakilpailut
+        {
+            get
+            {
+                return this.valittuSarja != null ? this.valittuSarja.Osakilpailut : null;
+            }
+        }
+
+        private RankingOsakilpailu valittuOsakilpailu = null;
+        public RankingOsakilpailu ValittuOsakilpailu
+        {
+            get
+            {
+                return this.valittuOsakilpailu;
+            }
+
+            set
+            {
+                if (this.valittuOsakilpailu != value)
+                {
+                    this.valittuOsakilpailu = value;
+
+                    RaisePropertyChanged("ValittuOsakilpailu");
+                    RaisePropertyChanged("OsakilpailunTilanneRtf");
+                    RaisePropertyChanged("OsakilpailunTilanneSbil");
+                }
+            }
+        }
+
+        public string OsakilpailunTilanneRtf
+        {
+            get
+            {
+                return this.valittuOsakilpailu != null ? this.valittuOsakilpailu.TilanneRtf : string.Empty;
+            }
+        }
+
+        public string OsakilpailunTilanneSbil
+        {
+            get
+            {
+                return this.valittuOsakilpailu != null ? this.valittuOsakilpailu.TilanneSbil : string.Empty;
+            }
+        }
+
+        public string KokonaisTilanneRtf
+        {
+            get
+            {
+                return this.valittuSarja != null ? this.valittuSarja.TilanneRtf : string.Empty;
+            }
+        }
+
+        public string KokonaisTilanneSbil
+        {
+            get
+            {
+                return this.valittuSarja != null ? this.valittuSarja.TilanneSbil : string.Empty;
+            }
+        }
 
         public Ranking()
         {
@@ -23,14 +212,91 @@ namespace KaisaKaavio.Ranking
             Directory.CreateDirectory(this.kansio);
             Directory.CreateDirectory(Path.Combine(this.kansio, DateTime.Now.Year.ToString()));
 
-            this.Vuodet = new List<string>();
+            this.Vuodet = new List<int>();
 
-            foreach (var dir in Directory.EnumerateDirectories(this.kansio))
+            DirectoryInfo dir = new DirectoryInfo(this.kansio);
+
+            foreach (var vuosi in dir.EnumerateDirectories())
             {
-                this.Vuodet.Add(dir);
+                int vuosiluku = 0;
+                if (Int32.TryParse(vuosi.Name, out vuosiluku))
+                {
+                    this.Vuodet.Add(vuosiluku);
+                }
             }
 
-            this.Asetukset = new RankingAsetukset();
+            var vuodet = this.Vuodet
+                .OrderByDescending(x => x)
+                .ToArray();
+
+            this.Vuodet.Clear();
+            this.Vuodet.AddRange(vuodet);
+        }
+
+        public void PaivitaValitutSarjat()
+        {
+            try
+            {
+                this.ValittuOsakilpailu = null;
+                this.ValittuSarja = null;
+                this.ValitutSarjat = null;
+
+                this.ValitutSarjat = AvaaSarjat(this.valittuVuosi, this.valittuPituus);
+
+                PaivitaValittuSarja();
+            }
+            catch (Exception e)
+            {
+                this.Loki.Kirjoita("Valittujen rankingsarjojen päivitys epäonnistui!", e, false);
+                this.ValitutSarjat = null;
+            }
+        }
+
+        private void PaivitaValittuSarja()
+        {
+            try
+            {
+                this.ValittuOsakilpailu = null;
+
+                if (this.ValitutSarjat == null)
+                {
+                    this.ValittuSarja = null;
+                }
+                else if (this.ValittuSarja != null && this.ValitutSarjat.Contains(this.ValittuSarja))
+                {
+                }
+                else
+                {
+                    this.ValittuSarja = this.ValitutSarjat.FirstOrDefault();
+                }
+
+                PaivitaValittuOsakilpailu();
+            }
+            catch (Exception e)
+            {
+                this.Loki.Kirjoita("Valitun rankingsarjan päivitys epäonnistui", e, false);
+                this.ValittuSarja = null;
+            }
+        }
+
+        private void PaivitaValittuOsakilpailu()
+        {
+            try
+            {
+                if (this.ValittuSarja == null)
+                {
+                    this.ValittuOsakilpailu = null;
+                }
+                else if (this.ValittuOsakilpailu != null && !this.ValittuSarja.Osakilpailut.Contains(this.ValittuOsakilpailu))
+                {
+                    this.ValittuOsakilpailu = this.ValittuSarja.Osakilpailut.FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                this.Loki.Kirjoita("Valitun rankingosakilpailun päivitys epäonnistui", e, false);
+                this.ValittuOsakilpailu = null;
+            }
         }
 
         private string Kansio(int vuosi, RankingSarjanPituus pituus)
@@ -45,16 +311,16 @@ namespace KaisaKaavio.Ranking
             }
         }
 
-        public List<RankingSarja> AvaaSarjat(int vuosi, RankingSarjanPituus pituus)
+        private BindingList<RankingSarja> AvaaSarjat(int vuosi, RankingSarjanPituus pituus)
         {
-            Dictionary<RankingSarjanPituus, List<RankingSarja>> vuodenSarjat = null;
+            Dictionary<RankingSarjanPituus, BindingList<RankingSarja>> vuodenSarjat = null;
             if (this.sarjat.ContainsKey(vuosi))
             {
                 vuodenSarjat = this.sarjat[vuosi];
             }
             else
             {
-                vuodenSarjat = new Dictionary<RankingSarjanPituus, List<RankingSarja>>();
+                vuodenSarjat = new Dictionary<RankingSarjanPituus, BindingList<RankingSarja>>();
                 this.sarjat.Add(vuosi, vuodenSarjat);
             }
 
@@ -64,7 +330,7 @@ namespace KaisaKaavio.Ranking
                 return vuodenSarjat[pituus];
             }
 
-            List<RankingSarja> sarjat = new List<RankingSarja>();
+            BindingList<RankingSarja> sarjat = new BindingList<RankingSarja>();
             vuodenSarjat.Add(pituus, sarjat);
 
             string sarjaKansio = Kansio(vuosi, pituus);
@@ -72,7 +338,17 @@ namespace KaisaKaavio.Ranking
             Directory.CreateDirectory(sarjaKansio);
 
             foreach (var sarjaTiedosto in Directory.EnumerateFiles(sarjaKansio, "*.xml", SearchOption.TopDirectoryOnly))
-            { 
+            {
+                try
+                {
+                    RankingSarja sarja = new RankingSarja();
+                    sarja.Avaa(this.Loki, sarjaTiedosto);
+                    sarjat.Add(sarja);
+                }
+                catch (Exception e)
+                {
+                    this.Loki.Kirjoita(string.Format("Rankingsarjan {0} lataus epäonnistui", sarjaTiedosto), e, false);
+                }
             }
 
             return sarjat;
@@ -106,12 +382,22 @@ namespace KaisaKaavio.Ranking
 
         public void LisaaKilpailu(Kilpailu kilpailu)
         {
-            int vuosi = kilpailu.AlkamisAika.Year;
+            try
+            {
+                int vuosi = kilpailu.AlkamisAika.Year;
 
-            LisaaKilpailu12kk(kilpailu, vuosi);
-            LisaaKilpailu6kk(kilpailu, vuosi);
-            LisaaKilpailu3kk(kilpailu, vuosi);
-            LisaaKilpailu1kk(kilpailu, vuosi);
+                switch (kilpailu.RankingKisaTyyppi)
+                {
+                    case RankingSarjanPituus.Kuukausi: LisaaKilpailu1kk(kilpailu, vuosi); break;
+                    case RankingSarjanPituus.Vuodenaika: LisaaKilpailu3kk(kilpailu, vuosi); break;
+                    case RankingSarjanPituus.Puolivuotta: LisaaKilpailu6kk(kilpailu, vuosi); break;
+                    case RankingSarjanPituus.Vuosi: LisaaKilpailu12kk(kilpailu, vuosi); break;
+                }
+            }
+            catch (Exception e)
+            {
+                this.Loki.Kirjoita("Rankingin päivitys epäonnistui", e, false);
+            }
         }
 
         private void LisaaKilpailu1kk(Kilpailu kilpailu, int vuosi)

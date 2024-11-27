@@ -23,6 +23,7 @@ namespace KaisaKaavio
         public DateTime PaattymisAika { get; set; }
         public bool Yksipaivainen { get; set; }
         public bool RankingKisa { get; set; }
+        public Ranking.RankingSarjanPituus RankingKisaTyyppi { get; set; }
         public decimal PeliAika { get; set; }
         public decimal RankkareidenMaara { get; set; }
         public decimal TavoitePistemaara { get; set; }
@@ -94,11 +95,10 @@ namespace KaisaKaavio
             AlkamisAika = DateTime.Today;
             KellonAika = "18:00";
             Yksipaivainen = true;
-#if PVK
+
             RankingKisa = true;
-#else
-            RankingKisa = false;
-#endif
+            RankingKisaTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
+
             OsallistumisMaksu = "10€";
             OsallistumisOikeus = "Avoin kaikille";
             KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
@@ -611,6 +611,7 @@ namespace KaisaKaavio
                 this.LisaTietoa = kilpailu.LisaTietoa;
                 this.Yksipaivainen = kilpailu.Yksipaivainen;
                 this.RankingKisa = kilpailu.RankingKisa;
+                this.RankingKisaTyyppi = kilpailu.RankingKisaTyyppi;
                 this.LisenssiVaatimus = kilpailu.LisenssiVaatimus;
                 this.MaksuTapa = kilpailu.MaksuTapa;
                 this.Pukeutuminen = kilpailu.Pukeutuminen;
