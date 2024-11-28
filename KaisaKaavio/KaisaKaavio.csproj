@@ -84,6 +84,7 @@
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kilpailu.cs" />
     <Compile Include="KilpailunTilanne.cs" />
+    <Compile Include="Laji.cs" />
     <Compile Include="Linkki.cs" />
     <Compile Include="Loki.cs" />
     <Compile Include="NotifyPropertyChanged,.cs" />

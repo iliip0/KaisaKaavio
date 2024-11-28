@@ -33,6 +33,8 @@ namespace KaisaKaavio.Ranking
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
         }
 
+        private StringBuilder tilanne = new StringBuilder();
+
         /// <summary>
         /// Rankingsarjan tilanneteksti rtf muodossa
         /// </summary>
@@ -40,7 +42,7 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return "Tilanne";
+                return tilanne.ToString();
             }
         }
 
@@ -51,7 +53,7 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return "Tilanne";
+                return tilanne.ToString();
             }
         }
 
@@ -90,6 +92,7 @@ namespace KaisaKaavio.Ranking
                         o.Osallistujat.Count > 0)
                     {
 #endif
+                        o.PaivitaTilanneTeksti();
                         this.Osakilpailut.Add(o);
 #if !DEBUG
                     }
@@ -151,13 +154,11 @@ namespace KaisaKaavio.Ranking
             {
                 foreach (var p in o.Osallistujat)
                 {
-                    if (!kaikkiPelaajat.Any(x => x.Id == p.Id))
+                    if (!kaikkiPelaajat.Any(x => string.Equals(x.Nimi, p.Nimi, StringComparison.OrdinalIgnoreCase)))
                     {
                         kaikkiPelaajat.Add(new RankingPelaajaTietue() 
                         {
-                            Id = p.Id,
                             Nimi = p.Nimi,
-                            Seura = p.Seura
                         });
                     }
                 }
@@ -167,7 +168,7 @@ namespace KaisaKaavio.Ranking
             {
                 foreach (var p in kaikkiPelaajat)
                 {
-                    var pelaaja = o.Osallistujat.FirstOrDefault(x => x.Id == p.Id);
+                    var pelaaja = o.Osallistujat.FirstOrDefault(x => string.Equals(x.Nimi, p.Nimi, StringComparison.OrdinalIgnoreCase));
                     if (pelaaja == null)
                     {
                         p.LisaaOsakilpailunPisteet(0, "xxx");
@@ -179,9 +180,45 @@ namespace KaisaKaavio.Ranking
                 }
             }
 
+            int kumulatiivinenSijoitus = 1;
+            int sijoitus = 1;
+            int edellisetPisteet = 99999999;
+            int edellinenSijoitus = 99999999;
+
             foreach (var p in kaikkiPelaajat.OrderByDescending(x => x.RankingPisteet))
             {
+                p.Sijoitus = sijoitus;
+                p.KumulatiivinenSijoitus = kumulatiivinenSijoitus;
+
+                if (p.RankingPisteet != edellisetPisteet)
+                {
+                    kumulatiivinenSijoitus++;
+                    edellisetPisteet = p.RankingPisteet;
+                    p.Sijoitus = sijoitus;
+                    edellinenSijoitus = sijoitus;
+                }
+                else
+                {
+                    p.Sijoitus = edellinenSijoitus;
+                }
+
                 this.Osallistujat.Add(p);
+
+                sijoitus++;
+            }
+
+            PaivitaTilanneTeksti();
+        }
+
+        public void PaivitaTilanneTeksti()
+        {
+            this.tilanne.Clear();
+
+            foreach (var p in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
+            {
+                string rivi = string.Format("{0}. {1} {2}", p.Sijoitus, p.Nimi, p.RankingPisteString);
+
+                tilanne.AppendLine(rivi);
             }
         }
 
@@ -192,7 +229,7 @@ namespace KaisaKaavio.Ranking
                 return; // Rankingkilpailuja voidaan lisätä vain sarjan loppuun
             }
 
-            var osakilpailu = this.Osakilpailut.FirstOrDefault(x => string.Equals(x.Nimi, kilpailu.Nimi));
+            var osakilpailu = this.Osakilpailut.FirstOrDefault(x => string.Equals(x.Nimi, kilpailu.Nimi, StringComparison.OrdinalIgnoreCase));
             if (osakilpailu == null)
             {
                 osakilpailu = new RankingOsakilpailu() 
@@ -221,6 +258,50 @@ namespace KaisaKaavio.Ranking
         public int PelaajanSijoitus(int id)
         {
             return 10; // TODO
+        }
+
+        public List<RankingPelaajaTietue> RankingEnnenOsakilpailua(DateTime aika)
+        {
+            List<RankingPelaajaTietue> pelaajat = new List<RankingPelaajaTietue>();
+
+            foreach (var osakilpailu in this.Osakilpailut.Where(x => x.AlkamisAika < aika))
+            {
+                foreach (var pelaaja in osakilpailu.Osallistujat)
+                {
+                    var p = pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
+                    if (p != null)
+                    {
+                        p.RankingPisteet += pelaaja.RankingPisteet;
+                    }
+                    else
+                    {
+                        pelaajat.Add(new RankingPelaajaTietue() 
+                        {
+                            Nimi = pelaaja.Nimi,
+                            RankingPisteet = pelaaja.RankingPisteet
+                        });
+                    }
+                }
+            }
+
+            var pt = pelaajat.OrderByDescending(x => x.RankingPisteet).ToArray();
+            pelaajat.Clear();
+            pelaajat.AddRange(pt);
+
+            int sijoitus = 1;
+            int edellisetPisteet = 99999;
+            foreach (var pelaaja in pelaajat)
+            {
+                pelaaja.Sijoitus = sijoitus;
+
+                if (pelaaja.RankingPisteet != edellisetPisteet)
+                {
+                    edellisetPisteet = pelaaja.RankingPisteet;
+                    sijoitus++;
+                }
+            }
+
+            return pelaajat;
         }
     }
 }

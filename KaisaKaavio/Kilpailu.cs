@@ -42,6 +42,7 @@ namespace KaisaKaavio
         public BindingList<Peli> Pelit { get; set; }
         public BindingList<PelinDetaljit> PelienDetaljit { get; set; }
         public bool KilpailuOnViikkokisa { get; set; }
+        public Laji Laji { get; set; }
 
         [XmlIgnore]
         public BindingList<Pelaaja> OsallistujatJarjestyksessa { get; set; }
@@ -117,6 +118,7 @@ namespace KaisaKaavio
             Ilmoittautuminen = string.Empty;
             PelaajiaEnintaan = 32;
             KilpailuOnViikkokisa = true;
+            Laji = KaisaKaavio.Laji.Kaisa;
 
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             TallennusTarvitaan = false;
@@ -620,6 +622,7 @@ namespace KaisaKaavio
                 this.PelaajiaEnintaan = kilpailu.PelaajiaEnintaan;
                 this.TavoitePistemaara = kilpailu.TavoitePistemaara;
                 this.KilpailuOnViikkokisa = kilpailu.KilpailuOnViikkokisa;
+                this.Laji = kilpailu.Laji;
 
                 this.JalkiIlmoittautuneet.Clear();
 

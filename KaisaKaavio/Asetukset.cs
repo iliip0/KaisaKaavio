@@ -44,7 +44,12 @@ namespace KaisaKaavio
         /// <summary>
         /// Rankingkisojen (viikkokisat) pisteytysasetukset
         /// </summary>
-        public Ranking.RankingAsetukset RankingAsetukset { get; set; }
+        public Ranking.RankingAsetukset RankingAsetuksetKaisa { get; set; }
+        public Ranking.RankingAsetukset RankingAsetuksetPool { get; set; }
+        public Ranking.RankingAsetukset RankingAsetuksetKara { get; set; }
+        public Ranking.RankingAsetukset RankingAsetuksetPyramidi { get; set; }
+        public Ranking.RankingAsetukset RankingAsetuksetSnooker { get; set; }
+        public Ranking.RankingAsetukset RankingAsetuksetHeyball { get; set; }
 
         /// <summary>
         /// Päivä jolloin edellisen kerran tarkistettiin, onko ohjelmasta päivityksiä
@@ -66,8 +71,13 @@ namespace KaisaKaavio
 
             this.Sali = new Sali();
             this.Pelaajat = new BindingList<PelaajaTietue>();
-            this.RankingAsetukset = new Ranking.RankingAsetukset();
-            this.RankingAsetukset.AsetaOletusasetukset();
+
+            this.RankingAsetuksetKaisa = new Ranking.RankingAsetukset(Laji.Kaisa);
+            this.RankingAsetuksetPool = new Ranking.RankingAsetukset(Laji.Pool);
+            this.RankingAsetuksetPyramidi = new Ranking.RankingAsetukset(Laji.Pyramidi);
+            this.RankingAsetuksetKara = new Ranking.RankingAsetukset(Laji.Kara);
+            this.RankingAsetuksetSnooker = new Ranking.RankingAsetukset(Laji.Snooker);
+            this.RankingAsetuksetHeyball = new Ranking.RankingAsetukset(Laji.Heyball);
 
             this.tiedosto = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaavioAsetukset.xml");
         }
@@ -134,30 +144,40 @@ namespace KaisaKaavio
                         }
                     }
 
-                    this.RankingAsetukset.PistetytysPeleista.Clear();
-                    foreach (var p in asetukset.RankingAsetukset.PistetytysPeleista)
-                    {
-                        if (p.Pisteet > 0)
-                        {
-                            this.RankingAsetukset.PistetytysPeleista.Add(p);
-                        }
-                    }
-
-                    this.RankingAsetukset.PisteytysSijoituksista.Clear();
-                    foreach (var p in asetukset.RankingAsetukset.PisteytysSijoituksista)
-                    {
-                        if (p.Pisteet > 0)
-                        {
-                            this.RankingAsetukset.PisteytysSijoituksista.Add(p);
-                        }
-                    }
-
-                    if (this.RankingAsetukset.PistetytysPeleista.Count == 0 &&
-                        this.RankingAsetukset.PisteytysSijoituksista.Count == 0)
-                    {
-                        this.RankingAsetukset.AsetaOletusasetukset();
-                    }
+                    LataaRankingAsetukset(this.RankingAsetuksetKaisa, asetukset.RankingAsetuksetKaisa, Laji.Kaisa);
+                    LataaRankingAsetukset(this.RankingAsetuksetPool, asetukset.RankingAsetuksetPool, Laji.Pool);
+                    LataaRankingAsetukset(this.RankingAsetuksetKara, asetukset.RankingAsetuksetKara, Laji.Kara);
+                    LataaRankingAsetukset(this.RankingAsetuksetSnooker, asetukset.RankingAsetuksetSnooker, Laji.Snooker);
+                    LataaRankingAsetukset(this.RankingAsetuksetPyramidi, asetukset.RankingAsetuksetPyramidi, Laji.Pyramidi);
+                    LataaRankingAsetukset(this.RankingAsetuksetHeyball, asetukset.RankingAsetuksetHeyball, Laji.Heyball);
                 }
+            }
+        }
+
+        private static void LataaRankingAsetukset(Ranking.RankingAsetukset omatAsetukset, Ranking.RankingAsetukset ladatutAsetukset, Laji laji)
+        {
+            omatAsetukset.PistetytysPeleista.Clear();
+            foreach (var p in ladatutAsetukset.PistetytysPeleista)
+            {
+                if (p.Pisteet > 0)
+                {
+                    omatAsetukset.PistetytysPeleista.Add(p);
+                }
+            }
+
+            omatAsetukset.PisteytysSijoituksista.Clear();
+            foreach (var p in ladatutAsetukset.PisteytysSijoituksista)
+            {
+                if (p.Pisteet > 0)
+                {
+                    omatAsetukset.PisteytysSijoituksista.Add(p);
+                }
+            }
+
+            if (omatAsetukset.PistetytysPeleista.Count == 0 &&
+                omatAsetukset.PisteytysSijoituksista.Count == 0)
+            {
+                omatAsetukset.AsetaOletusasetukset(laji);
             }
         }
 

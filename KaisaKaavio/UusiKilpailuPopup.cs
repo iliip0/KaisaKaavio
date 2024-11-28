@@ -16,6 +16,8 @@ namespace KaisaKaavio
         {
             InitializeComponent();
 
+            this.uusiKilpailuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
+            this.uusiKilpailuLajiComboBox.SelectedIndex = 0;
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
             this.rankingComboBox.SelectedIndex = 0;
             this.rankingCheckBox.Checked = true;
@@ -40,6 +42,13 @@ namespace KaisaKaavio
                     case 2: return Ranking.RankingSarjanPituus.Puolivuotta;
                     case 3: return Ranking.RankingSarjanPituus.Vuosi;
                 }
+            }
+        }
+        public Laji Laji
+        {
+            get
+            {
+                return (Laji)this.uusiKilpailuLajiComboBox.SelectedItem;
             }
         }
 

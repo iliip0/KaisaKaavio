@@ -38,13 +38,15 @@
             this.rankingCheckBox = new System.Windows.Forms.CheckBox();
             this.rankingLabel = new System.Windows.Forms.Label();
             this.rankingComboBox = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.uusiKilpailuLajiComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // uusiKilpailuButton
             // 
             this.uusiKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.uusiKilpailuButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
-            this.uusiKilpailuButton.Location = new System.Drawing.Point(543, 180);
+            this.uusiKilpailuButton.Location = new System.Drawing.Point(543, 230);
             this.uusiKilpailuButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uusiKilpailuButton.Name = "uusiKilpailuButton";
             this.uusiKilpailuButton.Size = new System.Drawing.Size(203, 60);
@@ -59,7 +61,7 @@
             this.peruutaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.peruutaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.peruutaButton.Image = global::KaisaKaavio.Properties.Resources.Peruuta;
-            this.peruutaButton.Location = new System.Drawing.Point(18, 176);
+            this.peruutaButton.Location = new System.Drawing.Point(18, 226);
             this.peruutaButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.peruutaButton.Name = "peruutaButton";
             this.peruutaButton.Size = new System.Drawing.Size(131, 60);
@@ -72,7 +74,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 15);
+            this.label1.Location = new System.Drawing.Point(38, 69);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(115, 20);
@@ -86,7 +88,7 @@
             this.kilpailunTyyppiComboBox.Items.AddRange(new object[] {
             "Viikkokilpailu (40min per peli, 3.kierros pudari)",
             "RG kilpailu (60min per peli, tuplakaavio loppuun asti)"});
-            this.kilpailunTyyppiComboBox.Location = new System.Drawing.Point(203, 12);
+            this.kilpailunTyyppiComboBox.Location = new System.Drawing.Point(207, 66);
             this.kilpailunTyyppiComboBox.Name = "kilpailunTyyppiComboBox";
             this.kilpailunTyyppiComboBox.Size = new System.Drawing.Size(539, 28);
             this.kilpailunTyyppiComboBox.TabIndex = 3;
@@ -95,7 +97,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 49);
+            this.label2.Location = new System.Drawing.Point(38, 103);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 20);
             this.label2.TabIndex = 4;
@@ -103,7 +105,7 @@
             // 
             // kilpailunNimiTextBox
             // 
-            this.kilpailunNimiTextBox.Location = new System.Drawing.Point(203, 46);
+            this.kilpailunNimiTextBox.Location = new System.Drawing.Point(207, 100);
             this.kilpailunNimiTextBox.Name = "kilpailunNimiTextBox";
             this.kilpailunNimiTextBox.Size = new System.Drawing.Size(539, 26);
             this.kilpailunNimiTextBox.TabIndex = 5;
@@ -113,7 +115,7 @@
             // rankingCheckBox
             // 
             this.rankingCheckBox.AutoSize = true;
-            this.rankingCheckBox.Location = new System.Drawing.Point(203, 92);
+            this.rankingCheckBox.Location = new System.Drawing.Point(207, 146);
             this.rankingCheckBox.Name = "rankingCheckBox";
             this.rankingCheckBox.Size = new System.Drawing.Size(311, 24);
             this.rankingCheckBox.TabIndex = 6;
@@ -124,7 +126,7 @@
             // rankingLabel
             // 
             this.rankingLabel.AutoSize = true;
-            this.rankingLabel.Location = new System.Drawing.Point(34, 125);
+            this.rankingLabel.Location = new System.Drawing.Point(38, 179);
             this.rankingLabel.Name = "rankingLabel";
             this.rankingLabel.Size = new System.Drawing.Size(163, 20);
             this.rankingLabel.TabIndex = 7;
@@ -141,10 +143,30 @@
             "Kolmen kuukauden välein vaihtuva sarja",
             "Puolen vuoden välein vaihtuva sarja",
             "Vuoden kestävä sarja"});
-            this.rankingComboBox.Location = new System.Drawing.Point(203, 122);
+            this.rankingComboBox.Location = new System.Drawing.Point(207, 176);
             this.rankingComboBox.Name = "rankingComboBox";
             this.rankingComboBox.Size = new System.Drawing.Size(539, 28);
             this.rankingComboBox.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(38, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(37, 20);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Laji:";
+            // 
+            // uusiKilpailuLajiComboBox
+            // 
+            this.uusiKilpailuLajiComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uusiKilpailuLajiComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.uusiKilpailuLajiComboBox.FormattingEnabled = true;
+            this.uusiKilpailuLajiComboBox.Location = new System.Drawing.Point(207, 32);
+            this.uusiKilpailuLajiComboBox.Name = "uusiKilpailuLajiComboBox";
+            this.uusiKilpailuLajiComboBox.Size = new System.Drawing.Size(539, 28);
+            this.uusiKilpailuLajiComboBox.TabIndex = 10;
             // 
             // UusiKilpailuPopup
             // 
@@ -152,7 +174,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.peruutaButton;
-            this.ClientSize = new System.Drawing.Size(764, 259);
+            this.ClientSize = new System.Drawing.Size(760, 305);
+            this.Controls.Add(this.uusiKilpailuLajiComboBox);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.rankingComboBox);
             this.Controls.Add(this.rankingLabel);
             this.Controls.Add(this.rankingCheckBox);
@@ -167,8 +191,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(780, 298);
-            this.MinimumSize = new System.Drawing.Size(780, 298);
+            this.MaximumSize = new System.Drawing.Size(780, 348);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(780, 348);
             this.Name = "UusiKilpailuPopup";
             this.Text = "Luo uusi Kaisa kilpailu";
             this.ResumeLayout(false);
@@ -187,5 +212,7 @@
         private System.Windows.Forms.CheckBox rankingCheckBox;
         private System.Windows.Forms.Label rankingLabel;
         private System.Windows.Forms.ComboBox rankingComboBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox uusiKilpailuLajiComboBox;
     }
 }

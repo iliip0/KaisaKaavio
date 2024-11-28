@@ -20,5 +20,11 @@ namespace KaisaKaavio.Ranking
             this.Ehto = RankingPisteetPelista.JokaisestaVoitosta;
             this.Pisteet = 1;
         }
+
+        public RankingPisteytysPelista(RankingPisteetPelista ehto, int pisteet)
+        {
+            this.Ehto = ehto;
+            this.Pisteet = pisteet;
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace KaisaKaavio.Ranking
             }
         }
 
-        private void AnnaPisteitaVoitosta(Kilpailu kilpailu, Peli peli, int voittajaId, int voitettuId, RankingSarja sarja, RankingAsetukset asetukset)
+        private void AnnaPisteitaVoitosta(Kilpailu kilpailu, Peli peli, List<RankingPelaajaTietue> ranking, int voittajaId, int voitettuId, RankingSarja sarja, RankingAsetukset asetukset)
         {
             var voittaja = this.Osallistujat.FirstOrDefault(x => x.Id == voittajaId);
             if (voittaja == null)
@@ -73,21 +73,24 @@ namespace KaisaKaavio.Ranking
                 }
                 else if (a.Ehto == RankingPisteetPelista.RankingYkkosenVoitosta)
                 {
-                    if (sarja.PelaajanSijoitus(voitettuId) == 1)
+                    var p = ranking.FirstOrDefault(x => x.Id == voitettuId);
+                    if (p != null && p.KumulatiivinenSijoitus == 1)
                     {
                         pisteet += a.Pisteet;
                     }
                 }
                 else if (a.Ehto == RankingPisteetPelista.RankingKakkosenVoitosta)
                 {
-                    if (sarja.PelaajanSijoitus(voitettuId) == 2)
+                    var p = ranking.FirstOrDefault(x => x.Id == voitettuId);
+                    if (p != null && p.KumulatiivinenSijoitus == 2)
                     {
                         pisteet += a.Pisteet;
                     }
                 }
                 else if (a.Ehto == RankingPisteetPelista.RankingKolmosenVoitosta)
                 {
-                    if (sarja.PelaajanSijoitus(voitettuId) == 3)
+                    var p = ranking.FirstOrDefault(x => x.Id == voitettuId);
+                    if (p != null && p.KumulatiivinenSijoitus == 3)
                     {
                         pisteet += a.Pisteet;
                     }
@@ -102,15 +105,22 @@ namespace KaisaKaavio.Ranking
 
         public void PaivitaKilpailu(Kilpailu kilpailu, RankingSarja sarja, RankingAsetukset asetukset)
         {
+            var ranking = sarja.RankingEnnenOsakilpailua(kilpailu.AlkamisAika);
+
             foreach (var pelaaja in kilpailu.Osallistujat.Where(x => x.Id >= 0))
             {
+                var p = ranking.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
+                if (p != null)
+                {
+                    p.Id = pelaaja.Id;
+                }
+
                 if (!Osallistujat.Any(x => x.Id == pelaaja.Id))
                 { 
                     Osallistujat.Add(new RankingPelaajaTietue()
                     {
                         Id = pelaaja.Id,
                         Nimi = pelaaja.Nimi,
-                        Seura = pelaaja.Seura
                     });
                 }
             }
@@ -136,11 +146,11 @@ namespace KaisaKaavio.Ranking
                 {
                     if (p.Tulos == PelinTulos.Pelaaja1Voitti)
                     {
-                        AnnaPisteitaVoitosta(kilpailu, p, p.Id1, p.Id2, sarja, asetukset); 
+                        AnnaPisteitaVoitosta(kilpailu, p, ranking, p.Id1, p.Id2, sarja, asetukset); 
                     }
                     else if (p.Tulos == PelinTulos.Pelaaja2Voitti)
                     {
-                        AnnaPisteitaVoitosta(kilpailu, p, p.Id2, p.Id1, sarja, asetukset);
+                        AnnaPisteitaVoitosta(kilpailu, p, ranking, p.Id2, p.Id1, sarja, asetukset);
                     }
                 }
             }
@@ -158,7 +168,11 @@ namespace KaisaKaavio.Ranking
                  */
             }
 
-            // Päivitä teksti
+            PaivitaTilanneTeksti();
+        }
+
+        public void PaivitaTilanneTeksti()
+        {
             this.tilanne.Clear();
             foreach (var o in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
             {

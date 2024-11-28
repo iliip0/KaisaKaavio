@@ -20,5 +20,11 @@ namespace KaisaKaavio.Ranking
             this.Ehto = RankingPisteetSijoituksesta.Voittajalle;
             this.Pisteet = 1;
         }
+
+        public RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta ehto, int pisteet)
+        {
+            this.Ehto = ehto;
+            this.Pisteet = pisteet;
+        }
     }
 }
