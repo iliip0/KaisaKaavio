@@ -57,11 +57,13 @@ namespace KaisaKaavio
             {
                 string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string lisenssi = Path.Combine(kansio, "LICENSE.txt");
-
                 if (!File.Exists(lisenssi))
                 {
                     PuraResurssi("KaisaKaavio.Resources.LICENSE", lisenssi, null);
                 }
+
+                string versioloki = Path.Combine(kansio, "Versiohistoria.txt");
+                PuraResurssi("KaisaKaavio.Resources.CHANGELOG.md", versioloki, null);
             }
             catch
             { 
