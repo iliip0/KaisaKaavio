@@ -109,11 +109,6 @@ namespace KaisaKaavio
 
             this.paivitaOhjelmaAutomaattisestiSuljettaessaToolStripMenuItem.Checked = this.asetukset.PaivitaAutomaattisesti;
 
-            // Puh-veli kerhon erikoisuudet
-#if PVK
-#else
-#endif
-
 #if DEBUG
             this.testaaToolStripMenuItem.Visible = true;
 #else
@@ -1866,6 +1861,14 @@ namespace KaisaKaavio
             }
         }
 
+        private void piilotaToinenKierrosCheckBox_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.piilotaToinenKierrosCheckBox.Visible == false)
+            {
+                this.piilotaToinenKierrosCheckBox.Checked = false;
+            }
+        }
+
         private bool VarmistaToisenKierroksenAloitus()
         {
             return MessageBox.Show(
@@ -2751,42 +2754,47 @@ namespace KaisaKaavio
 
         private void pelaaTestikaaviotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (this.folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                try
+                DirectoryInfo kansio = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                var juuri = kansio.Parent.Parent;
+                var testiKansio = Path.Combine(juuri.FullName, "TestiData");
+                if (!Directory.Exists(testiKansio))
                 {
-                    Testaus.TestiAjo testi = new Testaus.TestiAjo("C:\\Users\\ilari.nieminen\\Documents\\Kaisa\\KaisaKaavio\\TestiData", this.loki, this);
-
-                    //Testaus.TestiAjo testi = new Testaus.TestiAjo(this.folderBrowserDialog1.SelectedPath, this.loki, this);
-
-                    int testattu = testi.Aja();
-
-                    MessageBox.Show(
-                        string.Format("Testi onnistui: {0} kaaviota pelattu oikein läpi", testattu),
-                        "Testi valmis",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    this.folderBrowserDialog1.SelectedPath = juuri.FullName;
+                    if (this.folderBrowserDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                    {
+                        return;
+                    }
+                    testiKansio = this.folderBrowserDialog1.SelectedPath;
                 }
-                catch (Exception ex)
+
+                if (!Directory.Exists(testiKansio))
                 {
-                    MessageBox.Show(
-                        string.Format("Testi epäonnistui: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace),
-                        "Virhe",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    return;
                 }
+
+                Testaus.TestiAjo testi = new Testaus.TestiAjo(testiKansio, this.loki, this);
+
+                int testattu = testi.Aja();
+
+                MessageBox.Show(
+                    string.Format("Testi onnistui: {0} kaaviota pelattu oikein läpi", testattu),
+                    "Testi valmis",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format("Testi epäonnistui: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace),
+                    "Virhe",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
         #endregion
-
-        private void piilotaToinenKierrosCheckBox_VisibleChanged(object sender, EventArgs e)
-        {
-            if (this.piilotaToinenKierrosCheckBox.Visible == false)
-            {
-                this.piilotaToinenKierrosCheckBox.Checked = false;
-            }
-        }
 
         // ========={( Ranking )}============================================================================== //
         #region Ranking
@@ -2956,12 +2964,8 @@ namespace KaisaKaavio
 
         private void RankingComboBoxEditBegin(bool reset)
         {
-            //this.rankingBindingSource.SuspendBinding();
-
             if (reset)
             {
-                //this.rankingSarjaComboBox.SelectedItem = null;
-                //this.rankingOsakilpailuComboBox.SelectedItem = null;
             }
         }
 
@@ -2972,9 +2976,6 @@ namespace KaisaKaavio
                 this.rankingSarjaComboBox.SelectedItem = this.ranking.ValittuSarja;
                 this.rankingOsakilpailuComboBox.SelectedItem = this.ranking.ValittuOsakilpailu;
             }
-
-            //this.rankingBindingSource.ResumeBinding();
-            //this.rankingBindingSource.ResetBindings(false);
         }
 
         private void rankingComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -3013,84 +3014,6 @@ namespace KaisaKaavio
             RankingComboBoxEditEnd(false);
         }
 
-        private void AvaaValitutRankingSarjat()
-        {
-            /*
-            this.rankingSarjat = null;
-
-            try
-            {
-                Ranking.RankingSarjanPituus pituus = (Ranking.RankingSarjanPituus)this.rankingPituusComboBox.SelectedItem;
-
-                int vuosi = 0;
-                if (this.rankingVuosiComboBox.SelectedItem != null)
-                {
-                    if (Int32.TryParse(this.rankingVuosiComboBox.SelectedItem.ToString(), out vuosi))
-                    {
-                        this.rankingSarjat = this.ranking.AvaaSarjat(vuosi, pituus);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                this.loki.Kirjoita("Ranking sarjan avaus epäonnistui!", e, false);
-            }
-
-            PaivitaRankingSarjaValinta();
-             */
-        }
-
-        private void PaivitaRankingSarjaValinta()
-        {
-            /*
-            try
-            {
-                this.rankingSarjaComboBox.Items.Clear();
-                this.rankingSarjaComboBox.SelectedItem = null;
-                this.rankingSarjaComboBox.Enabled = false;
-
-                this.rankingOsakilpailuComboBox.Items.Clear();
-                this.rankingOsakilpailuComboBox.SelectedItem = null;
-                this.rankingOsakilpailuComboBox.Enabled = false;
-
-                if (this.rankingSarjat == null || this.rankingSarjat.Count == 0)
-                {
-                }
-                else
-                {
-                    this.rankingSarjaComboBox.Items.AddRange(this.rankingSarjat
-                        .OrderByDescending(x => x.SarjanNumero)
-                        .Select(x => x.Nimi)
-                        .ToArray());
-
-                    this.rankingSarjaComboBox.SelectedIndex = 0;
-                    this.rankingSarjaComboBox.Enabled = true;
-                }
-            }
-            catch (Exception e)
-            {
-                this.loki.Kirjoita("Ranking sarjavalintojen päivitys epäonnistui", e, false);
-            }
-
-            PaivitaRankingOsakilpailuValinta();
-             */
-        }
-
-        private void PaivitaRankingOsakilpailuValinta()
-        {
-            /*
-            try
-            {
-            }
-            catch (Exception e)
-            {
-                this.loki.Kirjoita("Ranking osakilpailuvalinnan päivitys epäonnistui", e, false);
-            }
-             */
-        }
-
-        #endregion
-
         private void rankingSarjaComboBox_Format(object sender, ListControlConvertEventArgs e)
         {
             if (e.ListItem == null)
@@ -3106,5 +3029,7 @@ namespace KaisaKaavio
                 e.Value = ((Ranking.RankingOsakilpailu)e.ListItem).Nimi;
             }
         }
+
+        #endregion
     }
 }
