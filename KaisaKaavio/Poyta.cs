@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,11 @@ namespace KaisaKaavio
         public string Numero { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string StriimiLinkki { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string TulosLinkki { get; set; }
 
         public Poyta()

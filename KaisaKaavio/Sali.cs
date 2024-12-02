@@ -14,9 +14,11 @@ namespace KaisaKaavio
         public string Nimi { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Osoite { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string PuhelinNumero { get; set; }
 
         public BindingList<Linkki> Linkit { get; set; }

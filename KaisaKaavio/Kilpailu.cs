@@ -14,36 +14,70 @@ namespace KaisaKaavio
     public class Kilpailu
         : NotifyPropertyChanged
     {
+        [DefaultValue("")]
         public string Nimi { get; set; }
+
+        [DefaultValue("")]
         public string KilpailunJohtaja { get; set; }
+
+        [DefaultValue("")]
         public string JarjestavaSeura { get; set; }
+
+        [DefaultValue("")]
         public string PuhelinNumero { get; set; }
+        
         public DateTime AlkamisAika { get; set; }
+
+        [DefaultValue("")]
         public string KellonAika { get; set; }
+        
         public DateTime PaattymisAika { get; set; }
+
         public bool Yksipaivainen { get; set; }
+
         public bool RankingKisa { get; set; }
+
         public Ranking.RankingSarjanPituus RankingKisaTyyppi { get; set; }
+
         public decimal PeliAika { get; set; }
         public decimal RankkareidenMaara { get; set; }
         public decimal TavoitePistemaara { get; set; }
-        public string LisenssiVaatimus { get; set; }
-        public KaavioTyyppi KaavioTyyppi { get; set; }
-        public string LisaTietoa { get; set; }
-        public string OsallistumisMaksu { get; set; }
-        public string OsallistumisOikeus { get; set; }
-        public string MaksuTapa { get; set; }
-        public string Pukeutuminen { get; set; }
-        public string Palkinnot { get; set; }
-        public string Ilmoittautuminen { get; set; }
         public decimal PelaajiaEnintaan { get; set; }
+
+        [DefaultValue("")]
+        public string LisenssiVaatimus { get; set; }
+
+        public KaavioTyyppi KaavioTyyppi { get; set; }
+
+        [DefaultValue("")]
+        public string LisaTietoa { get; set; }
+
+        [DefaultValue("")]
+        public string OsallistumisMaksu { get; set; }
+
+        [DefaultValue("")]
+        public string OsallistumisOikeus { get; set; }
+
+        [DefaultValue("")]
+        public string MaksuTapa { get; set; }
+
+        [DefaultValue("")]
+        public string Pukeutuminen { get; set; }
+
+        [DefaultValue("")]
+        public string Palkinnot { get; set; }
+
+        [DefaultValue("")]
+        public string Ilmoittautuminen { get; set; }
+        
+        public bool KilpailuOnViikkokisa { get; set; }
+        public Laji Laji { get; set; }
+
         public BindingList<Pelaaja> Osallistujat { get; set; }
         public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
         public BindingList<Peli> Pelit { get; set; }
         public BindingList<PelinDetaljit> PelienDetaljit { get; set; }
-        public bool KilpailuOnViikkokisa { get; set; }
-        public Laji Laji { get; set; }
-
+        
         [XmlIgnore]
         public BindingList<Pelaaja> OsallistujatJarjestyksessa { get; set; }
 

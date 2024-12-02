@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace KaisaKaavio
         private string seura = string.Empty;
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Seura 
         {
             get
@@ -51,21 +53,27 @@ namespace KaisaKaavio
         }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Sijoitettu { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string KabikeMaksu { get; set; }
 
         [XmlIgnore]
+        [DefaultValue("")]
         public string LisenssiMaksu { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string OsMaksu { get; set; }
 
         [XmlIgnore]
+        [DefaultValue("")]
         public string SeuranJasenMaksu { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Veloitettu { get; set; }
 
         [XmlIgnore]

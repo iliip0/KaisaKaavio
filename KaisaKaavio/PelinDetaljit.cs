@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +20,19 @@ namespace KaisaKaavio
         public int Pelaaja2 { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string PisinSarja1 { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string ToiseksiPisinSarja1 { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string PisinSarja2 { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string ToiseksiPisinSarja2 { get; set; }
 
         public PelinDetaljit()

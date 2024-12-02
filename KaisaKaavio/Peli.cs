@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -65,6 +66,7 @@ namespace KaisaKaavio
         private string pisteet1 = string.Empty;
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Pisteet1
         {
             get { return this.pisteet1; }
@@ -88,6 +90,7 @@ namespace KaisaKaavio
         private string pisteet2 = string.Empty;
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Pisteet2
         {
             get { return this.pisteet2; }
@@ -111,6 +114,7 @@ namespace KaisaKaavio
         private string poyta = string.Empty;
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Poyta
         {
             get { return this.poyta; }
@@ -216,9 +220,11 @@ namespace KaisaKaavio
         public string VirheTuloksessa { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Alkoi { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string Paattyi { get; set; }
 
         [XmlIgnore]
