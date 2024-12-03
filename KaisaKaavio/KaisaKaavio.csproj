@@ -181,6 +181,7 @@
     <EmbeddedResource Include="Resources\Dice.png" />
     <EmbeddedResource Include="Resources\KaisaKaavioUpdater.exe" />
     <EmbeddedResource Include="Resources\CHANGELOG.md" />
+    <EmbeddedResource Include="Resources\KaisaKaavioOhje.pdf" />
     <None Include="Resources\Vasemmalle.png" />
     <None Include="Resources\Ok.png" />
     <None Include="Resources\Peruuta.png" />
@@ -191,7 +192,8 @@
   <PropertyGroup>
     <PreBuildEvent>xcopy $(SolutionDir)..\KaisaKaavioUpdater\bin\Release\KaisaKaavioUpdater.exe $(SolutionDir)Resources\ /c /r /y /d /i /q
 xcopy $(SolutionDir)..\LICENSE $(SolutionDir)Resources\ /c /r /y /d /i /q
-xcopy $(SolutionDir)..\CHANGELOG.md $(SolutionDir)Resources\ /c /r /y /d /i /q</PreBuildEvent>
+xcopy $(SolutionDir)..\CHANGELOG.md $(SolutionDir)Resources\ /c /r /y /d /i /q
+xcopy $(SolutionDir)..\Dokumentaatio\KaisaKaavioOhje.pdf $(SolutionDir)Resources\ /c /r /y /d /i /q</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>xcopy $(TargetPath) $(SolutionDir)..\ /c /r /y /d /i /q</PostBuildEvent>

@@ -52,22 +52,17 @@ namespace KaisaKaavio
         static void Main()
         {
 #if !DEBUG
-            // Puretaan GNU GPL v3 lisenssi exen viereen jos se ei jo löydy sieltä
-            try
-            {
-                string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string lisenssi = Path.Combine(kansio, "LICENSE.txt");
-                if (!File.Exists(lisenssi))
-                {
-                    PuraResurssi("KaisaKaavio.Resources.LICENSE", lisenssi, null);
-                }
+            string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-                string versioloki = Path.Combine(kansio, "Versiohistoria.txt");
-                PuraResurssi("KaisaKaavio.Resources.CHANGELOG.md", versioloki, null);
+            // Puretaan GNU GPL v3 lisenssi exen viereen jos se ei jo löydy sieltä
+            string lisenssi = Path.Combine(kansio, "LICENSE.txt");
+            if (!File.Exists(lisenssi))
+            {
+                PuraResurssi("KaisaKaavio.Resources.LICENSE", lisenssi, null);
             }
-            catch
-            { 
-            }
+
+            PuraResurssi("KaisaKaavio.Resources.CHANGELOG.md", Path.Combine(kansio, "Versiohistoria.txt"), null);
+            PuraResurssi("KaisaKaavio.Resources.KaisaKaavioOhje.pdf", Path.Combine(kansio, "Ohje.pdf"), null);
 #endif
 
             using (Mutex kaisaKaavioRunning = new Mutex(false, "Global\\KaisaKaavioRunning"))
