@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,18 +14,23 @@ namespace KaisaKaavio.Ranking
         public string Nimi { get; set; }
 
         [XmlAttribute]
+        [DefaultValue(-1)]
         public int Id { get; set; }
 
         [XmlAttribute]
+        [DefaultValue(0)]
         public int RankingPisteet { get; set; }
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string RankingPisteString { get; set; }
 
         [XmlAttribute]
+        [DefaultValue(-1)]
         public int Sijoitus { get; set; }
 
         [XmlAttribute]
+        [DefaultValue(-1)]
         public int KumulatiivinenSijoitus { get; set; }
 
         private Dictionary<int, int> pisteKertymat = new Dictionary<int, int>();
@@ -119,14 +125,16 @@ namespace KaisaKaavio.Ranking
         {
             this.RankingPisteet += pisteet;
 
+            string pisteString = string.IsNullOrEmpty(teksti) ? "xxx" : teksti;
+
             if (string.IsNullOrEmpty(this.RankingPisteString))
             {
-                this.RankingPisteString = teksti;
+                this.RankingPisteString = pisteString;
             }
             else
             {
                 this.RankingPisteString += " / ";
-                this.RankingPisteString += teksti;
+                this.RankingPisteString += pisteString;
             }
         }
     }

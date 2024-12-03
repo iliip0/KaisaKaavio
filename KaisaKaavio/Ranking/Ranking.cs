@@ -428,19 +428,57 @@ namespace KaisaKaavio.Ranking
         {
             try
             {
-                int vuosi = kilpailu.AlkamisAika.Year;
-
-                switch (kilpailu.RankingKisaTyyppi)
+                if (kilpailu.RankingKisa)
                 {
-                    case RankingSarjanPituus.Kuukausi: LisaaKilpailu1kk(kilpailu, vuosi); break;
-                    case RankingSarjanPituus.Vuodenaika: LisaaKilpailu3kk(kilpailu, vuosi); break;
-                    case RankingSarjanPituus.Puolivuotta: LisaaKilpailu6kk(kilpailu, vuosi); break;
-                    case RankingSarjanPituus.Vuosi: LisaaKilpailu12kk(kilpailu, vuosi); break;
+                    int vuosi = kilpailu.AlkamisAika.Year;
+
+                    switch (kilpailu.RankingKisaTyyppi)
+                    {
+                        case RankingSarjanPituus.Kuukausi: LisaaKilpailu1kk(kilpailu, vuosi); break;
+                        case RankingSarjanPituus.Vuodenaika: LisaaKilpailu3kk(kilpailu, vuosi); break;
+                        case RankingSarjanPituus.Puolivuotta: LisaaKilpailu6kk(kilpailu, vuosi); break;
+                        case RankingSarjanPituus.Vuosi: LisaaKilpailu12kk(kilpailu, vuosi); break;
+                    }
                 }
             }
             catch (Exception e)
             {
                 this.Loki.Kirjoita("Rankingin päivitys epäonnistui", e, false);
+            }
+        }
+
+        public void ValitseKilpailu(Kilpailu kilpailu)
+        {
+            try
+            {
+                if (kilpailu.RankingKisa)
+                {
+                    this.ValittuVuosi = kilpailu.AlkamisAika.Year;
+                    this.ValittuPituus = kilpailu.RankingKisaTyyppi;
+
+                    switch (this.ValittuPituus)
+                    {
+                        case RankingSarjanPituus.Kuukausi:
+                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == kilpailu.AlkamisAika.Month);
+                            break;
+
+                        case RankingSarjanPituus.Vuodenaika:
+                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == (kilpailu.AlkamisAika.Month - 1) / 3);
+                            break;
+
+                        case RankingSarjanPituus.Puolivuotta:
+                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == (kilpailu.AlkamisAika.Month - 1) / 6);
+                            break;
+
+                        case RankingSarjanPituus.Vuosi:
+                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault();
+                            break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                this.Loki.Kirjoita("Käynnissä olevan kilpailun asetus rankingsivulle epäonnistui!", e, false);
             }
         }
 

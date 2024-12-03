@@ -78,7 +78,7 @@ namespace KaisaKaavio
                 this.rankingComboBox.Visible = this.rankingCheckBox.Checked;
             }
             
-            // SBiL rankingkisa
+            // SBiL kisa
             else
             {
                 this.rankingLabel.Visible = false;
