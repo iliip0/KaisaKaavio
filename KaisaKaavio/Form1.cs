@@ -55,7 +55,7 @@ namespace KaisaKaavio
             this.kilpailu.Loki = this.loki;
             this.ranking.Loki = this.loki;
             this.ranking.Asetukset = this.asetukset.RankingAsetuksetKaisa;
-
+            this.ranking.PropertyChanged += ranking_PropertyChanged;
             this.rajaHarja = new SolidBrush(Color.Black);
             this.rajaKyna = new Pen(this.rajaHarja, 1);
 
@@ -809,6 +809,8 @@ namespace KaisaKaavio
                 {
                     this.ranking.ValitseKilpailu(this.kilpailu);
                 }
+
+                PaivitaRankingTaulukko();
             }
 
             bool pelitTabilla = this.tabControl1.SelectedTab == this.pelitTabPage;
@@ -2824,6 +2826,25 @@ namespace KaisaKaavio
         // ========={( Ranking )}============================================================================== //
         #region Ranking
 
+        void ranking_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (string.Equals(e.PropertyName, "ValittuSarja"))
+            {
+                PaivitaRankingTaulukko();
+            }
+        }
+
+        private void PaivitaRankingTaulukko()
+        {
+            this.rankingDataGridView.SuspendLayout();
+            this.rankingPelaajaTietueBindingSource.SuspendBinding();
+
+            this.rankingPelaajaTietueBindingSource.DataSource = this.ranking.ValittuSarja != null ? this.ranking.ValittuSarja.Osallistujat : null;
+
+            this.rankingPelaajaTietueBindingSource.ResumeBinding();
+            this.rankingDataGridView.ResumeLayout();
+        }
+
         private void rankingKisaCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Checked;
@@ -2879,6 +2900,10 @@ namespace KaisaKaavio
         private void rankingComboBox_SelectionChangeCommitted2(object sender, EventArgs e)
         {
             RankingComboBoxEditEnd(false);
+
+            if (sender == this.rankingSarjaComboBox)
+            {
+            }
         }
 
         private void rankingSarjaComboBox_Format(object sender, ListControlConvertEventArgs e)
@@ -2897,8 +2922,6 @@ namespace KaisaKaavio
             }
         }
 
-        #endregion
-
         private void rankingAsetuksetButton_Click(object sender, EventArgs e)
         {
             try
@@ -2906,7 +2929,7 @@ namespace KaisaKaavio
                 using (var popup = new Ranking.RankingPisteytysPopup(this.ranking.Asetukset))
                 {
                     if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    { 
+                    {
                     }
                 }
             }
@@ -2915,5 +2938,17 @@ namespace KaisaKaavio
                 this.loki.Kirjoita("Rankingasetusten editointi epäonnistui!", ex, false);
             }
         }
+
+        private void rankingDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
+
+        private void rankingDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }
