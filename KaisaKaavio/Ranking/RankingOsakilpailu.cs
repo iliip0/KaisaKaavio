@@ -16,11 +16,15 @@ namespace KaisaKaavio.Ranking
         [XmlAttribute]
         public DateTime AlkamisAika { get; set; }
 
+        [XmlAttribute]
+        public int KilpailunNumero { get; set; }
+
         public BindingList<RankingPelaajaTietue> Osallistujat { get; set; }
 
         public RankingOsakilpailu()
         {
             this.Nimi = string.Empty;
+            this.KilpailunNumero = 0;
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
         }
 
@@ -107,14 +111,11 @@ namespace KaisaKaavio.Ranking
         {
             var ranking = sarja.RankingEnnenOsakilpailua(kilpailu.AlkamisAika);
 
+            bool paattynyt = kilpailu.KilpailuOnPaattynyt;
+            var tulokset = kilpailu.Tulokset();
+
             foreach (var pelaaja in kilpailu.Osallistujat.Where(x => x.Id >= 0))
             {
-                var p = ranking.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
-                if (p != null)
-                {
-                    p.Id = pelaaja.Id;
-                }
-
                 if (!Osallistujat.Any(x => x.Id == pelaaja.Id))
                 { 
                     Osallistujat.Add(new RankingPelaajaTietue()
@@ -137,6 +138,44 @@ namespace KaisaKaavio.Ranking
                         o.AnnaPisteita(a.Pisteet, false);
                     }
                 }
+
+                if (paattynyt)
+                {
+                    var tulos = tulokset.FirstOrDefault(x => x.Id == o.Id);
+                    if (tulos != null)
+                    {
+                        o.Sijoitus = tulos.Sijoitus;
+
+                        // Pisteet sijoituksesta
+                        foreach (var a in asetukset.PisteytysSijoituksista)
+                        {
+                            if ((tulos.Sijoitus == 1 && a.Ehto == RankingPisteetSijoituksesta.Voittajalle) ||
+                                (tulos.Sijoitus == 2 && a.Ehto == RankingPisteetSijoituksesta.Kakkoselle) ||
+                                (tulos.Sijoitus == 3 && a.Ehto == RankingPisteetSijoituksesta.Kolmoselle) ||
+                                (tulos.Sijoitus == 4 && a.Ehto == RankingPisteetSijoituksesta.Neloselle) ||
+                                (tulos.Sijoitus == 5 && a.Ehto == RankingPisteetSijoituksesta.Vitoselle) ||
+                                (tulos.Sijoitus == 6 && a.Ehto == RankingPisteetSijoituksesta.Kutoselle) ||
+                                (tulos.Sijoitus == 7 && a.Ehto == RankingPisteetSijoituksesta.Seiskalle) ||
+                                (tulos.Sijoitus == 8 && a.Ehto == RankingPisteetSijoituksesta.Kasille) ||
+                                (tulos.Sijoitus == 9 && a.Ehto == RankingPisteetSijoituksesta.Ysille) ||
+                                (tulos.Sijoitus == 10 && a.Ehto == RankingPisteetSijoituksesta.Kymmenennelle))
+                            {
+                                if (a.Pisteet > 0)
+                                {
+                                    o.AnnaPisteita(a.Pisteet, false);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        o.Sijoitus = 0;
+                    }
+                }
+                else
+                {
+                    o.Sijoitus = 0;
+                }
             }
 
             // Pisteet peleistä
@@ -153,19 +192,6 @@ namespace KaisaKaavio.Ranking
                         AnnaPisteitaVoitosta(kilpailu, p, ranking, p.Id2, p.Id1, sarja, asetukset);
                     }
                 }
-            }
-
-
-            // Pisteet sijoituksista TODO
-            if (asetukset.PisteytysSijoituksista.Count > 0)
-            {
-                /*
-                int sijoitus = 1;
-                var tulokset = kilpailu.Tulokset();
-                foreach (var p in tulokset)
-                { 
-                }
-                 */
             }
 
             PaivitaTilanneTeksti();

@@ -45,6 +45,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -68,6 +69,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.kilpailutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uusiKilpailuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -322,6 +324,47 @@
             this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.rankingDataGridView = new System.Windows.Forms.DataGridView();
+            this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sijoitettuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.kabikeMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lisenssiMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.osMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.seuranJasenMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.veloitettuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pelaajaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.nimiDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jalkiIlmoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nimiDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.seuraDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.kaavioBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.kierrosDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peliNumeroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.poytaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pelaajaId1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pelaaja1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pisteet1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pisteet2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pelaaja2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pelaajaId2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tilanne = new System.Windows.Forms.DataGridViewImageColumn();
+            this.peliBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.saliBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.numeroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.striimiLinkkiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tulosLinkkiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.poytaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tekstiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.osoiteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.linkkiBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.rankingBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.rankingPelaajaTietueBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.rankingSarjaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.sijoitusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nimiDataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rankingPisteetDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankingOsallistumisiaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankingS1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RankingP1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -427,47 +470,6 @@
             this.rankingP51 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankingS52 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankingP52 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sijoitettuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.kabikeMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lisenssiMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.osMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.seuranJasenMaksuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.veloitettuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pelaajaBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.nimiDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jalkiIlmoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nimiDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.seuraDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.kaavioBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.kierrosDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.peliNumeroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.poytaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pelaajaId1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pelaaja1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pisteet1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pisteet2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pelaaja2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pelaajaId2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tilanne = new System.Windows.Forms.DataGridViewImageColumn();
-            this.peliBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.saliBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.numeroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.striimiLinkkiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tulosLinkkiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.poytaBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tekstiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.osoiteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.linkkiBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.rankingBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.sijoitusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nimiDataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rankingPisteetDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rankingPelaajaTietueBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.rankingSarjaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.arvontaTabPage.SuspendLayout();
@@ -3734,6 +3736,14 @@
             this.rankingS52,
             this.rankingP52});
             this.rankingDataGridView.DataSource = this.rankingPelaajaTietueBindingSource;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle40.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.rankingDataGridView.DefaultCellStyle = dataGridViewCellStyle40;
             this.rankingDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rankingDataGridView.Location = new System.Drawing.Point(0, 0);
             this.rankingDataGridView.Name = "rankingDataGridView";
@@ -3743,6 +3753,387 @@
             this.rankingDataGridView.TabIndex = 0;
             this.rankingDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.rankingDataGridView_CellFormatting);
             this.rankingDataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.rankingDataGridView_CellPainting);
+            this.rankingDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.rankingDataGridView_DataError);
+            // 
+            // kilpailuBindingSource
+            // 
+            this.kilpailuBindingSource.DataSource = typeof(KaisaKaavio.Kilpailu);
+            // 
+            // nimiDataGridViewTextBoxColumn
+            // 
+            this.nimiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.nimiDataGridViewTextBoxColumn.DataPropertyName = "Nimi";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nimiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.nimiDataGridViewTextBoxColumn.HeaderText = "Nimi";
+            this.nimiDataGridViewTextBoxColumn.Name = "nimiDataGridViewTextBoxColumn";
+            // 
+            // seuraDataGridViewTextBoxColumn
+            // 
+            this.seuraDataGridViewTextBoxColumn.DataPropertyName = "Seura";
+            this.seuraDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.seuraDataGridViewTextBoxColumn.HeaderText = "Seura";
+            this.seuraDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.seuraDataGridViewTextBoxColumn.Name = "seuraDataGridViewTextBoxColumn";
+            this.seuraDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // sijoitettuDataGridViewTextBoxColumn
+            // 
+            this.sijoitettuDataGridViewTextBoxColumn.DataPropertyName = "Sijoitettu";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sijoitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            this.sijoitettuDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.sijoitettuDataGridViewTextBoxColumn.HeaderText = "Sijoitet- tu";
+            this.sijoitettuDataGridViewTextBoxColumn.MinimumWidth = 72;
+            this.sijoitettuDataGridViewTextBoxColumn.Name = "sijoitettuDataGridViewTextBoxColumn";
+            this.sijoitettuDataGridViewTextBoxColumn.ToolTipText = "Pelaajan sijoitus kaavioon (esim 1)";
+            this.sijoitettuDataGridViewTextBoxColumn.Width = 72;
+            // 
+            // kabikeMaksuDataGridViewTextBoxColumn
+            // 
+            this.kabikeMaksuDataGridViewTextBoxColumn.DataPropertyName = "KabikeMaksu";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.kabikeMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            this.kabikeMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.kabikeMaksuDataGridViewTextBoxColumn.HeaderText = "Kabike maksu";
+            this.kabikeMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.kabikeMaksuDataGridViewTextBoxColumn.Name = "kabikeMaksuDataGridViewTextBoxColumn";
+            this.kabikeMaksuDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // lisenssiMaksuDataGridViewTextBoxColumn
+            // 
+            this.lisenssiMaksuDataGridViewTextBoxColumn.DataPropertyName = "LisenssiMaksu";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.lisenssiMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            this.lisenssiMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.lisenssiMaksuDataGridViewTextBoxColumn.HeaderText = "Lisenssi maksut";
+            this.lisenssiMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.lisenssiMaksuDataGridViewTextBoxColumn.Name = "lisenssiMaksuDataGridViewTextBoxColumn";
+            this.lisenssiMaksuDataGridViewTextBoxColumn.Visible = false;
+            this.lisenssiMaksuDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // osMaksuDataGridViewTextBoxColumn
+            // 
+            this.osMaksuDataGridViewTextBoxColumn.DataPropertyName = "OsMaksu";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.osMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            this.osMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.osMaksuDataGridViewTextBoxColumn.HeaderText = "Os. maksu";
+            this.osMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.osMaksuDataGridViewTextBoxColumn.Name = "osMaksuDataGridViewTextBoxColumn";
+            this.osMaksuDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // seuranJasenMaksuDataGridViewTextBoxColumn
+            // 
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.DataPropertyName = "SeuranJasenMaksu";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.HeaderText = "Seuran jm";
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.Name = "seuranJasenMaksuDataGridViewTextBoxColumn";
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.Visible = false;
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // veloitettuDataGridViewTextBoxColumn
+            // 
+            this.veloitettuDataGridViewTextBoxColumn.DataPropertyName = "Veloitettu";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.veloitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle9;
+            this.veloitettuDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.veloitettuDataGridViewTextBoxColumn.HeaderText = "Veloitet- tu";
+            this.veloitettuDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.veloitettuDataGridViewTextBoxColumn.Name = "veloitettuDataGridViewTextBoxColumn";
+            this.veloitettuDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // pelaajaBindingSource
+            // 
+            this.pelaajaBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
+            // 
+            // nimiDataGridViewTextBoxColumn2
+            // 
+            this.nimiDataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.nimiDataGridViewTextBoxColumn2.DataPropertyName = "Nimi";
+            this.nimiDataGridViewTextBoxColumn2.HeaderText = "Nimi";
+            this.nimiDataGridViewTextBoxColumn2.Name = "nimiDataGridViewTextBoxColumn2";
+            // 
+            // jalkiIlmoBindingSource
+            // 
+            this.jalkiIlmoBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.idDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle13;
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            this.idDataGridViewTextBoxColumn.Width = 8;
+            // 
+            // nimiDataGridViewTextBoxColumn1
+            // 
+            this.nimiDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.nimiDataGridViewTextBoxColumn1.DataPropertyName = "Nimi";
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nimiDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle14;
+            this.nimiDataGridViewTextBoxColumn1.DividerWidth = 3;
+            this.nimiDataGridViewTextBoxColumn1.HeaderText = "Nimi";
+            this.nimiDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            this.nimiDataGridViewTextBoxColumn1.Name = "nimiDataGridViewTextBoxColumn1";
+            this.nimiDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.nimiDataGridViewTextBoxColumn1.Width = 59;
+            // 
+            // seuraDataGridViewTextBoxColumn1
+            // 
+            this.seuraDataGridViewTextBoxColumn1.DataPropertyName = "Seura";
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seuraDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle15;
+            this.seuraDataGridViewTextBoxColumn1.DividerWidth = 3;
+            this.seuraDataGridViewTextBoxColumn1.HeaderText = "Seura";
+            this.seuraDataGridViewTextBoxColumn1.MinimumWidth = 48;
+            this.seuraDataGridViewTextBoxColumn1.Name = "seuraDataGridViewTextBoxColumn1";
+            this.seuraDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.seuraDataGridViewTextBoxColumn1.Width = 48;
+            // 
+            // kaavioBindingSource
+            // 
+            this.kaavioBindingSource.AllowNew = false;
+            this.kaavioBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
+            // 
+            // kierrosDataGridViewTextBoxColumn
+            // 
+            this.kierrosDataGridViewTextBoxColumn.DataPropertyName = "Kierros";
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.kierrosDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle21;
+            this.kierrosDataGridViewTextBoxColumn.HeaderText = "Kierros";
+            this.kierrosDataGridViewTextBoxColumn.MaxInputLength = 2;
+            this.kierrosDataGridViewTextBoxColumn.MinimumWidth = 58;
+            this.kierrosDataGridViewTextBoxColumn.Name = "kierrosDataGridViewTextBoxColumn";
+            this.kierrosDataGridViewTextBoxColumn.ReadOnly = true;
+            this.kierrosDataGridViewTextBoxColumn.Width = 58;
+            // 
+            // peliNumeroDataGridViewTextBoxColumn
+            // 
+            this.peliNumeroDataGridViewTextBoxColumn.DataPropertyName = "PeliNumero";
+            this.peliNumeroDataGridViewTextBoxColumn.HeaderText = "#";
+            this.peliNumeroDataGridViewTextBoxColumn.MaxInputLength = 3;
+            this.peliNumeroDataGridViewTextBoxColumn.MinimumWidth = 32;
+            this.peliNumeroDataGridViewTextBoxColumn.Name = "peliNumeroDataGridViewTextBoxColumn";
+            this.peliNumeroDataGridViewTextBoxColumn.ReadOnly = true;
+            this.peliNumeroDataGridViewTextBoxColumn.Visible = false;
+            this.peliNumeroDataGridViewTextBoxColumn.Width = 32;
+            // 
+            // poytaDataGridViewTextBoxColumn
+            // 
+            this.poytaDataGridViewTextBoxColumn.DataPropertyName = "Poyta";
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.poytaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle22;
+            this.poytaDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.poytaDataGridViewTextBoxColumn.HeaderText = "Pöytä";
+            this.poytaDataGridViewTextBoxColumn.MaxInputLength = 2;
+            this.poytaDataGridViewTextBoxColumn.MinimumWidth = 50;
+            this.poytaDataGridViewTextBoxColumn.Name = "poytaDataGridViewTextBoxColumn";
+            this.poytaDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // pelaajaId1DataGridViewTextBoxColumn
+            // 
+            this.pelaajaId1DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId1";
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaajaId1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle23;
+            this.pelaajaId1DataGridViewTextBoxColumn.HeaderText = "id1";
+            this.pelaajaId1DataGridViewTextBoxColumn.MaxInputLength = 3;
+            this.pelaajaId1DataGridViewTextBoxColumn.MinimumWidth = 34;
+            this.pelaajaId1DataGridViewTextBoxColumn.Name = "pelaajaId1DataGridViewTextBoxColumn";
+            this.pelaajaId1DataGridViewTextBoxColumn.ReadOnly = true;
+            this.pelaajaId1DataGridViewTextBoxColumn.Width = 34;
+            // 
+            // pelaaja1DataGridViewTextBoxColumn
+            // 
+            this.pelaaja1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.pelaaja1DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja1";
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaaja1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle24;
+            this.pelaaja1DataGridViewTextBoxColumn.DividerWidth = 3;
+            this.pelaaja1DataGridViewTextBoxColumn.HeaderText = "";
+            this.pelaaja1DataGridViewTextBoxColumn.MinimumWidth = 128;
+            this.pelaaja1DataGridViewTextBoxColumn.Name = "pelaaja1DataGridViewTextBoxColumn";
+            this.pelaaja1DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // pisteet1DataGridViewTextBoxColumn
+            // 
+            this.pisteet1DataGridViewTextBoxColumn.DataPropertyName = "Pisteet1";
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pisteet1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle25;
+            this.pisteet1DataGridViewTextBoxColumn.HeaderText = "";
+            this.pisteet1DataGridViewTextBoxColumn.MaxInputLength = 3;
+            this.pisteet1DataGridViewTextBoxColumn.MinimumWidth = 48;
+            this.pisteet1DataGridViewTextBoxColumn.Name = "pisteet1DataGridViewTextBoxColumn";
+            this.pisteet1DataGridViewTextBoxColumn.Width = 48;
+            // 
+            // pisteet2DataGridViewTextBoxColumn
+            // 
+            this.pisteet2DataGridViewTextBoxColumn.DataPropertyName = "Pisteet2";
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pisteet2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle27;
+            this.pisteet2DataGridViewTextBoxColumn.DividerWidth = 3;
+            this.pisteet2DataGridViewTextBoxColumn.HeaderText = "";
+            this.pisteet2DataGridViewTextBoxColumn.MaxInputLength = 3;
+            this.pisteet2DataGridViewTextBoxColumn.MinimumWidth = 48;
+            this.pisteet2DataGridViewTextBoxColumn.Name = "pisteet2DataGridViewTextBoxColumn";
+            this.pisteet2DataGridViewTextBoxColumn.Width = 48;
+            // 
+            // pelaaja2DataGridViewTextBoxColumn
+            // 
+            this.pelaaja2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.pelaaja2DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja2";
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaaja2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle28;
+            this.pelaaja2DataGridViewTextBoxColumn.HeaderText = "";
+            this.pelaaja2DataGridViewTextBoxColumn.MinimumWidth = 128;
+            this.pelaaja2DataGridViewTextBoxColumn.Name = "pelaaja2DataGridViewTextBoxColumn";
+            this.pelaaja2DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // pelaajaId2DataGridViewTextBoxColumn
+            // 
+            this.pelaajaId2DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId2";
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaajaId2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle29;
+            this.pelaajaId2DataGridViewTextBoxColumn.DividerWidth = 3;
+            this.pelaajaId2DataGridViewTextBoxColumn.HeaderText = "id2";
+            this.pelaajaId2DataGridViewTextBoxColumn.MaxInputLength = 3;
+            this.pelaajaId2DataGridViewTextBoxColumn.MinimumWidth = 34;
+            this.pelaajaId2DataGridViewTextBoxColumn.Name = "pelaajaId2DataGridViewTextBoxColumn";
+            this.pelaajaId2DataGridViewTextBoxColumn.ReadOnly = true;
+            this.pelaajaId2DataGridViewTextBoxColumn.Width = 34;
+            // 
+            // Tilanne
+            // 
+            this.Tilanne.DataPropertyName = "Tilanne";
+            this.Tilanne.DividerWidth = 3;
+            this.Tilanne.HeaderText = "";
+            this.Tilanne.MinimumWidth = 32;
+            this.Tilanne.Name = "Tilanne";
+            this.Tilanne.ReadOnly = true;
+            this.Tilanne.Width = 32;
+            // 
+            // peliBindingSource
+            // 
+            this.peliBindingSource.DataSource = typeof(KaisaKaavio.Peli);
+            // 
+            // saliBindingSource
+            // 
+            this.saliBindingSource.DataSource = typeof(KaisaKaavio.Sali);
+            // 
+            // numeroDataGridViewTextBoxColumn
+            // 
+            this.numeroDataGridViewTextBoxColumn.DataPropertyName = "Numero";
+            this.numeroDataGridViewTextBoxColumn.HeaderText = "Nro";
+            this.numeroDataGridViewTextBoxColumn.MinimumWidth = 48;
+            this.numeroDataGridViewTextBoxColumn.Name = "numeroDataGridViewTextBoxColumn";
+            this.numeroDataGridViewTextBoxColumn.Width = 48;
+            // 
+            // striimiLinkkiDataGridViewTextBoxColumn
+            // 
+            this.striimiLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.striimiLinkkiDataGridViewTextBoxColumn.DataPropertyName = "StriimiLinkki";
+            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.Blue;
+            this.striimiLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle33;
+            this.striimiLinkkiDataGridViewTextBoxColumn.HeaderText = "Striimilinkki";
+            this.striimiLinkkiDataGridViewTextBoxColumn.Name = "striimiLinkkiDataGridViewTextBoxColumn";
+            // 
+            // tulosLinkkiDataGridViewTextBoxColumn
+            // 
+            this.tulosLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tulosLinkkiDataGridViewTextBoxColumn.DataPropertyName = "TulosLinkki";
+            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.Blue;
+            this.tulosLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle34;
+            this.tulosLinkkiDataGridViewTextBoxColumn.HeaderText = "Tuloslinkki";
+            this.tulosLinkkiDataGridViewTextBoxColumn.Name = "tulosLinkkiDataGridViewTextBoxColumn";
+            // 
+            // poytaBindingSource
+            // 
+            this.poytaBindingSource.DataSource = typeof(KaisaKaavio.Poyta);
+            // 
+            // tekstiDataGridViewTextBoxColumn
+            // 
+            this.tekstiDataGridViewTextBoxColumn.DataPropertyName = "Teksti";
+            this.tekstiDataGridViewTextBoxColumn.HeaderText = "Teksti";
+            this.tekstiDataGridViewTextBoxColumn.Name = "tekstiDataGridViewTextBoxColumn";
+            // 
+            // osoiteDataGridViewTextBoxColumn
+            // 
+            this.osoiteDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.osoiteDataGridViewTextBoxColumn.DataPropertyName = "Osoite";
+            dataGridViewCellStyle35.ForeColor = System.Drawing.Color.Blue;
+            this.osoiteDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle35;
+            this.osoiteDataGridViewTextBoxColumn.HeaderText = "Osoite";
+            this.osoiteDataGridViewTextBoxColumn.Name = "osoiteDataGridViewTextBoxColumn";
+            // 
+            // linkkiBindingSource
+            // 
+            this.linkkiBindingSource.DataSource = typeof(KaisaKaavio.Linkki);
+            // 
+            // rankingBindingSource
+            // 
+            this.rankingBindingSource.DataSource = typeof(KaisaKaavio.Ranking.Ranking);
+            // 
+            // rankingPelaajaTietueBindingSource
+            // 
+            this.rankingPelaajaTietueBindingSource.DataSource = typeof(KaisaKaavio.Ranking.RankingPelaajaTietue);
+            // 
+            // rankingSarjaBindingSource
+            // 
+            this.rankingSarjaBindingSource.DataSource = typeof(KaisaKaavio.Ranking.RankingSarja);
+            // 
+            // sijoitusDataGridViewTextBoxColumn
+            // 
+            this.sijoitusDataGridViewTextBoxColumn.DataPropertyName = "Sijoitus";
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sijoitusDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle37;
+            this.sijoitusDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.sijoitusDataGridViewTextBoxColumn.Frozen = true;
+            this.sijoitusDataGridViewTextBoxColumn.HeaderText = "#";
+            this.sijoitusDataGridViewTextBoxColumn.MinimumWidth = 40;
+            this.sijoitusDataGridViewTextBoxColumn.Name = "sijoitusDataGridViewTextBoxColumn";
+            this.sijoitusDataGridViewTextBoxColumn.ReadOnly = true;
+            this.sijoitusDataGridViewTextBoxColumn.Width = 40;
+            // 
+            // nimiDataGridViewTextBoxColumn3
+            // 
+            this.nimiDataGridViewTextBoxColumn3.DataPropertyName = "Nimi";
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nimiDataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle38;
+            this.nimiDataGridViewTextBoxColumn3.DividerWidth = 3;
+            this.nimiDataGridViewTextBoxColumn3.Frozen = true;
+            this.nimiDataGridViewTextBoxColumn3.HeaderText = "Pelaaja";
+            this.nimiDataGridViewTextBoxColumn3.MinimumWidth = 256;
+            this.nimiDataGridViewTextBoxColumn3.Name = "nimiDataGridViewTextBoxColumn3";
+            this.nimiDataGridViewTextBoxColumn3.ReadOnly = true;
+            this.nimiDataGridViewTextBoxColumn3.Width = 256;
+            // 
+            // rankingPisteetDataGridViewTextBoxColumn
+            // 
+            this.rankingPisteetDataGridViewTextBoxColumn.DataPropertyName = "RankingPisteet";
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.Blue;
+            this.rankingPisteetDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle39;
+            this.rankingPisteetDataGridViewTextBoxColumn.Frozen = true;
+            this.rankingPisteetDataGridViewTextBoxColumn.HeaderText = "Pisteet";
+            this.rankingPisteetDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.rankingPisteetDataGridViewTextBoxColumn.Name = "rankingPisteetDataGridViewTextBoxColumn";
+            this.rankingPisteetDataGridViewTextBoxColumn.ReadOnly = true;
+            this.rankingPisteetDataGridViewTextBoxColumn.Width = 64;
             // 
             // rankingOsallistumisiaColumn
             // 
@@ -4637,382 +5028,6 @@
             this.rankingP52.Name = "rankingP52";
             this.rankingP52.ReadOnly = true;
             this.rankingP52.Width = 64;
-            // 
-            // kilpailuBindingSource
-            // 
-            this.kilpailuBindingSource.DataSource = typeof(KaisaKaavio.Kilpailu);
-            // 
-            // nimiDataGridViewTextBoxColumn
-            // 
-            this.nimiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nimiDataGridViewTextBoxColumn.DataPropertyName = "Nimi";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.nimiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.nimiDataGridViewTextBoxColumn.HeaderText = "Nimi";
-            this.nimiDataGridViewTextBoxColumn.Name = "nimiDataGridViewTextBoxColumn";
-            // 
-            // seuraDataGridViewTextBoxColumn
-            // 
-            this.seuraDataGridViewTextBoxColumn.DataPropertyName = "Seura";
-            this.seuraDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.seuraDataGridViewTextBoxColumn.HeaderText = "Seura";
-            this.seuraDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.seuraDataGridViewTextBoxColumn.Name = "seuraDataGridViewTextBoxColumn";
-            this.seuraDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // sijoitettuDataGridViewTextBoxColumn
-            // 
-            this.sijoitettuDataGridViewTextBoxColumn.DataPropertyName = "Sijoitettu";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sijoitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
-            this.sijoitettuDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.sijoitettuDataGridViewTextBoxColumn.HeaderText = "Sijoitet- tu";
-            this.sijoitettuDataGridViewTextBoxColumn.MinimumWidth = 72;
-            this.sijoitettuDataGridViewTextBoxColumn.Name = "sijoitettuDataGridViewTextBoxColumn";
-            this.sijoitettuDataGridViewTextBoxColumn.ToolTipText = "Pelaajan sijoitus kaavioon (esim 1)";
-            this.sijoitettuDataGridViewTextBoxColumn.Width = 72;
-            // 
-            // kabikeMaksuDataGridViewTextBoxColumn
-            // 
-            this.kabikeMaksuDataGridViewTextBoxColumn.DataPropertyName = "KabikeMaksu";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.kabikeMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
-            this.kabikeMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.kabikeMaksuDataGridViewTextBoxColumn.HeaderText = "Kabike maksu";
-            this.kabikeMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.kabikeMaksuDataGridViewTextBoxColumn.Name = "kabikeMaksuDataGridViewTextBoxColumn";
-            this.kabikeMaksuDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // lisenssiMaksuDataGridViewTextBoxColumn
-            // 
-            this.lisenssiMaksuDataGridViewTextBoxColumn.DataPropertyName = "LisenssiMaksu";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.lisenssiMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
-            this.lisenssiMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.lisenssiMaksuDataGridViewTextBoxColumn.HeaderText = "Lisenssi maksut";
-            this.lisenssiMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.lisenssiMaksuDataGridViewTextBoxColumn.Name = "lisenssiMaksuDataGridViewTextBoxColumn";
-            this.lisenssiMaksuDataGridViewTextBoxColumn.Visible = false;
-            this.lisenssiMaksuDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // osMaksuDataGridViewTextBoxColumn
-            // 
-            this.osMaksuDataGridViewTextBoxColumn.DataPropertyName = "OsMaksu";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.osMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
-            this.osMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.osMaksuDataGridViewTextBoxColumn.HeaderText = "Os. maksu";
-            this.osMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.osMaksuDataGridViewTextBoxColumn.Name = "osMaksuDataGridViewTextBoxColumn";
-            this.osMaksuDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // seuranJasenMaksuDataGridViewTextBoxColumn
-            // 
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.DataPropertyName = "SeuranJasenMaksu";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.HeaderText = "Seuran jm";
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.Name = "seuranJasenMaksuDataGridViewTextBoxColumn";
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.Visible = false;
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // veloitettuDataGridViewTextBoxColumn
-            // 
-            this.veloitettuDataGridViewTextBoxColumn.DataPropertyName = "Veloitettu";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.veloitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle9;
-            this.veloitettuDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.veloitettuDataGridViewTextBoxColumn.HeaderText = "Veloitet- tu";
-            this.veloitettuDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.veloitettuDataGridViewTextBoxColumn.Name = "veloitettuDataGridViewTextBoxColumn";
-            this.veloitettuDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // pelaajaBindingSource
-            // 
-            this.pelaajaBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
-            // 
-            // nimiDataGridViewTextBoxColumn2
-            // 
-            this.nimiDataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nimiDataGridViewTextBoxColumn2.DataPropertyName = "Nimi";
-            this.nimiDataGridViewTextBoxColumn2.HeaderText = "Nimi";
-            this.nimiDataGridViewTextBoxColumn2.Name = "nimiDataGridViewTextBoxColumn2";
-            // 
-            // jalkiIlmoBindingSource
-            // 
-            this.jalkiIlmoBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.idDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle13;
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            this.idDataGridViewTextBoxColumn.Width = 8;
-            // 
-            // nimiDataGridViewTextBoxColumn1
-            // 
-            this.nimiDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.nimiDataGridViewTextBoxColumn1.DataPropertyName = "Nimi";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nimiDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle14;
-            this.nimiDataGridViewTextBoxColumn1.DividerWidth = 3;
-            this.nimiDataGridViewTextBoxColumn1.HeaderText = "Nimi";
-            this.nimiDataGridViewTextBoxColumn1.MinimumWidth = 8;
-            this.nimiDataGridViewTextBoxColumn1.Name = "nimiDataGridViewTextBoxColumn1";
-            this.nimiDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.nimiDataGridViewTextBoxColumn1.Width = 59;
-            // 
-            // seuraDataGridViewTextBoxColumn1
-            // 
-            this.seuraDataGridViewTextBoxColumn1.DataPropertyName = "Seura";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.seuraDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle15;
-            this.seuraDataGridViewTextBoxColumn1.DividerWidth = 3;
-            this.seuraDataGridViewTextBoxColumn1.HeaderText = "Seura";
-            this.seuraDataGridViewTextBoxColumn1.MinimumWidth = 48;
-            this.seuraDataGridViewTextBoxColumn1.Name = "seuraDataGridViewTextBoxColumn1";
-            this.seuraDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.seuraDataGridViewTextBoxColumn1.Width = 48;
-            // 
-            // kaavioBindingSource
-            // 
-            this.kaavioBindingSource.AllowNew = false;
-            this.kaavioBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
-            // 
-            // kierrosDataGridViewTextBoxColumn
-            // 
-            this.kierrosDataGridViewTextBoxColumn.DataPropertyName = "Kierros";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.kierrosDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle21;
-            this.kierrosDataGridViewTextBoxColumn.HeaderText = "Kierros";
-            this.kierrosDataGridViewTextBoxColumn.MaxInputLength = 2;
-            this.kierrosDataGridViewTextBoxColumn.MinimumWidth = 58;
-            this.kierrosDataGridViewTextBoxColumn.Name = "kierrosDataGridViewTextBoxColumn";
-            this.kierrosDataGridViewTextBoxColumn.ReadOnly = true;
-            this.kierrosDataGridViewTextBoxColumn.Width = 58;
-            // 
-            // peliNumeroDataGridViewTextBoxColumn
-            // 
-            this.peliNumeroDataGridViewTextBoxColumn.DataPropertyName = "PeliNumero";
-            this.peliNumeroDataGridViewTextBoxColumn.HeaderText = "#";
-            this.peliNumeroDataGridViewTextBoxColumn.MaxInputLength = 3;
-            this.peliNumeroDataGridViewTextBoxColumn.MinimumWidth = 32;
-            this.peliNumeroDataGridViewTextBoxColumn.Name = "peliNumeroDataGridViewTextBoxColumn";
-            this.peliNumeroDataGridViewTextBoxColumn.ReadOnly = true;
-            this.peliNumeroDataGridViewTextBoxColumn.Visible = false;
-            this.peliNumeroDataGridViewTextBoxColumn.Width = 32;
-            // 
-            // poytaDataGridViewTextBoxColumn
-            // 
-            this.poytaDataGridViewTextBoxColumn.DataPropertyName = "Poyta";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.poytaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle22;
-            this.poytaDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.poytaDataGridViewTextBoxColumn.HeaderText = "Pöytä";
-            this.poytaDataGridViewTextBoxColumn.MaxInputLength = 2;
-            this.poytaDataGridViewTextBoxColumn.MinimumWidth = 50;
-            this.poytaDataGridViewTextBoxColumn.Name = "poytaDataGridViewTextBoxColumn";
-            this.poytaDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // pelaajaId1DataGridViewTextBoxColumn
-            // 
-            this.pelaajaId1DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId1";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaajaId1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle23;
-            this.pelaajaId1DataGridViewTextBoxColumn.HeaderText = "id1";
-            this.pelaajaId1DataGridViewTextBoxColumn.MaxInputLength = 3;
-            this.pelaajaId1DataGridViewTextBoxColumn.MinimumWidth = 34;
-            this.pelaajaId1DataGridViewTextBoxColumn.Name = "pelaajaId1DataGridViewTextBoxColumn";
-            this.pelaajaId1DataGridViewTextBoxColumn.ReadOnly = true;
-            this.pelaajaId1DataGridViewTextBoxColumn.Width = 34;
-            // 
-            // pelaaja1DataGridViewTextBoxColumn
-            // 
-            this.pelaaja1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.pelaaja1DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja1";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaaja1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle24;
-            this.pelaaja1DataGridViewTextBoxColumn.DividerWidth = 3;
-            this.pelaaja1DataGridViewTextBoxColumn.HeaderText = "";
-            this.pelaaja1DataGridViewTextBoxColumn.MinimumWidth = 128;
-            this.pelaaja1DataGridViewTextBoxColumn.Name = "pelaaja1DataGridViewTextBoxColumn";
-            this.pelaaja1DataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // pisteet1DataGridViewTextBoxColumn
-            // 
-            this.pisteet1DataGridViewTextBoxColumn.DataPropertyName = "Pisteet1";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pisteet1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle25;
-            this.pisteet1DataGridViewTextBoxColumn.HeaderText = "";
-            this.pisteet1DataGridViewTextBoxColumn.MaxInputLength = 3;
-            this.pisteet1DataGridViewTextBoxColumn.MinimumWidth = 48;
-            this.pisteet1DataGridViewTextBoxColumn.Name = "pisteet1DataGridViewTextBoxColumn";
-            this.pisteet1DataGridViewTextBoxColumn.Width = 48;
-            // 
-            // pisteet2DataGridViewTextBoxColumn
-            // 
-            this.pisteet2DataGridViewTextBoxColumn.DataPropertyName = "Pisteet2";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pisteet2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle27;
-            this.pisteet2DataGridViewTextBoxColumn.DividerWidth = 3;
-            this.pisteet2DataGridViewTextBoxColumn.HeaderText = "";
-            this.pisteet2DataGridViewTextBoxColumn.MaxInputLength = 3;
-            this.pisteet2DataGridViewTextBoxColumn.MinimumWidth = 48;
-            this.pisteet2DataGridViewTextBoxColumn.Name = "pisteet2DataGridViewTextBoxColumn";
-            this.pisteet2DataGridViewTextBoxColumn.Width = 48;
-            // 
-            // pelaaja2DataGridViewTextBoxColumn
-            // 
-            this.pelaaja2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.pelaaja2DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja2";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaaja2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle28;
-            this.pelaaja2DataGridViewTextBoxColumn.HeaderText = "";
-            this.pelaaja2DataGridViewTextBoxColumn.MinimumWidth = 128;
-            this.pelaaja2DataGridViewTextBoxColumn.Name = "pelaaja2DataGridViewTextBoxColumn";
-            this.pelaaja2DataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // pelaajaId2DataGridViewTextBoxColumn
-            // 
-            this.pelaajaId2DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId2";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaajaId2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle29;
-            this.pelaajaId2DataGridViewTextBoxColumn.DividerWidth = 3;
-            this.pelaajaId2DataGridViewTextBoxColumn.HeaderText = "id2";
-            this.pelaajaId2DataGridViewTextBoxColumn.MaxInputLength = 3;
-            this.pelaajaId2DataGridViewTextBoxColumn.MinimumWidth = 34;
-            this.pelaajaId2DataGridViewTextBoxColumn.Name = "pelaajaId2DataGridViewTextBoxColumn";
-            this.pelaajaId2DataGridViewTextBoxColumn.ReadOnly = true;
-            this.pelaajaId2DataGridViewTextBoxColumn.Width = 34;
-            // 
-            // Tilanne
-            // 
-            this.Tilanne.DataPropertyName = "Tilanne";
-            this.Tilanne.DividerWidth = 3;
-            this.Tilanne.HeaderText = "";
-            this.Tilanne.MinimumWidth = 32;
-            this.Tilanne.Name = "Tilanne";
-            this.Tilanne.ReadOnly = true;
-            this.Tilanne.Width = 32;
-            // 
-            // peliBindingSource
-            // 
-            this.peliBindingSource.DataSource = typeof(KaisaKaavio.Peli);
-            // 
-            // saliBindingSource
-            // 
-            this.saliBindingSource.DataSource = typeof(KaisaKaavio.Sali);
-            // 
-            // numeroDataGridViewTextBoxColumn
-            // 
-            this.numeroDataGridViewTextBoxColumn.DataPropertyName = "Numero";
-            this.numeroDataGridViewTextBoxColumn.HeaderText = "Nro";
-            this.numeroDataGridViewTextBoxColumn.MinimumWidth = 48;
-            this.numeroDataGridViewTextBoxColumn.Name = "numeroDataGridViewTextBoxColumn";
-            this.numeroDataGridViewTextBoxColumn.Width = 48;
-            // 
-            // striimiLinkkiDataGridViewTextBoxColumn
-            // 
-            this.striimiLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.striimiLinkkiDataGridViewTextBoxColumn.DataPropertyName = "StriimiLinkki";
-            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.Blue;
-            this.striimiLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle33;
-            this.striimiLinkkiDataGridViewTextBoxColumn.HeaderText = "Striimilinkki";
-            this.striimiLinkkiDataGridViewTextBoxColumn.Name = "striimiLinkkiDataGridViewTextBoxColumn";
-            // 
-            // tulosLinkkiDataGridViewTextBoxColumn
-            // 
-            this.tulosLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.tulosLinkkiDataGridViewTextBoxColumn.DataPropertyName = "TulosLinkki";
-            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.Blue;
-            this.tulosLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle34;
-            this.tulosLinkkiDataGridViewTextBoxColumn.HeaderText = "Tuloslinkki";
-            this.tulosLinkkiDataGridViewTextBoxColumn.Name = "tulosLinkkiDataGridViewTextBoxColumn";
-            // 
-            // poytaBindingSource
-            // 
-            this.poytaBindingSource.DataSource = typeof(KaisaKaavio.Poyta);
-            // 
-            // tekstiDataGridViewTextBoxColumn
-            // 
-            this.tekstiDataGridViewTextBoxColumn.DataPropertyName = "Teksti";
-            this.tekstiDataGridViewTextBoxColumn.HeaderText = "Teksti";
-            this.tekstiDataGridViewTextBoxColumn.Name = "tekstiDataGridViewTextBoxColumn";
-            // 
-            // osoiteDataGridViewTextBoxColumn
-            // 
-            this.osoiteDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.osoiteDataGridViewTextBoxColumn.DataPropertyName = "Osoite";
-            dataGridViewCellStyle35.ForeColor = System.Drawing.Color.Blue;
-            this.osoiteDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle35;
-            this.osoiteDataGridViewTextBoxColumn.HeaderText = "Osoite";
-            this.osoiteDataGridViewTextBoxColumn.Name = "osoiteDataGridViewTextBoxColumn";
-            // 
-            // linkkiBindingSource
-            // 
-            this.linkkiBindingSource.DataSource = typeof(KaisaKaavio.Linkki);
-            // 
-            // rankingBindingSource
-            // 
-            this.rankingBindingSource.DataSource = typeof(KaisaKaavio.Ranking.Ranking);
-            // 
-            // sijoitusDataGridViewTextBoxColumn
-            // 
-            this.sijoitusDataGridViewTextBoxColumn.DataPropertyName = "Sijoitus";
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sijoitusDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle37;
-            this.sijoitusDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.sijoitusDataGridViewTextBoxColumn.Frozen = true;
-            this.sijoitusDataGridViewTextBoxColumn.HeaderText = "#";
-            this.sijoitusDataGridViewTextBoxColumn.MinimumWidth = 40;
-            this.sijoitusDataGridViewTextBoxColumn.Name = "sijoitusDataGridViewTextBoxColumn";
-            this.sijoitusDataGridViewTextBoxColumn.ReadOnly = true;
-            this.sijoitusDataGridViewTextBoxColumn.Width = 40;
-            // 
-            // nimiDataGridViewTextBoxColumn3
-            // 
-            this.nimiDataGridViewTextBoxColumn3.DataPropertyName = "Nimi";
-            this.nimiDataGridViewTextBoxColumn3.DividerWidth = 3;
-            this.nimiDataGridViewTextBoxColumn3.Frozen = true;
-            this.nimiDataGridViewTextBoxColumn3.HeaderText = "Pelaaja";
-            this.nimiDataGridViewTextBoxColumn3.MinimumWidth = 256;
-            this.nimiDataGridViewTextBoxColumn3.Name = "nimiDataGridViewTextBoxColumn3";
-            this.nimiDataGridViewTextBoxColumn3.ReadOnly = true;
-            this.nimiDataGridViewTextBoxColumn3.Width = 256;
-            // 
-            // rankingPisteetDataGridViewTextBoxColumn
-            // 
-            this.rankingPisteetDataGridViewTextBoxColumn.DataPropertyName = "RankingPisteet";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.rankingPisteetDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle38;
-            this.rankingPisteetDataGridViewTextBoxColumn.Frozen = true;
-            this.rankingPisteetDataGridViewTextBoxColumn.HeaderText = "Pisteet";
-            this.rankingPisteetDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.rankingPisteetDataGridViewTextBoxColumn.Name = "rankingPisteetDataGridViewTextBoxColumn";
-            this.rankingPisteetDataGridViewTextBoxColumn.ReadOnly = true;
-            this.rankingPisteetDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // rankingPelaajaTietueBindingSource
-            // 
-            this.rankingPelaajaTietueBindingSource.DataSource = typeof(KaisaKaavio.Ranking.RankingPelaajaTietue);
-            // 
-            // rankingSarjaBindingSource
-            // 
-            this.rankingSarjaBindingSource.DataSource = typeof(KaisaKaavio.Ranking.RankingSarja);
             // 
             // Form1
             // 

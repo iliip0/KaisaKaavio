@@ -149,9 +149,13 @@ namespace KaisaKaavio.Ranking
             this.Osallistujat.Clear();
 
             List<RankingPelaajaTietue> kaikkiPelaajat = new List<RankingPelaajaTietue>();
- 
+
+            int osakilpailunNumero = 0;
+
             foreach (var o in this.Osakilpailut)
             {
+                o.KilpailunNumero = osakilpailunNumero++;
+
                 foreach (var p in o.Osallistujat)
                 {
                     if (!kaikkiPelaajat.Any(x => string.Equals(x.Nimi, p.Nimi, StringComparison.OrdinalIgnoreCase)))

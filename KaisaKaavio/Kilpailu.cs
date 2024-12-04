@@ -1405,13 +1405,73 @@ namespace KaisaKaavio
             return null;
         }
 
+        [XmlIgnore]
+        public bool KilpailuOnPaattynyt
+        {
+            get 
+            {
+                return Voittaja() != null;
+            }
+        }
+
         public IEnumerable<Pelaaja> Tulokset()
         {
-            return this.Osallistujat
+            foreach (var o in this.Osallistujat.Where(x => x.Id >= 0))
+            {
+                o.Pisteet = LaskePisteet(o.Id, 999);
+                o.Voitot = LaskeVoitot(o.Id, 999);
+                o.Tappiot = LaskeTappiot(o.Id, 999);
+                o.Pudotettu = !Mukana(o);
+
+                if (o.Pudotettu)
+                {
+                    o.PudonnutKierroksella = this.Pelit.Count(x => x.SisaltaaPelaajan(o.Id));
+                }
+                else
+                {
+                    o.PudonnutKierroksella = 0;
+                }
+
+                // Sijoituspisteet määräävät pelaajien sijoituksen kisan päätyttyä.
+                // Tätä kaavaa säätämällä voi muuttaa sijoituskriteerejä:
+                o.SijoitusPisteet = o.Pudotettu ? 0 : 10000000;
+                o.SijoitusPisteet += o.Voitot * 100000;
+                o.SijoitusPisteet += o.Pisteet * 100;
+
+                if (this.KilpailuOnViikkokisa)
+                {
+                    o.SijoitusPisteet += o.PudonnutKierroksella; // Tämä huomioi tuloksissa kuinka pitkälle pelaaja on päässyt
+                }
+            }
+
+            var tulokset = this.Osallistujat
+                .Where(x => x.Id >= 0)
                 .ToArray()
-                .OrderByDescending(x => LaskePisteet(x.Id, 999))
-                .OrderByDescending(x => LaskeVoitot(x.Id, 999))
-                .OrderBy(x => LaskeTappiot(x.Id, 999));
+                .OrderByDescending(x => x.SijoitusPisteet);
+
+            int sijoitus = 1;
+
+            int edellinenSijoitus = 999999;
+            int edellisetPisteet = 9999999;
+
+            foreach (var t in tulokset)
+            {
+                if (t.Pudotettu && (t.SijoitusPisteet == edellisetPisteet))
+                {
+                    t.Sijoitus = edellinenSijoitus;
+                }
+                else
+                {
+                    edellinenSijoitus = sijoitus;
+                    edellisetPisteet = t.SijoitusPisteet;
+
+                    t.Sijoitus = sijoitus;
+                }
+
+                sijoitus++;
+            }
+
+            return tulokset;
         }
 
         [XmlIgnore]

@@ -111,6 +111,15 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool Pudotettu { get; set; }
 
+        [XmlIgnore]
+        public int Sijoitus { get; set; }
+
+        [XmlIgnore]
+        public int SijoitusPisteet { get; set; }
+
+        [XmlIgnore]
+        public int PudonnutKierroksella { get; set; }
+
         public class PeliTietue
         {
             public int Vastustaja = -1;
@@ -138,6 +147,9 @@ namespace KaisaKaavio
             Tappiot = 0;
             Pisteet = 0;
             Pudotettu = false;
+            Sijoitus = 0;
+            SijoitusPisteet = 0;
+            PudonnutKierroksella = 0;
         }
     }
 }

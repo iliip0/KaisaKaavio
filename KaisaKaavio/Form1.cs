@@ -2438,11 +2438,6 @@ namespace KaisaKaavio
             RtfInfoRivi("Tulokset", " ", rtf, sbil);
             RtfRivinvaihto(rtf, sbil);
 
-            int sijoitus = 1;
-            bool ekaMukana = false;
-            bool tokaMukana = false;
-
-            string voittajaTulos = string.Empty;
             List<string> tulokset = new List<string>();
 
             Dictionary<string, List<int>> sarjat = new Dictionary<string, List<int>>();
@@ -2493,54 +2488,37 @@ namespace KaisaKaavio
                 s.Value.AddRange(tempSarjat);
             }
 
+            bool paattynyt = this.kilpailu.KilpailuOnPaattynyt;
+
             foreach (var osallistuja in this.kilpailu.Tulokset())
             {
-                int tappiot = this.kilpailu.LaskeTappiot(osallistuja.Id, 999);
-                if (sijoitus == 1)
-                {
-                    ekaMukana = tappiot < 2;
-                    voittajaTulos = string.Format("{0}. {1} - {2}/{3}",
-                        sijoitus,
-                        osallistuja.Nimi,
-                        this.kilpailu.LaskeVoitot(osallistuja.Id, 999),
-                        this.kilpailu.LaskePisteet(osallistuja.Id, 999));
-                }
-                else if (tappiot > 1)
+                if (osallistuja.Sijoitus == 1 && paattynyt)
                 {
                     tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
-                        sijoitus,
+                        osallistuja.Sijoitus,
                         osallistuja.Nimi,
-                        this.kilpailu.LaskeVoitot(osallistuja.Id, 999),
-                        this.kilpailu.LaskePisteet(osallistuja.Id, 999)));
+                        osallistuja.Voitot,
+                        osallistuja.Pisteet));
                 }
                 else
                 {
-                    tulokset.Add(string.Format("{0}.", sijoitus));
+                    if (osallistuja.Pudotettu)
+                    {
+                        tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
+                            osallistuja.Sijoitus,
+                            osallistuja.Nimi,
+                            osallistuja.Voitot,
+                            osallistuja.Pisteet));
+                    }
+                    else
+                    {
+                        tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
+                    }
                 }
-
-                if (sijoitus == 2)
-                {
-                    tokaMukana = tappiot < 2;
-                }
-
-                sijoitus++;
             }
 
             if (tulokset.Count > 2)
             {
-                if (ekaMukana && !tokaMukana)
-                {
-                    rtf.Append(voittajaTulos);
-                    rtf.Append(@" \line ");
-                    sbil.AppendLine(voittajaTulos);
-                }
-                else
-                {
-                    rtf.Append("1.");
-                    rtf.Append(@" \line ");
-                    sbil.AppendLine("1.");
-                }
-
                 foreach (var tulos in tulokset)
                 {
                     rtf.Append(tulos);
@@ -2832,6 +2810,12 @@ namespace KaisaKaavio
             {
                 PaivitaRankingTaulukko();
             }
+
+            if (string.Equals(e.PropertyName, "ValittuOsakilpailu"))
+            {
+                this.rankingDataGridView.Refresh();
+                // TODO!! Varmista, että valittu osakilpailusarake on näkyvissä käyttöliittymässä
+            }
         }
 
         private void PaivitaRankingTaulukko()
@@ -2840,6 +2824,31 @@ namespace KaisaKaavio
             this.rankingPelaajaTietueBindingSource.SuspendBinding();
 
             this.rankingPelaajaTietueBindingSource.DataSource = this.ranking.ValittuSarja != null ? this.ranking.ValittuSarja.Osallistujat : null;
+
+            int maxVisibleColumn = 3 + (this.ranking.ValittuSarja != null ? (this.ranking.ValittuSarja.Osakilpailut.Count * 2) : 0);
+
+            foreach (var c in this.rankingDataGridView.Columns)
+            {
+                DataGridViewColumn column = (DataGridViewColumn)c;
+                if (column != null)
+                {
+                    column.Visible = column.Index <= maxVisibleColumn;
+
+                    if (column.Visible)
+                    {
+                        if ((column.Index > 3) && (column.Index % 2 == 1))
+                        {
+                            int osakilpailu = SarakeOsakilpailuksi(column.Index);
+                            if (osakilpailu >= 0)
+                            {
+                                column.HeaderText = string.Format("{0}.{1}",
+                                    this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Day,
+                                    this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Month);
+                            }
+                        }
+                    }
+                }
+            }
 
             this.rankingPelaajaTietueBindingSource.ResumeBinding();
             this.rankingDataGridView.ResumeLayout();
@@ -2941,14 +2950,124 @@ namespace KaisaKaavio
 
         private void rankingDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (e.ColumnIndex == 3)
+            {
+                int kisoja = 0;
 
+                Ranking.RankingPelaajaTietue pelaaja = (Ranking.RankingPelaajaTietue)this.rankingDataGridView.Rows[e.RowIndex].DataBoundItem;
+                if (pelaaja != null)
+                {
+                    if (this.ranking.ValittuSarja != null)
+                    {
+                        kisoja = this.ranking.ValittuSarja.Osakilpailut.Count(x => x.Osallistujat.Any(y => string.Equals(y.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase)));
+                    }
+                }
+
+                e.Value = kisoja > 0 ? kisoja.ToString() : string.Empty;
+                e.FormattingApplied = true;
+                return;
+            }
+
+            if (e.ColumnIndex > 3)
+            {
+                int osakilpailu = SarakeOsakilpailuksi(e.ColumnIndex);
+                if (osakilpailu >= 0 && e.RowIndex >= 0)
+                {
+                    try
+                    {
+                        bool valittuKilpailu =
+                            this.ranking.ValittuOsakilpailu != null &&
+                            this.ranking.ValittuOsakilpailu.KilpailunNumero == osakilpailu;
+
+                        Ranking.RankingOsakilpailu kilpailu = this.ranking.ValittuSarja.Osakilpailut[osakilpailu];
+                        if (kilpailu != null)
+                        {
+                            Ranking.RankingPelaajaTietue pelaaja = (Ranking.RankingPelaajaTietue)this.rankingDataGridView.Rows[e.RowIndex].DataBoundItem;
+                            if (pelaaja != null)
+                            {
+                                var tietue = kilpailu.Osallistujat
+                                    .FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
+
+                                if (tietue != null)
+                                {
+                                    e.CellStyle.BackColor = valittuKilpailu ? Color.LightBlue : Color.White;
+
+                                    if (e.ColumnIndex % 2 == 0)
+                                    {
+                                        e.Value = tietue.Sijoitus > 0 ? tietue.Sijoitus.ToString() : string.Empty;
+                                        e.FormattingApplied = true;
+                                        e.CellStyle.Font = this.ohutPieniFontti;
+                                        e.CellStyle.ForeColor = Color.DarkGray;
+                                    }
+                                    else
+                                    {
+                                        e.Value = tietue.RankingPisteet > 0 ? tietue.RankingPisteet.ToString() : string.Empty;
+                                        e.FormattingApplied = true;
+                                        e.CellStyle.Font = this.paksuFontti;
+                                        e.CellStyle.ForeColor = Color.Blue;
+                                    }
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        int ii = 0;
+                    }
+                }
+
+                e.CellStyle.BackColor = Color.DarkGray;
+                e.CellStyle.ForeColor = Color.DarkGray;
+                e.CellStyle.Font = this.ohutFontti;
+
+                e.Value = string.Empty;
+                e.FormattingApplied = true;
+            }
+        }
+
+        private int SarakeOsakilpailuksi(int sarake)
+        {
+            if (this.ranking.ValitutOsakilpailut != null && sarake > 3)
+            {
+                int osakilpailu = (sarake - 4) / 2;
+                if (osakilpailu >= 0 && osakilpailu < this.ranking.ValitutOsakilpailut.Count)
+                {
+                    return this.ranking.ValitutOsakilpailut.Count - 1 - osakilpailu;
+                }
+            }
+
+            return -1;
         }
 
         private void rankingDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            /*
+            int osakilpailu = SarakeOsakilpailuksi(e.ColumnIndex);
+            if (osakilpailu >= 0 && this.ranking.ValittuOsakilpailu != null)
+            {
+                if (osakilpailu == this.ranking.ValittuOsakilpailu.KilpailunNumero)
+                {
+                    e.CellStyle.BackColor = Color.LightBlue;
+                }
+                else
+                {
+                    e.CellStyle.BackColor = Color.White;
+                }
+            }
+            else
+            {
+                e.CellStyle.BackColor = Color.White;
+            }
+             */
+        }
+
+        private void rankingDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
 
         }
 
         #endregion
+
     }
 }
