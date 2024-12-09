@@ -1087,25 +1087,25 @@ namespace KaisaKaavio
                 }
             }
 
-            int hakuKierros = viimeinenPelattuKierros + 1;
+            int hakuKierros = Math.Max(3, viimeinenPelattuKierros + 1);
 
 #if DEBUG
             Debug.WriteLine("=======================( H A K U )=============================");
 #endif
 
             // Hae 2 ekaa kierrosta
-            if (viimeinenPelattuKierros < 1)
-            {
+//            if (viimeinenPelattuKierros < 1)
+//            {
 #if DEBUG
-                Debug.WriteLine("Alkukierrokset kesken. Lykätään hakua");
+//                Debug.WriteLine("Alkukierrokset kesken. Lykätään hakua");
 #endif
-            }
+//            }
 
             // Käynnissä oleva kierros on hyvällä mallilla, hae pelejä seuraavalle kierrokselle
-            else if (KierrosTaynna(hakuKierros))
+            if (KierrosTaynna(hakuKierros))
             {
                 if (Pelit.Count(x =>
-                      x.Kierros == hakuKierros &&
+                      x.Kierros <= hakuKierros &&
                       x.Tilanne != PelinTilanne.Pelattu) <= Asetukset.PelejaEnintaanKeskenHaettaessa)
                 {
 #if DEBUG
@@ -1124,10 +1124,26 @@ namespace KaisaKaavio
             // Hae lisää pelejä käynnissä olevalle vajaalle kierrokselle
             else
             {
+                if (Pelit.Count(x =>
+                      x.Kierros < hakuKierros &&
+                      x.Tilanne != PelinTilanne.Pelattu) <= Asetukset.PelejaEnintaanKeskenHaettaessa)
+                {
 #if DEBUG
-                Debug.WriteLine("Haetaan lisää pelejä käynnissä olevalle kierrokselle {0}", hakuKierros);
+                    Debug.WriteLine("Haetaan pelejä käynnissä olevalle kierrokselle {0}", hakuKierros);
 #endif
-                return Haku(hakuKierros, status);
+                    return Haku(hakuKierros, status);
+                }
+                else
+                {
+#if DEBUG
+                    Debug.WriteLine("Liikaa pelejä kesken kierroksella {0}. Lykätään hakua", hakuKierros);
+#endif
+                }
+
+//#if DEBUG
+ //               Debug.WriteLine("Haetaan lisää pelejä käynnissä olevalle kierrokselle {0}", hakuKierros);
+//#endif
+//                return Haku(hakuKierros, status);
             }
 
             return null;

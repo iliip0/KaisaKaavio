@@ -136,7 +136,11 @@ namespace KaisaKaavio
                     {
                         PelitKesken.Add(p);
                     }
-                    else
+                    else if ((this.Kierros == 3) && !peli.Tyhja()) // Salli 3.kierroksen haku vaikka 1.kierros olisi kesken
+                    {
+                        PelitKesken.Add(p);
+                    }
+                    else if (this.Kierros > 3)
                     {
                         throw new Exception(string.Format("BUGI!!! HakuAlgoritmissä odottamaton tyhjä tai aiemman kierroksen keskeneräinen peli {0}", peli.Kuvaus()));
                     }

@@ -14,14 +14,24 @@ namespace KaisaKaavio.Testaus
     {
         public string Kansio { get; private set; }
 
-        private Loki loki = null;
         private IStatusRivi status = null;
+        private string virheKansio = string.Empty;
 
-        public TestiAjo(string kansio, Loki loki, IStatusRivi status)
+        public TestiAjo(string kansio, IStatusRivi status)
         {
             this.Kansio = kansio;
-            this.loki = loki;
             this.status = status;
+            this.virheKansio = Path.Combine(
+                Path.GetTempPath(), 
+                "KaisaKaavioTestit", 
+                string.Format("{0}_{1}_{2}_{3}_{4}",
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    DateTime.Now.Hour,
+                    DateTime.Now.Minute));
+
+            Directory.CreateDirectory(this.virheKansio);
         }
 
         public int Aja()
@@ -38,7 +48,11 @@ namespace KaisaKaavio.Testaus
             {
                 Kilpailu testiKilpailu = new Kilpailu();
 
-                testiKilpailu.Loki = this.loki;
+                string kansio = Path.Combine(this.virheKansio, tiedosto.Name);
+                Directory.CreateDirectory(kansio);
+
+                Loki loki = new Loki(kansio);
+                testiKilpailu.Loki = loki;
                 testiKilpailu.Avaa(tiedosto.FullName);
 
                 TestiKilpailu testi = new TestiKilpailu(loki, testiKilpailu);
@@ -49,6 +63,16 @@ namespace KaisaKaavio.Testaus
                 }
                 catch (Exception ee)
                 {
+                    // Tallenna testikaavio tutkimuksia varten
+                    try
+                    {
+                        testi.OikeaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + ".xml"));
+                        testi.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + "_VIRHE.xml"));
+                    }
+                    catch
+                    { 
+                    }
+
                     throw new Exception(string.Format("{0} - {1}", testiKilpailu.Nimi, ee.Message));
                 }
 

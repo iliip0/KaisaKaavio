@@ -2807,7 +2807,7 @@ namespace KaisaKaavio
                     return;
                 }
 
-                Testaus.TestiAjo testi = new Testaus.TestiAjo(testiKansio, this.loki, this);
+                Testaus.TestiAjo testi = new Testaus.TestiAjo(testiKansio, this);
 
                 int testattu = testi.Aja();
 
