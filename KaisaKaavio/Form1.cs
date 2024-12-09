@@ -2787,43 +2787,75 @@ namespace KaisaKaavio
 
         private void pelaaTestikaaviotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
+            using (var popup = new Testaus.TestiPopup())
             {
-                DirectoryInfo kansio = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-                var juuri = kansio.Parent.Parent;
-                var testiKansio = Path.Combine(juuri.FullName, "TestiData");
-                if (!Directory.Exists(testiKansio))
+                if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    this.folderBrowserDialog1.SelectedPath = juuri.FullName;
-                    if (this.folderBrowserDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                    try
                     {
-                        return;
+                        DirectoryInfo kansio = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                        var juuri = kansio.Parent.Parent;
+                        var testiKansio = Path.Combine(juuri.FullName, "TestiData");
+                        if (!Directory.Exists(testiKansio))
+                        {
+                            this.folderBrowserDialog1.SelectedPath = juuri.FullName;
+                            if (this.folderBrowserDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                            {
+                                return;
+                            }
+                            testiKansio = this.folderBrowserDialog1.SelectedPath;
+                        }
+
+                        if (!Directory.Exists(testiKansio))
+                        {
+                            return;
+                        }
+
+                        Testaus.TestiAjo testi = new Testaus.TestiAjo(
+                            testiKansio, 
+                            popup.PoytienMaara, 
+                            popup.SatunnainenPeliJarjestys, 
+                            this);
+
+                        if (testi.Aja())
+                        {
+                            MessageBox.Show(
+                                string.Format("Testi onnistui: {0} kaaviota pelattu oikein läpi", testi.OnnistuneitaTesteja),
+                                "Testi valmis",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                                {
+                                    FileName = testi.VirheKansio,
+                                    UseShellExecute = true,
+                                    Verb = "open"
+                                });
+                            }
+                            catch
+                            { 
+                            }
+
+                            MessageBox.Show(
+                                string.Format("Testi epäonnistui: {0} kaaviota pelattu virheellisesti", testi.EpaonnistuneitaTesteja),
+                                "Testi valmis",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                        }
                     }
-                    testiKansio = this.folderBrowserDialog1.SelectedPath;
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(
+                            string.Format("Testi epäonnistui: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace),
+                            "Virhe",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
-
-                if (!Directory.Exists(testiKansio))
-                {
-                    return;
-                }
-
-                Testaus.TestiAjo testi = new Testaus.TestiAjo(testiKansio, this);
-
-                int testattu = testi.Aja();
-
-                MessageBox.Show(
-                    string.Format("Testi onnistui: {0} kaaviota pelattu oikein läpi", testattu),
-                    "Testi valmis",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    string.Format("Testi epäonnistui: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace),
-                    "Virhe",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
             }
         }
 

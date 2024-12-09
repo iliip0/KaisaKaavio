@@ -893,30 +893,6 @@ namespace KaisaKaavio
             return i;
         }
 
-        private int MahdollisiaVastustajia(int pelaaja, IEnumerable<Pelaaja> pelaajat)
-        {
-            int i = 0;
-
-            foreach (var o in pelaajat.Where(x => x.Id != pelaaja))
-            {
-                if (!Pelit.Any(x => x.SisaltaaPelaajat(pelaaja, o.Id)))
-                {
-                    i++;
-                }
-            }
-
-            if (i == 1)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-
-            //return i;
-        }
-
         public void PoistaTyhjatOsallistujat()
         {
             while (true)
@@ -1057,8 +1033,6 @@ namespace KaisaKaavio
 
         public HakuAlgoritmi Haku(IStatusRivi status)
         {
-            //HaeAlkukierrokset();
-
             int kierros = 1;
             int pelejaKesken = 0;
             int vajaitaPeleja = 0;
@@ -1092,14 +1066,6 @@ namespace KaisaKaavio
 #if DEBUG
             Debug.WriteLine("=======================( H A K U )=============================");
 #endif
-
-            // Hae 2 ekaa kierrosta
-//            if (viimeinenPelattuKierros < 1)
-//            {
-#if DEBUG
-//                Debug.WriteLine("Alkukierrokset kesken. Lykätään hakua");
-#endif
-//            }
 
             // Käynnissä oleva kierros on hyvällä mallilla, hae pelejä seuraavalle kierrokselle
             if (KierrosTaynna(hakuKierros))
@@ -1139,11 +1105,6 @@ namespace KaisaKaavio
                     Debug.WriteLine("Liikaa pelejä kesken kierroksella {0}. Lykätään hakua", hakuKierros);
 #endif
                 }
-
-//#if DEBUG
- //               Debug.WriteLine("Haetaan lisää pelejä käynnissä olevalle kierrokselle {0}", hakuKierros);
-//#endif
-//                return Haku(hakuKierros, status);
             }
 
             return null;

@@ -16,14 +16,21 @@ namespace KaisaKaavio.Testaus
     {
         public Kilpailu OikeaKilpailu { get; private set; }
         public Kilpailu TestattavaKilpailu { get; private set; }
+        private int PoytienMaara = 1;
+        private bool SatunnainenPelienJarjestys = false;
+        private Random Arpa = null;
+
         private Loki loki = null;
 
-        public TestiKilpailu(Loki loki, Kilpailu oikeaKilpailu)
+        public TestiKilpailu(int poytienMaara, bool satunnainenPelienJarjestys, Loki loki, Kilpailu oikeaKilpailu)
         {
+            this.PoytienMaara = Math.Max(1, poytienMaara);
+            this.SatunnainenPelienJarjestys = satunnainenPelienJarjestys;
             this.loki = loki;
             this.OikeaKilpailu = oikeaKilpailu;
             this.TestattavaKilpailu = new Kilpailu();
             this.TestattavaKilpailu.Loki = loki;
+            this.Arpa = new Random();
 
             // Kopioidaan testauksen kannalta relevantit parametrit testattaavaan kilpailuun:
             this.TestattavaKilpailu.KaavioTyyppi = this.OikeaKilpailu.KaavioTyyppi;
@@ -102,7 +109,9 @@ namespace KaisaKaavio.Testaus
                 var haku = this.TestattavaKilpailu.Haku(null);
                 if (haku != null)
                 {
+                    haku.AutomaattinenTestausMenossa = true;
                     haku.Hae();
+
                     foreach (var peli in haku.UudetPelit)
                     {
                         this.TestattavaKilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
@@ -227,9 +236,63 @@ namespace KaisaKaavio.Testaus
             }
         }
 
+        private bool KaynnistaPeleja()
+        {
+            this.TestattavaKilpailu.PaivitaPelitValmiinaAlkamaan();
+
+            int kaynnissa = this.TestattavaKilpailu.Pelit.Count(x => x.Tilanne == PelinTilanne.Kaynnissa);
+            if (kaynnissa < this.PoytienMaara)
+            {
+                var valmiina = this.TestattavaKilpailu.Pelit.Where(x => x.Tilanne == PelinTilanne.ValmiinaAlkamaan);
+                if (valmiina.Count() > 0)
+                {
+                    Peli peli = null;
+
+                    if (this.SatunnainenPelienJarjestys && valmiina.Count() > 1)
+                    {
+                        peli = valmiina.ElementAt(this.Arpa.Next(valmiina.Count()));
+                    }
+                    else
+                    {
+                        peli = valmiina.First();
+                    }
+
+                    if (peli != null)
+                    {
+                        this.loki.Kirjoita(string.Format("Käynnistettiin {0}. kierroksen peli {1} - {2}", peli.Kierros, peli.Pelaaja1, peli.Pelaaja2));
+                        peli.Tilanne = PelinTilanne.Kaynnissa;
+                        peli.Pisteet1 = "0";
+                        peli.Pisteet2 = "0";
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private bool PelaaSeuraavaPeli()
         {
-            var peli = this.TestattavaKilpailu.Pelit.FirstOrDefault(x => x.Tilanne != PelinTilanne.Pelattu);
+            while (KaynnistaPeleja())
+            { 
+            }
+
+            Peli peli = null;
+
+            var kaynnissa = this.TestattavaKilpailu.Pelit.Where(x => x.Tilanne == PelinTilanne.Kaynnissa);
+            if (kaynnissa.Count() > 0)
+            {
+                if (this.SatunnainenPelienJarjestys && kaynnissa.Count() > 1)
+                {
+                    peli = kaynnissa.ElementAt(this.Arpa.Next(kaynnissa.Count()));
+                }
+                else 
+                {
+                    peli = kaynnissa.First();
+                }
+            }
+
             if (peli == null)
             {
                 if (this.TestattavaKilpailu.Pelit.Count() == this.OikeaKilpailu.Pelit.Count())
@@ -255,8 +318,6 @@ namespace KaisaKaavio.Testaus
                     peli.Pelaaja2));
             }
 
-            peli.Tilanne = PelinTilanne.ValmiinaAlkamaan;
-
             peli.Pisteet1 = oikeaPeli.Pisteet1;
             peli.Pisteet2 = oikeaPeli.Pisteet2;
 
@@ -267,6 +328,9 @@ namespace KaisaKaavio.Testaus
                     peli.Pelaaja1,
                     peli.Pelaaja2));
             }
+
+            this.loki.Kirjoita(string.Format("Pelattu {0}. kierroksen peli {1} - {2} ({3})", 
+                peli.Kierros, peli.Pelaaja1, peli.Pelaaja2, peli.Tulos));
 
             return true;
         }

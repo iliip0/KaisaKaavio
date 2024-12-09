@@ -92,6 +92,8 @@ namespace KaisaKaavio
         int EkaPudariKierros = 0;
         bool HakuKesken = true;
 
+        public bool AutomaattinenTestausMenossa = false;
+
         public HakuAlgoritmi(Kilpailu kilpailu, Loki loki, int kierros, IStatusRivi status)
         {
             this.status = status;
@@ -132,17 +134,9 @@ namespace KaisaKaavio
                     {
                         Pelatut.Add(p);
                     }
-                    else if ((peli.Kierros == this.Kierros - 1) && !peli.Tyhja())
+                    else
                     {
                         PelitKesken.Add(p);
-                    }
-                    else if ((this.Kierros == 3) && !peli.Tyhja()) // Salli 3.kierroksen haku vaikka 1.kierros olisi kesken
-                    {
-                        PelitKesken.Add(p);
-                    }
-                    else if (this.Kierros > 3)
-                    {
-                        throw new Exception(string.Format("BUGI!!! HakuAlgoritmissä odottamaton tyhjä tai aiemman kierroksen keskeneräinen peli {0}", peli.Kuvaus()));
                     }
                 }
                 else if ((peli.Kierros == this.Kierros) && !peli.Tyhja())
@@ -183,6 +177,16 @@ namespace KaisaKaavio
             }
         }
 
+        private void DebugViesti(string viesti, params object[] parametrit)
+        { 
+#if DEBUG
+            if (!this.AutomaattinenTestausMenossa)
+            {
+                Debug.WriteLine(string.Format(viesti, parametrit));
+            }
+#endif
+        }
+
         /// <summary>
         /// Hakee kaikki mahdolliset kaaviot nykytilanteesta eteenpäin,
         /// ja laskee sellaiset uudet pelit jotka tapahtuvat kaikissa skenaarioissa
@@ -195,30 +199,30 @@ namespace KaisaKaavio
                 PaivitaStatusRivi("Haetaan pelejä...", 10);
 
                 this.HakuKesken = true;
+
 #if DEBUG
-                Debug.WriteLine("=======================================================================================================================");
-                Debug.WriteLine("Tilanne ennen hakua:");
+                DebugViesti("=======================================================================================================================");
+                DebugViesti("Tilanne ennen hakua:");
+
                 foreach (var pp in Pelatut)
                 {
-                    Debug.WriteLine("Pelattu {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
+                    DebugViesti("Pelattu {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
                 }
 
                 foreach (var pp in PelitKesken)
                 {
-                    Debug.WriteLine("Kesken {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
+                    DebugViesti("Kesken {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
                 }
 
                 foreach (var pp in JoArvotutPelit)
                 {
-                    Debug.WriteLine("Arvottu jo {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
+                    DebugViesti("Arvottu jo {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
                 }
 #endif
-                int maxPermutations = (int)Math.Pow((double)PelitKesken.Count, 2.0);
+                int maxPermutations = (int)Math.Pow(2.0, (double)PelitKesken.Count);
                 if (maxPermutations == 0)
                 {
-#if DEBUG
-                    Debug.WriteLine("Haetaan pelejä:");
-#endif
+                    DebugViesti("Haetaan pelejä:");
                     PaivitaStatusRivi("Haetaan pelejä... skenaario 1/1", 50);
 
                     List<HakuPeli> pelatutPelit = new List<HakuPeli>();
@@ -235,14 +239,10 @@ namespace KaisaKaavio
                 }
                 else
                 {
-#if DEBUG
-                    Debug.WriteLine("Haetaan pelejä: {0} keskeneräistä peliä, {1} erilaista skenaariota",
-                        PelitKesken.Count,
-                        maxPermutations + 1);
-#endif
+                    DebugViesti("Haetaan pelejä: {0} keskeneräistä peliä, {1} erilaista skenaariota", PelitKesken.Count, maxPermutations);
 
                     // Tämä käy läpi kaikki mahdolliset skenaariot kesken olevien pelien lopputuloksista
-                    for (int permutation = 0; permutation <= maxPermutations; ++permutation)
+                    for (int permutation = 0; permutation < maxPermutations; ++permutation)
                     {
                         if (PeruutaHaku)
                         {
@@ -250,7 +250,7 @@ namespace KaisaKaavio
                         }
 
                         PaivitaStatusRivi(
-                            string.Format("Haetaan pelejä... skenaario {0}/{1}", permutation, maxPermutations), 
+                            string.Format("Haetaan pelejä... skenaario {0}/{1}", permutation + 1, maxPermutations + 1), 
                             10 + (int)(((float)permutation / (float)maxPermutations) * 90.0f));
 
 #if DEBUG
@@ -285,7 +285,7 @@ namespace KaisaKaavio
                         }
 
 #if DEBUG
-                        Debug.WriteLine(voittajat);
+                        DebugViesti(voittajat);
 #endif
                         HakuTulos hakutulos = new HakuTulos();
 
@@ -343,12 +343,15 @@ namespace KaisaKaavio
             else
             {
 #if DEBUG
-                Debug.WriteLine(string.Format("Mahdolliset hakutulokset:"));
-
-                foreach (var tulos in Hakutulokset)
+                if (!this.AutomaattinenTestausMenossa)
                 {
-                    Debug.WriteLine(string.Format(" -{0}", string.Join(",",
-                        tulos.PeliParit.Select(x => string.Format("{0}-{1}", x.Pelaaja1.Nimi, x.Pelaaja2.Nimi)).ToArray())));
+                    DebugViesti("Mahdolliset hakutulokset:");
+
+                    foreach (var tulos in Hakutulokset)
+                    {
+                        DebugViesti(" -{0}", string.Join(",",
+                            tulos.PeliParit.Select(x => string.Format("{0}-{1}", x.Pelaaja1.Nimi, x.Pelaaja2.Nimi)).ToArray()));
+                    }
                 }
 #endif
                 List<HakuAlgoritmi.Pelaajat> kaikkiPeliparit = new List<HakuAlgoritmi.Pelaajat>();
@@ -422,14 +425,15 @@ namespace KaisaKaavio
 
             if (mukana.Count() < 2)
             {
-#if DEBUG
-                Debug.WriteLine("Mukana alle 2 pelaajaa. Haku on päättynyt");
-#endif
+                DebugViesti("Mukana alle 2 pelaajaa. Haku on päättynyt");
                 return false;
             }
 
 #if DEBUG
-            Debug.WriteLine(string.Format("Mukana : {0}", string.Join(",", mukana.Select(x => x.Nimi).ToArray())));
+            if (!this.AutomaattinenTestausMenossa)
+            {
+                Debug.WriteLine(string.Format("Mukana : {0}", string.Join(",", mukana.Select(x => x.Nimi).ToArray())));
+            }
 #endif
 
             List<Pelaaja> pelaajat = new List<Pelaaja>();
@@ -463,9 +467,7 @@ namespace KaisaKaavio
                     if (peli.KierrosPelaaja1 < peli.Kierros ||
                         peli.KierrosPelaaja2 < peli.Kierros)
                     {
-#if DEBUG
-                        Debug.WriteLine("Haettiin peli jossa toinen pelaaja on kierroksen perässä. Haku keskeytetään tältä erää");
-#endif
+                        DebugViesti("Haettiin peli jossa toinen pelaaja on kierroksen perässä. Haku keskeytetään tältä erää");
                         this.UusiHakuTarvitaan = true;
                         break; // Keskeytetään tämänkertainen haku heti jos haettiin peli jossa toinen pelaaja on kierroksen perässä (yksinkertaistaa hakua)
                                // Tässä tilanteessa uusi haku käynnistyy automaattisesti perään
@@ -492,9 +494,9 @@ namespace KaisaKaavio
             if (hakijat.Count() < 2)
             {
 #if DEBUG
-                if (hakijat.Count() == 1)
+                if (!this.AutomaattinenTestausMenossa && hakijat.Count() == 1)
                 {
-                    Debug.WriteLine(string.Format(" -{0} huilaa", hakijat.First().Nimi));
+                    DebugViesti(" -{0} huilaa", hakijat.First().Nimi);
                 }
 #endif
                 return null;
@@ -504,9 +506,7 @@ namespace KaisaKaavio
 
             if (!VarmastiMukana(pelatutPelit, arvotutPelit, hakija.Id))
             {
-#if DEBUG
-                Debug.WriteLine(string.Format(" -Hakija {0} ei välttämättä mukana. Pysäytetään haku", hakija.Nimi));
-#endif
+                DebugViesti(" -Hakija {0} ei välttämättä mukana. Pysäytetään haku", hakija.Nimi);
                 return null;
             }
 
@@ -515,10 +515,13 @@ namespace KaisaKaavio
                 .OrderBy(x => LaskeKeskenaisetPelit(kaikkiPelit, hakija.Id, x.Id));
 
 #if DEBUG
-            Debug.WriteLine(string.Format(" -{0} hakee {1}",
-                string.Format("{0}[{1}]", hakija.Nimi, LaskePelit(pelatutPelit, arvotutPelit, hakija.Id)),
-                string.Join(",", vastustajat.Select(x =>
-                    string.Format("{0}[{1}]", x.Nimi, LaskePelit(pelatutPelit, arvotutPelit, x.Id))).ToArray())));
+            if (!this.AutomaattinenTestausMenossa)
+            {
+                Debug.WriteLine(string.Format(" -{0} hakee {1}",
+                    string.Format("{0}[{1}]", hakija.Nimi, LaskePelit(pelatutPelit, arvotutPelit, hakija.Id)),
+                    string.Join(",", vastustajat.Select(x =>
+                        string.Format("{0}[{1}]", x.Nimi, LaskePelit(pelatutPelit, arvotutPelit, x.Id))).ToArray())));
+            }
 #endif
 
             Pelaaja vastustaja = null;
@@ -541,17 +544,13 @@ namespace KaisaKaavio
             if (vastustaja == null) 
             {
                 // Jos tähän on tultu, kaikilla hakujärestyksillä tulee uusintapelejä (toivottavasti ollaan finaalissa, muuten kaaviossa on tapahtunut hakuvirhe)
-#if DEBUG
-                Debug.WriteLine("Kaikki haut olivat huonoja. Haetaan ensimmäinen vastustaja listalta");
-#endif
+                DebugViesti("Kaikki haut olivat huonoja. Haetaan ensimmäinen vastustaja listalta");
                 vastustaja = vastustajat.First();
             }
 
             if (!VarmastiMukana(pelatutPelit, arvotutPelit, vastustaja.Id))
             {
-#if DEBUG
-                Debug.WriteLine(string.Format(" -Vastustaja {0} ei välttämättä mukana. Pysäytetään haku", vastustaja.Nimi));
-#endif
+                DebugViesti(" -Vastustaja {0} ei välttämättä mukana. Pysäytetään haku", vastustaja.Nimi);
                 return null;
             }
 
@@ -562,9 +561,7 @@ namespace KaisaKaavio
         {
             if (LaskeKeskenaisetPelit(kaikkiPelit, hakija.Id, vastustaja.Id) > 0)
             {
-#if DEBUG
-                Debug.WriteLine(string.Format( "---- Uusintaottelu {0} - {1}", hakija.Nimi, vastustaja.Nimi));
-#endif
+                DebugViesti("---- Uusintaottelu {0} - {1}", hakija.Nimi, vastustaja.Nimi);
                 return false;
             }
 
@@ -593,10 +590,7 @@ namespace KaisaKaavio
                 }
             }
 
-#if DEBUG
-            Debug.WriteLine(string.Format("---- Haku ei onnistu haun {0} - {1} jälkeen", hakija.Nimi, vastustaja.Nimi));
-#endif
-
+            DebugViesti("---- Haku ei onnistu haun {0} - {1} jälkeen", hakija.Nimi, vastustaja.Nimi);
             return false;
         }
 
@@ -618,9 +612,7 @@ namespace KaisaKaavio
                 Tilanne = PelinTilanne.Tyhja,
             };
 
-#if DEBUG
-            Debug.WriteLine(" [{0}] : {1} - {2}", peli.Kierros, pelaaja1.Nimi, pelaaja2.Nimi);
-#endif
+            DebugViesti(" [{0}] : {1} - {2}", peli.Kierros, pelaaja1.Nimi, pelaaja2.Nimi);
 
             return peli;
         }
@@ -646,42 +638,6 @@ namespace KaisaKaavio
         {
             return pelit.Count(x => x.SisaltaaPelaajat(pelaaja1, pelaaja2));
         }
-
-        /*
-        private int LaskeKeskenaisetPelitKierroksenPelaajiaVastaan(List<HakuPeli> pelit, IEnumerable<Pelaaja> pelaajat, int pelaaja)
-        {
-            var vastustajat = pelaajat.Where(x => x.Id != pelaaja);
-            int peleja = 0;
-            int vastustajia = vastustajat.Count();
-
-            foreach (var vastustaja in vastustajat)
-            {
-                if (pelit.Any(x => x.SisaltaaPelaajat(pelaaja, vastustaja.Id)))
-                {
-                    peleja++;
-                }
-            }
-
-            // Jos pelaaja on pelannut jo kaikkia vastustajia vastaan, ei ole syytä priorisoida pelaajan hakuvuoroa (kaavio on jo pielessä tai 
-            // pelataan finaalia)
-            if (peleja == vastustajia)
-            {
-                return 0;
-            }
-            else if (peleja == (vastustajia - 1))
-            {
-                return 1;
-            }
-            //else if (peleja == vastustajia - 2)
-            //{
-            //    return 1;
-            //}
-
-            // Tämä hakukriteeri käytössä vain kun jollain pelaajalla on ainoastaan 1 mahdollinen vastustaja kierroksella.
-            // Muuten tämä hidastaisi hakua liikaa
-            return 0;
-        }
-         */
 
         private bool Mukana(List<HakuPeli> pelatutPelit, List<HakuPeli> arvotutPelit, int pelaaja)
         {
@@ -782,31 +738,6 @@ namespace KaisaKaavio
             return 
                 pelatutPelit.Count(x => x.Kierros <= this.Kierros && x.SisaltaaPelaajan(pelaaja)) +
                 arvotutPelit.Count(x => x.Kierros <= this.Kierros && x.SisaltaaPelaajan(pelaaja));
-        }
-
-        private int KeskenaisiaPeleja(int pelaaja, IEnumerable<int> pelaajat, List<HakuPeli> pelit)
-        {
-            int result = 0;
-
-            var omatPelit = pelit.Where(x => x.SisaltaaPelaajan(pelaaja));
-
-            foreach (var o in pelaajat.Where(x => x != pelaaja))
-            {
-                if (omatPelit.Any(x => x.SisaltaaPelaajan(o)))
-                {
-                    result++;
-                }
-            }
-
-            if (result == pelaajat.Count() - 1)
-            {
-#if DEBUG
-                Debug.WriteLine("Pelaaja {0} pelannut kaikkia muita vastaan. Hakee viimeiseksi", pelaaja);
-#endif
-                return -1;
-            }
-
-            return result;
         }
     }
 }

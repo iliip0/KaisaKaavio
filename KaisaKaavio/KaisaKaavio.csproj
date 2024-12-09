@@ -123,6 +123,12 @@
     <Compile Include="Sali.cs" />
     <Compile Include="Testaus\TestiAjo.cs" />
     <Compile Include="Testaus\TestiKilpailu.cs" />
+    <Compile Include="Testaus\TestiPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Testaus\TestiPopup.Designer.cs">
+      <DependentUpon>TestiPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="UusiKilpailuPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </Compile>
     <EmbeddedResource Include="Ranking\RankingPisteytysPopup.resx">
       <DependentUpon>RankingPisteytysPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testaus\TestiPopup.resx">
+      <DependentUpon>TestiPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UusiKilpailuPopup.resx">
       <DependentUpon>UusiKilpailuPopup.cs</DependentUpon>

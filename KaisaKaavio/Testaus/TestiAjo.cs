@@ -13,15 +13,25 @@ namespace KaisaKaavio.Testaus
     public class TestiAjo
     {
         public string Kansio { get; private set; }
+        public int PoytienMaara { get; private set; }
+        public bool SatunnainenPelienJarjestys { get; private set; }
+        public int OnnistuneitaTesteja { get; private set; }
+        public int EpaonnistuneitaTesteja { get; private set; }
+        public string VirheKansio { get; private set; }
 
         private IStatusRivi status = null;
-        private string virheKansio = string.Empty;
 
-        public TestiAjo(string kansio, IStatusRivi status)
+        public TestiAjo(string kansio, int poytienMaara, bool satunnainenPelienJarjestys, IStatusRivi status)
         {
+            this.PoytienMaara = poytienMaara;
+            this.SatunnainenPelienJarjestys = satunnainenPelienJarjestys;
             this.Kansio = kansio;
+            this.OnnistuneitaTesteja = 0;
+            this.EpaonnistuneitaTesteja = 0;
+
             this.status = status;
-            this.virheKansio = Path.Combine(
+
+            this.VirheKansio = Path.Combine(
                 Path.GetTempPath(), 
                 "KaisaKaavioTestit", 
                 string.Format("{0}_{1}_{2}_{3}_{4}",
@@ -31,13 +41,11 @@ namespace KaisaKaavio.Testaus
                     DateTime.Now.Hour,
                     DateTime.Now.Minute));
 
-            Directory.CreateDirectory(this.virheKansio);
+            Directory.CreateDirectory(this.VirheKansio);
         }
 
-        public int Aja()
+        public bool Aja()
         {
-            int onnistuneitaTesteja = 0;
-
             DirectoryInfo dir = new DirectoryInfo(this.Kansio);
 
             var tiedostot = dir.EnumerateFiles("*.xml", SearchOption.TopDirectoryOnly);
@@ -48,40 +56,48 @@ namespace KaisaKaavio.Testaus
             {
                 Kilpailu testiKilpailu = new Kilpailu();
 
-                string kansio = Path.Combine(this.virheKansio, tiedosto.Name);
+                string kansio = Path.Combine(this.VirheKansio, tiedosto.Name);
                 Directory.CreateDirectory(kansio);
 
                 Loki loki = new Loki(kansio);
                 testiKilpailu.Loki = loki;
                 testiKilpailu.Avaa(tiedosto.FullName);
 
-                TestiKilpailu testi = new TestiKilpailu(loki, testiKilpailu);
+                TestiKilpailu testi = new TestiKilpailu(this.PoytienMaara, this.SatunnainenPelienJarjestys, loki, testiKilpailu);
 
                 try
                 {
                     testi.PelaaKilpailu(this.status, i * 3, tiedostot.Count() * 3);
+                    this.OnnistuneitaTesteja++;
                 }
                 catch (Exception ee)
                 {
-                    // Tallenna testikaavio tutkimuksia varten
+                    this.EpaonnistuneitaTesteja++;
+
+                    // Tallenna epäonnistuneen ajon testikaavio tutkimuksia varten
                     try
                     {
+                        loki.Kirjoita(string.Format("Testi {0} epäonnistui: {1}", testiKilpailu.Nimi, ee.Message), ee, false);
+
                         testi.OikeaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + ".xml"));
                         testi.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + "_VIRHE.xml"));
                     }
                     catch
                     { 
                     }
-
-                    throw new Exception(string.Format("{0} - {1}", testiKilpailu.Nimi, ee.Message));
                 }
-
-                onnistuneitaTesteja++;
             }
 
-            this.status.PaivitaStatusRivi(string.Format("Testi onnistui. {0} kisaa pelattu oikein läpi", onnistuneitaTesteja), true, 100, 100);
+            if (this.EpaonnistuneitaTesteja == 0)
+            {
+                this.status.PaivitaStatusRivi(string.Format("Testi onnistui. {0} kisaa pelattu oikein läpi", this.OnnistuneitaTesteja), true, 100, 100);
+            }
+            else
+            {
+                this.status.PaivitaStatusRivi(string.Format("Testi epäonnistui. {0} kisaa pelattu virheellisesti", this.EpaonnistuneitaTesteja), true, 100, 100);
+            }
 
-            return onnistuneitaTesteja;
+            return this.EpaonnistuneitaTesteja == 0;
         }
     }
 }
