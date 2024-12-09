@@ -89,7 +89,12 @@ namespace KaisaKaavio.Ranking
 
             if (this.RankingPisteet > 0)
             {
-                s.Append(string.Format("={0}", this.RankingPisteet));
+                if (s.ToString().Contains("+") ||
+                    s.ToString().Contains("x") ||
+                    s.ToString().Contains("X"))
+                {
+                    s.Append(string.Format("={0}", this.RankingPisteet));
+                }
             }
 
             this.RankingPisteString = s.ToString();

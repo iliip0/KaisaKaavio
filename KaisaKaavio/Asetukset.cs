@@ -140,6 +140,15 @@ namespace KaisaKaavio
                     {
                         if (!string.IsNullOrEmpty(pelaaja.Nimi))
                         {
+                            string nimi = pelaaja.Nimi
+                                .Replace("(3p)", string.Empty)
+                                .Replace("(3P)", string.Empty)
+                                .Replace("(2p)", string.Empty)
+                                .Replace("(2P)", string.Empty)
+                                .Replace("(1p)", string.Empty)
+                                .Replace("(1P)", string.Empty)
+                                .Trim();
+
                             this.Pelaajat.Add(pelaaja);
                         }
                     }

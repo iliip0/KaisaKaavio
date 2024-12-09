@@ -131,7 +131,7 @@ namespace KaisaKaavio
             KellonAika = "18:00";
             Yksipaivainen = true;
 
-            RankingKisa = true;
+            RankingKisa = false;
             RankingKisaTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
 
             OsallistumisMaksu = "10€";
@@ -1612,6 +1612,18 @@ namespace KaisaKaavio
             else
             {
                 return string.Format("{0}.{1}.{2} klo:{3}", this.AlkamisAika.Day, this.AlkamisAika.Month, this.AlkamisAika.Year, this.KellonAika);
+            }
+        }
+
+        public int RankingSarjanNumero()
+        {
+            switch (this.RankingKisaTyyppi)
+            {
+                case Ranking.RankingSarjanPituus.Kuukausi: return this.AlkamisAika.Month;
+                case Ranking.RankingSarjanPituus.Vuodenaika: return (this.AlkamisAika.Month - 1) / 3;
+                case Ranking.RankingSarjanPituus.Puolivuotta: return (this.AlkamisAika.Month - 1) / 6;
+                case Ranking.RankingSarjanPituus.Vuosi: return 0;
+                default: return 0;
             }
         }
     }

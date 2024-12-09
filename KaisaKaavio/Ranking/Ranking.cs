@@ -385,6 +385,8 @@ namespace KaisaKaavio.Ranking
                 try
                 {
                     RankingSarja sarja = new RankingSarja();
+                    sarja.Laji = this.asetukset.Laji;
+
                     sarja.Avaa(this.Loki, sarjaTiedosto);
                     sarja.PaivitaTilanne();
                     sarjat.Add(sarja);
@@ -396,6 +398,24 @@ namespace KaisaKaavio.Ranking
             }
 
             return sarjat;
+        }
+
+        public RankingOsakilpailu AvaaKilpailu(Kilpailu kilpailu)
+        {
+            if (kilpailu.RankingKisa)
+            {
+                var sarjat = AvaaSarjat(kilpailu.AlkamisAika.Year, kilpailu.RankingKisaTyyppi);
+                if (sarjat != null)
+                {
+                    var sarja = sarjat.FirstOrDefault(x => x.SarjanNumero == kilpailu.RankingSarjanNumero());
+                    if (sarja != null)
+                    {
+                        return sarja.Osakilpailut.FirstOrDefault(x => string.Equals(x.Nimi, kilpailu.Nimi));
+                    }
+                }
+            }
+
+            return null;
         }
 
         public void TallennaAvatutSarjat()
@@ -493,6 +513,7 @@ namespace KaisaKaavio.Ranking
                 {
                     Pituus = RankingSarjanPituus.Kuukausi,
                     SarjanNumero = kuu,
+                    Laji = this.asetukset.Laji
                 };
 
                 switch (kuu)
@@ -529,6 +550,7 @@ namespace KaisaKaavio.Ranking
                 {
                     Pituus = RankingSarjanPituus.Vuodenaika,
                     SarjanNumero = kvartaali,
+                    Laji = this.asetukset.Laji
                 };
 
                 switch (kvartaali)
@@ -558,6 +580,7 @@ namespace KaisaKaavio.Ranking
                     Nimi = puolVuosi == 0 ? "Kevät" : "Syksy",
                     Pituus = RankingSarjanPituus.Puolivuotta,
                     SarjanNumero = puolVuosi,
+                    Laji = this.asetukset.Laji
                 };
 
                 sarjat6kk.Add(sarja6kk);
@@ -577,6 +600,7 @@ namespace KaisaKaavio.Ranking
                     Nimi = "VuosiRanking",
                     Pituus = RankingSarjanPituus.Vuosi,
                     SarjanNumero = 0,
+                    Laji = this.asetukset.Laji
                 };
                 vuosiSarjat.Add(vuosiSarja);
             }
@@ -612,10 +636,8 @@ namespace KaisaKaavio.Ranking
             return null;
         }
 
-        public bool HaeNykyinenRankingSijoitus(RankingSarjanPituus pituus, string pelaaja, out int sijoitus)
+        public bool HaeNykyinenRankingSijoitus(DateTime aika, RankingSarjanPituus pituus, string pelaaja, out int sijoitus)
         {
-            DateTime aika = DateTime.Now;
-
             var ranking = AvaaSarja(pituus, aika);
 
             if (ranking == null)

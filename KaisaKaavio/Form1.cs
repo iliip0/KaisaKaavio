@@ -674,6 +674,8 @@ namespace KaisaKaavio
             {
                 this.kilpailu.PoistaTyhjatOsallistujat();
 
+                PaivitaPelaajienRankingPisteetOsallistujalistaan();
+
                 this.kilpailuBindingSource.ResetBindings(false);
                 this.pelaajaBindingSource.ResetBindings(false);
 
@@ -1113,6 +1115,8 @@ namespace KaisaKaavio
                     int i = 1;
                     foreach (var o in this.kilpailu.Osallistujat)
                     {
+                        PaivitaPelaajanRankingPisteetOsallistujalistaan(o);
+
                         if (!string.IsNullOrEmpty(o.Nimi))
                         {
                             o.IlmoittautumisNumero = i.ToString();
@@ -1165,20 +1169,7 @@ namespace KaisaKaavio
 
                     if (this.kilpailu.KilpailuOnViikkokisa && this.kilpailu.RankingKisa)
                     {
-                        pelaaja.Sijoitettu = string.Empty;
-
-                        if (!string.IsNullOrEmpty(pelaaja.Nimi))
-                        { 
-                            int sijoitus = 0;
-                            if (this.ranking.HaeNykyinenRankingSijoitus(this.kilpailu.RankingKisaTyyppi, pelaaja.Nimi, out sijoitus))
-                            {
-                                int pisteita = this.ranking.Asetukset.PisteitaVoitosta(sijoitus);
-                                if (pisteita > 1)
-                                {
-                                    pelaaja.Sijoitettu = string.Format("{0}P", pisteita);
-                                }
-                            }
-                        }
+                        PaivitaPelaajanRankingPisteetOsallistujalistaan(pelaaja);
                     }
 
                     PelaajaTietue tietue = this.asetukset.Pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
@@ -1198,6 +1189,43 @@ namespace KaisaKaavio
             }
             catch
             { 
+            }
+        }
+
+        private void PaivitaPelaajanRankingPisteetOsallistujalistaan(Pelaaja pelaaja)
+        {
+            try
+            {
+                pelaaja.Sijoitettu = string.Empty;
+
+                if (!string.IsNullOrEmpty(pelaaja.Nimi))
+                {
+                    int sijoitus = 0;
+                    if (this.ranking.HaeNykyinenRankingSijoitus(
+                        this.kilpailu.AlkamisAika,
+                        this.kilpailu.RankingKisaTyyppi, 
+                        pelaaja.Nimi, 
+                        out sijoitus))
+                    {
+                        int pisteita = this.ranking.Asetukset.PisteitaVoitosta(sijoitus);
+                        if (pisteita > 1)
+                        {
+                            pelaaja.Sijoitettu = string.Format("{0}P", pisteita);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                this.loki.Kirjoita(string.Format("Pelaajan {0} ranking pisteiden päivitys osallistujalistaan epäonnistui", pelaaja.Nimi), e, false);
+            }
+        }
+
+        private void PaivitaPelaajienRankingPisteetOsallistujalistaan()
+        {
+            foreach (var p in this.kilpailu.Osallistujat)
+            {
+                PaivitaPelaajanRankingPisteetOsallistujalistaan(p);
             }
         }
 
@@ -2806,72 +2834,95 @@ namespace KaisaKaavio
 
         void ranking_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (string.Equals(e.PropertyName, "ValittuSarja"))
+            try
             {
-                PaivitaRankingTaulukko();
-            }
+                if (string.Equals(e.PropertyName, "ValittuSarja"))
+                {
+                    PaivitaRankingTaulukko();
+                }
 
-            if (string.Equals(e.PropertyName, "ValittuOsakilpailu"))
-            {
-                this.rankingDataGridView.Refresh();
-                // TODO!! Varmista, että valittu osakilpailusarake on näkyvissä käyttöliittymässä
+                if (string.Equals(e.PropertyName, "ValittuOsakilpailu"))
+                {
+                    this.rankingDataGridView.Refresh();
+                    // TODO!! Varmista, että valittu osakilpailusarake on näkyvissä käyttöliittymässä
+                }
+            }
+            catch
+            { 
             }
         }
 
         private void PaivitaRankingTaulukko()
         {
-            this.rankingDataGridView.SuspendLayout();
-            this.rankingPelaajaTietueBindingSource.SuspendBinding();
-
-            this.rankingPelaajaTietueBindingSource.DataSource = this.ranking.ValittuSarja != null ? this.ranking.ValittuSarja.Osallistujat : null;
-
-            int maxVisibleColumn = 3 + (this.ranking.ValittuSarja != null ? (this.ranking.ValittuSarja.Osakilpailut.Count * 2) : 0);
-
-            foreach (var c in this.rankingDataGridView.Columns)
+            try
             {
-                DataGridViewColumn column = (DataGridViewColumn)c;
-                if (column != null)
-                {
-                    column.Visible = column.Index <= maxVisibleColumn;
+                this.rankingDataGridView.SuspendLayout();
+                this.rankingPelaajaTietueBindingSource.SuspendBinding();
 
-                    if (column.Visible)
+                this.rankingPelaajaTietueBindingSource.DataSource = this.ranking.ValittuSarja != null ? this.ranking.ValittuSarja.Osallistujat : null;
+
+                int maxVisibleColumn = 3 + (this.ranking.ValittuSarja != null ? (this.ranking.ValittuSarja.Osakilpailut.Count * 2) : 0);
+
+                foreach (var c in this.rankingDataGridView.Columns)
+                {
+                    DataGridViewColumn column = (DataGridViewColumn)c;
+                    if (column != null)
                     {
-                        if ((column.Index > 3) && (column.Index % 2 == 1))
+                        column.Visible = column.Index <= maxVisibleColumn;
+
+                        if (column.Visible)
                         {
-                            int osakilpailu = SarakeOsakilpailuksi(column.Index);
-                            if (osakilpailu >= 0)
+                            if ((column.Index > 3) && (column.Index % 2 == 1))
                             {
-                                column.HeaderText = string.Format("{0}.{1}",
-                                    this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Day,
-                                    this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Month);
+                                int osakilpailu = SarakeOsakilpailuksi(column.Index);
+                                if (osakilpailu >= 0)
+                                {
+                                    column.HeaderText = string.Format("{0}.{1}",
+                                        this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Day,
+                                        this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Month);
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            this.rankingPelaajaTietueBindingSource.ResumeBinding();
-            this.rankingDataGridView.ResumeLayout();
+                this.rankingPelaajaTietueBindingSource.ResumeBinding();
+                this.rankingDataGridView.ResumeLayout();
+
+                this.rankingDataGridView.FirstDisplayedScrollingColumnIndex = maxVisibleColumn;
+            }
+            catch
+            { 
+            }
         }
 
         private void rankingKisaCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Checked;
+            try
+            {
+                this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Checked;
+            }
+            catch
+            { 
+            }
         }
 
         private void RankingComboBoxEditBegin(bool reset)
         {
-            if (reset)
-            {
-            }
         }
 
         private void RankingComboBoxEditEnd(bool reset)
         {
-            if (reset)
+            try
             {
-                this.rankingSarjaComboBox.SelectedItem = this.ranking.ValittuSarja;
-                this.rankingOsakilpailuComboBox.SelectedItem = this.ranking.ValittuOsakilpailu;
+                if (reset)
+                {
+                    this.rankingSarjaComboBox.SelectedItem = this.ranking.ValittuSarja;
+                    this.rankingOsakilpailuComboBox.SelectedItem = this.ranking.ValittuOsakilpailu;
+                }
+            }
+            catch
+            { 
             }
         }
 
@@ -2909,25 +2960,27 @@ namespace KaisaKaavio
         private void rankingComboBox_SelectionChangeCommitted2(object sender, EventArgs e)
         {
             RankingComboBoxEditEnd(false);
-
-            if (sender == this.rankingSarjaComboBox)
-            {
-            }
         }
 
         private void rankingSarjaComboBox_Format(object sender, ListControlConvertEventArgs e)
         {
-            if (e.ListItem == null)
+            try
             {
-                e.Value = string.Empty;
+                if (e.ListItem == null)
+                {
+                    e.Value = string.Empty;
+                }
+                else if (e.ListItem is Ranking.RankingSarja)
+                {
+                    e.Value = ((Ranking.RankingSarja)e.ListItem).Nimi;
+                }
+                else if (e.ListItem is Ranking.RankingOsakilpailu)
+                {
+                    e.Value = ((Ranking.RankingOsakilpailu)e.ListItem).Nimi;
+                }
             }
-            else if (e.ListItem is Ranking.RankingSarja)
-            {
-                e.Value = ((Ranking.RankingSarja)e.ListItem).Nimi;
-            }
-            else if (e.ListItem is Ranking.RankingOsakilpailu)
-            {
-                e.Value = ((Ranking.RankingOsakilpailu)e.ListItem).Nimi;
+            catch
+            { 
             }
         }
 
@@ -2950,79 +3003,87 @@ namespace KaisaKaavio
 
         private void rankingDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 3)
+            try
             {
-                int kisoja = 0;
-
-                Ranking.RankingPelaajaTietue pelaaja = (Ranking.RankingPelaajaTietue)this.rankingDataGridView.Rows[e.RowIndex].DataBoundItem;
-                if (pelaaja != null)
+                if (e.ColumnIndex == 3)
                 {
-                    if (this.ranking.ValittuSarja != null)
+                    if (e.RowIndex >= 0 && e.RowIndex < this.rankingDataGridView.Rows.Count)
                     {
-                        kisoja = this.ranking.ValittuSarja.Osakilpailut.Count(x => x.Osallistujat.Any(y => string.Equals(y.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase)));
+                        int kisoja = 0;
+
+                        Ranking.RankingPelaajaTietue pelaaja = (Ranking.RankingPelaajaTietue)this.rankingDataGridView.Rows[e.RowIndex].DataBoundItem;
+                        if (pelaaja != null)
+                        {
+                            if (this.ranking.ValittuSarja != null)
+                            {
+                                kisoja = this.ranking.ValittuSarja.Osakilpailut.Count(x => x.Osallistujat.Any(y => string.Equals(y.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase)));
+                            }
+                        }
+
+                        e.Value = kisoja > 0 ? kisoja.ToString() : string.Empty;
+                        e.FormattingApplied = true;
                     }
+                    return;
                 }
 
-                e.Value = kisoja > 0 ? kisoja.ToString() : string.Empty;
-                e.FormattingApplied = true;
-                return;
-            }
-
-            if (e.ColumnIndex > 3)
-            {
-                int osakilpailu = SarakeOsakilpailuksi(e.ColumnIndex);
-                if (osakilpailu >= 0 && e.RowIndex >= 0)
+                if (e.ColumnIndex > 3)
                 {
-                    try
+                    int osakilpailu = SarakeOsakilpailuksi(e.ColumnIndex);
+                    if (osakilpailu >= 0 && e.RowIndex >= 0 && e.RowIndex < this.rankingDataGridView.Rows.Count)
                     {
-                        bool valittuKilpailu =
-                            this.ranking.ValittuOsakilpailu != null &&
-                            this.ranking.ValittuOsakilpailu.KilpailunNumero == osakilpailu;
-
-                        Ranking.RankingOsakilpailu kilpailu = this.ranking.ValittuSarja.Osakilpailut[osakilpailu];
-                        if (kilpailu != null)
+                        try
                         {
-                            Ranking.RankingPelaajaTietue pelaaja = (Ranking.RankingPelaajaTietue)this.rankingDataGridView.Rows[e.RowIndex].DataBoundItem;
-                            if (pelaaja != null)
+                            bool valittuKilpailu =
+                                this.ranking.ValittuOsakilpailu != null &&
+                                this.ranking.ValittuOsakilpailu.KilpailunNumero == osakilpailu;
+
+                            Ranking.RankingOsakilpailu kilpailu = this.ranking.ValittuSarja.Osakilpailut[osakilpailu];
+                            if (kilpailu != null)
                             {
-                                var tietue = kilpailu.Osallistujat
-                                    .FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
-
-                                if (tietue != null)
+                                Ranking.RankingPelaajaTietue pelaaja = (Ranking.RankingPelaajaTietue)this.rankingDataGridView.Rows[e.RowIndex].DataBoundItem;
+                                if (pelaaja != null)
                                 {
-                                    e.CellStyle.BackColor = valittuKilpailu ? Color.LightBlue : Color.White;
+                                    var tietue = kilpailu.Osallistujat
+                                        .FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
 
-                                    if (e.ColumnIndex % 2 == 0)
+                                    if (tietue != null)
                                     {
-                                        e.Value = tietue.Sijoitus > 0 ? tietue.Sijoitus.ToString() : string.Empty;
-                                        e.FormattingApplied = true;
-                                        e.CellStyle.Font = this.ohutPieniFontti;
-                                        e.CellStyle.ForeColor = Color.DarkGray;
+                                        e.CellStyle.BackColor = valittuKilpailu ? Color.LightBlue : Color.White;
+
+                                        if (e.ColumnIndex % 2 == 0)
+                                        {
+                                            e.Value = tietue.Sijoitus > 0 ? tietue.Sijoitus.ToString() : string.Empty;
+                                            e.FormattingApplied = true;
+                                            e.CellStyle.Font = this.ohutPieniFontti;
+                                            e.CellStyle.ForeColor = Color.DarkGray;
+                                        }
+                                        else
+                                        {
+                                            e.Value = tietue.RankingPisteet > 0 ? tietue.RankingPisteet.ToString() : string.Empty;
+                                            e.FormattingApplied = true;
+                                            e.CellStyle.Font = this.paksuFontti;
+                                            e.CellStyle.ForeColor = Color.Blue;
+                                        }
+                                        return;
                                     }
-                                    else
-                                    {
-                                        e.Value = tietue.RankingPisteet > 0 ? tietue.RankingPisteet.ToString() : string.Empty;
-                                        e.FormattingApplied = true;
-                                        e.CellStyle.Font = this.paksuFontti;
-                                        e.CellStyle.ForeColor = Color.Blue;
-                                    }
-                                    return;
                                 }
                             }
                         }
+                        catch
+                        {
+                        }
                     }
-                    catch
-                    {
-                        int ii = 0;
-                    }
+
+                    e.CellStyle.BackColor = Color.DarkGray;
+                    e.CellStyle.ForeColor = Color.DarkGray;
+                    e.CellStyle.Font = this.ohutFontti;
+
+                    e.Value = string.Empty;
+                    e.FormattingApplied = true;
                 }
-
-                e.CellStyle.BackColor = Color.DarkGray;
-                e.CellStyle.ForeColor = Color.DarkGray;
-                e.CellStyle.Font = this.ohutFontti;
-
-                e.Value = string.Empty;
-                e.FormattingApplied = true;
+            }
+            catch
+            { 
             }
         }
 
@@ -3042,32 +3103,22 @@ namespace KaisaKaavio
 
         private void rankingDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            /*
-            int osakilpailu = SarakeOsakilpailuksi(e.ColumnIndex);
-            if (osakilpailu >= 0 && this.ranking.ValittuOsakilpailu != null)
-            {
-                if (osakilpailu == this.ranking.ValittuOsakilpailu.KilpailunNumero)
-                {
-                    e.CellStyle.BackColor = Color.LightBlue;
-                }
-                else
-                {
-                    e.CellStyle.BackColor = Color.White;
-                }
-            }
-            else
-            {
-                e.CellStyle.BackColor = Color.White;
-            }
-             */
         }
 
         private void rankingDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
+        }
 
+        private void kopioiKokonaistilanneButton_Click(object sender, EventArgs e)
+        {
+            KopioiLeikepoydalle(this.rankingKokonaistilanneRichTextBox.Text);
+        }
+
+        private void kopioOsakilpailuButton_Click(object sender, EventArgs e)
+        {
+            KopioiLeikepoydalle(this.rankingOsakilpailuRichTextBox.Text);
         }
 
         #endregion
-
     }
 }

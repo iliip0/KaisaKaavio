@@ -14,6 +14,7 @@ namespace KaisaKaavio.Ranking
         public string Nimi { get; set; }
         public RankingSarjanPituus Pituus { get; set; }
         public int SarjanNumero { get; set; }
+        public Laji Laji { get; set; }
 
         [XmlIgnore]
         public string Tiedosto { get; private set; }
@@ -29,6 +30,7 @@ namespace KaisaKaavio.Ranking
             this.Tiedosto = string.Empty;
             this.Pituus = RankingSarjanPituus.Kuukausi;
             this.SarjanNumero = 0;
+            this.Laji = Laji.Kaisa;
             this.Osakilpailut = new BindingList<RankingOsakilpailu>();
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
         }
@@ -80,6 +82,7 @@ namespace KaisaKaavio.Ranking
                 this.Nimi = sarja.Nimi;
                 this.Pituus = sarja.Pituus;
                 this.SarjanNumero = sarja.SarjanNumero;
+                this.Laji = sarja.Laji;
 
                 this.muokattu = false;
 
@@ -168,7 +171,7 @@ namespace KaisaKaavio.Ranking
                 }
             }
 
-            foreach (var o in this.Osakilpailut)
+            foreach (var o in this.Osakilpailut.OrderBy(x => x.AlkamisAika))
             {
                 foreach (var p in kaikkiPelaajat)
                 {
@@ -218,9 +221,72 @@ namespace KaisaKaavio.Ranking
         {
             this.tilanne.Clear();
 
+            var kisa = this.Osakilpailut.OrderBy(x => x.AlkamisAika).LastOrDefault();
+            if (kisa != null)
+            {
+                var voittajat = kisa.Osallistujat.Where(x => x.Sijoitus == 1);
+                var kakkoset = kisa.Osallistujat.Where(x => x.Sijoitus == 2);
+                var kolmoset = kisa.Osallistujat.Where(x => x.Sijoitus == 3);
+                
+                this.tilanne.AppendLine(string.Format("{0}.{1}.{2} {3} viikkokilpailuun osallistui {4} pelaajaa.",
+                    kisa.AlkamisAika.Day,
+                    kisa.AlkamisAika.Month,
+                    kisa.AlkamisAika.Year,
+                    this.Laji,
+                    kisa.Osallistujat.Count));
+
+                if (voittajat.Count() == 1)
+                {
+                    this.tilanne.Append(string.Format("Voittaja {0}, ", voittajat.First().Nimi));
+                }
+                else if (voittajat.Count() > 1)
+                {
+                    this.tilanne.Append(string.Format("Voittajat {0}, ", string.Join(", ", voittajat.Select(x => x.Nimi).ToArray())));
+                }
+
+                if (kakkoset.Count() == 1)
+                {
+                    this.tilanne.Append(string.Format("toinen {0}, ", kakkoset.First().Nimi));
+                }
+                else if (kakkoset.Count() > 1)
+                {
+                    this.tilanne.Append(string.Format("toisia {0}, ", string.Join(", ", kakkoset.Select(x => x.Nimi).ToArray())));
+                }
+
+                if (kolmoset.Count() == 1)
+                {
+                    this.tilanne.Append(string.Format("kolmas {0}.", kolmoset.First().Nimi));
+                }
+                else if (kolmoset.Count() > 1)
+                {
+                    this.tilanne.Append(string.Format("kolmansia {0}.", string.Join(", ", kolmoset.Select(x => x.Nimi).ToArray())));
+                }
+
+                this.tilanne.AppendLine();
+            }
+
+            this.tilanne.AppendLine();
+
+            if (this.Osakilpailut.Count == 1)
+            {
+                this.tilanne.AppendLine(string.Format("{0}n tilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
+            }
+            else
+            {
+                int summa = (int)(this.Osakilpailut.Select(x => x.Osallistujat.Count).Sum());
+
+                this.tilanne.AppendLine(string.Format("{3}n tilanne {0} osakilpailun jälkeen: ({1}={2})",
+                    this.Osakilpailut.Count,
+                    string.Join("+", this.Osakilpailut.OrderBy(x => x.AlkamisAika).Select(x => x.Osallistujat.Count.ToString()).ToArray()),
+                    summa,
+                    this.Nimi));
+            }
+
+            this.tilanne.AppendLine();
+
             foreach (var p in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
             {
-                string rivi = string.Format("{0}. {1} {2}", p.Sijoitus, p.Nimi, p.RankingPisteString);
+                string rivi = string.Format("{0}. {1} {3}p\t({2})", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
 
                 tilanne.AppendLine(rivi);
             }
@@ -293,16 +359,31 @@ namespace KaisaKaavio.Ranking
             pelaajat.AddRange(pt);
 
             int sijoitus = 1;
+            int kumulatiivinenSijoitus = 1;
+            int edellinenSijoitus = 99999;
+            int edellinenKumulatiivinenSijoitus = 99999;
             int edellisetPisteet = 99999;
+
             foreach (var pelaaja in pelaajat)
             {
-                pelaaja.Sijoitus = sijoitus;
-
-                if (pelaaja.RankingPisteet != edellisetPisteet)
+                if (pelaaja.RankingPisteet == edellisetPisteet)
                 {
-                    edellisetPisteet = pelaaja.RankingPisteet;
-                    sijoitus++;
+                    pelaaja.Sijoitus = edellinenSijoitus;
+                    pelaaja.KumulatiivinenSijoitus = edellinenKumulatiivinenSijoitus;
                 }
+                else
+                {
+                    pelaaja.Sijoitus = sijoitus;
+                    pelaaja.KumulatiivinenSijoitus = kumulatiivinenSijoitus;
+
+                    kumulatiivinenSijoitus++;
+
+                    edellisetPisteet = pelaaja.RankingPisteet;
+                    edellinenSijoitus = pelaaja.Sijoitus;
+                    edellinenKumulatiivinenSijoitus = pelaaja.KumulatiivinenSijoitus;
+                }
+
+                sijoitus++;
             }
 
             return pelaajat;

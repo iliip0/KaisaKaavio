@@ -200,9 +200,21 @@ namespace KaisaKaavio.Ranking
         public void PaivitaTilanneTeksti()
         {
             this.tilanne.Clear();
-            foreach (var o in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
+
+            this.tilanne.AppendLine(this.Nimi);
+            this.tilanne.AppendLine(string.Format("Osallistui {0} pelaajaa", this.Osallistujat.Count));
+            this.tilanne.AppendLine();
+
+            foreach (var o in this.Osallistujat.OrderBy(x => x.Sijoitus))
             {
-                tilanne.AppendLine(string.Format("{0} {1}", o.Nimi, o.RankingPisteString));
+                if (o.Sijoitus > 0)
+                {
+                    tilanne.AppendLine(string.Format("{0}. {1} ({2})", o.Sijoitus, o.Nimi, o.RankingPisteString));
+                }
+                else
+                {
+                    tilanne.AppendLine(string.Format("{0} ({1})", o.Nimi, o.RankingPisteString));
+                }
             }
         }
     }
