@@ -273,11 +273,7 @@
             this.rankingTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.splitContainer11 = new System.Windows.Forms.SplitContainer();
-            this.rankingKokonaistilanneRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.rankingOsakilpailuRichTextBox = new System.Windows.Forms.RichTextBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.kopioiKokonaistilanneButton = new System.Windows.Forms.Button();
-            this.kopioOsakilpailuButton = new System.Windows.Forms.Button();
             this.rankingAsetuksetButton = new System.Windows.Forms.Button();
             this.rankingOsakilpailuComboBox = new System.Windows.Forms.ComboBox();
             this.rankingSarjaComboBox = new System.Windows.Forms.ComboBox();
@@ -288,6 +284,8 @@
             this.label31 = new System.Windows.Forms.Label();
             this.rankingPituusComboBox = new System.Windows.Forms.ComboBox();
             this.label39 = new System.Windows.Forms.Label();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.rankingDataGridView = new System.Windows.Forms.DataGridView();
             this.rankingOsallistumisiaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankingS1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -394,6 +392,12 @@
             this.rankingP51 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankingS52 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankingP52 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
+            this.rankingKokonaistilanneRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.kopioiKokonaistilanneButton = new System.Windows.Forms.Button();
+            this.rankingOsakilpailuRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.kopioOsakilpailuButton = new System.Windows.Forms.Button();
             this.tabImages = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -429,10 +433,6 @@
             this.dataGridViewImageColumn24 = new System.Windows.Forms.DataGridViewImageColumn();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -554,16 +554,16 @@
             this.splitContainer11.Panel1.SuspendLayout();
             this.splitContainer11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            this.tabControl2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rankingDataGridView)).BeginInit();
-            this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
             this.splitContainer9.Panel1.SuspendLayout();
             this.splitContainer9.Panel2.SuspendLayout();
             this.splitContainer9.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jalkiIlmoBindingSource)).BeginInit();
@@ -935,6 +935,7 @@
             this.osallistujatDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
             this.osallistujatDataGridView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.osallistujatDataGridView_EditingControlShowing);
             this.osallistujatDataGridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.osallistujatDataGridView_UserDeletingRow);
+            this.osallistujatDataGridView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.osallistujatDataGridView_KeyPress);
             // 
             // IlmoittautumisNumero
             // 
@@ -1001,6 +1002,8 @@
             this.jalkiIlmoittautuneetDataGridView.Name = "jalkiIlmoittautuneetDataGridView";
             this.jalkiIlmoittautuneetDataGridView.Size = new System.Drawing.Size(213, 283);
             this.jalkiIlmoittautuneetDataGridView.TabIndex = 0;
+            this.jalkiIlmoittautuneetDataGridView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.jalkiIlmoittautuneetDataGridView_EditingControlShowing);
+            this.jalkiIlmoittautuneetDataGridView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jalkiIlmoittautuneetDataGridView_KeyPress);
             // 
             // kaavioTabPage
             // 
@@ -3131,36 +3134,8 @@
             this.splitContainer11.Panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.splitContainer11.Panel2Collapsed = true;
             this.splitContainer11.Size = new System.Drawing.Size(772, 145);
-            this.splitContainer11.SplitterDistance = 155;
+            this.splitContainer11.SplitterDistance = 120;
             this.splitContainer11.TabIndex = 7;
-            // 
-            // rankingKokonaistilanneRichTextBox
-            // 
-            this.rankingKokonaistilanneRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rankingKokonaistilanneRichTextBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.rankingKokonaistilanneRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.rankingBindingSource, "KokonaisTilanneSbil", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rankingKokonaistilanneRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.rankingBindingSource, "KokonaisTilanneRtf", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rankingKokonaistilanneRichTextBox.Location = new System.Drawing.Point(3, 52);
-            this.rankingKokonaistilanneRichTextBox.Name = "rankingKokonaistilanneRichTextBox";
-            this.rankingKokonaistilanneRichTextBox.Size = new System.Drawing.Size(400, 145);
-            this.rankingKokonaistilanneRichTextBox.TabIndex = 2;
-            this.rankingKokonaistilanneRichTextBox.Text = "";
-            // 
-            // rankingOsakilpailuRichTextBox
-            // 
-            this.rankingOsakilpailuRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rankingOsakilpailuRichTextBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.rankingOsakilpailuRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.rankingBindingSource, "OsakilpailunTilanneSbil", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rankingOsakilpailuRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.rankingBindingSource, "OsakilpailunTilanneRtf", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rankingOsakilpailuRichTextBox.Location = new System.Drawing.Point(3, 52);
-            this.rankingOsakilpailuRichTextBox.Name = "rankingOsakilpailuRichTextBox";
-            this.rankingOsakilpailuRichTextBox.Size = new System.Drawing.Size(334, 145);
-            this.rankingOsakilpailuRichTextBox.TabIndex = 3;
-            this.rankingOsakilpailuRichTextBox.Text = "";
             // 
             // pictureBox7
             // 
@@ -3170,41 +3145,6 @@
             this.pictureBox7.Size = new System.Drawing.Size(56, 54);
             this.pictureBox7.TabIndex = 6;
             this.pictureBox7.TabStop = false;
-            // 
-            // kopioiKokonaistilanneButton
-            // 
-            this.kopioiKokonaistilanneButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kopioiKokonaistilanneButton.BackColor = System.Drawing.Color.Lavender;
-            this.kopioiKokonaistilanneButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
-            this.kopioiKokonaistilanneButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.kopioiKokonaistilanneButton.Location = new System.Drawing.Point(3, 3);
-            this.kopioiKokonaistilanneButton.Name = "kopioiKokonaistilanneButton";
-            this.kopioiKokonaistilanneButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
-            this.kopioiKokonaistilanneButton.Size = new System.Drawing.Size(400, 43);
-            this.kopioiKokonaistilanneButton.TabIndex = 1;
-            this.kopioiKokonaistilanneButton.Text = "Kopioi rankingsarjan kokonaistilanne";
-            this.toolTip1.SetToolTip(this.kopioiKokonaistilanneButton, "Kopioi valitun kuukauden kokonaisranking tilanteen liitettäväksi SBiL palstalle");
-            this.kopioiKokonaistilanneButton.UseVisualStyleBackColor = false;
-            this.kopioiKokonaistilanneButton.Click += new System.EventHandler(this.kopioiKokonaistilanneButton_Click);
-            // 
-            // kopioOsakilpailuButton
-            // 
-            this.kopioOsakilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kopioOsakilpailuButton.BackColor = System.Drawing.Color.Lavender;
-            this.kopioOsakilpailuButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
-            this.kopioOsakilpailuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.kopioOsakilpailuButton.Location = new System.Drawing.Point(3, 3);
-            this.kopioOsakilpailuButton.Name = "kopioOsakilpailuButton";
-            this.kopioOsakilpailuButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
-            this.kopioOsakilpailuButton.Size = new System.Drawing.Size(334, 43);
-            this.kopioOsakilpailuButton.TabIndex = 2;
-            this.kopioOsakilpailuButton.Text = "Kopioi osakilpailun pisteet";
-            this.toolTip1.SetToolTip(this.kopioOsakilpailuButton, "Kopioi valitun osakilpailun voittajat ja pisteet liitettäväksi SBiL keskustelupal" +
-        "stalle");
-            this.kopioOsakilpailuButton.UseVisualStyleBackColor = false;
-            this.kopioOsakilpailuButton.Click += new System.EventHandler(this.kopioOsakilpailuButton_Click);
             // 
             // rankingAsetuksetButton
             // 
@@ -3336,6 +3276,30 @@
             this.label39.Size = new System.Drawing.Size(54, 20);
             this.label39.TabIndex = 2;
             this.label39.Text = "Kesto:";
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Appearance = System.Windows.Forms.TabAppearance.Buttons;
+            this.tabControl2.Controls.Add(this.tabPage1);
+            this.tabControl2.Controls.Add(this.tabPage2);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.Padding = new System.Drawing.Point(24, 8);
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(772, 284);
+            this.tabControl2.TabIndex = 2;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.rankingDataGridView);
+            this.tabPage1.Location = new System.Drawing.Point(4, 42);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(764, 238);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Näytä taulukkona";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // rankingDataGridView
             // 
@@ -4375,6 +4339,101 @@
             this.rankingP52.ReadOnly = true;
             this.rankingP52.Width = 64;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.splitContainer9);
+            this.tabPage2.Location = new System.Drawing.Point(4, 35);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(764, 245);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Näytä tekstinä";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer9
+            // 
+            this.splitContainer9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer9.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer9.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer9.Name = "splitContainer9";
+            // 
+            // splitContainer9.Panel1
+            // 
+            this.splitContainer9.Panel1.Controls.Add(this.rankingKokonaistilanneRichTextBox);
+            this.splitContainer9.Panel1.Controls.Add(this.kopioiKokonaistilanneButton);
+            // 
+            // splitContainer9.Panel2
+            // 
+            this.splitContainer9.Panel2.Controls.Add(this.rankingOsakilpailuRichTextBox);
+            this.splitContainer9.Panel2.Controls.Add(this.kopioOsakilpailuButton);
+            this.splitContainer9.Size = new System.Drawing.Size(758, 239);
+            this.splitContainer9.SplitterDistance = 410;
+            this.splitContainer9.TabIndex = 1;
+            // 
+            // rankingKokonaistilanneRichTextBox
+            // 
+            this.rankingKokonaistilanneRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rankingKokonaistilanneRichTextBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.rankingKokonaistilanneRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.rankingBindingSource, "KokonaisTilanneSbil", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.rankingKokonaistilanneRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.rankingBindingSource, "KokonaisTilanneRtf", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.rankingKokonaistilanneRichTextBox.Location = new System.Drawing.Point(3, 52);
+            this.rankingKokonaistilanneRichTextBox.Name = "rankingKokonaistilanneRichTextBox";
+            this.rankingKokonaistilanneRichTextBox.Size = new System.Drawing.Size(400, 180);
+            this.rankingKokonaistilanneRichTextBox.TabIndex = 2;
+            this.rankingKokonaistilanneRichTextBox.Text = "";
+            // 
+            // kopioiKokonaistilanneButton
+            // 
+            this.kopioiKokonaistilanneButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kopioiKokonaistilanneButton.BackColor = System.Drawing.Color.Lavender;
+            this.kopioiKokonaistilanneButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
+            this.kopioiKokonaistilanneButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.kopioiKokonaistilanneButton.Location = new System.Drawing.Point(3, 3);
+            this.kopioiKokonaistilanneButton.Name = "kopioiKokonaistilanneButton";
+            this.kopioiKokonaistilanneButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
+            this.kopioiKokonaistilanneButton.Size = new System.Drawing.Size(400, 43);
+            this.kopioiKokonaistilanneButton.TabIndex = 1;
+            this.kopioiKokonaistilanneButton.Text = "Kopioi rankingsarjan kokonaistilanne";
+            this.toolTip1.SetToolTip(this.kopioiKokonaistilanneButton, "Kopioi valitun kuukauden kokonaisranking tilanteen liitettäväksi SBiL palstalle");
+            this.kopioiKokonaistilanneButton.UseVisualStyleBackColor = false;
+            this.kopioiKokonaistilanneButton.Click += new System.EventHandler(this.kopioiKokonaistilanneButton_Click);
+            // 
+            // rankingOsakilpailuRichTextBox
+            // 
+            this.rankingOsakilpailuRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rankingOsakilpailuRichTextBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.rankingOsakilpailuRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.rankingBindingSource, "OsakilpailunTilanneSbil", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.rankingOsakilpailuRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.rankingBindingSource, "OsakilpailunTilanneRtf", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.rankingOsakilpailuRichTextBox.Location = new System.Drawing.Point(3, 52);
+            this.rankingOsakilpailuRichTextBox.Name = "rankingOsakilpailuRichTextBox";
+            this.rankingOsakilpailuRichTextBox.Size = new System.Drawing.Size(334, 180);
+            this.rankingOsakilpailuRichTextBox.TabIndex = 3;
+            this.rankingOsakilpailuRichTextBox.Text = "";
+            // 
+            // kopioOsakilpailuButton
+            // 
+            this.kopioOsakilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kopioOsakilpailuButton.BackColor = System.Drawing.Color.Lavender;
+            this.kopioOsakilpailuButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
+            this.kopioOsakilpailuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.kopioOsakilpailuButton.Location = new System.Drawing.Point(3, 3);
+            this.kopioOsakilpailuButton.Name = "kopioOsakilpailuButton";
+            this.kopioOsakilpailuButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
+            this.kopioOsakilpailuButton.Size = new System.Drawing.Size(334, 43);
+            this.kopioOsakilpailuButton.TabIndex = 2;
+            this.kopioOsakilpailuButton.Text = "Kopioi osakilpailun pisteet";
+            this.toolTip1.SetToolTip(this.kopioOsakilpailuButton, "Kopioi valitun osakilpailun voittajat ja pisteet liitettäväksi SBiL keskustelupal" +
+        "stalle");
+            this.kopioOsakilpailuButton.UseVisualStyleBackColor = false;
+            this.kopioOsakilpailuButton.Click += new System.EventHandler(this.kopioOsakilpailuButton_Click);
+            // 
             // tabImages
             // 
             this.tabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("tabImages.ImageStream")));
@@ -4670,62 +4729,6 @@
             // 
             this.sarjatBindingSourceBindingSource.DataMember = "SarjatBindingSource";
             this.sarjatBindingSourceBindingSource.DataSource = this.rankingBindingSource;
-            // 
-            // splitContainer9
-            // 
-            this.splitContainer9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer9.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer9.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer9.Name = "splitContainer9";
-            // 
-            // splitContainer9.Panel1
-            // 
-            this.splitContainer9.Panel1.Controls.Add(this.rankingKokonaistilanneRichTextBox);
-            this.splitContainer9.Panel1.Controls.Add(this.kopioiKokonaistilanneButton);
-            // 
-            // splitContainer9.Panel2
-            // 
-            this.splitContainer9.Panel2.Controls.Add(this.rankingOsakilpailuRichTextBox);
-            this.splitContainer9.Panel2.Controls.Add(this.kopioOsakilpailuButton);
-            this.splitContainer9.Size = new System.Drawing.Size(758, 204);
-            this.splitContainer9.SplitterDistance = 410;
-            this.splitContainer9.TabIndex = 1;
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Appearance = System.Windows.Forms.TabAppearance.Buttons;
-            this.tabControl2.Controls.Add(this.tabPage1);
-            this.tabControl2.Controls.Add(this.tabPage2);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location = new System.Drawing.Point(0, 0);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.Padding = new System.Drawing.Point(24, 8);
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(772, 284);
-            this.tabControl2.TabIndex = 2;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.rankingDataGridView);
-            this.tabPage1.Location = new System.Drawing.Point(4, 42);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(764, 238);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Näytä taulukkona";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.splitContainer9);
-            this.tabPage2.Location = new System.Drawing.Point(4, 35);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(764, 210);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Näytä tekstinä";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // kilpailuBindingSource
             // 
@@ -5121,6 +5124,8 @@
             this.MinimumSize = new System.Drawing.Size(804, 623);
             this.Name = "Form1";
             this.Text = "Kaisa Kaavio";
+            this.ResizeBegin += new System.EventHandler(this.Form1_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -5211,17 +5216,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
             this.splitContainer11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rankingDataGridView)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             this.splitContainer9.Panel1.ResumeLayout(false);
             this.splitContainer9.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
             this.splitContainer9.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.jalkiIlmoBindingSource)).EndInit();

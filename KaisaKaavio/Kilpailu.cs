@@ -1330,6 +1330,30 @@ namespace KaisaKaavio
             return true;
         }
 
+        public bool MukanaEnnenPelia(Pelaaja pelaaja, Peli peli)
+        {
+            int tappiot = Pelit.Count(x => 
+                (x.PeliNumero < peli.PeliNumero) && 
+                x.SisaltaaPelaajan(pelaaja.Id) && 
+                x.Havisi(pelaaja.Id));
+            
+            if (tappiot > 1)
+            {
+                return false;
+            }
+
+            if (Pelit.Any(x => 
+                (x.PeliNumero < peli.PeliNumero) && 
+                x.SisaltaaPelaajan(pelaaja.Id) && 
+                x.Havisi(pelaaja.Id) && 
+                x.OnPudotusPeli()))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         [XmlIgnore]
         public bool VoiLisataPelaajia
         {
@@ -1612,6 +1636,11 @@ namespace KaisaKaavio
                     return string.Empty;
                 }
             }
+        }
+
+        public IEnumerable<Pelaaja> MukanaOlevatPelaajatEnnenPelia(Peli peli)
+        {
+            return this.Osallistujat.Where(x => x.Id >= 0 && MukanaEnnenPelia(x, peli));
         }
 
         [XmlIgnore]

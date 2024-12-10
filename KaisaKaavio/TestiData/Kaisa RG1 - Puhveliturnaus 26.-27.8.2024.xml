@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Kilpailu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Nimi>Kaisa RG1 - Puhveliturnaus 26.-27.8.2024</Nimi>
+  <AlkamisAika>2024-12-10T00:00:00+02:00</AlkamisAika>
+  <KellonAika>10:00</KellonAika>
+  <PaattymisAika>2024-12-09T00:00:00+02:00</PaattymisAika>
+  <Yksipaivainen>false</Yksipaivainen>
+  <RankingKisa>false</RankingKisa>
+  <RankingKisaTyyppi>Kuukausi</RankingKisaTyyppi>
+  <PeliAika>60</PeliAika>
+  <RankkareidenMaara>5</RankkareidenMaara>
+  <TavoitePistemaara>60</TavoitePistemaara>
+  <PelaajiaEnintaan>256</PelaajiaEnintaan>
+  <KaavioTyyppi>TuplaKaavio</KaavioTyyppi>
+  <OsallistumisMaksu>Aikuiset 50€ / junnut 25€</OsallistumisMaksu>
+  <OsallistumisOikeus>SBiL:n jäsenseurojen jäsenillä</OsallistumisOikeus>
+  <MaksuTapa>Etukäteen biljardi.org kautta</MaksuTapa>
+  <Pukeutuminen>SBiL EB-taso</Pukeutuminen>
+  <KilpailuOnViikkokisa>false</KilpailuOnViikkokisa>
+  <Laji>Kaisa</Laji>
+  <Osallistujat>
+    <Pelaaja Nimi="Rantanen Karlo" Id="1" />
+    <Pelaaja Nimi="Rantanen Teppo" Id="2" />
+    <Pelaaja Nimi="Savolainen Jani" Id="3" />
+    <Pelaaja Nimi="Mettälä Pasi [6]" Id="4" />
+    <Pelaaja Nimi="Thoménius Kari" Id="5" />
+    <Pelaaja Nimi="Palviainen Mika" Id="6" />
+    <Pelaaja Nimi="Suomalainen Jari" Id="7" />
+    <Pelaaja Nimi="Nykänen Petteri" Id="8" />
+    <Pelaaja Nimi="Paronen Ilari" Id="9" />
+    <Pelaaja Nimi="Väntsi Kimmo" Id="10" />
+    <Pelaaja Nimi="Muotka Olli [3]" Id="11" />
+    <Pelaaja Nimi="Sipiläinen Jani" Id="12" />
+    <Pelaaja Nimi="Vainio Risto" Id="13" />
+    <Pelaaja Nimi="Poikolainen Mika" Id="14" />
+    <Pelaaja Nimi="Lounamaa Joonas" Id="15" />
+    <Pelaaja Nimi="Leppänen Ari-Pekka" Id="16" />
+    <Pelaaja Nimi="Nikunen Jussi-Pekka" Id="17" />
+    <Pelaaja Nimi="Koponen Markku [7]" Id="18" />
+    <Pelaaja Nimi="Jyläs Sami" Id="19" />
+    <Pelaaja Nimi="Laine Kim" Id="20" />
+    <Pelaaja Nimi="Makkonen Jorma" Id="21" />
+    <Pelaaja Nimi="Mattila Nesto" Id="22" />
+    <Pelaaja Nimi="Ylisuutari Tommi" Id="23" />
+    <Pelaaja Nimi="Auresto Lenni" Id="24" />
+    <Pelaaja Nimi="Sevastyanov Arseni" Id="25" />
+    <Pelaaja Nimi="Teittinen Jari" Id="26" />
+    <Pelaaja Nimi="Häkkinen Juha" Id="27" />
+    <Pelaaja Nimi="Pohjanen Jukka" Id="28" />
+    <Pelaaja Nimi="Tainio Jarmo" Id="29" />
+    <Pelaaja Nimi="Tainio Tatu" Id="30" />
+    <Pelaaja Nimi="Pasanen Ville" Id="31" />
+    <Pelaaja Nimi="Asikainen Petri [5]" Id="32" />
+    <Pelaaja Nimi="Gerkman Maarit" Id="33" />
+    <Pelaaja Nimi="Turtiainen Jussi" Id="34" />
+    <Pelaaja Nimi="Lindroos Toni" Id="35" />
+    <Pelaaja Nimi="Jantunen Juha" Id="36" />
+    <Pelaaja Nimi="Laitila Juha" Id="37" />
+    <Pelaaja Nimi="Peltola Juha" Id="38" />
+    <Pelaaja Nimi="Asp Kaj [4]" Id="39" />
+    <Pelaaja Nimi="Hakkarainen Annika" Id="40" />
+    <Pelaaja Nimi="Rantanen Pauli" Id="41" />
+    <Pelaaja Nimi="Salo Pentti" Id="42" />
+    <Pelaaja Nimi="Kotinurmi Jalo" Id="43" />
+    <Pelaaja Nimi="Heikkinen Jouna" Id="44" />
+    <Pelaaja Nimi="Korhonen Kimmo" Id="45" />
+    <Pelaaja Nimi="Hälvä Matti [8]" Id="46" />
+    <Pelaaja Nimi="Nuutinen Mauno" Id="47" />
+    <Pelaaja Nimi="Saira Tero" Id="48" />
+    <Pelaaja Nimi="Holopainen Jussi" Id="49" />
+    <Pelaaja Nimi="Kuuras Jere" Id="50" />
+    <Pelaaja Nimi="Asp Niklas" Id="51" />
+    <Pelaaja Nimi="Lakka Juuso" Id="52" />
+    <Pelaaja Nimi="Ahola Jarno [1]" Id="53" />
+    <Pelaaja Nimi="Saarinen Kimmo" Id="54" />
+    <Pelaaja Nimi="Pöyhönen Aki" Id="55" />
+    <Pelaaja Nimi="Viimala Isto" Id="56" />
+  </Osallistujat>
+  <JalkiIlmoittautuneet />
+  <Pelit>
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="1" PelaajaId2="2" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="3" PelaajaId2="4" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="5" PelaajaId2="6" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="7" PelaajaId2="8" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="9" PelaajaId2="10" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="11" PelaajaId2="12" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="13" PelaajaId2="14" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="15" PelaajaId2="16" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="17" PelaajaId2="18" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="19" PelaajaId2="20" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="21" PelaajaId2="22" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="23" PelaajaId2="24" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="25" PelaajaId2="26" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="27" PelaajaId2="28" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="29" PelaajaId2="30" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="31" PelaajaId2="32" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="33" PelaajaId2="34" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="35" PelaajaId2="36" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="37" PelaajaId2="38" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="39" PelaajaId2="40" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="41" PelaajaId2="42" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="43" PelaajaId2="44" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="45" PelaajaId2="46" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="47" PelaajaId2="48" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="49" PelaajaId2="50" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="51" PelaajaId2="52" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="53" PelaajaId2="54" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="1" KierrosPelaaja1="1" KierrosPelaaja2="1" PelaajaId1="55" PelaajaId2="56" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:00" Paattyi="14:00" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="1" PelaajaId2="3" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="2" PelaajaId2="4" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="5" PelaajaId2="7" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="6" PelaajaId2="8" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="9" PelaajaId2="11" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="10" PelaajaId2="12" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="13" PelaajaId2="15" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="14" PelaajaId2="16" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="17" PelaajaId2="19" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:01" Paattyi="14:01" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="18" PelaajaId2="20" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="21" PelaajaId2="23" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="22" PelaajaId2="24" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="25" PelaajaId2="27" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="26" PelaajaId2="28" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="29" PelaajaId2="31" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="30" PelaajaId2="32" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="33" PelaajaId2="35" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="34" PelaajaId2="36" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="37" PelaajaId2="39" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="38" PelaajaId2="40" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="41" PelaajaId2="43" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="42" PelaajaId2="44" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="45" PelaajaId2="47" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="46" PelaajaId2="48" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="49" PelaajaId2="51" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="50" PelaajaId2="52" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:05" Paattyi="14:05" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="53" PelaajaId2="55" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:06" Paattyi="14:06" />
+    <Peli Kierros="2" KierrosPelaaja1="2" KierrosPelaaja2="2" PelaajaId1="54" PelaajaId2="56" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:06" Paattyi="14:06" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="1" PelaajaId2="4" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:06" Paattyi="14:06" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="3" PelaajaId2="6" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="7" PelaajaId2="9" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="8" PelaajaId2="11" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="12" PelaajaId2="14" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="15" PelaajaId2="18" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="16" PelaajaId2="19" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="20" PelaajaId2="22" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="23" PelaajaId2="25" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="24" PelaajaId2="26" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="28" PelaajaId2="30" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="31" PelaajaId2="34" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="32" PelaajaId2="35" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="37" PelaajaId2="40" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="38" PelaajaId2="39" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:07" Paattyi="14:07" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="42" PelaajaId2="43" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:08" Paattyi="14:08" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="44" PelaajaId2="46" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:08" Paattyi="14:08" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="47" PelaajaId2="50" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:08" Paattyi="14:08" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="51" PelaajaId2="53" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:08" Paattyi="14:08" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="52" PelaajaId2="56" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:08" Paattyi="14:08" />
+    <Peli Kierros="3" KierrosPelaaja1="3" KierrosPelaaja2="3" PelaajaId1="54" PelaajaId2="55" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:08" Paattyi="14:08" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="1" PelaajaId2="7" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="3" PelaajaId2="11" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="12" PelaajaId2="15" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="16" PelaajaId2="18" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="22" PelaajaId2="25" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="24" PelaajaId2="28" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="26" PelaajaId2="31" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="32" PelaajaId2="34" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="35" PelaajaId2="37" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="39" PelaajaId2="43" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="44" PelaajaId2="47" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="46" PelaajaId2="50" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="4" KierrosPelaaja1="4" KierrosPelaaja2="4" PelaajaId1="51" PelaajaId2="55" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:09" Paattyi="14:09" />
+    <Peli Kierros="5" KierrosPelaaja1="4" KierrosPelaaja2="5" PelaajaId1="52" PelaajaId2="3" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="5" KierrosPelaaja1="5" KierrosPelaaja2="5" PelaajaId1="7" PelaajaId2="11" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="5" KierrosPelaaja1="5" KierrosPelaaja2="5" PelaajaId1="12" PelaajaId2="16" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="5" KierrosPelaaja1="5" KierrosPelaaja2="5" PelaajaId1="15" PelaajaId2="24" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="5" KierrosPelaaja1="5" KierrosPelaaja2="5" PelaajaId1="25" PelaajaId2="31" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="5" KierrosPelaaja1="5" KierrosPelaaja2="5" PelaajaId1="34" PelaajaId2="37" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="5" KierrosPelaaja1="5" KierrosPelaaja2="5" PelaajaId1="43" PelaajaId2="46" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="5" KierrosPelaaja1="5" KierrosPelaaja2="5" PelaajaId1="44" PelaajaId2="51" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="6" KierrosPelaaja1="5" KierrosPelaaja2="6" PelaajaId1="52" PelaajaId2="7" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:10" Paattyi="14:10" />
+    <Peli Kierros="6" KierrosPelaaja1="6" KierrosPelaaja2="6" PelaajaId1="11" PelaajaId2="24" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:11" Paattyi="14:11" />
+    <Peli Kierros="6" KierrosPelaaja1="6" KierrosPelaaja2="6" PelaajaId1="12" PelaajaId2="25" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:11" Paattyi="14:11" />
+    <Peli Kierros="6" KierrosPelaaja1="6" KierrosPelaaja2="6" PelaajaId1="31" PelaajaId2="37" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:11" Paattyi="14:11" />
+    <Peli Kierros="6" KierrosPelaaja1="6" KierrosPelaaja2="6" PelaajaId1="43" PelaajaId2="51" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:11" Paattyi="14:11" />
+    <Peli Kierros="6" KierrosPelaaja1="6" KierrosPelaaja2="6" PelaajaId1="44" PelaajaId2="52" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:12" Paattyi="14:12" />
+    <Peli Kierros="7" KierrosPelaaja1="6" KierrosPelaaja2="7" PelaajaId1="46" PelaajaId2="11" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:12" Paattyi="14:12" />
+    <Peli Kierros="7" KierrosPelaaja1="7" KierrosPelaaja2="7" PelaajaId1="12" PelaajaId2="31" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:12" Paattyi="14:12" />
+    <Peli Kierros="7" KierrosPelaaja1="7" KierrosPelaaja2="7" PelaajaId1="25" PelaajaId2="43" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:12" Paattyi="14:12" />
+    <Peli Kierros="8" KierrosPelaaja1="7" KierrosPelaaja2="8" PelaajaId1="52" PelaajaId2="25" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:12" Paattyi="14:12" />
+    <Peli Kierros="8" KierrosPelaaja1="8" KierrosPelaaja2="8" PelaajaId1="11" PelaajaId2="31" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:12" Paattyi="14:12" />
+    <Peli Kierros="9" KierrosPelaaja1="8" KierrosPelaaja2="9" PelaajaId1="43" PelaajaId2="31" Pisteet1="0" Pisteet2="1v" Tilanne="Pelattu" Alkoi="14:13" Paattyi="14:13" />
+    <Peli Kierros="10" KierrosPelaaja1="9" KierrosPelaaja2="10" PelaajaId1="25" PelaajaId2="31" Pisteet1="1v" Pisteet2="0" Tilanne="Pelattu" Alkoi="14:13" Paattyi="14:13" />
+  </Pelit>
+</Kilpailu>

@@ -32,8 +32,9 @@ namespace KaisaKaavio.Testaus
             this.status = status;
 
             this.VirheKansio = Path.Combine(
-                Path.GetTempPath(), 
-                "KaisaKaavioTestit", 
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+                "KaisaKaaviot",
+                "Testit", 
                 string.Format("{0}_{1}_{2}_{3}_{4}",
                     DateTime.Now.Year,
                     DateTime.Now.Month,

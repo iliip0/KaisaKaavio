@@ -140,16 +140,52 @@ namespace KaisaKaavio
                     {
                         if (!string.IsNullOrEmpty(pelaaja.Nimi))
                         {
-                            string nimi = pelaaja.Nimi
-                                .Replace("(3p)", string.Empty)
-                                .Replace("(3P)", string.Empty)
-                                .Replace("(2p)", string.Empty)
-                                .Replace("(2P)", string.Empty)
-                                .Replace("(1p)", string.Empty)
-                                .Replace("(1P)", string.Empty)
-                                .Trim();
+                            string nimi = pelaaja.Nimi;
 
-                            this.Pelaajat.Add(pelaaja);
+                            for (int i = 0; i < 24; ++i)
+                            {
+                                nimi = nimi.Replace(string.Format("({0})", i), string.Empty);
+                                nimi = nimi.Replace(string.Format("({0}p)", i), string.Empty);
+                                nimi = nimi.Replace(string.Format("({0}P)", i), string.Empty);
+                                nimi = nimi.Replace(string.Format("[{0}]", i), string.Empty);
+                                nimi = nimi.Replace(string.Format("[{0}p]", i), string.Empty);
+                                nimi = nimi.Replace(string.Format("[{0}P]", i), string.Empty);
+                            }
+
+                            nimi = nimi.Trim();
+
+                            StringBuilder nimiIsoillaKirjaimilla = new StringBuilder();
+
+                            bool edellinenOliTyhja = true;
+                            foreach (var c in nimi)
+                            {
+                                if (edellinenOliTyhja)
+                                {
+                                    nimiIsoillaKirjaimilla.Append(Char.ToUpper(c));
+                                }
+                                else
+                                {
+                                    nimiIsoillaKirjaimilla.Append(Char.ToLower(c));
+                                }
+
+                                edellinenOliTyhja = 
+                                    Char.IsWhiteSpace(c) || 
+                                    Char.IsPunctuation(c) ||
+                                    c == '-' ||
+                                    c == '.' ||
+                                    c == '&';
+                            }
+
+                            nimi = nimiIsoillaKirjaimilla.ToString();
+
+                            if (!this.Pelaajat.Any(x => string.Equals(x.Nimi, nimi)))
+                            {
+                                this.Pelaajat.Add(new PelaajaTietue() 
+                                {
+                                    Nimi = nimi,
+                                    Seura = pelaaja.Seura
+                                });
+                            }
                         }
                     }
 

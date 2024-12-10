@@ -5,6 +5,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.4		(työn alla)
 
 * Pelaajien sijoittaminen SBiL RG kisoihin toteutettu
+* Automaattinen nimien ehdotus ilmoittautuneet listalle, sekä jälki-ilmoittautuneet listalle
+* Teksti (finaali) pelit tekstitulosteeseen finaalikierroksille
 
 ## Versio 1.0.0.3		(julkaistu 9.12.2024)
 

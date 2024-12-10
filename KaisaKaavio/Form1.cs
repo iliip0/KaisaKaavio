@@ -38,6 +38,8 @@ namespace KaisaKaavio
         private Color arpomattomanPelaajanVäri = Color.FromArgb(255, 255, 240, 200);
         private Color sbilKeskusteluTausta = Color.FromArgb(255, 225, 235, 242);
 
+        private AutoCompleteStringCollection pelaajienNimet = null;
+
         private Brush rajaHarja = null;
         private Pen rajaKyna = null;
 
@@ -529,6 +531,9 @@ namespace KaisaKaavio
 
         void Form1_Shown(object sender, EventArgs e)
         {
+            this.pelaajienNimet = new AutoCompleteStringCollection();
+            this.pelaajienNimet.AddRange(this.asetukset.Pelaajat.Select(x => x.Nimi).ToArray());
+
             PaivitaStatusRivi(string.Empty, false, 0, 0);
             PaivitaArvontaTabi();
 
@@ -583,6 +588,17 @@ namespace KaisaKaavio
                 this.loki.Kirjoita("Ohjelman päivitys epäonnistui", ee, false);
             }
 #endif
+        }
+
+        private void Form1_ResizeBegin(object sender, EventArgs e)
+        {
+            SuspendLayout();
+        }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+            ResumeLayout();
+            Refresh();
         }
 
         private void PaivitaIkkunanNimi()
@@ -1351,19 +1367,41 @@ namespace KaisaKaavio
 #if !DEBUG
             try
             {
+                EhdotaPelaajienNimia(e, osallistujatDataGridView.CurrentCell.ColumnIndex, this.nimiDataGridViewTextBoxColumn.Index);
+            }
+            catch
+            { 
+            }
+#endif
+        }
+
+        private void jalkiIlmoittautuneetDataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+#if !DEBUG
+            try
+            {
+                EhdotaPelaajienNimia(e, jalkiIlmoittautuneetDataGridView.CurrentCell.ColumnIndex, this.nimiDataGridViewTextBoxColumn2.Index);
+            }
+            catch
+            { 
+            }
+#endif
+        }
+
+        private void EhdotaPelaajienNimia(DataGridViewEditingControlShowingEventArgs e, int nykySarake, int nimiSarake)
+        {
+            try
+            {
                 TextBox tb = e.Control as TextBox;
                 if (tb != null)
                 {
-                    int column = osallistujatDataGridView.CurrentCell.ColumnIndex;
-                    if (column == this.nimiDataGridViewTextBoxColumn.Index)
+                    int column = nykySarake;
+                    if (column == nimiSarake)
                     {
                         if (this.asetukset.Pelaajat.Any(x => !string.IsNullOrEmpty(x.Nimi)))
                         {
-                            AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
-                            acsc.AddRange(this.asetukset.Pelaajat.Select(x => x.Nimi).ToArray());
-
                             tb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                            tb.AutoCompleteCustomSource = acsc;
+                            tb.AutoCompleteCustomSource = this.pelaajienNimet;
                             tb.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         }
                         else
@@ -1378,9 +1416,8 @@ namespace KaisaKaavio
                 }
             }
             catch
-            { 
+            {
             }
-#endif
         }
 
         private void osallistujatDataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
@@ -1395,6 +1432,81 @@ namespace KaisaKaavio
             }
             catch
             { 
+            }
+        }
+
+        private void osallistujatDataGridView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewCell cell in this.osallistujatDataGridView.SelectedCells)
+                {
+                    Pelaaja pelaaja = (Pelaaja)cell.OwningRow.DataBoundItem;
+
+                    if (e.KeyChar == (char)Keys.Back ||
+                        e.KeyChar == (char)Keys.Delete)
+                    {
+                        if (cell.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
+                        {
+                            pelaaja.Nimi = string.Empty;
+                        }
+
+                        if (cell.ColumnIndex == this.seuraDataGridViewTextBoxColumn.Index)
+                        {
+                            pelaaja.Seura = string.Empty;
+                        }
+
+                        if (cell.ColumnIndex == this.sijoitettuDataGridViewTextBoxColumn.Index)
+                        {
+                            pelaaja.Sijoitettu = string.Empty;
+                        }
+
+                        if (cell.ColumnIndex == this.osMaksuDataGridViewTextBoxColumn.Index)
+                        {
+                            pelaaja.OsMaksu = string.Empty;
+                        }
+
+                        if (cell.ColumnIndex == this.veloitettuDataGridViewTextBoxColumn.Index)
+                        {
+                            pelaaja.Veloitettu = string.Empty;
+                        }
+
+                        if (cell.ColumnIndex == this.kabikeMaksuDataGridViewTextBoxColumn.Index)
+                        {
+                            pelaaja.KabikeMaksu = string.Empty;
+                        }
+                    }
+
+                    return;
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void jalkiIlmoittautuneetDataGridView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewCell cell in this.jalkiIlmoittautuneetDataGridView.SelectedCells)
+                {
+                    Pelaaja pelaaja = (Pelaaja)cell.OwningRow.DataBoundItem;
+
+                    if (e.KeyChar == (char)Keys.Back ||
+                        e.KeyChar == (char)Keys.Delete)
+                    {
+                        if (cell.ColumnIndex == this.nimiDataGridViewTextBoxColumn2.Index)
+                        {
+                            pelaaja.Nimi = string.Empty;
+                        }
+                    }
+
+                    return;
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -2429,7 +2541,13 @@ namespace KaisaKaavio
                     rtf.Append(@"\b " + kierros.ToString() + @". Kierros \b0 ");
                     sbil.Append("[b]" + kierros.ToString() + ". Kierros[/b]");
 
-                    if (peli.OnPudotusPeli())
+                    var mukana = this.kilpailu.MukanaOlevatPelaajatEnnenPelia(peli);
+                    if (mukana.Count() == 2)
+                    {
+                        rtf.Append(" (finaali)");
+                        sbil.Append(" (finaali)");
+                    }
+                    else if (peli.OnPudotusPeli())
                     {
                         rtf.Append(" (pudari)");
                         sbil.Append(" (pudari)");
