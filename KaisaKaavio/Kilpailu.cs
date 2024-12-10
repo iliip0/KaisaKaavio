@@ -763,13 +763,11 @@ namespace KaisaKaavio
         {
             virhe = string.Empty;
 
-#if DEBUG
             if (Pelit.Any(x => (x.Kierros > 1) && (x.Tilanne == PelinTilanne.Pelattu || x.Tilanne == PelinTilanne.Kaynnissa)))
             {
-                this.Loki.Kirjoita("BUGI! Yritettiin arpoa kaavio vaikka toinen kierros on jo alkanut");
+                this.Loki.Kirjoita("Kaavion arpominen ei ole mahdollista enää toisen kierroksen alettua");
                 return false;
             }
-#endif
 
             foreach (var osallistuja in this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
             {
@@ -782,7 +780,18 @@ namespace KaisaKaavio
 
             PoistaTyhjatOsallistujat();
             PoistaTyhjatPelit(1);
-            ArvoPelaajienIdt();
+
+            if (!KilpailuOnViikkokisa && 
+                this.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Sijoitettu)) &&
+                !this.Osallistujat.Any(x => x.Id > 0))
+            {
+                ArvoPelaajienIdtSijoituksilla();
+            }
+            else
+            {
+                ArvoPelaajienIdt();
+            }
+
             PaivitaOsallistujatJarjestyksessa();
 
             return HaeAlkukierrokset(out virhe);
@@ -802,6 +811,100 @@ namespace KaisaKaavio
             foreach (var o in osallistujat.Where(x => x.Id <= 0))
             {
                 o.Id = maxId + 1 + r.Next();
+            }
+
+            int id = 1;
+            foreach (var o in osallistujat.OrderBy(x => x.Id))
+            {
+                o.Id = id++;
+            }
+        }
+
+        private void ArvoPelaajienIdtSijoituksilla()
+        {
+            var osallistujat = this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
+
+            List<int> vapaatIdt = new List<int>();
+            int i = 1;
+            foreach (var o in osallistujat)
+            {
+                vapaatIdt.Add(i);
+                i++;
+            }
+
+            var sijoitetut = osallistujat
+                .Where(x => !string.IsNullOrEmpty(x.Sijoitettu))
+                .OrderBy(x => x.Sijoitettu)
+                .Take(8);
+
+            int sijoitus = 0;
+            foreach (var sijoitettu in sijoitetut)
+            {
+                switch (sijoitus)
+                {
+                    case 0:
+                        sijoitettu.Id = osallistujat.Count() - 1;
+                        break;
+
+                    case 1:
+                        sijoitettu.Id = (int)Math.Floor(osallistujat.Count() * 0.5f);
+                        break;
+
+                    case 2:
+                        sijoitettu.Id = (int)Math.Floor(sijoitetut.ElementAt(1).Id * 0.5f);
+                        break;
+
+                    case 3:
+                        sijoitettu.Id = (int)Math.Round((sijoitetut.ElementAt(1).Id + sijoitetut.ElementAt(0).Id) * 0.5f);
+                        break;
+
+                    case 4:
+                        sijoitettu.Id = (int)Math.Round((sijoitetut.ElementAt(3).Id + sijoitetut.ElementAt(1).Id) * 0.5f);
+                        break;
+
+                    case 5:
+                        sijoitettu.Id = (int)Math.Floor(sijoitetut.ElementAt(2).Id * 0.5f);
+                        break;
+
+                    case 6:
+                        sijoitettu.Id = (int)Math.Round((sijoitetut.ElementAt(1).Id + sijoitetut.ElementAt(2).Id) * 0.5f);
+                        break;
+
+                    case 7:
+                        sijoitettu.Id = (int)Math.Ceiling((sijoitetut.ElementAt(0).Id + sijoitetut.ElementAt(3).Id) * 0.5f);
+                        break;
+
+                    default:
+                        break;
+                }
+                sijoitus++;
+            }
+
+            foreach (var sijoitettu in sijoitetut)
+            {
+                if (vapaatIdt.Contains(sijoitettu.Id))
+                {
+                    vapaatIdt.Remove(sijoitettu.Id);
+                }
+            }
+
+            Random r = new Random(DateTime.Now.Millisecond);
+
+            foreach (var pelaaja in osallistujat.Where(x => x.Id <= 0))
+            {
+                if (vapaatIdt.Count > 0)
+                {
+                    pelaaja.Id = vapaatIdt.ElementAt(r.Next(vapaatIdt.Count));
+                }
+                else
+                {
+                    pelaaja.Id = Osallistujat.Count + 1 + r.Next();
+                }
+
+                if (vapaatIdt.Contains(pelaaja.Id))
+                {
+                    vapaatIdt.Remove(pelaaja.Id);
+                }
             }
 
             int id = 1;

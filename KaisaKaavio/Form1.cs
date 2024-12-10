@@ -1167,10 +1167,7 @@ namespace KaisaKaavio
                 {
                     Pelaaja pelaaja = (Pelaaja)this.osallistujatDataGridView.Rows[e.RowIndex].DataBoundItem;
 
-                    if (this.kilpailu.KilpailuOnViikkokisa && this.kilpailu.RankingKisa)
-                    {
-                        PaivitaPelaajanRankingPisteetOsallistujalistaan(pelaaja);
-                    }
+                    PaivitaPelaajanRankingPisteetOsallistujalistaan(pelaaja);
 
                     PelaajaTietue tietue = this.asetukset.Pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
                     if (tietue != null)
@@ -1196,21 +1193,24 @@ namespace KaisaKaavio
         {
             try
             {
-                pelaaja.Sijoitettu = string.Empty;
-
-                if (!string.IsNullOrEmpty(pelaaja.Nimi))
+                if (this.kilpailu.KilpailuOnViikkokisa && this.kilpailu.RankingKisa)
                 {
-                    int sijoitus = 0;
-                    if (this.ranking.HaeNykyinenRankingSijoitus(
-                        this.kilpailu.AlkamisAika,
-                        this.kilpailu.RankingKisaTyyppi, 
-                        pelaaja.Nimi, 
-                        out sijoitus))
+                    pelaaja.Sijoitettu = string.Empty;
+
+                    if (!string.IsNullOrEmpty(pelaaja.Nimi))
                     {
-                        int pisteita = this.ranking.Asetukset.PisteitaVoitosta(sijoitus);
-                        if (pisteita > 1)
+                        int sijoitus = 0;
+                        if (this.ranking.HaeNykyinenRankingSijoitus(
+                            this.kilpailu.AlkamisAika,
+                            this.kilpailu.RankingKisaTyyppi,
+                            pelaaja.Nimi,
+                            out sijoitus))
                         {
-                            pelaaja.Sijoitettu = string.Format("{0}P", pisteita);
+                            int pisteita = this.ranking.Asetukset.PisteitaVoitosta(sijoitus);
+                            if (pisteita > 1)
+                            {
+                                pelaaja.Sijoitettu = string.Format("{0}P", pisteita);
+                            }
                         }
                     }
                 }
@@ -1223,9 +1223,12 @@ namespace KaisaKaavio
 
         private void PaivitaPelaajienRankingPisteetOsallistujalistaan()
         {
-            foreach (var p in this.kilpailu.Osallistujat)
+            if (this.kilpailu.KilpailuOnViikkokisa && this.kilpailu.RankingKisa)
             {
-                PaivitaPelaajanRankingPisteetOsallistujalistaan(p);
+                foreach (var p in this.kilpailu.Osallistujat)
+                {
+                    PaivitaPelaajanRankingPisteetOsallistujalistaan(p);
+                }
             }
         }
 
