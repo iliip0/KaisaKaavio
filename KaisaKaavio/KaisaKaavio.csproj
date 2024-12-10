@@ -91,7 +91,6 @@
     <Compile Include="Pelaaja.cs" />
     <Compile Include="PelaajaTietue.cs" />
     <Compile Include="Peli.cs" />
-    <Compile Include="PelinDetaljit.cs" />
     <Compile Include="PelinTiedotPopup.cs">
       <SubType>Form</SubType>
     </Compile>

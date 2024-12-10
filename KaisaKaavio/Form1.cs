@@ -2474,11 +2474,6 @@ namespace KaisaKaavio
             Dictionary<string, List<int>> sarjat = new Dictionary<string, List<int>>();
             foreach (var peli in this.kilpailu.Pelit)
             {
-                var detaljit = this.kilpailu.PelienDetaljit.FirstOrDefault(x => 
-                    (x.Kierros == peli.Kierros) &&
-                    (x.Pelaaja1 == peli.Id1) &&
-                    (x.Pelaaja2 == peli.Id2));
-
                 if (!sarjat.ContainsKey(peli.Pelaaja1))
                 {
                     sarjat.Add(peli.Pelaaja1, new List<int>());
@@ -2489,25 +2484,22 @@ namespace KaisaKaavio
                     sarjat.Add(peli.Pelaaja2, new List<int>());
                 }
 
-                if (detaljit != null)
+                int sarja = 0;
+                if (Int32.TryParse(peli.PisinSarja1, out sarja) && sarja > 0)
                 {
-                    int sarja = 0;
-                    if (Int32.TryParse(detaljit.PisinSarja1, out sarja) && sarja > 0)
-                    {
-                        sarjat[peli.Pelaaja1].Add(sarja);
-                    }
-                    if (Int32.TryParse(detaljit.ToiseksiPisinSarja1, out sarja) && sarja > 0)
-                    {
-                        sarjat[peli.Pelaaja1].Add(sarja);
-                    }
-                    if (Int32.TryParse(detaljit.PisinSarja2, out sarja) && sarja > 0)
-                    {
-                        sarjat[peli.Pelaaja2].Add(sarja);
-                    }
-                    if (Int32.TryParse(detaljit.ToiseksiPisinSarja2, out sarja) && sarja > 0)
-                    {
-                        sarjat[peli.Pelaaja2].Add(sarja);
-                    }
+                    sarjat[peli.Pelaaja1].Add(sarja);
+                }
+                if (Int32.TryParse(peli.ToiseksiPisinSarja1, out sarja) && sarja > 0)
+                {
+                    sarjat[peli.Pelaaja1].Add(sarja);
+                }
+                if (Int32.TryParse(peli.PisinSarja2, out sarja) && sarja > 0)
+                {
+                    sarjat[peli.Pelaaja2].Add(sarja);
+                }
+                if (Int32.TryParse(peli.ToiseksiPisinSarja2, out sarja) && sarja > 0)
+                {
+                    sarjat[peli.Pelaaja2].Add(sarja);
                 }
             }
 

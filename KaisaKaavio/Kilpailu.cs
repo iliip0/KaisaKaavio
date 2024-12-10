@@ -76,7 +76,6 @@ namespace KaisaKaavio
         public BindingList<Pelaaja> Osallistujat { get; set; }
         public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
         public BindingList<Peli> Pelit { get; set; }
-        public BindingList<PelinDetaljit> PelienDetaljit { get; set; }
         
         [XmlIgnore]
         public BindingList<Pelaaja> OsallistujatJarjestyksessa { get; set; }
@@ -119,8 +118,6 @@ namespace KaisaKaavio
 
             Pelit = new BindingList<Peli>();
             Pelit.ListChanged += Pelit_ListChanged;
-
-            PelienDetaljit = new BindingList<PelinDetaljit>();
 
             Nimi = string.Format("Kaisan viikkokilpailu {0}.{1}.{2}", 
                 DateTime.Now.Day, 
@@ -694,18 +691,6 @@ namespace KaisaKaavio
                 }
 
                 PaivitaOsallistujatJarjestyksessa();
-
-                this.PelienDetaljit.Clear();
-                foreach (var p in kilpailu.PelienDetaljit
-                    .Where(x => !x.Tyhja)
-                    .OrderBy(x => x.Pelaaja1)
-                    .OrderBy(x => x.Kierros))
-                {
-                    if (this.Pelit.Any(x => (x.Kierros == p.Kierros) && (x.Id1 == p.Pelaaja1) && (x.Id2 == p.Pelaaja2)))
-                    {
-                        this.PelienDetaljit.Add(p);
-                    }
-                }
 
                 this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             }

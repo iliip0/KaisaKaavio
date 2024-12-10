@@ -41,19 +41,11 @@ namespace KaisaKaavio
                 peli.Pisteet2,
                 peli.Pelaaja2);
 
-            var tiedot = this.kilpailu.PelienDetaljit.FirstOrDefault(x =>
-                (x.Kierros == peli.Kierros) &&
-                (x.Pelaaja1 == peli.Id1) &&
-                (x.Pelaaja2 == peli.Id2));
+            this.pelidetaljiPelaaja1Sarja1textBox.Text = peli.PisinSarja1;
+            this.pelidetaljiPelaaja1Sarja2textBox.Text = peli.ToiseksiPisinSarja1;
 
-            if (tiedot != null)
-            {
-                this.pelidetaljiPelaaja1Sarja1textBox.Text = !string.IsNullOrEmpty(tiedot.PisinSarja1) ? tiedot.PisinSarja1 : string.Empty;
-                this.pelidetaljiPelaaja1Sarja2textBox.Text = !string.IsNullOrEmpty(tiedot.ToiseksiPisinSarja1) ? tiedot.ToiseksiPisinSarja1 : string.Empty;
-
-                this.pelidetaljiPelaaja2Sarja1textBox.Text = !string.IsNullOrEmpty(tiedot.PisinSarja2) ? tiedot.PisinSarja2 : string.Empty;
-                this.pelidetaljiPelaaja2Sarja2textBox.Text = !string.IsNullOrEmpty(tiedot.ToiseksiPisinSarja2) ? tiedot.ToiseksiPisinSarja2 : string.Empty;
-            }
+            this.pelidetaljiPelaaja2Sarja1textBox.Text = peli.PisinSarja2;
+            this.pelidetaljiPelaaja2Sarja2textBox.Text = peli.ToiseksiPisinSarja2;
 
             this.pelidetaljiPelaaja1Sarja2textBox.Enabled = !string.IsNullOrEmpty(this.pelidetaljiPelaaja1Sarja1textBox.Text);
             this.pelidetaljiPelaaja2Sarja2textBox.Enabled = !string.IsNullOrEmpty(this.pelidetaljiPelaaja2Sarja1textBox.Text);
@@ -63,37 +55,14 @@ namespace KaisaKaavio
 
         void PelinTiedotPopup_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var tiedot = this.kilpailu.PelienDetaljit.FirstOrDefault(x =>
-                (x.Kierros == peli.Kierros) &&
-                (x.Pelaaja1 == peli.Id1) &&
-                (x.Pelaaja2 == peli.Id2));
-
-            if (tiedot == null)
-            {
-                tiedot = new PelinDetaljit()
-                {
-                    Kierros = this.peli.Kierros,
-                    Pelaaja1 = this.peli.Id1,
-                    Pelaaja2 = this.peli.Id2,
-                };
-
-                this.kilpailu.PelienDetaljit.Add(tiedot);
-            }
-
-            tiedot.PisinSarja1 = this.pelidetaljiPelaaja1Sarja1textBox.Text;
-            tiedot.PisinSarja2 = this.pelidetaljiPelaaja2Sarja1textBox.Text;
-            tiedot.ToiseksiPisinSarja1 = this.pelidetaljiPelaaja1Sarja2textBox.Text;
-            tiedot.ToiseksiPisinSarja2 = this.pelidetaljiPelaaja2Sarja2textBox.Text;
-
-            if (tiedot.Tyhja)
-            {
-                this.kilpailu.PelienDetaljit.Remove(tiedot);
-            }
+            this.peli.PisinSarja1 = this.pelidetaljiPelaaja1Sarja1textBox.Text;
+            this.peli.PisinSarja2 = this.pelidetaljiPelaaja2Sarja1textBox.Text;
+            this.peli.ToiseksiPisinSarja1 = this.pelidetaljiPelaaja1Sarja2textBox.Text;
+            this.peli.ToiseksiPisinSarja2 = this.pelidetaljiPelaaja2Sarja2textBox.Text;
         }
 
         private void tallennaButton_Click(object sender, EventArgs e)
         {
-
             Close();
         }
 
