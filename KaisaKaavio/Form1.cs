@@ -775,30 +775,7 @@ namespace KaisaKaavio
 
                 this.kilpailu.PaivitaKaavioData();
 
-                // Piilota seura sarake jos se olisi tyhjä
-                if (this.kilpailu.OsallistujatJarjestyksessa.Any(x => !string.IsNullOrEmpty(x.Seura)))
-                {
-                    this.kaavioDataGridView.Columns[2].Visible = true;
-                }
-                else
-                {
-                    this.kaavioDataGridView.Columns[2].Visible = false;
-                }
-
-                // Piilotetaan turhat sarakkeet kaavio taulukosta
-                for (int i = 3; i < this.Voitot.Index; ++i)
-                {
-                    int kierros = (i - 3) / 2;
-
-                    if (kierros >= this.kilpailu.MaxKierros + 1)
-                    {
-                        this.kaavioDataGridView.Columns[i].Visible = false;
-                    }
-                    else
-                    {
-                        this.kaavioDataGridView.Columns[i].Visible = true;
-                    }
-                }
+                PaivitaKaavioSolut();
 
                 this.kaavioBindingSource.ResetBindings(false);
                 this.kaavioBindingSource.ResumeBinding();
@@ -2184,14 +2161,85 @@ namespace KaisaKaavio
             }
         }
 
+        private void piilotaToinenKierrosCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.pelitDataGridView.Refresh();
+        }
+
+        #endregion
+
+        // ========={( Kaavio tab )}=========================================================================== //
+        #region Kaavio
+
+        private int PelinNumeroKaaviossa(int sarake)
+        {
+            if (sarake >= 3 && sarake < this.Voitot.Index)
+            {
+                return (sarake - 3) / 2;
+            }
+
+            return -1;
+        }
+
+        private void PaivitaKaavioSolut()
+        {
+            try
+            {
+                // Piilota seura sarake jos se olisi tyhjä
+                if (this.kilpailu.OsallistujatJarjestyksessa.Any(x => !string.IsNullOrEmpty(x.Seura)))
+                {
+                    this.kaavioDataGridView.Columns[2].Visible = true;
+                }
+                else
+                {
+                    this.kaavioDataGridView.Columns[2].Visible = false;
+                }
+
+                // Piilotetaan turhat sarakkeet kaavio taulukosta
+                for (int i = 3; i < this.Voitot.Index; ++i)
+                {
+                    int kierros = (i - 3) / 2;
+
+                    if (kierros >= this.kilpailu.MaxKierros + 1)
+                    {
+                        this.kaavioDataGridView.Columns[i].Visible = false;
+                    }
+                    else
+                    {
+                        this.kaavioDataGridView.Columns[i].Visible = true;
+                    }
+                }
+
+                foreach (var c in this.kaavioDataGridView.Columns)
+                {
+                    DataGridViewColumn column = (DataGridViewColumn)c;
+                    if (column != null)
+                    {
+                        if (column.Index % 2 == 1 &&
+                            PelinNumeroKaaviossa(column.Index) >= 2)
+                        {
+                            column.ReadOnly = false;
+                        }
+                        else
+                        {
+                            column.ReadOnly = true;
+                        }
+                    }
+                }
+            }
+            catch
+            { 
+            }
+        }
+
         private void kaavioDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            var row = this.kaavioDataGridView.Rows[e.RowIndex];
-            var cell = row.Cells[e.ColumnIndex];
-
             // Rivin muotoilu
             try
             {
+                var row = this.kaavioDataGridView.Rows[e.RowIndex];
+                var cell = row.Cells[e.ColumnIndex];
+
                 Pelaaja pelaaja = (Pelaaja)row.DataBoundItem;
                 if (pelaaja != null)
                 {
@@ -2201,60 +2249,60 @@ namespace KaisaKaavio
                         {
                             e.CellStyle.ForeColor = Color.Red;
                         }
-                        else 
+                        else
                         {
                             e.CellStyle.ForeColor = Color.Black;
                         }
                     }
 
-                    if (e.ColumnIndex >= 3 && e.ColumnIndex < this.Voitot.Index)
+                    int pelinNumero = PelinNumeroKaaviossa(e.ColumnIndex);
+                    if (pelinNumero >= 0)
                     {
-                        int pelinNumero = (e.ColumnIndex - 3) / 2;
-
-                        if (pelinNumero >= pelaaja.Pelit.Count)
+                        if (pelinNumero >= (pelaaja.Pelit.Count + 1))
                         {
                             if (pelaaja.Pudotettu)
                             {
                                 e.CellStyle.BackColor = Color.DarkGray;
                             }
-                            else if (pelinNumero >= this.kilpailu.MaxKierros)
+                            else
                             {
-                                if (e.ColumnIndex % 2 == 1)
-                                {
-                                    e.CellStyle.BackColor = Color.Yellow;
-                                }
-                                else
-                                {
-                                    e.CellStyle.BackColor = Color.White;
-                                }
+                                e.CellStyle.BackColor = Color.White;
                             }
-                            else 
+                        }
+                        else if (pelinNumero == pelaaja.Pelit.Count)
+                        {
+                            if (pelaaja.Pudotettu)
                             {
-                                if (e.ColumnIndex % 2 == 1)
-                                {
-                                    e.CellStyle.BackColor = Color.Yellow;
-                                }
-                                else
-                                {
-                                    e.CellStyle.BackColor = Color.White;
-                                }
+                                e.CellStyle.BackColor = Color.DarkGray;
+                            }
+                            else if (e.ColumnIndex % 2 == 1 &&
+                                KaavioPeliEditoitavissa(pelaaja, pelinNumero))
+                            {
+                                e.CellStyle.BackColor = Color.Yellow;
+                            }
+                            else
+                            {
+                                e.CellStyle.BackColor = Color.White;
                             }
                         }
                         else
+                        {
+                            e.CellStyle.BackColor = Color.White;
+                        }
+
+                        if (pelinNumero < pelaaja.Pelit.Count)
                         {
                             Pelaaja.PeliTietue peli = pelaaja.Pelit[pelinNumero];
 
                             if (e.ColumnIndex % 2 == 1)
                             {
                                 e.Value = peli.Vastustaja;
-                                //e.CellStyle.BackColor = Color.Yellow; // Id
                             }
                             else
                             {
                                 if (peli.Pelattu)
                                 {
                                     cell.Style.Font = this.paksuFontti;
-                                    cell.Style.BackColor = Color.White;
 
                                     if (peli.Voitto)
                                     {
@@ -2269,11 +2317,142 @@ namespace KaisaKaavio
                                 }
                                 else
                                 {
-                                    cell.Style.Font = this.ohutFontti;
-
+                                    e.CellStyle.Font = this.ohutFontti;
                                     e.Value = string.Empty;
-                                    e.CellStyle.BackColor = Color.White;
                                     e.CellStyle.ForeColor = Color.Black;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            e.CellStyle.Font = this.ohutFontti;
+                            e.Value = string.Empty;
+                            e.CellStyle.ForeColor = Color.Black;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private bool KaavioPeliEditoitavissa(Pelaaja pelaaja, int pelinNumero)
+        {
+            if (pelinNumero < 2) // Ekan ja tokan kierroksen pelejä ei sovi editoida
+            {
+                return false;
+            }
+
+            if (pelinNumero == pelaaja.Pelit.Count)
+            {
+                if (pelaaja.Pudotettu)
+                {
+                    return false;
+                }
+
+                if (pelaaja.Tappiot > 1)
+                {
+                    return false;
+                }
+
+                if (pelaaja.Pelit.Any(x => !x.Pelattu && x.Pudari))
+                {
+                    return false;
+                }
+
+                if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Tappiot) > 1)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            else if (pelinNumero == pelaaja.Pelit.Count - 1)
+            { 
+                var peli = pelaaja.Pelit[pelinNumero];
+                if (peli.Tilanne != PelinTilanne.Pelattu &&
+                    peli.Tilanne != PelinTilanne.Kaynnissa)
+                {
+                    return true; // Sallitaan poistaa haettu peli 
+                }
+            }
+
+            return false;
+        }
+
+        private void kaavioDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                {
+                    return;
+                }
+
+                int pelinNumero = PelinNumeroKaaviossa(e.ColumnIndex);
+                if (pelinNumero >= 0)
+                {
+                    var row = this.kaavioDataGridView.Rows[e.RowIndex];
+                    var cell = row.Cells[e.ColumnIndex];
+
+                    Pelaaja pelaaja = (Pelaaja)row.DataBoundItem;
+
+                    if (KaavioPeliEditoitavissa(pelaaja, pelinNumero) &&
+                        (e.ColumnIndex % 2 == 1)) 
+                    {
+                        e.PaintBackground(e.ClipBounds, true);
+
+                        Rectangle rectDimensions = e.CellBounds;
+
+                        rectDimensions.Width -= 4;
+                        rectDimensions.Height -= 4;
+                        rectDimensions.X = rectDimensions.Left + 1;
+                        rectDimensions.Y = rectDimensions.Top + 1;
+
+                        rectDimensions.Width -= cell.OwningColumn.DividerWidth;
+                        rectDimensions.Height -= row.DividerHeight;
+
+                        e.Graphics.DrawRectangle(this.rajaKyna, rectDimensions);
+
+                        e.Handled = true;
+
+                        e.PaintContent(e.ClipBounds);
+                        e.Handled = true;
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void kaavioDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int pelinNumero = PelinNumeroKaaviossa(e.ColumnIndex);
+                if (pelinNumero > 1)
+                {
+                    var row = this.kaavioDataGridView.Rows[e.RowIndex];
+
+                    Pelaaja pelaaja = (Pelaaja)row.DataBoundItem;
+                    if (pelaaja != null)
+                    {
+                        if (KaavioPeliEditoitavissa(pelaaja, pelinNumero))
+                        {
+                            var value = (string)row.Cells[e.ColumnIndex].Value;
+                            if (string.IsNullOrEmpty(value) &&
+                                VoiPoistaaPelinKaaviosta(pelinNumero, pelaaja))
+                            {
+                                PoistaPeliKaaviosta(pelinNumero, pelaaja);
+                            }
+                            else
+                            {
+                                int id = -1;
+                                if (Int32.TryParse(value, out id))
+                                {
+                                    // Hae peli/muuta hakua
                                 }
                             }
                         }
@@ -2285,9 +2464,75 @@ namespace KaisaKaavio
             }
         }
 
-        private void piilotaToinenKierrosCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void kaavioDataGridView_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.pelitDataGridView.Refresh();
+            try
+            {
+                foreach (DataGridViewCell cell in this.kaavioDataGridView.SelectedCells)
+                {
+                    int pelinNumero = PelinNumeroKaaviossa(cell.ColumnIndex);
+                    if (pelinNumero > 1)
+                    {
+                        Pelaaja pelaaja = (Pelaaja)cell.OwningRow.DataBoundItem;
+
+                        if (e.KeyChar == (char)Keys.Back ||
+                            e.KeyChar == (char)Keys.Delete)
+                        {
+                            if (KaavioPeliEditoitavissa(pelaaja, pelinNumero) &&
+                                VoiPoistaaPelinKaaviosta(pelinNumero, pelaaja))
+                            {
+                                PoistaPeliKaaviosta(pelinNumero, pelaaja);
+                            }
+                        }
+
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private bool VoiPoistaaPelinKaaviosta(int pelinNumero, Pelaaja pelaaja)
+        {
+            // TODO!!!
+            return true;
+        }
+
+        private void PoistaPeliKaaviosta(int pelinNumero, Pelaaja pelaaja)
+        {
+            try
+            {
+                if (pelinNumero < pelaaja.Pelit.Count)
+                {
+                    var peli = pelaaja.Pelit[pelinNumero];
+
+                    var poistettavaPeli = this.kilpailu.Pelit.FirstOrDefault(x =>
+                        x.Kierros == peli.Kierros &&
+                        x.SisaltaaPelaajat(peli.Vastustaja, pelaaja.Id));
+
+                    if (poistettavaPeli != null &&
+                        poistettavaPeli.Tilanne != PelinTilanne.Pelattu &&
+                        poistettavaPeli.Tilanne != PelinTilanne.Kaynnissa)
+                    {
+                        this.loki.Kirjoita(string.Format("Poistettiin peli {0} kaaviosta manuaalisesti", poistettavaPeli.Kuvaus()));
+
+                        this.kilpailu.PoistaPeli(poistettavaPeli);
+
+                        this.kaavioDataGridView.SuspendLayout();
+
+                        this.kilpailu.PaivitaKaavioData();
+                        PaivitaKaavioSolut();
+
+                        this.kaavioDataGridView.ResumeLayout();
+                        this.kaavioDataGridView.Refresh();
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
 
         #endregion

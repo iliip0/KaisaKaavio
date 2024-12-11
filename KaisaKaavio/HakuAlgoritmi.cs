@@ -250,7 +250,7 @@ namespace KaisaKaavio
                         }
 
                         PaivitaStatusRivi(
-                            string.Format("Haetaan pelejä... skenaario {0}/{1}", permutation + 1, maxPermutations + 1), 
+                            string.Format("Haetaan pelejä... skenaario {0}/{1}", permutation + 1, maxPermutations), 
                             10 + (int)(((float)permutation / (float)maxPermutations) * 90.0f));
 
 #if DEBUG
@@ -543,7 +543,7 @@ namespace KaisaKaavio
 
             if (vastustaja == null) 
             {
-                // Jos tähän on tultu, kaikilla hakujärestyksillä tulee uusintapelejä (toivottavasti ollaan finaalissa, muuten kaaviossa on tapahtunut hakuvirhe)
+                // Jos tähän on tultu, kaikilla hakujärestyksillä tulee uusintapelejä (toivottavasti ollaan finaalissa tai lähellä, muuten kaaviossa on tapahtunut hakuvirhe)
                 DebugViesti("Kaikki haut olivat huonoja. Haetaan ensimmäinen vastustaja listalta");
                 vastustaja = vastustajat.First();
             }

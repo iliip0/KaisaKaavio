@@ -126,6 +126,9 @@ namespace KaisaKaavio
             public bool Pelattu = false;
             public bool Voitto = false;
             public int Pisteet = 0;
+            public bool Pudari = false;
+            public PelinTilanne Tilanne = PelinTilanne.Tyhja;
+            public int Kierros = -1;
         }
 
         [XmlIgnore]

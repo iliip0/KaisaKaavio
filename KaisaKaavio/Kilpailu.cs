@@ -166,7 +166,7 @@ namespace KaisaKaavio
             Pelit.Add(peli);
         }
 
-        void PoistaPeli(Peli peli)
+        public void PoistaPeli(Peli peli)
         {
             Pelit.Remove(peli);
 
@@ -476,6 +476,9 @@ namespace KaisaKaavio
                         Vastustaja = peli.Id2,
                         Pisteet = peli.Pisteet(peli.Id1),
                         Pelattu = peli.Tilanne == PelinTilanne.Pelattu,
+                        Pudari = peli.OnPudotusPeli(),
+                        Tilanne = peli.Tilanne,
+                        Kierros = peli.Kierros
                     };
 
                     osallistuja1.Pelit.Add(p1);
@@ -485,6 +488,9 @@ namespace KaisaKaavio
                         Vastustaja = peli.Id1,
                         Pisteet = peli.Pisteet(peli.Id2),
                         Pelattu = peli.Tilanne == PelinTilanne.Pelattu,
+                        Pudari = peli.OnPudotusPeli(),
+                        Tilanne = peli.Tilanne,
+                        Kierros = peli.Kierros
                     };
 
                     osallistuja2.Pelit.Add(p2);

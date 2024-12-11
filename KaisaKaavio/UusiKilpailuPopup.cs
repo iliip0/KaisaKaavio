@@ -20,7 +20,8 @@ namespace KaisaKaavio
             this.uusiKilpailuLajiComboBox.SelectedIndex = 0;
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
             this.rankingComboBox.SelectedIndex = 0;
-            this.rankingCheckBox.Checked = true;
+            this.rankingCheckBox.Checked = false;
+            this.rankingComboBox.Visible = false;
 
             this.kilpailunNimiTextBox.Text = string.Format("Kaisan viikkokilpailu {0}.{1}.{2}",
                 DateTime.Now.Day,
