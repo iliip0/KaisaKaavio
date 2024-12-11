@@ -220,7 +220,7 @@ namespace KaisaKaavio
                 }
 #endif
                 int maxPermutations = (int)Math.Pow(2.0, (double)PelitKesken.Count);
-                if (maxPermutations == 0)
+                if (maxPermutations <= 1)
                 {
                     DebugViesti("Haetaan pelejä:");
                     PaivitaStatusRivi("Haetaan pelejä... skenaario 1/1", 50);
@@ -590,8 +590,22 @@ namespace KaisaKaavio
                 }
             }
 
-            DebugViesti("---- Haku ei onnistu haun {0} - {1} jälkeen", hakija.Nimi, vastustaja.Nimi);
-            return false;
+            int hakijanKierros = LaskePelit(kaikkiPelit, hakija.Id);
+            int vastustajanKierros = LaskePelit(kaikkiPelit, vastustaja.Id);
+            int kierros = Math.Max(hakijanKierros, vastustajanKierros);
+            foreach (var pelaaja in mukana)
+            {
+                int pelaajanKierros = LaskePelit(kaikkiPelit, pelaaja.Id);
+                if (pelaajanKierros <= kierros)
+                {
+                    DebugViesti("---- Haku ei onnistu haun {0} - {1} jälkeen", hakija.Nimi, vastustaja.Nimi);
+                    return false;
+                }
+            }
+
+
+            DebugViesti("---- Haku ei onnistu haun {0} - {1} jälkeen mutta hakija ja vastustaja ovat muita kierroksen perässä. Haku on OK", hakija.Nimi, vastustaja.Nimi);
+            return true;
         }
 
         private HakuPeli LisaaPeli(List<HakuPeli> kaikkiPelit, List<HakuPeli> pelatutPelit, List<HakuPeli> arvotutPelit, Pelaaja pelaaja1, Pelaaja pelaaja2)

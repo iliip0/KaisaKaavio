@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.5		(työn alla)
+
+* Korjaus hakualgoritmiin.
+
 ## Versio 1.0.0.4		(julkaistu 10.12.2024)
 
 * Pelaajien sijoittaminen SBiL RG kisoihin toteutettu
