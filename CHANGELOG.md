@@ -2,10 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.5		(työn alla)
+## Versio 1.0.0.5		(julkaistu 13.12.2024)
 
 * Korjaus hakualgoritmiin. Automaattinen testiajo löysi bugin
 * Pelien hakeminen manuaalisesti Kaavio-välilehdeltä toteutettu. Tämä mahdollistaa täyden kontrollin kilpailun vetäjälle hakea pelejä tai korjata mahdollisia hakuvirheitä
+* Lisätty mitalikuvat Kaavio-välilehdelle kilpailun päätyttyä
 
 ## Versio 1.0.0.4		(julkaistu 10.12.2024)
 
