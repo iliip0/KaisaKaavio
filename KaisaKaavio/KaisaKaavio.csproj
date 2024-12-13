@@ -205,6 +205,10 @@
     <None Include="Resources\Ok.png" />
     <None Include="Resources\Peruuta.png" />
     <None Include="Resources\Asetukset.png" />
+    <None Include="Resources\Bronze.png" />
+    <None Include="Resources\Gold.png" />
+    <None Include="Resources\Silver.png" />
+    <None Include="Resources\Lapinakuva.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

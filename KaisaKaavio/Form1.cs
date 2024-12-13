@@ -780,6 +780,8 @@ namespace KaisaKaavio
                 this.kaavioBindingSource.ResetBindings(false);
                 this.kaavioBindingSource.ResumeBinding();
                 this.kaavioDataGridView.ResumeLayout();
+
+                PaivitaKaavioMitaliKuvat();
             }
             else if (this.tabControl1.SelectedTab == this.rahanJakoTabPage)
             {
@@ -2173,7 +2175,7 @@ namespace KaisaKaavio
 
         private int PelinNumeroKaaviossa(int sarake)
         {
-            if (sarake >= 3 && sarake < this.Voitot.Index)
+            if (sarake >= 3 && sarake < this.KaavioKuvaSarake.Index)
             {
                 return (sarake - 3) / 2;
             }
@@ -2195,12 +2197,14 @@ namespace KaisaKaavio
                     this.kaavioDataGridView.Columns[2].Visible = false;
                 }
 
+                int ylimSarakkeita = this.kilpailu.KilpailuOnPaattynyt ? 0 : 1;
+
                 // Piilotetaan turhat sarakkeet kaavio taulukosta
                 for (int i = 3; i < this.Voitot.Index; ++i)
                 {
                     int kierros = (i - 3) / 2;
 
-                    if (kierros >= this.kilpailu.MaxKierros + 1)
+                    if (kierros >= this.kilpailu.MaxKierros + ylimSarakkeita)
                     {
                         this.kaavioDataGridView.Columns[i].Visible = false;
                     }
@@ -2223,6 +2227,11 @@ namespace KaisaKaavio
                         else
                         {
                             column.ReadOnly = true;
+                        }
+
+                        if (column.Index == KaavioKuvaSarake.Index)
+                        {
+                            column.Visible = this.kilpailu.KilpailuOnPaattynyt;
                         }
                     }
                 }
@@ -2337,6 +2346,44 @@ namespace KaisaKaavio
             }
         }
 
+        private void PaivitaKaavioMitaliKuvat()
+        {
+            try
+            {
+                for (int r = 0; r < this.kaavioDataGridView.Rows.Count; ++r)
+                {
+                    var row = this.kaavioDataGridView.Rows[r];
+                    Pelaaja pelaaja = (Pelaaja)((DataGridViewRow)row).DataBoundItem;
+                    if (pelaaja != null)
+                    {
+                        if (pelaaja.Sijoitus == 1)
+                        {
+                            row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Gold;
+                        }
+                        else if (pelaaja.Sijoitus == 2)
+                        {
+                            row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Silver;
+                        }
+                        else if (pelaaja.Sijoitus == 3)
+                        {
+                            row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Bronze;
+                        }
+                        else
+                        {
+                            row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Lapinakuva;
+                        }
+                    }
+                    else
+                    {
+                        row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Lapinakuva;
+                    }
+                }
+            }
+            catch
+            { 
+            }
+        }
+
         private bool KaavioPeliEditoitavissa(Pelaaja pelaaja, int pelinNumero)
         {
             if (pelinNumero < 2) // Ekan ja tokan kierroksen pelejä ei sovi editoida
@@ -2362,6 +2409,11 @@ namespace KaisaKaavio
                 }
 
                 if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Tappiot) > 1)
+                {
+                    return false;
+                }
+
+                if (this.kilpailu.KilpailuOnPaattynyt)
                 {
                     return false;
                 }

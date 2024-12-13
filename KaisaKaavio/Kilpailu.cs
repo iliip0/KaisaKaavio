@@ -457,6 +457,7 @@ namespace KaisaKaavio
 
             foreach (var osallistuja in this.OsallistujatJarjestyksessa)
             {
+                osallistuja.Sijoitus = 0;
                 osallistuja.Pudotettu = false;
                 osallistuja.Tappiot = 0;
                 osallistuja.Voitot = 0;
@@ -532,6 +533,19 @@ namespace KaisaKaavio
 
                 this.MaxKierros = Math.Max(this.MaxKierros, osallistuja1.Pelit.Count);
                 this.MaxKierros = Math.Max(this.MaxKierros, osallistuja2.Pelit.Count);
+            }
+
+            if (this.KilpailuOnPaattynyt)
+            {
+                var tulokset = Tulokset();
+                foreach (var tulos in tulokset)
+                {
+                    var p = this.OsallistujatJarjestyksessa.FirstOrDefault(x => x.Id == tulos.Id);
+                    if (p != null)
+                    {
+                        p.Sijoitus = tulos.Sijoitus;
+                    }
+                }
             }
         }
 

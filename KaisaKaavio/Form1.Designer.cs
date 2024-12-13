@@ -34,18 +34,19 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -56,20 +57,20 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.kilpailutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uusiKilpailuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,55 +95,21 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.arvontaTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.arvoKaavioButton = new System.Windows.Forms.Button();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.osallistujaMaaraRichTextBox = new System.Windows.Forms.RichTextBox();
             this.splitContainer10 = new System.Windows.Forms.SplitContainer();
             this.osallistujatDataGridView = new System.Windows.Forms.DataGridView();
             this.IlmoittautumisNumero = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.arvontaIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.siirraJalkiIlmoittautuneetButton = new System.Windows.Forms.Button();
             this.label53 = new System.Windows.Forms.Label();
             this.jalkiIlmoittautuneetDataGridView = new System.Windows.Forms.DataGridView();
             this.kaavioTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.kaavioDataGridView = new System.Windows.Forms.DataGridView();
-            this.kaavioid1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Voitot = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Pisteet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tappiot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pelitTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.piilotaToinenKierrosCheckBox = new System.Windows.Forms.CheckBox();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pelitDataGridView = new System.Windows.Forms.DataGridView();
             this.TilanneTeksti = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Viiva = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -195,26 +162,19 @@
             this.label29 = new System.Windows.Forms.Label();
             this.kilpailuKutsuTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.kilpailuKutsuRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.kilpailuKutsuButton = new System.Windows.Forms.Button();
-            this.alkavatPelitButton = new System.Windows.Forms.Button();
             this.alkavatPelitRichTextBox = new System.Windows.Forms.RichTextBox();
             this.tuloksetTabPage = new System.Windows.Forms.TabPage();
             this.tuloksetSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.pelitRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.pelitButton = new System.Windows.Forms.Button();
-            this.tuloksetButton = new System.Windows.Forms.Button();
             this.tuloksetRichTextBox = new System.Windows.Forms.RichTextBox();
             this.rahanJakoTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.richTextBox5 = new System.Windows.Forms.RichTextBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rahanJakoDataGridView = new System.Windows.Forms.DataGridView();
             this.sijoitusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -273,8 +233,6 @@
             this.rankingTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.splitContainer11 = new System.Windows.Forms.SplitContainer();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.rankingAsetuksetButton = new System.Windows.Forms.Button();
             this.rankingOsakilpailuComboBox = new System.Windows.Forms.ComboBox();
             this.rankingSarjaComboBox = new System.Windows.Forms.ComboBox();
             this.label51 = new System.Windows.Forms.Label();
@@ -395,9 +353,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.rankingKokonaistilanneRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.kopioiKokonaistilanneButton = new System.Windows.Forms.Button();
             this.rankingOsakilpailuRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.kopioOsakilpailuButton = new System.Windows.Forms.Button();
             this.tabImages = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -432,7 +388,54 @@
             this.dataGridViewImageColumn23 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn24 = new System.Windows.Forms.DataGridViewImageColumn();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.medalImages = new System.Windows.Forms.ImageList(this.components);
+            this.arvoKaavioButton = new System.Windows.Forms.Button();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.siirraJalkiIlmoittautuneetButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.kilpailuKutsuButton = new System.Windows.Forms.Button();
+            this.alkavatPelitButton = new System.Windows.Forms.Button();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pelitButton = new System.Windows.Forms.Button();
+            this.tuloksetButton = new System.Windows.Forms.Button();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.rankingAsetuksetButton = new System.Windows.Forms.Button();
+            this.kopioiKokonaistilanneButton = new System.Windows.Forms.Button();
+            this.kopioOsakilpailuButton = new System.Windows.Forms.Button();
             this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.kaavioid1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.KaavioKuvaSarake = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Voitot = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Pisteet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tappiot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -481,7 +484,6 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
             this.splitContainer10.Panel1.SuspendLayout();
             this.splitContainer10.Panel2.SuspendLayout();
@@ -493,14 +495,12 @@
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kaavioDataGridView)).BeginInit();
             this.pelitTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelitDataGridView)).BeginInit();
             this.kisaInfoTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajiaEnintaanNumericUpDown)).BeginInit();
@@ -513,7 +513,6 @@
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
@@ -523,7 +522,6 @@
             this.tuloksetSplitContainer.Panel1.SuspendLayout();
             this.tuloksetSplitContainer.Panel2.SuspendLayout();
             this.tuloksetSplitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -533,7 +531,6 @@
             this.splitContainer7.Panel1.SuspendLayout();
             this.splitContainer7.Panel2.SuspendLayout();
             this.splitContainer7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rahanJakoDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.voittajanOsuusTrackBar)).BeginInit();
@@ -553,7 +550,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).BeginInit();
             this.splitContainer11.Panel1.SuspendLayout();
             this.splitContainer11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.tabControl2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rankingDataGridView)).BeginInit();
@@ -563,6 +559,13 @@
             this.splitContainer9.Panel2.SuspendLayout();
             this.splitContainer9.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).BeginInit();
@@ -818,39 +821,6 @@
             this.splitContainer1.SplitterDistance = 61;
             this.splitContainer1.TabIndex = 0;
             // 
-            // arvoKaavioButton
-            // 
-            this.arvoKaavioButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.arvoKaavioButton.BackColor = System.Drawing.Color.Green;
-            this.arvoKaavioButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.arvoKaavioButton.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "ArvontaNapinTeksti", true));
-            this.arvoKaavioButton.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "ArvontaNappiPainettavissa", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.arvoKaavioButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.arvoKaavioButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.YellowGreen;
-            this.arvoKaavioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.arvoKaavioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.arvoKaavioButton.ForeColor = System.Drawing.Color.White;
-            this.arvoKaavioButton.Image = global::KaisaKaavio.Properties.Resources.Dice;
-            this.arvoKaavioButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.arvoKaavioButton.Location = new System.Drawing.Point(382, 3);
-            this.arvoKaavioButton.Name = "arvoKaavioButton";
-            this.arvoKaavioButton.Padding = new System.Windows.Forms.Padding(3);
-            this.arvoKaavioButton.Size = new System.Drawing.Size(383, 51);
-            this.arvoKaavioButton.TabIndex = 23;
-            this.arvoKaavioButton.Text = "Arvo kaavio";
-            this.arvoKaavioButton.UseVisualStyleBackColor = false;
-            this.arvoKaavioButton.Click += new System.EventHandler(this.arvoKaavioButton_Click);
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(51, 51);
-            this.pictureBox3.TabIndex = 26;
-            this.pictureBox3.TabStop = false;
-            // 
             // osallistujaMaaraRichTextBox
             // 
             this.osallistujaMaaraRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -963,21 +933,6 @@
             this.arvontaIdDataGridViewTextBoxColumn.ToolTipText = "Pelaajan Id numero kaaviossa";
             this.arvontaIdDataGridViewTextBoxColumn.Width = 48;
             // 
-            // siirraJalkiIlmoittautuneetButton
-            // 
-            this.siirraJalkiIlmoittautuneetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.siirraJalkiIlmoittautuneetButton.Image = global::KaisaKaavio.Properties.Resources.Vasemmalle;
-            this.siirraJalkiIlmoittautuneetButton.Location = new System.Drawing.Point(3, 3);
-            this.siirraJalkiIlmoittautuneetButton.Name = "siirraJalkiIlmoittautuneetButton";
-            this.siirraJalkiIlmoittautuneetButton.Size = new System.Drawing.Size(211, 48);
-            this.siirraJalkiIlmoittautuneetButton.TabIndex = 2;
-            this.siirraJalkiIlmoittautuneetButton.Text = "Siirrä vasemmalle";
-            this.siirraJalkiIlmoittautuneetButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.siirraJalkiIlmoittautuneetButton, "Siirtää nimet alla olevalta listalta vasemmalla olevalle listalle");
-            this.siirraJalkiIlmoittautuneetButton.UseVisualStyleBackColor = true;
-            this.siirraJalkiIlmoittautuneetButton.Click += new System.EventHandler(this.siirraJalkiIlmoittautuneetButton_Click);
-            // 
             // label53
             // 
             this.label53.AutoSize = true;
@@ -1040,15 +995,6 @@
             this.splitContainer6.Size = new System.Drawing.Size(772, 433);
             this.splitContainer6.SplitterDistance = 61;
             this.splitContainer6.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(51, 51);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // richTextBox3
             // 
@@ -1116,18 +1062,19 @@
             this.Column23,
             this.Column24,
             this.Column25,
+            this.KaavioKuvaSarake,
             this.Voitot,
             this.Pisteet,
             this.Tappiot});
             this.kaavioDataGridView.DataSource = this.kaavioBindingSource;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.kaavioDataGridView.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.kaavioDataGridView.DefaultCellStyle = dataGridViewCellStyle20;
             this.kaavioDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kaavioDataGridView.Location = new System.Drawing.Point(0, 0);
             this.kaavioDataGridView.Name = "kaavioDataGridView";
@@ -1140,266 +1087,6 @@
             this.kaavioDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.kaavioDataGridView_CellFormatting);
             this.kaavioDataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.kaavioDataGridView_CellPainting);
             this.kaavioDataGridView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.kaavioDataGridView_KeyPress);
-            // 
-            // kaavioid1
-            // 
-            this.kaavioid1.HeaderText = "id1";
-            this.kaavioid1.MinimumWidth = 24;
-            this.kaavioid1.Name = "kaavioid1";
-            this.kaavioid1.ReadOnly = true;
-            this.kaavioid1.Width = 24;
-            // 
-            // Column1
-            // 
-            this.Column1.DividerWidth = 3;
-            this.Column1.HeaderText = "1.k";
-            this.Column1.MinimumWidth = 28;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 28;
-            // 
-            // id2
-            // 
-            this.id2.HeaderText = "id2";
-            this.id2.MinimumWidth = 24;
-            this.id2.Name = "id2";
-            this.id2.ReadOnly = true;
-            this.id2.Width = 24;
-            // 
-            // Column3
-            // 
-            this.Column3.DividerWidth = 3;
-            this.Column3.HeaderText = "2.k";
-            this.Column3.MinimumWidth = 28;
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 28;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "id3";
-            this.Column4.MinimumWidth = 24;
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 24;
-            // 
-            // Column5
-            // 
-            this.Column5.DividerWidth = 3;
-            this.Column5.HeaderText = "3.k";
-            this.Column5.MinimumWidth = 28;
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Width = 28;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "id4";
-            this.Column6.MinimumWidth = 24;
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 24;
-            // 
-            // Column7
-            // 
-            this.Column7.DividerWidth = 3;
-            this.Column7.HeaderText = "4.k";
-            this.Column7.MinimumWidth = 28;
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Width = 28;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "id5";
-            this.Column8.MinimumWidth = 24;
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.Width = 24;
-            // 
-            // Column9
-            // 
-            this.Column9.DividerWidth = 3;
-            this.Column9.HeaderText = "5.k";
-            this.Column9.MinimumWidth = 28;
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Width = 28;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "id6";
-            this.Column10.MinimumWidth = 24;
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            this.Column10.Width = 24;
-            // 
-            // Column11
-            // 
-            this.Column11.DividerWidth = 3;
-            this.Column11.HeaderText = "6.k";
-            this.Column11.MinimumWidth = 28;
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            this.Column11.Width = 28;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "id7";
-            this.Column12.MinimumWidth = 24;
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.Width = 24;
-            // 
-            // Column13
-            // 
-            this.Column13.DividerWidth = 3;
-            this.Column13.HeaderText = "7.k";
-            this.Column13.MinimumWidth = 28;
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            this.Column13.Width = 28;
-            // 
-            // Column14
-            // 
-            this.Column14.HeaderText = "id8";
-            this.Column14.MinimumWidth = 24;
-            this.Column14.Name = "Column14";
-            this.Column14.ReadOnly = true;
-            this.Column14.Width = 24;
-            // 
-            // Column15
-            // 
-            this.Column15.DividerWidth = 3;
-            this.Column15.HeaderText = "8.k";
-            this.Column15.MinimumWidth = 28;
-            this.Column15.Name = "Column15";
-            this.Column15.ReadOnly = true;
-            this.Column15.Width = 28;
-            // 
-            // Column16
-            // 
-            this.Column16.HeaderText = "id9";
-            this.Column16.MinimumWidth = 24;
-            this.Column16.Name = "Column16";
-            this.Column16.ReadOnly = true;
-            this.Column16.Width = 24;
-            // 
-            // Column17
-            // 
-            this.Column17.DividerWidth = 3;
-            this.Column17.HeaderText = "9.k";
-            this.Column17.MinimumWidth = 28;
-            this.Column17.Name = "Column17";
-            this.Column17.ReadOnly = true;
-            this.Column17.Width = 28;
-            // 
-            // Column18
-            // 
-            this.Column18.HeaderText = "id10";
-            this.Column18.MinimumWidth = 24;
-            this.Column18.Name = "Column18";
-            this.Column18.ReadOnly = true;
-            this.Column18.Width = 24;
-            // 
-            // Column19
-            // 
-            this.Column19.DividerWidth = 3;
-            this.Column19.HeaderText = "10.k";
-            this.Column19.MinimumWidth = 28;
-            this.Column19.Name = "Column19";
-            this.Column19.ReadOnly = true;
-            this.Column19.Width = 28;
-            // 
-            // Column20
-            // 
-            this.Column20.HeaderText = "id11";
-            this.Column20.MinimumWidth = 24;
-            this.Column20.Name = "Column20";
-            this.Column20.ReadOnly = true;
-            this.Column20.Width = 24;
-            // 
-            // Column21
-            // 
-            this.Column21.DividerWidth = 3;
-            this.Column21.HeaderText = "11.k";
-            this.Column21.MinimumWidth = 28;
-            this.Column21.Name = "Column21";
-            this.Column21.ReadOnly = true;
-            this.Column21.Width = 28;
-            // 
-            // Column22
-            // 
-            this.Column22.HeaderText = "id12";
-            this.Column22.MinimumWidth = 24;
-            this.Column22.Name = "Column22";
-            this.Column22.ReadOnly = true;
-            this.Column22.Width = 24;
-            // 
-            // Column23
-            // 
-            this.Column23.DividerWidth = 3;
-            this.Column23.HeaderText = "12.k";
-            this.Column23.MinimumWidth = 28;
-            this.Column23.Name = "Column23";
-            this.Column23.ReadOnly = true;
-            this.Column23.Width = 28;
-            // 
-            // Column24
-            // 
-            this.Column24.HeaderText = "id13";
-            this.Column24.MinimumWidth = 24;
-            this.Column24.Name = "Column24";
-            this.Column24.ReadOnly = true;
-            this.Column24.Width = 24;
-            // 
-            // Column25
-            // 
-            this.Column25.DividerWidth = 3;
-            this.Column25.HeaderText = "13.k";
-            this.Column25.MinimumWidth = 28;
-            this.Column25.Name = "Column25";
-            this.Column25.ReadOnly = true;
-            this.Column25.Width = 28;
-            // 
-            // Voitot
-            // 
-            this.Voitot.DataPropertyName = "Voitot";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Voitot.DefaultCellStyle = dataGridViewCellStyle16;
-            this.Voitot.DividerWidth = 3;
-            this.Voitot.HeaderText = "Voitot";
-            this.Voitot.MinimumWidth = 64;
-            this.Voitot.Name = "Voitot";
-            this.Voitot.ReadOnly = true;
-            this.Voitot.Width = 64;
-            // 
-            // Pisteet
-            // 
-            this.Pisteet.DataPropertyName = "Pisteet";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Pisteet.DefaultCellStyle = dataGridViewCellStyle17;
-            this.Pisteet.DividerWidth = 3;
-            this.Pisteet.HeaderText = "Pisteet";
-            this.Pisteet.MinimumWidth = 64;
-            this.Pisteet.Name = "Pisteet";
-            this.Pisteet.ReadOnly = true;
-            this.Pisteet.Width = 64;
-            // 
-            // Tappiot
-            // 
-            this.Tappiot.DataPropertyName = "Tappiot";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tappiot.DefaultCellStyle = dataGridViewCellStyle18;
-            this.Tappiot.DividerWidth = 3;
-            this.Tappiot.HeaderText = "Tappiot";
-            this.Tappiot.MinimumWidth = 64;
-            this.Tappiot.Name = "Tappiot";
-            this.Tappiot.ReadOnly = true;
-            this.Tappiot.Width = 64;
             // 
             // pelitTabPage
             // 
@@ -1470,15 +1157,6 @@
             this.richTextBox4.TabIndex = 3;
             this.richTextBox4.Text = "";
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(51, 51);
-            this.pictureBox4.TabIndex = 2;
-            this.pictureBox4.TabStop = false;
-            // 
             // pelitDataGridView
             // 
             this.pelitDataGridView.AllowUserToAddRows = false;
@@ -1487,14 +1165,14 @@
             this.pelitDataGridView.AllowUserToResizeRows = false;
             this.pelitDataGridView.AutoGenerateColumns = false;
             this.pelitDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pelitDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pelitDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.pelitDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.pelitDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.kierrosDataGridViewTextBoxColumn,
@@ -1516,14 +1194,14 @@
             this.pelitDataGridView.Location = new System.Drawing.Point(0, 0);
             this.pelitDataGridView.MultiSelect = false;
             this.pelitDataGridView.Name = "pelitDataGridView";
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pelitDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle31.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle31.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle31.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle31.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pelitDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle31;
             this.pelitDataGridView.RowHeadersVisible = false;
             this.pelitDataGridView.ShowCellErrors = false;
             this.pelitDataGridView.ShowEditingIcon = false;
@@ -1552,8 +1230,8 @@
             // Viiva
             // 
             this.Viiva.DataPropertyName = "Viiva";
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Viiva.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Viiva.DefaultCellStyle = dataGridViewCellStyle27;
             this.Viiva.HeaderText = "";
             this.Viiva.MaxInputLength = 1;
             this.Viiva.MinimumWidth = 24;
@@ -2146,15 +1824,6 @@
             this.splitContainer4.SplitterDistance = 60;
             this.splitContainer4.TabIndex = 0;
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(51, 51);
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
-            // 
             // richTextBox1
             // 
             this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2208,44 +1877,6 @@
             this.kilpailuKutsuRichTextBox.TabIndex = 0;
             this.kilpailuKutsuRichTextBox.Text = "";
             // 
-            // kilpailuKutsuButton
-            // 
-            this.kilpailuKutsuButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kilpailuKutsuButton.BackColor = System.Drawing.Color.Lavender;
-            this.kilpailuKutsuButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.kilpailuKutsuButton.Image = ((System.Drawing.Image)(resources.GetObject("kilpailuKutsuButton.Image")));
-            this.kilpailuKutsuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.kilpailuKutsuButton.Location = new System.Drawing.Point(3, 6);
-            this.kilpailuKutsuButton.Name = "kilpailuKutsuButton";
-            this.kilpailuKutsuButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.kilpailuKutsuButton.Size = new System.Drawing.Size(363, 37);
-            this.kilpailuKutsuButton.TabIndex = 5;
-            this.kilpailuKutsuButton.Text = "Kopioi kilpailukutsu";
-            this.toolTip1.SetToolTip(this.kilpailuKutsuButton, "Kopioi alkavat pelit leikepöydälle.\r\nVoit liittää tekstin suoraan SBiL\r\nkeskustel" +
-        "upalstalle (Ctrl-V)");
-            this.kilpailuKutsuButton.UseVisualStyleBackColor = false;
-            this.kilpailuKutsuButton.Click += new System.EventHandler(this.kilpailuKutsuButton_Click);
-            // 
-            // alkavatPelitButton
-            // 
-            this.alkavatPelitButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.alkavatPelitButton.BackColor = System.Drawing.Color.Lavender;
-            this.alkavatPelitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.alkavatPelitButton.Image = ((System.Drawing.Image)(resources.GetObject("alkavatPelitButton.Image")));
-            this.alkavatPelitButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.alkavatPelitButton.Location = new System.Drawing.Point(3, 6);
-            this.alkavatPelitButton.Name = "alkavatPelitButton";
-            this.alkavatPelitButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.alkavatPelitButton.Size = new System.Drawing.Size(385, 37);
-            this.alkavatPelitButton.TabIndex = 4;
-            this.alkavatPelitButton.Text = "Kopioi ensimmäisten kierrosten pelit";
-            this.toolTip1.SetToolTip(this.alkavatPelitButton, "Kopioi alkavat pelit leikepöydälle\r\nTämän jälkeen voit liittää (paste, Ctrl-V)\r\ns" +
-        "uoraan SBiL keskustelupalstalle");
-            this.alkavatPelitButton.UseVisualStyleBackColor = false;
-            this.alkavatPelitButton.Click += new System.EventHandler(this.alkavatPelitButton_Click);
-            // 
             // alkavatPelitRichTextBox
             // 
             this.alkavatPelitRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2294,15 +1925,6 @@
             this.tuloksetSplitContainer.Size = new System.Drawing.Size(772, 476);
             this.tuloksetSplitContainer.SplitterDistance = 61;
             this.tuloksetSplitContainer.TabIndex = 0;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox5.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(51, 51);
-            this.pictureBox5.TabIndex = 3;
-            this.pictureBox5.TabStop = false;
             // 
             // richTextBox2
             // 
@@ -2354,40 +1976,6 @@
             this.pelitRichTextBox.Size = new System.Drawing.Size(475, 355);
             this.pelitRichTextBox.TabIndex = 0;
             this.pelitRichTextBox.Text = "";
-            // 
-            // pelitButton
-            // 
-            this.pelitButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pelitButton.BackColor = System.Drawing.Color.Lavender;
-            this.pelitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.pelitButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
-            this.pelitButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.pelitButton.Location = new System.Drawing.Point(3, 3);
-            this.pelitButton.Name = "pelitButton";
-            this.pelitButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.pelitButton.Size = new System.Drawing.Size(475, 41);
-            this.pelitButton.TabIndex = 4;
-            this.pelitButton.Text = "Kopioi pelit";
-            this.pelitButton.UseVisualStyleBackColor = false;
-            this.pelitButton.Click += new System.EventHandler(this.pelitButton_Click);
-            // 
-            // tuloksetButton
-            // 
-            this.tuloksetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tuloksetButton.BackColor = System.Drawing.Color.Lavender;
-            this.tuloksetButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.tuloksetButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
-            this.tuloksetButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tuloksetButton.Location = new System.Drawing.Point(3, 3);
-            this.tuloksetButton.Name = "tuloksetButton";
-            this.tuloksetButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tuloksetButton.Size = new System.Drawing.Size(273, 41);
-            this.tuloksetButton.TabIndex = 5;
-            this.tuloksetButton.Text = "Kopioi tulokset";
-            this.tuloksetButton.UseVisualStyleBackColor = false;
-            this.tuloksetButton.Click += new System.EventHandler(this.tuloksetButton_Click);
             // 
             // tuloksetRichTextBox
             // 
@@ -2453,15 +2041,6 @@
             this.richTextBox5.TabIndex = 5;
             this.richTextBox5.Text = "Tällä välilehdellä pystyt laskemaan voitonjaon helpohkosti";
             // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox6.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(51, 51);
-            this.pictureBox6.TabIndex = 4;
-            this.pictureBox6.TabStop = false;
-            // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2518,8 +2097,8 @@
             // 
             // palkintosummaColumn
             // 
-            dataGridViewCellStyle31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.palkintosummaColumn.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.palkintosummaColumn.DefaultCellStyle = dataGridViewCellStyle32;
             this.palkintosummaColumn.HeaderText = "€";
             this.palkintosummaColumn.MinimumWidth = 72;
             this.palkintosummaColumn.Name = "palkintosummaColumn";
@@ -2528,8 +2107,8 @@
             // 
             // Column2
             // 
-            dataGridViewCellStyle32.ForeColor = System.Drawing.Color.DarkGray;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.DarkGray;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle33;
             this.Column2.HeaderText = "%";
             this.Column2.MinimumWidth = 54;
             this.Column2.Name = "Column2";
@@ -3139,31 +2718,6 @@
             this.splitContainer11.SplitterDistance = 120;
             this.splitContainer11.TabIndex = 7;
             // 
-            // pictureBox7
-            // 
-            this.pictureBox7.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox7.Location = new System.Drawing.Point(2, 3);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(56, 54);
-            this.pictureBox7.TabIndex = 6;
-            this.pictureBox7.TabStop = false;
-            // 
-            // rankingAsetuksetButton
-            // 
-            this.rankingAsetuksetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rankingAsetuksetButton.BackColor = System.Drawing.Color.Lavender;
-            this.rankingAsetuksetButton.Image = global::KaisaKaavio.Properties.Resources.Asetukset;
-            this.rankingAsetuksetButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.rankingAsetuksetButton.Location = new System.Drawing.Point(546, 39);
-            this.rankingAsetuksetButton.Name = "rankingAsetuksetButton";
-            this.rankingAsetuksetButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
-            this.rankingAsetuksetButton.Size = new System.Drawing.Size(217, 96);
-            this.rankingAsetuksetButton.TabIndex = 5;
-            this.rankingAsetuksetButton.Text = "Pisteytys...";
-            this.toolTip1.SetToolTip(this.rankingAsetuksetButton, "Tästä pääset säätämään ranking sarjan pisteytyssääntöjä");
-            this.rankingAsetuksetButton.UseVisualStyleBackColor = false;
-            this.rankingAsetuksetButton.Click += new System.EventHandler(this.rankingAsetuksetButton_Click);
-            // 
             // rankingOsakilpailuComboBox
             // 
             this.rankingOsakilpailuComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -3309,14 +2863,14 @@
             this.rankingDataGridView.AllowUserToDeleteRows = false;
             this.rankingDataGridView.AutoGenerateColumns = false;
             this.rankingDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle36.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle36.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle36.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle36.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle36.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.rankingDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.rankingDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
             this.rankingDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.rankingDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sijoitusDataGridViewTextBoxColumn,
@@ -3428,14 +2982,14 @@
             this.rankingS52,
             this.rankingP52});
             this.rankingDataGridView.DataSource = this.rankingPelaajaTietueBindingSource;
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.rankingDataGridView.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle41.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.rankingDataGridView.DefaultCellStyle = dataGridViewCellStyle41;
             this.rankingDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rankingDataGridView.Location = new System.Drawing.Point(3, 3);
             this.rankingDataGridView.Name = "rankingDataGridView";
@@ -4387,23 +3941,6 @@
             this.rankingKokonaistilanneRichTextBox.TabIndex = 2;
             this.rankingKokonaistilanneRichTextBox.Text = "";
             // 
-            // kopioiKokonaistilanneButton
-            // 
-            this.kopioiKokonaistilanneButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kopioiKokonaistilanneButton.BackColor = System.Drawing.Color.Lavender;
-            this.kopioiKokonaistilanneButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
-            this.kopioiKokonaistilanneButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.kopioiKokonaistilanneButton.Location = new System.Drawing.Point(3, 3);
-            this.kopioiKokonaistilanneButton.Name = "kopioiKokonaistilanneButton";
-            this.kopioiKokonaistilanneButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
-            this.kopioiKokonaistilanneButton.Size = new System.Drawing.Size(400, 43);
-            this.kopioiKokonaistilanneButton.TabIndex = 1;
-            this.kopioiKokonaistilanneButton.Text = "Kopioi rankingsarjan kokonaistilanne";
-            this.toolTip1.SetToolTip(this.kopioiKokonaistilanneButton, "Kopioi valitun kuukauden kokonaisranking tilanteen liitettäväksi SBiL palstalle");
-            this.kopioiKokonaistilanneButton.UseVisualStyleBackColor = false;
-            this.kopioiKokonaistilanneButton.Click += new System.EventHandler(this.kopioiKokonaistilanneButton_Click);
-            // 
             // rankingOsakilpailuRichTextBox
             // 
             this.rankingOsakilpailuRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -4417,24 +3954,6 @@
             this.rankingOsakilpailuRichTextBox.Size = new System.Drawing.Size(334, 180);
             this.rankingOsakilpailuRichTextBox.TabIndex = 3;
             this.rankingOsakilpailuRichTextBox.Text = "";
-            // 
-            // kopioOsakilpailuButton
-            // 
-            this.kopioOsakilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kopioOsakilpailuButton.BackColor = System.Drawing.Color.Lavender;
-            this.kopioOsakilpailuButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
-            this.kopioOsakilpailuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.kopioOsakilpailuButton.Location = new System.Drawing.Point(3, 3);
-            this.kopioOsakilpailuButton.Name = "kopioOsakilpailuButton";
-            this.kopioOsakilpailuButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
-            this.kopioOsakilpailuButton.Size = new System.Drawing.Size(334, 43);
-            this.kopioOsakilpailuButton.TabIndex = 2;
-            this.kopioOsakilpailuButton.Text = "Kopioi osakilpailun pisteet";
-            this.toolTip1.SetToolTip(this.kopioOsakilpailuButton, "Kopioi valitun osakilpailun voittajat ja pisteet liitettäväksi SBiL keskustelupal" +
-        "stalle");
-            this.kopioOsakilpailuButton.UseVisualStyleBackColor = false;
-            this.kopioOsakilpailuButton.Click += new System.EventHandler(this.kopioOsakilpailuButton_Click);
             // 
             // tabImages
             // 
@@ -4727,10 +4246,520 @@
             this.dataGridViewImageColumn24.ReadOnly = true;
             this.dataGridViewImageColumn24.Width = 32;
             // 
+            // medalImages
+            // 
+            this.medalImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("medalImages.ImageStream")));
+            this.medalImages.TransparentColor = System.Drawing.Color.White;
+            this.medalImages.Images.SetKeyName(0, "Gold.png");
+            this.medalImages.Images.SetKeyName(1, "Silver.png");
+            this.medalImages.Images.SetKeyName(2, "Bronze.png");
+            this.medalImages.Images.SetKeyName(3, "Empty.png");
+            // 
+            // arvoKaavioButton
+            // 
+            this.arvoKaavioButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.arvoKaavioButton.BackColor = System.Drawing.Color.Green;
+            this.arvoKaavioButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.arvoKaavioButton.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "ArvontaNapinTeksti", true));
+            this.arvoKaavioButton.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "ArvontaNappiPainettavissa", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.arvoKaavioButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.arvoKaavioButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.YellowGreen;
+            this.arvoKaavioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.arvoKaavioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.arvoKaavioButton.ForeColor = System.Drawing.Color.White;
+            this.arvoKaavioButton.Image = global::KaisaKaavio.Properties.Resources.Dice;
+            this.arvoKaavioButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.arvoKaavioButton.Location = new System.Drawing.Point(382, 3);
+            this.arvoKaavioButton.Name = "arvoKaavioButton";
+            this.arvoKaavioButton.Padding = new System.Windows.Forms.Padding(3);
+            this.arvoKaavioButton.Size = new System.Drawing.Size(383, 51);
+            this.arvoKaavioButton.TabIndex = 23;
+            this.arvoKaavioButton.Text = "Arvo kaavio";
+            this.arvoKaavioButton.UseVisualStyleBackColor = false;
+            this.arvoKaavioButton.Click += new System.EventHandler(this.arvoKaavioButton_Click);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(51, 51);
+            this.pictureBox3.TabIndex = 26;
+            this.pictureBox3.TabStop = false;
+            // 
+            // siirraJalkiIlmoittautuneetButton
+            // 
+            this.siirraJalkiIlmoittautuneetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.siirraJalkiIlmoittautuneetButton.Image = global::KaisaKaavio.Properties.Resources.Vasemmalle;
+            this.siirraJalkiIlmoittautuneetButton.Location = new System.Drawing.Point(3, 3);
+            this.siirraJalkiIlmoittautuneetButton.Name = "siirraJalkiIlmoittautuneetButton";
+            this.siirraJalkiIlmoittautuneetButton.Size = new System.Drawing.Size(211, 48);
+            this.siirraJalkiIlmoittautuneetButton.TabIndex = 2;
+            this.siirraJalkiIlmoittautuneetButton.Text = "Siirrä vasemmalle";
+            this.siirraJalkiIlmoittautuneetButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.siirraJalkiIlmoittautuneetButton, "Siirtää nimet alla olevalta listalta vasemmalla olevalle listalle");
+            this.siirraJalkiIlmoittautuneetButton.UseVisualStyleBackColor = true;
+            this.siirraJalkiIlmoittautuneetButton.Click += new System.EventHandler(this.siirraJalkiIlmoittautuneetButton_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(51, 51);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(51, 51);
+            this.pictureBox4.TabIndex = 2;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(51, 51);
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            // 
+            // kilpailuKutsuButton
+            // 
+            this.kilpailuKutsuButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kilpailuKutsuButton.BackColor = System.Drawing.Color.Lavender;
+            this.kilpailuKutsuButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.kilpailuKutsuButton.Image = ((System.Drawing.Image)(resources.GetObject("kilpailuKutsuButton.Image")));
+            this.kilpailuKutsuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.kilpailuKutsuButton.Location = new System.Drawing.Point(3, 6);
+            this.kilpailuKutsuButton.Name = "kilpailuKutsuButton";
+            this.kilpailuKutsuButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.kilpailuKutsuButton.Size = new System.Drawing.Size(363, 37);
+            this.kilpailuKutsuButton.TabIndex = 5;
+            this.kilpailuKutsuButton.Text = "Kopioi kilpailukutsu";
+            this.toolTip1.SetToolTip(this.kilpailuKutsuButton, "Kopioi alkavat pelit leikepöydälle.\r\nVoit liittää tekstin suoraan SBiL\r\nkeskustel" +
+        "upalstalle (Ctrl-V)");
+            this.kilpailuKutsuButton.UseVisualStyleBackColor = false;
+            this.kilpailuKutsuButton.Click += new System.EventHandler(this.kilpailuKutsuButton_Click);
+            // 
+            // alkavatPelitButton
+            // 
+            this.alkavatPelitButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.alkavatPelitButton.BackColor = System.Drawing.Color.Lavender;
+            this.alkavatPelitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.alkavatPelitButton.Image = ((System.Drawing.Image)(resources.GetObject("alkavatPelitButton.Image")));
+            this.alkavatPelitButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.alkavatPelitButton.Location = new System.Drawing.Point(3, 6);
+            this.alkavatPelitButton.Name = "alkavatPelitButton";
+            this.alkavatPelitButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.alkavatPelitButton.Size = new System.Drawing.Size(385, 37);
+            this.alkavatPelitButton.TabIndex = 4;
+            this.alkavatPelitButton.Text = "Kopioi ensimmäisten kierrosten pelit";
+            this.toolTip1.SetToolTip(this.alkavatPelitButton, "Kopioi alkavat pelit leikepöydälle\r\nTämän jälkeen voit liittää (paste, Ctrl-V)\r\ns" +
+        "uoraan SBiL keskustelupalstalle");
+            this.alkavatPelitButton.UseVisualStyleBackColor = false;
+            this.alkavatPelitButton.Click += new System.EventHandler(this.alkavatPelitButton_Click);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox5.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(51, 51);
+            this.pictureBox5.TabIndex = 3;
+            this.pictureBox5.TabStop = false;
+            // 
+            // pelitButton
+            // 
+            this.pelitButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pelitButton.BackColor = System.Drawing.Color.Lavender;
+            this.pelitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.pelitButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
+            this.pelitButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.pelitButton.Location = new System.Drawing.Point(3, 3);
+            this.pelitButton.Name = "pelitButton";
+            this.pelitButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.pelitButton.Size = new System.Drawing.Size(475, 41);
+            this.pelitButton.TabIndex = 4;
+            this.pelitButton.Text = "Kopioi pelit";
+            this.pelitButton.UseVisualStyleBackColor = false;
+            this.pelitButton.Click += new System.EventHandler(this.pelitButton_Click);
+            // 
+            // tuloksetButton
+            // 
+            this.tuloksetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tuloksetButton.BackColor = System.Drawing.Color.Lavender;
+            this.tuloksetButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.tuloksetButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
+            this.tuloksetButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tuloksetButton.Location = new System.Drawing.Point(3, 3);
+            this.tuloksetButton.Name = "tuloksetButton";
+            this.tuloksetButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.tuloksetButton.Size = new System.Drawing.Size(273, 41);
+            this.tuloksetButton.TabIndex = 5;
+            this.tuloksetButton.Text = "Kopioi tulokset";
+            this.tuloksetButton.UseVisualStyleBackColor = false;
+            this.tuloksetButton.Click += new System.EventHandler(this.tuloksetButton_Click);
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox6.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(51, 51);
+            this.pictureBox6.TabIndex = 4;
+            this.pictureBox6.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox7.Location = new System.Drawing.Point(2, 3);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(56, 54);
+            this.pictureBox7.TabIndex = 6;
+            this.pictureBox7.TabStop = false;
+            // 
+            // rankingAsetuksetButton
+            // 
+            this.rankingAsetuksetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rankingAsetuksetButton.BackColor = System.Drawing.Color.Lavender;
+            this.rankingAsetuksetButton.Image = global::KaisaKaavio.Properties.Resources.Asetukset;
+            this.rankingAsetuksetButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rankingAsetuksetButton.Location = new System.Drawing.Point(546, 39);
+            this.rankingAsetuksetButton.Name = "rankingAsetuksetButton";
+            this.rankingAsetuksetButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
+            this.rankingAsetuksetButton.Size = new System.Drawing.Size(217, 96);
+            this.rankingAsetuksetButton.TabIndex = 5;
+            this.rankingAsetuksetButton.Text = "Pisteytys...";
+            this.toolTip1.SetToolTip(this.rankingAsetuksetButton, "Tästä pääset säätämään ranking sarjan pisteytyssääntöjä");
+            this.rankingAsetuksetButton.UseVisualStyleBackColor = false;
+            this.rankingAsetuksetButton.Click += new System.EventHandler(this.rankingAsetuksetButton_Click);
+            // 
+            // kopioiKokonaistilanneButton
+            // 
+            this.kopioiKokonaistilanneButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kopioiKokonaistilanneButton.BackColor = System.Drawing.Color.Lavender;
+            this.kopioiKokonaistilanneButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
+            this.kopioiKokonaistilanneButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.kopioiKokonaistilanneButton.Location = new System.Drawing.Point(3, 3);
+            this.kopioiKokonaistilanneButton.Name = "kopioiKokonaistilanneButton";
+            this.kopioiKokonaistilanneButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
+            this.kopioiKokonaistilanneButton.Size = new System.Drawing.Size(400, 43);
+            this.kopioiKokonaistilanneButton.TabIndex = 1;
+            this.kopioiKokonaistilanneButton.Text = "Kopioi rankingsarjan kokonaistilanne";
+            this.toolTip1.SetToolTip(this.kopioiKokonaistilanneButton, "Kopioi valitun kuukauden kokonaisranking tilanteen liitettäväksi SBiL palstalle");
+            this.kopioiKokonaistilanneButton.UseVisualStyleBackColor = false;
+            this.kopioiKokonaistilanneButton.Click += new System.EventHandler(this.kopioiKokonaistilanneButton_Click);
+            // 
+            // kopioOsakilpailuButton
+            // 
+            this.kopioOsakilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kopioOsakilpailuButton.BackColor = System.Drawing.Color.Lavender;
+            this.kopioOsakilpailuButton.Image = global::KaisaKaavio.Properties.Resources.Kopioi;
+            this.kopioOsakilpailuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.kopioOsakilpailuButton.Location = new System.Drawing.Point(3, 3);
+            this.kopioOsakilpailuButton.Name = "kopioOsakilpailuButton";
+            this.kopioOsakilpailuButton.Padding = new System.Windows.Forms.Padding(14, 0, 14, 0);
+            this.kopioOsakilpailuButton.Size = new System.Drawing.Size(334, 43);
+            this.kopioOsakilpailuButton.TabIndex = 2;
+            this.kopioOsakilpailuButton.Text = "Kopioi osakilpailun pisteet";
+            this.toolTip1.SetToolTip(this.kopioOsakilpailuButton, "Kopioi valitun osakilpailun voittajat ja pisteet liitettäväksi SBiL keskustelupal" +
+        "stalle");
+            this.kopioOsakilpailuButton.UseVisualStyleBackColor = false;
+            this.kopioOsakilpailuButton.Click += new System.EventHandler(this.kopioOsakilpailuButton_Click);
+            // 
             // sarjatBindingSourceBindingSource
             // 
             this.sarjatBindingSourceBindingSource.DataMember = "SarjatBindingSource";
             this.sarjatBindingSourceBindingSource.DataSource = this.rankingBindingSource;
+            // 
+            // kaavioid1
+            // 
+            this.kaavioid1.HeaderText = "id1";
+            this.kaavioid1.MinimumWidth = 24;
+            this.kaavioid1.Name = "kaavioid1";
+            this.kaavioid1.ReadOnly = true;
+            this.kaavioid1.Width = 24;
+            // 
+            // Column1
+            // 
+            this.Column1.DividerWidth = 3;
+            this.Column1.HeaderText = "1.k";
+            this.Column1.MinimumWidth = 28;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 28;
+            // 
+            // id2
+            // 
+            this.id2.HeaderText = "id2";
+            this.id2.MinimumWidth = 24;
+            this.id2.Name = "id2";
+            this.id2.ReadOnly = true;
+            this.id2.Width = 24;
+            // 
+            // Column3
+            // 
+            this.Column3.DividerWidth = 3;
+            this.Column3.HeaderText = "2.k";
+            this.Column3.MinimumWidth = 28;
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 28;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "id3";
+            this.Column4.MinimumWidth = 24;
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 24;
+            // 
+            // Column5
+            // 
+            this.Column5.DividerWidth = 3;
+            this.Column5.HeaderText = "3.k";
+            this.Column5.MinimumWidth = 28;
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Width = 28;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "id4";
+            this.Column6.MinimumWidth = 24;
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Width = 24;
+            // 
+            // Column7
+            // 
+            this.Column7.DividerWidth = 3;
+            this.Column7.HeaderText = "4.k";
+            this.Column7.MinimumWidth = 28;
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            this.Column7.Width = 28;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "id5";
+            this.Column8.MinimumWidth = 24;
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            this.Column8.Width = 24;
+            // 
+            // Column9
+            // 
+            this.Column9.DividerWidth = 3;
+            this.Column9.HeaderText = "5.k";
+            this.Column9.MinimumWidth = 28;
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            this.Column9.Width = 28;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "id6";
+            this.Column10.MinimumWidth = 24;
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            this.Column10.Width = 24;
+            // 
+            // Column11
+            // 
+            this.Column11.DividerWidth = 3;
+            this.Column11.HeaderText = "6.k";
+            this.Column11.MinimumWidth = 28;
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            this.Column11.Width = 28;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "id7";
+            this.Column12.MinimumWidth = 24;
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            this.Column12.Width = 24;
+            // 
+            // Column13
+            // 
+            this.Column13.DividerWidth = 3;
+            this.Column13.HeaderText = "7.k";
+            this.Column13.MinimumWidth = 28;
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            this.Column13.Width = 28;
+            // 
+            // Column14
+            // 
+            this.Column14.HeaderText = "id8";
+            this.Column14.MinimumWidth = 24;
+            this.Column14.Name = "Column14";
+            this.Column14.ReadOnly = true;
+            this.Column14.Width = 24;
+            // 
+            // Column15
+            // 
+            this.Column15.DividerWidth = 3;
+            this.Column15.HeaderText = "8.k";
+            this.Column15.MinimumWidth = 28;
+            this.Column15.Name = "Column15";
+            this.Column15.ReadOnly = true;
+            this.Column15.Width = 28;
+            // 
+            // Column16
+            // 
+            this.Column16.HeaderText = "id9";
+            this.Column16.MinimumWidth = 24;
+            this.Column16.Name = "Column16";
+            this.Column16.ReadOnly = true;
+            this.Column16.Width = 24;
+            // 
+            // Column17
+            // 
+            this.Column17.DividerWidth = 3;
+            this.Column17.HeaderText = "9.k";
+            this.Column17.MinimumWidth = 28;
+            this.Column17.Name = "Column17";
+            this.Column17.ReadOnly = true;
+            this.Column17.Width = 28;
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "id10";
+            this.Column18.MinimumWidth = 24;
+            this.Column18.Name = "Column18";
+            this.Column18.ReadOnly = true;
+            this.Column18.Width = 24;
+            // 
+            // Column19
+            // 
+            this.Column19.DividerWidth = 3;
+            this.Column19.HeaderText = "10.k";
+            this.Column19.MinimumWidth = 28;
+            this.Column19.Name = "Column19";
+            this.Column19.ReadOnly = true;
+            this.Column19.Width = 28;
+            // 
+            // Column20
+            // 
+            this.Column20.HeaderText = "id11";
+            this.Column20.MinimumWidth = 24;
+            this.Column20.Name = "Column20";
+            this.Column20.ReadOnly = true;
+            this.Column20.Width = 24;
+            // 
+            // Column21
+            // 
+            this.Column21.DividerWidth = 3;
+            this.Column21.HeaderText = "11.k";
+            this.Column21.MinimumWidth = 28;
+            this.Column21.Name = "Column21";
+            this.Column21.ReadOnly = true;
+            this.Column21.Width = 28;
+            // 
+            // Column22
+            // 
+            this.Column22.HeaderText = "id12";
+            this.Column22.MinimumWidth = 24;
+            this.Column22.Name = "Column22";
+            this.Column22.ReadOnly = true;
+            this.Column22.Width = 24;
+            // 
+            // Column23
+            // 
+            this.Column23.DividerWidth = 3;
+            this.Column23.HeaderText = "12.k";
+            this.Column23.MinimumWidth = 28;
+            this.Column23.Name = "Column23";
+            this.Column23.ReadOnly = true;
+            this.Column23.Width = 28;
+            // 
+            // Column24
+            // 
+            this.Column24.HeaderText = "id13";
+            this.Column24.MinimumWidth = 24;
+            this.Column24.Name = "Column24";
+            this.Column24.ReadOnly = true;
+            this.Column24.Width = 24;
+            // 
+            // Column25
+            // 
+            this.Column25.DividerWidth = 3;
+            this.Column25.HeaderText = "13.k";
+            this.Column25.MinimumWidth = 28;
+            this.Column25.Name = "Column25";
+            this.Column25.ReadOnly = true;
+            this.Column25.Width = 28;
+            // 
+            // KaavioKuvaSarake
+            // 
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle16.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle16.NullValue")));
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.DarkGray;
+            this.KaavioKuvaSarake.DefaultCellStyle = dataGridViewCellStyle16;
+            this.KaavioKuvaSarake.DividerWidth = 3;
+            this.KaavioKuvaSarake.HeaderText = "#";
+            this.KaavioKuvaSarake.MinimumWidth = 32;
+            this.KaavioKuvaSarake.Name = "KaavioKuvaSarake";
+            this.KaavioKuvaSarake.ReadOnly = true;
+            this.KaavioKuvaSarake.Width = 32;
+            // 
+            // Voitot
+            // 
+            this.Voitot.DataPropertyName = "Voitot";
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Voitot.DefaultCellStyle = dataGridViewCellStyle17;
+            this.Voitot.DividerWidth = 3;
+            this.Voitot.HeaderText = "Voitot";
+            this.Voitot.MinimumWidth = 64;
+            this.Voitot.Name = "Voitot";
+            this.Voitot.ReadOnly = true;
+            this.Voitot.Width = 64;
+            // 
+            // Pisteet
+            // 
+            this.Pisteet.DataPropertyName = "Pisteet";
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Pisteet.DefaultCellStyle = dataGridViewCellStyle18;
+            this.Pisteet.DividerWidth = 3;
+            this.Pisteet.HeaderText = "Pisteet";
+            this.Pisteet.MinimumWidth = 64;
+            this.Pisteet.Name = "Pisteet";
+            this.Pisteet.ReadOnly = true;
+            this.Pisteet.Width = 64;
+            // 
+            // Tappiot
+            // 
+            this.Tappiot.DataPropertyName = "Tappiot";
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tappiot.DefaultCellStyle = dataGridViewCellStyle19;
+            this.Tappiot.DividerWidth = 3;
+            this.Tappiot.HeaderText = "Tappiot";
+            this.Tappiot.MinimumWidth = 64;
+            this.Tappiot.Name = "Tappiot";
+            this.Tappiot.ReadOnly = true;
+            this.Tappiot.Width = 64;
             // 
             // kilpailuBindingSource
             // 
@@ -4884,8 +4913,8 @@
             // kierrosDataGridViewTextBoxColumn
             // 
             this.kierrosDataGridViewTextBoxColumn.DataPropertyName = "Kierros";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.kierrosDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.kierrosDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle22;
             this.kierrosDataGridViewTextBoxColumn.HeaderText = "Kierros";
             this.kierrosDataGridViewTextBoxColumn.MaxInputLength = 2;
             this.kierrosDataGridViewTextBoxColumn.MinimumWidth = 58;
@@ -4907,8 +4936,8 @@
             // poytaDataGridViewTextBoxColumn
             // 
             this.poytaDataGridViewTextBoxColumn.DataPropertyName = "Poyta";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.poytaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.poytaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle23;
             this.poytaDataGridViewTextBoxColumn.DividerWidth = 3;
             this.poytaDataGridViewTextBoxColumn.HeaderText = "Pöytä";
             this.poytaDataGridViewTextBoxColumn.MaxInputLength = 2;
@@ -4919,9 +4948,9 @@
             // pelaajaId1DataGridViewTextBoxColumn
             // 
             this.pelaajaId1DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId1";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaajaId1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaajaId1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle24;
             this.pelaajaId1DataGridViewTextBoxColumn.HeaderText = "id1";
             this.pelaajaId1DataGridViewTextBoxColumn.MaxInputLength = 3;
             this.pelaajaId1DataGridViewTextBoxColumn.MinimumWidth = 34;
@@ -4933,9 +4962,9 @@
             // 
             this.pelaaja1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.pelaaja1DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja1";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaaja1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaaja1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle25;
             this.pelaaja1DataGridViewTextBoxColumn.DividerWidth = 3;
             this.pelaaja1DataGridViewTextBoxColumn.HeaderText = "";
             this.pelaaja1DataGridViewTextBoxColumn.MinimumWidth = 128;
@@ -4945,9 +4974,9 @@
             // pisteet1DataGridViewTextBoxColumn
             // 
             this.pisteet1DataGridViewTextBoxColumn.DataPropertyName = "Pisteet1";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pisteet1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pisteet1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle26;
             this.pisteet1DataGridViewTextBoxColumn.HeaderText = "";
             this.pisteet1DataGridViewTextBoxColumn.MaxInputLength = 3;
             this.pisteet1DataGridViewTextBoxColumn.MinimumWidth = 48;
@@ -4957,9 +4986,9 @@
             // pisteet2DataGridViewTextBoxColumn
             // 
             this.pisteet2DataGridViewTextBoxColumn.DataPropertyName = "Pisteet2";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pisteet2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pisteet2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle28;
             this.pisteet2DataGridViewTextBoxColumn.DividerWidth = 3;
             this.pisteet2DataGridViewTextBoxColumn.HeaderText = "";
             this.pisteet2DataGridViewTextBoxColumn.MaxInputLength = 3;
@@ -4971,9 +5000,9 @@
             // 
             this.pelaaja2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.pelaaja2DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja2";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaaja2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaaja2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle29;
             this.pelaaja2DataGridViewTextBoxColumn.HeaderText = "";
             this.pelaaja2DataGridViewTextBoxColumn.MinimumWidth = 128;
             this.pelaaja2DataGridViewTextBoxColumn.Name = "pelaaja2DataGridViewTextBoxColumn";
@@ -4982,9 +5011,9 @@
             // pelaajaId2DataGridViewTextBoxColumn
             // 
             this.pelaajaId2DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId2";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaajaId2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaajaId2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle30;
             this.pelaajaId2DataGridViewTextBoxColumn.DividerWidth = 3;
             this.pelaajaId2DataGridViewTextBoxColumn.HeaderText = "id2";
             this.pelaajaId2DataGridViewTextBoxColumn.MaxInputLength = 3;
@@ -5023,8 +5052,8 @@
             // 
             this.striimiLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.striimiLinkkiDataGridViewTextBoxColumn.DataPropertyName = "StriimiLinkki";
-            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.Blue;
-            this.striimiLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.Blue;
+            this.striimiLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle34;
             this.striimiLinkkiDataGridViewTextBoxColumn.HeaderText = "Striimilinkki";
             this.striimiLinkkiDataGridViewTextBoxColumn.Name = "striimiLinkkiDataGridViewTextBoxColumn";
             // 
@@ -5032,8 +5061,8 @@
             // 
             this.tulosLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.tulosLinkkiDataGridViewTextBoxColumn.DataPropertyName = "TulosLinkki";
-            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.Blue;
-            this.tulosLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle35.ForeColor = System.Drawing.Color.Blue;
+            this.tulosLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle35;
             this.tulosLinkkiDataGridViewTextBoxColumn.HeaderText = "Tuloslinkki";
             this.tulosLinkkiDataGridViewTextBoxColumn.Name = "tulosLinkkiDataGridViewTextBoxColumn";
             // 
@@ -5051,8 +5080,8 @@
             // 
             this.osoiteDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.osoiteDataGridViewTextBoxColumn.DataPropertyName = "Osoite";
-            dataGridViewCellStyle35.ForeColor = System.Drawing.Color.Blue;
-            this.osoiteDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle36.ForeColor = System.Drawing.Color.Blue;
+            this.osoiteDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle36;
             this.osoiteDataGridViewTextBoxColumn.HeaderText = "Osoite";
             this.osoiteDataGridViewTextBoxColumn.Name = "osoiteDataGridViewTextBoxColumn";
             // 
@@ -5067,8 +5096,8 @@
             // sijoitusDataGridViewTextBoxColumn
             // 
             this.sijoitusDataGridViewTextBoxColumn.DataPropertyName = "Sijoitus";
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sijoitusDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sijoitusDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle38;
             this.sijoitusDataGridViewTextBoxColumn.DividerWidth = 3;
             this.sijoitusDataGridViewTextBoxColumn.Frozen = true;
             this.sijoitusDataGridViewTextBoxColumn.HeaderText = "#";
@@ -5080,8 +5109,8 @@
             // nimiDataGridViewTextBoxColumn3
             // 
             this.nimiDataGridViewTextBoxColumn3.DataPropertyName = "Nimi";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.nimiDataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nimiDataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle39;
             this.nimiDataGridViewTextBoxColumn3.DividerWidth = 3;
             this.nimiDataGridViewTextBoxColumn3.Frozen = true;
             this.nimiDataGridViewTextBoxColumn3.HeaderText = "Pelaaja";
@@ -5093,10 +5122,10 @@
             // rankingPisteetDataGridViewTextBoxColumn
             // 
             this.rankingPisteetDataGridViewTextBoxColumn.DataPropertyName = "RankingPisteet";
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle39.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.Blue;
-            this.rankingPisteetDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle40.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle40.ForeColor = System.Drawing.Color.Blue;
+            this.rankingPisteetDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle40;
             this.rankingPisteetDataGridViewTextBoxColumn.Frozen = true;
             this.rankingPisteetDataGridViewTextBoxColumn.HeaderText = "Pisteet";
             this.rankingPisteetDataGridViewTextBoxColumn.MinimumWidth = 64;
@@ -5136,7 +5165,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.splitContainer10.Panel1.ResumeLayout(false);
             this.splitContainer10.Panel2.ResumeLayout(false);
             this.splitContainer10.Panel2.PerformLayout();
@@ -5149,7 +5177,6 @@
             this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kaavioDataGridView)).EndInit();
             this.pelitTabPage.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -5157,7 +5184,6 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelitDataGridView)).EndInit();
             this.kisaInfoTabPage.ResumeLayout(false);
             this.kisaInfoTabPage.PerformLayout();
@@ -5172,7 +5198,6 @@
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
@@ -5182,7 +5207,6 @@
             this.tuloksetSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tuloksetSplitContainer)).EndInit();
             this.tuloksetSplitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
@@ -5192,7 +5216,6 @@
             this.splitContainer7.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rahanJakoDataGridView)).EndInit();
@@ -5217,7 +5240,6 @@
             this.splitContainer11.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
             this.splitContainer11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.tabControl2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rankingDataGridView)).EndInit();
@@ -5228,6 +5250,13 @@
             this.splitContainer9.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).EndInit();
@@ -5404,38 +5433,6 @@
         private System.Windows.Forms.TrackBar voittajanOsuusTrackBar;
         private System.Windows.Forms.DataGridView rahanJakoDataGridView;
         private System.Windows.Forms.RichTextBox richTextBox5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nimiDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn seuraDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn kaavioid1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column19;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column20;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column21;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column22;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column23;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column24;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column25;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Voitot;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Pisteet;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tappiot;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn12;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn13;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn14;
@@ -5651,6 +5648,40 @@
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ImageList medalImages;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nimiDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn seuraDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn kaavioid1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column19;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column20;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column21;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column22;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column23;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column24;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column25;
+        private System.Windows.Forms.DataGridViewImageColumn KaavioKuvaSarake;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Voitot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Pisteet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tappiot;
     }
 }
 
