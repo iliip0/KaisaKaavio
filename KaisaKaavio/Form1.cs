@@ -2442,17 +2442,30 @@ namespace KaisaKaavio
                         if (KaavioPeliEditoitavissa(pelaaja, pelinNumero))
                         {
                             var value = (string)row.Cells[e.ColumnIndex].Value;
-                            if (string.IsNullOrEmpty(value) &&
-                                VoiPoistaaPelinKaaviosta(pelinNumero, pelaaja))
+                            if (string.IsNullOrEmpty(value))
                             {
-                                PoistaPeliKaaviosta(pelinNumero, pelaaja);
+                                if (VoiPoistaaPelinKaaviosta(pelinNumero, pelaaja))
+                                {
+                                    PoistaPeliKaaviosta(pelinNumero, pelaaja);
+                                }
                             }
                             else
                             {
-                                int id = -1;
-                                if (Int32.TryParse(value, out id))
+                                if (pelinNumero > pelaaja.Pelit.Count - 1)
                                 {
-                                    // Hae peli/muuta hakua
+                                    int id = -1;
+                                    if (Int32.TryParse(value, out id))
+                                    {
+                                        string virhe = string.Empty;
+                                        if (VoiHakeaPelinKaavioonManuaalisesti(pelaaja, id, out virhe))
+                                        {
+                                            LisaaPeliKaavioon(pelaaja.Id, id);
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show(virhe, "Pelin hakeminen ei ole mahdollista", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2496,7 +2509,60 @@ namespace KaisaKaavio
 
         private bool VoiPoistaaPelinKaaviosta(int pelinNumero, Pelaaja pelaaja)
         {
-            // TODO!!!
+            if (pelinNumero <= pelaaja.Pelit.Count)
+            {
+                var pelitietue = pelaaja.Pelit[pelinNumero];
+                var peli = this.kilpailu.Pelit.LastOrDefault(x => 
+                    x.Kierros == pelitietue.Kierros && 
+                    x.SisaltaaPelaajat(pelaaja.Id, pelitietue.Vastustaja));
+
+                if (peli != null && 
+                    peli.Tilanne != PelinTilanne.Pelattu &&
+                    peli.Tilanne != PelinTilanne.Kaynnissa)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool VoiHakeaPelinKaavioonManuaalisesti(Pelaaja pelaaja, int vastustajaId, out string virhe)
+        {
+            virhe = string.Empty;
+
+            if (pelaaja.Id == vastustajaId)
+            {
+                virhe = "Pelaaja ei voi hakea itseään!";
+                return false;
+            }
+
+            var vastustaja = this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == vastustajaId);
+            if (vastustaja == null)
+            {
+                virhe = string.Format("Kaaviosta ei löydy pelaajaa numerolla {0}!", vastustajaId);
+                return false;
+            }
+
+            if (vastustaja.Pudotettu ||
+                vastustaja.Tappiot > 1)
+            {
+                virhe = string.Format("Ei voi hakea! Vastustaja {0} on jo pudonnut kilpailusta!", vastustajaId);
+                return false;
+            }
+
+            if (vastustaja.Pelit.Any(x => !x.Pelattu && x.Pudari))
+            {
+                virhe = string.Format("Ei voi hakea! Vastustajalla on haettuja pelejä pelaamatta", vastustajaId);
+                return false;
+            }
+
+            if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Tappiot) > 1)
+            {
+                virhe = string.Format("Ei voi hakea! Vastustajalla on haettuja pelejä pelaamatta", vastustajaId);
+                return false;
+            }
+
             return true;
         }
 
@@ -2508,7 +2574,7 @@ namespace KaisaKaavio
                 {
                     var peli = pelaaja.Pelit[pelinNumero];
 
-                    var poistettavaPeli = this.kilpailu.Pelit.FirstOrDefault(x =>
+                    var poistettavaPeli = this.kilpailu.Pelit.LastOrDefault(x =>
                         x.Kierros == peli.Kierros &&
                         x.SisaltaaPelaajat(peli.Vastustaja, pelaaja.Id));
 
@@ -2516,9 +2582,9 @@ namespace KaisaKaavio
                         poistettavaPeli.Tilanne != PelinTilanne.Pelattu &&
                         poistettavaPeli.Tilanne != PelinTilanne.Kaynnissa)
                     {
-                        this.loki.Kirjoita(string.Format("Poistettiin peli {0} kaaviosta manuaalisesti", poistettavaPeli.Kuvaus()));
-
                         this.kilpailu.PoistaPeli(poistettavaPeli);
+
+                        this.loki.Kirjoita(string.Format("Poistettiin peli {0} kaaviosta manuaalisesti", poistettavaPeli.Kuvaus()));
 
                         this.kaavioDataGridView.SuspendLayout();
 
@@ -2529,6 +2595,33 @@ namespace KaisaKaavio
                         this.kaavioDataGridView.Refresh();
                     }
                 }
+            }
+            catch
+            {
+            }
+        }
+
+        private void LisaaPeliKaavioon(int pelaaja, int vastustaja)
+        {
+            try
+            {
+                this.kilpailu.LisaaPeli(
+                    this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelaaja),
+                    this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == vastustaja));
+
+                var peli = this.kilpailu.Pelit.LastOrDefault(x => x.SisaltaaPelaajat(pelaaja, vastustaja));
+                if (peli != null)
+                {
+                    this.loki.Kirjoita(string.Format("Lisättiin peli {0} kaavioon manuaalisesti", peli.Kuvaus()));
+                }
+
+                this.kaavioDataGridView.SuspendLayout();
+
+                this.kilpailu.PaivitaKaavioData();
+                PaivitaKaavioSolut();
+
+                this.kaavioDataGridView.ResumeLayout();
+                this.kaavioDataGridView.Refresh();
             }
             catch
             {

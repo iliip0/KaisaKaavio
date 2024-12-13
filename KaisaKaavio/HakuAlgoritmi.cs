@@ -159,9 +159,8 @@ namespace KaisaKaavio
                 }
                 else 
                 {
-#if DEBUG
-                    throw new Exception(string.Format("BUGI!!! HakuAlgoritmissä peli joka on pidemmällä kaaviossa kuin haettava kierros {0}", peli.Kuvaus()));
-#endif
+                    // Tämä peli on haettu kaavioon manuaalisesti
+                    JoArvotutPelit.Add(p);
                }
             }
         }

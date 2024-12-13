@@ -4,7 +4,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 ## Versio 1.0.0.5		(työn alla)
 
-* Korjaus hakualgoritmiin.
+* Korjaus hakualgoritmiin. Automaattinen testiajo löysi bugin
+* Pelien hakeminen manuaalisesti Kaavio-välilehdeltä toteutettu. Tämä mahdollistaa täyden kontrollin kilpailun vetäjälle hakea pelejä tai korjata mahdollisia hakuvirheitä
 
 ## Versio 1.0.0.4		(julkaistu 10.12.2024)
 
