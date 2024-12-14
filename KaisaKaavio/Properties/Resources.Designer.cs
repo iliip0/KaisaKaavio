@@ -353,6 +353,26 @@ namespace KaisaKaavio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap RankingTaulukko {
+            get {
+                object obj = ResourceManager.GetObject("RankingTaulukko", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RankingTeksti {
+            get {
+                object obj = ResourceManager.GetObject("RankingTeksti", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Sali {
             get {
                 object obj = ResourceManager.GetObject("Sali", resourceCulture);

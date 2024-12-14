@@ -448,7 +448,7 @@ namespace KaisaKaavio.Ranking
         {
             try
             {
-                if (kilpailu.RankingKisa)
+                if (kilpailu.RankingKisa && kilpailu.KilpailuOnPaattynyt)
                 {
                     int vuosi = kilpailu.AlkamisAika.Year;
 

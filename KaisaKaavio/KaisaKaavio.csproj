@@ -235,6 +235,8 @@
     <None Include="Resources\Tulokset.png" />
     <None Include="Resources\VersioHistoria.png" />
     <None Include="Resources\Testaa.png" />
+    <None Include="Resources\RankingTaulukko.png" />
+    <None Include="Resources\RankingTeksti.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
