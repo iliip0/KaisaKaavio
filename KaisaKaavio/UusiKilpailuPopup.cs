@@ -12,6 +12,8 @@ namespace KaisaKaavio
 {
     public partial class UusiKilpailuPopup : Form
     {
+        private bool nimeaMuokattuManuaalisesti = false;
+
         public UusiKilpailuPopup()
         {
             InitializeComponent();
@@ -86,12 +88,46 @@ namespace KaisaKaavio
                 this.rankingCheckBox.Visible = false;
                 this.rankingComboBox.Visible = false;
             }
+
+            PaivitaKilpailunOletusNimi();
         }
 
         private void rankingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.rankingLabel.Visible = this.rankingCheckBox.Checked;
             this.rankingComboBox.Visible = this.rankingCheckBox.Checked;
+        }
+
+        private void PaivitaKilpailunOletusNimi()
+        {
+            if (!this.nimeaMuokattuManuaalisesti)
+            {
+                string kilpatyyppi = this.LuoViikkokisa ? "viikkokisa" : "RG kilpailu";
+                string aika = string.Format("{0}.{1}.{2}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+                string laji = "Kaisan";
+
+                switch (Laji)
+                {
+                    case KaisaKaavio.Laji.Kaisa: laji = "Kaisan"; break;
+                    case KaisaKaavio.Laji.Kara: laji = "Karan"; break;
+                    case KaisaKaavio.Laji.Heyball: laji = "Heyball"; break;
+                    case KaisaKaavio.Laji.Pool: laji = "Poolin"; break;
+                    case KaisaKaavio.Laji.Pyramidi: laji = "Pyramidin"; break;
+                    case KaisaKaavio.Laji.Snooker: laji = "Snookerin"; break;
+                }
+
+                this.kilpailunNimiTextBox.Text = string.Format("{0} {1} {2}", laji, kilpatyyppi, aika);
+            }
+        }
+
+        private void uusiKilpailuLajiComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PaivitaKilpailunOletusNimi();
+        }
+
+        private void kilpailunNimiTextBox_Validated(object sender, EventArgs e)
+        {
+            this.nimeaMuokattuManuaalisesti = true;
         }
     }
 }

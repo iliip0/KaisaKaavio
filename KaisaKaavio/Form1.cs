@@ -275,21 +275,6 @@ namespace KaisaKaavio
                         this.kilpailu.Nimi = popup.Nimi;
                         this.kilpailu.Laji = popup.Laji;
 
-                        switch (this.kilpailu.Laji)
-                        {
-                            case Laji.Kaisa:
-                                this.kilpailu.TavoitePistemaara = 60;
-                                break;
-
-                            case Laji.Kara:
-                                this.kilpailu.TavoitePistemaara = 30;
-                                break;
-
-                            default:
-                                this.kilpailu.TavoitePistemaara = 4;
-                                break;
-                        }
-
                         this.kilpailu.AlkamisAika = DateTime.Today;
                         this.kilpailu.Palkinnot = string.Empty;
                         this.kilpailu.Ilmoittautuminen = string.Empty;
@@ -335,6 +320,22 @@ namespace KaisaKaavio
                             {
                                 this.kilpailu.PelaajiaEnintaan = 256;
                             }
+                        }
+
+                        switch (this.kilpailu.Laji)
+                        {
+                            case Laji.Kaisa:
+                                this.kilpailu.TavoitePistemaara = 60;
+                                break;
+
+                            case Laji.Kara:
+                                this.kilpailu.TavoitePistemaara = popup.LuoViikkokisa ? 20 : 30;
+                                this.kilpailu.PeliAika = popup.LuoViikkokisa ? 20 : 40;
+                                break;
+
+                            default:
+                                this.kilpailu.TavoitePistemaara = 4;
+                                break;
                         }
 
                         PaivitaKilpailuTyyppi();
@@ -1081,6 +1082,21 @@ namespace KaisaKaavio
             e.Value = attributes.Length == 0 ? t.ToString() : ((DescriptionAttribute)attributes[0]).Description;
         }
 
+        private void sijoitustenMaaraytyminenComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            try
+            {
+                SijoitustenMaaraytyminen s = (SijoitustenMaaraytyminen)e.ListItem;
+
+                var field = typeof(SijoitustenMaaraytyminen).GetField(s.ToString());
+                var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                e.Value = attributes.Length == 0 ? s.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+            }
+            catch
+            {
+            }
+        }
+
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
             this.kilpailu.AlkamisAika = this.dateTimePicker2.Value;
@@ -1240,6 +1256,8 @@ namespace KaisaKaavio
                 {
                     this.splitContainer10.Panel2Collapsed = true;
                 }
+
+                this.arvoKaavioButton.Visible = !this.kilpailu.ToinenKierrosAlkanut;
             }
             catch
             { 
@@ -3656,20 +3674,5 @@ namespace KaisaKaavio
         }
 
         #endregion
-
-        private void sijoitustenMaaraytyminenComboBox_Format(object sender, ListControlConvertEventArgs e)
-        {
-            try
-            {
-                SijoitustenMaaraytyminen s = (SijoitustenMaaraytyminen)e.ListItem;
-
-                var field = typeof(SijoitustenMaaraytyminen).GetField(s.ToString());
-                var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                e.Value = attributes.Length == 0 ? s.ToString() : ((DescriptionAttribute)attributes[0]).Description;
-            }
-            catch
-            { 
-            }
-        }
     }
 }

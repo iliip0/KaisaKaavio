@@ -111,6 +111,7 @@
             this.kilpailunNimiTextBox.TabIndex = 5;
             this.kilpailunNimiTextBox.Text = "Kaisakilpailu";
             this.kilpailunNimiTextBox.TextChanged += new System.EventHandler(this.kilpailunNimiTextBox_TextChanged);
+            this.kilpailunNimiTextBox.Validated += new System.EventHandler(this.kilpailunNimiTextBox_Validated);
             // 
             // rankingCheckBox
             // 
@@ -167,6 +168,7 @@
             this.uusiKilpailuLajiComboBox.Name = "uusiKilpailuLajiComboBox";
             this.uusiKilpailuLajiComboBox.Size = new System.Drawing.Size(539, 28);
             this.uusiKilpailuLajiComboBox.TabIndex = 10;
+            this.uusiKilpailuLajiComboBox.SelectedIndexChanged += new System.EventHandler(this.uusiKilpailuLajiComboBox_SelectedIndexChanged);
             // 
             // UusiKilpailuPopup
             // 
