@@ -82,6 +82,7 @@ namespace KaisaKaavio
             this.rankingBindingSource.DataSource = this.ranking;
 
             this.kaavioTyyppiComboBox.DataSource = Enum.GetValues(typeof(KaavioTyyppi));
+            this.sijoitustenMaaraytyminenComboBox.DataSource = Enum.GetValues(typeof(SijoitustenMaaraytyminen));
 
             this.rankingKisaTyyppiComboBox.DataSource = Enum.GetValues(typeof(Ranking.RankingSarjanPituus));
             this.rankingVuosiComboBox.Items.AddRange(this.ranking.Vuodet.Select(x => (object)x).ToArray());
@@ -3655,5 +3656,20 @@ namespace KaisaKaavio
         }
 
         #endregion
+
+        private void sijoitustenMaaraytyminenComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            try
+            {
+                SijoitustenMaaraytyminen s = (SijoitustenMaaraytyminen)e.ListItem;
+
+                var field = typeof(SijoitustenMaaraytyminen).GetField(s.ToString());
+                var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                e.Value = attributes.Length == 0 ? s.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+            }
+            catch
+            { 
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.6		(työn alla)
 
 * Korjaus Rahanjako välilehdelle: summien tasaus kun useampi pelaaja on tasapisteissä
+* Kisainfoon valittavaksi kilpailun sijoitusten määräytymisperuste (montako parasta otetaan pisimmälle päässeistä voittojen ja pisteiden sijaan)
 
 ## Versio 1.0.0.5		(julkaistu 13.12.2024)
 
@@ -28,5 +29,5 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 ## Versio 1.0.0.2		(julkaistu 25.11.2024)
 
-Ensimmäinen julkaistu versio
+* Ensimmäinen julkaistu versio
  

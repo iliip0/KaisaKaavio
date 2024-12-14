@@ -120,6 +120,7 @@
     <Compile Include="Ranking\RankingSarja.cs" />
     <Compile Include="Ranking\RankingSarjanPituus.cs" />
     <Compile Include="Sali.cs" />
+    <Compile Include="SijoitustenMaaraytyminen.cs" />
     <Compile Include="Testaus\TestiAjo.cs" />
     <Compile Include="Testaus\TestiKilpailu.cs" />
     <Compile Include="Testaus\TestiPopup.cs">

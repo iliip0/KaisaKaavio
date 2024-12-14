@@ -427,6 +427,23 @@ namespace KaisaKaavio
                 this.Tulos);
         }
 
+        public Pelaaja Haviaja()
+        {
+            if (this.Tilanne == PelinTilanne.Pelattu)
+            {
+                if (this.tulos == PelinTulos.Pelaaja1Voitti)
+                {
+                    return this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
+                }
+                else if (this.tulos == PelinTulos.Pelaaja2Voitti)
+                {
+                    return this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
+                }
+            }
+
+            return null;
+        }
+
         public int Pisteet(int id)
         {
             bool a = false, b = false;

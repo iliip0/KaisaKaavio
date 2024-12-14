@@ -28,5 +28,5 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 ## Versio 1.0.0.2		(julkaistu 25.11.2024)
 
-Ensimmäinen julkaistu versio
+* Ensimmäinen julkaistu versio
  

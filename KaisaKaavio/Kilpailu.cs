@@ -39,6 +39,8 @@ namespace KaisaKaavio
 
         public Ranking.RankingSarjanPituus RankingKisaTyyppi { get; set; }
 
+        public SijoitustenMaaraytyminen SijoitustenMaaraytyminen { get; set; }
+
         public decimal PeliAika { get; set; }
         public decimal RankkareidenMaara { get; set; }
         public decimal TavoitePistemaara { get; set; }
@@ -150,6 +152,7 @@ namespace KaisaKaavio
             PelaajiaEnintaan = 32;
             KilpailuOnViikkokisa = true;
             Laji = KaisaKaavio.Laji.Kaisa;
+            SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
 
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             TallennusTarvitaan = false;
@@ -674,6 +677,7 @@ namespace KaisaKaavio
                 this.TavoitePistemaara = kilpailu.TavoitePistemaara;
                 this.KilpailuOnViikkokisa = kilpailu.KilpailuOnViikkokisa;
                 this.Laji = kilpailu.Laji;
+                this.SijoitustenMaaraytyminen = kilpailu.SijoitustenMaaraytyminen;
 
                 this.JalkiIlmoittautuneet.Clear();
 
@@ -1542,21 +1546,50 @@ namespace KaisaKaavio
                 }
 
                 // Sijoituspisteet määräävät pelaajien sijoituksen kisan päätyttyä.
-                // Tätä kaavaa säätämällä voi muuttaa sijoituskriteerejä:
-                o.SijoitusPisteet = o.Pudotettu ? 0 : 10000000;
+                o.SijoitusPisteet = o.Pudotettu ? 0 : 1000000000; // Laittaa voittajan ykköseksi ja mukana olevat listan kärkeen
                 o.SijoitusPisteet += o.Voitot * 100000;
-                o.SijoitusPisteet += o.Pisteet * 100;
-
-                if (this.KilpailuOnViikkokisa)
-                {
-                    o.SijoitusPisteet += o.PudonnutKierroksella; // Tämä huomioi tuloksissa kuinka pitkälle pelaaja on päässyt
-                }
+                o.SijoitusPisteet += o.Pisteet;
             }
 
             var tulokset = this.Osallistujat
                 .Where(x => x.Id >= 0)
                 .ToArray()
                 .OrderByDescending(x => x.SijoitusPisteet);
+
+            // Huomioidaan sijoituksissa kuinka pitkälle pelaaja pääsi (jos näin on asetettu) 
+            if (this.SijoitustenMaaraytyminen != KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista && KilpailuOnPaattynyt)
+            {
+                var finaali = this.Pelit.LastOrDefault();
+                if (finaali != null)
+                {
+                    var finalisti = finaali.Haviaja();
+                    if (finalisti != null)
+                    {
+                        finalisti.SijoitusPisteet += 500000000;
+
+                        if (this.SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista)
+                        {
+                            var t = tulokset
+                                .Where(x => !finaali.SisaltaaPelaajan(x.Id))
+                                .OrderByDescending(x => x.PudonnutKierroksella);
+
+                            if (t.Count() > 0)
+                            {
+                                int pronssiKierros = t.FirstOrDefault().PudonnutKierroksella;
+                                foreach (var tt in t.Where(x => x.PudonnutKierroksella == pronssiKierros))
+                                {
+                                    tt.SijoitusPisteet = 250000000;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                tulokset = tulokset.ToArray()
+                    .OrderByDescending(x => x.Pisteet)
+                    .OrderByDescending(x => x.Voitot)
+                    .OrderByDescending(x => x.SijoitusPisteet);
+            }
 
             int sijoitus = 1;
 
