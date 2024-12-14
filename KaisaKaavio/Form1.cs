@@ -38,7 +38,7 @@ namespace KaisaKaavio
         private Color virhePelinVari = Color.LightPink;
         private Color arpomattomanPelaajanVäri = Color.FromArgb(255, 255, 240, 200);
         private Color sbilKeskusteluTausta = Color.FromArgb(255, 225, 235, 242);
-        private Color rankingRivinVari0 = Color.FromArgb(255, 245, 245, 245);
+        private Color rankingRivinVari0 = Color.FromArgb(255, 235, 235, 235);
         private Color rankingRivinVari1 = Color.FromArgb(255, 255, 255, 255);
 
         private AutoCompleteStringCollection pelaajienNimet = null;
@@ -3813,5 +3813,10 @@ namespace KaisaKaavio
         }
 
         #endregion
+
+        private void kaavioDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
+        }
     }
 }

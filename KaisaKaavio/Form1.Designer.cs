@@ -870,9 +870,9 @@
             this.kaavioTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.kaavioTabPage.Controls.Add(this.splitContainer6);
             this.kaavioTabPage.ImageIndex = 1;
-            this.kaavioTabPage.Location = new System.Drawing.Point(4, 44);
+            this.kaavioTabPage.Location = new System.Drawing.Point(4, 87);
             this.kaavioTabPage.Name = "kaavioTabPage";
-            this.kaavioTabPage.Size = new System.Drawing.Size(776, 521);
+            this.kaavioTabPage.Size = new System.Drawing.Size(776, 478);
             this.kaavioTabPage.TabIndex = 1;
             this.kaavioTabPage.Text = "Kaavio";
             this.kaavioTabPage.UseVisualStyleBackColor = true;
@@ -897,7 +897,7 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.kaavioDataGridView);
-            this.splitContainer6.Size = new System.Drawing.Size(772, 517);
+            this.splitContainer6.Size = new System.Drawing.Size(772, 474);
             this.splitContainer6.SplitterDistance = 61;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -986,11 +986,12 @@
             this.kaavioDataGridView.RowHeadersVisible = false;
             this.kaavioDataGridView.RowTemplate.DividerHeight = 3;
             this.kaavioDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.kaavioDataGridView.Size = new System.Drawing.Size(768, 448);
+            this.kaavioDataGridView.Size = new System.Drawing.Size(768, 405);
             this.kaavioDataGridView.TabIndex = 0;
             this.kaavioDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.kaavioDataGridView_CellEndEdit);
             this.kaavioDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.kaavioDataGridView_CellFormatting);
             this.kaavioDataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.kaavioDataGridView_CellPainting);
+            this.kaavioDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.kaavioDataGridView_DataError);
             this.kaavioDataGridView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.kaavioDataGridView_KeyPress);
             // 
             // kaavioid1
@@ -3062,7 +3063,7 @@
             this.rankingDataGridView.AutoGenerateColumns = false;
             this.rankingDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.rankingDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.rankingDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.rankingDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle37.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
