@@ -26,10 +26,13 @@ namespace KaisaKaavio
         public int PalkittujenMaara = 3;
         public int VoittajanOsuus = 50;
 
+        private Kilpailu kilpailu = null;
         private List<Pelaaja> tulokset = new List<Pelaaja>();
 
         public void AlustaRahanjako(Kilpailu kilpailu, Loki loki)
         {
+            this.kilpailu = kilpailu;
+
             try
             {
                 this.OsallistumisMaksut = 0.0f;
@@ -57,9 +60,23 @@ namespace KaisaKaavio
                 }
 
                 this.tulokset.Clear();
-                if (kilpailu.Voittaja() != null)
+                if (kilpailu.KilpailuOnPaattynyt)
                 {
                     this.tulokset.AddRange(kilpailu.Tulokset());
+                }
+                else
+                {
+                    int sijoitus = 1;
+                    foreach (var o in kilpailu.Osallistujat)
+                    {
+                        Pelaaja tulos = new Pelaaja() 
+                        {
+                            Nimi = string.Empty, 
+                            Sijoitus = sijoitus++ 
+                        };
+
+                        this.tulokset.Add(tulos);
+                    }
                 }
             }
             catch (Exception e)
@@ -187,43 +204,41 @@ namespace KaisaKaavio
             {
                 float jaossa = this.OsallistumisMaksut;
 
-                if (this.SbilOsuus > 0 && jaossa > 0.0f)
-                {
-                    if (this.SbilOsuusOnProsentteja)
-                    {
-                        this.SbilOsuusSumma = PyoristaYlospain(((float)this.SbilOsuus / 100.0f) * jaossa);
-                    }
-                    else 
-                    {
-                        this.SbilOsuusSumma = (float)this.SbilOsuus;
-                    }
-
-                    this.SbilOsuusSumma = Math.Min(jaossa, this.SbilOsuusSumma);
-                    jaossa -= this.SbilOsuusSumma;
-                    jaossa = Math.Max(0.0f, jaossa);
-                }
-
-                if (this.SeuranOsuus > 0 && jaossa > 0.0f)
-                {
-                    if (this.SeuranOsuusOnProsentteja)
-                    {
-                        this.SeuranOsuusSumma = PyoristaYlospain(((float)this.SeuranOsuus / 100.0f) * jaossa);
-                    }
-                    else
-                    {
-                        this.SeuranOsuusSumma = (float)this.SeuranOsuus;
-                    }
-
-                    this.SeuranOsuusSumma = Math.Min(jaossa, this.SeuranOsuusSumma);
-                    jaossa -= this.SeuranOsuusSumma;
-                    jaossa = Math.Max(0.0f, jaossa);                    
-                }
+                jaossa = PaivitaSbilOsuus(jaossa);
+                jaossa = PaivitaSeuranOsuus(jaossa);
 
                 this.Palkintoihin = jaossa;
 
                 taulukko.Rows.Clear();
 
-                if (PalkittujenMaara > 0 && jaossa > 0.0f)
+                int palkittujenMaara = 0;
+                int edellinenSijoitus = 0;
+                int vikallaSijalla = 1;
+
+                foreach (var tulos in this.tulokset)
+                {
+                    if (palkittujenMaara < this.PalkittujenMaara)
+                    {
+                        edellinenSijoitus = tulos.Sijoitus;
+                        palkittujenMaara++;
+                    }
+                    else
+                    {
+                        if (tulos.Sijoitus == edellinenSijoitus)
+                        {
+                            palkittujenMaara++;
+                            vikallaSijalla++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                palkittujenMaara = Math.Min(palkittujenMaara, this.tulokset.Count);
+
+                if (palkittujenMaara > 0 && jaossa > 0.0f)
                 {
                     float vipu = ((float)this.VoittajanOsuus) / 100.0f;
 
@@ -232,9 +247,9 @@ namespace KaisaKaavio
                     float osuuksienSumma = 0.0f;
                     float palkintojenSumma = 0.0f;
 
-                    for (int i = 0; i < PalkittujenMaara; ++i)
+                    for (int i = 0; i < palkittujenMaara; ++i)
                     {
-                        float d = 1.0f - (((float)i) / ((float)PalkittujenMaara));
+                        float d = 1.0f - (((float)i) / ((float)palkittujenMaara));
                         float max = (float)Math.Pow(d, 1.0f / 0.5f);
                         float min = (float)Math.Pow(d, 1.0f / 10.0f);
 
@@ -246,11 +261,44 @@ namespace KaisaKaavio
 
                     if (osuuksienSumma > 0.0f)
                     {
-                        for (int i = 0; i < PalkittujenMaara; ++i)
+                        Dictionary<int, List<float>> osuudetSijoittain = new Dictionary<int, List<float>>();
+
+                        for (int i = 0; i < palkittujenMaara; ++i)
                         {
                             osuudet[i] /= osuuksienSumma;
-                            float osuus = osuudet[i];
-                            float palkinto = PyoristaYlospain(osuus * jaossa);
+
+                            int sijoitus = this.tulokset[i].Sijoitus;
+                            if (!osuudetSijoittain.ContainsKey(sijoitus))
+                            {
+                                osuudetSijoittain[sijoitus] = new List<float>();
+                            }
+
+                            osuudetSijoittain[sijoitus].Add(osuudet[i]);
+                        }
+
+                        Dictionary<int, float> osuusSijoittain = new Dictionary<int, float>();
+
+                        // Tasataan osuudet jos pelaajia on tasapisteissä palkinnoilla
+                        foreach (var o in osuudetSijoittain)
+                        {
+                            osuusSijoittain.Add(o.Key, o.Value.Average());
+                        }
+
+                        for (int i = 0; i < palkittujenMaara; ++i)
+                        {
+                            float osuus = osuusSijoittain[this.tulokset[i].Sijoitus];
+                            osuudet[i] = osuus;
+                            float palkinto = 0.0f;
+
+                            if (osuudetSijoittain[this.tulokset[i].Sijoitus].Count > 1)
+                            {
+                                palkinto = (float)Math.Ceiling((double)(osuus * jaossa));
+                            }
+                            else
+                            { 
+                                palkinto = PyoristaYlospain(osuus * jaossa);
+                            }
+
                             palkinnot.Add(palkinto);
                             palkintojenSumma += palkinto;
                         }
@@ -258,7 +306,26 @@ namespace KaisaKaavio
                         // Varmistetaan että palkintojen summa täsmää jaettavaan määrään
                         if (palkintojenSumma > jaossa)
                         {
-                            palkinnot[palkinnot.Count - 1] -= (palkintojenSumma - jaossa);
+                            if (vikallaSijalla > 1)
+                            {
+                                float kokoOsuus = palkintojenSumma - jaossa;
+                                float jakoOsuus = (float)Math.Floor((double)(kokoOsuus / vikallaSijalla));
+
+                                for (int i = 0; i < vikallaSijalla; ++i)
+                                {
+                                    palkinnot[palkinnot.Count - 1 - i] -= jakoOsuus;
+                                    kokoOsuus -= jakoOsuus;
+                                }
+
+                                if (kokoOsuus > 0.0f)
+                                {
+                                    palkinnot[palkinnot.Count - 1] -= kokoOsuus;
+                                }
+                            }
+                            else
+                            {
+                                palkinnot[palkinnot.Count - 1] -= (palkintojenSumma - jaossa);
+                            }
                         }
                         else if (palkintojenSumma < jaossa)
                         {
@@ -266,22 +333,22 @@ namespace KaisaKaavio
                         }
 
                         // Varmistetaan että kaikki saa jotain
-                        for (int i = PalkittujenMaara - 2; i >= 0; --i)
+                        for (int i = palkittujenMaara - 2; i >= 0; --i)
                         {
-                            if (palkinnot[i + 1] < 5)
+                            if (palkinnot[i + 1] < 1)
                             {
-                                float summa = 5 - palkinnot[i + 1];
+                                float summa = 1 - palkinnot[i + 1];
                                 palkinnot[i + 1] += summa;
                                 palkinnot[i] -= summa;
                             }
                         }
 
-                        for (int i = 0; i < PalkittujenMaara; ++i)
+                        for (int i = 0; i < palkittujenMaara; ++i)
                         {
                             float palkinto = palkinnot[i];
 
                             taulukko.Rows.Add(
-                                (i + 1).ToString(),
+                                i < this.tulokset.Count ? this.tulokset[i].Sijoitus.ToString() : (i + 1).ToString(),
                                 i < this.tulokset.Count ? this.tulokset[i].Nimi : string.Empty,
                                 ((int)palkinto).ToString() + " €",
                                 ((int)(osuudet[i] * 100.0f)).ToString() + "%");
@@ -294,6 +361,46 @@ namespace KaisaKaavio
             {
                 loki.Kirjoita("Rahanjaon päivitys epäonnistui", e, true);
             }
+        }
+
+        private float PaivitaSeuranOsuus(float jaossa)
+        {
+            if (this.SeuranOsuus > 0 && jaossa > 0.0f)
+            {
+                if (this.SeuranOsuusOnProsentteja)
+                {
+                    this.SeuranOsuusSumma = PyoristaYlospain(((float)this.SeuranOsuus / 100.0f) * jaossa);
+                }
+                else
+                {
+                    this.SeuranOsuusSumma = (float)this.SeuranOsuus;
+                }
+
+                this.SeuranOsuusSumma = Math.Min(jaossa, this.SeuranOsuusSumma);
+                jaossa -= this.SeuranOsuusSumma;
+                jaossa = Math.Max(0.0f, jaossa);
+            }
+            return jaossa;
+        }
+
+        private float PaivitaSbilOsuus(float jaossa)
+        {
+            if (this.SbilOsuus > 0 && jaossa > 0.0f)
+            {
+                if (this.SbilOsuusOnProsentteja)
+                {
+                    this.SbilOsuusSumma = PyoristaYlospain(((float)this.SbilOsuus / 100.0f) * jaossa);
+                }
+                else
+                {
+                    this.SbilOsuusSumma = (float)this.SbilOsuus;
+                }
+
+                this.SbilOsuusSumma = Math.Min(jaossa, this.SbilOsuusSumma);
+                jaossa -= this.SbilOsuusSumma;
+                jaossa = Math.Max(0.0f, jaossa);
+            }
+            return jaossa;
         }
     }
 }

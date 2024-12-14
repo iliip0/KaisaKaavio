@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.6		(työn alla)
+
+* Korjaus Rahanjako välilehdelle: summien tasaus kun useampi pelaaja on tasapisteissä
+
 ## Versio 1.0.0.5		(julkaistu 13.12.2024)
 
 * Korjaus hakualgoritmiin. Automaattinen testiajo löysi bugin
