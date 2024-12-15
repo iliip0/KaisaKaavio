@@ -86,8 +86,8 @@
             this.kilpailunTyyppiComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kilpailunTyyppiComboBox.FormattingEnabled = true;
             this.kilpailunTyyppiComboBox.Items.AddRange(new object[] {
-            "Viikkokilpailu (40min per peli, 3.kierros pudari)",
-            "RG kilpailu (60min per peli, tuplakaavio loppuun asti)"});
+            "Viikkokilpailu (3.kierros pudari)",
+            "RG kilpailu (tuplakaavio loppuun asti)"});
             this.kilpailunTyyppiComboBox.Location = new System.Drawing.Point(207, 66);
             this.kilpailunTyyppiComboBox.Name = "kilpailunTyyppiComboBox";
             this.kilpailunTyyppiComboBox.Size = new System.Drawing.Size(539, 28);
@@ -197,7 +197,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(780, 348);
             this.Name = "UusiKilpailuPopup";
-            this.Text = "Luo uusi Kaisa kilpailu";
+            this.Text = "Luo uusi kilpailu";
             this.ResumeLayout(false);
             this.PerformLayout();
 
