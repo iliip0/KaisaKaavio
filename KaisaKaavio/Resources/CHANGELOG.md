@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.7		(julkaistu 20.12.2024)
+
+* Ensimmäinen versio käyttöoppaasta valmis
+
 ## Versio 1.0.0.6		(julkaistu 15.12.2024)
 
 * Korjaus Rahanjako välilehdelle: summien tasaus kun useampi pelaaja on tasapisteissä
