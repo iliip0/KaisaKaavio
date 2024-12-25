@@ -480,6 +480,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.medalImages = new System.Windows.Forms.ImageList(this.components);
             this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.rankingSarjaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -1733,6 +1734,7 @@
             this.pelitDataGridView.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.pelitDataGridView_CellBeginEdit);
             this.pelitDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.pelitDataGridView_CellContentClick);
             this.pelitDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.pelitDataGridView_CellEndEdit);
+            this.pelitDataGridView.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.pelitDataGridView_CellEnter);
             this.pelitDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.pelitDataGridView_CellFormatting);
             this.pelitDataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.pelitDataGridView_CellPainting);
             this.pelitDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.pelitDataGridView_DataError);
@@ -5205,6 +5207,17 @@
             this.sarjatBindingSourceBindingSource.DataMember = "SarjatBindingSource";
             this.sarjatBindingSourceBindingSource.DataSource = this.rankingBindingSource;
             // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.UseAntiAlias = true;
+            this.printPreviewDialog1.Visible = false;
+            // 
             // rankingSarjaBindingSource
             // 
             this.rankingSarjaBindingSource.DataSource = typeof(KaisaKaavio.Ranking.RankingSarja);
@@ -5753,6 +5766,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn rankingP51;
         private System.Windows.Forms.DataGridViewTextBoxColumn rankingS52;
         private System.Windows.Forms.DataGridViewTextBoxColumn rankingP52;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
     }
 }
 

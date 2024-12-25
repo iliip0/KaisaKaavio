@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -438,10 +439,10 @@ namespace KaisaKaavio
                     this.tabControl1.Controls.Remove(this.kilpailuKutsuTabPage);
                 }
 
-                if (this.tabControl1.Contains(this.saliInfoTabPage))
-                {
-                    this.tabControl1.Controls.Remove(this.saliInfoTabPage);
-                }
+                //if (this.tabControl1.Contains(this.saliInfoTabPage))
+                //{
+                //    this.tabControl1.Controls.Remove(this.saliInfoTabPage);
+                //}
 
                 if (!this.tabControl1.Contains(this.rankingTabPage))
                 {
@@ -455,10 +456,10 @@ namespace KaisaKaavio
                     this.tabControl1.Controls.Add(this.kilpailuKutsuTabPage);
                 }
 
-                if (!this.tabControl1.Contains(this.saliInfoTabPage))
-                {
-                    this.tabControl1.Controls.Add(this.saliInfoTabPage);
-                }
+                //if (!this.tabControl1.Contains(this.saliInfoTabPage))
+                //{
+                //    this.tabControl1.Controls.Add(this.saliInfoTabPage);
+                //}
 
                 if (this.tabControl1.Contains(this.rankingTabPage))
                 {
@@ -1795,7 +1796,7 @@ namespace KaisaKaavio
             try
             {
                 // Pelin "Käynnistä" painike
-                if (e.ColumnIndex == 1)
+                if (e.ColumnIndex == this.TilanneTeksti.Index)
                 {
                     Peli peli = (Peli)this.pelitDataGridView.Rows[e.RowIndex].DataBoundItem;
 
@@ -1822,7 +1823,7 @@ namespace KaisaKaavio
                         switch (peli.Tilanne)
                         {
                             case PelinTilanne.ValmiinaAlkamaan:
-                                peli.KaynnistaPeli();
+                                peli.KaynnistaPeli(this.asetukset, true);
                                 break;
 
                             case PelinTilanne.Pelattu:
@@ -2205,6 +2206,71 @@ namespace KaisaKaavio
         private void piilotaToinenKierrosCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.pelitDataGridView.Refresh();
+        }
+
+        private Point GetControlLocation(Control control)
+        {
+            Control parent = control.Parent;
+
+            Point offset = control.Location;            
+
+            while (parent != null)
+            {
+                offset.X += parent.Left;
+                offset.Y += parent.Top;                
+                parent = parent.Parent;
+            }
+
+            offset.X -= this.Left;
+            offset.Y -= this.Top;
+
+            return offset;
+        }
+
+        private void pelitDataGridView_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex == this.poytaDataGridViewTextBoxColumn.Index)
+                {
+                    var peli = (Peli)(this.pelitDataGridView.Rows[e.RowIndex].DataBoundItem);
+
+                    if (peli.Tilanne == PelinTilanne.ValmiinaAlkamaan)
+                    {
+                        var p = GetControlLocation(this.pelitDataGridView);
+                        var r = this.pelitDataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+
+                        var borderWidth = (this.Size.Width - this.ClientSize.Width) / 2;
+                        var borderHeight = (this.Size.Height - this.ClientSize.Height) / 2 - borderWidth;
+
+                        var poydat = this.kilpailu.VapaatPoydat(this.asetukset);
+                        if (poydat.Any())
+                        {
+                            if (poydat.Count() == 1)
+                            {
+                                this.toolTip1.Show(
+                                    string.Format("Vapaana pöytä {0}", poydat.First()),
+                                    this,
+                                    p.X + r.X + borderWidth,
+                                    p.Y + r.Y + borderHeight,
+                                    5000);
+                            }
+                            else
+                            {
+                                this.toolTip1.Show(
+                                    string.Format("Vapaana pöydät {0}", string.Join(",", poydat)),
+                                    this,
+                                    p.X + r.X + borderWidth,
+                                    p.Y + r.Y + borderHeight,
+                                    5000);
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            { 
+            }
         }
 
         #endregion
@@ -2717,6 +2783,11 @@ namespace KaisaKaavio
             catch
             {
             }
+        }
+
+        private void kaavioDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
         }
 
         #endregion
@@ -3814,9 +3885,29 @@ namespace KaisaKaavio
 
         #endregion
 
-        private void kaavioDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
-        {
+        // ========={( Dokumenttien tulostaminen )}============================================================ //
+        #region Tulostaminen
 
+        public void TulostaDokumentti(PrintDocument dokumentti, string kuvaus)
+        {
+            try
+            {
+                this.printPreviewDialog1.Document = dokumentti;
+                if (this.printPreviewDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    this.loki.Kirjoita(string.Format("Tulostettiin dokumentti {0}", kuvaus), null, false);
+                }
+                else 
+                {
+                    this.loki.Kirjoita(string.Format("Dokumentin {0} tulostaminen peruutettu", kuvaus), null, false);
+                }
+            }
+            catch (Exception e)
+            {
+                this.loki.Kirjoita(string.Format("Dokumentin {0} tulostaminen epäonnistui", kuvaus), e, true);
+            }
         }
+
+        #endregion
     }
 }

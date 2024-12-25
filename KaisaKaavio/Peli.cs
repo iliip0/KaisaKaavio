@@ -81,7 +81,7 @@ namespace KaisaKaavio
 
                     if (this.Tilanne == PelinTilanne.ValmiinaAlkamaan && !string.IsNullOrEmpty(this.pisteet1))
                     {
-                        KaynnistaPeli();
+                        KaynnistaPeli(null, false);
                     }
                 }
             }
@@ -105,7 +105,7 @@ namespace KaisaKaavio
 
                     if (this.Tilanne == PelinTilanne.ValmiinaAlkamaan && !string.IsNullOrEmpty(this.pisteet2))
                     {
-                        KaynnistaPeli();
+                        KaynnistaPeli(null, false);
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace KaisaKaavio
                     // Käynnistä peli kun pöytä valitaan, mikäli peli on valmiina alkamaan
                     if (!string.IsNullOrEmpty(this.poyta) && this.Tilanne == PelinTilanne.ValmiinaAlkamaan)
                     {
-                        KaynnistaPeli();
+                        KaynnistaPeli(null, false);
                     }
                 }
             }
@@ -597,7 +597,7 @@ namespace KaisaKaavio
             return false;
         }
 
-        public bool KaynnistaPeli()
+        public bool KaynnistaPeli(Asetukset asetukset, bool valitsePoytaAutomaattisesti)
         {
             if (this.Kilpailu != null && this.Tilanne == PelinTilanne.ValmiinaAlkamaan)
             {
@@ -624,6 +624,16 @@ namespace KaisaKaavio
                 if (this.Kilpailu.Pelit.Any(x => x.Tulos == PelinTulos.Virheellinen))
                 {
                     return false;
+                }
+
+                // Automaattinen pöydän valinta
+                if (valitsePoytaAutomaattisesti && string.IsNullOrEmpty(this.Poyta))
+                {
+                    var vapaaPoyta = this.Kilpailu.VapaatPoydat(asetukset).FirstOrDefault();
+                    if (vapaaPoyta != null)
+                    {
+                        this.Poyta = vapaaPoyta;
+                    }
                 }
 
                 this.Tilanne = PelinTilanne.Kaynnissa;

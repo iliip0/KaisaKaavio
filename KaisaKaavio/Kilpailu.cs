@@ -1518,6 +1518,36 @@ namespace KaisaKaavio
             return null;
         }
 
+        public IEnumerable<string> Poydat(Asetukset asetukset)
+        {
+            List<string> poydat = new List<string>();
+
+            if (asetukset != null)
+            {
+                poydat.AddRange(asetukset.Sali.Poydat
+                    .Where(x => !string.IsNullOrEmpty(x.Numero))
+                    .OrderBy(x => x.Numero)
+                    .Select(x => x.Numero));
+            }
+
+            foreach (var peli in this.Pelit.Where(x => !string.IsNullOrEmpty(x.Poyta)))
+            {
+                if (!poydat.Contains(peli.Poyta))
+                {
+                    poydat.Add(peli.Poyta); 
+                }
+            }
+
+            return poydat.OrderBy(x => x);
+        }
+
+        public IEnumerable<string> VapaatPoydat(Asetukset asetukset)
+        {
+            var poydat = Poydat(asetukset);
+
+            return poydat.Where(x => !this.Pelit.Any(y => y.Tilanne == PelinTilanne.Kaynnissa && string.Equals(y.Poyta, x)));
+        }
+
         [XmlIgnore]
         public bool KilpailuOnPaattynyt
         {

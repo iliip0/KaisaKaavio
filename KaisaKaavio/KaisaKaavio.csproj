@@ -240,6 +240,9 @@
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tulostus\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>xcopy $(SolutionDir)..\KaisaKaavioUpdater\bin\Release\KaisaKaavioUpdater.exe $(SolutionDir)Resources\ /c /r /y /d /i /q
