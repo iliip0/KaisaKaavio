@@ -2,6 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.8		(julkaistu 26.12.2024)
+
+* Lisätty automaattinen pöydän valinta kun painetaan 'Käynnistä peli'-nappia
+* Lisätty vapaiden pöytien näyttö kun pöytää valitaan manuaalisesti uudelle pelille
+
 ## Versio 1.0.0.7		(julkaistu 20.12.2024)
 
 * Ensimmäinen versio käyttöoppaasta valmis
