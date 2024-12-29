@@ -2835,6 +2835,12 @@ namespace KaisaKaavio
             sbil.AppendLine();
         }
 
+        private void RtfOsionVaihto(StringBuilder rtf, StringBuilder sbil)
+        {
+            rtf.Append(@" ------------------------------------------------------------------------------------- \line ");
+            sbil.Append(" ------------------------------------------------------------------------------------- " + Environment.NewLine);
+        }
+
         private void PaivitaKilpailukutsuTeksti()
         {
             StringBuilder rtf = new StringBuilder();
@@ -2957,7 +2963,7 @@ namespace KaisaKaavio
                     sbil.Append(Environment.NewLine);
                 }
 
-                peli.RichTextKuvaus(this.asetukset.Sali, rtf, sbil);
+                peli.RichTextKuvaus(this.asetukset.Sali, rtf, sbil, true);
             }
 
             LopetaRtfTeksti(rtf);
@@ -2969,7 +2975,7 @@ namespace KaisaKaavio
         private void AloitaRtfTeksti(StringBuilder s)
         {
             s.AppendLine(@"{\rtf1\ansi");
-            s.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;}");
+            s.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red170\green170\blue200;}");
             s.AppendLine(@" \line ");
         }
 
@@ -2978,12 +2984,21 @@ namespace KaisaKaavio
             s.Append(@"}");
         }
 
+        private void LopetaSbilTeksti(StringBuilder s)
+        {
+            s.AppendLine(string.Format("[size=85]Kilpailu vedetty ilmaisella, avoimen lähdekoodin [url=https://github.com/iliip0/KaisaKaavio] KaisaKaavio [/url] -ohjelmalla.[/size]"));
+        }
+
         private void PaivitaPelitTeksti()
         {
             StringBuilder rtf = new StringBuilder();
             StringBuilder sbil = new StringBuilder();
 
             AloitaRtfTeksti(rtf);
+
+            List<int> pelienKestot = new List<int>();
+            int keskimaarainenPelinKesto = 0;
+            int pelejaKeskimaaranLaskemiseksi = 0;
 
             if (!this.kilpailu.KilpailuOnViikkokisa)
             {
@@ -3053,11 +3068,14 @@ namespace KaisaKaavio
                         sbil.Append(" (pudari)");
                     }
 
-                    var ekapeli = this.kilpailu.Pelit.Where(x => x.Kierros == kierros && !string.IsNullOrEmpty(x.Alkoi)).FirstOrDefault();
-                    if (ekapeli != null)
+                    if (kierros != 1)
                     {
-                        rtf.Append(" alkoi " + ekapeli.Alkoi);
-                        sbil.Append(" alkoi " + ekapeli.Alkoi);
+                        var ekapeli = this.kilpailu.Pelit.Where(x => x.Kierros == kierros && !string.IsNullOrEmpty(x.Alkoi)).FirstOrDefault();
+                        if (ekapeli != null)
+                        {
+                            rtf.Append(" alkoi " + ekapeli.Alkoi);
+                            sbil.Append(" alkoi " + ekapeli.Alkoi);
+                        }
                     }
 
                     rtf.Append(@" \line ");
@@ -3066,24 +3084,59 @@ namespace KaisaKaavio
                     sbil.Append(Environment.NewLine);
                 }
 
-                peli.RichTextKuvaus(this.asetukset.Sali, rtf, sbil);
+                peli.RichTextKuvaus(this.asetukset.Sali, rtf, sbil, false);
+
+                try
+                {
+                    if (!string.IsNullOrEmpty(peli.Alkoi) &&
+                        !string.IsNullOrEmpty(peli.Paattyi))
+                    {
+                        int kesto = 0;
+                        if (Tyypit.Aika.AikaeroMinuutteina(peli.Alkoi, peli.Paattyi, out kesto) && kesto > 0)
+                        {
+                            keskimaarainenPelinKesto += kesto;
+                            pelejaKeskimaaranLaskemiseksi++;
+                            pelienKestot.Add(kesto);
+                        }
+                    }
+                }
+                catch
+                {
+                }
             }
 
-            // TODO! Sarjat, ehkä lisää tuki sarjoille jotenkin
+            if (kierros > 2)
+            {
+                RtfRivinvaihto(rtf, sbil);
+                RtfOsionVaihto(rtf, sbil);
+                RtfRivinvaihto(rtf, sbil);
+
+                KirjoitaTuloksetTeksti(rtf, sbil);
+            }
+
+            if (pelejaKeskimaaranLaskemiseksi > 2)
+            {
+                RtfRivinvaihto(rtf, sbil);
+                RtfOsionVaihto(rtf, sbil);
+
+                RtfInfoRivi("Pelien keskimääräinen kesto", string.Format("{0} minuuttia", keskimaarainenPelinKesto/pelejaKeskimaaranLaskemiseksi), rtf, sbil);
+
+                int mediaani = pelienKestot.OrderBy(x => x).ElementAt(pelienKestot.Count / 2);
+
+                RtfInfoRivi("Pelien mediaanikesto", string.Format("{0} minuuttia", mediaani), rtf, sbil);
+
+                RtfOsionVaihto(rtf, sbil);
+            }
 
             LopetaRtfTeksti(rtf);
+            LopetaSbilTeksti(sbil);
 
             this.pelitRichTextBox.Rtf = rtf.ToString();
             this.pelitRichTextBox.Tag = sbil.ToString();
         }
 
-        private void PaivitaTuloksetTeksti()
+        private void KirjoitaTuloksetTeksti(StringBuilder rtf, StringBuilder sbil)
         {
-            StringBuilder rtf = new StringBuilder();
-            StringBuilder sbil = new StringBuilder();
-
-            AloitaRtfTeksti(rtf);
-
             RtfInfoRivi("Tulokset", " ", rtf, sbil);
             RtfRivinvaihto(rtf, sbil);
 
@@ -3182,8 +3235,21 @@ namespace KaisaKaavio
                     sbil.AppendLine(sarjaTeksti);
                 }
             }
+        }
+
+        private void PaivitaTuloksetTeksti()
+        {
+            StringBuilder rtf = new StringBuilder();
+            StringBuilder sbil = new StringBuilder();
+
+            AloitaRtfTeksti(rtf);
+
+            KirjoitaTuloksetTeksti(rtf, sbil);
+
+            RtfRivinvaihto(rtf, sbil);
 
             LopetaRtfTeksti(rtf);
+            LopetaSbilTeksti(sbil);
 
             this.tuloksetRichTextBox.Rtf = rtf.ToString();
             this.tuloksetRichTextBox.Tag = sbil.ToString();

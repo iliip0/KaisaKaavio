@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.9		(työn alla)
+
+* Pudonneiden pelaajien nimet paksulla fontilla tulokset osioon
+
 ## Versio 1.0.0.8		(julkaistu 26.12.2024)
 
 * Lisätty automaattinen pöydän valinta kun painetaan 'Käynnistä peli'-nappia
