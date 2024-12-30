@@ -3203,7 +3203,8 @@ namespace KaisaKaavio
 
             bool paattynyt = this.kilpailu.KilpailuOnPaattynyt;
 
-            foreach (var osallistuja in this.kilpailu.Tulokset())
+            var tulosluettelo = this.kilpailu.Tulokset();
+            foreach (var osallistuja in tulosluettelo)
             {
                 if (osallistuja.Sijoitus == 1 && paattynyt)
                 {
@@ -3217,11 +3218,21 @@ namespace KaisaKaavio
                 {
                     if (osallistuja.Pudotettu)
                     {
-                        tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
-                            osallistuja.Sijoitus,
-                            osallistuja.Nimi,
-                            osallistuja.Voitot,
-                            osallistuja.Pisteet));
+                        // Ei näytetä tuloksissa ku varmat sijat
+                        if (tulosluettelo.Where(x => !x.Pudotettu).Any(y =>
+                            y.Voitot < osallistuja.Voitot ||
+                            y.Voitot == osallistuja.Voitot && y.Pisteet <= osallistuja.Pisteet))
+                        {
+                            tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
+                        }
+                        else
+                        {
+                            tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
+                                osallistuja.Sijoitus,
+                                osallistuja.Nimi,
+                                osallistuja.Voitot,
+                                osallistuja.Pisteet));
+                        }
                     }
                     else
                     {
