@@ -5,4 +5,5 @@ tuttua hakukaaviota eli ympyräkaaviota. Ohjelma suorittaa hakukaavion vaatimat 
 kilpailun vetäjän tarvitsee vain syöttää päättyneiden pelien tulokset sekä käynnistää uusia pelejä pöytien vapautuessa.
 
 ## Ohjelman uusimman version voit ladata ilmaiseksi [tästä](https://github.com/iliip0/KaisaKaavio/raw/refs/heads/main/KaisaKaavio.exe)
- 
+
+## Ohjelman käyttöohjeen löydät [täältä](https://github.com/iliip0/KaisaKaavio/blob/main/Dokumentaatio/KaisaKaavioOhje.pdf)

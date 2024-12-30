@@ -24,6 +24,10 @@ namespace KaisaKaavio
         private Rahanjako rahanjako = new Rahanjako();
         private Loki loki = null;
 
+#if DEBUG
+        private Testaus.UudelleenPelaaminen uudelleenPelaaminen = null;
+#endif
+
         private string kansio = string.Empty;
         private string varmuuskopioKansio = string.Empty;
 
@@ -74,6 +78,10 @@ namespace KaisaKaavio
 
             this.rajaKyna = new Pen(this.rajaHarja, 1);
             this.paksuRajaKyna = new Pen(this.rajaHarja, 1.5f);
+
+#if DEBUG
+            this.uudelleenPelaaminen = new Testaus.UudelleenPelaaminen(this.kilpailu, this.loki);
+#endif
 
             InitializeComponent();
 
@@ -230,6 +238,17 @@ namespace KaisaKaavio
 
                 PaivitaIkkunanNimi();
                 PaivitaKilpailuTyyppi();
+
+#if DEBUG
+                if (this.kilpailu.Nimi.Contains("(Uusinta)"))
+                {
+                    this.uudelleenPelausButton.Visible = true;
+                }
+                else
+                {
+                    this.uudelleenPelausButton.Visible = false;
+                }
+#endif
             }
             catch (Exception e)
             {
@@ -3466,6 +3485,7 @@ namespace KaisaKaavio
 
         private void pelaaTestikaaviotToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if DEBUG
             using (var popup = new Testaus.TestiPopup())
             {
                 if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -3536,6 +3556,72 @@ namespace KaisaKaavio
                     }
                 }
             }
+#endif
+        }
+
+        private void pelaaKaavioUudelleenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if DEBUG
+            try
+            {
+                this.openFileDialog1.FileName = string.Empty;
+
+                if (this.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    if (File.Exists(this.openFileDialog1.FileName))
+                    {
+                        this.tabControl1.SelectedTab = this.kisaInfoTabPage;
+
+                        SuspenAllDataBinding();
+
+                        AvaaKilpailuUudelleenPelattavaksi(this.openFileDialog1.FileName);
+
+                        ResumeAllDataBinding();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Kaavion avaaminen uudelleen pelattavaksi epäonnistui", ex, true);
+            }
+#endif
+        }
+
+        private void AvaaKilpailuUudelleenPelattavaksi(string tiedosto)
+        {
+#if DEBUG
+            try
+            {
+                if (!string.IsNullOrEmpty(this.kilpailu.Tiedosto))
+                {
+                    this.kilpailu.Tallenna();
+                }
+
+                if (this.uudelleenPelaaminen.AvaaKilpailu(tiedosto))
+                {
+                    this.kilpailu.Tallenna();
+                    this.asetukset.ViimeisinKilpailu = this.kilpailu.Tiedosto;
+                    this.uudelleenPelausButton.Visible = true;
+
+                    PaivitaIkkunanNimi();
+                    PaivitaKilpailuTyyppi();
+                }            
+            }
+            catch (Exception e)
+            {
+                this.loki.Kirjoita(string.Format("KaisaKaavion avaaminen uudelleen pelattavaksi epäonnistui tiedostosta{0}", tiedosto), e, true);
+            }
+#endif
+        }
+
+        private void uudelleenPelausButton_Click(object sender, EventArgs e)
+        {
+#if DEBUG
+            if (this.uudelleenPelaaminen.SeuraavaPeli())
+            {
+                this.kilpailu.HakuTarvitaan = true;
+            }
+#endif
         }
 
         #endregion

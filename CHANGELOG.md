@@ -8,6 +8,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Pelien kestot lisätty 'Tulokset' osioon
 * Pelien keskimääräinen kesto ja mediaanikesto lisätty tulokset osioon
 * Korjattu bugi kun ekoille peleille laitetaan pöytä valmiiksi kisakutsuun. Kutsussa näkyy tällöin kisan alkamisaika
+* Lisätty debug/testaustoiminto jossa vanhan kisan voi pelata peli kerrallaan uudelleen läpi, samassa ottelujärjestyksessä
 
 ## Versio 1.0.0.8		(julkaistu 26.12.2024)
 

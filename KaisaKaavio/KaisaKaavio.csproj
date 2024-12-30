@@ -129,6 +129,7 @@
     <Compile Include="Testaus\TestiPopup.Designer.cs">
       <DependentUpon>TestiPopup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Testaus\UudelleenPelaaminen.cs" />
     <Compile Include="Tyypit\Aika.cs" />
     <Compile Include="UusiKilpailuPopup.cs">
       <SubType>Form</SubType>
