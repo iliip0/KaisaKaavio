@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.9		(työn alla)
+## Versio 1.0.0.9		(julkaistu 30.12.2024)
 
 * Pudonneiden pelaajien nimet paksulla fontilla tulokset osioon
 * Pelien kestot lisätty 'Tulokset' osioon
