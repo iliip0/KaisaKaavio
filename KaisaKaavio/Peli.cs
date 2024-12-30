@@ -459,7 +459,7 @@ namespace KaisaKaavio
 
         public string Kuvaus()
         {
-            return string.Format("[0] {1} - {2} ({3}, {4})", 
+            return string.Format("[{0}] {1} - {2} ({3}, {4})", 
                 this.Kierros,
                 this.Pelaaja1,
                 this.Pelaaja2,
@@ -1054,7 +1054,15 @@ namespace KaisaKaavio
             else if (p1 >= tavoite && p2 >= tavoite)
             {
                 this.Tulos = PelinTulos.Virheellinen;
-                this.VirheTuloksessa = string.Format("Molemmilla pelaajilla {0} pistettä tai enemmän. Merkitse v tai h toiselle pelaajalle voiton tai häviön merkiksi", Kilpailu.TavoitePistemaara);
+
+                if (this.Kilpailu != null)
+                {
+                    this.VirheTuloksessa = string.Format("Molemmilla pelaajilla {0} pistettä tai enemmän. Merkitse v tai h toiselle pelaajalle voiton tai häviön merkiksi", Kilpailu.TavoitePistemaara);
+                }
+                else
+                {
+                    this.VirheTuloksessa = string.Format("Molemmilla pelaajilla tavoitepistemäärä tai enemmän pisteitä. Merkitse v tai h toiselle pelaajalle voiton tai häviön merkiksi");
+                }
             }
 
             else if (p1 >= tavoite)

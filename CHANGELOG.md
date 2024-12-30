@@ -10,6 +10,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Korjattu bugi kun ekoille peleille laitetaan pöytä valmiiksi kisakutsuun. Kutsussa näkyy tällöin kisan alkamisaika
 * Lisätty debug/testaustoiminto jossa vanhan kisan voi pelata peli kerrallaan uudelleen läpi, samassa ottelujärjestyksessä
 * Korjattu bugi jossa 'Tulokset' osiossa pelaajien lopullinen sijoitus saattoi muuttua vielä viimeisten pelien aikana
+* Lisätty varoituspopup jos käyttäjä yrittää muokata pelejä kun yhdessä pelissä on virheellinen tulos
 
 ## Versio 1.0.0.8		(julkaistu 26.12.2024)
 

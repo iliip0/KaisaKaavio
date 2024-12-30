@@ -1810,58 +1810,90 @@ namespace KaisaKaavio
             }
         }
 
+        private int virheellinenPeliPopupNaytetty = 0;
+
         private void pelitDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                // Pelin "Käynnistä" painike
-                if (e.ColumnIndex == this.TilanneTeksti.Index)
+                if (e.RowIndex >= 0 && e.RowIndex < this.pelitDataGridView.Rows.Count)
                 {
                     Peli peli = (Peli)this.pelitDataGridView.Rows[e.RowIndex].DataBoundItem;
 
-                    if (peli.Kierros == 2 && this.piilotaToinenKierrosCheckBox.Checked)
+                    // Näytä popup jos käyttäjä yrittää päivittää muita pelejä kun yhdessä pelissä on virhe
+                    if (this.virheellinenPeliPopupNaytetty < 2)
                     {
-                        return;
-                    }
-
-                    if (this.kilpailu.VoiMuokataPelia(peli))
-                    {
-                        // Jos 2.kierroksen peli yritetään alottaa kun listalla on jälki-ilmoittautuneita, kysytään varmistus
-                        if (peli.Kierros == 2 && this.kilpailu.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Nimi) && x.Id < 0))
+                        var virheellinenPeli = this.kilpailu.Pelit.FirstOrDefault(x => x != peli && x.Tulos == PelinTulos.Virheellinen);
+                        if (virheellinenPeli != null &&
+                            (e.ColumnIndex == pisteet1DataGridViewTextBoxColumn.Index ||
+                            e.ColumnIndex == pisteet2DataGridViewTextBoxColumn.Index ||
+                            e.ColumnIndex == Tilanne.Index ||
+                            e.ColumnIndex == poytaDataGridViewTextBoxColumn.Index))
                         {
-                            if (VarmistaToisenKierroksenAloitus())
+                            this.virheellinenPeliPopupNaytetty++;
+
+                            if (this.virheellinenPeliPopupNaytetty == 2)
                             {
-                                this.kilpailu.PoistaEiMukanaOlevatPelaajat();
+                                MessageBox.Show(
+                                    string.Format(
+                                        "Kaaviossa on virheellinen pelin tulos (punainen rivi) pelissä:\n{0}\nKorjaa tämän pelin tulos ennen kuin voit jatkaa muita pelejä.",
+                                        virheellinenPeli.Kuvaus()),
+                                    "Virhe",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
                             }
-                            else
-                            {
-                                return;
-                            }
-                        }
 
-                        switch (peli.Tilanne)
-                        {
-                            case PelinTilanne.ValmiinaAlkamaan:
-                                peli.KaynnistaPeli(this.asetukset, true);
-                                break;
-
-                            case PelinTilanne.Pelattu:
-                                break;
-
-                            case PelinTilanne.Kaynnissa:
-                                break;
-
-                            default:
-                                break;
+                            return;
                         }
                     }
 
-                    if (peli.Tilanne == PelinTilanne.Pelattu)
+                    // Pelin "Käynnistä" painike
+                    if (e.ColumnIndex == this.TilanneTeksti.Index)
                     {
-                        using (var popup = new PelinTiedotPopup(this.kilpailu, peli))
+                        if (peli.Kierros == 2 && this.piilotaToinenKierrosCheckBox.Checked)
                         {
-                            popup.ShowDialog();
-                            pelitDataGridView.Refresh();
+                            return;
+                        }
+
+                        if (this.kilpailu.VoiMuokataPelia(peli))
+                        {
+                            // Jos 2.kierroksen peli yritetään alottaa kun listalla on jälki-ilmoittautuneita, kysytään varmistus
+                            if (peli.Kierros == 2 && this.kilpailu.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Nimi) && x.Id < 0))
+                            {
+                                if (VarmistaToisenKierroksenAloitus())
+                                {
+                                    this.kilpailu.PoistaEiMukanaOlevatPelaajat();
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+
+                            switch (peli.Tilanne)
+                            {
+                                case PelinTilanne.ValmiinaAlkamaan:
+                                    peli.KaynnistaPeli(this.asetukset, true);
+                                    break;
+
+                                case PelinTilanne.Pelattu:
+                                    break;
+
+                                case PelinTilanne.Kaynnissa:
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+
+                        if (peli.Tilanne == PelinTilanne.Pelattu)
+                        {
+                            using (var popup = new PelinTiedotPopup(this.kilpailu, peli))
+                            {
+                                popup.ShowDialog();
+                                pelitDataGridView.Refresh();
+                            }
                         }
                     }
                 }
@@ -2250,38 +2282,41 @@ namespace KaisaKaavio
         {
             try
             {
-                if (e.RowIndex >= 0 && e.ColumnIndex == this.poytaDataGridViewTextBoxColumn.Index)
+                if (e.RowIndex >= 0)
                 {
                     var peli = (Peli)(this.pelitDataGridView.Rows[e.RowIndex].DataBoundItem);
 
-                    if (peli.Tilanne == PelinTilanne.ValmiinaAlkamaan)
+                    if (e.ColumnIndex == this.poytaDataGridViewTextBoxColumn.Index)
                     {
-                        var p = GetControlLocation(this.pelitDataGridView);
-                        var r = this.pelitDataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-
-                        var borderWidth = (this.Size.Width - this.ClientSize.Width) / 2;
-                        var borderHeight = (this.Size.Height - this.ClientSize.Height) / 2 - borderWidth;
-
-                        var poydat = this.kilpailu.VapaatPoydat(this.asetukset);
-                        if (poydat.Any())
+                        if (peli.Tilanne == PelinTilanne.ValmiinaAlkamaan)
                         {
-                            if (poydat.Count() == 1)
+                            var p = GetControlLocation(this.pelitDataGridView);
+                            var r = this.pelitDataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+
+                            var borderWidth = (this.Size.Width - this.ClientSize.Width) / 2;
+                            var borderHeight = (this.Size.Height - this.ClientSize.Height) / 2 - borderWidth;
+
+                            var poydat = this.kilpailu.VapaatPoydat(this.asetukset);
+                            if (poydat.Any())
                             {
-                                this.toolTip1.Show(
-                                    string.Format("Vapaana pöytä {0}", poydat.First()),
-                                    this,
-                                    p.X + r.X + borderWidth,
-                                    p.Y + r.Y + borderHeight,
-                                    5000);
-                            }
-                            else
-                            {
-                                this.toolTip1.Show(
-                                    string.Format("Vapaana pöydät {0}", string.Join(",", poydat)),
-                                    this,
-                                    p.X + r.X + borderWidth,
-                                    p.Y + r.Y + borderHeight,
-                                    5000);
+                                if (poydat.Count() == 1)
+                                {
+                                    this.toolTip1.Show(
+                                        string.Format("Vapaana pöytä {0}", poydat.First()),
+                                        this,
+                                        p.X + r.X + borderWidth,
+                                        p.Y + r.Y + borderHeight,
+                                        5000);
+                                }
+                                else
+                                {
+                                    this.toolTip1.Show(
+                                        string.Format("Vapaana pöydät {0}", string.Join(",", poydat)),
+                                        this,
+                                        p.X + r.X + borderWidth,
+                                        p.Y + r.Y + borderHeight,
+                                        5000);
+                                }
                             }
                         }
                     }
