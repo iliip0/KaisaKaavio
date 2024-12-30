@@ -2378,7 +2378,7 @@ namespace KaisaKaavio
                 {
                     if (e.ColumnIndex == 1)
                     {
-                        if (pelaaja.Pudotettu)
+                        if (pelaaja.Sijoitus.Pudotettu)
                         {
                             e.CellStyle.ForeColor = Color.Red;
                         }
@@ -2393,7 +2393,7 @@ namespace KaisaKaavio
                     {
                         if (pelinNumero >= (pelaaja.Pelit.Count + 1))
                         {
-                            if (pelaaja.Pudotettu)
+                            if (pelaaja.Sijoitus.Pudotettu)
                             {
                                 e.CellStyle.BackColor = Color.DarkGray;
                             }
@@ -2404,7 +2404,7 @@ namespace KaisaKaavio
                         }
                         else if (pelinNumero == pelaaja.Pelit.Count)
                         {
-                            if (pelaaja.Pudotettu)
+                            if (pelaaja.Sijoitus.Pudotettu)
                             {
                                 e.CellStyle.BackColor = Color.DarkGray;
                             }
@@ -2480,15 +2480,15 @@ namespace KaisaKaavio
                     Pelaaja pelaaja = (Pelaaja)((DataGridViewRow)row).DataBoundItem;
                     if (pelaaja != null)
                     {
-                        if (pelaaja.Sijoitus == 1)
+                        if (pelaaja.Sijoitus.Sijoitus == 1)
                         {
                             row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Gold;
                         }
-                        else if (pelaaja.Sijoitus == 2)
+                        else if (pelaaja.Sijoitus.Sijoitus == 2)
                         {
                             row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Silver;
                         }
-                        else if (pelaaja.Sijoitus == 3)
+                        else if (pelaaja.Sijoitus.Sijoitus == 3)
                         {
                             row.Cells[KaavioKuvaSarake.Index].Value = Properties.Resources.Bronze;
                         }
@@ -2517,12 +2517,12 @@ namespace KaisaKaavio
 
             if (pelinNumero == pelaaja.Pelit.Count)
             {
-                if (pelaaja.Pudotettu)
+                if (pelaaja.Sijoitus.Pudotettu)
                 {
                     return false;
                 }
 
-                if (pelaaja.Tappiot > 1)
+                if (pelaaja.Sijoitus.Tappiot > 1)
                 {
                     return false;
                 }
@@ -2532,7 +2532,7 @@ namespace KaisaKaavio
                     return false;
                 }
 
-                if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Tappiot) > 1)
+                if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Sijoitus.Tappiot) > 1)
                 {
                     return false;
                 }
@@ -2720,8 +2720,8 @@ namespace KaisaKaavio
                 return false;
             }
 
-            if (vastustaja.Pudotettu ||
-                vastustaja.Tappiot > 1)
+            if (vastustaja.Sijoitus.Pudotettu ||
+                vastustaja.Sijoitus.Tappiot > 1)
             {
                 virhe = string.Format("Ei voi hakea! Vastustaja {0} on jo pudonnut kilpailusta!", vastustajaId);
                 return false;
@@ -2733,7 +2733,7 @@ namespace KaisaKaavio
                 return false;
             }
 
-            if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Tappiot) > 1)
+            if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Sijoitus.Tappiot) > 1)
             {
                 virhe = string.Format("Ei voi hakea! Vastustajalla on haettuja pelejä pelaamatta", vastustajaId);
                 return false;
@@ -3206,6 +3206,20 @@ namespace KaisaKaavio
             var tulosluettelo = this.kilpailu.Tulokset();
             foreach (var osallistuja in tulosluettelo)
             {
+                if (osallistuja.SijoitusOnVarma)
+                {
+                    tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
+                        osallistuja.Sijoitus,
+                        osallistuja.Nimi,
+                        osallistuja.Voitot,
+                        osallistuja.Pisteet));
+                }
+                else 
+                {
+                    tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
+                }
+
+                /*
                 if (osallistuja.Sijoitus == 1 && paattynyt)
                 {
                     tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
@@ -3239,6 +3253,7 @@ namespace KaisaKaavio
                         tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
                     }
                 }
+                 */
             }
 
             if (tulokset.Count > 2)

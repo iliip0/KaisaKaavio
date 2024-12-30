@@ -141,7 +141,7 @@ namespace KaisaKaavio.Ranking
 
                 if (paattynyt)
                 {
-                    var tulos = tulokset.FirstOrDefault(x => x.Id == o.Id);
+                    var tulos = tulokset.FirstOrDefault(x => x.Pelaaja.Id == o.Id);
                     if (tulos != null)
                     {
                         o.Sijoitus = tulos.Sijoitus;

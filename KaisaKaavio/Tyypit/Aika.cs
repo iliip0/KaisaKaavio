@@ -75,13 +75,13 @@ namespace KaisaKaavio.Tyypit
                     aikaero += minuutit1 - minuutit0;
 
 #if DEBUG
-                    Debug.WriteLine(string.Format("Aikaero {0} - {1} = {2} minuuttia", aika0, aika1, aikaero));
+                    //Debug.WriteLine(string.Format("Aikaero {0} - {1} = {2} minuuttia", aika0, aika1, aikaero));
 #endif
                     return true;
                 }
 
 #if DEBUG
-                Debug.WriteLine(string.Format("Aikaero {0} - {1} = tuntematon", aika0, aika1));
+                //Debug.WriteLine(string.Format("Aikaero {0} - {1} = tuntematon", aika0, aika1));
 #endif
             }
             catch

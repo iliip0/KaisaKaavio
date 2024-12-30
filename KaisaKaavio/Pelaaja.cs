@@ -99,27 +99,9 @@ namespace KaisaKaavio
             }
         }
 
-        [XmlIgnore]
-        public int Voitot { get; set; }
-
-        [XmlIgnore]
-        public int Tappiot { get; set; }
-
-        [XmlIgnore]
-        public int Pisteet { get; set; }
-
-        [XmlIgnore]
-        public bool Pudotettu { get; set; }
-
-        [XmlIgnore]
-        public int Sijoitus { get; set; }
-
-        [XmlIgnore]
-        public int SijoitusPisteet { get; set; }
-
-        [XmlIgnore]
-        public int PudonnutKierroksella { get; set; }
-
+        /// <summary>
+        /// Tietorakenne, jolla pelit esitetään 'Kaavio'-näkymässä
+        /// </summary>
         public class PeliTietue
         {
             public int Vastustaja = -1;
@@ -130,6 +112,33 @@ namespace KaisaKaavio
             public PelinTilanne Tilanne = PelinTilanne.Tyhja;
             public int Kierros = -1;
         }
+
+        /// <summary>
+        /// Tietorakenne, jolla pelaaja esitetään 'Tulokset'-näkymässä
+        /// </summary>
+        public class TulosTietue
+        {
+            public Pelaaja Pelaaja = null;
+            public int Voitot = 0;
+            public int Tappiot = 0;
+            public int Pisteet = 0;
+            public bool Pudotettu = false;
+            public int Sijoitus = 0;
+            public int SijoitusPisteet = 0;
+            public int PudonnutKierroksella = 0;
+            public bool SijoitusOnVarma = false;
+
+            public string Nimi 
+            {
+                get 
+                {
+                    return (Pelaaja != null && SijoitusOnVarma) ? Pelaaja.Nimi : string.Empty;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public TulosTietue Sijoitus = null;
 
         [XmlIgnore]
         public List<PeliTietue> Pelit = new List<PeliTietue>();
@@ -146,13 +155,8 @@ namespace KaisaKaavio
             Veloitettu = string.Empty;
             IlmoittautumisNumero = string.Empty;
             Id = -1;
-            Voitot = 0;
-            Tappiot = 0;
-            Pisteet = 0;
-            Pudotettu = false;
-            Sijoitus = 0;
-            SijoitusPisteet = 0;
-            PudonnutKierroksella = 0;
+
+            this.Sijoitus = new TulosTietue() { Pelaaja = this };
         }
     }
 }

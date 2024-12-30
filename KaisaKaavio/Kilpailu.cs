@@ -460,11 +460,11 @@ namespace KaisaKaavio
 
             foreach (var osallistuja in this.OsallistujatJarjestyksessa)
             {
-                osallistuja.Sijoitus = 0;
-                osallistuja.Pudotettu = false;
-                osallistuja.Tappiot = 0;
-                osallistuja.Voitot = 0;
-                osallistuja.Pisteet = 0;
+                osallistuja.Sijoitus.Sijoitus = 0;
+                osallistuja.Sijoitus.Pudotettu = false;
+                osallistuja.Sijoitus.Tappiot = 0;
+                osallistuja.Sijoitus.Voitot = 0;
+                osallistuja.Sijoitus.Pisteet = 0;
                 osallistuja.Pelit.Clear();
             }
 
@@ -499,36 +499,36 @@ namespace KaisaKaavio
 
                     osallistuja2.Pelit.Add(p2);
 
-                    osallistuja1.Pisteet += p1.Pisteet;
-                    osallistuja2.Pisteet += p2.Pisteet;
+                    osallistuja1.Sijoitus.Pisteet += p1.Pisteet;
+                    osallistuja2.Sijoitus.Pisteet += p2.Pisteet;
 
                     if (peli.Tilanne == PelinTilanne.Pelattu)
                     {
                         if (!peli.Havisi(peli.Id1))
                         {
                             p1.Voitto = true;
-                            osallistuja1.Voitot++;
+                            osallistuja1.Sijoitus.Voitot++;
                         }
                         else
                         {
-                            osallistuja1.Tappiot++;
-                            if (osallistuja1.Tappiot >= 2 || peli.OnPudotusPeli())
+                            osallistuja1.Sijoitus.Tappiot++;
+                            if (osallistuja1.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli())
                             {
-                                osallistuja1.Pudotettu = true;
+                                osallistuja1.Sijoitus.Pudotettu = true;
                             }
                         }
 
                         if (!peli.Havisi(peli.Id2))
                         {
                             p2.Voitto = true;
-                            osallistuja2.Voitot++;
+                            osallistuja2.Sijoitus.Voitot++;
                         }
                         else 
                         {
-                            osallistuja2.Tappiot++;
-                            if (osallistuja2.Tappiot >= 2 || peli.OnPudotusPeli())
+                            osallistuja2.Sijoitus.Tappiot++;
+                            if (osallistuja2.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli())
                             {
-                                osallistuja2.Pudotettu = true;
+                                osallistuja2.Sijoitus.Pudotettu = true;
                             }
                         }
                     }
@@ -538,18 +538,22 @@ namespace KaisaKaavio
                 this.MaxKierros = Math.Max(this.MaxKierros, osallistuja2.Pelit.Count);
             }
 
+            var tulokset = Tulokset();
+            /*
             if (this.KilpailuOnPaattynyt)
             {
                 var tulokset = Tulokset();
                 foreach (var tulos in tulokset)
                 {
-                    var p = this.OsallistujatJarjestyksessa.FirstOrDefault(x => x.Id == tulos.Id);
+                    var p = this.OsallistujatJarjestyksessa.FirstOrDefault(x => x.Id == tulos.Pelaaja.Id);
                     if (p != null)
                     {
-                        p.Sijoitus = tulos.Sijoitus;
+                        p.Sijoitus.Sijoitus = tulos.Sijoitus;
+                        p.Sijoitus.SijoitusOnVarma = tulos.SijoitusOnVarma;
                     }
                 }
             }
+            */
         }
 
         void Osallistujat_ListChanged(object sender, ListChangedEventArgs e)
@@ -1557,34 +1561,38 @@ namespace KaisaKaavio
             }
         }
 
-        public IEnumerable<Pelaaja> Tulokset()
+        public IEnumerable<Pelaaja.TulosTietue> Tulokset()
         {
+            List<Pelaaja.TulosTietue> tulostietueet = new List<Pelaaja.TulosTietue>();
+            
             foreach (var o in this.Osallistujat.Where(x => x.Id >= 0))
             {
-                o.Pisteet = LaskePisteet(o.Id, 999);
-                o.Voitot = LaskeVoitot(o.Id, 999);
-                o.Tappiot = LaskeTappiot(o.Id, 999);
-                o.Pudotettu = !Mukana(o);
+                o.Sijoitus.Pisteet = LaskePisteet(o.Id, 999);
+                o.Sijoitus.Voitot = LaskeVoitot(o.Id, 999);
+                o.Sijoitus.Tappiot = LaskeTappiot(o.Id, 999);
+                o.Sijoitus.Pudotettu = !Mukana(o);
+                o.Sijoitus.SijoitusOnVarma = true;
 
-                if (o.Pudotettu)
+                if (o.Sijoitus.Pudotettu)
                 {
-                    o.PudonnutKierroksella = this.Pelit.Count(x => x.SisaltaaPelaajan(o.Id));
+                    o.Sijoitus.PudonnutKierroksella = this.Pelit.Count(x => x.SisaltaaPelaajan(o.Id));
                 }
                 else
                 {
-                    o.PudonnutKierroksella = 0;
+                    o.Sijoitus.PudonnutKierroksella = 0;
                 }
 
                 // Sijoituspisteet määräävät pelaajien sijoituksen kisan päätyttyä.
-                o.SijoitusPisteet = o.Pudotettu ? 0 : 1000000000; // Laittaa voittajan ykköseksi ja mukana olevat listan kärkeen
-                o.SijoitusPisteet += o.Voitot * 100000;
-                o.SijoitusPisteet += o.Pisteet;
+                o.Sijoitus.SijoitusPisteet = o.Sijoitus.Pudotettu ? 0 : 1000000000; // Laittaa voittajan ykköseksi ja mukana olevat listan kärkeen
+                o.Sijoitus.SijoitusPisteet += o.Sijoitus.Voitot * 100000;
+                o.Sijoitus.SijoitusPisteet += o.Sijoitus.Pisteet;
+
+                tulostietueet.Add(o.Sijoitus);
             }
 
-            var tulokset = this.Osallistujat
-                .Where(x => x.Id >= 0)
-                .ToArray()
-                .OrderByDescending(x => x.SijoitusPisteet);
+            var tulokset = tulostietueet.OrderByDescending(x => x.SijoitusPisteet);
+
+            int mukana = tulokset.Count(x => !x.Pudotettu);
 
             // Huomioidaan sijoituksissa kuinka pitkälle pelaaja pääsi (jos näin on asetettu) 
             if (this.SijoitustenMaaraytyminen != KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista && KilpailuOnPaattynyt)
@@ -1592,7 +1600,7 @@ namespace KaisaKaavio
                 var finaali = this.Pelit.LastOrDefault();
                 if (finaali != null)
                 {
-                    var finalisti = finaali.Haviaja();
+                    var finalisti = tulokset.FirstOrDefault(x => x.Pelaaja == finaali.Haviaja());
                     if (finalisti != null)
                     {
                         finalisti.SijoitusPisteet += 500000000;
@@ -1600,7 +1608,7 @@ namespace KaisaKaavio
                         if (this.SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista)
                         {
                             var t = tulokset
-                                .Where(x => !finaali.SisaltaaPelaajan(x.Id))
+                                .Where(x => !finaali.SisaltaaPelaajan(x.Pelaaja.Id))
                                 .OrderByDescending(x => x.PudonnutKierroksella);
 
                             if (t.Count() > 0)
@@ -1641,6 +1649,46 @@ namespace KaisaKaavio
                 }
 
                 sijoitus++;
+            }
+
+            // Tarkistetaan onko tulokset varmasti lopullisia
+            foreach (var t in tulokset)
+            {
+                t.SijoitusOnVarma = t.Pudotettu;
+
+                if (tulokset.Where(x => x.Pelaaja != t.Pelaaja && !x.Pudotettu).Any(y =>
+                    y.Voitot < t.Voitot ||
+                    y.Voitot == t.Voitot && y.Pisteet <= t.Pisteet))
+                {
+                    if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
+                        mukana <= 2 &&
+                        t.Sijoitus >= 2)
+                    {
+                    }
+                    else
+                    {
+                        t.SijoitusOnVarma = false; // Joku mukana olevista voi vielä jäädä huonommalle sijalle
+                    }
+                }
+
+                if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
+                    mukana > 2 &&
+                    t.Sijoitus <= 5)
+                {
+                    t.SijoitusOnVarma = false;
+                }
+
+                if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
+                    mukana > 2 &&
+                    t.Sijoitus < 3)
+                {
+                    t.SijoitusOnVarma = false;
+                }
+
+                if (mukana == 1 && t.Sijoitus == 1)
+                {
+                    t.SijoitusOnVarma = true;
+                }
             }
 
             return tulokset;

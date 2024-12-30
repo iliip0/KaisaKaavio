@@ -11,14 +11,18 @@ namespace KaisaKaavio.Testaus
     /// </summary>
     public class UudelleenPelaaminen
     {
+#if DEBUG
         private Kilpailu kilpailu = null;
         private Kilpailu vanhaKilpailu = null;
         private Loki loki = null;
+#endif
 
         public UudelleenPelaaminen(Kilpailu kilpailu, Loki loki)
         {
+#if DEBUG
             this.kilpailu = kilpailu;
             this.loki = loki;
+#endif
         }
 
         public bool AvaaKilpailu(string tiedosto)

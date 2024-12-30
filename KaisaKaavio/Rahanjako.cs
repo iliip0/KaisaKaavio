@@ -27,7 +27,7 @@ namespace KaisaKaavio
         public int VoittajanOsuus = 50;
 
         private Kilpailu kilpailu = null;
-        private List<Pelaaja> tulokset = new List<Pelaaja>();
+        private List<Pelaaja.TulosTietue> tulokset = new List<Pelaaja.TulosTietue>();
 
         public void AlustaRahanjako(Kilpailu kilpailu, Loki loki)
         {
@@ -69,9 +69,8 @@ namespace KaisaKaavio
                     int sijoitus = 1;
                     foreach (var o in kilpailu.Osallistujat)
                     {
-                        Pelaaja tulos = new Pelaaja() 
+                        Pelaaja.TulosTietue tulos = new Pelaaja.TulosTietue() 
                         {
-                            Nimi = string.Empty, 
                             Sijoitus = sijoitus++ 
                         };
 
