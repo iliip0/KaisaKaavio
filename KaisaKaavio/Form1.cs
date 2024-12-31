@@ -111,6 +111,7 @@ namespace KaisaKaavio
             this.rankingPituusComboBox.DataSource = Enum.GetValues(typeof(Ranking.RankingSarjanPituus));
             this.rankingSarjaComboBox.DataSource = this.ranking.SarjatBindingSource;
             this.rankingOsakilpailuComboBox.DataSource = this.ranking.KilpailutBindingSource;
+            this.rankingSarjanLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
 
             this.openFileDialog1.InitialDirectory = this.kansio;
 
@@ -234,6 +235,16 @@ namespace KaisaKaavio
                 }
 
                 this.kilpailu.Avaa(tiedosto);
+
+                if (this.kilpailu.KilpailuOnViikkokisa)
+                {
+                    this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
+                }
+                else 
+                {
+                    this.kilpailu.RankingOsakilpailu = null;
+                }
+
                 this.asetukset.ViimeisinKilpailu = tiedosto;
 
                 PaivitaIkkunanNimi();
@@ -301,14 +312,17 @@ namespace KaisaKaavio
 
                         this.kilpailu.Tiedosto = tiedosto;
 
+                        this.kilpailu.Id = string.Empty;
+                        this.kilpailu.VarmistaEttaKilpailullaOnId();
+
                         this.kilpailu.Osallistujat.Clear();
                         this.kilpailu.OsallistujatJarjestyksessa.Clear();
                         this.kilpailu.PoistaKaikkiPelit();
 
                         this.kilpailu.Nimi = popup.Nimi;
                         this.kilpailu.Laji = popup.Laji;
+                        this.kilpailu.AlkamisAika = popup.Aika;
 
-                        this.kilpailu.AlkamisAika = DateTime.Today;
                         this.kilpailu.Palkinnot = string.Empty;
                         this.kilpailu.Ilmoittautuminen = string.Empty;
 
@@ -325,8 +339,8 @@ namespace KaisaKaavio
                             this.kilpailu.Pukeutuminen = string.Empty;
                             this.kilpailu.Yksipaivainen = true;
                             this.kilpailu.KilpailuOnViikkokisa = true;
-                            this.kilpailu.RankingKisa = popup.RankingKisa;
-                            this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
+
+                            this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
 
                             if (this.kilpailu.PelaajiaEnintaan < 48)
                             {
@@ -346,14 +360,18 @@ namespace KaisaKaavio
                             this.kilpailu.Pukeutuminen = "SBiL EB-taso";
                             this.kilpailu.Yksipaivainen = false;
                             this.kilpailu.KilpailuOnViikkokisa = false;
-                            this.kilpailu.RankingKisa = false;
-                            this.kilpailu.RankingKisaTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
+
+                            this.kilpailu.RankingOsakilpailu = null;
 
                             if (this.kilpailu.PelaajiaEnintaan < 256)
                             {
                                 this.kilpailu.PelaajiaEnintaan = 256;
                             }
                         }
+
+                        this.kilpailu.RankingKisa = popup.RankingKisa;
+                        this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
+                        this.kilpailu.RankingKisaLaji = popup.Laji;
 
                         switch (this.kilpailu.Laji)
                         {
@@ -435,7 +453,11 @@ namespace KaisaKaavio
             }
 
             this.yksipaivainenCheckBox.Visible = !this.kilpailu.KilpailuOnViikkokisa;
-            this.kisaDetaljitGroupBox.Visible = !this.kilpailu.KilpailuOnViikkokisa;
+
+            this.rankingJaKilpailuKutsuSplitContainer.Panel1Collapsed = !this.kilpailu.KilpailuOnViikkokisa;
+            this.rankingJaKilpailuKutsuSplitContainer.Panel2Collapsed = this.kilpailu.KilpailuOnViikkokisa;
+            //this.kisaDetaljitGroupBox.Visible = !this.kilpailu.KilpailuOnViikkokisa;
+            
             this.tulostaToolStripMenuItem.Visible = !this.kilpailu.KilpailuOnViikkokisa;
 
             this.rankkarienMaaraLabel.Visible = this.kilpailu.Laji == Laji.Kaisa;
@@ -445,7 +467,7 @@ namespace KaisaKaavio
             this.piilotaToinenKierrosCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
 
             this.rankingKisaCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
-            this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Visible && this.kilpailu.RankingKisa;
+            PaivitaRankingKontrollienNakyvyys();
 
             // Todo: Näitä ei kai nykyään tarvita ikinä
             this.seuranJasenMaksuDataGridViewTextBoxColumn.Visible = false;
@@ -458,11 +480,6 @@ namespace KaisaKaavio
                     this.tabControl1.Controls.Remove(this.kilpailuKutsuTabPage);
                 }
 
-                //if (this.tabControl1.Contains(this.saliInfoTabPage))
-                //{
-                //    this.tabControl1.Controls.Remove(this.saliInfoTabPage);
-                //}
-
                 if (!this.tabControl1.Contains(this.rankingTabPage))
                 {
                     this.tabControl1.Controls.Add(this.rankingTabPage);
@@ -474,11 +491,6 @@ namespace KaisaKaavio
                 {
                     this.tabControl1.Controls.Add(this.kilpailuKutsuTabPage);
                 }
-
-                //if (!this.tabControl1.Contains(this.saliInfoTabPage))
-                //{
-                //    this.tabControl1.Controls.Add(this.saliInfoTabPage);
-                //}
 
                 if (this.tabControl1.Contains(this.rankingTabPage))
                 {
@@ -650,12 +662,10 @@ namespace KaisaKaavio
             }
             else
             {
-                this.Text = string.Format("{0} - {1} - {2}.{3}.{4}",
+                this.Text = string.Format("{0} - {1} - {2}",
                     software,
                     this.kilpailu.Nimi,
-                    this.kilpailu.AlkamisAika.Day,
-                    this.kilpailu.AlkamisAika.Month,
-                    this.kilpailu.AlkamisAika.Year);
+                    this.kilpailu.AlkamisAika);
             }
         }
 
@@ -730,20 +740,20 @@ namespace KaisaKaavio
                 this.kilpailuBindingSource.ResetBindings(false);
                 this.pelaajaBindingSource.ResetBindings(false);
 
+                PaivitaArvontaTabi();
+            }
+            else if (this.tabControl1.SelectedTab == this.kisaInfoTabPage)
+            {
                 try
                 {
-                    this.dateTimePicker2.Value = this.kilpailu.AlkamisAika;
+                    this.dateTimePicker2.Value = this.kilpailu.AlkamisAikaDt;
                 }
                 catch (Exception ee)
                 {
                     this.loki.Kirjoita("Alkamisajan asetus epäonnistui", ee, false);
                 }
 
-                PaivitaArvontaTabi();
-            }
-            else if (this.tabControl1.SelectedTab == this.kisaInfoTabPage)
-            {
-                this.rankingKisaTyyppiComboBox.Visible = this.kilpailu.RankingKisa;
+                PaivitaRankingKontrollienNakyvyys();
 
                 if (this.kilpailu.KilpailuAlkanut)
                 {
@@ -1139,7 +1149,7 @@ namespace KaisaKaavio
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
-            this.kilpailu.AlkamisAika = this.dateTimePicker2.Value;
+            this.kilpailu.AlkamisAikaDt = this.dateTimePicker2.Value;
         }
 
         #endregion
@@ -1253,7 +1263,7 @@ namespace KaisaKaavio
                     {
                         int sijoitus = 0;
                         if (this.ranking.HaeNykyinenRankingSijoitus(
-                            this.kilpailu.AlkamisAika,
+                            this.kilpailu.AlkamisAikaDt,
                             this.kilpailu.RankingKisaTyyppi,
                             pelaaja.Nimi,
                             out sijoitus))
@@ -3746,12 +3756,9 @@ namespace KaisaKaavio
                                             this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Day,
                                             this.ranking.ValittuSarja.Osakilpailut[osakilpailu].AlkamisAika.Month);
                                     }
-
-                                    //column.DefaultCellStyle.Font = this.paksuFontti;
                                 }
                                 else
                                 {
-                                    //column.DefaultCellStyle.Font = this.ohutPieniFontti;
                                 }
                             }
                         }
@@ -3770,12 +3777,20 @@ namespace KaisaKaavio
 
         private void rankingKisaCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            PaivitaRankingKontrollienNakyvyys();
+        }
+
+        private void PaivitaRankingKontrollienNakyvyys()
+        {
             try
             {
-                this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Checked;
+                this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
+                this.rankingSarjanLajiComboBox.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
+                this.rankingSarjanLajiLabel.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
+                this.rankingSarjanTyyppiLabel.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
             }
             catch
-            { 
+            {
             }
         }
 
@@ -4122,5 +4137,24 @@ namespace KaisaKaavio
         }
 
         #endregion
+
+        private void splitContainer12_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
+
+        private void label25_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rankingKisaTyyppiComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            Ranking.RankingSarjanPituus t = (Ranking.RankingSarjanPituus)e.ListItem;
+
+            var field = typeof(Ranking.RankingSarjanPituus).GetField(t.ToString());
+            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            e.Value = attributes.Length == 0 ? t.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+        }
     }
 }

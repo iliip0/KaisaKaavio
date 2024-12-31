@@ -294,7 +294,7 @@ namespace KaisaKaavio.Ranking
 
         public void LisaaKilpailu(Kilpailu kilpailu, RankingAsetukset asetukset)
         {
-            if (this.Osakilpailut.Any(x => x.AlkamisAika > kilpailu.AlkamisAika))
+            if (this.Osakilpailut.Any(x => x.AlkamisAika > kilpailu.AlkamisAikaDt))
             {
                 return; // Rankingkilpailuja voidaan lisätä vain sarjan loppuun
             }
@@ -305,7 +305,7 @@ namespace KaisaKaavio.Ranking
                 osakilpailu = new RankingOsakilpailu() 
                 {
                     Nimi = kilpailu.Nimi,
-                    AlkamisAika = kilpailu.AlkamisAika
+                    AlkamisAika = kilpailu.AlkamisAikaDt
                 };
 
                 if (this.Osakilpailut.Count == 0)

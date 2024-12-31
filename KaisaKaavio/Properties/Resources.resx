@@ -151,8 +151,14 @@
   <data name="Kaavio" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Kaavio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="KilpailuInfo32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KilpailuInfo32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Kisainfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Kisainfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Kisainfo32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Kisainfo32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Kopioi" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Kopioi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -162,6 +168,9 @@
   </data>
   <data name="Kutsu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Kutsu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Kutsu32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Kutsu32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Lapinakuva" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Lapinakuva.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,6 +190,9 @@
   <data name="Osallistujat" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Osallistujat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Osallistujat32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Osallistujat32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Ottelupoytakirja" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ottelupoytakirja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -193,6 +205,9 @@
   <data name="Pelit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pelit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Pelit32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pelit32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Peruuta" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Peruuta.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -202,8 +217,14 @@
   <data name="Raha" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Raha.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Raha32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Raha32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Ranking" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ranking.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ranking32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ranking32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RankingTaulukko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RankingTaulukko.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -240,6 +261,9 @@
   </data>
   <data name="Tulokset" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tulokset.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tulokset32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tulokset32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Vasemmalle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Vasemmalle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

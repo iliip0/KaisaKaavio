@@ -25,15 +25,16 @@ namespace KaisaKaavio
             this.rankingCheckBox.Checked = false;
             this.rankingComboBox.Visible = false;
 
-            this.kilpailunNimiTextBox.Text = string.Format("Kaisan viikkokilpailu {0}.{1}.{2}",
-                DateTime.Now.Day,
-                DateTime.Now.Month,
-                DateTime.Now.Year);
+            this.alkamisAikaDateTimePicker.Value = DateTime.Today;
+
+            PaivitaKilpailunOletusNimi();
         }
 
         public string Nimi { get { return this.kilpailunNimiTextBox.Text; } }
         public bool LuoViikkokisa { get { return this.kilpailunTyyppiComboBox.SelectedIndex == 0; } }
         public bool RankingKisa { get { return this.rankingCheckBox.Checked; } }
+        public string Aika { get { return Tyypit.Aika.DateTimeToString(this.alkamisAikaDateTimePicker.Value); } }
+
         public Ranking.RankingSarjanPituus RankingKisatyyppi 
         {
             get
@@ -103,7 +104,7 @@ namespace KaisaKaavio
             if (!this.nimeaMuokattuManuaalisesti)
             {
                 string kilpatyyppi = this.LuoViikkokisa ? "viikkokisa" : "RG kilpailu";
-                string aika = string.Format("{0}.{1}.{2}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+                string aika = Tyypit.Aika.DateTimeToString(this.alkamisAikaDateTimePicker.Value);
                 string laji = "Kaisan";
 
                 switch (Laji)
@@ -128,6 +129,11 @@ namespace KaisaKaavio
         private void kilpailunNimiTextBox_Validated(object sender, EventArgs e)
         {
             this.nimeaMuokattuManuaalisesti = true;
+        }
+
+        private void alkamisAikaDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            PaivitaKilpailunOletusNimi();
         }
     }
 }

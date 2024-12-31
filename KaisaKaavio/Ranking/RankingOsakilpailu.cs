@@ -33,6 +33,7 @@ namespace KaisaKaavio.Ranking
         /// <summary>
         /// Rankingosakilpailun tilanneteksti rtf muodossa
         /// </summary>
+        [XmlIgnore]
         public string TilanneRtf
         {
             get
@@ -44,6 +45,7 @@ namespace KaisaKaavio.Ranking
         /// <summary>
         /// Rankingosakilpailun tilanneteksti sbil keskustelupalstamuodossa
         /// </summary>
+        [XmlIgnore]
         public string TilanneSbil
         {
             get
@@ -109,7 +111,7 @@ namespace KaisaKaavio.Ranking
 
         public void PaivitaKilpailu(Kilpailu kilpailu, RankingSarja sarja, RankingAsetukset asetukset)
         {
-            var ranking = sarja.RankingEnnenOsakilpailua(kilpailu.AlkamisAika);
+            var ranking = sarja.RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
 
             bool paattynyt = kilpailu.KilpailuOnPaattynyt;
             var tulokset = kilpailu.Tulokset();

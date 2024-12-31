@@ -105,7 +105,9 @@
     <Compile Include="Rahanjako.cs" />
     <Compile Include="Ranking\Ranking.cs" />
     <Compile Include="Ranking\RankingAsetukset.cs" />
+    <Compile Include="Ranking\RankingKuukausi.cs" />
     <Compile Include="Ranking\RankingOsakilpailu.cs" />
+    <Compile Include="Ranking\RankingOsakilpailuTietue.cs" />
     <Compile Include="Ranking\RankingPelaajaTietue.cs" />
     <Compile Include="Ranking\RankingPisteetPelista.cs" />
     <Compile Include="Ranking\RankingPisteetSijoituksesta.cs" />
@@ -239,6 +241,14 @@
     <None Include="Resources\Testaa.png" />
     <None Include="Resources\RankingTaulukko.png" />
     <None Include="Resources\RankingTeksti.png" />
+    <None Include="Resources\Ranking32.png" />
+    <None Include="Resources\Kutsu32.png" />
+    <None Include="Resources\Kisainfo32.png" />
+    <None Include="Resources\Osallistujat32.png" />
+    <None Include="Resources\Pelit32.png" />
+    <None Include="Resources\Raha32.png" />
+    <None Include="Resources\Tulokset32.png" />
+    <None Include="Resources\KilpailuInfo32.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

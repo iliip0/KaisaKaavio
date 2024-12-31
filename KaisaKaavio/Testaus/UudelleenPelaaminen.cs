@@ -37,7 +37,7 @@ namespace KaisaKaavio.Testaus
                 this.kilpailu.Tiedosto = this.vanhaKilpailu.Tiedosto.Replace(".xml", "(Uusinta).xml");
 
                 this.kilpailu.AlkamisAika = this.vanhaKilpailu.AlkamisAika;
-                this.kilpailu.PaattymisAika = this.kilpailu.AlkamisAika;
+                //this.kilpailu.PaattymisAika = this.kilpailu.AlkamisAika;
 
                 this.kilpailu.Ilmoittautuminen = this.vanhaKilpailu.Ilmoittautuminen;
                 this.kilpailu.JarjestavaSeura = this.vanhaKilpailu.JarjestavaSeura;

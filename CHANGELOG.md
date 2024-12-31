@@ -2,6 +2,12 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.10		(työn alla)
+
+* Kisainfo-välilehden siistiminen & kuvakkeiden kaunistus
+* Päivämäärä lisätty 'Luo uusi peli' ikkunaan valittavaksi
+* Päivämäärien esitys vaihdettu muotoon 25.2.2024
+
 ## Versio 1.0.0.9		(julkaistu 30.12.2024)
 
 * Pudonneiden pelaajien nimet paksulla fontilla tulokset osioon

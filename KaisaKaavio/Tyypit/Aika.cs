@@ -12,6 +12,77 @@ namespace KaisaKaavio.Tyypit
     /// </summary>
     public class Aika
     {
+        public static string KuukaudenNimi(int kuukausi)
+        {
+            switch (kuukausi)
+            {
+                case 1: return "Tammikuu";
+                case 2: return "Helmikuu";
+                case 3: return "Maaliskuu";
+                case 4: return "Huhtikuu";
+                case 5: return "Toukokuu";
+                case 6: return "Kesakuu";
+                case 7: return "Heinakuu";
+                case 8: return "Elokuu";
+                case 9: return "Syyskuu";
+                case 10: return "Lokakuu";
+                case 11: return "Marraskuu";
+                case 12: return "Joulukuu";
+                default: return kuukausi.ToString();
+            }
+        }
+
+        public static string DateTimeToString(DateTime aika)
+        {
+            return string.Format("{0}.{1}.{2}", aika.Day, aika.Month, aika.Year);
+        }
+
+        public static DateTime ParseDateTime(string aika)
+        {
+            try
+            {
+                int vuosi = 0;
+                int kuukausi = 0;
+                int paiva = 0;
+
+                if (!string.IsNullOrEmpty(aika))
+                {
+                    // Dates starting with yyyy-mm-dd
+                    var parts = aika.Split('-');
+                    if (parts.Count() >= 3 && parts[0].Length == 4 && parts[1].Length == 2 && parts[2].Length >= 2)
+                    {
+                        if (Int32.TryParse(parts[0], out vuosi) &&
+                            Int32.TryParse(parts[1], out kuukausi) &&
+                            Int32.TryParse(parts[2].Substring(0, 2), out paiva))
+                        {
+                            return new DateTime(vuosi, kuukausi, paiva); 
+                        }
+                    }
+
+                    // Dates d.m.yyyy and dd.mm.yyyy
+                    parts = aika.Split('.');
+                    if (parts.Count() >= 3 &&
+                        (parts[0].Length >= 1 && parts[0].Length <= 2) &&
+                        (parts[1].Length >= 1 && parts[1].Length <= 2) &&
+                        parts[2].Length >= 4)
+                    {
+                        if (Int32.TryParse(parts[0], out paiva) &&
+                            Int32.TryParse(parts[1], out kuukausi) &&
+                            Int32.TryParse(parts[2].Substring(0, 4), out vuosi))
+                        {
+                            return new DateTime(vuosi, kuukausi, paiva);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                int iii = 0;
+            }
+
+            return DateTime.Parse(aika);
+        }
+
         public static bool AikaTunneiksiJaMinuuteiksi(string aika, out int tunnit, out int minuutit)
         {
             tunnit = 0;

@@ -18,6 +18,8 @@ namespace KaisaKaavio.Ranking
         private Dictionary<int, Dictionary<RankingSarjanPituus, BindingList<RankingSarja>>> sarjat =
             new Dictionary<int, Dictionary<RankingSarjanPituus, BindingList<RankingSarja>>>();
 
+        private List<RankingKuukausi> kuukaudet = new List<RankingKuukausi>();
+
         public List<int> Vuodet { get; private set; }
 
         private RankingAsetukset asetukset = null;
@@ -237,6 +239,28 @@ namespace KaisaKaavio.Ranking
             PaivitaKansio();
         }
 
+        public RankingKuukausi AvaaRankingKuukausi(DateTime aika)
+        {
+            var kuukausi = this.kuukaudet.FirstOrDefault(x => x.Vuosi == aika.Year && x.Kuukausi == aika.Month);
+            if (kuukausi == null)
+            {
+                kuukausi = new RankingKuukausi(aika);
+
+                kuukausi.Avaa(this.Loki);
+
+                this.kuukaudet.Add(kuukausi);
+            }
+
+            return kuukausi;
+        }
+
+        public RankingOsakilpailuTietue AvaaRankingTietueKilpailulle(Kilpailu kilpailu)
+        {
+            var kuukausi = AvaaRankingKuukausi(kilpailu.AlkamisAikaDt);
+
+            return kuukausi.AvaaKilpailunTietue(kilpailu, this.Loki);
+        }
+
         private void PaivitaKansio()
         {
             if (this.asetukset != null)
@@ -404,7 +428,7 @@ namespace KaisaKaavio.Ranking
         {
             if (kilpailu.RankingKisa)
             {
-                var sarjat = AvaaSarjat(kilpailu.AlkamisAika.Year, kilpailu.RankingKisaTyyppi);
+                var sarjat = AvaaSarjat(kilpailu.AlkamisAikaDt.Year, kilpailu.RankingKisaTyyppi);
                 if (sarjat != null)
                 {
                     var sarja = sarjat.FirstOrDefault(x => x.SarjanNumero == kilpailu.RankingSarjanNumero());
@@ -420,6 +444,21 @@ namespace KaisaKaavio.Ranking
 
         public void TallennaAvatutSarjat()
         {
+            foreach (var kuukausi in this.kuukaudet)
+            {
+                try
+                {
+                    kuukausi.TallennaTarvittaessa(this.Loki);
+                }
+                catch (Exception e)
+                {
+                    if (this.Loki != null)
+                    {
+                        this.Loki.Kirjoita(string.Format("Ranking datan {0} tallennus epäonnistui!", kuukausi.TiedostonNimi), e, false);
+                    }
+                }
+            }
+
             foreach (var vuosi in this.sarjat)
             {
                 foreach (var pituus in vuosi.Value)
@@ -450,7 +489,7 @@ namespace KaisaKaavio.Ranking
             {
                 if (kilpailu.RankingKisa && kilpailu.KilpailuOnPaattynyt)
                 {
-                    int vuosi = kilpailu.AlkamisAika.Year;
+                    int vuosi = kilpailu.AlkamisAikaDt.Year;
 
                     switch (kilpailu.RankingKisaTyyppi)
                     {
@@ -473,21 +512,21 @@ namespace KaisaKaavio.Ranking
             {
                 if (kilpailu.RankingKisa)
                 {
-                    this.ValittuVuosi = kilpailu.AlkamisAika.Year;
+                    this.ValittuVuosi = kilpailu.AlkamisAikaDt.Year;
                     this.ValittuPituus = kilpailu.RankingKisaTyyppi;
 
                     switch (this.ValittuPituus)
                     {
                         case RankingSarjanPituus.Kuukausi:
-                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == kilpailu.AlkamisAika.Month);
+                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == kilpailu.AlkamisAikaDt.Month);
                             break;
 
                         case RankingSarjanPituus.Vuodenaika:
-                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == (kilpailu.AlkamisAika.Month - 1) / 3);
+                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == (kilpailu.AlkamisAikaDt.Month - 1) / 3);
                             break;
 
                         case RankingSarjanPituus.Puolivuotta:
-                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == (kilpailu.AlkamisAika.Month - 1) / 6);
+                            this.ValittuSarja = this.ValitutSarjat.FirstOrDefault(x => x.SarjanNumero == (kilpailu.AlkamisAikaDt.Month - 1) / 6);
                             break;
 
                         case RankingSarjanPituus.Vuosi:
@@ -504,7 +543,7 @@ namespace KaisaKaavio.Ranking
 
         private void LisaaKilpailu1kk(Kilpailu kilpailu, int vuosi)
         {
-            int kuu = kilpailu.AlkamisAika.Month;
+            int kuu = kilpailu.AlkamisAikaDt.Month;
             var sarjat1kk = AvaaSarjat(vuosi, RankingSarjanPituus.Kuukausi);
             RankingSarja sarja1kk = sarjat1kk.FirstOrDefault(x => x.SarjanNumero == kuu);
             if (sarja1kk == null)
@@ -541,7 +580,7 @@ namespace KaisaKaavio.Ranking
 
         private void LisaaKilpailu3kk(Kilpailu kilpailu, int vuosi)
         {
-            int kvartaali = (kilpailu.AlkamisAika.Month - 1) / 3;
+            int kvartaali = (kilpailu.AlkamisAikaDt.Month - 1) / 3;
             var sarjat3kk = AvaaSarjat(vuosi, RankingSarjanPituus.Vuodenaika);
             RankingSarja sarja3kk = sarjat3kk.FirstOrDefault(x => x.SarjanNumero == kvartaali);
             if (sarja3kk == null)
@@ -570,7 +609,7 @@ namespace KaisaKaavio.Ranking
 
         private void LisaaKilpailu6kk(Kilpailu kilpailu, int vuosi)
         {
-            int puolVuosi = (kilpailu.AlkamisAika.Month - 1) / 6;
+            int puolVuosi = (kilpailu.AlkamisAikaDt.Month - 1) / 6;
             var sarjat6kk = AvaaSarjat(vuosi, RankingSarjanPituus.Puolivuotta);
             RankingSarja sarja6kk = sarjat6kk.FirstOrDefault(x => x.SarjanNumero == puolVuosi);
             if (sarja6kk == null)

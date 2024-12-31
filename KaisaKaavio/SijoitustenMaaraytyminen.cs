@@ -15,7 +15,7 @@ namespace KaisaKaavio
         [Description("Finalisteja lukuunottamatta kaikki voittojen ja pisteiden perusteella")]
         KaksiParastaKierroksistaLoputPisteista,
 
-        [Description("Finalistit ja kolmas/kolmannet kierrosten perusteella, loput voittojen ja pisteiden")]
+        [Description("Finalistit ja kolmannet kierrosten perusteella, loput voittojen ja pisteiden")]
         KolmeParastaKierroksistaLoputPisteista,
     }
 }

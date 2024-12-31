@@ -14,6 +14,12 @@ namespace KaisaKaavio
     public class Kilpailu
         : NotifyPropertyChanged
     {
+        /// <summary>
+        /// Kilpailun ID joka identifioi sen yksiselitteisesti
+        /// </summary>
+        [DefaultValue("")]
+        public string Id { get; set; }
+
         [DefaultValue("")]
         public string Nimi { get; set; }
 
@@ -25,19 +31,80 @@ namespace KaisaKaavio
 
         [DefaultValue("")]
         public string PuhelinNumero { get; set; }
-        
-        public DateTime AlkamisAika { get; set; }
+
+        [DefaultValue("")]
+        public string AlkamisAika { get; set; }
+
+        [XmlIgnore]
+        public DateTime AlkamisAikaDt 
+        {
+            set
+            {
+                this.AlkamisAika = Tyypit.Aika.DateTimeToString(value);
+            }
+            get 
+            {
+                return Tyypit.Aika.ParseDateTime(this.AlkamisAika);
+            }
+        }
 
         [DefaultValue("")]
         public string KellonAika { get; set; }
         
-        public DateTime PaattymisAika { get; set; }
+        //public DateTime PaattymisAika { get; set; }
 
         public bool Yksipaivainen { get; set; }
 
-        public bool RankingKisa { get; set; }
+        [XmlIgnore]
+        public Ranking.RankingOsakilpailuTietue RankingOsakilpailu { get; set; }
 
-        public Ranking.RankingSarjanPituus RankingKisaTyyppi { get; set; }
+        [XmlIgnore]
+        public bool RankingKisa 
+        {
+            get
+            {
+                return this.RankingOsakilpailu != null ? this.RankingOsakilpailu.OnRankingOsakilpailu : false;
+            }
+            set
+            {
+                if (this.RankingOsakilpailu != null)
+                {
+                    this.RankingOsakilpailu.OnRankingOsakilpailu = value;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public Ranking.RankingSarjanPituus RankingKisaTyyppi
+        {
+            get
+            {
+                return this.RankingOsakilpailu != null ? this.RankingOsakilpailu.SarjanPituus : Ranking.RankingSarjanPituus.Kuukausi;
+            }
+            set 
+            {
+                if (this.RankingOsakilpailu != null)
+                {
+                    this.RankingOsakilpailu.SarjanPituus = value;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public Laji RankingKisaLaji 
+        {
+            get
+            {
+                return this.RankingOsakilpailu != null ? this.RankingOsakilpailu.Laji : KaisaKaavio.Laji.Kaisa;
+            }
+            set
+            {
+                if (this.RankingOsakilpailu != null)
+                {
+                    this.RankingOsakilpailu.Laji = value;
+                }
+            }
+        }
 
         public SijoitustenMaaraytyminen SijoitustenMaaraytyminen { get; set; }
 
@@ -121,23 +188,24 @@ namespace KaisaKaavio
             Pelit = new BindingList<Peli>();
             Pelit.ListChanged += Pelit_ListChanged;
 
+            Id = string.Empty;
+
             Nimi = string.Format("Kaisan viikkokilpailu {0}.{1}.{2}", 
                 DateTime.Now.Day, 
                 DateTime.Now.Month, 
                 DateTime.Now.Year);
 
-            AlkamisAika = DateTime.Today;
+            AlkamisAikaDt = DateTime.Today;
             KellonAika = "18:00";
             Yksipaivainen = true;
 
-            RankingKisa = false;
-            RankingKisaTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
+            this.RankingOsakilpailu = null;
 
             OsallistumisMaksu = "10€";
             OsallistumisOikeus = "Avoin kaikille";
             KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
             JarjestavaSeura = string.Empty;
-            PaattymisAika = DateTime.Today;
+            //PaattymisAika = DateTime.Today;
             PeliAika = 40;
             TavoitePistemaara = 60;
             RankkareidenMaara = 3;
@@ -539,21 +607,6 @@ namespace KaisaKaavio
             }
 
             var tulokset = Tulokset();
-            /*
-            if (this.KilpailuOnPaattynyt)
-            {
-                var tulokset = Tulokset();
-                foreach (var tulos in tulokset)
-                {
-                    var p = this.OsallistujatJarjestyksessa.FirstOrDefault(x => x.Id == tulos.Pelaaja.Id);
-                    if (p != null)
-                    {
-                        p.Sijoitus.Sijoitus = tulos.Sijoitus;
-                        p.Sijoitus.SijoitusOnVarma = tulos.SijoitusOnVarma;
-                    }
-                }
-            }
-            */
         }
 
         void Osallistujat_ListChanged(object sender, ListChangedEventArgs e)
@@ -636,6 +689,22 @@ namespace KaisaKaavio
             }
         }
 
+        public void VarmistaEttaKilpailullaOnId()
+        {
+            if (string.IsNullOrEmpty(this.Id) ||
+                this.Id.Contains('{') ||
+                this.Id.Contains('}') ||
+                this.Id.Contains(','))
+            {
+                this.Id = Guid.NewGuid().GetHashCode().ToString("X").ToUpper();
+
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("Luotiin kilpailulle {0} Id {1}", this.Nimi, this.Id), null, false);
+                }
+            }
+        }
+
         public void Avaa(string tiedosto)
         {
             if (Loki != null)
@@ -656,8 +725,10 @@ namespace KaisaKaavio
             if (kilpailu != null)
             {
                 this.Tiedosto = tiedosto;
+
+                this.Id = kilpailu.Id;
                 this.AlkamisAika = kilpailu.AlkamisAika;
-                this.PaattymisAika = kilpailu.PaattymisAika;
+                //this.PaattymisAika = kilpailu.PaattymisAika;
                 this.KilpailunJohtaja = kilpailu.KilpailunJohtaja;
                 this.JarjestavaSeura = kilpailu.JarjestavaSeura;
                 this.Nimi = kilpailu.Nimi;
@@ -670,8 +741,6 @@ namespace KaisaKaavio
                 this.KellonAika = kilpailu.KellonAika;
                 this.LisaTietoa = kilpailu.LisaTietoa;
                 this.Yksipaivainen = kilpailu.Yksipaivainen;
-                this.RankingKisa = kilpailu.RankingKisa;
-                this.RankingKisaTyyppi = kilpailu.RankingKisaTyyppi;
                 this.LisenssiVaatimus = kilpailu.LisenssiVaatimus;
                 this.MaksuTapa = kilpailu.MaksuTapa;
                 this.Pukeutuminen = kilpailu.Pukeutuminen;
@@ -682,6 +751,10 @@ namespace KaisaKaavio
                 this.KilpailuOnViikkokisa = kilpailu.KilpailuOnViikkokisa;
                 this.Laji = kilpailu.Laji;
                 this.SijoitustenMaaraytyminen = kilpailu.SijoitustenMaaraytyminen;
+
+                this.RankingOsakilpailu = null;
+
+                VarmistaEttaKilpailullaOnId();
 
                 this.JalkiIlmoittautuneet.Clear();
 
@@ -1832,21 +1905,23 @@ namespace KaisaKaavio
         {
             if (string.IsNullOrEmpty(this.KellonAika))
             {
-                return string.Format("{0}.{1}.{2}", this.AlkamisAika.Day, this.AlkamisAika.Month, this.AlkamisAika.Year);
+                return this.AlkamisAika;
             }
             else
             {
-                return string.Format("{0}.{1}.{2} klo:{3}", this.AlkamisAika.Day, this.AlkamisAika.Month, this.AlkamisAika.Year, this.KellonAika);
+                return string.Format("{0} klo:{1}", this.AlkamisAika, this.KellonAika);
             }
         }
 
         public int RankingSarjanNumero()
         {
+            var aika = this.AlkamisAikaDt;
+
             switch (this.RankingKisaTyyppi)
             {
-                case Ranking.RankingSarjanPituus.Kuukausi: return this.AlkamisAika.Month;
-                case Ranking.RankingSarjanPituus.Vuodenaika: return (this.AlkamisAika.Month - 1) / 3;
-                case Ranking.RankingSarjanPituus.Puolivuotta: return (this.AlkamisAika.Month - 1) / 6;
+                case Ranking.RankingSarjanPituus.Kuukausi: return aika.Month;
+                case Ranking.RankingSarjanPituus.Vuodenaika: return (aika.Month - 1) / 3;
+                case Ranking.RankingSarjanPituus.Puolivuotta: return (aika.Month - 1) / 6;
                 case Ranking.RankingSarjanPituus.Vuosi: return 0;
                 default: return 0;
             }

@@ -155,33 +155,44 @@
             this.Viiva = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LisaTietoa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.kisaInfoTabPage = new System.Windows.Forms.TabPage();
-            this.label30 = new System.Windows.Forms.Label();
-            this.sijoitustenMaaraytyminenComboBox = new System.Windows.Forms.ComboBox();
+            this.splitContainer12 = new System.Windows.Forms.SplitContainer();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.rankingKisaTyyppiComboBox = new System.Windows.Forms.ComboBox();
-            this.rankingKisaCheckBox = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pelaajiaEnintaanNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tavoitePistemaaraLabel = new System.Windows.Forms.Label();
-            this.tavoitePistemaaraNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.kilpailunNimiTextBox = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.yksipaivainenCheckBox = new System.Windows.Forms.CheckBox();
             this.textBox27 = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.kaavioTyyppiComboBox = new System.Windows.Forms.ComboBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.rankkarienMaaraNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.rankkarienMaaraLabel = new System.Windows.Forms.Label();
-            this.peliAikaLabel2 = new System.Windows.Forms.Label();
-            this.peliAikaLabel = new System.Windows.Forms.Label();
-            this.peliaikaNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label37 = new System.Windows.Forms.Label();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.label38 = new System.Windows.Forms.Label();
-            this.kilpailunNimiTextBox = new System.Windows.Forms.TextBox();
-            this.yksipaivainenCheckBox = new System.Windows.Forms.CheckBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.splitContainer13 = new System.Windows.Forms.SplitContainer();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.pelaajiaEnintaanNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.sijoitustenMaaraytyminenComboBox = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.kaavioTyyppiComboBox = new System.Windows.Forms.ComboBox();
+            this.tavoitePistemaaraLabel = new System.Windows.Forms.Label();
+            this.peliAikaLabel2 = new System.Windows.Forms.Label();
+            this.rankkarienMaaraNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.peliaikaNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.peliAikaLabel = new System.Windows.Forms.Label();
+            this.tavoitePistemaaraNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.rankkarienMaaraLabel = new System.Windows.Forms.Label();
+            this.rankingJaKilpailuKutsuSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.rankingSarjanLajiComboBox = new System.Windows.Forms.ComboBox();
+            this.rankingSarjanLajiLabel = new System.Windows.Forms.Label();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.rankingKisaCheckBox = new System.Windows.Forms.CheckBox();
+            this.rankingKisaTyyppiComboBox = new System.Windows.Forms.ComboBox();
             this.kisaDetaljitGroupBox = new System.Windows.Forms.GroupBox();
+            this.pictureBox11 = new System.Windows.Forms.PictureBox();
+            this.label33 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox15 = new System.Windows.Forms.TextBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
@@ -441,8 +452,9 @@
             this.dataGridViewImageColumn24 = new System.Windows.Forms.DataGridViewImageColumn();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.medalImages = new System.Windows.Forms.ImageList(this.components);
-            this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.rankingSarjanTyyppiLabel = new System.Windows.Forms.Label();
             this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -513,11 +525,29 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelitDataGridView)).BeginInit();
             this.kisaInfoTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).BeginInit();
+            this.splitContainer12.Panel1.SuspendLayout();
+            this.splitContainer12.Panel2.SuspendLayout();
+            this.splitContainer12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).BeginInit();
+            this.splitContainer13.Panel1.SuspendLayout();
+            this.splitContainer13.Panel2.SuspendLayout();
+            this.splitContainer13.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajiaEnintaanNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tavoitePistemaaraNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rankkarienMaaraNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.peliaikaNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tavoitePistemaaraNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rankingJaKilpailuKutsuSplitContainer)).BeginInit();
+            this.rankingJaKilpailuKutsuSplitContainer.Panel1.SuspendLayout();
+            this.rankingJaKilpailuKutsuSplitContainer.Panel2.SuspendLayout();
+            this.rankingJaKilpailuKutsuSplitContainer.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.kisaDetaljitGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             this.kilpailuKutsuTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -829,7 +859,7 @@
             // 
             this.arvontaTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.arvontaTabPage.Controls.Add(this.splitContainer1);
-            this.arvontaTabPage.ImageIndex = 3;
+            this.arvontaTabPage.ImageIndex = 16;
             this.arvontaTabPage.Location = new System.Drawing.Point(4, 87);
             this.arvontaTabPage.Name = "arvontaTabPage";
             this.arvontaTabPage.Size = new System.Drawing.Size(776, 478);
@@ -1469,10 +1499,10 @@
             this.pelitTabPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pelitTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pelitTabPage.Controls.Add(this.splitContainer2);
-            this.pelitTabPage.ImageIndex = 0;
-            this.pelitTabPage.Location = new System.Drawing.Point(4, 87);
+            this.pelitTabPage.ImageIndex = 17;
+            this.pelitTabPage.Location = new System.Drawing.Point(4, 44);
             this.pelitTabPage.Name = "pelitTabPage";
-            this.pelitTabPage.Size = new System.Drawing.Size(776, 478);
+            this.pelitTabPage.Size = new System.Drawing.Size(776, 521);
             this.pelitTabPage.TabIndex = 2;
             this.pelitTabPage.Text = "Pelit";
             this.pelitTabPage.UseVisualStyleBackColor = true;
@@ -1499,7 +1529,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.pelitDataGridView);
-            this.splitContainer2.Size = new System.Drawing.Size(772, 474);
+            this.splitContainer2.Size = new System.Drawing.Size(772, 517);
             this.splitContainer2.SplitterDistance = 59;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1605,7 +1635,7 @@
             this.pelitDataGridView.RowHeadersVisible = false;
             this.pelitDataGridView.ShowCellErrors = false;
             this.pelitDataGridView.ShowEditingIcon = false;
-            this.pelitDataGridView.Size = new System.Drawing.Size(768, 407);
+            this.pelitDataGridView.Size = new System.Drawing.Size(768, 450);
             this.pelitDataGridView.TabIndex = 0;
             this.pelitDataGridView.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.pelitDataGridView_CellBeginEdit);
             this.pelitDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.pelitDataGridView_CellContentClick);
@@ -1652,49 +1682,251 @@
             // 
             this.kisaInfoTabPage.BackColor = System.Drawing.SystemColors.Control;
             this.kisaInfoTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.kisaInfoTabPage.Controls.Add(this.label30);
-            this.kisaInfoTabPage.Controls.Add(this.sijoitustenMaaraytyminenComboBox);
-            this.kisaInfoTabPage.Controls.Add(this.label35);
-            this.kisaInfoTabPage.Controls.Add(this.label5);
-            this.kisaInfoTabPage.Controls.Add(this.label34);
-            this.kisaInfoTabPage.Controls.Add(this.rankingKisaTyyppiComboBox);
-            this.kisaInfoTabPage.Controls.Add(this.rankingKisaCheckBox);
-            this.kisaInfoTabPage.Controls.Add(this.label7);
-            this.kisaInfoTabPage.Controls.Add(this.pelaajiaEnintaanNumericUpDown);
-            this.kisaInfoTabPage.Controls.Add(this.label6);
-            this.kisaInfoTabPage.Controls.Add(this.tavoitePistemaaraLabel);
-            this.kisaInfoTabPage.Controls.Add(this.tavoitePistemaaraNumericUpDown);
-            this.kisaInfoTabPage.Controls.Add(this.textBox27);
-            this.kisaInfoTabPage.Controls.Add(this.label32);
-            this.kisaInfoTabPage.Controls.Add(this.kaavioTyyppiComboBox);
-            this.kisaInfoTabPage.Controls.Add(this.label33);
-            this.kisaInfoTabPage.Controls.Add(this.rankkarienMaaraNumericUpDown);
-            this.kisaInfoTabPage.Controls.Add(this.rankkarienMaaraLabel);
-            this.kisaInfoTabPage.Controls.Add(this.peliAikaLabel2);
-            this.kisaInfoTabPage.Controls.Add(this.peliAikaLabel);
-            this.kisaInfoTabPage.Controls.Add(this.peliaikaNumericUpDown);
-            this.kisaInfoTabPage.Controls.Add(this.label37);
-            this.kisaInfoTabPage.Controls.Add(this.dateTimePicker2);
-            this.kisaInfoTabPage.Controls.Add(this.label38);
-            this.kisaInfoTabPage.Controls.Add(this.kilpailunNimiTextBox);
-            this.kisaInfoTabPage.Controls.Add(this.yksipaivainenCheckBox);
-            this.kisaInfoTabPage.Controls.Add(this.kisaDetaljitGroupBox);
-            this.kisaInfoTabPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kisaInfoTabPage.ImageIndex = 5;
-            this.kisaInfoTabPage.Location = new System.Drawing.Point(4, 44);
+            this.kisaInfoTabPage.Controls.Add(this.splitContainer12);
+            this.kisaInfoTabPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kisaInfoTabPage.ImageIndex = 20;
+            this.kisaInfoTabPage.Location = new System.Drawing.Point(4, 87);
             this.kisaInfoTabPage.Name = "kisaInfoTabPage";
-            this.kisaInfoTabPage.Size = new System.Drawing.Size(776, 521);
+            this.kisaInfoTabPage.Size = new System.Drawing.Size(776, 478);
             this.kisaInfoTabPage.TabIndex = 5;
             this.kisaInfoTabPage.Text = "Kisainfo";
+            // 
+            // splitContainer12
+            // 
+            this.splitContainer12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer12.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer12.IsSplitterFixed = true;
+            this.splitContainer12.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer12.Name = "splitContainer12";
+            this.splitContainer12.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer12.Panel1
+            // 
+            this.splitContainer12.Panel1.BackColor = System.Drawing.Color.DarkGreen;
+            this.splitContainer12.Panel1.Controls.Add(this.pictureBox8);
+            this.splitContainer12.Panel1.Controls.Add(this.label35);
+            this.splitContainer12.Panel1.Controls.Add(this.label5);
+            this.splitContainer12.Panel1.Controls.Add(this.kilpailunNimiTextBox);
+            this.splitContainer12.Panel1.Controls.Add(this.label38);
+            this.splitContainer12.Panel1.Controls.Add(this.yksipaivainenCheckBox);
+            this.splitContainer12.Panel1.Controls.Add(this.textBox27);
+            this.splitContainer12.Panel1.Controls.Add(this.label32);
+            this.splitContainer12.Panel1.Controls.Add(this.dateTimePicker2);
+            this.splitContainer12.Panel1.Controls.Add(this.label37);
+            this.splitContainer12.Panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.splitContainer12.Panel1.ForeColor = System.Drawing.Color.White;
+            // 
+            // splitContainer12.Panel2
+            // 
+            this.splitContainer12.Panel2.Controls.Add(this.splitContainer13);
+            this.splitContainer12.Size = new System.Drawing.Size(772, 474);
+            this.splitContainer12.SplitterDistance = 59;
+            this.splitContainer12.TabIndex = 62;
+            this.splitContainer12.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer12_SplitterMoved);
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
+            this.pictureBox8.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(51, 51);
+            this.pictureBox8.TabIndex = 60;
+            this.pictureBox8.TabStop = false;
+            // 
+            // label35
+            // 
+            this.label35.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label35.AutoSize = true;
+            this.label35.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "Laji", true));
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.Location = new System.Drawing.Point(618, 3);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(76, 20);
+            this.label35.TabIndex = 59;
+            this.label35.Text = "Snooker";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(573, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(37, 20);
+            this.label5.TabIndex = 58;
+            this.label5.Text = "Laji:";
+            // 
+            // kilpailunNimiTextBox
+            // 
+            this.kilpailunNimiTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kilpailunNimiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "Nimi", true));
+            this.kilpailunNimiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "VoiLisataPelaajia", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.kilpailunNimiTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kilpailunNimiTextBox.Location = new System.Drawing.Point(196, 1);
+            this.kilpailunNimiTextBox.Name = "kilpailunNimiTextBox";
+            this.kilpailunNimiTextBox.Size = new System.Drawing.Size(369, 26);
+            this.kilpailunNimiTextBox.TabIndex = 36;
+            this.kilpailunNimiTextBox.Text = "Kaisakilpailu";
+            this.kilpailunNimiTextBox.TextChanged += new System.EventHandler(this.kilpailunNimiTextBox_TextChanged);
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(63, 4);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(103, 20);
+            this.label38.TabIndex = 37;
+            this.label38.Text = "Kilpailun nimi:";
+            // 
+            // yksipaivainenCheckBox
+            // 
+            this.yksipaivainenCheckBox.AutoSize = true;
+            this.yksipaivainenCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.kilpailuBindingSource, "Yksipaivainen", true));
+            this.yksipaivainenCheckBox.Location = new System.Drawing.Point(504, 30);
+            this.yksipaivainenCheckBox.Name = "yksipaivainenCheckBox";
+            this.yksipaivainenCheckBox.Size = new System.Drawing.Size(134, 24);
+            this.yksipaivainenCheckBox.TabIndex = 40;
+            this.yksipaivainenCheckBox.Text = "Yksipäiväinen?";
+            this.yksipaivainenCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // textBox27
+            // 
+            this.textBox27.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "KellonAika", true));
+            this.textBox27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox27.Location = new System.Drawing.Point(404, 28);
+            this.textBox27.MaxLength = 5;
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(57, 26);
+            this.textBox27.TabIndex = 49;
+            this.textBox27.Text = "10:00";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(363, 31);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(35, 20);
+            this.label32.TabIndex = 48;
+            this.label32.Text = "Klo:";
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CustomFormat = "d.M.yyyy";
+            this.dateTimePicker2.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "VoiLisataPelaajia", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker2.Location = new System.Drawing.Point(196, 28);
+            this.dateTimePicker2.MinDate = new System.DateTime(1999, 10, 5, 0, 0, 0, 0);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(119, 26);
+            this.dateTimePicker2.TabIndex = 38;
+            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(63, 28);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(97, 20);
+            this.label37.TabIndex = 39;
+            this.label37.Text = "Alkamisaika:";
+            // 
+            // splitContainer13
+            // 
+            this.splitContainer13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer13.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer13.IsSplitterFixed = true;
+            this.splitContainer13.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer13.Name = "splitContainer13";
+            this.splitContainer13.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer13.Panel1
+            // 
+            this.splitContainer13.Panel1.Controls.Add(this.groupBox2);
+            // 
+            // splitContainer13.Panel2
+            // 
+            this.splitContainer13.Panel2.Controls.Add(this.rankingJaKilpailuKutsuSplitContainer);
+            this.splitContainer13.Size = new System.Drawing.Size(772, 411);
+            this.splitContainer13.SplitterDistance = 120;
+            this.splitContainer13.TabIndex = 58;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox2.Controls.Add(this.pictureBox9);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label30);
+            this.groupBox2.Controls.Add(this.pelaajiaEnintaanNumericUpDown);
+            this.groupBox2.Controls.Add(this.sijoitustenMaaraytyminenComboBox);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.label34);
+            this.groupBox2.Controls.Add(this.kaavioTyyppiComboBox);
+            this.groupBox2.Controls.Add(this.tavoitePistemaaraLabel);
+            this.groupBox2.Controls.Add(this.peliAikaLabel2);
+            this.groupBox2.Controls.Add(this.rankkarienMaaraNumericUpDown);
+            this.groupBox2.Controls.Add(this.peliaikaNumericUpDown);
+            this.groupBox2.Controls.Add(this.peliAikaLabel);
+            this.groupBox2.Controls.Add(this.tavoitePistemaaraNumericUpDown);
+            this.groupBox2.Controls.Add(this.rankkarienMaaraLabel);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(768, 116);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Kaavio:";
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.Image = global::KaisaKaavio.Properties.Resources.Kaavio;
+            this.pictureBox9.Location = new System.Drawing.Point(16, 25);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(39, 36);
+            this.pictureBox9.TabIndex = 62;
+            this.pictureBox9.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(686, 18);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(69, 20);
+            this.label7.TabIndex = 54;
+            this.label7.Text = "pelaajaa";
             // 
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(8, 163);
+            this.label30.Location = new System.Drawing.Point(92, 84);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(232, 24);
+            this.label30.Size = new System.Drawing.Size(135, 20);
             this.label30.TabIndex = 61;
-            this.label30.Text = "Sijoitusten määräytyminen:";
+            this.label30.Text = "Tulosten järjestys:";
+            // 
+            // pelaajiaEnintaanNumericUpDown
+            // 
+            this.pelaajiaEnintaanNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pelaajiaEnintaanNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.kilpailuBindingSource, "PelaajiaEnintaan", true));
+            this.pelaajiaEnintaanNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("ReadOnly", this.kilpailuBindingSource, "KilpailuAlkanut", true));
+            this.pelaajiaEnintaanNumericUpDown.Location = new System.Drawing.Point(622, 16);
+            this.pelaajiaEnintaanNumericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.pelaajiaEnintaanNumericUpDown.Name = "pelaajiaEnintaanNumericUpDown";
+            this.pelaajiaEnintaanNumericUpDown.Size = new System.Drawing.Size(59, 26);
+            this.pelaajiaEnintaanNumericUpDown.TabIndex = 53;
+            this.pelaajiaEnintaanNumericUpDown.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
             // 
             // sijoitustenMaaraytyminenComboBox
             // 
@@ -1703,155 +1935,30 @@
             this.sijoitustenMaaraytyminenComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.kilpailuBindingSource, "SijoitustenMaaraytyminen", true));
             this.sijoitustenMaaraytyminenComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sijoitustenMaaraytyminenComboBox.FormattingEnabled = true;
-            this.sijoitustenMaaraytyminenComboBox.Location = new System.Drawing.Point(246, 160);
+            this.sijoitustenMaaraytyminenComboBox.Location = new System.Drawing.Point(233, 81);
             this.sijoitustenMaaraytyminenComboBox.Name = "sijoitustenMaaraytyminenComboBox";
-            this.sijoitustenMaaraytyminenComboBox.Size = new System.Drawing.Size(511, 32);
+            this.sijoitustenMaaraytyminenComboBox.Size = new System.Drawing.Size(529, 28);
             this.sijoitustenMaaraytyminenComboBox.TabIndex = 60;
             this.sijoitustenMaaraytyminenComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.sijoitustenMaaraytyminenComboBox_Format);
-            // 
-            // label35
-            // 
-            this.label35.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label35.AutoSize = true;
-            this.label35.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "Laji", true));
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label35.Location = new System.Drawing.Point(677, 13);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(88, 24);
-            this.label35.TabIndex = 59;
-            this.label35.Text = "Snooker";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(628, 13);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 24);
-            this.label5.TabIndex = 58;
-            this.label5.Text = "Laji:";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(505, 124);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(82, 24);
-            this.label34.TabIndex = 57;
-            this.label34.Text = "Pelataan";
-            // 
-            // rankingKisaTyyppiComboBox
-            // 
-            this.rankingKisaTyyppiComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rankingKisaTyyppiComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.kilpailuBindingSource, "RankingKisaTyyppi", true));
-            this.rankingKisaTyyppiComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "VoiLisataPelaajia", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rankingKisaTyyppiComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.rankingKisaTyyppiComboBox.FormattingEnabled = true;
-            this.rankingKisaTyyppiComboBox.Location = new System.Drawing.Point(246, 201);
-            this.rankingKisaTyyppiComboBox.Name = "rankingKisaTyyppiComboBox";
-            this.rankingKisaTyyppiComboBox.Size = new System.Drawing.Size(511, 32);
-            this.rankingKisaTyyppiComboBox.TabIndex = 56;
-            // 
-            // rankingKisaCheckBox
-            // 
-            this.rankingKisaCheckBox.AutoSize = true;
-            this.rankingKisaCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.kilpailuBindingSource, "RankingKisa", true));
-            this.rankingKisaCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "VoiLisataPelaajia", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rankingKisaCheckBox.Location = new System.Drawing.Point(12, 201);
-            this.rankingKisaCheckBox.Name = "rankingKisaCheckBox";
-            this.rankingKisaCheckBox.Size = new System.Drawing.Size(200, 28);
-            this.rankingKisaCheckBox.TabIndex = 55;
-            this.rankingKisaCheckBox.Text = "Ranking osakilpailu?";
-            this.rankingKisaCheckBox.UseVisualStyleBackColor = true;
-            this.rankingKisaCheckBox.CheckedChanged += new System.EventHandler(this.rankingKisaCheckBox_CheckedChanged);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(677, 85);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(80, 24);
-            this.label7.TabIndex = 54;
-            this.label7.Text = "pelaajaa";
-            // 
-            // pelaajiaEnintaanNumericUpDown
-            // 
-            this.pelaajiaEnintaanNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pelaajiaEnintaanNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.kilpailuBindingSource, "PelaajiaEnintaan", true));
-            this.pelaajiaEnintaanNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("ReadOnly", this.kilpailuBindingSource, "KilpailuAlkanut", true));
-            this.pelaajiaEnintaanNumericUpDown.Location = new System.Drawing.Point(582, 83);
-            this.pelaajiaEnintaanNumericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.pelaajiaEnintaanNumericUpDown.Name = "pelaajiaEnintaanNumericUpDown";
-            this.pelaajiaEnintaanNumericUpDown.Size = new System.Drawing.Size(89, 29);
-            this.pelaajiaEnintaanNumericUpDown.TabIndex = 53;
-            this.pelaajiaEnintaanNumericUpDown.Value = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
             // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(536, 85);
+            this.label6.Location = new System.Drawing.Point(580, 18);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 24);
+            this.label6.Size = new System.Drawing.Size(42, 20);
             this.label6.TabIndex = 52;
             this.label6.Text = "Max.";
             // 
-            // tavoitePistemaaraLabel
+            // label34
             // 
-            this.tavoitePistemaaraLabel.AutoSize = true;
-            this.tavoitePistemaaraLabel.Location = new System.Drawing.Point(655, 124);
-            this.tavoitePistemaaraLabel.Name = "tavoitePistemaaraLabel";
-            this.tavoitePistemaaraLabel.Size = new System.Drawing.Size(102, 24);
-            this.tavoitePistemaaraLabel.TabIndex = 51;
-            this.tavoitePistemaaraLabel.Text = "pisteeseen";
-            // 
-            // tavoitePistemaaraNumericUpDown
-            // 
-            this.tavoitePistemaaraNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.kilpailuBindingSource, "TavoitePistemaara", true));
-            this.tavoitePistemaaraNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("ReadOnly", this.kilpailuBindingSource, "KilpailuAlkanut", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.tavoitePistemaaraNumericUpDown.Location = new System.Drawing.Point(592, 122);
-            this.tavoitePistemaaraNumericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.tavoitePistemaaraNumericUpDown.Name = "tavoitePistemaaraNumericUpDown";
-            this.tavoitePistemaaraNumericUpDown.Size = new System.Drawing.Size(57, 29);
-            this.tavoitePistemaaraNumericUpDown.TabIndex = 50;
-            this.tavoitePistemaaraNumericUpDown.Value = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            // 
-            // textBox27
-            // 
-            this.textBox27.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "KellonAika", true));
-            this.textBox27.Location = new System.Drawing.Point(340, 46);
-            this.textBox27.MaxLength = 5;
-            this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(71, 29);
-            this.textBox27.TabIndex = 49;
-            this.textBox27.Text = "10:00";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(301, 48);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(42, 24);
-            this.label32.TabIndex = 48;
-            this.label32.Text = "Klo:";
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(514, 51);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(72, 20);
+            this.label34.TabIndex = 57;
+            this.label34.Text = "Pelataan";
             // 
             // kaavioTyyppiComboBox
             // 
@@ -1861,32 +1968,41 @@
             this.kaavioTyyppiComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "VoiLisataPelaajia", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.kaavioTyyppiComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kaavioTyyppiComboBox.FormattingEnabled = true;
-            this.kaavioTyyppiComboBox.Location = new System.Drawing.Point(142, 82);
+            this.kaavioTyyppiComboBox.Location = new System.Drawing.Point(96, 15);
             this.kaavioTyyppiComboBox.Name = "kaavioTyyppiComboBox";
-            this.kaavioTyyppiComboBox.Size = new System.Drawing.Size(388, 32);
+            this.kaavioTyyppiComboBox.Size = new System.Drawing.Size(469, 28);
             this.kaavioTyyppiComboBox.TabIndex = 47;
             this.kaavioTyyppiComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.comboBox1_Format);
             // 
-            // label33
+            // tavoitePistemaaraLabel
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(8, 85);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(71, 24);
-            this.label33.TabIndex = 46;
-            this.label33.Text = "Kaavio:";
+            this.tavoitePistemaaraLabel.AutoSize = true;
+            this.tavoitePistemaaraLabel.Location = new System.Drawing.Point(655, 49);
+            this.tavoitePistemaaraLabel.Name = "tavoitePistemaaraLabel";
+            this.tavoitePistemaaraLabel.Size = new System.Drawing.Size(87, 20);
+            this.tavoitePistemaaraLabel.TabIndex = 51;
+            this.tavoitePistemaaraLabel.Text = "pisteeseen";
+            // 
+            // peliAikaLabel2
+            // 
+            this.peliAikaLabel2.AutoSize = true;
+            this.peliAikaLabel2.Location = new System.Drawing.Point(223, 51);
+            this.peliAikaLabel2.Name = "peliAikaLabel2";
+            this.peliAikaLabel2.Size = new System.Drawing.Size(74, 20);
+            this.peliAikaLabel2.TabIndex = 43;
+            this.peliAikaLabel2.Text = "minuuttia";
             // 
             // rankkarienMaaraNumericUpDown
             // 
             this.rankkarienMaaraNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.kilpailuBindingSource, "RankkareidenMaara", true));
-            this.rankkarienMaaraNumericUpDown.Location = new System.Drawing.Point(317, 122);
+            this.rankkarienMaaraNumericUpDown.Location = new System.Drawing.Point(346, 49);
             this.rankkarienMaaraNumericUpDown.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
             this.rankkarienMaaraNumericUpDown.Name = "rankkarienMaaraNumericUpDown";
-            this.rankkarienMaaraNumericUpDown.Size = new System.Drawing.Size(39, 29);
+            this.rankkarienMaaraNumericUpDown.Size = new System.Drawing.Size(39, 26);
             this.rankkarienMaaraNumericUpDown.TabIndex = 45;
             this.rankkarienMaaraNumericUpDown.Value = new decimal(new int[] {
             3,
@@ -1894,44 +2010,17 @@
             0,
             0});
             // 
-            // rankkarienMaaraLabel
-            // 
-            this.rankkarienMaaraLabel.AutoSize = true;
-            this.rankkarienMaaraLabel.Location = new System.Drawing.Point(362, 124);
-            this.rankkarienMaaraLabel.Name = "rankkarienMaaraLabel";
-            this.rankkarienMaaraLabel.Size = new System.Drawing.Size(85, 24);
-            this.rankkarienMaaraLabel.TabIndex = 44;
-            this.rankkarienMaaraLabel.Text = "rankkaria";
-            // 
-            // peliAikaLabel2
-            // 
-            this.peliAikaLabel2.AutoSize = true;
-            this.peliAikaLabel2.Location = new System.Drawing.Point(212, 124);
-            this.peliAikaLabel2.Name = "peliAikaLabel2";
-            this.peliAikaLabel2.Size = new System.Drawing.Size(85, 24);
-            this.peliAikaLabel2.TabIndex = 43;
-            this.peliAikaLabel2.Text = "minuuttia";
-            // 
-            // peliAikaLabel
-            // 
-            this.peliAikaLabel.AutoSize = true;
-            this.peliAikaLabel.Location = new System.Drawing.Point(8, 124);
-            this.peliAikaLabel.Name = "peliAikaLabel";
-            this.peliAikaLabel.Size = new System.Drawing.Size(79, 24);
-            this.peliAikaLabel.TabIndex = 42;
-            this.peliAikaLabel.Text = "Peliaika:";
-            // 
             // peliaikaNumericUpDown
             // 
             this.peliaikaNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.kilpailuBindingSource, "PeliAika", true));
-            this.peliaikaNumericUpDown.Location = new System.Drawing.Point(142, 122);
+            this.peliaikaNumericUpDown.Location = new System.Drawing.Point(158, 49);
             this.peliaikaNumericUpDown.Maximum = new decimal(new int[] {
             90,
             0,
             0,
             0});
             this.peliaikaNumericUpDown.Name = "peliaikaNumericUpDown";
-            this.peliaikaNumericUpDown.Size = new System.Drawing.Size(69, 29);
+            this.peliaikaNumericUpDown.Size = new System.Drawing.Size(59, 26);
             this.peliaikaNumericUpDown.TabIndex = 41;
             this.peliaikaNumericUpDown.Value = new decimal(new int[] {
             40,
@@ -1939,65 +2028,139 @@
             0,
             0});
             // 
-            // label37
+            // peliAikaLabel
             // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(8, 50);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(113, 24);
-            this.label37.TabIndex = 39;
-            this.label37.Text = "Alkamisaika:";
+            this.peliAikaLabel.AutoSize = true;
+            this.peliAikaLabel.Location = new System.Drawing.Point(92, 51);
+            this.peliAikaLabel.Name = "peliAikaLabel";
+            this.peliAikaLabel.Size = new System.Drawing.Size(67, 20);
+            this.peliAikaLabel.TabIndex = 42;
+            this.peliAikaLabel.Text = "Peliaika:";
             // 
-            // dateTimePicker2
+            // tavoitePistemaaraNumericUpDown
             // 
-            this.dateTimePicker2.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "VoiLisataPelaajia", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker2.Location = new System.Drawing.Point(142, 46);
-            this.dateTimePicker2.MinDate = new System.DateTime(1999, 10, 5, 0, 0, 0, 0);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(152, 29);
-            this.dateTimePicker2.TabIndex = 38;
-            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
+            this.tavoitePistemaaraNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.kilpailuBindingSource, "TavoitePistemaara", true));
+            this.tavoitePistemaaraNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("ReadOnly", this.kilpailuBindingSource, "KilpailuAlkanut", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.tavoitePistemaaraNumericUpDown.Location = new System.Drawing.Point(592, 49);
+            this.tavoitePistemaaraNumericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.tavoitePistemaaraNumericUpDown.Name = "tavoitePistemaaraNumericUpDown";
+            this.tavoitePistemaaraNumericUpDown.Size = new System.Drawing.Size(57, 26);
+            this.tavoitePistemaaraNumericUpDown.TabIndex = 50;
+            this.tavoitePistemaaraNumericUpDown.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             // 
-            // label38
+            // rankkarienMaaraLabel
             // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(8, 13);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(126, 24);
-            this.label38.TabIndex = 37;
-            this.label38.Text = "Kilpailun nimi:";
+            this.rankkarienMaaraLabel.AutoSize = true;
+            this.rankkarienMaaraLabel.Location = new System.Drawing.Point(387, 51);
+            this.rankkarienMaaraLabel.Name = "rankkarienMaaraLabel";
+            this.rankkarienMaaraLabel.Size = new System.Drawing.Size(74, 20);
+            this.rankkarienMaaraLabel.TabIndex = 44;
+            this.rankkarienMaaraLabel.Text = "rankkaria";
             // 
-            // kilpailunNimiTextBox
+            // rankingJaKilpailuKutsuSplitContainer
             // 
-            this.kilpailunNimiTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.rankingJaKilpailuKutsuSplitContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.rankingJaKilpailuKutsuSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rankingJaKilpailuKutsuSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.rankingJaKilpailuKutsuSplitContainer.Name = "rankingJaKilpailuKutsuSplitContainer";
+            this.rankingJaKilpailuKutsuSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // rankingJaKilpailuKutsuSplitContainer.Panel1
+            // 
+            this.rankingJaKilpailuKutsuSplitContainer.Panel1.Controls.Add(this.groupBox5);
+            // 
+            // rankingJaKilpailuKutsuSplitContainer.Panel2
+            // 
+            this.rankingJaKilpailuKutsuSplitContainer.Panel2.Controls.Add(this.kisaDetaljitGroupBox);
+            this.rankingJaKilpailuKutsuSplitContainer.Size = new System.Drawing.Size(772, 287);
+            this.rankingJaKilpailuKutsuSplitContainer.SplitterDistance = 116;
+            this.rankingJaKilpailuKutsuSplitContainer.TabIndex = 0;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.rankingSarjanTyyppiLabel);
+            this.groupBox5.Controls.Add(this.rankingSarjanLajiComboBox);
+            this.groupBox5.Controls.Add(this.rankingSarjanLajiLabel);
+            this.groupBox5.Controls.Add(this.pictureBox10);
+            this.groupBox5.Controls.Add(this.rankingKisaCheckBox);
+            this.groupBox5.Controls.Add(this.rankingKisaTyyppiComboBox);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.Location = new System.Drawing.Point(0, 0);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(768, 112);
+            this.groupBox5.TabIndex = 57;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Ranking:";
+            // 
+            // rankingSarjanLajiComboBox
+            // 
+            this.rankingSarjanLajiComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kilpailunNimiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "Nimi", true));
-            this.kilpailunNimiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.kilpailuBindingSource, "VoiLisataPelaajia", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.kilpailunNimiTextBox.Location = new System.Drawing.Point(140, 10);
-            this.kilpailunNimiTextBox.Name = "kilpailunNimiTextBox";
-            this.kilpailunNimiTextBox.Size = new System.Drawing.Size(482, 29);
-            this.kilpailunNimiTextBox.TabIndex = 36;
-            this.kilpailunNimiTextBox.Text = "Kaisakilpailu";
-            this.kilpailunNimiTextBox.TextChanged += new System.EventHandler(this.kilpailunNimiTextBox_TextChanged);
+            this.rankingSarjanLajiComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.kilpailuBindingSource, "RankingKisaLaji", true));
+            this.rankingSarjanLajiComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.rankingSarjanLajiComboBox.FormattingEnabled = true;
+            this.rankingSarjanLajiComboBox.Location = new System.Drawing.Point(257, 76);
+            this.rankingSarjanLajiComboBox.Name = "rankingSarjanLajiComboBox";
+            this.rankingSarjanLajiComboBox.Size = new System.Drawing.Size(505, 28);
+            this.rankingSarjanLajiComboBox.TabIndex = 59;
             // 
-            // yksipaivainenCheckBox
+            // rankingSarjanLajiLabel
             // 
-            this.yksipaivainenCheckBox.AutoSize = true;
-            this.yksipaivainenCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.kilpailuBindingSource, "Yksipaivainen", true));
-            this.yksipaivainenCheckBox.Location = new System.Drawing.Point(433, 44);
-            this.yksipaivainenCheckBox.Name = "yksipaivainenCheckBox";
-            this.yksipaivainenCheckBox.Size = new System.Drawing.Size(154, 28);
-            this.yksipaivainenCheckBox.TabIndex = 40;
-            this.yksipaivainenCheckBox.Text = "Yksipäiväinen?";
-            this.yksipaivainenCheckBox.UseVisualStyleBackColor = true;
+            this.rankingSarjanLajiLabel.AutoSize = true;
+            this.rankingSarjanLajiLabel.Location = new System.Drawing.Point(92, 79);
+            this.rankingSarjanLajiLabel.Name = "rankingSarjanLajiLabel";
+            this.rankingSarjanLajiLabel.Size = new System.Drawing.Size(137, 20);
+            this.rankingSarjanLajiLabel.TabIndex = 58;
+            this.rankingSarjanLajiLabel.Text = "Rankingsarjan laji:";
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.Image = global::KaisaKaavio.Properties.Resources.Ranking32;
+            this.pictureBox10.Location = new System.Drawing.Point(20, 30);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(49, 50);
+            this.pictureBox10.TabIndex = 57;
+            this.pictureBox10.TabStop = false;
+            // 
+            // rankingKisaCheckBox
+            // 
+            this.rankingKisaCheckBox.AutoSize = true;
+            this.rankingKisaCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.kilpailuBindingSource, "RankingKisa", true));
+            this.rankingKisaCheckBox.Location = new System.Drawing.Point(96, 12);
+            this.rankingKisaCheckBox.Name = "rankingKisaCheckBox";
+            this.rankingKisaCheckBox.Size = new System.Drawing.Size(241, 24);
+            this.rankingKisaCheckBox.TabIndex = 55;
+            this.rankingKisaCheckBox.Text = "Kilpailu on ranking osakilpailu?";
+            this.rankingKisaCheckBox.UseVisualStyleBackColor = true;
+            this.rankingKisaCheckBox.CheckedChanged += new System.EventHandler(this.rankingKisaCheckBox_CheckedChanged);
+            // 
+            // rankingKisaTyyppiComboBox
+            // 
+            this.rankingKisaTyyppiComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rankingKisaTyyppiComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.kilpailuBindingSource, "RankingKisaTyyppi", true));
+            this.rankingKisaTyyppiComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.rankingKisaTyyppiComboBox.FormattingEnabled = true;
+            this.rankingKisaTyyppiComboBox.Location = new System.Drawing.Point(257, 42);
+            this.rankingKisaTyyppiComboBox.Name = "rankingKisaTyyppiComboBox";
+            this.rankingKisaTyyppiComboBox.Size = new System.Drawing.Size(505, 28);
+            this.rankingKisaTyyppiComboBox.TabIndex = 56;
+            this.rankingKisaTyyppiComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.rankingKisaTyyppiComboBox_Format);
             // 
             // kisaDetaljitGroupBox
             // 
-            this.kisaDetaljitGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.kisaDetaljitGroupBox.BackColor = System.Drawing.SystemColors.Control;
+            this.kisaDetaljitGroupBox.Controls.Add(this.pictureBox11);
+            this.kisaDetaljitGroupBox.Controls.Add(this.label33);
             this.kisaDetaljitGroupBox.Controls.Add(this.label20);
             this.kisaDetaljitGroupBox.Controls.Add(this.textBox15);
             this.kisaDetaljitGroupBox.Controls.Add(this.textBox16);
@@ -2018,20 +2181,41 @@
             this.kisaDetaljitGroupBox.Controls.Add(this.textBox23);
             this.kisaDetaljitGroupBox.Controls.Add(this.textBox24);
             this.kisaDetaljitGroupBox.Controls.Add(this.label29);
+            this.kisaDetaljitGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kisaDetaljitGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.kisaDetaljitGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kisaDetaljitGroupBox.Location = new System.Drawing.Point(6, 239);
+            this.kisaDetaljitGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kisaDetaljitGroupBox.Location = new System.Drawing.Point(0, 0);
             this.kisaDetaljitGroupBox.Name = "kisaDetaljitGroupBox";
-            this.kisaDetaljitGroupBox.Size = new System.Drawing.Size(760, 275);
+            this.kisaDetaljitGroupBox.Size = new System.Drawing.Size(768, 163);
             this.kisaDetaljitGroupBox.TabIndex = 35;
             this.kisaDetaljitGroupBox.TabStop = false;
+            this.kisaDetaljitGroupBox.Text = "Kilpailukutsu:";
+            // 
+            // pictureBox11
+            // 
+            this.pictureBox11.Image = global::KaisaKaavio.Properties.Resources.Kutsu;
+            this.pictureBox11.Location = new System.Drawing.Point(16, 28);
+            this.pictureBox11.Name = "pictureBox11";
+            this.pictureBox11.Size = new System.Drawing.Size(60, 50);
+            this.pictureBox11.TabIndex = 41;
+            this.pictureBox11.TabStop = false;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Location = new System.Drawing.Point(93, 209);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(146, 16);
+            this.label33.TabIndex = 40;
+            this.label33.Text = "(hotellitarjoukset yms...)";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(259, 92);
+            this.label20.Location = new System.Drawing.Point(406, 125);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(78, 16);
+            this.label20.Size = new System.Drawing.Size(92, 20);
             this.label20.TabIndex = 39;
             this.label20.Text = "Maksutapa:";
             // 
@@ -2040,9 +2224,9 @@
             this.textBox15.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox15.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "MaksuTapa", true));
-            this.textBox15.Location = new System.Drawing.Point(350, 88);
+            this.textBox15.Location = new System.Drawing.Point(504, 122);
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(404, 22);
+            this.textBox15.Size = new System.Drawing.Size(258, 26);
             this.textBox15.TabIndex = 38;
             // 
             // textBox16
@@ -2050,34 +2234,34 @@
             this.textBox16.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox16.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "Palkinnot", true));
-            this.textBox16.Location = new System.Drawing.Point(331, 63);
+            this.textBox16.Location = new System.Drawing.Point(504, 90);
             this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(423, 22);
+            this.textBox16.Size = new System.Drawing.Size(258, 26);
             this.textBox16.TabIndex = 37;
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(259, 64);
+            this.label21.Location = new System.Drawing.Point(420, 93);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(66, 16);
+            this.label21.Size = new System.Drawing.Size(78, 20);
             this.label21.TabIndex = 36;
             this.label21.Text = "Palkinnot:";
             // 
             // textBox17
             // 
             this.textBox17.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "Pukeutuminen", true));
-            this.textBox17.Location = new System.Drawing.Point(130, 64);
+            this.textBox17.Location = new System.Drawing.Point(244, 90);
             this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(119, 22);
+            this.textBox17.Size = new System.Drawing.Size(170, 26);
             this.textBox17.TabIndex = 35;
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(10, 67);
+            this.label22.Location = new System.Drawing.Point(92, 93);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(95, 16);
+            this.label22.Size = new System.Drawing.Size(115, 20);
             this.label22.TabIndex = 34;
             this.label22.Text = "Pukeutuminen:";
             // 
@@ -2086,46 +2270,47 @@
             this.textBox18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox18.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "LisenssiVaatimus", true));
-            this.textBox18.Location = new System.Drawing.Point(130, 114);
+            this.textBox18.Location = new System.Drawing.Point(244, 154);
             this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(624, 22);
+            this.textBox18.Size = new System.Drawing.Size(518, 26);
             this.textBox18.TabIndex = 33;
             // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(10, 117);
+            this.label23.Location = new System.Drawing.Point(92, 157);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(114, 16);
+            this.label23.Size = new System.Drawing.Size(133, 20);
             this.label23.TabIndex = 32;
             this.label23.Text = "Lisenssivaatimus:";
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(10, 14);
+            this.label24.Location = new System.Drawing.Point(92, 28);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(104, 16);
+            this.label24.Size = new System.Drawing.Size(122, 20);
             this.label24.TabIndex = 5;
             this.label24.Text = "Kilpailun johtaja:";
             // 
             // textBox19
             // 
             this.textBox19.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "KilpailunJohtaja", true));
-            this.textBox19.Location = new System.Drawing.Point(130, 14);
+            this.textBox19.Location = new System.Drawing.Point(244, 26);
             this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(119, 22);
+            this.textBox19.Size = new System.Drawing.Size(298, 26);
             this.textBox19.TabIndex = 2;
             this.textBox19.Text = "Matti Meikäläinen";
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(259, 14);
+            this.label25.Location = new System.Drawing.Point(548, 29);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(56, 16);
+            this.label25.Size = new System.Drawing.Size(68, 20);
             this.label25.TabIndex = 6;
             this.label25.Text = "Puh.nro:";
+            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // textBox20
             // 
@@ -2133,38 +2318,38 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox20.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "LisaTietoa", true));
-            this.textBox20.Location = new System.Drawing.Point(13, 169);
+            this.textBox20.Location = new System.Drawing.Point(244, 186);
             this.textBox20.Multiline = true;
             this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(741, 91);
+            this.textBox20.Size = new System.Drawing.Size(518, 0);
             this.textBox20.TabIndex = 30;
             // 
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(10, 150);
+            this.label26.Location = new System.Drawing.Point(92, 189);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(201, 16);
+            this.label26.Size = new System.Drawing.Size(82, 20);
             this.label26.TabIndex = 31;
-            this.label26.Text = "Lisätietoa (hotellitarjoukset yms):";
+            this.label26.Text = "Lisätietoa:";
             // 
             // textBox21
             // 
             this.textBox21.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox21.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "PuhelinNumero", true));
-            this.textBox21.Location = new System.Drawing.Point(321, 13);
+            this.textBox21.Location = new System.Drawing.Point(622, 25);
             this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(433, 22);
+            this.textBox21.Size = new System.Drawing.Size(140, 26);
             this.textBox21.TabIndex = 3;
             this.textBox21.Text = "040-5556666";
             // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(10, 92);
+            this.label27.Location = new System.Drawing.Point(92, 125);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(70, 16);
+            this.label27.Size = new System.Drawing.Size(81, 20);
             this.label27.TabIndex = 16;
             this.label27.Text = "Järjestäjä:";
             // 
@@ -2173,43 +2358,43 @@
             this.textBox22.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "OsallistumisOikeus", true));
-            this.textBox22.Location = new System.Drawing.Point(384, 38);
+            this.textBox22.Location = new System.Drawing.Point(504, 58);
             this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(370, 22);
+            this.textBox22.Size = new System.Drawing.Size(258, 26);
             this.textBox22.TabIndex = 26;
             // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(259, 39);
+            this.label28.Location = new System.Drawing.Point(355, 61);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(123, 16);
+            this.label28.Size = new System.Drawing.Size(143, 20);
             this.label28.TabIndex = 29;
             this.label28.Text = "Osallistumisoikeus:";
             // 
             // textBox23
             // 
             this.textBox23.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "JarjestavaSeura", true));
-            this.textBox23.Location = new System.Drawing.Point(130, 89);
+            this.textBox23.Location = new System.Drawing.Point(244, 122);
             this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(119, 22);
+            this.textBox23.Size = new System.Drawing.Size(156, 26);
             this.textBox23.TabIndex = 15;
             this.textBox23.Text = "Puh-Veli Kerho";
             // 
             // textBox24
             // 
             this.textBox24.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "OsallistumisMaksu", true));
-            this.textBox24.Location = new System.Drawing.Point(130, 39);
+            this.textBox24.Location = new System.Drawing.Point(244, 58);
             this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(119, 22);
+            this.textBox24.Size = new System.Drawing.Size(105, 26);
             this.textBox24.TabIndex = 27;
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(10, 42);
+            this.label29.Location = new System.Drawing.Point(92, 61);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(71, 16);
+            this.label29.Size = new System.Drawing.Size(84, 20);
             this.label29.TabIndex = 28;
             this.label29.Text = "Os.maksu:";
             // 
@@ -2217,7 +2402,7 @@
             // 
             this.kilpailuKutsuTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.kilpailuKutsuTabPage.Controls.Add(this.splitContainer4);
-            this.kilpailuKutsuTabPage.ImageIndex = 6;
+            this.kilpailuKutsuTabPage.ImageIndex = 14;
             this.kilpailuKutsuTabPage.Location = new System.Drawing.Point(4, 44);
             this.kilpailuKutsuTabPage.Name = "kilpailuKutsuTabPage";
             this.kilpailuKutsuTabPage.Size = new System.Drawing.Size(776, 521);
@@ -2366,7 +2551,7 @@
             // 
             this.tuloksetTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tuloksetTabPage.Controls.Add(this.tuloksetSplitContainer);
-            this.tuloksetTabPage.ImageIndex = 7;
+            this.tuloksetTabPage.ImageIndex = 19;
             this.tuloksetTabPage.Location = new System.Drawing.Point(4, 44);
             this.tuloksetTabPage.Name = "tuloksetTabPage";
             this.tuloksetTabPage.Size = new System.Drawing.Size(776, 521);
@@ -2510,7 +2695,7 @@
             // 
             this.rahanJakoTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.rahanJakoTabPage.Controls.Add(this.splitContainer7);
-            this.rahanJakoTabPage.ImageIndex = 8;
+            this.rahanJakoTabPage.ImageIndex = 18;
             this.rahanJakoTabPage.Location = new System.Drawing.Point(4, 44);
             this.rahanJakoTabPage.Name = "rahanJakoTabPage";
             this.rahanJakoTabPage.Size = new System.Drawing.Size(776, 521);
@@ -3182,7 +3367,7 @@
             // 
             this.rankingTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.rankingTabPage.Controls.Add(this.splitContainer8);
-            this.rankingTabPage.ImageIndex = 10;
+            this.rankingTabPage.ImageIndex = 13;
             this.rankingTabPage.Location = new System.Drawing.Point(4, 87);
             this.rankingTabPage.Name = "rankingTabPage";
             this.rankingTabPage.Size = new System.Drawing.Size(776, 478);
@@ -4564,6 +4749,14 @@
             this.tabImages.Images.SetKeyName(10, "Ranking.png");
             this.tabImages.Images.SetKeyName(11, "RankingTaulukko.png");
             this.tabImages.Images.SetKeyName(12, "RankingTeksti.png");
+            this.tabImages.Images.SetKeyName(13, "Ranking32.png");
+            this.tabImages.Images.SetKeyName(14, "Kutsu32.png");
+            this.tabImages.Images.SetKeyName(15, "Kisainfo32.png");
+            this.tabImages.Images.SetKeyName(16, "Osallistujat32.png");
+            this.tabImages.Images.SetKeyName(17, "Pelit32.png");
+            this.tabImages.Images.SetKeyName(18, "Raha32.png");
+            this.tabImages.Images.SetKeyName(19, "Tulokset32.png");
+            this.tabImages.Images.SetKeyName(20, "KilpailuInfo32.png");
             // 
             // openFileDialog1
             // 
@@ -4849,11 +5042,6 @@
             this.medalImages.Images.SetKeyName(2, "Bronze.png");
             this.medalImages.Images.SetKeyName(3, "Empty.png");
             // 
-            // sarjatBindingSourceBindingSource
-            // 
-            this.sarjatBindingSourceBindingSource.DataMember = "SarjatBindingSource";
-            this.sarjatBindingSourceBindingSource.DataSource = this.rankingBindingSource;
-            // 
             // printPreviewDialog1
             // 
             this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
@@ -4864,6 +5052,20 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.UseAntiAlias = true;
             this.printPreviewDialog1.Visible = false;
+            // 
+            // sarjatBindingSourceBindingSource
+            // 
+            this.sarjatBindingSourceBindingSource.DataMember = "SarjatBindingSource";
+            this.sarjatBindingSourceBindingSource.DataSource = this.rankingBindingSource;
+            // 
+            // rankingSarjanTyyppiLabel
+            // 
+            this.rankingSarjanTyyppiLabel.AutoSize = true;
+            this.rankingSarjanTyyppiLabel.Location = new System.Drawing.Point(92, 45);
+            this.rankingSarjanTyyppiLabel.Name = "rankingSarjanTyyppiLabel";
+            this.rankingSarjanTyyppiLabel.Size = new System.Drawing.Size(159, 20);
+            this.rankingSarjanTyyppiLabel.TabIndex = 60;
+            this.rankingSarjanTyyppiLabel.Text = "Rankingsarjan tyyppi:";
             // 
             // kilpailuBindingSource
             // 
@@ -5295,13 +5497,33 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelitDataGridView)).EndInit();
             this.kisaInfoTabPage.ResumeLayout(false);
-            this.kisaInfoTabPage.PerformLayout();
+            this.splitContainer12.Panel1.ResumeLayout(false);
+            this.splitContainer12.Panel1.PerformLayout();
+            this.splitContainer12.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).EndInit();
+            this.splitContainer12.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            this.splitContainer13.Panel1.ResumeLayout(false);
+            this.splitContainer13.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).EndInit();
+            this.splitContainer13.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajiaEnintaanNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tavoitePistemaaraNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rankkarienMaaraNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.peliaikaNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tavoitePistemaaraNumericUpDown)).EndInit();
+            this.rankingJaKilpailuKutsuSplitContainer.Panel1.ResumeLayout(false);
+            this.rankingJaKilpailuKutsuSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.rankingJaKilpailuKutsuSplitContainer)).EndInit();
+            this.rankingJaKilpailuKutsuSplitContainer.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.kisaDetaljitGroupBox.ResumeLayout(false);
             this.kisaDetaljitGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             this.kilpailuKutsuTabPage.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
@@ -5404,7 +5626,6 @@
         private System.Windows.Forms.TextBox textBox27;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.ComboBox kaavioTyyppiComboBox;
-        private System.Windows.Forms.Label label33;
         private System.Windows.Forms.NumericUpDown rankkarienMaaraNumericUpDown;
         private System.Windows.Forms.Label rankkarienMaaraLabel;
         private System.Windows.Forms.Label peliAikaLabel2;
@@ -5794,6 +6015,19 @@
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.ToolStripMenuItem pelaaKaavioUudelleenToolStripMenuItem;
         private System.Windows.Forms.Button uudelleenPelausButton;
+        private System.Windows.Forms.SplitContainer splitContainer12;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.SplitContainer splitContainer13;
+        private System.Windows.Forms.SplitContainer rankingJaKilpailuKutsuSplitContainer;
+        private System.Windows.Forms.PictureBox pictureBox9;
+        private System.Windows.Forms.PictureBox pictureBox10;
+        private System.Windows.Forms.PictureBox pictureBox11;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.ComboBox rankingSarjanLajiComboBox;
+        private System.Windows.Forms.Label rankingSarjanLajiLabel;
+        private System.Windows.Forms.Label rankingSarjanTyyppiLabel;
     }
 }
 
