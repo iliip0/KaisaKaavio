@@ -138,7 +138,9 @@ namespace KaisaKaavio
                     this.Pelaajat.Clear();
                     foreach (var pelaaja in asetukset.Pelaajat)
                     {
-                        if (!string.IsNullOrEmpty(pelaaja.Nimi))
+                        if (!string.IsNullOrEmpty(pelaaja.Nimi) &&
+                            !pelaaja.Nimi.Contains("&") &&
+                            !pelaaja.Nimi.Contains(" ja "))
                         {
                             string nimi = pelaaja.Nimi;
 
@@ -276,7 +278,10 @@ namespace KaisaKaavio
             foreach (var osallistuja in kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
             {
                 // Tallenna vain pelaajat joilla on vähintään kaksi nimeä (etu & suku)
-                if (osallistuja.Nimi.Split(' ').Count() > 1)
+                if (osallistuja.Nimi.Split(' ').Count() > 1 &&
+                    osallistuja.Nimi.Split(' ').Count() <= 3 &&
+                    !osallistuja.Nimi.Contains("&") &&
+                    !osallistuja.Nimi.Contains(" ja "))
                 {
                     string nimi = MuotoileNimi(osallistuja.Nimi);
 

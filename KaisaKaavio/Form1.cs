@@ -2832,6 +2832,13 @@ namespace KaisaKaavio
             }
         }
 
+        private void RtfOtsikko(string otsikko, StringBuilder rtf, StringBuilder sbil)
+        {
+            rtf.Append(@"\b " + otsikko + @" \b0 ");
+            rtf.Append(@" \line ");
+            sbil.AppendLine("[b]" + otsikko + "[/b]");
+        }
+
         private void RtfLinkki(string otsikko, string sisalto, StringBuilder rtf, StringBuilder sbil)
         {
             if (!string.IsNullOrEmpty(otsikko))
@@ -2961,6 +2968,8 @@ namespace KaisaKaavio
 
             AloitaRtfTeksti(rtf);
 
+            RtfInfoRivi(this.kilpailu.Nimi, "Ensimmäisten kierrosten pelit", rtf, sbil);
+
             int kierros = 0;
 
             foreach (var peli in this.kilpailu.Pelit.Where(x => x.Kierros <= 2).ToArray())
@@ -3003,7 +3012,7 @@ namespace KaisaKaavio
         {
             s.AppendLine(@"{\rtf1\ansi");
             s.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red170\green170\blue200;}");
-            s.AppendLine(@" \line ");
+            //s.AppendLine(@" \line ");
         }
 
         private void LopetaRtfTeksti(StringBuilder s)
@@ -3022,6 +3031,10 @@ namespace KaisaKaavio
             StringBuilder sbil = new StringBuilder();
 
             AloitaRtfTeksti(rtf);
+
+            RtfOtsikko(this.kilpailu.Nimi, rtf, sbil);
+            RtfOsionVaihto(rtf, sbil);
+            RtfRivinvaihto(rtf, sbil);
 
             List<int> pelienKestot = new List<int>();
             int keskimaarainenPelinKesto = 0;
@@ -3151,9 +3164,9 @@ namespace KaisaKaavio
                 int mediaani = pelienKestot.OrderBy(x => x).ElementAt(pelienKestot.Count / 2);
 
                 RtfInfoRivi("Pelien mediaanikesto", string.Format("{0} minuuttia", mediaani), rtf, sbil);
-
-                RtfOsionVaihto(rtf, sbil);
             }
+
+            RtfOsionVaihto(rtf, sbil);
 
             LopetaRtfTeksti(rtf);
             LopetaSbilTeksti(sbil);
@@ -3226,42 +3239,6 @@ namespace KaisaKaavio
                 {
                     tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
                 }
-
-                /*
-                if (osallistuja.Sijoitus == 1 && paattynyt)
-                {
-                    tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
-                        osallistuja.Sijoitus,
-                        osallistuja.Nimi,
-                        osallistuja.Voitot,
-                        osallistuja.Pisteet));
-                }
-                else
-                {
-                    if (osallistuja.Pudotettu)
-                    {
-                        // Ei näytetä tuloksissa ku varmat sijat
-                        if (tulosluettelo.Where(x => !x.Pudotettu).Any(y =>
-                            y.Voitot < osallistuja.Voitot ||
-                            y.Voitot == osallistuja.Voitot && y.Pisteet <= osallistuja.Pisteet))
-                        {
-                            tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
-                        }
-                        else
-                        {
-                            tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
-                                osallistuja.Sijoitus,
-                                osallistuja.Nimi,
-                                osallistuja.Voitot,
-                                osallistuja.Pisteet));
-                        }
-                    }
-                    else
-                    {
-                        tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
-                    }
-                }
-                 */
             }
 
             if (tulokset.Count > 2)
@@ -3297,9 +3274,12 @@ namespace KaisaKaavio
 
             AloitaRtfTeksti(rtf);
 
+            RtfOtsikko(this.kilpailu.Nimi, rtf, sbil);
+
             KirjoitaTuloksetTeksti(rtf, sbil);
 
             RtfRivinvaihto(rtf, sbil);
+            RtfOsionVaihto(rtf, sbil);
 
             LopetaRtfTeksti(rtf);
             LopetaSbilTeksti(sbil);
