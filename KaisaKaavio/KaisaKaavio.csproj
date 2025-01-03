@@ -249,6 +249,8 @@
     <None Include="Resources\Raha32.png" />
     <None Include="Resources\Tulokset32.png" />
     <None Include="Resources\KilpailuInfo32.png" />
+    <None Include="Resources\Etsi.png" />
+    <None Include="Resources\Pisteytys.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

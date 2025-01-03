@@ -63,7 +63,14 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.RankingOsakilpailu != null ? this.RankingOsakilpailu.OnRankingOsakilpailu : false;
+                if (this.KilpailuOnViikkokisa)
+                {
+                    return this.RankingOsakilpailu != null ? this.RankingOsakilpailu.OnRankingOsakilpailu : false;
+                }
+                else 
+                {
+                    return false;
+                }
             }
             set
             {
@@ -95,7 +102,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.RankingOsakilpailu != null ? this.RankingOsakilpailu.Laji : KaisaKaavio.Laji.Kaisa;
+                return this.RankingOsakilpailu != null ? this.RankingOsakilpailu.Laji : this.Laji;
             }
             set
             {
@@ -658,7 +665,7 @@ namespace KaisaKaavio
             return false;
         }
 
-        public void TallennaNimella(string nimi)
+        public void TallennaNimella(string nimi, bool muutaKilpailunSijainti)
         {
             Loki.Kirjoita(string.Format("Tallennetaan kilpailu tiedostoon {0}", nimi));
 
@@ -675,17 +682,20 @@ namespace KaisaKaavio
             File.Copy(nimiTmp, nimi, true);
             File.Delete(nimiTmp);
 
-            Tiedosto = nimi;
+            if (muutaKilpailunSijainti)
+            {
+                Tiedosto = nimi;
 
-            this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
-            this.TallennusTarvitaan = false;
+                this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
+                this.TallennusTarvitaan = false;
+            }
         }
 
         public void Tallenna()
         {
             if (!string.IsNullOrEmpty(Tiedosto))
             {
-                TallennaNimella(Tiedosto);
+                TallennaNimella(Tiedosto, true);
             }
         }
 

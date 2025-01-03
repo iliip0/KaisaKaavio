@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,15 @@ namespace KaisaKaavio.Ranking
                 }
             }
         }
+
+        /// <summary>
+        /// Satunnainen numero joka muuttuu joka kerta kun kilpailu tallennetaan.
+        /// Tämän tiedon perusteella katsotaan tarvitseeko ranking osakilpailun pisteet laskea
+        /// uudelleen tämän kilpailun osalta
+        /// </summary>
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string KilpailunTarkistusSumma { get; set; }
 
         [XmlIgnore]
         public DateTime PvmDt { get { return Tyypit.Aika.ParseDateTime(this.Pvm); } }
@@ -121,19 +131,31 @@ namespace KaisaKaavio.Ranking
         [XmlIgnore]
         public RankingOsakilpailu Osakilpailu { get; private set; }
 
+        [XmlIgnore]
+        public Kilpailu Kilpailu { get; set; }
+
+        [XmlIgnore]
+        public RankingKuukausi RankingKuu { get; set; }
+
         private bool tallennusTarvitaan = false;
 
         [XmlIgnore]
         public bool TallennusTarvitaan 
         { 
-            get { return this.tallennusTarvitaan; }
+            get { return this.Kilpailu != null || this.tallennusTarvitaan; }
             set { this.tallennusTarvitaan = value; }
         }
 
         public RankingOsakilpailuTietue()
         {
             this.Id = string.Empty;
+            this.Nimi = string.Empty;
+            this.Pvm = string.Empty;
             this.Osakilpailu = null;
+            this.Kilpailu = null;
+            this.KilpailunTarkistusSumma = string.Empty;
+            this.RankingKuu = null;
+            this.TallennusTarvitaan = false;
         }
 
         public RankingOsakilpailuTietue(Kilpailu kilpailu)
@@ -141,16 +163,89 @@ namespace KaisaKaavio.Ranking
             this.Id = kilpailu.Id;
             this.Nimi = kilpailu.Nimi;
             this.Pvm = kilpailu.AlkamisAika;
+            this.Laji = kilpailu.Laji;
             this.Osakilpailu = null;
+            this.Kilpailu = kilpailu;
+            this.KilpailunTarkistusSumma = string.Empty;
+            this.RankingKuu = null;
+            this.TallennusTarvitaan = true;
         }
 
-        public bool LataaOsakilpailu(string kansio, Loki loki)
+        public bool LataaOsakilpailu(Loki loki)
         {
             return false;
         }
 
-        public bool TallennaOsakilpailu(string kansio, Loki loki)
+        private string KilpailuTiedostonNimi()
         {
+            return Path.Combine(this.RankingKuu.Kansio, string.Format("{0}.xml", this.Id));
+        }
+
+        public Kilpailu LataaKilpailu(Loki loki)
+        {
+            string tiedosto = KilpailuTiedostonNimi();
+
+            try
+            {
+                if (File.Exists(tiedosto))
+                {
+                    Kilpailu kilpailu = new Kilpailu();
+
+                    kilpailu.Avaa(tiedosto);
+
+                    return kilpailu;
+                }
+
+                if (loki != null)
+                {
+                    loki.Kirjoita(string.Format("Kilpailutiedostoa {0} ei löydy", tiedosto), null, false);
+                }
+            }
+            catch (Exception e)
+            {
+                if (loki != null)
+                {
+                    loki.Kirjoita(string.Format("Kilpailutiedoston {0} avaaminen epäonnistui", tiedosto), e, false);
+                } 
+            }
+
+            return null;
+        }
+
+        public bool TallennaOsakilpailu(Loki loki)
+        {
+            try
+            {
+                if (this.Kilpailu != null && !string.IsNullOrEmpty(this.Kilpailu.Id))
+                {
+                    this.Pvm = this.Kilpailu.AlkamisAika;
+                    this.Nimi = this.Kilpailu.Nimi;
+
+                    string tiedosto = KilpailuTiedostonNimi();
+
+                    if (this.OnRankingOsakilpailu)
+                    {
+                        this.Kilpailu.TallennaNimella(tiedosto, false);
+                        this.KilpailunTarkistusSumma = Guid.NewGuid().GetHashCode().ToString("X");
+                    }
+                    else 
+                    {
+                        if (File.Exists(tiedosto))
+                        {
+                            File.Delete(tiedosto);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                if (loki != null)
+                {
+                    loki.Kirjoita(string.Format("RankingOsakilpailuTietueen {0} tallennus epäonnistui", Id), e, false); 
+                }
+                return false;
+            }
+
             return true;
         }
     }

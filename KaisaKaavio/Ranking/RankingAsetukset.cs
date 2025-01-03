@@ -13,9 +13,6 @@ namespace KaisaKaavio.Ranking
         [XmlAttribute]
         public Laji Laji { get; set; }
 
-        //[XmlAttribute]
-        //public KaisaKaavio.SijoitustenMaaraytyminen SijoitustenMaaraytyminen { get; set; }
-
         public BindingList<RankingPisteytysPelista> PistetytysPeleista { get; set; }
         public BindingList<RankingPisteytysSijoituksesta> PisteytysSijoituksista { get; set; }
 
@@ -24,7 +21,6 @@ namespace KaisaKaavio.Ranking
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();
             this.PisteytysSijoituksista = new BindingList<RankingPisteytysSijoituksesta>();
             this.Laji = KaisaKaavio.Laji.Kaisa;
-            //this.SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
         }
 
         public RankingAsetukset(Laji laji)
@@ -32,7 +28,6 @@ namespace KaisaKaavio.Ranking
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();
             this.PisteytysSijoituksista = new BindingList<RankingPisteytysSijoituksesta>();
             this.Laji = laji;
-            //this.SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
         }
 
         public void AsetaOletusasetukset(Laji laji)
@@ -48,7 +43,6 @@ namespace KaisaKaavio.Ranking
                 this.PistetytysPeleista.Add(new RankingPisteytysPelista(RankingPisteetPelista.RankingKakkosenVoitosta, 1));
                 this.PistetytysPeleista.Add(new RankingPisteytysPelista(RankingPisteetPelista.EkanKierroksenVoitostaKunTokaKierrosOnPudari, 1));
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.KaikilleOsallistujille, 1));
-                //this.SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista;
             }
             else
             { 
@@ -63,7 +57,6 @@ namespace KaisaKaavio.Ranking
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Ysille, 3));
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kymmenennelle, 2));
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.KaikilleOsallistujille, 1));
-                //this.SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
             }
         }
 

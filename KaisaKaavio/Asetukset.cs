@@ -306,5 +306,18 @@ namespace KaisaKaavio
                 this.Pelaajat.Add(p);
             }
         }
+
+        public Ranking.RankingAsetukset RankingPisteytys(Laji laji)
+        {
+            switch (laji)
+            {
+                case Laji.Snooker: return this.RankingAsetuksetSnooker;
+                case Laji.Pyramidi: return this.RankingAsetuksetPyramidi;
+                case Laji.Pool: return this.RankingAsetuksetPool;
+                case Laji.Kara: return this.RankingAsetuksetKara;
+                case Laji.Heyball: return this.RankingAsetuksetHeyball;
+                default: return this.RankingAsetuksetKaisa;
+            }
+        }
     }
 }

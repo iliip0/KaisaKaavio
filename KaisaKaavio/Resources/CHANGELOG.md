@@ -5,6 +5,9 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.10		(työn alla)
 
 * Kisainfo-välilehden siistiminen & kuvakkeiden kaunistus
+* Päivämäärä lisätty 'Luo uusi peli' ikkunaan valittavaksi
+* Päivämäärien esitys vaihdettu muotoon 25.2.2024
+* Rankingkisa ominaisuuteen mahdolliseksi muuttaa kaikkia rankingiin liittyviä tietoja sekä lisätä/poistaa kilpailuja sarjasta jälkikäteen
 
 ## Versio 1.0.0.9		(julkaistu 30.12.2024)
 

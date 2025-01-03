@@ -65,6 +65,22 @@ namespace KaisaKaavio.Ranking
             return true;
         }
 
+        public void TyhjennaTietueetMuistista(Kilpailu nykyinenKilpailu)
+        {
+            while (true)
+            {
+                var tietue = this.Osakilpailut.FirstOrDefault(x => x.Kilpailu != nykyinenKilpailu);
+                if (tietue != null)
+                {
+                    this.Osakilpailut.Remove(tietue);
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
         public bool Tallenna(Loki loki)
         {
             try
@@ -74,6 +90,18 @@ namespace KaisaKaavio.Ranking
                 if (loki != null)
                 {
                     loki.Kirjoita(string.Format("Tallennetaan ranking dataa tiedostoon {0}", this.TiedostonNimi));
+                }
+
+                bool osakilpailujenTallennusOnnistui = true;
+
+                foreach (var o in this.Osakilpailut)
+                {
+                    if (!o.TallennaOsakilpailu(loki))
+                    {
+                        osakilpailujenTallennusOnnistui = false;
+                    }
+
+                    o.TallennusTarvitaan = false;
                 }
 
                 XmlSerializer serializer = new XmlSerializer(typeof(RankingKuukausi));
@@ -88,18 +116,6 @@ namespace KaisaKaavio.Ranking
 
                 File.Copy(nimiTmp, this.TiedostonNimi, true);
                 File.Delete(nimiTmp);
-
-                bool osakilpailujenTallennusOnnistui = true;
-
-                foreach (var o in this.Osakilpailut)
-                {
-                    if (!o.TallennaOsakilpailu(this.Kansio, loki))
-                    {
-                        osakilpailujenTallennusOnnistui = false;
-                    }
-
-                    o.TallennusTarvitaan = false;
-                }
 
                 return osakilpailujenTallennusOnnistui;
             }
@@ -140,6 +156,7 @@ namespace KaisaKaavio.Ranking
                     {
                         this.Osakilpailut.Add(o);
                         o.TallennusTarvitaan = false;
+                        o.RankingKuu = this;
                     }
 
                     if (loki != null)
@@ -174,17 +191,21 @@ namespace KaisaKaavio.Ranking
 
             if (tietue == null)
             {
-                tietue = new RankingOsakilpailuTietue(kilpailu);
-
+                tietue = new RankingOsakilpailuTietue(kilpailu) 
+                {
+                    RankingKuu = this 
+                };
+                
                 this.Osakilpailut.Add(tietue);
 
                 //tietue.LataaOsakilpailu(this.Kansio, loki);
-
-                tietue.TallennusTarvitaan = true;
             }
 
+            tietue.Kilpailu = kilpailu;
             tietue.Nimi = kilpailu.Nimi;
             tietue.Pvm = kilpailu.AlkamisAika;
+            tietue.KilpailunTarkistusSumma = string.Empty;
+            tietue.TallennusTarvitaan = true;
 
             return tietue;
         }

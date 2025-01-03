@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,7 +78,6 @@ namespace KaisaKaavio.Tyypit
             }
             catch
             {
-                int iii = 0;
             }
 
             return DateTime.Parse(aika);
@@ -160,6 +160,184 @@ namespace KaisaKaavio.Tyypit
             }
 
             return false;
+        }
+
+        public static int RankingSarjanNumeroAjasta(Ranking.RankingSarjanPituus pituus, DateTime aika)
+        {
+            switch (pituus)
+            {
+                case Ranking.RankingSarjanPituus.Vuosi: return aika.Year;
+                case Ranking.RankingSarjanPituus.Puolivuotta: return (aika.Month - 1) / 6;
+                case Ranking.RankingSarjanPituus.Vuodenaika: return (aika.Month - 1) / 3;
+                case Ranking.RankingSarjanPituus.Kuukausi: return aika.Month;
+                default: throw new NotImplementedException(string.Format("Ranking sarjan pituus {0}", pituus));
+            }
+        }
+
+        public static string RankingSarjanNimi(Ranking.RankingSarjanPituus pituus, int numero)
+        {
+            switch (pituus)
+            {
+                case Ranking.RankingSarjanPituus.Vuosi: return "VuosiRanking";
+
+                case Ranking.RankingSarjanPituus.Puolivuotta:
+                    switch (numero)
+                    {
+                        case 0: return "Kevät";
+                        case 1: return "Syksy";
+                    }
+                    break;
+
+                case Ranking.RankingSarjanPituus.Vuodenaika:
+                    switch (numero)
+                    {
+                        case 0: return "Tammikuu-Maaliskuu";
+                        case 1: return "Huhtikuu-Kesäkuu";
+                        case 2: return "Heinäkuu-Syyskuu";
+                        case 3: return "Lokakuu-Joulukuu";
+                    }
+                    break;
+
+                case Ranking.RankingSarjanPituus.Kuukausi:
+                    switch (numero)
+                    {
+                        case 1: return "Tammikuu";
+                        case 2: return "Helmikuu";
+                        case 3: return "Maaliskuu";
+                        case 4: return "Huhtikuu";
+                        case 5: return "Toukokuu";
+                        case 6: return "Kesäkuu";
+                        case 7: return "Heinäkuu";
+                        case 8: return "Elokuu";
+                        case 9: return "Syyskuu";
+                        case 10: return "Lokakuu";
+                        case 11: return "Marraskuu";
+                        case 12: return "Joulukuu";
+                    }
+                    break;
+            }
+
+#if DEBUG
+            throw new NotImplementedException(string.Format("Pituus {0}, Numero {1}", pituus, numero));
+#else
+            return string.Format("{0}_{1}", pituus, numero);
+#endif
+        }
+
+        public static string RankingSarjanTiedostonNimi(Ranking.RankingSarjanPituus pituus, int numero)
+        {
+            switch (pituus)
+            {
+                case Ranking.RankingSarjanPituus.Vuosi: return "Vuosi";
+
+                case Ranking.RankingSarjanPituus.Puolivuotta:
+                    switch (numero)
+                    {
+                        case 0: return "Kevat";
+                        case 1: return "Syksy";
+                    }
+                    break;
+
+                case Ranking.RankingSarjanPituus.Vuodenaika:
+                    switch (numero)
+                    {
+                        case 0: return "Tammikuu_Maaliskuu";
+                        case 1: return "Huhtikuu_Kesakuu";
+                        case 2: return "Heinakuu_Syyskuu";
+                        case 3: return "Lokakuu_Joulukuu";
+                    }
+                    break;
+
+                case Ranking.RankingSarjanPituus.Kuukausi:
+                    switch (numero)
+                    {
+                        case 1: return "Tammikuu";
+                        case 2: return "Helmikuu";
+                        case 3: return "Maaliskuu";
+                        case 4: return "Huhtikuu";
+                        case 5: return "Toukokuu";
+                        case 6: return "Kesakuu";
+                        case 7: return "Heinakuu";
+                        case 8: return "Elokuu";
+                        case 9: return "Syyskuu";
+                        case 10: return "Lokakuu";
+                        case 11: return "Marraskuu";
+                        case 12: return "Joulukuu";
+                    }
+                    break;
+            }
+
+#if DEBUG
+            throw new NotImplementedException(string.Format("Pituus {0}, Numero {1}", pituus, numero));
+#else
+            return string.Format("{0}_{1}", pituus, numero);
+#endif
+        }
+
+        public static void RankingSarjaKuukaudet(Ranking.RankingSarjanPituus pituus, int numero, out int kk0, out int kk1)
+        {
+            kk0 = 0;
+            kk1 = 0;
+
+            switch (pituus)
+            {
+                case Ranking.RankingSarjanPituus.Vuosi:
+                    kk0 = 1;
+                    kk1 = 12;
+                    break;
+
+                case Ranking.RankingSarjanPituus.Puolivuotta:
+                    if (numero == 0)
+                    {
+                        kk0 = 1;
+                        kk1 = 6;
+                    }
+                    else
+                    {
+                        kk0 = 7;
+                        kk1 = 12;
+                    }
+                    break;
+
+                case Ranking.RankingSarjanPituus.Vuodenaika:
+                    switch (numero)
+                    {
+                        case 0:
+                            kk0 = 1;
+                            kk1 = 3;
+                            break;
+
+                        case 1:
+                            kk0 = 4;
+                            kk1 = 6;
+                            break;
+
+                        case 2:
+                            kk0 = 7;
+                            kk1 = 9;
+                            break;
+
+                        default:
+                            kk0 = 10;
+                            kk1 = 12;
+                            break;
+                    }
+                    break;
+
+                case Ranking.RankingSarjanPituus.Kuukausi:
+                    kk0 = numero;
+                    kk1 = numero;
+                    break;
+            }
+        }
+
+        public static string RankingSarjaKansio(int vuosi)
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+                "KaisaKaaviot", 
+                "Ranking",
+                vuosi.ToString());
         }
     }
 }

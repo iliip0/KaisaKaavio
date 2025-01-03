@@ -80,8 +80,8 @@ namespace KaisaKaavio.Testaus
                     {
                         loki.Kirjoita(string.Format("Testi {0} epäonnistui: {1}", testiKilpailu.Nimi, ee.Message), ee, false);
 
-                        testi.OikeaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + ".xml"));
-                        testi.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + "_VIRHE.xml"));
+                        testi.OikeaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + ".xml"), false);
+                        testi.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + "_VIRHE.xml"), false);
                     }
                     catch
                     { 

@@ -11,10 +11,23 @@ namespace KaisaKaavio.Ranking
     public class RankingOsakilpailu
     {
         [XmlAttribute]
+        [DefaultValue("")]
+        public string Id { get; set; }
+
+        [XmlAttribute]
+        [DefaultValue("")]
         public string Nimi { get; set; }
 
         [XmlAttribute]
-        public DateTime AlkamisAika { get; set; }
+        [DefaultValue("")]
+        public string KilpailunTarkistusSumma { get; set; }
+
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string AlkamisAika { get; set; }
+
+        [XmlIgnore]
+        public DateTime AlkamisAikaDt { get { return Tyypit.Aika.ParseDateTime(this.AlkamisAika); } }
 
         [XmlAttribute]
         public int KilpailunNumero { get; set; }
@@ -23,7 +36,10 @@ namespace KaisaKaavio.Ranking
 
         public RankingOsakilpailu()
         {
+            this.Id = string.Empty;
             this.Nimi = string.Empty;
+            this.AlkamisAika = string.Empty;
+            this.KilpailunTarkistusSumma = string.Empty;
             this.KilpailunNumero = 0;
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
         }
