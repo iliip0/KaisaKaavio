@@ -1936,5 +1936,87 @@ namespace KaisaKaavio
                 default: return 0;
             }
         }
+
+        /// <summary>
+        /// Muuttaa jo pelatun pelin tulosta kaaviossa, sekä tarvittaessa mitätöi tämän pelin jälkeisiä
+        /// pelejä kaaviossa
+        /// </summary>
+        public void PaivitaPelatunPelinTulos(Peli peli, PelinTulos uusiTulos, PelinTilanne uusiTilanne)
+        {
+            if (this.Loki != null)
+            {
+                this.Loki.Kirjoita(string.Format("Päivitetään pelatun pelin {0} tulos (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));
+            }
+
+            int id1 = peli.Id1;
+            int id2 = peli.Id2;
+            int pelinNumero = peli.PeliNumero;
+
+            int tappiot1 = LaskeTappiotPelille(id1, pelinNumero - 1);
+            int tappiot2 = LaskeTappiotPelille(id2, pelinNumero - 1);
+
+            if (uusiTilanne == PelinTilanne.Tyhja)
+            {
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("  -Poistetaan peli {0}", peli.Kuvaus()));
+                }
+                this.PoistaPeli(peli);
+            }
+            else if (uusiTulos == PelinTulos.Pelaaja1Voitti)
+            {
+                tappiot2++;
+            }
+            else if (uusiTulos == PelinTulos.Pelaaja2Voitti)
+            {
+                tappiot1++;
+            }
+            else if (uusiTulos == PelinTulos.MolemmatHavisi)
+            {
+                tappiot1++;
+                tappiot2++;
+            }
+
+            // Poista pelit jotka eivät ole "sallittuja" muutoksen jälkeen
+            var poistettavatPelit = this.Pelit.Where(x =>
+                    x.PeliNumero > pelinNumero &&
+                    x.SisaltaaJommanKummanPelaajan(id1, id2)).ToArray();
+
+            foreach (var poistettavaPeli in poistettavatPelit)
+            {
+                bool poista = false;
+
+                if (poistettavaPeli.SisaltaaPelaajan(id1))
+                {
+                    if (tappiot1 >= 2)
+                    {
+                        poista = true;
+                    }
+                    tappiot1++;
+                }
+
+                if (poistettavaPeli.SisaltaaPelaajan(id2))
+                {
+                    if (tappiot2 >= 2)
+                    {
+                        poista = true;
+                    }
+                    tappiot2++;
+                }
+
+                if (poista)
+                {
+                    if (this.Loki != null)
+                    {
+                        this.Loki.Kirjoita(string.Format("  -Poistetaan peli {0}", poistettavaPeli.Kuvaus()));
+                    }
+                    this.PoistaPeli(poistettavaPeli);
+                }
+            }
+
+            PaivitaPelinumerot();
+
+            this.HakuTarvitaan = true;
+        }
     }
 }

@@ -393,6 +393,16 @@ namespace KaisaKaavio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Poista {
+            get {
+                object obj = ResourceManager.GetObject("Poista", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Poytakirja {
             get {
                 object obj = ResourceManager.GetObject("Poytakirja", resourceCulture);
@@ -476,6 +486,16 @@ namespace KaisaKaavio.Properties {
         internal static System.Drawing.Bitmap Silver {
             get {
                 object obj = ResourceManager.GetObject("Silver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sulje {
+            get {
+                object obj = ResourceManager.GetObject("Sulje", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -672,7 +672,7 @@ namespace KaisaKaavio
             return false;
         }
 
-        public int Pisteet(string teksti, out bool voitti, out bool havisi)
+        static public int Pisteet(string teksti, out bool voitti, out bool havisi)
         {
             if (string.IsNullOrEmpty(teksti))
             {
@@ -999,6 +999,78 @@ namespace KaisaKaavio
             }
 
             return false;
+        }
+
+        public static PelinTulos LaskePelinTulosJaTilannePisteista(string pisteet1, string pisteet2, int tavoite, out PelinTilanne tilanne, out string virhe)
+        {
+            bool voitti1 = false;
+            bool voitti2 = false;
+            bool havisi1 = false;
+            bool havisi2 = false;
+            int p1 = Pisteet(pisteet1, out voitti1, out havisi1);
+            int p2 = Pisteet(pisteet2, out voitti2, out havisi2);
+
+            virhe = string.Empty;
+            tilanne = PelinTilanne.Pelattu;
+
+            if (voitti1 && voitti2)
+            {
+                return PelinTulos.Virheellinen;
+            }
+
+            else if (havisi1 && havisi2)
+            {
+                return PelinTulos.MolemmatHavisi;
+            }
+
+            else if (voitti1 && havisi1)
+            {
+                virhe = "Virheellinen tulosrivi: v ja h samassa pistesarakkeessa";
+                return PelinTulos.Virheellinen;
+            }
+
+            else if (voitti2 && havisi2)
+            {
+                virhe = "Virheellinen tulosrivi: v ja h samassa pistesarakkeessa";
+                return PelinTulos.Virheellinen;
+            }
+
+            else if (voitti1 || havisi2)
+            {
+                return PelinTulos.Pelaaja1Voitti;
+            }
+
+            else if (voitti2 || havisi1)
+            {
+                return PelinTulos.Pelaaja2Voitti;
+            }
+
+            else if (p1 >= tavoite && p2 >= tavoite)
+            {
+                virhe = string.Format("Molemmilla pelaajilla {0} pistettä tai enemmän. Merkitse v tai h toiselle pelaajalle voiton tai häviön merkiksi", tavoite);
+                return PelinTulos.Virheellinen;
+            }
+
+            else if (p1 >= tavoite)
+            {
+                return PelinTulos.Pelaaja1Voitti;
+            }
+
+            else if (p2 >= tavoite)
+            {
+                return PelinTulos.Pelaaja2Voitti;
+            }
+
+            else if (p1 > 0 || p2 > 0)
+            {
+                tilanne = PelinTilanne.Kaynnissa;
+                return PelinTulos.EiTiedossa;
+            }
+            else 
+            {
+                tilanne = PelinTilanne.Tyhja;
+                return PelinTulos.EiTiedossa;
+            }
         }
 
         public void PaivitaTulos()

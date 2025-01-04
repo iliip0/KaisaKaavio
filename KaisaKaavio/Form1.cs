@@ -1860,12 +1860,16 @@ namespace KaisaKaavio
                             }
                         }
 
-                        if (peli.Tilanne == PelinTilanne.Pelattu)
+                        if (peli.Tilanne == PelinTilanne.Pelattu && peli.Tulos != PelinTulos.Virheellinen)
                         {
-                            using (var popup = new PelinTiedotPopup(this.kilpailu, peli))
+                            KeskeytaHaku();
+
+                            using (var popup = new PelinTiedotPopup(this.kilpailu, peli, this.loki))
                             {
-                                popup.ShowDialog();
-                                pelitDataGridView.Refresh();
+                                if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                {
+                                    pelitDataGridView.Refresh();
+                                }
                             }
                         }
                     }

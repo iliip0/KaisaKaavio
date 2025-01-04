@@ -251,6 +251,8 @@
     <None Include="Resources\KilpailuInfo32.png" />
     <None Include="Resources\Etsi.png" />
     <None Include="Resources\Pisteytys.png" />
+    <None Include="Resources\Poista.png" />
+    <None Include="Resources\Sulje.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
