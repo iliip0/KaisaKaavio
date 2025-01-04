@@ -1228,6 +1228,7 @@ namespace KaisaKaavio
                         int sijoitus = 0;
                         if (this.ranking.HaeNykyinenRankingSijoitus(
                             this.kilpailu,
+                            this.asetukset,
                             pelaaja.Nimi,
                             out sijoitus))
                         {
@@ -3165,9 +3166,28 @@ namespace KaisaKaavio
 
                 RtfInfoRivi("Pelien keskimääräinen kesto", string.Format("{0} minuuttia", keskimaarainenPelinKesto/pelejaKeskimaaranLaskemiseksi), rtf, sbil);
 
-                int mediaani = pelienKestot.OrderBy(x => x).ElementAt(pelienKestot.Count / 2);
+                //int mediaani = pelienKestot.OrderBy(x => x).ElementAt(pelienKestot.Count / 2);
 
-                RtfInfoRivi("Pelien mediaanikesto", string.Format("{0} minuuttia", mediaani), rtf, sbil);
+                //RtfInfoRivi("Pelien mediaanikesto", string.Format("{0} minuuttia", mediaani), rtf, sbil);
+            }
+
+            if (this.kilpailu.KilpailuOnPaattynyt &&
+                this.kilpailu.RankingKisa)
+            {
+                var rankingSarja = this.ranking.AvaaRankingSarja(this.kilpailu);
+                if (rankingSarja != null)
+                {
+                    RtfRivinvaihto(rtf, sbil);
+                    RtfOsionVaihto(rtf, sbil);
+                    RtfRivinvaihto(rtf, sbil);
+
+                    rtf.AppendLine(rankingSarja.TilanneSbilLyhyt
+                        .Replace(Environment.NewLine, @" \line ")
+                        .Replace("\n", @" \line "));
+                    sbil.AppendLine(rankingSarja.TilanneSbilLyhyt);
+
+                    RtfRivinvaihto(rtf, sbil);
+                }
             }
 
             RtfOsionVaihto(rtf, sbil);

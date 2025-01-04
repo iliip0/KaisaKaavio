@@ -125,9 +125,17 @@ namespace KaisaKaavio.Ranking
             }
         }
 
-        public void PaivitaKilpailu(Kilpailu kilpailu, RankingSarja sarja, RankingAsetukset asetukset)
+        public void PaivitaKilpailu(Ranking rankingit, Kilpailu kilpailu, RankingSarja sarja, RankingAsetukset asetukset)
         {
             var ranking = sarja.RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
+
+            if (asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta &&
+                sarja.OnSarjanEnsimmainenKilpailu(kilpailu))
+            {
+                ranking = rankingit.AvaaEdellinenSarja(kilpailu).RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
+            }
+
+            // TODO!!! Parhaat osallistujista jos rankingkärki ei osallistu
 
             bool paattynyt = kilpailu.KilpailuOnPaattynyt;
             var tulokset = kilpailu.Tulokset();
@@ -141,6 +149,16 @@ namespace KaisaKaavio.Ranking
                         Id = pelaaja.Id,
                         Nimi = pelaaja.Nimi,
                     });
+                }
+            }
+
+            // Laitetaan rankinglistalle samat id kuin osallistujille
+            foreach (var r in ranking)
+            {
+                var p = Osallistujat.FirstOrDefault(x => string.Equals(r.Nimi, x.Nimi, StringComparison.OrdinalIgnoreCase));
+                if (p != null)
+                {
+                    r.Id = p.Id;
                 }
             }
 

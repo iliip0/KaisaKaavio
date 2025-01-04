@@ -202,6 +202,16 @@ namespace KaisaKaavio.Ranking
             this.ValittuSarja = AvaaRankingSarja(vuosi, laji, pituus, numero, kilpailu);
         }
 
+        public RankingSarja AvaaRankingSarja(Kilpailu kilpailu)
+        {
+            return AvaaRankingSarja(
+                kilpailu.AlkamisAikaDt.Year,
+                kilpailu.RankingKisaLaji,
+                kilpailu.RankingKisaTyyppi,
+                Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, kilpailu.AlkamisAikaDt),
+                kilpailu);
+        }
+
         /// <summary>
         /// Avaa valitun rankingsarjan tarkasteltavaksi.
         /// Sarjan tilanne luodaan mikäli tätä sarjaa ei ole tarkasteltu aiemmin.
@@ -359,7 +369,27 @@ namespace KaisaKaavio.Ranking
             }
         }
 
-        public bool HaeNykyinenRankingSijoitus(Kilpailu kilpailu, string pelaaja, out int sijoitus)
+        public RankingSarja AvaaEdellinenSarja(Kilpailu kilpailu)
+        {
+            DateTime aika = kilpailu.AlkamisAikaDt;
+
+            switch (kilpailu.RankingKisaTyyppi)
+            {
+                case RankingSarjanPituus.Kuukausi: aika = aika.Subtract(new TimeSpan(aika.Day + 1, 0, 0, 0, 0)); break;
+                case RankingSarjanPituus.Vuodenaika: aika = aika.Subtract(new TimeSpan(365 / 4, 0, 0, 0, 0)); break;
+                case RankingSarjanPituus.Puolivuotta: aika = aika.Subtract(new TimeSpan(365 / 2, 0, 0, 0, 0)); break;
+                case RankingSarjanPituus.Vuosi: aika = aika.Subtract(new TimeSpan(365, 0, 0, 0, 0)); break;
+            }
+
+            return AvaaRankingSarja(
+                aika.Year,
+                kilpailu.RankingKisaLaji,
+                kilpailu.RankingKisaTyyppi,
+                Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, aika),
+                null);
+        }
+
+        public bool HaeNykyinenRankingSijoitus(Kilpailu kilpailu, Asetukset asetukset, string pelaaja, out int sijoitus)
         {
             var aika = kilpailu.AlkamisAikaDt;
 
@@ -370,33 +400,14 @@ namespace KaisaKaavio.Ranking
                 Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, aika),
                 kilpailu);
 
-            if (ranking == null || ranking.Osakilpailut.Count == 0)
+            if (ranking != null &&
+                asetukset.RankingPisteytys(kilpailu.RankingKisaLaji).EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta &&
+                ranking.OnSarjanEnsimmainenKilpailu(kilpailu))
             {
-                for (int i = 1; i < 3; ++i)
-                {
-                    switch (kilpailu.RankingKisaTyyppi)
-                    {
-                        case RankingSarjanPituus.Kuukausi: aika = aika.Subtract(new TimeSpan(31, 0, 0, 0, 0)); break;
-                        case RankingSarjanPituus.Vuodenaika: aika = aika.Subtract(new TimeSpan(365 / 4, 0, 0, 0, 0)); break;
-                        case RankingSarjanPituus.Puolivuotta: aika = aika.Subtract(new TimeSpan(365 / 2, 0, 0, 0, 0)); break;
-                        case RankingSarjanPituus.Vuosi: aika = aika.Subtract(new TimeSpan(365, 0, 0, 0, 0)); break;
-                    }
-
-                    ranking = AvaaRankingSarja(
-                        aika.Year,
-                        kilpailu.RankingKisaLaji,
-                        kilpailu.RankingKisaTyyppi,
-                        Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, aika),
-                        null);
-
-                    if (ranking != null)
-                    {
-                        break;
-                    }
-                }
+                ranking = AvaaEdellinenSarja(kilpailu);
             }
 
-            if (ranking != null && ranking.Osakilpailut.Count > 0)
+            if (ranking != null)
             {
                 var r = ranking.RankingEnnenOsakilpailua(DateTime.Now);
                 if (r != null)

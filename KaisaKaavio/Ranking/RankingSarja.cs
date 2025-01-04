@@ -74,7 +74,8 @@ namespace KaisaKaavio.Ranking
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
         }
 
-        private StringBuilder tilanne = new StringBuilder();
+        private StringBuilder viimeisinTulos = new StringBuilder();
+        private StringBuilder rankingTilanne = new StringBuilder();
 
         /// <summary>
         /// Rankingsarjan tilanneteksti rtf muodossa
@@ -83,7 +84,7 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return tilanne.ToString();
+                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanne);
             }
         }
 
@@ -94,7 +95,15 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return tilanne.ToString();
+                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanne);
+            }
+        }
+
+        public string TilanneSbilLyhyt
+        {
+            get 
+            {
+                return rankingTilanne.ToString();
             }
         }
 
@@ -298,7 +307,7 @@ namespace KaisaKaavio.Ranking
                             var kilpailu = osakilpailu.LataaKilpailu(loki);
                             if (kilpailu != null)
                             {
-                                LisaaKilpailu(kilpailu, osakilpailu, asetukset, false);
+                                LisaaKilpailu(ranking, kilpailu, osakilpailu, asetukset, false);
                             }
                         }
                     }
@@ -452,7 +461,8 @@ namespace KaisaKaavio.Ranking
 
         public void PaivitaTilanneTeksti()
         {
-            this.tilanne.Clear();
+            this.viimeisinTulos.Clear();
+            this.rankingTilanne.Clear();
 
             var kisa = this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).LastOrDefault();
             if (kisa != null)
@@ -461,7 +471,7 @@ namespace KaisaKaavio.Ranking
                 var kakkoset = kisa.Osallistujat.Where(x => x.Sijoitus == 2);
                 var kolmoset = kisa.Osallistujat.Where(x => x.Sijoitus == 3);
                 
-                this.tilanne.AppendLine(string.Format("{0}.{1}.{2} {3} viikkokilpailuun osallistui {4} pelaajaa.",
+                this.viimeisinTulos.AppendLine(string.Format("{0}.{1}.{2} {3} viikkokilpailuun osallistui {4} pelaajaa.",
                     kisa.AlkamisAikaDt.Day,
                     kisa.AlkamisAikaDt.Month,
                     kisa.AlkamisAikaDt.Year,
@@ -470,62 +480,58 @@ namespace KaisaKaavio.Ranking
 
                 if (voittajat.Count() == 1)
                 {
-                    this.tilanne.Append(string.Format("Voittaja {0}, ", voittajat.First().Nimi));
+                    this.viimeisinTulos.Append(string.Format("Voittaja {0}, ", voittajat.First().Nimi));
                 }
                 else if (voittajat.Count() > 1)
                 {
-                    this.tilanne.Append(string.Format("Voittajat {0}, ", string.Join(", ", voittajat.Select(x => x.Nimi).ToArray())));
+                    this.viimeisinTulos.Append(string.Format("Voittajat {0}, ", string.Join(", ", voittajat.Select(x => x.Nimi).ToArray())));
                 }
 
                 if (kakkoset.Count() == 1)
                 {
-                    this.tilanne.Append(string.Format("toinen {0}, ", kakkoset.First().Nimi));
+                    this.viimeisinTulos.Append(string.Format("toinen {0}, ", kakkoset.First().Nimi));
                 }
                 else if (kakkoset.Count() > 1)
                 {
-                    this.tilanne.Append(string.Format("toisia {0}, ", string.Join(", ", kakkoset.Select(x => x.Nimi).ToArray())));
+                    this.viimeisinTulos.Append(string.Format("toisia {0}, ", string.Join(", ", kakkoset.Select(x => x.Nimi).ToArray())));
                 }
 
                 if (kolmoset.Count() == 1)
                 {
-                    this.tilanne.Append(string.Format("kolmas {0}.", kolmoset.First().Nimi));
+                    this.viimeisinTulos.Append(string.Format("kolmas {0}.", kolmoset.First().Nimi));
                 }
                 else if (kolmoset.Count() > 1)
                 {
-                    this.tilanne.Append(string.Format("kolmansia {0}.", string.Join(", ", kolmoset.Select(x => x.Nimi).ToArray())));
+                    this.viimeisinTulos.Append(string.Format("kolmansia {0}.", string.Join(", ", kolmoset.Select(x => x.Nimi).ToArray())));
                 }
-
-                this.tilanne.AppendLine();
             }
-
-            this.tilanne.AppendLine();
 
             if (this.Osakilpailut.Count == 1)
             {
-                this.tilanne.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
+                this.rankingTilanne.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
             }
             else
             {
                 int summa = (int)(this.Osakilpailut.Select(x => x.Osallistujat.Count).Sum());
 
-                this.tilanne.AppendLine(string.Format("{3}\nTilanne {0} osakilpailun jälkeen: ({1}={2})",
+                this.rankingTilanne.AppendLine(string.Format("{3}\nTilanne {0} osakilpailun jälkeen: ({1}={2})",
                     this.Osakilpailut.Count,
                     string.Join("+", this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).Select(x => x.Osallistujat.Count.ToString()).ToArray()),
                     summa,
                     this.Nimi));
             }
 
-            this.tilanne.AppendLine();
+            this.rankingTilanne.AppendLine();
 
             foreach (var p in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
             {
                 string rivi = string.Format("{0}. {1} {3}p\t({2})", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
 
-                tilanne.AppendLine(rivi);
+                rankingTilanne.AppendLine(rivi);
             }
         }
 
-        public void LisaaKilpailu(Kilpailu kilpailu, RankingOsakilpailuTietue tietue, RankingAsetukset asetukset, bool paivitaTilanne)
+        public void LisaaKilpailu(Ranking rankingit, Kilpailu kilpailu, RankingOsakilpailuTietue tietue, RankingAsetukset asetukset, bool paivitaTilanne)
         {
             if (this.Osakilpailut.Any(x => x.AlkamisAikaDt > kilpailu.AlkamisAikaDt))
             {
@@ -553,7 +559,7 @@ namespace KaisaKaavio.Ranking
                 }
             }
 
-            osakilpailu.PaivitaKilpailu(kilpailu, this, asetukset);
+            osakilpailu.PaivitaKilpailu(rankingit, kilpailu, this, asetukset);
 
             if (paivitaTilanne)
             {
@@ -566,6 +572,11 @@ namespace KaisaKaavio.Ranking
         public int PelaajanSijoitus(int id)
         {
             return 10; // TODO
+        }
+
+        public bool OnSarjanEnsimmainenKilpailu(Kilpailu kilpailu)
+        {
+            return Osakilpailut.Count > 0 && string.Equals(Osakilpailut[0].Id, kilpailu.Id, StringComparison.OrdinalIgnoreCase);
         }
 
         public List<RankingPelaajaTietue> RankingEnnenOsakilpailua(DateTime aika)

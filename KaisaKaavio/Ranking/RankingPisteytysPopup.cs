@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace KaisaKaavio.Ranking
 {
+    /// <summary>
+    /// Popup ikkuna ranking pisteytyskriteerien editoimiseen
+    /// </summary>
     public partial class RankingPisteytysPopup : Form
     {
         private RankingAsetukset asetukset = null;
@@ -44,6 +47,9 @@ namespace KaisaKaavio.Ranking
             PaivitaRankingPisteytysSijoituksestaLiuku(RankingPisteetSijoituksesta.Ysille, this.rp9NumericUpDown);
             PaivitaRankingPisteytysSijoituksestaLiuku(RankingPisteetSijoituksesta.Kymmenennelle, this.rp10NumericUpDown);
             PaivitaRankingPisteytysSijoituksestaLiuku(RankingPisteetSijoituksesta.KaikilleOsallistujille, this.rpOsallistuminenNumericUpDown);
+
+            this.rankingKarkiEdellisestaCheckBox.Checked = this.asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta;
+            this.rankingSijaisetCheckBox.Checked = this.asetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista;
         }
 
         void okButton_Click(object sender, EventArgs e)
@@ -65,6 +71,9 @@ namespace KaisaKaavio.Ranking
             PaivitaRankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Ysille, this.rp9NumericUpDown);
             PaivitaRankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kymmenennelle, this.rp10NumericUpDown);
             PaivitaRankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.KaikilleOsallistujille, this.rpOsallistuminenNumericUpDown);
+
+            this.asetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = this.rankingSijaisetCheckBox.Checked;
+            this.asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = this.rankingKarkiEdellisestaCheckBox.Checked;
 
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }

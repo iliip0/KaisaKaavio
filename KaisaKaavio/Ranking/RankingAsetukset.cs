@@ -13,6 +13,14 @@ namespace KaisaKaavio.Ranking
         [XmlAttribute]
         public Laji Laji { get; set; }
 
+        [XmlAttribute]
+        [DefaultValue(true)]
+        public bool EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta { get; set; }
+
+        [XmlAttribute]
+        [DefaultValue(true)]
+        public bool KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista { get; set; }
+
         public BindingList<RankingPisteytysPelista> PistetytysPeleista { get; set; }
         public BindingList<RankingPisteytysSijoituksesta> PisteytysSijoituksista { get; set; }
 
@@ -21,6 +29,8 @@ namespace KaisaKaavio.Ranking
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();
             this.PisteytysSijoituksista = new BindingList<RankingPisteytysSijoituksesta>();
             this.Laji = KaisaKaavio.Laji.Kaisa;
+            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
+            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
         }
 
         public RankingAsetukset(Laji laji)
@@ -28,12 +38,17 @@ namespace KaisaKaavio.Ranking
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();
             this.PisteytysSijoituksista = new BindingList<RankingPisteytysSijoituksesta>();
             this.Laji = laji;
+            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
+            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
         }
 
         public void AsetaOletusasetukset(Laji laji)
         {
             this.PisteytysSijoituksista.Clear();
             this.PistetytysPeleista.Clear();
+
+            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
+            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
 
             if (laji == Laji.Kaisa)
             {
