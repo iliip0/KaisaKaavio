@@ -51,8 +51,7 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string KellonAika { get; set; }
         
-        //public DateTime PaattymisAika { get; set; }
-
+        [DefaultValue(true)]
         public bool Yksipaivainen { get; set; }
 
         [XmlIgnore]

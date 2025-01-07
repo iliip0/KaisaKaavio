@@ -66,6 +66,8 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.rankingSijaisetCheckBox = new System.Windows.Forms.CheckBox();
+            this.rankingKarkiEdellisestaCheckBox = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -85,8 +87,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
-            this.rankingKarkiEdellisestaCheckBox = new System.Windows.Forms.CheckBox();
-            this.rankingSijaisetCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.rpOsallistuminenNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rp10NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rp9NumericUpDown)).BeginInit();
@@ -611,6 +611,26 @@
             this.splitContainer2.SplitterDistance = 578;
             this.splitContainer2.TabIndex = 28;
             // 
+            // rankingSijaisetCheckBox
+            // 
+            this.rankingSijaisetCheckBox.AutoSize = true;
+            this.rankingSijaisetCheckBox.Location = new System.Drawing.Point(26, 245);
+            this.rankingSijaisetCheckBox.Name = "rankingSijaisetCheckBox";
+            this.rankingSijaisetCheckBox.Size = new System.Drawing.Size(450, 20);
+            this.rankingSijaisetCheckBox.TabIndex = 33;
+            this.rankingSijaisetCheckBox.Text = "Käytä parhaiten sijoittuneita osallistujia puuttuvien rankingkärkien tilalla?";
+            this.rankingSijaisetCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // rankingKarkiEdellisestaCheckBox
+            // 
+            this.rankingKarkiEdellisestaCheckBox.AutoSize = true;
+            this.rankingKarkiEdellisestaCheckBox.Location = new System.Drawing.Point(26, 205);
+            this.rankingKarkiEdellisestaCheckBox.Name = "rankingKarkiEdellisestaCheckBox";
+            this.rankingKarkiEdellisestaCheckBox.Size = new System.Drawing.Size(472, 20);
+            this.rankingKarkiEdellisestaCheckBox.TabIndex = 32;
+            this.rankingKarkiEdellisestaCheckBox.Text = "Käytä edellisen sarjan rankingkärkiä seuraavan sarjan ekassa kilpailussa?";
+            this.rankingKarkiEdellisestaCheckBox.UseVisualStyleBackColor = true;
+            // 
             // label17
             // 
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -809,27 +829,6 @@
             this.peruutaButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.peruutaButton.UseVisualStyleBackColor = true;
             this.peruutaButton.Click += new System.EventHandler(this.peruutaButton_Click);
-            // 
-            // rankingKarkiEdellisestaCheckBox
-            // 
-            this.rankingKarkiEdellisestaCheckBox.AutoSize = true;
-            this.rankingKarkiEdellisestaCheckBox.Location = new System.Drawing.Point(26, 205);
-            this.rankingKarkiEdellisestaCheckBox.Name = "rankingKarkiEdellisestaCheckBox";
-            this.rankingKarkiEdellisestaCheckBox.Size = new System.Drawing.Size(472, 20);
-            this.rankingKarkiEdellisestaCheckBox.TabIndex = 32;
-            this.rankingKarkiEdellisestaCheckBox.Text = "Käytä edellisen sarjan rankingkärkiä seuraavan sarjan ekassa kilpailussa?";
-            this.rankingKarkiEdellisestaCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // rankingSijaisetCheckBox
-            // 
-            this.rankingSijaisetCheckBox.AutoSize = true;
-            this.rankingSijaisetCheckBox.Location = new System.Drawing.Point(26, 245);
-            this.rankingSijaisetCheckBox.Name = "rankingSijaisetCheckBox";
-            this.rankingSijaisetCheckBox.Size = new System.Drawing.Size(450, 20);
-            this.rankingSijaisetCheckBox.TabIndex = 33;
-            this.rankingSijaisetCheckBox.Text = "Käytä parhaiten sijoittuneita osallistujia puuttuvien rankingkärkien tilalla?";
-            this.rankingSijaisetCheckBox.UseVisualStyleBackColor = true;
-            this.rankingSijaisetCheckBox.Visible = false;
             // 
             // RankingPisteytysPopup
             // 

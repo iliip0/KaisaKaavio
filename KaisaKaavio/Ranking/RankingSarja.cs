@@ -111,11 +111,6 @@ namespace KaisaKaavio.Ranking
         {
             var aika = Tyypit.Aika.ParseDateTime(tietue.Pvm);
 
-            //if (!tietue.OnRankingOsakilpailu)
-            //{
-            //    return false;
-            //}
-
             if (aika.Year != this.Vuosi)
             {
                 return false;
@@ -576,7 +571,80 @@ namespace KaisaKaavio.Ranking
 
         public bool OnSarjanEnsimmainenKilpailu(Kilpailu kilpailu)
         {
-            return Osakilpailut.Count > 0 && string.Equals(Osakilpailut[0].Id, kilpailu.Id, StringComparison.OrdinalIgnoreCase);
+            var eka = this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).FirstOrDefault();
+
+            if (eka != null)
+            {
+                if (string.Equals(eka.Id, kilpailu.Id, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public List<RankingPelaajaTietue> HaeRankingKarjetKilpailulle(Asetukset asetukset, Ranking ranking, Kilpailu kilpailu)
+        {
+            List<RankingPelaajaTietue> rankingKarjet = new List<RankingPelaajaTietue>();
+
+            var a = asetukset.RankingPisteytys(kilpailu.RankingKisaLaji);
+
+            var r = RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
+
+            if (OnSarjanEnsimmainenKilpailu(kilpailu)
+                && a.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta)
+            {
+                var s = ranking.AvaaEdellinenSarja(kilpailu);
+                if (s != null)
+                {
+                    r = s.RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
+                }
+            }
+
+            if (r != null)
+            {
+                if (a.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista)
+                {
+                    var parhaatSijat = r
+                        .Where(x => kilpailu.Osallistujat.Any(y => string.Equals(y.Nimi, x.Nimi, StringComparison.OrdinalIgnoreCase)))
+                        .OrderBy(x => x.KumulatiivinenSijoitus)
+                        .Select(x => x.KumulatiivinenSijoitus)
+                        .Distinct();
+
+                    foreach (var pelaaja in r)
+                    {
+                        if (parhaatSijat.Count() > 0 && parhaatSijat.ElementAt(0) == pelaaja.KumulatiivinenSijoitus)
+                        {
+                            pelaaja.KumulatiivinenSijoitus = 1;
+                            pelaaja.Sijoitus = 1;
+                        }
+                        else if (parhaatSijat.Count() > 1 && parhaatSijat.ElementAt(1) == pelaaja.KumulatiivinenSijoitus)
+                        {
+                            pelaaja.KumulatiivinenSijoitus = 2;
+                            pelaaja.Sijoitus = 2;
+                        }
+                        else if (parhaatSijat.Count() > 2 && parhaatSijat.ElementAt(2) == pelaaja.KumulatiivinenSijoitus)
+                        {
+                            pelaaja.KumulatiivinenSijoitus = 3;
+                            pelaaja.Sijoitus = 3;
+                        }
+                    }
+
+                    rankingKarjet.AddRange(r
+                        .Where(x => x.KumulatiivinenSijoitus >= 1 && x.KumulatiivinenSijoitus <= 3)
+                        .Where(x => kilpailu.Osallistujat.Any(y => string.Equals(x.Nimi, y.Nimi, StringComparison.OrdinalIgnoreCase)))
+                        .OrderBy(x => x.KumulatiivinenSijoitus));
+                }
+                else
+                {
+                    rankingKarjet.AddRange(r
+                        .Where(x => x.KumulatiivinenSijoitus >= 1 && x.KumulatiivinenSijoitus <= 3)
+                        .OrderBy(x => x.KumulatiivinenSijoitus));
+                }
+            }
+
+            return rankingKarjet;
         }
 
         public List<RankingPelaajaTietue> RankingEnnenOsakilpailua(DateTime aika)

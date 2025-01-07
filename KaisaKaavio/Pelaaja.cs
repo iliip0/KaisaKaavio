@@ -52,9 +52,26 @@ namespace KaisaKaavio
             }
         }
 
+        private string sijoitettu = string.Empty;
+
         [XmlAttribute]
         [DefaultValue("")]
-        public string Sijoitettu { get; set; }
+        public string Sijoitettu
+        {
+            get
+            {
+                return this.sijoitettu;
+            }
+
+            set
+            {
+                if (!string.Equals(this.sijoitettu, value))
+                {
+                    this.sijoitettu = value;
+                    RaisePropertyChanged("Sijoitettu");
+                }
+            }
+        }
 
         [XmlAttribute]
         [DefaultValue("")]

@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.11		(työn alla)
 
 * Mahdollisuus muokata jo pelattujen pelien tietoja painamalla 'Pelattu' nappia 'Pelit' sivulla. Pelin tuloksen muuttaminen mitätöi myöhempiä pelejä tarvittaessa
+* Rankingtilanne lisätty 'Tulokset' Sbil tekstin perään kun kisa on viikkokisa Rankingkisa
 
 ## Versio 1.0.0.10		(julkaistu 3.1.2025)
 
