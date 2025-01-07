@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="Testaus\UudelleenPelaaminen.cs" />
     <Compile Include="Tyypit\Aika.cs" />
+    <Compile Include="Tyypit\Tiedosto.cs" />
     <Compile Include="UusiKilpailuPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,6 +254,7 @@
     <None Include="Resources\Pisteytys.png" />
     <None Include="Resources\Poista.png" />
     <None Include="Resources\Sulje.png" />
+    <None Include="Resources\Viimeisimmat.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

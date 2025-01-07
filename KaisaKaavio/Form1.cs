@@ -252,6 +252,9 @@ namespace KaisaKaavio
                 PaivitaKilpailuTyyppi();
                 PaivitaPelaajienRankingPisteetOsallistujalistaan();
 
+                this.asetukset.LisaaViimeisimpiinKilpailuihin(this.kilpailu);
+                PaivitaViimeisimmatTiedostot();
+
 #if DEBUG
                 if (this.kilpailu.Nimi.Contains("(Uusinta)"))
                 {
@@ -597,6 +600,7 @@ namespace KaisaKaavio
 
             PaivitaStatusRivi(string.Empty, false, 0, 0);
             PaivitaArvontaTabi();
+            PaivitaViimeisimmatTiedostot();
 
             switch (this.kilpailu.Tilanne)
             {
@@ -660,6 +664,19 @@ namespace KaisaKaavio
         {
             ResumeLayout();
             Refresh();
+        }
+
+        private void PaivitaViimeisimmatTiedostot()
+        { 
+            List<ToolStripMenuItem> tiedostot = new List<ToolStripMenuItem>();
+
+            foreach (var t in this.asetukset.ViimeisimmatKilpailut)
+            {
+                tiedostot.Add(new ToolStripMenuItem() { Text = t.Nimi, Tag = t.Polku });
+            }
+
+            this.viimeisimmatKisatToolStripMenuItem.DropDownItems.Clear();
+            this.viimeisimmatKisatToolStripMenuItem.DropDownItems.AddRange(tiedostot.ToArray());
         }
 
         private void PaivitaIkkunanNimi()

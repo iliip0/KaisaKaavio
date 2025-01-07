@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.12		(työn alla)
+
+* Lisätty 'viimeisimmät kilpailut' menuitem ylävalikkoon
+
 ## Versio 1.0.0.11		(julkaistu 7.1.2025)
 
 * Mahdollisuus muokata jo pelattujen pelien tietoja painamalla 'Pelattu' nappia 'Pelit' sivulla. Pelin tuloksen muuttaminen mitätöi myöhempiä pelejä tarvittaessa

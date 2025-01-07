@@ -61,6 +61,12 @@ namespace KaisaKaavio
         /// </summary>
         public bool PaivitaAutomaattisesti { get; set; }
 
+
+        /// <summary>
+        /// X viimeksi aukaistua kilpailutiedostoa
+        /// </summary>
+        public BindingList<Tyypit.Tiedosto> ViimeisimmatKilpailut { get; set; }
+
         private string tiedosto = null;
 
         public Asetukset()
@@ -71,6 +77,7 @@ namespace KaisaKaavio
 
             this.Sali = new Sali();
             this.Pelaajat = new BindingList<PelaajaTietue>();
+            this.ViimeisimmatKilpailut = new BindingList<Tyypit.Tiedosto>();
 
             this.RankingAsetuksetKaisa = new Ranking.RankingAsetukset(Laji.Kaisa);
             this.RankingAsetuksetPool = new Ranking.RankingAsetukset(Laji.Pool);
@@ -191,6 +198,17 @@ namespace KaisaKaavio
                         }
                     }
 
+                    this.ViimeisimmatKilpailut.Clear();
+                    foreach (var v in asetukset.ViimeisimmatKilpailut)
+                    {
+                        if (!string.IsNullOrEmpty(v.Nimi) && 
+                            !string.IsNullOrEmpty(v.Polku) &&
+                            File.Exists(v.Polku))
+                        {
+                            this.ViimeisimmatKilpailut.Add(v);
+                        }
+                    }
+
                     LataaRankingAsetukset(this.RankingAsetuksetKaisa, asetukset.RankingAsetuksetKaisa, Laji.Kaisa);
                     LataaRankingAsetukset(this.RankingAsetuksetPool, asetukset.RankingAsetuksetPool, Laji.Pool);
                     LataaRankingAsetukset(this.RankingAsetuksetKara, asetukset.RankingAsetuksetKara, Laji.Kara);
@@ -198,6 +216,42 @@ namespace KaisaKaavio
                     LataaRankingAsetukset(this.RankingAsetuksetPyramidi, asetukset.RankingAsetuksetPyramidi, Laji.Pyramidi);
                     LataaRankingAsetukset(this.RankingAsetuksetHeyball, asetukset.RankingAsetuksetHeyball, Laji.Heyball);
                 }
+            }
+        }
+
+        public void LisaaViimeisimpiinKilpailuihin(Kilpailu kilpailu)
+        {
+            try
+            {
+                if (kilpailu != null &&
+                    !string.IsNullOrEmpty(kilpailu.Nimi) &&
+                    !string.IsNullOrEmpty(kilpailu.Tiedosto))
+                {
+                    var vanha = this.ViimeisimmatKilpailut.FirstOrDefault(x => string.Equals(x.Polku, kilpailu.Tiedosto, StringComparison.OrdinalIgnoreCase));
+                    if (vanha != null)
+                    {
+                        this.ViimeisimmatKilpailut.Remove(vanha);
+                    }
+
+                    Tyypit.Tiedosto tiedosto = new Tyypit.Tiedosto() { Nimi = kilpailu.Nimi, Polku = kilpailu.Tiedosto };
+
+                    if (this.ViimeisimmatKilpailut.Count == 0)
+                    {
+                        this.ViimeisimmatKilpailut.Add(tiedosto);
+                    }
+                    else
+                    {
+                        this.ViimeisimmatKilpailut.Insert(0, tiedosto);
+                    }
+
+                    while (this.ViimeisimmatKilpailut.Count > 10)
+                    {
+                        this.ViimeisimmatKilpailut.Remove(this.ViimeisimmatKilpailut.Last());
+                    }
+                }
+            }
+            catch
+            { 
             }
         }
 
