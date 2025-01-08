@@ -75,7 +75,8 @@ namespace KaisaKaavio.Ranking
         }
 
         private StringBuilder viimeisinTulos = new StringBuilder();
-        private StringBuilder rankingTilanne = new StringBuilder();
+        private StringBuilder rankingTilanneRtf = new StringBuilder();
+        private StringBuilder rankingTilanneSbil = new StringBuilder();
 
         /// <summary>
         /// Rankingsarjan tilanneteksti rtf muodossa
@@ -84,7 +85,7 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanne);
+                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanneRtf);
             }
         }
 
@@ -95,7 +96,7 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanne);
+                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanneSbil);
             }
         }
 
@@ -103,7 +104,7 @@ namespace KaisaKaavio.Ranking
         {
             get 
             {
-                return rankingTilanne.ToString();
+                return rankingTilanneSbil.ToString();
             }
         }
 
@@ -457,7 +458,8 @@ namespace KaisaKaavio.Ranking
         public void PaivitaTilanneTeksti()
         {
             this.viimeisinTulos.Clear();
-            this.rankingTilanne.Clear();
+            this.rankingTilanneRtf.Clear();
+            this.rankingTilanneSbil.Clear();
 
             var kisa = this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).LastOrDefault();
             if (kisa != null)
@@ -503,26 +505,36 @@ namespace KaisaKaavio.Ranking
 
             if (this.Osakilpailut.Count == 1)
             {
-                this.rankingTilanne.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
+                this.rankingTilanneRtf.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
+                this.rankingTilanneSbil.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
             }
             else
             {
                 int summa = (int)(this.Osakilpailut.Select(x => x.Osallistujat.Count).Sum());
 
-                this.rankingTilanne.AppendLine(string.Format("{3}\nTilanne {0} osakilpailun jälkeen: ({1}={2})",
+                this.rankingTilanneRtf.AppendLine(string.Format("{3}\nTilanne {0} osakilpailun jälkeen: ({1}={2})",
+                    this.Osakilpailut.Count,
+                    string.Join("+", this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).Select(x => x.Osallistujat.Count.ToString()).ToArray()),
+                    summa,
+                    this.Nimi));
+
+                this.rankingTilanneSbil.AppendLine(string.Format("{3}\nTilanne {0} osakilpailun jälkeen: ({1}={2})",
                     this.Osakilpailut.Count,
                     string.Join("+", this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).Select(x => x.Osallistujat.Count.ToString()).ToArray()),
                     summa,
                     this.Nimi));
             }
 
-            this.rankingTilanne.AppendLine();
+            this.rankingTilanneRtf.AppendLine();
+            this.rankingTilanneSbil.AppendLine();
 
             foreach (var p in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
             {
                 string rivi = string.Format("{0}. {1} {3}p\t({2})", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
+                rankingTilanneRtf.AppendLine(rivi);
 
-                rankingTilanne.AppendLine(rivi);
+                string riviSbil = string.Format("{0}. {1} [b]{3}p[/b]\t[size=85][color=#AAAACC] ( {2} ) [/color][/size]", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
+                rankingTilanneSbil.AppendLine(riviSbil);
             }
         }
 

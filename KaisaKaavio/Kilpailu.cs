@@ -806,7 +806,36 @@ namespace KaisaKaavio
             }
         }
 
-        public string PelaajanNimiKaaviossa(string idString)
+        public string PelaajanNimiKaaviossa(string idString, bool detaljit)
+        {
+            int id = -1;
+            if (!Int32.TryParse(idString, out id))
+            {
+                return idString;
+            }
+
+            var pelaaja = this.Osallistujat.FirstOrDefault(x => x.Id == id);
+            if (pelaaja == null || string.IsNullOrEmpty(pelaaja.Nimi))
+            {
+                return idString;
+            }
+
+            string nimi = detaljit ? pelaaja.Nimi : Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi);
+            
+            if (detaljit && !string.IsNullOrEmpty(pelaaja.Seura))
+            {
+                nimi += " " + pelaaja.Seura.Trim();
+            }
+
+            if (detaljit && !string.IsNullOrEmpty(pelaaja.Sijoitettu))
+            {
+                nimi += " (" + pelaaja.Sijoitettu.Trim() + ")"; 
+            }
+
+            return nimi;
+        }
+
+        public string PelaajanNimiTulosluettelossa(string idString)
         {
             int id = -1;
             if (!Int32.TryParse(idString, out id))
@@ -821,7 +850,7 @@ namespace KaisaKaavio
             }
 
             string nimi = pelaaja.Nimi;
-            
+
             if (!string.IsNullOrEmpty(pelaaja.Seura))
             {
                 nimi += " " + pelaaja.Seura.Trim();
@@ -829,7 +858,7 @@ namespace KaisaKaavio
 
             if (!string.IsNullOrEmpty(pelaaja.Sijoitettu))
             {
-                nimi += " (" + pelaaja.Sijoitettu.Trim() + ")"; 
+                nimi += " (" + pelaaja.Sijoitettu.Trim() + ")";
             }
 
             return nimi;

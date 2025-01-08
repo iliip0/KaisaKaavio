@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="Testaus\UudelleenPelaaminen.cs" />
     <Compile Include="Tyypit\Aika.cs" />
+    <Compile Include="Tyypit\Nimi.cs" />
     <Compile Include="Tyypit\Tiedosto.cs" />
     <Compile Include="UusiKilpailuPopup.cs">
       <SubType>Form</SubType>
