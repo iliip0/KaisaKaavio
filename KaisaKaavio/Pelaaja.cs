@@ -158,6 +158,15 @@ namespace KaisaKaavio
         public TulosTietue Sijoitus = null;
 
         [XmlIgnore]
+        public int Voitot { get { return this.Sijoitus != null ? this.Sijoitus.Voitot : 0; } }
+
+        [XmlIgnore]
+        public int Tappiot { get { return this.Sijoitus != null ? this.Sijoitus.Tappiot : 0; } }
+
+        [XmlIgnore]
+        public int Pisteet { get { return this.Sijoitus != null ? this.Sijoitus.Pisteet : 0; } }
+
+        [XmlIgnore]
         public List<PeliTietue> Pelit = new List<PeliTietue>();
 
         public Pelaaja()

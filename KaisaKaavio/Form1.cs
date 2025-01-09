@@ -524,21 +524,26 @@ namespace KaisaKaavio
 
                 if (this.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    if (File.Exists(this.openFileDialog1.FileName))
-                    {
-                        this.tabControl1.SelectedTab = this.kisaInfoTabPage;
-
-                        SuspenAllDataBinding();
-
-                        AvaaKilpailu(this.openFileDialog1.FileName);
-
-                        ResumeAllDataBinding();
-                    }
+                    AvaaKilpailuTiedostosta(this.openFileDialog1.FileName);
                 }
             }
             catch (Exception ex)
             {
                 this.loki.Kirjoita("Kaavion avaaminen epäonnistui", ex, true);
+            }
+        }
+
+        private void AvaaKilpailuTiedostosta(string tiedosto)
+        {
+            if (File.Exists(tiedosto))
+            {
+                this.tabControl1.SelectedTab = this.kisaInfoTabPage;
+
+                SuspenAllDataBinding();
+
+                AvaaKilpailu(tiedosto);
+
+                ResumeAllDataBinding();
             }
         }
 
@@ -672,11 +677,25 @@ namespace KaisaKaavio
 
             foreach (var t in this.asetukset.ViimeisimmatKilpailut)
             {
-                tiedostot.Add(new ToolStripMenuItem() { Text = t.Nimi, Tag = t.Polku });
+                var viimeisimmatTiedostotItem = new ToolStripMenuItem() { Text = t.Nimi, Tag = t.Polku };
+                viimeisimmatTiedostotItem.Click += viimeisimmatTiedostotItem_Click;
+                tiedostot.Add(viimeisimmatTiedostotItem);
             }
 
             this.viimeisimmatKisatToolStripMenuItem.DropDownItems.Clear();
             this.viimeisimmatKisatToolStripMenuItem.DropDownItems.AddRange(tiedostot.ToArray());
+        }
+
+        private void viimeisimmatTiedostotItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AvaaKilpailuTiedostosta((string)((ToolStripMenuItem)sender).Tag);
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Viimeisimmän kilpailun lataus epäonnistui", ex, true);
+            }
         }
 
         private void PaivitaIkkunanNimi()
