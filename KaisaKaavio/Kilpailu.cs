@@ -1965,12 +1965,45 @@ namespace KaisaKaavio
             }
         }
 
+        public void PeruutaKaynnissaOlevaPeli(Peli peli)
+        {
+            if (this.Loki != null)
+            {
+                this.Loki.Kirjoita(string.Format("Peruutetaan ottelun {0} käynnistys (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));
+            }
+
+            peli.Tilanne = PelinTilanne.Tyhja;
+            peli.Tulos = PelinTulos.EiTiedossa;
+            peli.Pisteet1 = string.Empty;
+            peli.Pisteet2 = string.Empty;
+            peli.Poyta = string.Empty;
+            peli.Alkoi = string.Empty;
+            peli.Paattyi = string.Empty;
+        }
+
         /// <summary>
         /// Muuttaa jo pelatun pelin tulosta kaaviossa, sekä tarvittaessa mitätöi tämän pelin jälkeisiä
         /// pelejä kaaviossa
         /// </summary>
         public void PaivitaPelatunPelinTulos(Peli peli, PelinTulos uusiTulos, PelinTilanne uusiTilanne)
         {
+            if (uusiTilanne == PelinTilanne.Tyhja && uusiTulos == PelinTulos.EiTiedossa)
+            {
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("Peruutetaan ottelun {0} käynnistys (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));
+                }
+
+                peli.Tilanne = PelinTilanne.Tyhja;
+                peli.Tulos = PelinTulos.EiTiedossa;
+                peli.Pisteet1 = string.Empty;
+                peli.Pisteet2 = string.Empty;
+                peli.Poyta = string.Empty;
+                peli.Alkoi = string.Empty;
+                peli.Paattyi = string.Empty;
+                return;
+            }
+
             if (this.Loki != null)
             {
                 this.Loki.Kirjoita(string.Format("Päivitetään pelatun pelin {0} tulos (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));

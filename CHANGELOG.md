@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.13		(työn alla)
+
+* Mahdolliseksi käynnnissä olevan pelin peruuttaminen ei käynnissäolevaksi painamalla 'Pöytä X' nappia pelit taulukossa
+
 ## Versio 1.0.0.12		(julkaistu 8.1.2025)
 
 * Lisätty 'viimeisimmät kilpailut' menuitem ylävalikkoon

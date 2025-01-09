@@ -103,7 +103,11 @@ namespace KaisaKaavio
                 this.peli.Pisteet1 = this.pisteet1TextBox.Text;
                 this.peli.Pisteet2 = this.pisteet2TextBox.Text;
 
-                if (this.tulos != this.muokattuTulos)
+                if (this.tilanne == PelinTilanne.Kaynnissa && this.muokattuTilanne == PelinTilanne.Tyhja)
+                {
+                    this.kilpailu.PeruutaKaynnissaOlevaPeli(this.peli);
+                }
+                else if (this.tulos != this.muokattuTulos || this.tilanne != this.muokattuTilanne)
                 {
                     this.kilpailu.PaivitaPelatunPelinTulos(peli, this.muokattuTulos, this.muokattuTilanne);
                 }
@@ -178,14 +182,24 @@ namespace KaisaKaavio
                 out muokattuTilanne, 
                 out virhe);
 
-            if (this.muokattuTulos == PelinTulos.Virheellinen)
+            if (this.tilanne == PelinTilanne.Pelattu && 
+                this.muokattuTilanne == PelinTilanne.Tyhja && 
+                this.muokattuTulos == PelinTulos.EiTiedossa && 
+                this.peli.Kierros < 3)
+            {
+                this.tallennaButton.Enabled = false;
+                AsetaInfonVarit(Color.LightPink, Color.Red);
+                this.infoRichTextBox.Text =
+                    "VIRHE!\nEnsimmäisen ja toisen kierroksen pelejä ei voi poistaa kaaviosta. Voit ainoastaan muuttaa pelin pisteitä ja/tai tuloksen";
+            }
+            else if (this.muokattuTulos == PelinTulos.Virheellinen)
             {
                 this.tallennaButton.Enabled = false;
                 AsetaInfonVarit(Color.LightPink, Color.Red);
                 this.infoRichTextBox.Text =
                     string.Format("VIRHE!\nPelin pisteissä on virhe:\n{0}.\nKorjaa virhe, ennen kuin voit tallentaa pelin tilanteen", virhe);
             }
-            else if (this.muokattuTulos == PelinTulos.EiTiedossa && this.muokattuTilanne != PelinTilanne.Tyhja)
+            else if (this.tilanne != PelinTilanne.Kaynnissa && this.muokattuTulos == PelinTulos.EiTiedossa && this.muokattuTilanne != PelinTilanne.Tyhja)
             {
                 this.tallennaButton.Enabled = false;
                 AsetaInfonVarit(Color.LightPink, Color.Red);
@@ -202,7 +216,7 @@ namespace KaisaKaavio
             }
             else if (this.muokattuTilanne != this.tilanne)
             {
-                if (this.tilanne == PelinTilanne.Pelattu &&
+                if ((this.tilanne == PelinTilanne.Pelattu || this.tilanne == PelinTilanne.Kaynnissa) &&
                     this.muokattuTilanne == PelinTilanne.Tyhja)
                 {
                     this.tallennaButton.Enabled = true;

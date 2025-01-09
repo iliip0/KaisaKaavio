@@ -1892,7 +1892,7 @@ namespace KaisaKaavio
                             {
                                 case PelinTilanne.ValmiinaAlkamaan:
                                     peli.KaynnistaPeli(this.asetukset, true);
-                                    break;
+                                    return;
 
                                 case PelinTilanne.Pelattu:
                                     break;
@@ -1905,7 +1905,7 @@ namespace KaisaKaavio
                             }
                         }
 
-                        if (peli.Tilanne == PelinTilanne.Pelattu && peli.Tulos != PelinTulos.Virheellinen)
+                        if ((peli.Tilanne == PelinTilanne.Pelattu || peli.Tilanne == PelinTilanne.Kaynnissa) && peli.Tulos != PelinTulos.Virheellinen)
                         {
                             KeskeytaHaku();
 
@@ -3222,9 +3222,7 @@ namespace KaisaKaavio
                     RtfOsionVaihto(rtf, sbil);
                     RtfRivinvaihto(rtf, sbil);
 
-                    rtf.AppendLine(rankingSarja.TilanneSbilLyhyt
-                        .Replace(Environment.NewLine, @" \line ")
-                        .Replace("\n", @" \line "));
+                    rtf.AppendLine(rankingSarja.TilanneRtfLyhyt);
                     sbil.AppendLine(rankingSarja.TilanneSbilLyhyt);
                 }
             }
@@ -3828,6 +3826,14 @@ namespace KaisaKaavio
         private void rankingKisaCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.ranking.TyhjennaSarjatMuistista();
+
+            if (this.rankingKisaCheckBox.Checked && this.kilpailu.RankingOsakilpailu == null)
+            {
+                this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
+                this.kilpailu.RankingOsakilpailu.OnRankingOsakilpailu = true;
+            }
+
+            PaivitaRankingKontrollienNakyvyys();
         }
 
         private void PaivitaRankingKontrollienNakyvyys()

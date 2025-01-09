@@ -100,6 +100,14 @@ namespace KaisaKaavio.Ranking
             }
         }
 
+        public string TilanneRtfLyhyt
+        {
+            get
+            {
+                return rankingTilanneRtf.ToString();
+            }
+        }
+
         public string TilanneSbilLyhyt
         {
             get 
@@ -505,14 +513,14 @@ namespace KaisaKaavio.Ranking
 
             if (this.Osakilpailut.Count == 1)
             {
-                this.rankingTilanneRtf.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
+                this.rankingTilanneRtf.AppendLine(string.Format(@"{0} \line Tilanne ensimmäisen osakilpailun jälkeen: \line", this.Nimi));
                 this.rankingTilanneSbil.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
             }
             else
             {
                 int summa = (int)(this.Osakilpailut.Select(x => x.Osallistujat.Count).Sum());
 
-                this.rankingTilanneRtf.AppendLine(string.Format("{3}\nTilanne {0} osakilpailun jälkeen: ({1}={2})",
+                this.rankingTilanneRtf.AppendLine(string.Format(@"{3} \line Tilanne {0} osakilpailun jälkeen: ({1}={2})",
                     this.Osakilpailut.Count,
                     string.Join("+", this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).Select(x => x.Osallistujat.Count.ToString()).ToArray()),
                     summa,
@@ -525,15 +533,15 @@ namespace KaisaKaavio.Ranking
                     this.Nimi));
             }
 
-            this.rankingTilanneRtf.AppendLine();
+            this.rankingTilanneRtf.AppendLine(@" \line \line");
             this.rankingTilanneSbil.AppendLine();
 
             foreach (var p in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
             {
-                string rivi = string.Format("{0}. {1} {3}p\t({2})", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
+                string rivi = string.Format(@"{0}. {1} {3}p\t({2}) \line", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
                 rankingTilanneRtf.AppendLine(rivi);
 
-                string riviSbil = string.Format("{0}. {1} [b]{3}p[/b]\t[size=85][color=#AAAACC] ( {2} ) [/color][/size]", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
+                string riviSbil = string.Format("{0}. {1} [b]{3}p[/b]\t[size=85][color=#115099] ( {2} ) [/color][/size]", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
                 rankingTilanneSbil.AppendLine(riviSbil);
             }
         }

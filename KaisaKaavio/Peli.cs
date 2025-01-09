@@ -909,7 +909,7 @@ namespace KaisaKaavio
             if (KierrosPelaaja1 < Kierros && KierrosPelaaja2 < Kierros)
             {
                 rtf.Append(string.Format(" - Molempien {0}. kierros", KierrosPelaaja1));
-                sbil.Append(string.Format("[size=85][color=#AAAACC] - Molempien {0}. kierros[/color][/size]", KierrosPelaaja1));
+                sbil.Append(string.Format("[size=85][color=#115099] - Molempien {0}. kierros[/color][/size]", KierrosPelaaja1));
             }
             else if (KierrosPelaaja1 < Kierros)
             {
@@ -917,7 +917,7 @@ namespace KaisaKaavio
                 if (pelaaja != null)
                 {
                     rtf.Append(string.Format(" - {0} {1}. kierros", lyhytNimi1, KierrosPelaaja1));
-                    sbil.Append(string.Format("[size=85][color=#AAAACC] - {0} {1}. kierros[/color][/size]", lyhytNimi1, KierrosPelaaja1));
+                    sbil.Append(string.Format("[size=85][color=#115099] - {0} {1}. kierros[/color][/size]", lyhytNimi1, KierrosPelaaja1));
                 }
             }
             else if (KierrosPelaaja2 < Kierros)
@@ -926,7 +926,7 @@ namespace KaisaKaavio
                 if (pelaaja != null)
                 {
                     rtf.Append(string.Format(" - {0} {1}. kierros", lyhytNimi2, KierrosPelaaja2));
-                    sbil.Append(string.Format("[size=85][color=#AAAACC] - {0} {1}. kierros[/color][/size]", lyhytNimi2, KierrosPelaaja2));
+                    sbil.Append(string.Format("[size=85][color=#115099] - {0} {1}. kierros[/color][/size]", lyhytNimi2, KierrosPelaaja2));
                 }
             }
 
@@ -993,15 +993,8 @@ namespace KaisaKaavio
                     if (Tyypit.Aika.AikaeroMinuutteina(this.Alkoi, this.Paattyi, out aikaero) && aikaero > 0)
                     {
                         rtf.Append(string.Format(@"    \cf4 ({0}min) \cf1", aikaero));
-                        sbil.Append(string.Format("    [size=85][color=#AAAACC]({0}min)[/color][/size]", aikaero));
+                        sbil.Append(string.Format("    [size=85][color=#115099]({0}min)[/color][/size]", aikaero));
                     }
-                    /*
-                    else 
-                    {
-                        rtf.Append(string.Format(@"    \cf4 {0}-{1} \cf1", this.Alkoi, this.Paattyi));
-                        sbil.Append(string.Format("    [size=85][color=#AAAACC]{0}-{1}[/color][/size]", this.Alkoi, this.Paattyi));
-                    }
-                    */
                 }
             }
 
@@ -1091,7 +1084,14 @@ namespace KaisaKaavio
             }
             else 
             {
-                tilanne = PelinTilanne.Tyhja;
+                if (string.IsNullOrEmpty(pisteet1) && string.IsNullOrEmpty(pisteet2))
+                {
+                    tilanne = PelinTilanne.Tyhja;
+                }
+                else
+                {
+                    tilanne = PelinTilanne.Kaynnissa;
+                }
                 return PelinTulos.EiTiedossa;
             }
         }
