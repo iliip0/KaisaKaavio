@@ -2,6 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.14		(työn alla)
+
+* Muutettu kilpailun tyyppivalintoja niin että valittavissa on 4 kisatyyppiä: { Viikkokisa, Avoin kilpailu, SBiL RG kilpailu ja SBiL SM kilpailu }
+* Lisätty kilpailuun kilpasarja valittavaksi { Yleinen, SenioritMN40, SenioritMN50 jne... }
+
 ## Versio 1.0.0.13		(julkaistu 9.1.2025)
 
 * Mahdolliseksi käynnnissä olevan pelin peruuttaminen ei käynnissäolevaksi painamalla 'Pöytä X' nappia pelit taulukossa

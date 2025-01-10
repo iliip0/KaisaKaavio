@@ -42,10 +42,12 @@
             this.uusiKilpailuLajiComboBox = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.alkamisAikaDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.alkamisAikaDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.kilpasarjaLabel = new System.Windows.Forms.Label();
+            this.kilpaSarjaComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -62,7 +64,7 @@
             // 
             this.uusiKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.uusiKilpailuButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
-            this.uusiKilpailuButton.Location = new System.Drawing.Point(449, 6);
+            this.uusiKilpailuButton.Location = new System.Drawing.Point(575, 6);
             this.uusiKilpailuButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uusiKilpailuButton.Name = "uusiKilpailuButton";
             this.uusiKilpailuButton.Size = new System.Drawing.Size(203, 60);
@@ -105,10 +107,12 @@
             this.kilpailunTyyppiComboBox.FormattingEnabled = true;
             this.kilpailunTyyppiComboBox.Items.AddRange(new object[] {
             "Viikkokilpailu (3.kierros pudari)",
-            "RG kilpailu (tuplakaavio loppuun asti)"});
+            "Avoin kilpailu (tuplakaavio loppuun asti)",
+            "Kaisan RG kilpailu (tuplakaavio loppuun asti, 1-8 sijoitettua pelaajaa)",
+            "Kaisan SM kilpailu (tuplakaavio loppuun asti, 1-24 sijoitettua pelaajaa)"});
             this.kilpailunTyyppiComboBox.Location = new System.Drawing.Point(250, 52);
             this.kilpailunTyyppiComboBox.Name = "kilpailunTyyppiComboBox";
-            this.kilpailunTyyppiComboBox.Size = new System.Drawing.Size(396, 28);
+            this.kilpailunTyyppiComboBox.Size = new System.Drawing.Size(522, 28);
             this.kilpailunTyyppiComboBox.TabIndex = 3;
             this.kilpailunTyyppiComboBox.SelectedIndexChanged += new System.EventHandler(this.kilpailunTyyppiComboBox_SelectedIndexChanged);
             // 
@@ -127,7 +131,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kilpailunNimiTextBox.Location = new System.Drawing.Point(250, 86);
             this.kilpailunNimiTextBox.Name = "kilpailunNimiTextBox";
-            this.kilpailunNimiTextBox.Size = new System.Drawing.Size(396, 26);
+            this.kilpailunNimiTextBox.Size = new System.Drawing.Size(522, 26);
             this.kilpailunNimiTextBox.TabIndex = 5;
             this.kilpailunNimiTextBox.Text = "Kaisakilpailu";
             this.kilpailunNimiTextBox.TextChanged += new System.EventHandler(this.kilpailunNimiTextBox_TextChanged);
@@ -168,7 +172,7 @@
             "Vuoden kestävä sarja"});
             this.rankingComboBox.Location = new System.Drawing.Point(250, 48);
             this.rankingComboBox.Name = "rankingComboBox";
-            this.rankingComboBox.Size = new System.Drawing.Size(396, 28);
+            this.rankingComboBox.Size = new System.Drawing.Size(522, 28);
             this.rankingComboBox.TabIndex = 8;
             // 
             // label3
@@ -188,7 +192,7 @@
             this.uusiKilpailuLajiComboBox.FormattingEnabled = true;
             this.uusiKilpailuLajiComboBox.Location = new System.Drawing.Point(250, 18);
             this.uusiKilpailuLajiComboBox.Name = "uusiKilpailuLajiComboBox";
-            this.uusiKilpailuLajiComboBox.Size = new System.Drawing.Size(396, 28);
+            this.uusiKilpailuLajiComboBox.Size = new System.Drawing.Size(522, 28);
             this.uusiKilpailuLajiComboBox.TabIndex = 10;
             this.uusiKilpailuLajiComboBox.SelectedIndexChanged += new System.EventHandler(this.uusiKilpailuLajiComboBox_SelectedIndexChanged);
             // 
@@ -210,7 +214,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.uusiKilpailuButton);
             this.splitContainer1.Panel2.Controls.Add(this.peruutaButton);
-            this.splitContainer1.Size = new System.Drawing.Size(660, 334);
+            this.splitContainer1.Size = new System.Drawing.Size(786, 334);
             this.splitContainer1.SplitterDistance = 255;
             this.splitContainer1.TabIndex = 11;
             // 
@@ -226,6 +230,8 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.kilpaSarjaComboBox);
+            this.splitContainer2.Panel1.Controls.Add(this.kilpasarjaLabel);
             this.splitContainer2.Panel1.Controls.Add(this.alkamisAikaDateTimePicker);
             this.splitContainer2.Panel1.Controls.Add(this.label4);
             this.splitContainer2.Panel1.Controls.Add(this.pictureBox1);
@@ -242,9 +248,28 @@
             this.splitContainer2.Panel2.Controls.Add(this.rankingCheckBox);
             this.splitContainer2.Panel2.Controls.Add(this.rankingComboBox);
             this.splitContainer2.Panel2.Controls.Add(this.rankingLabel);
-            this.splitContainer2.Size = new System.Drawing.Size(660, 255);
+            this.splitContainer2.Size = new System.Drawing.Size(786, 255);
             this.splitContainer2.SplitterDistance = 166;
             this.splitContainer2.TabIndex = 9;
+            // 
+            // alkamisAikaDateTimePicker
+            // 
+            this.alkamisAikaDateTimePicker.CustomFormat = "d.M.yyyy";
+            this.alkamisAikaDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.alkamisAikaDateTimePicker.Location = new System.Drawing.Point(250, 118);
+            this.alkamisAikaDateTimePicker.Name = "alkamisAikaDateTimePicker";
+            this.alkamisAikaDateTimePicker.Size = new System.Drawing.Size(111, 26);
+            this.alkamisAikaDateTimePicker.TabIndex = 13;
+            this.alkamisAikaDateTimePicker.ValueChanged += new System.EventHandler(this.alkamisAikaDateTimePicker_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(81, 123);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(150, 20);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Alkamispäivämäärä:";
             // 
             // pictureBox1
             // 
@@ -264,24 +289,26 @@
             this.pictureBox2.TabIndex = 9;
             this.pictureBox2.TabStop = false;
             // 
-            // label4
+            // kilpasarjaLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(81, 123);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(150, 20);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "Alkamispäivämäärä:";
+            this.kilpasarjaLabel.AutoSize = true;
+            this.kilpasarjaLabel.Location = new System.Drawing.Point(392, 121);
+            this.kilpasarjaLabel.Name = "kilpasarjaLabel";
+            this.kilpasarjaLabel.Size = new System.Drawing.Size(81, 20);
+            this.kilpasarjaLabel.TabIndex = 14;
+            this.kilpasarjaLabel.Text = "Kilpasarja:";
             // 
-            // alkamisAikaDateTimePicker
+            // kilpaSarjaComboBox
             // 
-            this.alkamisAikaDateTimePicker.CustomFormat = "d.M.yyyy";
-            this.alkamisAikaDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.alkamisAikaDateTimePicker.Location = new System.Drawing.Point(250, 118);
-            this.alkamisAikaDateTimePicker.Name = "alkamisAikaDateTimePicker";
-            this.alkamisAikaDateTimePicker.Size = new System.Drawing.Size(111, 26);
-            this.alkamisAikaDateTimePicker.TabIndex = 13;
-            this.alkamisAikaDateTimePicker.ValueChanged += new System.EventHandler(this.alkamisAikaDateTimePicker_ValueChanged);
+            this.kilpaSarjaComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kilpaSarjaComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kilpaSarjaComboBox.FormattingEnabled = true;
+            this.kilpaSarjaComboBox.Location = new System.Drawing.Point(479, 118);
+            this.kilpaSarjaComboBox.Name = "kilpaSarjaComboBox";
+            this.kilpaSarjaComboBox.Size = new System.Drawing.Size(293, 28);
+            this.kilpaSarjaComboBox.TabIndex = 15;
+            this.kilpaSarjaComboBox.SelectedIndexChanged += new System.EventHandler(this.kilpaSarjaComboBox_SelectedIndexChanged);
             // 
             // UusiKilpailuPopup
             // 
@@ -289,16 +316,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.peruutaButton;
-            this.ClientSize = new System.Drawing.Size(660, 334);
+            this.ClientSize = new System.Drawing.Size(786, 334);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(980, 648);
+            this.MaximumSize = new System.Drawing.Size(806, 377);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(680, 348);
+            this.MinimumSize = new System.Drawing.Size(806, 377);
             this.Name = "UusiKilpailuPopup";
             this.Text = "Luo uusi kilpailu";
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -336,5 +363,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ComboBox kilpaSarjaComboBox;
+        private System.Windows.Forms.Label kilpasarjaLabel;
     }
 }

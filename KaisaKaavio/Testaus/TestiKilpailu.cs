@@ -34,7 +34,7 @@ namespace KaisaKaavio.Testaus
 
             // Kopioidaan testauksen kannalta relevantit parametrit testattaavaan kilpailuun:
             this.TestattavaKilpailu.KaavioTyyppi = this.OikeaKilpailu.KaavioTyyppi;
-            this.TestattavaKilpailu.KilpailuOnViikkokisa = this.OikeaKilpailu.KilpailuOnViikkokisa;
+            this.TestattavaKilpailu.KilpailunTyyppi = this.OikeaKilpailu.KilpailunTyyppi;
             this.TestattavaKilpailu.Nimi = string.Format("_TESTI_{0}_{1}", this.OikeaKilpailu.Nimi, DateTime.Now.ToString());
             this.TestattavaKilpailu.PelaajiaEnintaan = this.OikeaKilpailu.PelaajiaEnintaan;
             this.TestattavaKilpailu.PeliAika = this.OikeaKilpailu.PeliAika;

@@ -145,8 +145,13 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string Ilmoittautuminen { get; set; }
         
-        public bool KilpailuOnViikkokisa { get; set; }
+        [XmlIgnore]
+        public bool KilpailuOnViikkokisa { get { return this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa; } }
+
         public Laji Laji { get; set; }
+        public KilpailunTyyppi KilpailunTyyppi { get; set; }
+        public KilpaSarja KilpaSarja { get; set; }
+        public Sijoittaminen Sijoittaminen { get; set; }
 
         public BindingList<Pelaaja> Osallistujat { get; set; }
         public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
@@ -211,7 +216,6 @@ namespace KaisaKaavio
             OsallistumisOikeus = "Avoin kaikille";
             KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
             JarjestavaSeura = string.Empty;
-            //PaattymisAika = DateTime.Today;
             PeliAika = 40;
             TavoitePistemaara = 60;
             RankkareidenMaara = 3;
@@ -224,8 +228,10 @@ namespace KaisaKaavio
             Pukeutuminen = "Vapaa";
             Ilmoittautuminen = string.Empty;
             PelaajiaEnintaan = 32;
-            KilpailuOnViikkokisa = true;
             Laji = KaisaKaavio.Laji.Kaisa;
+            KilpailunTyyppi = KaisaKaavio.KilpailunTyyppi.Viikkokisa;
+            Sijoittaminen = KaisaKaavio.Sijoittaminen.EiSijoittamista;
+            KilpaSarja = KaisaKaavio.KilpaSarja.Yleinen;
             SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
 
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
@@ -737,7 +743,6 @@ namespace KaisaKaavio
 
                 this.Id = kilpailu.Id;
                 this.AlkamisAika = kilpailu.AlkamisAika;
-                //this.PaattymisAika = kilpailu.PaattymisAika;
                 this.KilpailunJohtaja = kilpailu.KilpailunJohtaja;
                 this.JarjestavaSeura = kilpailu.JarjestavaSeura;
                 this.Nimi = kilpailu.Nimi;
@@ -757,9 +762,11 @@ namespace KaisaKaavio
                 this.Ilmoittautuminen = kilpailu.Ilmoittautuminen;
                 this.PelaajiaEnintaan = kilpailu.PelaajiaEnintaan;
                 this.TavoitePistemaara = kilpailu.TavoitePistemaara;
-                this.KilpailuOnViikkokisa = kilpailu.KilpailuOnViikkokisa;
+                this.KilpailunTyyppi = kilpailu.KilpailunTyyppi;
                 this.Laji = kilpailu.Laji;
+                this.Sijoittaminen = kilpailu.Sijoittaminen;
                 this.SijoitustenMaaraytyminen = kilpailu.SijoitustenMaaraytyminen;
+                this.KilpaSarja = kilpailu.KilpaSarja;
 
                 this.RankingOsakilpailu = null;
 

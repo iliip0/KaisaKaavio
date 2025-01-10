@@ -107,6 +107,7 @@ namespace KaisaKaavio
             this.rankingBindingSource.DataSource = this.ranking;
 
             this.kaavioTyyppiComboBox.DataSource = Enum.GetValues(typeof(KaavioTyyppi));
+            this.kilpasarjaComboBox.DataSource = Enum.GetValues(typeof(KilpaSarja));
             this.sijoitustenMaaraytyminenComboBox.DataSource = Enum.GetValues(typeof(SijoitustenMaaraytyminen));
 
             this.rankingKisaTyyppiComboBox.DataSource = Enum.GetValues(typeof(Ranking.RankingSarjanPituus));
@@ -336,6 +337,8 @@ namespace KaisaKaavio
 
                             this.kilpailu.Nimi = popup.Nimi;
                             this.kilpailu.Laji = popup.Laji;
+                            this.kilpailu.KilpailunTyyppi = popup.KilpailunTyyppi;
+                            this.kilpailu.KilpaSarja = popup.KilpaSarja;
                             this.kilpailu.AlkamisAika = popup.Aika;
 
                             this.kilpailu.Palkinnot = string.Empty;
@@ -353,8 +356,8 @@ namespace KaisaKaavio
                                 this.kilpailu.OsallistumisMaksu = string.Empty;
                                 this.kilpailu.Pukeutuminen = string.Empty;
                                 this.kilpailu.Yksipaivainen = true;
-                                this.kilpailu.KilpailuOnViikkokisa = true;
-
+                                this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
+                                this.kilpailu.KilpaSarja = KilpaSarja.Yleinen;
                                 this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
 
                                 if (this.kilpailu.PelaajiaEnintaan < 48)
@@ -369,12 +372,39 @@ namespace KaisaKaavio
                                 this.kilpailu.RankkareidenMaara = 5;
                                 this.kilpailu.KellonAika = "10:00";
                                 this.kilpailu.LisenssiVaatimus = string.Empty; // TODO, linkit 
-                                this.kilpailu.MaksuTapa = "Etukäteen biljardi.org kautta";
-                                this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen jäsenillä";
+
+                                if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu)
+                                {
+                                    this.kilpailu.Yksipaivainen = true;
+
+                                    this.kilpailu.MaksuTapa = string.Empty;
+                                    this.kilpailu.OsallistumisOikeus = string.Empty;
+                                    this.kilpailu.Pukeutuminen = string.Empty;
+
+                                    this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
+                                }
+                                else
+                                {
+                                    this.kilpailu.Yksipaivainen = false;
+
+                                    this.kilpailu.MaksuTapa = "Etukäteen biljardi.org kautta";
+
+                                    // TODO!!! Päivitä osallistumisoikeus teksti ja osmaksu kilpasarjan mukaan
+                                    this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen jäsenillä";
+
+                                    this.kilpailu.Pukeutuminen = "SBiL EB-taso";
+
+                                    if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
+                                    {
+                                        this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan24Pelaajaa;
+                                    }
+                                    else
+                                    {
+                                        this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan8Pelaajaa;
+                                    }
+                                }
+
                                 this.kilpailu.OsallistumisMaksu = "Aikuiset 50€ / junnut 25€";
-                                this.kilpailu.Pukeutuminen = "SBiL EB-taso";
-                                this.kilpailu.Yksipaivainen = false;
-                                this.kilpailu.KilpailuOnViikkokisa = false;
 
                                 this.kilpailu.RankingOsakilpailu = null;
 

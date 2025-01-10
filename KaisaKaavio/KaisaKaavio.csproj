@@ -84,6 +84,8 @@
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kilpailu.cs" />
     <Compile Include="KilpailunTilanne.cs" />
+    <Compile Include="KilpailunTyyppi.cs" />
+    <Compile Include="KilpaSarja.cs" />
     <Compile Include="Laji.cs" />
     <Compile Include="Linkki.cs" />
     <Compile Include="Loki.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Ranking\RankingSarja.cs" />
     <Compile Include="Ranking\RankingSarjanPituus.cs" />
     <Compile Include="Sali.cs" />
+    <Compile Include="Sijoittaminen.cs" />
     <Compile Include="SijoitustenMaaraytyminen.cs" />
     <Compile Include="Testaus\TestiAjo.cs" />
     <Compile Include="Testaus\TestiKilpailu.cs" />

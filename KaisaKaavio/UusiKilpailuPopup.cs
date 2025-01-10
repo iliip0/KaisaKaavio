@@ -20,6 +20,10 @@ namespace KaisaKaavio
 
             this.uusiKilpailuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
             this.uusiKilpailuLajiComboBox.SelectedIndex = 0;
+
+            this.kilpaSarjaComboBox.DataSource = Enum.GetValues(typeof(KilpaSarja));
+            this.kilpaSarjaComboBox.SelectedIndex = 0;
+
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
             this.rankingComboBox.SelectedIndex = 0;
             this.rankingCheckBox.Checked = false;
@@ -32,6 +36,36 @@ namespace KaisaKaavio
 
         public string Nimi { get { return this.kilpailunNimiTextBox.Text; } }
         public bool LuoViikkokisa { get { return this.kilpailunTyyppiComboBox.SelectedIndex == 0; } }
+        public KilpailunTyyppi KilpailunTyyppi 
+        { 
+            get 
+            {
+                if (this.kilpailunTyyppiComboBox.SelectedIndex >= 0)
+                {
+                    return (KilpailunTyyppi)Enum.GetValues(typeof(KilpailunTyyppi)).GetValue(this.kilpailunTyyppiComboBox.SelectedIndex);
+                }
+                else
+                {
+                    return KaisaKaavio.KilpailunTyyppi.Viikkokisa;
+                }
+            }
+        }
+
+        public KilpaSarja KilpaSarja 
+        { 
+            get 
+            {
+                if (this.kilpaSarjaComboBox.SelectedIndex >= 0)
+                {
+                    return (KilpaSarja)Enum.GetValues(typeof(KilpaSarja)).GetValue(this.kilpaSarjaComboBox.SelectedIndex);
+                }
+                else 
+                {
+                    return KaisaKaavio.KilpaSarja.Yleinen;
+                }
+            }
+        }
+
         public bool RankingKisa { get { return this.rankingCheckBox.Checked; } }
         public string Aika { get { return Tyypit.Aika.DateTimeToString(this.alkamisAikaDateTimePicker.Value); } }
 
@@ -80,14 +114,20 @@ namespace KaisaKaavio
                 this.rankingLabel.Visible = this.rankingCheckBox.Checked;
                 this.rankingCheckBox.Visible = true;
                 this.rankingComboBox.Visible = this.rankingCheckBox.Checked;
+
+                this.kilpasarjaLabel.Visible = false;
+                this.kilpaSarjaComboBox.Visible = false;
             }
             
-            // SBiL kisa
+            // Avoin kisa tai SBiL kisa
             else
             {
                 this.rankingLabel.Visible = false;
                 this.rankingCheckBox.Visible = false;
                 this.rankingComboBox.Visible = false;
+
+                this.kilpasarjaLabel.Visible = true;
+                this.kilpaSarjaComboBox.Visible = true;
             }
 
             PaivitaKilpailunOletusNimi();
@@ -103,7 +143,21 @@ namespace KaisaKaavio
         {
             if (!this.nimeaMuokattuManuaalisesti)
             {
-                string kilpatyyppi = this.LuoViikkokisa ? "viikkokisa" : "RG kilpailu";
+                string kilpatyyppi = "kilpailu";
+
+                switch (this.KilpailunTyyppi)
+                {
+                    case KilpailunTyyppi.Viikkokisa: kilpatyyppi = "viikkokisa"; break;
+                    case KaisaKaavio.KilpailunTyyppi.AvoinKilpailu: kilpatyyppi = "avoin kilpailu"; break;
+                    case KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu: kilpatyyppi = "RG osakilpailu"; break;
+                    case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu: kilpatyyppi = "SM kilpailu"; break;
+                }
+
+                if (this.KilpaSarja != KaisaKaavio.KilpaSarja.Yleinen)
+                { 
+                    kilpatyyppi = kilpatyyppi + " (" + Enum.GetName(typeof(KilpaSarja), this.KilpaSarja) +")";
+                }
+
                 string aika = Tyypit.Aika.DateTimeToString(this.alkamisAikaDateTimePicker.Value);
                 string laji = "Kaisan";
 
@@ -132,6 +186,11 @@ namespace KaisaKaavio
         }
 
         private void alkamisAikaDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            PaivitaKilpailunOletusNimi();
+        }
+
+        private void kilpaSarjaComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PaivitaKilpailunOletusNimi();
         }
