@@ -259,6 +259,7 @@
     <None Include="Resources\Poista.png" />
     <None Include="Resources\Sulje.png" />
     <None Include="Resources\Viimeisimmat.png" />
+    <None Include="Resources\Pelipaikat.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

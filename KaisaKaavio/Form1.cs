@@ -528,6 +528,11 @@ namespace KaisaKaavio
                     this.tabControl1.Controls.Remove(this.kilpailuKutsuTabPage);
                 }
 
+                if (this.tabControl1.Contains(this.pelipaikatTabPage))
+                {
+                    this.tabControl1.Controls.Remove(this.pelipaikatTabPage);
+                }
+
                 if (!this.tabControl1.Contains(this.rankingTabPage))
                 {
                     this.tabControl1.Controls.Add(this.rankingTabPage);
@@ -543,6 +548,11 @@ namespace KaisaKaavio
                 if (this.tabControl1.Contains(this.rankingTabPage))
                 {
                     this.tabControl1.Controls.Remove(this.rankingTabPage);
+                }
+
+                if (!this.tabControl1.Contains(this.pelipaikatTabPage))
+                {
+                    this.tabControl1.Controls.Add(this.pelipaikatTabPage);
                 }
             }
         }
@@ -3121,7 +3131,9 @@ namespace KaisaKaavio
 
         private void LopetaSbilTeksti(StringBuilder s)
         {
-            s.AppendLine(string.Format("[size=85]Kilpailu vedetty ilmaisella, avoimen lähdekoodin [url=https://github.com/iliip0/KaisaKaavio] KaisaKaavio [/url] -ohjelmalla.[/size]"));
+            s.AppendLine(
+                string.Format("[size=85]Kilpailu vedetty ilmaisella, avoimen lähdekoodin [url=https://github.com/iliip0/KaisaKaavio] KaisaKaavio [/url] -ohjelmalla[color=#999999] (versio {0})[/color][/size]",
+                    Assembly.GetEntryAssembly().GetName().Version));
         }
 
         private void PaivitaPelitTeksti()
