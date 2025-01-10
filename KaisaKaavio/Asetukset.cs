@@ -123,6 +123,8 @@ namespace KaisaKaavio
                     this.Sali.Nimi = asetukset.Sali.Nimi;
                     this.Sali.Osoite = asetukset.Sali.Osoite;
                     this.Sali.PuhelinNumero = asetukset.Sali.PuhelinNumero;
+                    this.Sali.Seura = asetukset.Sali.Seura;
+                    this.Sali.Lyhenne = asetukset.Sali.Lyhenne;
 
                     this.Sali.Linkit.Clear();
                     foreach (var linkki in asetukset.Sali.Linkit)

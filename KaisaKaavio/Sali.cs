@@ -11,6 +11,7 @@ namespace KaisaKaavio
     public class Sali
     {
         [XmlAttribute]
+        [DefaultValue("")]
         public string Nimi { get; set; }
 
         [XmlAttribute]
@@ -21,6 +22,14 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string PuhelinNumero { get; set; }
 
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Seura { get; set; }
+
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Lyhenne { get; set; }
+
         public BindingList<Linkki> Linkit { get; set; }
 
         public BindingList<Poyta> Poydat { get; set; }
@@ -30,6 +39,8 @@ namespace KaisaKaavio
             this.Nimi = string.Empty;
             this.Osoite = string.Empty;
             this.PuhelinNumero = string.Empty;
+            this.Seura = string.Empty;
+            this.Lyhenne = string.Empty;
             this.Linkit = new BindingList<Linkki>();
             this.Poydat = new BindingList<Poyta>();
         }

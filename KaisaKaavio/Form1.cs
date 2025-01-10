@@ -102,6 +102,7 @@ namespace KaisaKaavio
             this.jalkiIlmoBindingSource.DataSource = this.kilpailu.JalkiIlmoittautuneet;
             this.peliBindingSource.DataSource = this.kilpailu.Pelit;
             this.kaavioBindingSource.DataSource = this.kilpailu.OsallistujatJarjestyksessa;
+            this.saliBindingSource.DataSource = this.asetukset.Sali;
             this.poytaBindingSource.DataSource = this.asetukset.Sali.Poydat;
             this.linkkiBindingSource.DataSource = this.asetukset.Sali.Linkit;
             this.rankingBindingSource.DataSource = this.ranking;
@@ -4276,6 +4277,26 @@ namespace KaisaKaavio
             this.ranking.TyhjennaSarjatMuistista();
         }
 
+        private void rankingHakuLajiComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.haeRankingSarjaButton.Enabled = true;
+        }
+
+        private void rankingSarjatPuolivuottaComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.haeRankingSarjaButton.Enabled = true;
+        }
+
+        private void rankingSarjatKausiCcomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.haeRankingSarjaButton.Enabled = true;
+        }
+
+        private void rankingSarjatKuukausiComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.haeRankingSarjaButton.Enabled = true;
+        }
+
         #endregion
 
         // ========={( Dokumenttien tulostaminen )}============================================================ //
@@ -4311,26 +4332,6 @@ namespace KaisaKaavio
         private void label25_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void rankingHakuLajiComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.haeRankingSarjaButton.Enabled = true;
-        }
-
-        private void rankingSarjatPuolivuottaComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.haeRankingSarjaButton.Enabled = true;
-        }
-
-        private void rankingSarjatKausiCcomboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.haeRankingSarjaButton.Enabled = true;
-        }
-
-        private void rankingSarjatKuukausiComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.haeRankingSarjaButton.Enabled = true;
         }
     }
 }
