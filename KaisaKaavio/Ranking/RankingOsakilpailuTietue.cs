@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace KaisaKaavio.Ranking
@@ -210,6 +206,31 @@ namespace KaisaKaavio.Ranking
             }
 
             return null;
+        }
+
+        public void PoistaKilpailu(Loki loki)
+        {
+            string tiedosto = KilpailuTiedostonNimi();
+
+            try
+            {
+                if (File.Exists(tiedosto))
+                {
+                    File.Delete(tiedosto);
+                }
+
+                if (loki != null)
+                {
+                    loki.Kirjoita(string.Format("Poistettiin rankingkilpailutiedosto {0}", tiedosto), null, false);
+                }
+            }
+            catch (Exception e)
+            {
+                if (loki != null)
+                {
+                    loki.Kirjoita(string.Format("Kilpailutiedoston {0} poistaminen epäonnistui", tiedosto), e, false);
+                }
+            }
         }
 
         public bool TallennaOsakilpailu(Loki loki)

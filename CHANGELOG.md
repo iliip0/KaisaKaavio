@@ -7,6 +7,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Muutettu kilpailun tyyppivalintoja niin että valittavissa on 4 kisatyyppiä: { Viikkokisa, Avoin kilpailu, SBiL RG kilpailu ja SBiL SM kilpailu }
 * Lisätty kilpailuun kilpasarja valittavaksi { Yleinen, SenioritMN40, SenioritMN50 jne... }
 * Korjaus Salin Tiedot osioon. Osa tiedoista ei tallentunut
+* Korjaus Rankingsarja ominaisuuteen: Pelaajien nimissä olevat tasurit yms merkinnät sotkivat taulukon. Korjattu
+* Korjaus Rankingsarja ominaisuuteen: Rankingtilanne ei päivittynyt jos heti kisan päätyttyä mentiin 'Tulokset' osioon. Korjattu
 
 ## Versio 1.0.0.13		(julkaistu 9.1.2025)
 

@@ -59,5 +59,27 @@ namespace KaisaKaavio.Tyypit
                 return string.Empty;
             }
         }
+
+        public static bool Equals(string nimi1, string nimi2)
+        {
+            string lyhytNimi1 = PoistaTasuritJaSijoituksetNimesta(nimi1);
+            string lyhytNimi2 = PoistaTasuritJaSijoituksetNimesta(nimi2);
+
+            var nimet1 = lyhytNimi1.Split(' ');
+            var nimet2 = lyhytNimi2.Split(' ');
+
+            if (nimet1.Count() == 2 && nimet2.Count() == 2)
+            {
+                return
+                    (string.Equals(nimet1[0], nimet2[0], StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(nimet1[1], nimet2[1], StringComparison.OrdinalIgnoreCase)) ||
+                    (string.Equals(nimet1[0], nimet2[1], StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(nimet1[1], nimet2[0], StringComparison.OrdinalIgnoreCase));
+            }
+            else 
+            {
+                return string.Equals(lyhytNimi1, lyhytNimi2, StringComparison.OrdinalIgnoreCase);
+            }
+        }
     }
 }

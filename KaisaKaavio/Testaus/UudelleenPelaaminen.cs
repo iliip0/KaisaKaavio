@@ -44,7 +44,8 @@ namespace KaisaKaavio.Testaus
                 this.kilpailu.KaavioTyyppi = this.vanhaKilpailu.KaavioTyyppi;
                 this.kilpailu.KellonAika = this.vanhaKilpailu.KellonAika;
                 this.kilpailu.KilpailunJohtaja = this.vanhaKilpailu.KilpailunJohtaja;
-                this.kilpailu.KilpailuOnViikkokisa = this.vanhaKilpailu.KilpailuOnViikkokisa;
+                this.kilpailu.KilpailunTyyppi = this.vanhaKilpailu.KilpailunTyyppi;
+                this.kilpailu.Sijoittaminen = this.vanhaKilpailu.Sijoittaminen;
                 this.kilpailu.Laji = this.vanhaKilpailu.Laji;
                 this.kilpailu.LisaTietoa = this.vanhaKilpailu.LisaTietoa;
                 this.kilpailu.LisenssiVaatimus = this.vanhaKilpailu.LisenssiVaatimus;

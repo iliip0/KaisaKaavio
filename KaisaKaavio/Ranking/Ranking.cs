@@ -270,6 +270,12 @@ namespace KaisaKaavio.Ranking
             return sarja;
         }
 
+        public void PoistaRankingTietue(RankingOsakilpailuTietue tietue)
+        {
+            var kuukausi = AvaaRankingKuukausi(tietue.PvmDt.Year, tietue.PvmDt.Month);
+            kuukausi.PoistaOsakilpailu(tietue, this.Loki);
+        }
+
         public RankingKuukausi AvaaRankingKuukausi(int vuosi, int kuu)
         {
             var kuukausi = this.kuukaudet.FirstOrDefault(x => x.Vuosi == vuosi && x.Kuukausi == kuu);
@@ -284,6 +290,24 @@ namespace KaisaKaavio.Ranking
                 kuukausi.Avaa(this.Loki);
 
                 this.kuukaudet.Add(kuukausi);
+            }
+
+            // Tarkista, että kisat ovat oikeassa kuussa
+            while (true)
+            {
+                var kisa = kuukausi.Osakilpailut.FirstOrDefault(x => !kuukausi.SisaltaaOsakilpailunAjallisesti(x));
+                if (kisa == null)
+                {
+                    break;
+                }
+
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("Poistetaan ranking osakilpailu {0} kuukaudesta {1}/{2}", kisa.Nimi, kuukausi.Kuukausi, kuukausi.Vuosi));
+                }
+
+                kuukausi.PoistaOsakilpailu(kisa, this.Loki);
+                AvaaRankingKuukausi(kisa.PvmDt);
             }
 
             return kuukausi;
@@ -412,7 +436,7 @@ namespace KaisaKaavio.Ranking
                 var r = ranking.RankingEnnenOsakilpailua(DateTime.Now);
                 if (r != null)
                 {
-                    var p = r.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja, StringComparison.OrdinalIgnoreCase));
+                    var p = r.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja));
                     if (p != null)
                     {
                         sijoitus = p.KumulatiivinenSijoitus;

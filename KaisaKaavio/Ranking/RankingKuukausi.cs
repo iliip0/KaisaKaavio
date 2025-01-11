@@ -18,6 +18,8 @@ namespace KaisaKaavio.Ranking
 
         public int Kuukausi { get; set; }
 
+        private bool TallennusTarvitaan = false;
+
         [XmlIgnore]
         public string Kansio
         {
@@ -57,7 +59,7 @@ namespace KaisaKaavio.Ranking
 
         public bool TallennaTarvittaessa(Loki loki)
         {
-            if (Osakilpailut.Any(x => x.TallennusTarvitaan))
+            if (this.TallennusTarvitaan || Osakilpailut.Any(x => x.TallennusTarvitaan))
             {
                 return Tallenna(loki);
             }
@@ -116,6 +118,8 @@ namespace KaisaKaavio.Ranking
 
                 File.Copy(nimiTmp, this.TiedostonNimi, true);
                 File.Delete(nimiTmp);
+
+                this.TallennusTarvitaan = false;
 
                 return osakilpailujenTallennusOnnistui;
             }
@@ -197,7 +201,6 @@ namespace KaisaKaavio.Ranking
                 };
                 
                 this.Osakilpailut.Add(tietue);
-
                 //tietue.LataaOsakilpailu(this.Kansio, loki);
             }
 
@@ -207,7 +210,39 @@ namespace KaisaKaavio.Ranking
             tietue.KilpailunTarkistusSumma = string.Empty;
             tietue.TallennusTarvitaan = true;
 
+            this.TallennusTarvitaan = true;
+
             return tietue;
+        }
+
+        public void PoistaOsakilpailu(RankingOsakilpailuTietue osakilpailu, Loki loki)
+        {
+            if (this.Osakilpailut.Contains(osakilpailu))
+            {
+                osakilpailu.PoistaKilpailu(loki);
+                this.Osakilpailut.Remove(osakilpailu);
+                this.TallennusTarvitaan = true;
+            }
+        }
+
+        public bool SisaltaaOsakilpailunAjallisesti(RankingOsakilpailuTietue osakilpailu)
+        {
+            if (osakilpailu == null)
+            {
+                return false;
+            }
+
+            if (osakilpailu.PvmDt.Year != this.Vuosi)
+            {
+                return false;
+            }
+
+            if (osakilpailu.PvmDt.Month != this.Kuukausi)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -308,10 +308,13 @@ namespace KaisaKaavio.Ranking
 
                         foreach (var osakilpailu in osakilpailut)
                         {
-                            var kilpailu = osakilpailu.LataaKilpailu(loki);
-                            if (kilpailu != null)
+                            if (SisaltaaOsakilpailun(osakilpailu))
                             {
-                                LisaaKilpailu(ranking, kilpailu, osakilpailu, asetukset, false);
+                                var kilpailu = osakilpailu.LataaKilpailu(loki);
+                                if (kilpailu != null)
+                                {
+                                    LisaaKilpailu(ranking, kilpailu, osakilpailu, asetukset, false);
+                                }
                             }
                         }
                     }
@@ -407,11 +410,11 @@ namespace KaisaKaavio.Ranking
 
                 foreach (var p in o.Osallistujat)
                 {
-                    if (!kaikkiPelaajat.Any(x => string.Equals(x.Nimi, p.Nimi, StringComparison.OrdinalIgnoreCase)))
+                    if (!kaikkiPelaajat.Any(x => Tyypit.Nimi.Equals(x.Nimi, p.Nimi)))
                     {
                         kaikkiPelaajat.Add(new RankingPelaajaTietue() 
                         {
-                            Nimi = p.Nimi,
+                            Nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(p.Nimi),
                         });
                     }
                 }
@@ -421,7 +424,7 @@ namespace KaisaKaavio.Ranking
             {
                 foreach (var p in kaikkiPelaajat)
                 {
-                    var pelaaja = o.Osallistujat.FirstOrDefault(x => string.Equals(x.Nimi, p.Nimi, StringComparison.OrdinalIgnoreCase));
+                    var pelaaja = o.Osallistujat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, p.Nimi));
                     if (pelaaja == null)
                     {
                         p.LisaaOsakilpailunPisteet(0, "xxx");
@@ -584,11 +587,6 @@ namespace KaisaKaavio.Ranking
             muokattu = true;
         }
 
-        public int PelaajanSijoitus(int id)
-        {
-            return 10; // TODO
-        }
-
         public bool OnSarjanEnsimmainenKilpailu(Kilpailu kilpailu)
         {
             var eka = this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).FirstOrDefault();
@@ -627,7 +625,7 @@ namespace KaisaKaavio.Ranking
                 if (a.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista)
                 {
                     var parhaatSijat = r
-                        .Where(x => kilpailu.Osallistujat.Any(y => string.Equals(y.Nimi, x.Nimi, StringComparison.OrdinalIgnoreCase)))
+                        .Where(x => kilpailu.Osallistujat.Any(y => Tyypit.Nimi.Equals(y.Nimi, x.Nimi)))
                         .OrderBy(x => x.KumulatiivinenSijoitus)
                         .Select(x => x.KumulatiivinenSijoitus)
                         .Distinct();
@@ -653,7 +651,7 @@ namespace KaisaKaavio.Ranking
 
                     rankingKarjet.AddRange(r
                         .Where(x => x.KumulatiivinenSijoitus >= 1 && x.KumulatiivinenSijoitus <= 3)
-                        .Where(x => kilpailu.Osallistujat.Any(y => string.Equals(x.Nimi, y.Nimi, StringComparison.OrdinalIgnoreCase)))
+                        .Where(x => kilpailu.Osallistujat.Any(y => Tyypit.Nimi.Equals(x.Nimi, y.Nimi)))
                         .OrderBy(x => x.KumulatiivinenSijoitus));
                 }
                 else
@@ -675,7 +673,7 @@ namespace KaisaKaavio.Ranking
             {
                 foreach (var pelaaja in osakilpailu.Osallistujat)
                 {
-                    var p = pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
+                    var p = pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
                     if (p != null)
                     {
                         p.RankingPisteet += pelaaja.RankingPisteet;
@@ -684,7 +682,7 @@ namespace KaisaKaavio.Ranking
                     {
                         pelaajat.Add(new RankingPelaajaTietue() 
                         {
-                            Nimi = pelaaja.Nimi,
+                            Nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi),
                             RankingPisteet = pelaaja.RankingPisteet
                         });
                     }

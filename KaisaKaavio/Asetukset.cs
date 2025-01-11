@@ -333,15 +333,17 @@ namespace KaisaKaavio
         {
             foreach (var osallistuja in kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
             {
-                // Tallenna vain pelaajat joilla on vähintään kaksi nimeä (etu & suku)
-                if (osallistuja.Nimi.Split(' ').Count() > 1 &&
-                    osallistuja.Nimi.Split(' ').Count() <= 3 &&
-                    !osallistuja.Nimi.Contains("&") &&
-                    !osallistuja.Nimi.Contains(" ja "))
-                {
-                    string nimi = MuotoileNimi(osallistuja.Nimi);
+                string nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(osallistuja.Nimi);
 
-                    PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, nimi, StringComparison.OrdinalIgnoreCase));
+                // Tallenna vain pelaajat joilla on vähintään kaksi nimeä (etu & suku)
+                if (nimi.Split(' ').Count() > 1 &&
+                    nimi.Split(' ').Count() <= 3 &&
+                    !nimi.Contains("&") &&
+                    !nimi.Contains(" ja "))
+                {
+                    string muotoiltuNimi = MuotoileNimi(osallistuja.Nimi);
+
+                    PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, muotoiltuNimi, StringComparison.OrdinalIgnoreCase));
                     if (vanhaPelaaja != null)
                     {
                         vanhaPelaaja.Seura = osallistuja.Seura;
@@ -351,7 +353,7 @@ namespace KaisaKaavio
                         PelaajaTietue p =
                         new PelaajaTietue()
                         {
-                            Nimi = nimi,
+                            Nimi = muotoiltuNimi,
                             Seura = osallistuja.Seura
                         };
 

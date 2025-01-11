@@ -838,7 +838,7 @@ namespace KaisaKaavio
             {
                 try
                 {
-                    this.dateTimePicker2.Value = this.kilpailu.AlkamisAikaDt;
+                    this.alkamisAikaDateTimePicker.Value = this.kilpailu.AlkamisAikaDt;
                 }
                 catch (Exception ee)
                 {
@@ -1217,7 +1217,29 @@ namespace KaisaKaavio
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
-            this.kilpailu.AlkamisAikaDt = this.dateTimePicker2.Value;
+            if (!DateTime.Equals(this.kilpailu.AlkamisAikaDt, this.alkamisAikaDateTimePicker.Value))
+            {
+                // Ranking tietueita tulee päivittää jos kilpailun päivämäärä muuttuu
+                bool rankingKisa = this.kilpailu.RankingOsakilpailu != null;
+                
+                if (rankingKisa)
+                {
+                    this.loki.Kirjoita(string.Format("Rankingosakilpailun {0} päivämäärää muutettiin manuaalisesti {1} => {2}. Päivitetään rankingtietueita",
+                        this.kilpailu.Nimi,
+                        this.kilpailu.AlkamisAikaDt,
+                        this.alkamisAikaDateTimePicker.Value));
+
+                    this.ranking.PoistaRankingTietue(this.kilpailu.RankingOsakilpailu);
+                    this.kilpailu.RankingOsakilpailu = null;
+                }
+
+                this.kilpailu.AlkamisAikaDt = this.alkamisAikaDateTimePicker.Value;
+
+                if (rankingKisa)
+                {
+                    this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
+                }
+            }
         }
 
         #endregion
@@ -1304,9 +1326,9 @@ namespace KaisaKaavio
 
         private void PaivitaPelaajanRankingPisteetOsallistujalistaan(List<Ranking.RankingPelaajaTietue> rankingKarki, Pelaaja pelaaja)
         {
-#if DEBUG
-            Debug.WriteLine(string.Format("# PaivitaPelaajanRankingPisteetOsallistujalistaan({0})", pelaaja.Nimi));
-#endif
+//#if DEBUG
+//            Debug.WriteLine(string.Format("# PaivitaPelaajanRankingPisteetOsallistujalistaan({0})", pelaaja.Nimi));
+//#endif
 
             try
             {
@@ -1339,9 +1361,9 @@ namespace KaisaKaavio
 
         private void PaivitaPelaajienRankingPisteetOsallistujalistaan()
         {
-#if DEBUG
-            Debug.WriteLine("# PaivitaPelaajienRankingPisteetOsallistujalistaan()");
-#endif
+//#if DEBUG
+//            Debug.WriteLine("# PaivitaPelaajienRankingPisteetOsallistujalistaan()");
+//#endif
             if (this.kilpailu.KilpailuOnViikkokisa && this.kilpailu.RankingKisa)
             {
                 List<Ranking.RankingPelaajaTietue> karki = null;
@@ -3277,6 +3299,9 @@ namespace KaisaKaavio
             if (this.kilpailu.KilpailuOnPaattynyt &&
                 this.kilpailu.RankingKisa)
             {
+                // Päivittää ranking pisteet avatulle kilpailulle
+                this.ranking.ValitseRankingSarjaKilpailulle(this.kilpailu);
+
                 var rankingSarja = this.ranking.AvaaRankingSarja(this.kilpailu);
                 if (rankingSarja != null)
                 {

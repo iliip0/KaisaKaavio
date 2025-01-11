@@ -147,7 +147,7 @@ namespace KaisaKaavio.Ranking
                     Osallistujat.Add(new RankingPelaajaTietue()
                     {
                         Id = pelaaja.Id,
-                        Nimi = pelaaja.Nimi,
+                        Nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi),
                     });
                 }
             }
@@ -155,7 +155,7 @@ namespace KaisaKaavio.Ranking
             // Laitetaan rankinglistalle samat id kuin osallistujille
             foreach (var r in ranking)
             {
-                var p = Osallistujat.FirstOrDefault(x => string.Equals(r.Nimi, x.Nimi, StringComparison.OrdinalIgnoreCase));
+                var p = Osallistujat.FirstOrDefault(x => Tyypit.Nimi.Equals(r.Nimi, x.Nimi));
                 if (p != null)
                 {
                     r.Id = p.Id;

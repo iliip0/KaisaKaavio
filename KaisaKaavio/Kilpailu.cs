@@ -1770,42 +1770,45 @@ namespace KaisaKaavio
             }
 
             // Tarkistetaan onko tulokset varmasti lopullisia
-            foreach (var t in tulokset)
+            if (mukana > 1)
             {
-                t.SijoitusOnVarma = t.Pudotettu;
-
-                if (tulokset.Where(x => x.Pelaaja != t.Pelaaja && !x.Pudotettu).Any(y =>
-                    y.Voitot < t.Voitot ||
-                    y.Voitot == t.Voitot && y.Pisteet <= t.Pisteet))
+                foreach (var t in tulokset)
                 {
+                    t.SijoitusOnVarma = t.Pudotettu;
+
+                    if (tulokset.Where(x => x.Pelaaja != t.Pelaaja && !x.Pudotettu).Any(y =>
+                        y.Voitot < t.Voitot ||
+                        y.Voitot == t.Voitot && y.Pisteet <= t.Pisteet))
+                    {
+                        if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
+                            mukana <= 2 &&
+                            t.Sijoitus >= 2)
+                        {
+                        }
+                        else
+                        {
+                            t.SijoitusOnVarma = false; // Joku mukana olevista voi vielä jäädä huonommalle sijalle
+                        }
+                    }
+
+                    if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
+                        mukana > 2 &&
+                        t.Sijoitus <= 5)
+                    {
+                        t.SijoitusOnVarma = false;
+                    }
+
                     if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
-                        mukana <= 2 &&
-                        t.Sijoitus >= 2)
+                        mukana > 2 &&
+                        t.Sijoitus < 3)
                     {
+                        t.SijoitusOnVarma = false;
                     }
-                    else
+
+                    if (mukana == 1 && t.Sijoitus == 1)
                     {
-                        t.SijoitusOnVarma = false; // Joku mukana olevista voi vielä jäädä huonommalle sijalle
+                        t.SijoitusOnVarma = true;
                     }
-                }
-
-                if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
-                    mukana > 2 &&
-                    t.Sijoitus <= 5)
-                {
-                    t.SijoitusOnVarma = false;
-                }
-
-                if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
-                    mukana > 2 &&
-                    t.Sijoitus < 3)
-                {
-                    t.SijoitusOnVarma = false;
-                }
-
-                if (mukana == 1 && t.Sijoitus == 1)
-                {
-                    t.SijoitusOnVarma = true;
                 }
             }
 
