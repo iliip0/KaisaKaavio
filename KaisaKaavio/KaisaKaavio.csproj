@@ -288,6 +288,7 @@
     <Content Include="Todo.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Aloitussivu\" />
     <Folder Include="Tulostus\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

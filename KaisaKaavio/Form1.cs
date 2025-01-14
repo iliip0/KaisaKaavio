@@ -92,10 +92,15 @@ namespace KaisaKaavio
 
             asetukset.Lataa();
 
+#if DEBUG
             if (!string.IsNullOrEmpty(asetukset.ViimeisinKilpailu))
             {
                 AvaaKilpailu(asetukset.ViimeisinKilpailu);
             }
+#else
+            PaivitaIkkunanNimi();
+            PaivitaKilpailuTyyppi();
+#endif
 
             this.kilpailuBindingSource.DataSource = this.kilpailu;
             this.pelaajaBindingSource.DataSource = this.kilpailu.Osallistujat;
@@ -473,6 +478,17 @@ namespace KaisaKaavio
         /// </summary>
         private void PaivitaKilpailuTyyppi()
         {
+            this.osallistujatDataGridView.Enabled = !this.kilpailu.Tyhja;
+            this.jalkiIlmoittautuneetDataGridView.Enabled = !this.kilpailu.Tyhja;
+            this.pelitDataGridView.Enabled = !this.kilpailu.Tyhja;
+            this.kilpailunNimiTextBox.Enabled = !this.kilpailu.Tyhja;
+            this.alkamisAikaDateTimePicker.Enabled = !this.kilpailu.Tyhja;
+            this.kellonAikaTextBox.Enabled = !this.kilpailu.Tyhja;
+            this.yksipaivainenCheckBox.Enabled = !this.kilpailu.Tyhja;
+            this.kaavioGroupBox.Enabled = !this.kilpailu.Tyhja;
+            this.rankingGroupBox.Enabled = !this.kilpailu.Tyhja;
+            this.kisaDetaljitGroupBox.Enabled = !this.kilpailu.Tyhja;
+
             PaivitaSijoitettuSarake();
 
             if (this.kilpailu.Laji == Laji.Pool)
@@ -1299,14 +1315,21 @@ namespace KaisaKaavio
                         }
                     }
 
-                    var osallistujat = this.kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
-                    if (osallistujat.Count() == 1)
+                    if (this.kilpailu.Tyhja)
                     {
-                        osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistuja", osallistujat.Count());
+                        osallistujaMaaraRichTextBox.Text = string.Empty;
                     }
                     else
                     {
-                        osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistujaa", osallistujat.Count());
+                        var osallistujat = this.kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
+                        if (osallistujat.Count() == 1)
+                        {
+                            osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistuja", osallistujat.Count());
+                        }
+                        else
+                        {
+                            osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistujaa", osallistujat.Count());
+                        }
                     }
                 }
                 catch (Exception e)

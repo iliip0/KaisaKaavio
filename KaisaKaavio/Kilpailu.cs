@@ -160,6 +160,9 @@ namespace KaisaKaavio
             } 
         }
 
+        [XmlIgnore]
+        public bool Tyhja { get { return string.IsNullOrEmpty(this.Id) && string.IsNullOrEmpty(this.Nimi); } }
+
         public Laji Laji { get; set; }
         public KilpailunTyyppi KilpailunTyyppi { get; set; }
         public KilpaSarja KilpaSarja { get; set; }
@@ -215,20 +218,16 @@ namespace KaisaKaavio
             Pelit.ListChanged += Pelit_ListChanged;
 
             Id = string.Empty;
-
-            Nimi = string.Format("Kaisan viikkokilpailu {0}.{1}.{2}", 
-                DateTime.Now.Day, 
-                DateTime.Now.Month, 
-                DateTime.Now.Year);
+            Nimi = string.Empty;
 
             AlkamisAikaDt = DateTime.Today;
-            KellonAika = "18:00";
+            KellonAika = string.Empty;
             Yksipaivainen = true;
 
             this.RankingOsakilpailu = null;
 
-            OsallistumisMaksu = "10€";
-            OsallistumisOikeus = "Avoin kaikille";
+            OsallistumisMaksu = string.Empty;
+            OsallistumisOikeus = string.Empty;
             KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
             JarjestavaSeura = string.Empty;
             PeliAika = 40;
@@ -240,7 +239,7 @@ namespace KaisaKaavio
             LisenssiVaatimus = string.Empty;
             MaksuTapa = string.Empty;
             Palkinnot = string.Empty;
-            Pukeutuminen = "Vapaa";
+            Pukeutuminen = string.Empty;
             Ilmoittautuminen = string.Empty;
             PelaajiaEnintaan = 32;
             Laji = KaisaKaavio.Laji.Kaisa;

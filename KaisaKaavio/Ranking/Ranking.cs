@@ -230,6 +230,7 @@ namespace KaisaKaavio.Ranking
             {
                 // Mikäli sarja sisältää ohjelmassa auki olevan kilpailun, sarja päivitetään joka kerta
                 if (kilpailu != null &&
+                    !kilpailu.Tyhja &&
                     kilpailu.RankingOsakilpailu != null &&
                     sarja.SisaltaaOsakilpailun(kilpailu.RankingOsakilpailu))
                 {
@@ -251,6 +252,7 @@ namespace KaisaKaavio.Ranking
             };
 
             if (kilpailu != null &&
+               !kilpailu.Tyhja &&
                 kilpailu.RankingOsakilpailu != null &&
                 sarja.SisaltaaOsakilpailun(kilpailu.RankingOsakilpailu))
             {
