@@ -1491,6 +1491,8 @@ namespace KaisaKaavio
 
                     this.kilpailu.SiirraJalkiIlmoittautuneetOsallistujiin(this.asetukset);
 
+                    this.osallistujatDataGridView.Refresh();
+
                     this.loki.Kirjoita("Kaavio arvottu", null, false);
                 }
                 else
