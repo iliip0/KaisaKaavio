@@ -819,7 +819,7 @@ namespace KaisaKaavio
             return 0;
         }
 
-        private void PelaajaRtf(Pelaaja pelaaja, int tappiot, string pisteet, StringBuilder rtf, StringBuilder sbil, bool tulostaPisteet, bool tulostaSeura)
+        private void PelaajaRtf(Pelaaja pelaaja, int tappiot, string pisteet, StringBuilder rtf, StringBuilder sbil, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasuri)
         {
             if (pelaaja == null)
             {
@@ -848,6 +848,20 @@ namespace KaisaKaavio
                 sbil.Append(" " + pelaaja.Seura);
             }
 
+            if (tulostaTasuri && !string.IsNullOrEmpty(pelaaja.Tasoitus))
+            {
+                if (pelaaja.Tasoitus.Contains('(') || pelaaja.Tasoitus.Contains('['))
+                {
+                    rtf.Append(" " + pelaaja.Tasoitus);
+                    sbil.Append(" " + pelaaja.Tasoitus);
+                }
+                else
+                {
+                    rtf.Append(" (" + pelaaja.Tasoitus + ")");
+                    sbil.Append(" (" + pelaaja.Tasoitus + ")");
+                }
+            }
+
             if (tulostaPisteet && !string.IsNullOrEmpty(pisteet))
             {
                 rtf.Append(" " + pisteet);
@@ -855,7 +869,7 @@ namespace KaisaKaavio
             }
         }
 
-        private void Pelaaja1Rtf(StringBuilder rtf, StringBuilder sbil, bool tulostaPisteet, bool tulostaSeura)
+        private void Pelaaja1Rtf(StringBuilder rtf, StringBuilder sbil, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus)
         {
             if (this.Kilpailu == null || this.Id1 < 0)
             {
@@ -869,10 +883,10 @@ namespace KaisaKaavio
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id1, PeliNumero);
-            PelaajaRtf(pelaaja, tappiot, Pisteet1, rtf, sbil, tulostaPisteet, tulostaSeura);
+            PelaajaRtf(pelaaja, tappiot, Pisteet1, rtf, sbil, tulostaPisteet, tulostaSeura, tulostaTasoitus);
         }
 
-        private void Pelaaja2Rtf(StringBuilder rtf, StringBuilder sbil, bool tulostaPisteet, bool tulostaSeura)
+        private void Pelaaja2Rtf(StringBuilder rtf, StringBuilder sbil, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus)
         {
             if (this.Kilpailu == null || this.Id2 < 0)
             {
@@ -886,7 +900,7 @@ namespace KaisaKaavio
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id2, PeliNumero);
-            PelaajaRtf(pelaaja, tappiot, Pisteet2, rtf, sbil, tulostaPisteet, tulostaSeura);
+            PelaajaRtf(pelaaja, tappiot, Pisteet2, rtf, sbil, tulostaPisteet, tulostaSeura, tulostaTasoitus);
         }
 
         public void RichTextKuvaus(Sali sali, StringBuilder rtf, StringBuilder sbil, bool alkavienPelienTekstiin)
@@ -896,12 +910,12 @@ namespace KaisaKaavio
                 return;
             }
 
-            Pelaaja1Rtf(rtf, sbil, !alkavienPelienTekstiin, true);
+            Pelaaja1Rtf(rtf, sbil, !alkavienPelienTekstiin, true, true);
 
             rtf.Append(" - ");
             sbil.Append(" - ");
 
-            Pelaaja2Rtf(rtf, sbil, !alkavienPelienTekstiin, true);
+            Pelaaja2Rtf(rtf, sbil, !alkavienPelienTekstiin, true, true);
 
             string lyhytNimi1 = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi1);
             string lyhytNimi2 = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi2);

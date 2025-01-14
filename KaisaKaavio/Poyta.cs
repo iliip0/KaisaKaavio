@@ -11,6 +11,11 @@ namespace KaisaKaavio
     public class Poyta
     {
         [XmlAttribute]
+        [DefaultValue(true)]
+        public bool Kaytossa { get; set; }
+
+        [XmlAttribute]
+        [DefaultValue("")]
         public string Numero { get; set; }
 
         [XmlAttribute]
@@ -23,6 +28,7 @@ namespace KaisaKaavio
 
         public Poyta()
         {
+            this.Kaytossa = true;
             Numero = string.Empty;
             StriimiLinkki = string.Empty;
             TulosLinkki = string.Empty;

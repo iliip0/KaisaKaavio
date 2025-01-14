@@ -124,6 +124,18 @@
     <Compile Include="Ranking\RankingSarja.cs" />
     <Compile Include="Ranking\RankingSarjanPituus.cs" />
     <Compile Include="Sali.cs" />
+    <Compile Include="SalinTiedotPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SalinTiedotPanel.Designer.cs">
+      <DependentUpon>SalinTiedotPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SalinTiedotPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SalinTiedotPopup.Designer.cs">
+      <DependentUpon>SalinTiedotPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sijoittaminen.cs" />
     <Compile Include="SijoitustenMaaraytyminen.cs" />
     <Compile Include="Testaus\TestiAjo.cs" />
@@ -135,6 +147,8 @@
       <DependentUpon>TestiPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="Testaus\UudelleenPelaaminen.cs" />
+    <Compile Include="Toimitsija.cs" />
+    <Compile Include="ToimitsijanRooli.cs" />
     <Compile Include="Tyypit\Aika.cs" />
     <Compile Include="Tyypit\Nimi.cs" />
     <Compile Include="Tyypit\Tiedosto.cs" />
@@ -163,6 +177,12 @@
     <EmbeddedResource Include="Ranking\RankingPisteytysPopup.resx">
       <DependentUpon>RankingPisteytysPopup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SalinTiedotPanel.resx">
+      <DependentUpon>SalinTiedotPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalinTiedotPopup.resx">
+      <DependentUpon>SalinTiedotPopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Testaus\TestiPopup.resx">
       <DependentUpon>TestiPopup.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +198,7 @@
     <None Include="Properties\DataSources\Peli.datasource" />
     <None Include="Properties\DataSources\Poyta.datasource" />
     <None Include="Properties\DataSources\Sali.datasource" />
+    <None Include="Properties\DataSources\Toimitsija.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -260,6 +281,9 @@
     <None Include="Resources\Sulje.png" />
     <None Include="Resources\Viimeisimmat.png" />
     <None Include="Resources\Pelipaikat.png" />
+    <None Include="Resources\Paikka48.png" />
+    <None Include="Resources\Striimi48.png" />
+    <None Include="Resources\Toimitsijat48.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

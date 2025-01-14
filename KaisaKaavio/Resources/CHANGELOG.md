@@ -2,6 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.15		(työn alla)
+
+* Lisätty 'Tasuri' sarake ilmoittautumislistalle
+* Vaihdettu niin että tulokset näytetään ennen pelejä SBiL osiossa jos kilpailu on päättynyt
+
 ## Versio 1.0.0.14		(julkaistu 11.1.2025)
 
 * Muutettu kilpailun tyyppivalintoja niin että valittavissa on 4 kisatyyppiä: { Viikkokisa, Avoin kilpailu, SBiL RG kilpailu ja SBiL SM kilpailu }

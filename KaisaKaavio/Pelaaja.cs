@@ -73,6 +73,27 @@ namespace KaisaKaavio
             }
         }
 
+        private string tasoitus = string.Empty;
+
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Tasoitus
+        {
+            get
+            {
+                return this.tasoitus;
+            }
+
+            set
+            {
+                if (!string.Equals(this.tasoitus, value))
+                {
+                    this.tasoitus = value;
+                    RaisePropertyChanged("Tasoitus");
+                }
+            }
+        }
+
         [XmlAttribute]
         [DefaultValue("")]
         public string KabikeMaksu { get; set; }
@@ -174,6 +195,7 @@ namespace KaisaKaavio
             Nimi = string.Empty;
             Seura = string.Empty;
             Sijoitettu = string.Empty;
+            Tasoitus = string.Empty;
             KabikeMaksu = string.Empty;
             LisenssiMaksu = string.Empty;
             OsMaksu = string.Empty;

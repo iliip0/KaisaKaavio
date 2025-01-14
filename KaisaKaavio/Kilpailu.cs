@@ -148,6 +148,18 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool KilpailuOnViikkokisa { get { return this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa; } }
 
+        [XmlIgnore]
+        public bool KilpailuOnTasurikisa 
+        { 
+            get 
+            { 
+                return 
+                    (this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa ||
+                    this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.AvoinKilpailu) &&
+                    this.Laji != KaisaKaavio.Laji.Kaisa; 
+            } 
+        }
+
         public Laji Laji { get; set; }
         public KilpailunTyyppi KilpailunTyyppi { get; set; }
         public KilpaSarja KilpaSarja { get; set; }
@@ -155,6 +167,7 @@ namespace KaisaKaavio
 
         public BindingList<Pelaaja> Osallistujat { get; set; }
         public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
+        public BindingList<Sali> PeliPaikat { get; set; }
         public BindingList<Peli> Pelit { get; set; }
         
         [XmlIgnore]
@@ -195,6 +208,8 @@ namespace KaisaKaavio
             OsallistujatJarjestyksessa = new BindingList<Pelaaja>();
 
             JalkiIlmoittautuneet = new BindingList<Pelaaja>();
+
+            PeliPaikat = new BindingList<Sali>();
 
             Pelit = new BindingList<Peli>();
             Pelit.ListChanged += Pelit_ListChanged;
@@ -772,6 +787,15 @@ namespace KaisaKaavio
 
                 VarmistaEttaKilpailullaOnId();
 
+                this.PeliPaikat.Clear();
+                foreach (var p in kilpailu.PeliPaikat)
+                {
+                    if (!string.IsNullOrEmpty(p.Nimi))
+                    {
+                        this.PeliPaikat.Add(p);
+                    }
+                }
+
                 this.JalkiIlmoittautuneet.Clear();
 
                 foreach (var j in kilpailu.JalkiIlmoittautuneet)
@@ -836,7 +860,29 @@ namespace KaisaKaavio
 
             if (detaljit && !string.IsNullOrEmpty(pelaaja.Sijoitettu))
             {
-                nimi += " (" + pelaaja.Sijoitettu.Trim() + ")"; 
+                if (pelaaja.Sijoitettu.Contains('(') || pelaaja.Sijoitettu.Contains('['))
+                {
+                    nimi += pelaaja.Sijoitettu.Trim();
+                }
+                else
+                {
+                    nimi += "[" + pelaaja.Sijoitettu.Trim() + "]";
+                }
+            }
+
+            if (this.KilpailuOnTasurikisa)
+            {
+                if (detaljit && !string.IsNullOrEmpty(pelaaja.Tasoitus))
+                {
+                    if (pelaaja.Tasoitus.Contains('(') || pelaaja.Tasoitus.Contains('['))
+                    {
+                        nimi += " " + pelaaja.Tasoitus.Trim();
+                    }
+                    else
+                    {
+                        nimi += " (" + pelaaja.Tasoitus.Trim() + ")";
+                    }
+                }
             }
 
             return nimi;
@@ -863,10 +909,10 @@ namespace KaisaKaavio
                 nimi += " " + pelaaja.Seura.Trim();
             }
 
-            if (!string.IsNullOrEmpty(pelaaja.Sijoitettu))
-            {
-                nimi += " (" + pelaaja.Sijoitettu.Trim() + ")";
-            }
+            //if (!string.IsNullOrEmpty(pelaaja.Sijoitettu))
+            //{
+            //    nimi += " (" + pelaaja.Sijoitettu.Trim() + ")";
+            //}
 
             return nimi;
         }
@@ -877,10 +923,15 @@ namespace KaisaKaavio
             {
                 if (!string.IsNullOrEmpty(j.Nimi))
                 {
-                    var pelaaja = asetukset.Pelaajat.FirstOrDefault(x => string.Equals(j.Nimi, x.Nimi));
+                    var pelaaja = asetukset.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(j.Nimi, x.Nimi));
                     if (pelaaja != null)
                     {
                         j.Seura = pelaaja.Seura;
+
+                        if (this.KilpailuOnTasurikisa)
+                        {
+                            j.Tasoitus = pelaaja.Tasoitus(this.Laji);
+                        }
                     }
 
                     this.Osallistujat.Add(j);

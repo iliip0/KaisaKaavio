@@ -11,6 +11,10 @@ namespace KaisaKaavio
     public class Sali
     {
         [XmlAttribute]
+        [DefaultValue(true)]
+        public bool Kaytossa { get; set; }
+
+        [XmlAttribute]
         [DefaultValue("")]
         public string Nimi { get; set; }
 
@@ -34,8 +38,14 @@ namespace KaisaKaavio
 
         public BindingList<Poyta> Poydat { get; set; }
 
+        public BindingList<Toimitsija> Toimitsijat { get; set; }
+
+        [XmlIgnore]
+        public int Poytia { get { return this.Poydat.Count; } }
+
         public Sali()
         {
+            this.Kaytossa = true;
             this.Nimi = string.Empty;
             this.Osoite = string.Empty;
             this.PuhelinNumero = string.Empty;
@@ -43,6 +53,7 @@ namespace KaisaKaavio
             this.Lyhenne = string.Empty;
             this.Linkit = new BindingList<Linkki>();
             this.Poydat = new BindingList<Poyta>();
+            this.Toimitsijat = new BindingList<Toimitsija>();
         }
     }
 }

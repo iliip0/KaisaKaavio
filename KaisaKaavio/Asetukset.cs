@@ -27,6 +27,11 @@ namespace KaisaKaavio
         public static int AutomaattisenTallennuksenTaajuus = 5 * 60;
 
         /// <summary>
+        /// Tämä asetus määrää montako viimeksi avattua kilpailua listataan 'Viimeisimmät kilpailut' valikossa
+        /// </summary>
+        public static int ViimeisimpiaKilpailuja = 15;
+
+        /// <summary>
         /// Viimeisimmän kilpailutiedoston nimi
         /// </summary>
         public string ViimeisinKilpailu { get; set; }
@@ -151,50 +156,22 @@ namespace KaisaKaavio
                             !pelaaja.Nimi.Contains("&") &&
                             !pelaaja.Nimi.Contains(" ja "))
                         {
-                            string nimi = pelaaja.Nimi;
+                            string nimi = 
+                                Tyypit.Nimi.MuotoileNimi(
+                                Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi));
 
-                            for (int i = 0; i < 24; ++i)
-                            {
-                                nimi = nimi.Replace(string.Format("({0})", i), string.Empty);
-                                nimi = nimi.Replace(string.Format("({0}p)", i), string.Empty);
-                                nimi = nimi.Replace(string.Format("({0}P)", i), string.Empty);
-                                nimi = nimi.Replace(string.Format("[{0}]", i), string.Empty);
-                                nimi = nimi.Replace(string.Format("[{0}p]", i), string.Empty);
-                                nimi = nimi.Replace(string.Format("[{0}P]", i), string.Empty);
-                            }
-
-                            nimi = nimi.Trim();
-
-                            StringBuilder nimiIsoillaKirjaimilla = new StringBuilder();
-
-                            bool edellinenOliTyhja = true;
-                            foreach (var c in nimi)
-                            {
-                                if (edellinenOliTyhja)
-                                {
-                                    nimiIsoillaKirjaimilla.Append(Char.ToUpper(c));
-                                }
-                                else
-                                {
-                                    nimiIsoillaKirjaimilla.Append(Char.ToLower(c));
-                                }
-
-                                edellinenOliTyhja = 
-                                    Char.IsWhiteSpace(c) || 
-                                    Char.IsPunctuation(c) ||
-                                    c == '-' ||
-                                    c == '.' ||
-                                    c == '&';
-                            }
-
-                            nimi = nimiIsoillaKirjaimilla.ToString();
-
-                            if (!this.Pelaajat.Any(x => string.Equals(x.Nimi, nimi)))
+                            if (!this.Pelaajat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi)))
                             {
                                 this.Pelaajat.Add(new PelaajaTietue() 
                                 {
                                     Nimi = nimi,
-                                    Seura = pelaaja.Seura
+                                    Seura = pelaaja.Seura,
+                                    TasoitusHeyball = pelaaja.TasoitusHeyball,
+                                    TasoitusKaisa = pelaaja.TasoitusKaisa,
+                                    TasoitusKara = pelaaja.TasoitusKara,
+                                    TasoitusPool = pelaaja.TasoitusPool,
+                                    TasoitusPyramidi = pelaaja.TasoitusPyramidi,
+                                    TasoitusSnooker = pelaaja.TasoitusSnooker
                                 });
                             }
                         }
@@ -246,7 +223,7 @@ namespace KaisaKaavio
                         this.ViimeisimmatKilpailut.Insert(0, tiedosto);
                     }
 
-                    while (this.ViimeisimmatKilpailut.Count > 10)
+                    while (this.ViimeisimmatKilpailut.Count > ViimeisimpiaKilpailuja)
                     {
                         this.ViimeisimmatKilpailut.Remove(this.ViimeisimmatKilpailut.Last());
                     }
@@ -284,51 +261,6 @@ namespace KaisaKaavio
             }
         }
 
-        private string MuotoileNimi(string nimi)
-        {
-            if (string.IsNullOrEmpty(nimi))
-            {
-                return nimi;
-            }
-
-            var nimet = nimi.Split(',');
-            if (nimet == null || nimet.Count() == 1)
-            {
-                return KapiteeliksiEkaKirjain(nimi);
-            }
-
-            List<string> kapiteeliNimet = new List<string>();
-            foreach (var n in nimet)
-            {
-                kapiteeliNimet.Add(KapiteeliksiEkaKirjain(n.Trim()));
-            }
-
-            return string.Join(" ", kapiteeliNimet);
-        }
-
-        private string KapiteeliksiEkaKirjain(string nimi)
-        {
-            if (string.IsNullOrEmpty(nimi))
-            {
-                return nimi;
-            }
-
-            if (Char.IsUpper(nimi[0]))
-            {
-                return nimi;
-            }
-
-            StringBuilder s = new StringBuilder();
-            s.Append(Char.ToUpper(nimi[0]));
-
-            if (nimi.Length > 1)
-            {
-                s.Append(nimi.Substring(1));
-            }
-
-            return s.ToString();
-        }
-
         public void TallennaPelaajat(Kilpailu kilpailu)
         {
             foreach (var osallistuja in kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
@@ -341,12 +273,25 @@ namespace KaisaKaavio
                     !nimi.Contains("&") &&
                     !nimi.Contains(" ja "))
                 {
-                    string muotoiltuNimi = MuotoileNimi(osallistuja.Nimi);
+                    string muotoiltuNimi = Tyypit.Nimi.MuotoileNimi(osallistuja.Nimi);
 
-                    PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => string.Equals(x.Nimi, muotoiltuNimi, StringComparison.OrdinalIgnoreCase));
+                    PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, muotoiltuNimi));
                     if (vanhaPelaaja != null)
                     {
                         vanhaPelaaja.Seura = osallistuja.Seura;
+
+                        if (kilpailu.KilpailuOnViikkokisa)
+                        {
+                            switch (kilpailu.Laji)
+                            {
+                                case Laji.Heyball: vanhaPelaaja.TasoitusHeyball = osallistuja.Tasoitus; break;
+                                case Laji.Kaisa: vanhaPelaaja.TasoitusKaisa = osallistuja.Tasoitus; break;
+                                case Laji.Pool: vanhaPelaaja.TasoitusPool = osallistuja.Tasoitus; break;
+                                case Laji.Snooker: vanhaPelaaja.TasoitusSnooker = osallistuja.Tasoitus; break;
+                                case Laji.Kara: vanhaPelaaja.TasoitusKara = osallistuja.Tasoitus; break;
+                                case Laji.Pyramidi: vanhaPelaaja.TasoitusPyramidi = osallistuja.Tasoitus; break;
+                            }
+                        }
                     }
                     else
                     {
@@ -356,6 +301,19 @@ namespace KaisaKaavio
                             Nimi = muotoiltuNimi,
                             Seura = osallistuja.Seura
                         };
+
+                        if (kilpailu.KilpailuOnViikkokisa)
+                        {
+                            switch (kilpailu.Laji)
+                            {
+                                case Laji.Heyball: p.TasoitusHeyball = osallistuja.Tasoitus; break;
+                                case Laji.Kaisa: p.TasoitusKaisa = osallistuja.Tasoitus; break;
+                                case Laji.Pool: p.TasoitusPool = osallistuja.Tasoitus; break;
+                                case Laji.Snooker: p.TasoitusSnooker = osallistuja.Tasoitus; break;
+                                case Laji.Kara: p.TasoitusKara = osallistuja.Tasoitus; break;
+                                case Laji.Pyramidi: p.TasoitusPyramidi = osallistuja.Tasoitus; break;
+                            }
+                        }
 
                         Pelaajat.Add(p);
                     }

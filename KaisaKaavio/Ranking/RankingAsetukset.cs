@@ -24,6 +24,20 @@ namespace KaisaKaavio.Ranking
         public BindingList<RankingPisteytysPelista> PistetytysPeleista { get; set; }
         public BindingList<RankingPisteytysSijoituksesta> PisteytysSijoituksista { get; set; }
 
+        [XmlIgnore]
+        public bool RankingKarjetRelevantteja
+        {
+            get
+            {
+                return PistetytysPeleista
+                    .Where(x => x.Pisteet > 0)
+                    .Any(x => 
+                        x.Ehto == RankingPisteetPelista.RankingYkkosenVoitosta ||
+                        x.Ehto == RankingPisteetPelista.RankingKakkosenVoitosta ||
+                        x.Ehto == RankingPisteetPelista.RankingKolmosenVoitosta);
+            }
+        }
+
         public RankingAsetukset()
         {
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();

@@ -35,11 +35,23 @@ namespace KaisaKaavio.Tyypit
                 {
                     StringBuilder o = new StringBuilder();
 
+                    bool edellinenKirjainOliAakkonen = false;
+
                     foreach (var c in osa)
                     {
                         if (Char.IsLetter(c))
                         {
                             o.Append(c);
+                            edellinenKirjainOliAakkonen = true;
+                        }
+                        else
+                        {
+                            if (c == '-' && edellinenKirjainOliAakkonen)
+                            {
+                                o.Append(c);
+                            }
+
+                            edellinenKirjainOliAakkonen = false;
                         }
                     }
 
@@ -80,6 +92,53 @@ namespace KaisaKaavio.Tyypit
             {
                 return string.Equals(lyhytNimi1, lyhytNimi2, StringComparison.OrdinalIgnoreCase);
             }
+        }
+
+        public static string MuotoileNimi(string muotoilematonNimi)
+        {
+            if (string.IsNullOrEmpty(muotoilematonNimi))
+            {
+                return string.Empty;
+            }
+
+            var nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(muotoilematonNimi);
+
+            var nimet = nimi.Split(' ');
+            if (nimet == null || nimet.Count() == 1)
+            {
+                return KapiteeliksiEkaKirjain(nimi);
+            }
+
+            List<string> kapiteeliNimet = new List<string>();
+            foreach (var n in nimet)
+            {
+                kapiteeliNimet.Add(KapiteeliksiEkaKirjain(n.Trim()));
+            }
+
+            return string.Join(" ", kapiteeliNimet);
+        }
+
+        private static string KapiteeliksiEkaKirjain(string nimi)
+        {
+            if (string.IsNullOrEmpty(nimi))
+            {
+                return nimi;
+            }
+
+            if (Char.IsUpper(nimi[0]))
+            {
+                return nimi;
+            }
+
+            StringBuilder s = new StringBuilder();
+            s.Append(Char.ToUpper(nimi[0]));
+
+            if (nimi.Length > 1)
+            {
+                s.Append(nimi.Substring(1));
+            }
+
+            return s.ToString();
         }
     }
 }
