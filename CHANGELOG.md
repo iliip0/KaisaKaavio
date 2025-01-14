@@ -7,6 +7,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Lisätty 'Tasuri' sarake ilmoittautumislistalle
 * Vaihdettu niin että tulokset näytetään ennen pelejä SBiL osiossa jos kilpailu on päättynyt
 * Asetettiin ohjelma aukeamaan tyhjänä. Aiemmin ohjelma avasi edellisen kisan alussa
+* Osallistumismaksu automaattisesti pelaajille ilmoittautumissivulle
 
 ## Versio 1.0.0.14		(julkaistu 11.1.2025)
 

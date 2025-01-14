@@ -367,6 +367,8 @@ namespace KaisaKaavio
                                 this.kilpailu.KilpaSarja = KilpaSarja.Yleinen;
                                 this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
 
+                                this.kilpailu.OsallistumisMaksu = "10€";
+
                                 if (this.kilpailu.PelaajiaEnintaan < 48)
                                 {
                                     this.kilpailu.PelaajiaEnintaan = 48;
@@ -488,6 +490,7 @@ namespace KaisaKaavio
             this.kaavioGroupBox.Enabled = !this.kilpailu.Tyhja;
             this.rankingGroupBox.Enabled = !this.kilpailu.Tyhja;
             this.kisaDetaljitGroupBox.Enabled = !this.kilpailu.Tyhja;
+            this.osMaksuYlaTextBox.Enabled = !this.kilpailu.Tyhja;
 
             PaivitaSijoitettuSarake();
 
@@ -524,6 +527,10 @@ namespace KaisaKaavio
             this.rankingJaKilpailuKutsuSplitContainer.Panel2Collapsed = this.kilpailu.KilpailuOnViikkokisa;
             
             this.tulostaToolStripMenuItem.Visible = !this.kilpailu.KilpailuOnViikkokisa;
+
+            this.osMaksuYlaLabel.Visible = this.kilpailu.KilpailuOnViikkokisa;
+            this.osMaksuYlalabel2.Visible = this.kilpailu.KilpailuOnViikkokisa;
+            this.osMaksuYlaTextBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
 
             this.rankkarienMaaraLabel.Visible = this.kilpailu.Laji == Laji.Kaisa;
             this.rankkarienMaaraNumericUpDown.Visible = this.kilpailu.Laji == Laji.Kaisa;
@@ -4479,6 +4486,37 @@ namespace KaisaKaavio
         private void label25_Click(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Automaattinen osallistumismaksun täydennys
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void osallistujatDataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var rivi = this.osallistujatDataGridView.Rows[e.RowIndex];
+                    var pelaaja = (Pelaaja)rivi.DataBoundItem;
+                    if (pelaaja != null)
+                    {
+                        if (string.IsNullOrEmpty(pelaaja.OsMaksu))
+                        {
+                            int maksu = 0;
+                            if (Tyypit.Luku.ParsiKokonaisluku(kilpailu.OsallistumisMaksu, out maksu) && maksu > 0)
+                            {
+                                pelaaja.OsMaksu = maksu.ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
     }
 }

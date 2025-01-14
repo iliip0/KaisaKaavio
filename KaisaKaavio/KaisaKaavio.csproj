@@ -150,6 +150,7 @@
     <Compile Include="Toimitsija.cs" />
     <Compile Include="ToimitsijanRooli.cs" />
     <Compile Include="Tyypit\Aika.cs" />
+    <Compile Include="Tyypit\Luku.cs" />
     <Compile Include="Tyypit\Nimi.cs" />
     <Compile Include="Tyypit\Tiedosto.cs" />
     <Compile Include="UusiKilpailuPopup.cs">
