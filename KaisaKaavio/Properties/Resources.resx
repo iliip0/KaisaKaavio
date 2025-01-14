@@ -316,4 +316,16 @@
   <data name="Yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="KaisaKaavio64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KaisaKaavio64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Testaa128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Testaa128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tyhja128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tyhja128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Viimeisin128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Viimeisin128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

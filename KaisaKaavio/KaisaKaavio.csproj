@@ -298,6 +298,10 @@
     <None Include="Resources\SBILLogo.png" />
     <None Include="Resources\Avaa128.png" />
     <None Include="Resources\UusiKilpailu128.png" />
+    <None Include="Resources\Testaa128.png" />
+    <None Include="Resources\Tyhja128.png" />
+    <None Include="Resources\Viimeisin128.png" />
+    <None Include="Resources\KaisaKaavio64.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
