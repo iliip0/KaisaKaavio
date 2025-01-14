@@ -72,6 +72,12 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aloitussivu\Aloitussivu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Aloitussivu\Aloitussivu.Designer.cs">
+      <DependentUpon>Aloitussivu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Asetukset.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -159,6 +165,9 @@
     <Compile Include="UusiKilpailuPopup.Designer.cs">
       <DependentUpon>UusiKilpailuPopup.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Aloitussivu\Aloitussivu.resx">
+      <DependentUpon>Aloitussivu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -285,11 +294,14 @@
     <None Include="Resources\Paikka48.png" />
     <None Include="Resources\Striimi48.png" />
     <None Include="Resources\Toimitsijat48.png" />
+    <None Include="Resources\KaisaKaavio128.png" />
+    <None Include="Resources\SBILLogo.png" />
+    <None Include="Resources\Avaa128.png" />
+    <None Include="Resources\UusiKilpailu128.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Aloitussivu\" />
     <Folder Include="Tulostus\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

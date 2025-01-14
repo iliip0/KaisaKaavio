@@ -83,6 +83,16 @@ namespace KaisaKaavio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Avaa128 {
+            get {
+                object obj = ResourceManager.GetObject("Avaa128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Bronze {
             get {
                 object obj = ResourceManager.GetObject("Bronze", resourceCulture);
@@ -176,6 +186,16 @@ namespace KaisaKaavio.Properties {
         internal static System.Drawing.Bitmap Kaavio {
             get {
                 object obj = ResourceManager.GetObject("Kaavio", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap KaisaKaavio128 {
+            get {
+                object obj = ResourceManager.GetObject("KaisaKaavio128", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -503,6 +523,16 @@ namespace KaisaKaavio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SBILLogo {
+            get {
+                object obj = ResourceManager.GetObject("SBILLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Silver {
             get {
                 object obj = ResourceManager.GetObject("Silver", resourceCulture);
@@ -626,6 +656,16 @@ namespace KaisaKaavio.Properties {
         internal static System.Drawing.Bitmap Tulokset32 {
             get {
                 object obj = ResourceManager.GetObject("Tulokset32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UusiKilpailu128 {
+            get {
+                object obj = ResourceManager.GetObject("UusiKilpailu128", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
