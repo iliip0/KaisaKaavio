@@ -31,8 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Aloitussivu));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
-            this.versioLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.versioLabel = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.muuViikkokisaButton = new System.Windows.Forms.Button();
@@ -44,20 +45,20 @@
             this.kaisaSMButton = new System.Windows.Forms.Button();
             this.kaisaRGButton = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.testiKilpailuButton = new System.Windows.Forms.Button();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.avaaKilpailuButton = new System.Windows.Forms.Button();
             this.viimeisimmatComboBox = new System.Windows.Forms.ComboBox();
-            this.jatkaButton = new System.Windows.Forms.Button();
+            this.viimeisimmatPictureBox = new System.Windows.Forms.PictureBox();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.testiKilpailuButton = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.jatkaButton = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -70,12 +71,11 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.viimeisimmatPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
@@ -116,6 +116,16 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Valitse toiminto alla olevista vaihtoehdoista:";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Constantia", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(78, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(212, 45);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "KaisaKaavio";
+            // 
             // versioLabel
             // 
             this.versioLabel.AutoSize = true;
@@ -126,15 +136,14 @@
             this.versioLabel.TabIndex = 2;
             this.versioLabel.Text = "versio 1.0.0.15";
             // 
-            // label1
+            // pictureBox1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Constantia", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(78, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(212, 45);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "KaisaKaavio";
+            this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.KaisaKaavio64;
+            this.pictureBox1.Location = new System.Drawing.Point(7, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(74, 132);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // splitContainer2
             // 
@@ -194,6 +203,7 @@
             this.muuViikkokisaButton.TabIndex = 9;
             this.muuViikkokisaButton.Text = "Uusi viikkokilpailu (muut lajit)";
             this.muuViikkokisaButton.UseVisualStyleBackColor = true;
+            this.muuViikkokisaButton.Click += new System.EventHandler(this.muuViikkokisaButton_Click);
             // 
             // kaisaViikkokisaButton
             // 
@@ -204,6 +214,7 @@
             this.kaisaViikkokisaButton.TabIndex = 2;
             this.kaisaViikkokisaButton.Text = "Uusi Kaisan viikkokilpailu";
             this.kaisaViikkokisaButton.UseVisualStyleBackColor = true;
+            this.kaisaViikkokisaButton.Click += new System.EventHandler(this.kaisaViikkokisaButton_Click);
             // 
             // karaViikkokisaButton
             // 
@@ -214,6 +225,7 @@
             this.karaViikkokisaButton.TabIndex = 4;
             this.karaViikkokisaButton.Text = "Uusi Karan viikkokilpailu";
             this.karaViikkokisaButton.UseVisualStyleBackColor = true;
+            this.karaViikkokisaButton.Click += new System.EventHandler(this.karaViikkokisaButton_Click);
             // 
             // pyramidiViikkokisaButton
             // 
@@ -224,6 +236,7 @@
             this.pyramidiViikkokisaButton.TabIndex = 6;
             this.pyramidiViikkokisaButton.Text = "Uusi Pyramidin viikkokilpailu";
             this.pyramidiViikkokisaButton.UseVisualStyleBackColor = true;
+            this.pyramidiViikkokisaButton.Click += new System.EventHandler(this.pyramidiViikkokisaButton_Click);
             // 
             // muuAvoinButton
             // 
@@ -234,6 +247,7 @@
             this.muuAvoinButton.TabIndex = 8;
             this.muuAvoinButton.Text = "Uusi avoin turnaus (muut lajit)";
             this.muuAvoinButton.UseVisualStyleBackColor = true;
+            this.muuAvoinButton.Click += new System.EventHandler(this.muuAvoinButton_Click);
             // 
             // kaisaAvoinButton
             // 
@@ -244,6 +258,7 @@
             this.kaisaAvoinButton.TabIndex = 3;
             this.kaisaAvoinButton.Text = "Uusi avoin Kaisaturnaus";
             this.kaisaAvoinButton.UseVisualStyleBackColor = true;
+            this.kaisaAvoinButton.Click += new System.EventHandler(this.kaisaAvoinButton_Click);
             // 
             // kaisaSMButton
             // 
@@ -254,6 +269,7 @@
             this.kaisaSMButton.TabIndex = 9;
             this.kaisaSMButton.Text = "Uusi Kaisan SM kilpailu";
             this.kaisaSMButton.UseVisualStyleBackColor = true;
+            this.kaisaSMButton.Click += new System.EventHandler(this.kaisaSMButton_Click);
             // 
             // kaisaRGButton
             // 
@@ -264,6 +280,7 @@
             this.kaisaRGButton.TabIndex = 8;
             this.kaisaRGButton.Text = "Uusi Kaisan RG osakilpailu";
             this.kaisaRGButton.UseVisualStyleBackColor = true;
+            this.kaisaRGButton.Click += new System.EventHandler(this.kaisaRGButton_Click);
             // 
             // splitContainer3
             // 
@@ -280,7 +297,7 @@
             this.splitContainer3.Panel1.BackColor = System.Drawing.Color.Green;
             this.splitContainer3.Panel1.Controls.Add(this.avaaKilpailuButton);
             this.splitContainer3.Panel1.Controls.Add(this.viimeisimmatComboBox);
-            this.splitContainer3.Panel1.Controls.Add(this.pictureBox2);
+            this.splitContainer3.Panel1.Controls.Add(this.viimeisimmatPictureBox);
             this.splitContainer3.Panel1.ForeColor = System.Drawing.Color.White;
             // 
             // splitContainer3.Panel2
@@ -290,20 +307,44 @@
             this.splitContainer3.SplitterDistance = 147;
             this.splitContainer3.TabIndex = 0;
             // 
-            // testiKilpailuButton
+            // avaaKilpailuButton
             // 
-            this.testiKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.avaaKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.testiKilpailuButton.BackColor = System.Drawing.SystemColors.Control;
-            this.testiKilpailuButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.testiKilpailuButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.testiKilpailuButton.Location = new System.Drawing.Point(131, 33);
-            this.testiKilpailuButton.Name = "testiKilpailuButton";
-            this.testiKilpailuButton.Size = new System.Drawing.Size(173, 86);
-            this.testiKilpailuButton.TabIndex = 10;
-            this.testiKilpailuButton.Text = "Luo testikilpailu";
-            this.testiKilpailuButton.UseVisualStyleBackColor = false;
+            this.avaaKilpailuButton.BackColor = System.Drawing.SystemColors.Control;
+            this.avaaKilpailuButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.avaaKilpailuButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.avaaKilpailuButton.Location = new System.Drawing.Point(131, 43);
+            this.avaaKilpailuButton.Name = "avaaKilpailuButton";
+            this.avaaKilpailuButton.Size = new System.Drawing.Size(173, 92);
+            this.avaaKilpailuButton.TabIndex = 5;
+            this.avaaKilpailuButton.Text = "Avaa kilpailu uudelleen";
+            this.avaaKilpailuButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.avaaKilpailuButton.UseVisualStyleBackColor = false;
+            this.avaaKilpailuButton.Click += new System.EventHandler(this.avaaKilpailuButton_Click);
+            // 
+            // viimeisimmatComboBox
+            // 
+            this.viimeisimmatComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.viimeisimmatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.viimeisimmatComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viimeisimmatComboBox.FormattingEnabled = true;
+            this.viimeisimmatComboBox.Location = new System.Drawing.Point(7, 6);
+            this.viimeisimmatComboBox.Name = "viimeisimmatComboBox";
+            this.viimeisimmatComboBox.Size = new System.Drawing.Size(297, 28);
+            this.viimeisimmatComboBox.TabIndex = 4;
+            // 
+            // viimeisimmatPictureBox
+            // 
+            this.viimeisimmatPictureBox.BackColor = System.Drawing.Color.Green;
+            this.viimeisimmatPictureBox.Image = global::KaisaKaavio.Properties.Resources.Viimeisin128;
+            this.viimeisimmatPictureBox.Location = new System.Drawing.Point(-5, 20);
+            this.viimeisimmatPictureBox.Name = "viimeisimmatPictureBox";
+            this.viimeisimmatPictureBox.Size = new System.Drawing.Size(121, 123);
+            this.viimeisimmatPictureBox.TabIndex = 7;
+            this.viimeisimmatPictureBox.TabStop = false;
             // 
             // splitContainer4
             // 
@@ -333,49 +374,21 @@
             this.splitContainer4.SplitterDistance = 142;
             this.splitContainer4.TabIndex = 6;
             // 
-            // avaaKilpailuButton
+            // testiKilpailuButton
             // 
-            this.avaaKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.testiKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.avaaKilpailuButton.BackColor = System.Drawing.SystemColors.Control;
-            this.avaaKilpailuButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.avaaKilpailuButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.avaaKilpailuButton.Location = new System.Drawing.Point(131, 43);
-            this.avaaKilpailuButton.Name = "avaaKilpailuButton";
-            this.avaaKilpailuButton.Size = new System.Drawing.Size(173, 92);
-            this.avaaKilpailuButton.TabIndex = 5;
-            this.avaaKilpailuButton.Text = "Avaa kilpailu uudelleen";
-            this.avaaKilpailuButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.avaaKilpailuButton.UseVisualStyleBackColor = false;
-            // 
-            // viimeisimmatComboBox
-            // 
-            this.viimeisimmatComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.viimeisimmatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.viimeisimmatComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viimeisimmatComboBox.FormattingEnabled = true;
-            this.viimeisimmatComboBox.Location = new System.Drawing.Point(7, 6);
-            this.viimeisimmatComboBox.Name = "viimeisimmatComboBox";
-            this.viimeisimmatComboBox.Size = new System.Drawing.Size(297, 28);
-            this.viimeisimmatComboBox.TabIndex = 4;
-            // 
-            // jatkaButton
-            // 
-            this.jatkaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.jatkaButton.BackColor = System.Drawing.SystemColors.Control;
-            this.jatkaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.jatkaButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.jatkaButton.Location = new System.Drawing.Point(131, 7);
-            this.jatkaButton.Name = "jatkaButton";
-            this.jatkaButton.Size = new System.Drawing.Size(172, 102);
-            this.jatkaButton.TabIndex = 15;
-            this.jatkaButton.Text = "Jatka ilman kilpailua";
-            this.jatkaButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.jatkaButton.UseVisualStyleBackColor = false;
+            this.testiKilpailuButton.BackColor = System.Drawing.SystemColors.Control;
+            this.testiKilpailuButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.testiKilpailuButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.testiKilpailuButton.Location = new System.Drawing.Point(131, 33);
+            this.testiKilpailuButton.Name = "testiKilpailuButton";
+            this.testiKilpailuButton.Size = new System.Drawing.Size(173, 86);
+            this.testiKilpailuButton.TabIndex = 10;
+            this.testiKilpailuButton.Text = "Luo testikilpailu";
+            this.testiKilpailuButton.UseVisualStyleBackColor = false;
+            this.testiKilpailuButton.Click += new System.EventHandler(this.testiKilpailuButton_Click);
             // 
             // richTextBox1
             // 
@@ -390,25 +403,6 @@
             this.richTextBox1.TabIndex = 13;
             this.richTextBox1.Text = "Testaa ohjelmaa testikilpailulla:";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.KaisaKaavio64;
-            this.pictureBox1.Location = new System.Drawing.Point(7, 6);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(74, 132);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Green;
-            this.pictureBox2.Image = global::KaisaKaavio.Properties.Resources.Viimeisin128;
-            this.pictureBox2.Location = new System.Drawing.Point(-5, 20);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(121, 123);
-            this.pictureBox2.TabIndex = 7;
-            this.pictureBox2.TabStop = false;
-            // 
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.DarkGreen;
@@ -419,6 +413,24 @@
             this.pictureBox3.Size = new System.Drawing.Size(121, 91);
             this.pictureBox3.TabIndex = 12;
             this.pictureBox3.TabStop = false;
+            // 
+            // jatkaButton
+            // 
+            this.jatkaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.jatkaButton.BackColor = System.Drawing.SystemColors.Control;
+            this.jatkaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.jatkaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.jatkaButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.jatkaButton.Location = new System.Drawing.Point(131, 7);
+            this.jatkaButton.Name = "jatkaButton";
+            this.jatkaButton.Size = new System.Drawing.Size(172, 102);
+            this.jatkaButton.TabIndex = 15;
+            this.jatkaButton.Text = "Jatka ilman kilpailua";
+            this.jatkaButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.jatkaButton.UseVisualStyleBackColor = false;
+            this.jatkaButton.Click += new System.EventHandler(this.jatkaButton_Click);
             // 
             // pictureBox4
             // 
@@ -452,6 +464,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -464,12 +477,11 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.viimeisimmatPictureBox)).EndInit();
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
@@ -498,7 +510,7 @@
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.Button testiKilpailuButton;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox viimeisimmatPictureBox;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.RichTextBox richTextBox1;

@@ -74,45 +74,52 @@ namespace KaisaKaavio.Ranking
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
         }
 
-        private StringBuilder viimeisinTulos = new StringBuilder();
-        private StringBuilder rankingTilanneRtf = new StringBuilder();
-        private StringBuilder rankingTilanneSbil = new StringBuilder();
+        //private StringBuilder viimeisinTulos = new StringBuilder();
+        //private StringBuilder rankingTilanneRtf = new StringBuilder();
+        //private StringBuilder rankingTilanneSbil = new StringBuilder();
+
+        private Tyypit.Teksti tilanneLyhyt = new Tyypit.Teksti();
+        private Tyypit.Teksti tilannePitka = new Tyypit.Teksti();
 
         /// <summary>
         /// Rankingsarjan tilanneteksti rtf muodossa
         /// </summary>
+        [XmlIgnore]
         public string TilanneRtf
         {
             get
             {
-                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanneRtf);
+                return this.tilannePitka.Rtf;
             }
         }
 
         /// <summary>
         /// Rankingsarjan tilanneteksti SBiL keskustelupalstamuodossa
         /// </summary>
+        [XmlIgnore]
         public string TilanneSbil
         {
             get
             {
-                return string.Format("{0}{1}{1}{2}", viimeisinTulos, Environment.NewLine, rankingTilanneSbil);
+                return this.tilannePitka.Sbil;
             }
         }
 
+        [XmlIgnore]
         public string TilanneRtfLyhyt
         {
             get
             {
-                return rankingTilanneRtf.ToString();
+                return this.tilanneLyhyt.Rtf;
             }
         }
 
+        [XmlIgnore]
         public string TilanneSbilLyhyt
         {
             get 
             {
-                return rankingTilanneSbil.ToString();
+                return this.tilanneLyhyt.Sbil;
             }
         }
 
@@ -466,20 +473,16 @@ namespace KaisaKaavio.Ranking
             PaivitaTilanneTeksti();
         }
 
-        public void PaivitaTilanneTeksti()
+        public void KirjoitaViimeisinTulos(Tyypit.Teksti teksti)
         {
-            this.viimeisinTulos.Clear();
-            this.rankingTilanneRtf.Clear();
-            this.rankingTilanneSbil.Clear();
-
             var kisa = this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).LastOrDefault();
             if (kisa != null)
             {
                 var voittajat = kisa.Osallistujat.Where(x => x.Sijoitus == 1);
                 var kakkoset = kisa.Osallistujat.Where(x => x.Sijoitus == 2);
                 var kolmoset = kisa.Osallistujat.Where(x => x.Sijoitus == 3);
-                
-                this.viimeisinTulos.AppendLine(string.Format("{0}.{1}.{2} {3} viikkokilpailuun osallistui {4} pelaajaa.",
+
+                teksti.NormaaliRivi(string.Format("{0}.{1}.{2} {3} viikkokilpailuun osallistui {4} pelaajaa.",
                     kisa.AlkamisAikaDt.Day,
                     kisa.AlkamisAikaDt.Month,
                     kisa.AlkamisAikaDt.Year,
@@ -488,65 +491,72 @@ namespace KaisaKaavio.Ranking
 
                 if (voittajat.Count() == 1)
                 {
-                    this.viimeisinTulos.Append(string.Format("Voittaja {0}, ", voittajat.First().Nimi));
+                    teksti.NormaaliTeksti(string.Format("Voittaja {0}, ", voittajat.First().Nimi));
                 }
                 else if (voittajat.Count() > 1)
                 {
-                    this.viimeisinTulos.Append(string.Format("Voittajat {0}, ", string.Join(", ", voittajat.Select(x => x.Nimi).ToArray())));
+                    teksti.NormaaliTeksti(string.Format("Voittajat {0}, ", string.Join(", ", voittajat.Select(x => x.Nimi).ToArray())));
                 }
 
                 if (kakkoset.Count() == 1)
                 {
-                    this.viimeisinTulos.Append(string.Format("toinen {0}, ", kakkoset.First().Nimi));
+                    teksti.NormaaliTeksti(string.Format("toinen {0}, ", kakkoset.First().Nimi));
                 }
                 else if (kakkoset.Count() > 1)
                 {
-                    this.viimeisinTulos.Append(string.Format("toisia {0}, ", string.Join(", ", kakkoset.Select(x => x.Nimi).ToArray())));
+                    teksti.NormaaliTeksti(string.Format("toisia {0}, ", string.Join(", ", kakkoset.Select(x => x.Nimi).ToArray())));
                 }
 
                 if (kolmoset.Count() == 1)
                 {
-                    this.viimeisinTulos.Append(string.Format("kolmas {0}.", kolmoset.First().Nimi));
+                    teksti.NormaaliTeksti(string.Format("kolmas {0}.", kolmoset.First().Nimi));
                 }
                 else if (kolmoset.Count() > 1)
                 {
-                    this.viimeisinTulos.Append(string.Format("kolmansia {0}.", string.Join(", ", kolmoset.Select(x => x.Nimi).ToArray())));
+                    teksti.NormaaliTeksti(string.Format("kolmansia {0}.", string.Join(", ", kolmoset.Select(x => x.Nimi).ToArray())));
                 }
+
+                teksti.RivinVaihto();
             }
+        }
+
+        public void KirjoitaTilanne(Tyypit.Teksti teksti)
+        {
+            teksti.NormaaliRivi(this.Nimi);
 
             if (this.Osakilpailut.Count == 1)
             {
-                this.rankingTilanneRtf.AppendLine(string.Format(@"{0} \line Tilanne ensimmäisen osakilpailun jälkeen: \line", this.Nimi));
-                this.rankingTilanneSbil.AppendLine(string.Format("{0}\nTilanne ensimmäisen osakilpailun jälkeen:", this.Nimi));
+                teksti.NormaaliRivi("Tilanne ensimmäisen osakilpailun jälkeen:");
             }
             else
             {
                 int summa = (int)(this.Osakilpailut.Select(x => x.Osallistujat.Count).Sum());
 
-                this.rankingTilanneRtf.AppendLine(string.Format(@"{3} \line Tilanne {0} osakilpailun jälkeen: ({1}={2})",
+                teksti.NormaaliRivi(string.Format("Tilanne {0} osakilpailun jälkeen: ({1}={2})",
                     this.Osakilpailut.Count,
                     string.Join("+", this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).Select(x => x.Osallistujat.Count.ToString()).ToArray()),
-                    summa,
-                    this.Nimi));
-
-                this.rankingTilanneSbil.AppendLine(string.Format("{3}\nTilanne {0} osakilpailun jälkeen: ({1}={2})",
-                    this.Osakilpailut.Count,
-                    string.Join("+", this.Osakilpailut.OrderBy(x => x.AlkamisAikaDt).Select(x => x.Osallistujat.Count.ToString()).ToArray()),
-                    summa,
-                    this.Nimi));
+                    summa));
             }
 
-            this.rankingTilanneRtf.AppendLine(@" \line \line");
-            this.rankingTilanneSbil.AppendLine();
+            teksti.RivinVaihto();
 
             foreach (var p in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
             {
-                string rivi = string.Format(@"{0}. {1} {3}p\t({2}) \line", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
-                rankingTilanneRtf.AppendLine(rivi);
-
-                string riviSbil = string.Format("{0}. {1} [b]{3}p[/b]\t[size=85][color=#115099] ( {2} ) [/color][/size]", p.Sijoitus, p.Nimi, p.RankingPisteString, p.RankingPisteet);
-                rankingTilanneSbil.AppendLine(riviSbil);
+                teksti.NormaaliTeksti(string.Format("{0}. {1} ", p.Sijoitus, p.Nimi));
+                teksti.PaksuTeksti(string.Format("{0}p ", p.RankingPisteet));
+                teksti.PieniTeksti(string.Format(" ({0})", p.RankingPisteString));
+                teksti.RivinVaihto();
             }
+        }
+
+        public void PaivitaTilanneTeksti()
+        {
+            this.tilanneLyhyt = new Tyypit.Teksti();
+            this.tilannePitka = new Tyypit.Teksti();
+
+            KirjoitaViimeisinTulos(this.tilannePitka);
+            KirjoitaTilanne(this.tilannePitka);
+            KirjoitaTilanne(this.tilanneLyhyt);
         }
 
         public void LisaaKilpailu(Ranking rankingit, Kilpailu kilpailu, RankingOsakilpailuTietue tietue, RankingAsetukset asetukset, bool paivitaTilanne)

@@ -41,7 +41,22 @@ namespace KaisaKaavio
         public BindingList<Toimitsija> Toimitsijat { get; set; }
 
         [XmlIgnore]
-        public int Poytia { get { return this.Poydat.Count; } }
+        public int Poytia 
+        { 
+            get 
+            { 
+                return this.Poydat.Where(x => !string.IsNullOrEmpty(x.Numero)).Count(); 
+            }
+        }
+
+        [XmlIgnore]
+        public decimal PoytiaKaytettavissa 
+        { 
+            get 
+            { 
+                return (decimal)this.Poydat.Where(x => x.Kaytossa && !string.IsNullOrEmpty(x.Numero)).Count(); 
+            }
+        }
 
         public Sali()
         {

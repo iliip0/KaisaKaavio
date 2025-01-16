@@ -12,7 +12,10 @@ namespace KaisaKaavio
 {
     public partial class UusiKilpailuPopup : Form
     {
+        private bool avattu = false;
+        private string oletusNimi = string.Empty;
         private bool nimeaMuokattuManuaalisesti = false;
+        private Asetukset.KisaOletusasetukset asetukset = null;
 
         public UusiKilpailuPopup()
         {
@@ -25,6 +28,8 @@ namespace KaisaKaavio
             this.kilpaSarjaComboBox.SelectedIndex = 0;
 
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
+            this.kaavioComboBox.SelectedIndex = 0;
+
             this.rankingComboBox.SelectedIndex = 0;
             this.rankingCheckBox.Checked = false;
             this.rankingComboBox.Visible = false;
@@ -32,6 +37,168 @@ namespace KaisaKaavio
             this.alkamisAikaDateTimePicker.Value = DateTime.Today;
 
             PaivitaKilpailunOletusNimi();
+        }
+
+        private void PaivitaUiLajille(Laji laji, bool oletusArvot)
+        {
+            switch (laji)
+            {
+                case KaisaKaavio.Laji.Kara:
+                    this.alaLajiComboBox.DataSource = new string[] { "Kolmen vallin kara", "Suora kara" };
+                    this.tavoiteLabel.Text = "karaan";
+
+                    if (oletusArvot)
+                    {
+                        this.peliAikaCheckBox.Checked = true;
+                        this.peliAikaNumericUpDown.Value = 40;
+                        this.tavoiteNumericUpDown.Value = 20;
+                        this.rankingCheckBox.Checked = true;
+                        this.rankingComboBox.SelectedIndex = 0;
+                    }
+                    break;
+
+                case KaisaKaavio.Laji.Kaisa:
+                    this.alaLajiComboBox.DataSource = null;
+                    this.tavoiteLabel.Text = "pisteeseen";
+
+                    if (oletusArvot)
+                    {
+                        this.peliAikaCheckBox.Checked = true;
+                        this.peliAikaNumericUpDown.Value = 40;
+                        this.tavoiteNumericUpDown.Value = 60;
+                        this.rankingCheckBox.Checked = true;
+                        this.rankingComboBox.SelectedIndex = 0;
+                    }
+                    break;
+
+                case KaisaKaavio.Laji.Pyramidi:
+                    this.alaLajiComboBox.DataSource = new string[] { "Amerikanka", "Nevskaja", "Moskovskaja", "Corona", "Straight (15 ball)" };
+                    this.tavoiteLabel.Text = "erävoittoon";
+
+                    if (oletusArvot)
+                    {
+                        this.tavoiteNumericUpDown.Value = 3;
+                        this.peliAikaCheckBox.Checked = true;
+                        this.peliAikaNumericUpDown.Value = 40;
+                        this.rankingCheckBox.Checked = true;
+                        this.rankingComboBox.SelectedIndex = 0;
+                    }
+                    break;
+
+                case KaisaKaavio.Laji.Pool:
+                    this.alaLajiComboBox.DataSource = new string[] 
+                    { 
+                        "9-ball", "10-ball", "8-ball", "14.1 (straightpool)", 
+                        "One pocket", "Rotation", "Bankpool (15 balls)", "Bankpool (9 balls)",
+                        "Multiball", "7-ball", "Taiwanese carom"
+                    };
+                    this.tavoiteLabel.Text = "erävoittoon";
+
+                    if (oletusArvot)
+                    {
+                        this.tavoiteNumericUpDown.Value = 4;
+                        this.peliAikaCheckBox.Checked = false;
+                        this.peliAikaNumericUpDown.Value = 0;
+                        this.rankingCheckBox.Checked = false;
+                        this.rankingComboBox.SelectedIndex = 0;
+                    }
+                    break;
+
+                case KaisaKaavio.Laji.Heyball:
+                    this.alaLajiComboBox.DataSource = null;
+                    this.tavoiteLabel.Text = "erävoittoon";
+
+                    if (oletusArvot)
+                    {
+                        this.tavoiteNumericUpDown.Value = 3;
+                        this.peliAikaCheckBox.Checked = false;
+                        this.peliAikaNumericUpDown.Value = 0;
+                        this.rankingCheckBox.Checked = false;
+                        this.rankingComboBox.SelectedIndex = 0;
+                    }
+                    break;
+
+                case KaisaKaavio.Laji.Snooker:
+                    this.alaLajiComboBox.DataSource = new string[] { "Snooker", "Six reds", "Ten reds" };
+                    this.tavoiteLabel.Text = "erävoittoon";
+
+                    if (oletusArvot)
+                    {
+                        this.tavoiteNumericUpDown.Value = 2;
+                        this.peliAikaCheckBox.Checked = false;
+                        this.peliAikaNumericUpDown.Value = 0;
+                        this.rankingCheckBox.Checked = false;
+                        this.rankingComboBox.SelectedIndex = 0;
+                    }
+                    break;
+            }
+        }
+
+        public void AsetaOletusarvot(Asetukset.KisaOletusasetukset asetukset, Laji laji, KilpailunTyyppi kilpailunTyyppi, bool salliVaihtaa)
+        {
+            try
+            {
+                this.asetukset = asetukset;
+
+                this.uusiKilpailuLajiComboBox.SelectedItem = laji;
+                this.uusiKilpailuLajiComboBox.Enabled = salliVaihtaa;
+
+                if (kilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa)
+                {
+                    this.kaavioComboBox.SelectedIndex = 2;
+                }
+                else
+                {
+                    this.kaavioComboBox.SelectedIndex = 0;
+                }
+
+                this.kilpailunTyyppiComboBox.SelectedIndex = (int) kilpailunTyyppi;
+                this.kilpailunTyyppiComboBox.Enabled = false;
+
+                if (kilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu ||
+                    kilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
+                {
+                    this.kilpasarjaLabel.Visible = true;
+                    this.kilpaSarjaComboBox.Visible = true;
+                }
+                else
+                {
+                    this.kilpasarjaLabel.Visible = false;
+                    this.kilpaSarjaComboBox.Visible = false;
+                }
+
+                this.alaLajiComboBox.DataSource = null;
+
+                switch (laji)
+                {
+                    case KaisaKaavio.Laji.Kara:
+                        this.alaLajiComboBox.DataSource = new string[] { "Kolmen vallin kara", "Suora kara" };
+                        this.tavoiteLabel.Text = "karaan";
+                        break;
+                }
+
+                if (this.asetukset != null)
+                {
+                    this.tavoiteNumericUpDown.Value = this.asetukset.Tavoite;
+                    this.rankingCheckBox.Checked = this.asetukset.RankingSarja;
+                    this.peliAikaCheckBox.Checked = this.asetukset.PeliaikaRajattu;
+                    this.peliAikaNumericUpDown.Value = this.asetukset.Peliaika;
+                    this.rankingComboBox.SelectedIndex = (int)this.asetukset.RankingSarjanTyyppi;
+                    this.kaavioComboBox.SelectedIndex = (int)this.asetukset.KaavioTyyppi;
+                    try
+                    {
+                        this.alaLajiComboBox.SelectedItem = asetukset.Alalaji;
+                    }
+                    catch
+                    { 
+                    }
+                }
+
+                this.lajiSplitContainer.Panel2Collapsed = this.alaLajiComboBox.DataSource == null;
+            }
+            catch
+            { 
+            }
         }
 
         public string Nimi { get { return this.kilpailunNimiTextBox.Text; } }
@@ -47,6 +214,21 @@ namespace KaisaKaavio
                 else
                 {
                     return KaisaKaavio.KilpailunTyyppi.Viikkokisa;
+                }
+            }
+        }
+
+        public KaavioTyyppi KaavioTyyppi
+        {
+            get
+            {
+                if (this.kaavioComboBox.SelectedIndex >= 0)
+                {
+                    return (KaavioTyyppi)Enum.GetValues(typeof(KaavioTyyppi)).GetValue(this.kaavioComboBox.SelectedIndex);
+                }
+                else
+                {
+                    return KaavioTyyppi.Pudari3Kierros;
                 }
             }
         }
@@ -97,6 +279,23 @@ namespace KaisaKaavio
 
         private void uusiKilpailuButton_Click(object sender, EventArgs e)
         {
+            if (this.asetukset != null)
+            {
+                try
+                {
+                    this.asetukset.Alalaji = this.alaLajiComboBox.SelectedItem != null ? this.alaLajiComboBox.SelectedItem.ToString() : string.Empty;
+                    this.asetukset.Peliaika = (int)this.peliAikaNumericUpDown.Value;
+                    this.asetukset.PeliaikaRajattu = this.peliAikaCheckBox.Checked;
+                    this.asetukset.RankingSarja = this.rankingCheckBox.Checked;
+                    this.asetukset.Tavoite = (int)this.tavoiteNumericUpDown.Value;
+                    this.asetukset.RankingSarjanTyyppi = this.RankingKisatyyppi;
+                    this.asetukset.KaavioTyyppi = this.KaavioTyyppi;
+                }
+                catch
+                { 
+                }
+            }
+
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
         }
@@ -111,7 +310,6 @@ namespace KaisaKaavio
             // Viikkokisa
             if (this.kilpailunTyyppiComboBox.SelectedIndex == 0)
             {
-                this.rankingLabel.Visible = this.rankingCheckBox.Checked;
                 this.rankingCheckBox.Visible = true;
                 this.rankingComboBox.Visible = this.rankingCheckBox.Checked;
 
@@ -122,7 +320,6 @@ namespace KaisaKaavio
             // Avoin kisa tai SBiL kisa
             else
             {
-                this.rankingLabel.Visible = false;
                 this.rankingCheckBox.Visible = false;
                 this.rankingComboBox.Visible = false;
 
@@ -135,7 +332,6 @@ namespace KaisaKaavio
 
         private void rankingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            this.rankingLabel.Visible = this.rankingCheckBox.Checked;
             this.rankingComboBox.Visible = this.rankingCheckBox.Checked;
         }
 
@@ -182,7 +378,13 @@ namespace KaisaKaavio
 
         private void kilpailunNimiTextBox_Validated(object sender, EventArgs e)
         {
-            this.nimeaMuokattuManuaalisesti = true;
+            if (this.avattu)
+            {
+                if (!string.Equals(this.kilpailunNimiTextBox.Text, this.oletusNimi))
+                {
+                    this.nimeaMuokattuManuaalisesti = true;
+                }
+            }
         }
 
         private void alkamisAikaDateTimePicker_ValueChanged(object sender, EventArgs e)
@@ -193,6 +395,12 @@ namespace KaisaKaavio
         private void kilpaSarjaComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PaivitaKilpailunOletusNimi();
+        }
+
+        private void UusiKilpailuPopup_Shown(object sender, EventArgs e)
+        {
+            this.avattu = true;
+            this.oletusNimi = this.kilpailunNimiTextBox.Text;
         }
     }
 }

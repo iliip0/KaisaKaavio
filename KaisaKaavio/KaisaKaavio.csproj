@@ -158,6 +158,7 @@
     <Compile Include="Tyypit\Aika.cs" />
     <Compile Include="Tyypit\Luku.cs" />
     <Compile Include="Tyypit\Nimi.cs" />
+    <Compile Include="Tyypit\Teksti.cs" />
     <Compile Include="Tyypit\Tiedosto.cs" />
     <Compile Include="UusiKilpailuPopup.cs">
       <SubType>Form</SubType>
@@ -302,6 +303,7 @@
     <None Include="Resources\Tyhja128.png" />
     <None Include="Resources\Viimeisin128.png" />
     <None Include="Resources\KaisaKaavio64.png" />
+    <None Include="Resources\Peliaika.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

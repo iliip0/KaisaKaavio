@@ -59,6 +59,8 @@ namespace KaisaKaavio
 
         private bool kilpailunLatausKaynnissa = false; // 
 
+        private bool suljeOhjelmaHeti = false;
+
         public Form1()
         {
             this.kansio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaaviot");
@@ -92,15 +94,7 @@ namespace KaisaKaavio
 
             asetukset.Lataa();
 
-#if DEBUG
-            if (!string.IsNullOrEmpty(asetukset.ViimeisinKilpailu))
-            {
-                AvaaKilpailu(asetukset.ViimeisinKilpailu);
-            }
-#else
-            PaivitaIkkunanNimi();
-            PaivitaKilpailuTyyppi();
-#endif
+            NaytaAloitussivu();
 
             this.kilpailuBindingSource.DataSource = this.kilpailu;
             this.pelaajaBindingSource.DataSource = this.kilpailu.Osallistujat;
@@ -154,6 +148,35 @@ namespace KaisaKaavio
 
             this.loki.Kirjoita("KaisaKaavio käynnistetty onnistuneesti", null, false);
         }
+
+        // =========(( Aloitussivu ))========================================================================== //
+        #region Aloitussivu
+
+        private void NaytaAloitussivu()
+        {
+            try
+            {
+                using (var aloitussivu = new Aloitussivu.Aloitussivu(this, this.asetukset, this.kilpailu))
+                {
+                    var valinta = aloitussivu.ShowDialog();
+                    if (valinta != System.Windows.Forms.DialogResult.Cancel)
+                    {
+                        PaivitaIkkunanNimi();
+                        PaivitaKilpailuTyyppi();
+                    }
+                    else
+                    {
+                        this.suljeOhjelmaHeti = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Aloitussivulla tapahtui virhe", ex, true);
+            }
+        }
+
+        #endregion
 
         // ========={( Kaavioiden luominen, tallennus ja lataus )}============================================= //
         #region Kaavio I/O
@@ -232,7 +255,7 @@ namespace KaisaKaavio
             }
         }
 
-        private void AvaaKilpailu(string tiedosto)
+        public void AvaaKilpailu(string tiedosto)
         {
             try
             {
@@ -322,132 +345,7 @@ namespace KaisaKaavio
                     var result = popup.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)
                     {
-                        this.ranking.TyhjennaSarjatMuistista();
-
-                        string nimi = popup.Nimi;
-                        string tiedosto = Path.Combine(this.kansio, ToValidFileName(nimi) + ".xml");
-
-                        if (kysyKilpailunPaalleKirjoitus(tiedosto))
-                        {
-                            this.tabControl1.SelectedTab = this.kisaInfoTabPage;
-
-                            SuspenAllDataBinding();
-
-                            this.kilpailu.Tiedosto = tiedosto;
-
-                            this.kilpailu.Id = string.Empty;
-                            this.kilpailu.VarmistaEttaKilpailullaOnId();
-
-                            this.kilpailu.Osallistujat.Clear();
-                            this.kilpailu.OsallistujatJarjestyksessa.Clear();
-                            this.kilpailu.PoistaKaikkiPelit();
-
-                            this.kilpailu.Nimi = popup.Nimi;
-                            this.kilpailu.Laji = popup.Laji;
-                            this.kilpailu.KilpailunTyyppi = popup.KilpailunTyyppi;
-                            this.kilpailu.KilpaSarja = popup.KilpaSarja;
-                            this.kilpailu.AlkamisAika = popup.Aika;
-
-                            this.kilpailu.Palkinnot = string.Empty;
-                            this.kilpailu.Ilmoittautuminen = string.Empty;
-
-                            if (popup.LuoViikkokisa)
-                            {
-                                this.kilpailu.KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
-                                this.kilpailu.PeliAika = 40;
-                                this.kilpailu.RankkareidenMaara = 3;
-                                this.kilpailu.KellonAika = "18:00";
-                                this.kilpailu.LisenssiVaatimus = string.Empty;
-                                this.kilpailu.MaksuTapa = string.Empty;
-                                this.kilpailu.OsallistumisOikeus = string.Empty;
-                                this.kilpailu.OsallistumisMaksu = string.Empty;
-                                this.kilpailu.Pukeutuminen = string.Empty;
-                                this.kilpailu.Yksipaivainen = true;
-                                this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
-                                this.kilpailu.KilpaSarja = KilpaSarja.Yleinen;
-                                this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
-
-                                this.kilpailu.OsallistumisMaksu = "10€";
-
-                                if (this.kilpailu.PelaajiaEnintaan < 48)
-                                {
-                                    this.kilpailu.PelaajiaEnintaan = 48;
-                                }
-                            }
-                            else
-                            {
-                                this.kilpailu.KaavioTyyppi = KaavioTyyppi.TuplaKaavio;
-                                this.kilpailu.PeliAika = 60;
-                                this.kilpailu.RankkareidenMaara = 5;
-                                this.kilpailu.KellonAika = "10:00";
-                                this.kilpailu.LisenssiVaatimus = string.Empty; // TODO, linkit 
-
-                                if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu)
-                                {
-                                    this.kilpailu.Yksipaivainen = true;
-
-                                    this.kilpailu.MaksuTapa = string.Empty;
-                                    this.kilpailu.OsallistumisOikeus = string.Empty;
-                                    this.kilpailu.Pukeutuminen = string.Empty;
-
-                                    this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
-                                }
-                                else
-                                {
-                                    this.kilpailu.Yksipaivainen = false;
-
-                                    this.kilpailu.MaksuTapa = "Etukäteen biljardi.org kautta";
-
-                                    // TODO!!! Päivitä osallistumisoikeus teksti ja osmaksu kilpasarjan mukaan
-                                    this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen jäsenillä";
-
-                                    this.kilpailu.Pukeutuminen = "SBiL EB-taso";
-
-                                    if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
-                                    {
-                                        this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan24Pelaajaa;
-                                    }
-                                    else
-                                    {
-                                        this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan8Pelaajaa;
-                                    }
-                                }
-
-                                this.kilpailu.OsallistumisMaksu = "Aikuiset 50€ / junnut 25€";
-
-                                this.kilpailu.RankingOsakilpailu = null;
-
-                                if (this.kilpailu.PelaajiaEnintaan < 256)
-                                {
-                                    this.kilpailu.PelaajiaEnintaan = 256;
-                                }
-                            }
-
-                            this.kilpailu.RankingKisa = popup.RankingKisa;
-                            this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
-                            this.kilpailu.RankingKisaLaji = popup.Laji;
-
-                            switch (this.kilpailu.Laji)
-                            {
-                                case Laji.Kaisa:
-                                    this.kilpailu.TavoitePistemaara = 60;
-                                    break;
-
-                                case Laji.Kara:
-                                    this.kilpailu.TavoitePistemaara = popup.LuoViikkokisa ? 20 : 30;
-                                    this.kilpailu.PeliAika = popup.LuoViikkokisa ? 20 : 40;
-                                    break;
-
-                                default:
-                                    this.kilpailu.TavoitePistemaara = 4;
-                                    break;
-                            }
-
-                            PaivitaKilpailuTyyppi();
-                            ResumeAllDataBinding();
-
-                            Tallenna();
-                        }
+                        LuoKilpailu(popup);
                     }
                 }
             }
@@ -458,6 +356,136 @@ namespace KaisaKaavio
             finally
             {
                 this.kilpailunLatausKaynnissa = false;
+            }
+        }
+
+        public void LuoKilpailu(UusiKilpailuPopup popup)
+        {
+            this.ranking.TyhjennaSarjatMuistista();
+
+            string nimi = popup.Nimi;
+            string tiedosto = Path.Combine(this.kansio, ToValidFileName(nimi) + ".xml");
+
+            if (kysyKilpailunPaalleKirjoitus(tiedosto))
+            {
+                this.tabControl1.SelectedTab = this.kisaInfoTabPage;
+
+                SuspenAllDataBinding();
+
+                this.kilpailu.Tiedosto = tiedosto;
+
+                this.kilpailu.Id = string.Empty;
+                this.kilpailu.VarmistaEttaKilpailullaOnId();
+
+                this.kilpailu.Osallistujat.Clear();
+                this.kilpailu.OsallistujatJarjestyksessa.Clear();
+                this.kilpailu.PoistaKaikkiPelit();
+
+                this.kilpailu.Nimi = popup.Nimi;
+                this.kilpailu.Laji = popup.Laji;
+                this.kilpailu.KilpailunTyyppi = popup.KilpailunTyyppi;
+                this.kilpailu.KilpaSarja = popup.KilpaSarja;
+                this.kilpailu.AlkamisAika = popup.Aika;
+
+                this.kilpailu.Palkinnot = string.Empty;
+                this.kilpailu.Ilmoittautuminen = string.Empty;
+
+                if (popup.LuoViikkokisa)
+                {
+                    this.kilpailu.KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
+                    this.kilpailu.PeliAika = 40;
+                    this.kilpailu.RankkareidenMaara = 3;
+                    this.kilpailu.KellonAika = "18:00";
+                    this.kilpailu.LisenssiVaatimus = string.Empty;
+                    this.kilpailu.MaksuTapa = string.Empty;
+                    this.kilpailu.OsallistumisOikeus = string.Empty;
+                    this.kilpailu.OsallistumisMaksu = string.Empty;
+                    this.kilpailu.Pukeutuminen = string.Empty;
+                    this.kilpailu.Yksipaivainen = true;
+                    this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
+                    this.kilpailu.KilpaSarja = KilpaSarja.Yleinen;
+                    this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
+
+                    this.kilpailu.OsallistumisMaksu = "10€";
+
+                    if (this.kilpailu.PelaajiaEnintaan < 48)
+                    {
+                        this.kilpailu.PelaajiaEnintaan = 48;
+                    }
+                }
+                else
+                {
+                    this.kilpailu.KaavioTyyppi = KaavioTyyppi.TuplaKaavio;
+                    this.kilpailu.PeliAika = 60;
+                    this.kilpailu.RankkareidenMaara = 5;
+                    this.kilpailu.KellonAika = "10:00";
+                    this.kilpailu.LisenssiVaatimus = string.Empty; // TODO, linkit 
+
+                    if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu)
+                    {
+                        this.kilpailu.Yksipaivainen = true;
+
+                        this.kilpailu.MaksuTapa = string.Empty;
+                        this.kilpailu.OsallistumisOikeus = string.Empty;
+                        this.kilpailu.Pukeutuminen = string.Empty;
+
+                        this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
+                    }
+                    else
+                    {
+                        this.kilpailu.Yksipaivainen = false;
+
+                        this.kilpailu.MaksuTapa = "Etukäteen biljardi.org kautta";
+
+                        // TODO!!! Päivitä osallistumisoikeus teksti ja osmaksu kilpasarjan mukaan
+                        this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen jäsenillä";
+
+                        this.kilpailu.Pukeutuminen = "SBiL EB-taso";
+
+                        if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
+                        {
+                            this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan24Pelaajaa;
+                        }
+                        else
+                        {
+                            this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan8Pelaajaa;
+                        }
+                    }
+
+                    this.kilpailu.OsallistumisMaksu = "Aikuiset 50€ / junnut 25€";
+
+                    this.kilpailu.RankingOsakilpailu = null;
+
+                    if (this.kilpailu.PelaajiaEnintaan < 256)
+                    {
+                        this.kilpailu.PelaajiaEnintaan = 256;
+                    }
+                }
+
+                this.kilpailu.RankingKisa = popup.RankingKisa;
+                this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
+                this.kilpailu.RankingKisaLaji = popup.Laji;
+
+                switch (this.kilpailu.Laji)
+                {
+                    case Laji.Kaisa:
+                        this.kilpailu.TavoitePistemaara = 60;
+                        break;
+
+                    case Laji.Kara:
+                        this.kilpailu.TavoitePistemaara = popup.LuoViikkokisa ? 20 : 30;
+                        this.kilpailu.PeliAika = popup.LuoViikkokisa ? 20 : 40;
+                        break;
+
+                    default:
+                        this.kilpailu.TavoitePistemaara = 4;
+                        break;
+                }
+
+                PaivitaKilpailuTyyppi();
+                ResumeAllDataBinding();
+
+                Tallenna();
             }
         }
 
@@ -667,6 +695,11 @@ namespace KaisaKaavio
 
         void Form1_Shown(object sender, EventArgs e)
         {
+            if (this.suljeOhjelmaHeti)
+            {
+                this.Close();
+                return;
+            }
             this.pelaajienNimet = new AutoCompleteStringCollection();
             this.pelaajienNimet.AddRange(this.asetukset.Pelaajat.Select(x => x.Nimi).ToArray());
 
@@ -907,10 +940,7 @@ namespace KaisaKaavio
                     this.peliBindingSource.ResumeBinding();
                     this.pelitDataGridView.ResumeLayout();
 
-                    if (this.pelitDataGridView.RowCount > 3)
-                    {
-                        this.pelitDataGridView.FirstDisplayedScrollingRowIndex = this.pelitDataGridView.RowCount - 1;
-                    }
+                    ScrollaaPelitListanLoppuun();
 
                     if (this.piilotaToinenKierrosCheckBox.Visible)
                     {
@@ -963,6 +993,14 @@ namespace KaisaKaavio
             {
                 KeskeytaHaku();
                 PaivitaStatusRivi(string.Empty, false, 0, 100);
+            }
+        }
+
+        private void ScrollaaPelitListanLoppuun()
+        {
+            if (this.pelitDataGridView.RowCount > 3)
+            {
+                this.pelitDataGridView.FirstDisplayedScrollingRowIndex = this.pelitDataGridView.RowCount - 1;
             }
         }
 
@@ -1194,7 +1232,11 @@ namespace KaisaKaavio
                 this.pelitDataGridView.ResumeLayout();
                 this.pelitDataGridView.Enabled = true;
 
-                if (currentRow >= 0 && currentColumn >= 0)
+                if (currentRow >= this.pelitDataGridView.Rows.Count - 2)
+                {
+                    ScrollaaPelitListanLoppuun();
+                }
+                else if (currentRow >= 0 && currentColumn >= 0)
                 {
                     if (currentRow < this.pelitDataGridView.Rows.Count &&
                         currentColumn < this.pelitDataGridView.Columns.Count)
@@ -1223,7 +1265,7 @@ namespace KaisaKaavio
 
         #endregion
 
-        // ========={( Kisainfo-sivun päivitys )}============================================================== //
+        // ========={( Kisainfo-sivun ja kilpailukutsu-sivun päivitys )}======================================= //
         #region Kisainfo sivu
 
         private void kilpailunNimiTextBox_TextChanged(object sender, EventArgs e)
@@ -1280,6 +1322,21 @@ namespace KaisaKaavio
                     this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
                 }
             }
+        }
+
+        private void alkavatPelitPoytiaNmericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            PaivitaAlkavatPelit();
+        }
+
+        private void kilpailuKutsuAlkamisAikaTextBox_TextChanged(object sender, EventArgs e)
+        {
+            PaivitaAlkavatPelit();
+        }
+
+        private void kilpailuKutsuAlkamisAikaTextBox_Validated(object sender, EventArgs e)
+        {
+            PaivitaAlkavatPelit();
         }
 
         #endregion
@@ -1733,6 +1790,37 @@ namespace KaisaKaavio
             catch (Exception ex)
             {
                 this.loki.Kirjoita("Jälki-ilmoittautuneiden siirto osallistujalistalle epäonnistui!", ex, false);
+            }
+        }
+
+        /// <summary>
+        /// Automaattinen osallistumismaksun täydennys
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void osallistujatDataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var rivi = this.osallistujatDataGridView.Rows[e.RowIndex];
+                    var pelaaja = (Pelaaja)rivi.DataBoundItem;
+                    if (pelaaja != null)
+                    {
+                        if (string.IsNullOrEmpty(pelaaja.OsMaksu))
+                        {
+                            int maksu = 0;
+                            if (Tyypit.Luku.ParsiKokonaisluku(kilpailu.OsallistumisMaksu, out maksu) && maksu > 0)
+                            {
+                                pelaaja.OsMaksu = maksu.ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -3029,6 +3117,7 @@ namespace KaisaKaavio
         // ========={( Sbil keskustelupalstalle kopioituvat tekstit )}========================================= //
         #region Sbil keskustelupalsta
 
+        /*
         private void RtfInfoRivi(string otsikko, string sisalto, StringBuilder rtf, StringBuilder sbil)
         {
             if (!string.IsNullOrEmpty(sisalto))
@@ -3081,71 +3170,60 @@ namespace KaisaKaavio
             rtf.Append(@" ------------------------------------------------------------------------------------- \line ");
             sbil.Append(" ------------------------------------------------------------------------------------- " + Environment.NewLine);
         }
+        */
 
         private void PaivitaKilpailukutsuTeksti()
         {
-            StringBuilder rtf = new StringBuilder();
-            StringBuilder sbil = new StringBuilder();
+            Tyypit.Teksti teksti = new Tyypit.Teksti();
 
-            AloitaRtfTeksti(rtf);
+            teksti.InfoRivi("Kilpailun nimi", this.kilpailu.Nimi);
+            teksti.InfoRivi("Järjestäjä", this.kilpailu.JarjestavaSeura);
+            teksti.RivinVaihto();
+            teksti.InfoRivi("Osallistumismaksu", this.kilpailu.OsallistumisMaksu);
+            teksti.InfoRivi("Lisenssivaatimus", this.kilpailu.LisenssiVaatimus);
+            teksti.InfoRivi("Maksutapa", this.kilpailu.MaksuTapa);
+            teksti.InfoRivi("Osallistumisoikeus", this.kilpailu.OsallistumisOikeus);
+            teksti.InfoRivi("Pukeutuminen", this.kilpailu.Pukeutuminen);
+            teksti.InfoRivi("Palkinnot", this.kilpailu.Palkinnot);
+            teksti.InfoRivi("Ilmoittautuminen", this.kilpailu.Ilmoittautuminen);
+            teksti.InfoRivi("Alkamisaika", this.kilpailu.AlkamisAikaString());
+            teksti.InfoRivi("Kesto", this.kilpailu.Yksipaivainen ? "Kilpailu on yksipäiväinen" : "Kilpailu on kaksipäiväinen");
+            teksti.InfoRivi("Pelipaikka", this.asetukset.Sali.Nimi);
+            teksti.InfoRivi("Pelipaikan osoite", this.asetukset.Sali.Osoite);
+            teksti.InfoRivi("Pelipaikan puhelinnumero", this.asetukset.Sali.PuhelinNumero);
+            teksti.RivinVaihto();
 
-            RtfInfoRivi("Kilpailun nimi", this.kilpailu.Nimi, rtf, sbil);
-            RtfInfoRivi("Järjestäjä", this.kilpailu.JarjestavaSeura, rtf, sbil);
-
-            RtfRivinvaihto(rtf, sbil);
-
-            RtfInfoRivi("Osallistumismaksu", this.kilpailu.OsallistumisMaksu, rtf, sbil);
-            RtfInfoRivi("Lisenssivaatimus", this.kilpailu.LisenssiVaatimus, rtf, sbil);
-            RtfInfoRivi("Maksutapa", this.kilpailu.MaksuTapa, rtf, sbil);
-            RtfInfoRivi("Osallistumisoikeus", this.kilpailu.OsallistumisOikeus, rtf, sbil);
-            RtfInfoRivi("Pukeutuminen", this.kilpailu.Pukeutuminen, rtf, sbil);
-            RtfInfoRivi("Palkinnot", this.kilpailu.Palkinnot, rtf, sbil);
-            RtfInfoRivi("Ilmoittautuminen", this.kilpailu.Ilmoittautuminen, rtf, sbil);
-            RtfInfoRivi("Alkamisaika", this.kilpailu.AlkamisAikaString(), rtf, sbil);
-            RtfInfoRivi("Kesto", this.kilpailu.Yksipaivainen ? "Kilpailu on yksipäiväinen" : "Kilpailu on kaksipäiväinen", rtf, sbil);
-            RtfInfoRivi("Pelipaikka", this.asetukset.Sali.Nimi, rtf, sbil);
-            RtfInfoRivi("Pelipaikan osoite", this.asetukset.Sali.Osoite, rtf, sbil);
-            RtfInfoRivi("Pelipaikan puhelinnumero", this.asetukset.Sali.PuhelinNumero, rtf, sbil);
-
-            RtfRivinvaihto(rtf, sbil);
-
-            if (this.asetukset.Sali.Poydat.Count > 0)
+            int poytia = this.asetukset.Sali.Poydat.Where(x => x.Kaytossa).Count();
+            if (poytia > 0)
             {
-                RtfInfoRivi("Käytössä", string.Format("{0} pöytää", this.asetukset.Sali.Poydat.Count), rtf, sbil);
+                teksti.InfoRivi("Käytössä", string.Format("{0} pöytää", poytia));
             }
 
             if (this.asetukset.Sali.Linkit.Count > 0)
             {
-                RtfRivinvaihto(rtf, sbil);
-                RtfInfoRivi("Linkit", " ", rtf, sbil);
+                teksti.RivinVaihto();
+                teksti.Otsikko("Linkit");
+                teksti.RivinVaihto();
 
                 foreach (var linkki in this.asetukset.Sali.Linkit)
                 {
-                    RtfLinkki(linkki.Teksti, linkki.Osoite, rtf, sbil);
+                    teksti.Linkki(linkki.Teksti, linkki.Osoite, null);
                 }
             }
 
-            RtfRivinvaihto(rtf, sbil);
+            teksti.RivinVaihto();
+            teksti.InfoRivi("Kilpailunjohtaja", this.kilpailu.KilpailunJohtaja);
+            teksti.InfoRivi("Puhelinnumero", this.kilpailu.PuhelinNumero);
+            teksti.RivinVaihto();
 
-            RtfInfoRivi("Kilpailunjohtaja", this.kilpailu.KilpailunJohtaja, rtf, sbil);
-            RtfInfoRivi("Puhelinnumero", this.kilpailu.PuhelinNumero, rtf, sbil);
-
-            if (!string.IsNullOrEmpty(this.kilpailu.LisaTietoa))
-            {
-                RtfRivinvaihto(rtf, sbil);
-                RtfInfoRivi("Lisätietoa", " ", rtf, sbil);
-
-                rtf.Append(this.kilpailu.LisaTietoa);
-                sbil.Append(this.kilpailu.LisaTietoa);
-
-                RtfRivinvaihto(rtf, sbil);
-            }
+            teksti.InfoRivi("Lisätietoa", this.kilpailu.LisaTietoa);
 
             var osallistujat = this.kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
             if (osallistujat.Count() > 0)
             {
-                RtfRivinvaihto(rtf, sbil);
-                RtfInfoRivi("Ilmoittautuneet", " ", rtf, sbil);
+                teksti.RivinVaihto();
+                teksti.Otsikko("Ilmoittautuneet");
+                teksti.RivinVaihto();
 
                 int i = 1;
 
@@ -3153,31 +3231,28 @@ namespace KaisaKaavio
                 {
                     if (i == (this.kilpailu.PelaajiaEnintaan + 1))
                     {
-                        rtf.Append(@"Varalla: \line ");
-                        sbil.AppendLine("Varalla:");
+                        teksti.NormaaliRivi("Varalla:");
                     }
 
-                    RtfInfoRivi(i.ToString(), (osallistuja.Nimi + " " + osallistuja.Seura).Trim(), rtf, sbil);
+                    teksti.NormaaliRivi(string.Format("{0}. {1} {2}", i, osallistuja.Nimi, osallistuja.Seura));
                     i++;
                 }
             }
 
-            LopetaRtfTeksti(rtf);
-
-            this.kilpailuKutsuRichTextBox.Rtf = rtf.ToString();
-            this.kilpailuKutsuRichTextBox.Tag = sbil.ToString();
+            this.kilpailuKutsuRichTextBox.Rtf = teksti.Rtf;
+            this.kilpailuKutsuRichTextBox.Tag = teksti.Sbil;
         }
 
         private void PaivitaAlkavatPelit()
         {
-            StringBuilder rtf = new StringBuilder();
-            StringBuilder sbil = new StringBuilder();
+            Tyypit.Teksti teksti = new Tyypit.Teksti();
 
-            AloitaRtfTeksti(rtf);
-
-            RtfInfoRivi(this.kilpailu.Nimi, "Ensimmäisten kierrosten pelit", rtf, sbil);
+            teksti.InfoRivi(this.kilpailu.Nimi, "Ensimmäisten kierrosten pelit");
+            teksti.RivinVaihto();
 
             int kierros = 0;
+
+            int peliNumero = 1;
 
             foreach (var peli in this.kilpailu.Pelit.Where(x => x.Kierros <= 2).ToArray())
             {
@@ -3187,34 +3262,36 @@ namespace KaisaKaavio
 
                     if (kierros != 1)
                     {
-                        rtf.Append(@" \line ");
-                        sbil.Append(Environment.NewLine);
+                        teksti.RivinVaihto();
                     }
 
-                    rtf.Append(@"\b " + kierros.ToString() + @". Kierros \b0 ");
-                    sbil.Append("[b]" + kierros.ToString() + ". Kierros[/b]");
+                    teksti.PaksuTeksti(string.Format("{0}. kierros", kierros));
 
                     if (peli.OnPudotusPeli())
                     {
-                        rtf.Append(" (pudari)");
-                        sbil.Append(" (pudari)");
+                        teksti.NormaaliTeksti(" (pudotuspeli)");
                     }
 
-                    rtf.Append(@" \line ");
-                    rtf.Append(@" \line ");
-                    sbil.Append(Environment.NewLine);
-                    sbil.Append(Environment.NewLine);
+                    teksti.RivinVaihto();
+                    teksti.RivinVaihto();
                 }
 
-                peli.RichTextKuvaus(this.asetukset.Sali, rtf, sbil, true);
+                peli.RichTextKuvausAlkaviinPeleihin(teksti, 
+                    peliNumero <= (int)this.alkavatPelitPoytiaNmericUpDown.Value ? peliNumero.ToString() : null,
+                    peliNumero <= (int)this.alkavatPelitPoytiaNmericUpDown.Value ? this.kilpailu.KellonAika : null);
+
+                peliNumero++;
             }
 
-            LopetaRtfTeksti(rtf);
+            teksti.RivinVaihto();
+            teksti.OsionVaihto();
+            teksti.LoppuMainos();
 
-            this.alkavatPelitRichTextBox.Rtf = rtf.ToString();
-            this.alkavatPelitRichTextBox.Tag = sbil.ToString();
+            this.alkavatPelitRichTextBox.Rtf = teksti.Rtf;
+            this.alkavatPelitRichTextBox.Tag = teksti.Sbil;
         }
 
+        /*
         private void AloitaRtfTeksti(StringBuilder s)
         {
             s.AppendLine(@"{\rtf1\ansi");
@@ -3233,16 +3310,14 @@ namespace KaisaKaavio
                 string.Format("[size=85]Kilpailu vedetty ilmaisella, avoimen lähdekoodin [url=https://github.com/iliip0/KaisaKaavio] KaisaKaavio [/url] -ohjelmalla[color=#999999] (versio {0})[/color][/size]",
                     Assembly.GetEntryAssembly().GetName().Version));
         }
+         */
 
         private void PaivitaPelitTeksti()
         {
-            StringBuilder rtf = new StringBuilder();
-            StringBuilder sbil = new StringBuilder();
+            Tyypit.Teksti teksti = new Tyypit.Teksti();
 
-            AloitaRtfTeksti(rtf);
-
-            RtfOtsikko(this.kilpailu.Nimi, rtf, sbil);
-            RtfOsionVaihto(rtf, sbil);
+            teksti.Otsikko(this.kilpailu.Nimi);
+            teksti.OsionVaihto();
 
             List<int> pelienKestot = new List<int>();
             int keskimaarainenPelinKesto = 0;
@@ -3256,63 +3331,68 @@ namespace KaisaKaavio
 
                 if (linkkeja || striimilinkkeja || tuloslinkkeja)
                 {
-                    RtfRivinvaihto(rtf, sbil);
-
                     if (linkkeja)
                     {
-                        RtfInfoRivi("Linkit", " ", rtf, sbil);
+                        teksti.RivinVaihto();
+                        teksti.Otsikko("Linkit");
+                        teksti.RivinVaihto();
 
                         foreach (var linkki in this.asetukset.Sali.Linkit)
                         {
-                            RtfLinkki(linkki.Teksti, linkki.Osoite, rtf, sbil);
+                            teksti.NormaaliTeksti(string.Format("{0} : ", linkki.Teksti));
+                            teksti.Linkki(null, linkki.Osoite, null);
                         }
 
-                        RtfRivinvaihto(rtf, sbil);
+                        teksti.RivinVaihto();
                     }
 
-                    if (striimilinkkeja)
+                    if (striimilinkkeja || tuloslinkkeja)
                     {
-                        RtfInfoRivi("Striimit", " ", rtf, sbil);
+                        teksti.RivinVaihto();
+                        teksti.Otsikko("Striimit ja tulostaulut");
+                        teksti.RivinVaihto();
 
-                        foreach (var poyta in this.asetukset.Sali.Poydat.Where(x => !string.IsNullOrEmpty(x.StriimiLinkki)))
+                        foreach (var poyta in this.asetukset.Sali.Poydat.Where(x => !string.IsNullOrEmpty(x.StriimiLinkki) || !string.IsNullOrEmpty(x.TulosLinkki)))
                         {
-                            RtfLinkki(string.Format("Pöytä {0}", poyta.Numero), poyta.StriimiLinkki, rtf, sbil);
-                        }
+                            teksti.NormaaliTeksti(string.Format("Pöytä {0} :", poyta.Numero));
 
-                        RtfRivinvaihto(rtf, sbil);
+                            if (!string.IsNullOrEmpty(poyta.StriimiLinkki))
+                            {
+                                teksti.NormaaliTeksti(" (");
+                                teksti.Linkki(null, "striimi", poyta.StriimiLinkki);
+                                teksti.NormaaliTeksti(")");
+                            }
+
+                            if (!string.IsNullOrEmpty(poyta.TulosLinkki))
+                            {
+                                teksti.NormaaliTeksti(" (");
+                                teksti.Linkki(null, "tulostaulu", poyta.TulosLinkki);
+                                teksti.NormaaliTeksti(")");
+                            }
+
+                            teksti.RivinVaihto();
+                        }
                     }
 
-                    if (tuloslinkkeja)
-                    {
-                        RtfInfoRivi("Pöytäkohtaiset tilanneseurantalinkit", " ", rtf, sbil);
-
-                        foreach (var poyta in this.asetukset.Sali.Poydat.Where(x => !string.IsNullOrEmpty(x.TulosLinkki)))
-                        {
-                            RtfLinkki(string.Format("Pöytä {0}", poyta.Numero), poyta.TulosLinkki, rtf, sbil);
-                        }
-
-                        RtfRivinvaihto(rtf, sbil);
-                    }
-
-                    RtfRivinvaihto(rtf, sbil);
-                    RtfOsionVaihto(rtf, sbil);
+                    teksti.RivinVaihto();
+                    teksti.OsionVaihto();
                 }
             }
 
             // Laitetaan tulokset heti viestin alkuun jos kilpailu on jo päättynyt
             if (this.kilpailu.KilpailuOnPaattynyt)
             {
-                RtfRivinvaihto(rtf, sbil);
-                KirjoitaTuloksetTeksti(rtf, sbil);
-                RtfRivinvaihto(rtf, sbil);
-                RtfOsionVaihto(rtf, sbil);
+                teksti.RivinVaihto();
+                KirjoitaTuloksetTeksti(teksti);
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
             }
 
             int kierros = 0;
 
             if (this.kilpailu.Pelit.Count > 0)
             {
-                RtfRivinvaihto(rtf, sbil);
+                teksti.RivinVaihto();
 
                 foreach (var peli in this.kilpailu.Pelit.ToArray())
                 {
@@ -3322,42 +3402,61 @@ namespace KaisaKaavio
 
                         if (kierros != 1)
                         {
-                            rtf.Append(@" \line ");
-                            sbil.Append(Environment.NewLine);
+                            teksti.RivinVaihto();
                         }
 
-                        rtf.Append(@"\b " + kierros.ToString() + @". Kierros \b0 ");
-                        sbil.Append("[b]" + kierros.ToString() + ". Kierros[/b]");
+                        teksti.PaksuTeksti(string.Format("{0}. Kierros", kierros));
 
                         var mukana = this.kilpailu.MukanaOlevatPelaajatEnnenPelia(peli);
                         if (mukana.Count() == 2)
                         {
-                            rtf.Append(" (finaali)");
-                            sbil.Append(" (finaali)");
+                            teksti.NormaaliTeksti(" (finaali)");
                         }
                         else if (peli.OnPudotusPeli())
                         {
-                            rtf.Append(" (pudari)");
-                            sbil.Append(" (pudari)");
+                            teksti.NormaaliTeksti(" (pudari)");
                         }
 
                         if (kierros != 1)
                         {
+                            string alkoi = string.Empty;
+                            string paattyi = string.Empty;
+
                             var ekapeli = this.kilpailu.Pelit.Where(x => x.Kierros == kierros && !string.IsNullOrEmpty(x.Alkoi)).FirstOrDefault();
                             if (ekapeli != null)
                             {
-                                rtf.Append(" alkoi " + ekapeli.Alkoi);
-                                sbil.Append(" alkoi " + ekapeli.Alkoi);
+                                alkoi = ekapeli.Alkoi;
+                            }
+
+                            if (this.kilpailu.Pelit.Any(x => x.Kierros <= kierros && x.Tilanne != PelinTilanne.Pelattu))
+                            {
+                                var vikapeli = this.kilpailu.Pelit.Where(x => x.Kierros == kierros && !string.IsNullOrEmpty(x.Alkoi)).LastOrDefault();
+                                if (vikapeli != null)
+                                {
+                                    paattyi = vikapeli.Paattyi;
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(alkoi))
+                            {
+                                teksti.NormaaliTeksti(" ");
+
+                                if (!string.IsNullOrEmpty(paattyi))
+                                {
+                                    teksti.PieniTeksti(string.Format(" {0} - {1}", alkoi, paattyi));
+                                }
+                                else
+                                {
+                                    teksti.PieniTeksti(string.Format(" alkoi {0}", alkoi));
+                                }
                             }
                         }
 
-                        rtf.Append(@" \line ");
-                        rtf.Append(@" \line ");
-                        sbil.Append(Environment.NewLine);
-                        sbil.Append(Environment.NewLine);
+                        teksti.RivinVaihto();
+                        teksti.RivinVaihto();
                     }
 
-                    peli.RichTextKuvaus(this.asetukset.Sali, rtf, sbil, false);
+                    peli.RichTextKuvaus(this.asetukset.Sali, teksti, false);
 
                     try
                     {
@@ -3378,24 +3477,24 @@ namespace KaisaKaavio
                     }
                 }
 
-                RtfRivinvaihto(rtf, sbil);
-                RtfOsionVaihto(rtf, sbil);
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
             }
 
             if (kierros > 2 && !this.kilpailu.KilpailuOnPaattynyt)
             {
-                RtfRivinvaihto(rtf, sbil);
-                KirjoitaTuloksetTeksti(rtf, sbil);
-                RtfRivinvaihto(rtf, sbil);
-                RtfOsionVaihto(rtf, sbil);
+                teksti.RivinVaihto();
+                KirjoitaTuloksetTeksti(teksti);
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
             }
 
             if (pelejaKeskimaaranLaskemiseksi > 2)
             {
-                RtfRivinvaihto(rtf, sbil);
-                RtfInfoRivi("Pelien keskimääräinen kesto", string.Format("{0} minuuttia", keskimaarainenPelinKesto/pelejaKeskimaaranLaskemiseksi), rtf, sbil);
-                RtfRivinvaihto(rtf, sbil);
-                RtfOsionVaihto(rtf, sbil);
+                teksti.RivinVaihto();
+                teksti.InfoRivi("Pelien keskimääräinen kesto", string.Format("{0} minuuttia", keskimaarainenPelinKesto / pelejaKeskimaaranLaskemiseksi));
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
             }
 
             if (this.kilpailu.KilpailuOnPaattynyt &&
@@ -3407,29 +3506,23 @@ namespace KaisaKaavio
                 var rankingSarja = this.ranking.AvaaRankingSarja(this.kilpailu);
                 if (rankingSarja != null)
                 {
-                    RtfRivinvaihto(rtf, sbil);
-
-                    rtf.AppendLine(rankingSarja.TilanneRtfLyhyt);
-                    sbil.Append(rankingSarja.TilanneSbilLyhyt);
-
-                    RtfRivinvaihto(rtf, sbil);
-                    RtfOsionVaihto(rtf, sbil);
+                    teksti.RivinVaihto();
+                    rankingSarja.KirjoitaTilanne(teksti);
+                    teksti.RivinVaihto();
+                    teksti.OsionVaihto();
                 }
             }
 
-            LopetaRtfTeksti(rtf);
-            LopetaSbilTeksti(sbil);
+            teksti.LoppuMainos();
 
-            this.pelitRichTextBox.Rtf = rtf.ToString();
-            this.pelitRichTextBox.Tag = sbil.ToString();
+            this.pelitRichTextBox.Rtf = teksti.Rtf;
+            this.pelitRichTextBox.Tag = teksti.Sbil;
         }
 
-        private void KirjoitaTuloksetTeksti(StringBuilder rtf, StringBuilder sbil)
+        private void KirjoitaTuloksetTeksti(Tyypit.Teksti teksti)
         {
-            RtfInfoRivi("Tulokset", " ", rtf, sbil);
-            RtfRivinvaihto(rtf, sbil);
-
-            List<string> tulokset = new List<string>();
+            teksti.Otsikko("Tulokset");
+            teksti.RivinVaihto();
 
             Dictionary<string, List<int>> sarjat = new Dictionary<string, List<int>>();
             foreach (var peli in this.kilpailu.Pelit)
@@ -3478,63 +3571,72 @@ namespace KaisaKaavio
             {
                 if (osallistuja.SijoitusOnVarma)
                 {
-                    tulokset.Add(string.Format("{0}. {1} - {2}/{3}",
-                        osallistuja.Sijoitus,
-                        this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
-                        osallistuja.Voitot,
-                        osallistuja.Pisteet));
+                    if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista &&
+                        osallistuja.Sijoitus == 1)
+                    {
+                        teksti.PaksuTeksti(string.Format("{0}. {1}", osallistuja.Sijoitus, this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
+                        teksti.NormaaliTeksti(string.Format(" {0}/{1}", osallistuja.Voitot, osallistuja.Pisteet));
+                        teksti.PieniTeksti(" (voittaja)");
+                    }
+                    else if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista &&
+                        osallistuja.Sijoitus == 2)
+                    {
+                        teksti.PaksuTeksti(string.Format("{0}. {1}", osallistuja.Sijoitus, this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
+                        teksti.NormaaliTeksti(string.Format(" {0}/{1}", osallistuja.Voitot, osallistuja.Pisteet));
+                        teksti.PieniTeksti(" (toinen finalisti)");
+                    }
+                    else if (this.kilpailu.SijoitustenMaaraytyminen == SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
+                        osallistuja.Sijoitus == 3)
+                    {
+                        teksti.PaksuTeksti(string.Format("{0}. {1}", osallistuja.Sijoitus, this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
+                        teksti.NormaaliTeksti(string.Format(" {0}/{1}", osallistuja.Voitot, osallistuja.Pisteet));
+                        teksti.PieniTeksti(string.Format(" (semifinalisti {0}. kierros)", osallistuja.PudonnutKierroksella));
+                    }
+                    else
+                    {
+                        teksti.NormaaliTeksti(string.Format("{0}. {1} - {2}/{3}",
+                            osallistuja.Sijoitus,
+                            this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
+                            osallistuja.Voitot,
+                            osallistuja.Pisteet));
+                    }
                 }
                 else 
                 {
-                    tulokset.Add(string.Format("{0}.", osallistuja.Sijoitus));
+                    teksti.NormaaliTeksti(string.Format("{0}.", osallistuja.Sijoitus));
                 }
-            }
 
-            if (tulokset.Count > 2)
-            {
-                foreach (var tulos in tulokset)
-                {
-                    rtf.Append(tulos);
-                    rtf.Append(@" \line ");
-                    sbil.AppendLine(tulos);
-                }
+                teksti.RivinVaihto();
             }
 
             if (eiTyhjatSarjat.Count() > 0)
             {
-                RtfRivinvaihto(rtf, sbil);
-                RtfInfoRivi("Sarjat", " ", rtf, sbil);
-                RtfRivinvaihto(rtf, sbil);
+                teksti.RivinVaihto();
+                teksti.Otsikko("Pisimmät sarjat");
+                teksti.RivinVaihto();
 
                 foreach (var s in eiTyhjatSarjat.OrderByDescending(x => x.Value.First()))
                 {
-                    string sarjaTeksti = string.Format("{0} {1}", s.Key, string.Join(",", s.Value.ToArray()));
-                    rtf.Append(sarjaTeksti);
-                    rtf.Append(@" \line ");
-                    sbil.AppendLine(sarjaTeksti);
+                    teksti.NormaaliRivi(string.Format("{0} {1}", s.Key, string.Join(", ", s.Value.ToArray())));
                 }
             }
         }
 
         private void PaivitaTuloksetTeksti()
         {
-            StringBuilder rtf = new StringBuilder();
-            StringBuilder sbil = new StringBuilder();
+            Tyypit.Teksti teksti = new Tyypit.Teksti();
 
-            AloitaRtfTeksti(rtf);
+            teksti.Otsikko(this.kilpailu.Nimi);
+            teksti.RivinVaihto();
 
-            RtfOtsikko(this.kilpailu.Nimi, rtf, sbil);
+            KirjoitaTuloksetTeksti(teksti);
 
-            KirjoitaTuloksetTeksti(rtf, sbil);
+            teksti.RivinVaihto();
+            teksti.OsionVaihto();
+            teksti.LoppuMainos();
 
-            RtfRivinvaihto(rtf, sbil);
-            RtfOsionVaihto(rtf, sbil);
-
-            LopetaRtfTeksti(rtf);
-            LopetaSbilTeksti(sbil);
-
-            this.tuloksetRichTextBox.Rtf = rtf.ToString();
-            this.tuloksetRichTextBox.Tag = sbil.ToString();
+            this.tuloksetRichTextBox.Rtf = teksti.Rtf;
+            this.tuloksetRichTextBox.Tag = teksti.Sbil;
         }
 
         private void KopioiLeikepoydalle(object teksti)
@@ -3702,8 +3804,9 @@ namespace KaisaKaavio
         {
             string teksti = string.Format("KaisaKaavio v.{0}{1}Copyright © Ilari Nieminen 2024{1}{1}" +
                 "Ohjelman suunnittelu ja toteutus: Ilari Nieminen{1}{1}" +
-                "Kaisa kaavioiden asiantuntija: Jarmo Tainio{1}{1}" +
+                "Ympyräkaavioiden asiantuntija: Jarmo Tainio{1}{1}" +
                 "Testaus: Ilari Nieminen ja Jarmo Tainio{1}{1}" +
+                "Grafiikka: Ilari Nieminen (valokuvat) sekä https://www.iconarchive.com (kuvakkeet){1}{1}" +
                 "Ohjelman käyttöopas löytyy samasta kansiosta ohjelman kanssa, sekä 'tietoa' valikon kautta",
                 Assembly.GetEntryAssembly().GetName().Version,
                 Environment.NewLine);
@@ -4488,37 +4591,6 @@ namespace KaisaKaavio
         private void label25_Click(object sender, EventArgs e)
         {
 
-        }
-
-        /// <summary>
-        /// Automaattinen osallistumismaksun täydennys
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void osallistujatDataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.RowIndex >= 0)
-                {
-                    var rivi = this.osallistujatDataGridView.Rows[e.RowIndex];
-                    var pelaaja = (Pelaaja)rivi.DataBoundItem;
-                    if (pelaaja != null)
-                    {
-                        if (string.IsNullOrEmpty(pelaaja.OsMaksu))
-                        {
-                            int maksu = 0;
-                            if (Tyypit.Luku.ParsiKokonaisluku(kilpailu.OsallistumisMaksu, out maksu) && maksu > 0)
-                            {
-                                pelaaja.OsMaksu = maksu.ToString();
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
         }
     }
 }

@@ -74,6 +74,53 @@ namespace KaisaKaavio
 
         private string tiedosto = null;
 
+        public class KisaOletusasetukset
+        {
+            [XmlAttribute]
+            [DefaultValue(0)]
+            public int Peliaika { get; set; }
+
+            [XmlAttribute]
+            [DefaultValue(0)]
+            public int Tavoite { get; set; }
+
+            [XmlAttribute]
+            [DefaultValue(false)]
+            public bool PeliaikaRajattu { get; set; }
+
+            [XmlAttribute]
+            [DefaultValue("")]
+            public string Alalaji { get; set; }
+
+            [XmlAttribute]
+            [DefaultValue(false)]
+            public bool RankingSarja { get; set; }
+
+            [XmlAttribute]
+            public Ranking.RankingSarjanPituus RankingSarjanTyyppi { get; set; }
+
+            [XmlAttribute]
+            public KaavioTyyppi KaavioTyyppi { get; set; }
+
+            public KisaOletusasetukset()
+            {
+                this.Tavoite = 0;
+                this.Peliaika = 0;
+                this.PeliaikaRajattu = false;
+                this.Alalaji = string.Empty;
+                this.RankingSarja = false;
+                this.RankingSarjanTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
+                this.KaavioTyyppi = KaisaKaavio.KaavioTyyppi.Pudari3Kierros;
+            }
+        }
+
+        public KisaOletusasetukset OletusAsetuksetKaisa { get; set; }
+        public KisaOletusasetukset OletusAsetuksetKara { get; set; }
+        public KisaOletusasetukset OletusAsetuksetPyramidi { get; set; }
+        public KisaOletusasetukset OletusAsetuksetPool { get; set; }
+        public KisaOletusasetukset OletusAsetuksetHeyball { get; set; }
+        public KisaOletusasetukset OletusAsetuksetSnooker { get; set; }
+
         public Asetukset()
         {
             this.ViimeisinKilpailu = string.Empty;
@@ -90,6 +137,49 @@ namespace KaisaKaavio
             this.RankingAsetuksetKara = new Ranking.RankingAsetukset(Laji.Kara);
             this.RankingAsetuksetSnooker = new Ranking.RankingAsetukset(Laji.Snooker);
             this.RankingAsetuksetHeyball = new Ranking.RankingAsetukset(Laji.Heyball);
+
+            this.OletusAsetuksetKaisa = new KisaOletusasetukset()
+            {
+                Peliaika = 40,
+                RankingSarja = true,
+                PeliaikaRajattu = true,
+                Tavoite = 60
+            };
+
+            this.OletusAsetuksetKara = new KisaOletusasetukset()
+            {
+                Peliaika = 40,
+                RankingSarja = true,
+                PeliaikaRajattu = true,
+                Tavoite = 20,
+                Alalaji = "Kolmen vallin kara"
+            };
+
+            this.OletusAsetuksetPyramidi = new KisaOletusasetukset()
+            {
+                Peliaika = 40,
+                RankingSarja = true,
+                PeliaikaRajattu = true,
+                Tavoite = 3,
+                Alalaji = "Amerikanka"
+            };
+
+            this.OletusAsetuksetPool = new KisaOletusasetukset()
+            {
+                Tavoite = 4,
+                Alalaji = "9-ball",
+            };
+
+            this.OletusAsetuksetHeyball = new KisaOletusasetukset()
+            {
+                Tavoite = 4,
+            };
+
+            this.OletusAsetuksetSnooker = new KisaOletusasetukset()
+            {
+                Tavoite = 2,
+                Alalaji = "Snooker"
+            };
 
             this.tiedosto = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaavioAsetukset.xml");
         }
@@ -194,6 +284,13 @@ namespace KaisaKaavio
                     LataaRankingAsetukset(this.RankingAsetuksetSnooker, asetukset.RankingAsetuksetSnooker, Laji.Snooker);
                     LataaRankingAsetukset(this.RankingAsetuksetPyramidi, asetukset.RankingAsetuksetPyramidi, Laji.Pyramidi);
                     LataaRankingAsetukset(this.RankingAsetuksetHeyball, asetukset.RankingAsetuksetHeyball, Laji.Heyball);
+
+                    LataaKisaAsetukset(this.OletusAsetuksetKaisa, asetukset.OletusAsetuksetKaisa);
+                    LataaKisaAsetukset(this.OletusAsetuksetKara, asetukset.OletusAsetuksetKara);
+                    LataaKisaAsetukset(this.OletusAsetuksetPyramidi, asetukset.OletusAsetuksetPyramidi);
+                    LataaKisaAsetukset(this.OletusAsetuksetPool, asetukset.OletusAsetuksetPool);
+                    LataaKisaAsetukset(this.OletusAsetuksetHeyball, asetukset.OletusAsetuksetHeyball);
+                    LataaKisaAsetukset(this.OletusAsetuksetSnooker, asetukset.OletusAsetuksetSnooker);
                 }
             }
         }
@@ -232,6 +329,17 @@ namespace KaisaKaavio
             catch
             { 
             }
+        }
+
+        private static void LataaKisaAsetukset(KisaOletusasetukset omatAsetukset, KisaOletusasetukset ladatutAsetukset)
+        {
+            omatAsetukset.Alalaji = ladatutAsetukset.Alalaji;
+            omatAsetukset.Peliaika = ladatutAsetukset.Peliaika;
+            omatAsetukset.PeliaikaRajattu = ladatutAsetukset.PeliaikaRajattu;
+            omatAsetukset.RankingSarja = ladatutAsetukset.RankingSarja;
+            omatAsetukset.Tavoite = ladatutAsetukset.Tavoite;
+            omatAsetukset.RankingSarjanTyyppi = ladatutAsetukset.RankingSarjanTyyppi;
+            omatAsetukset.KaavioTyyppi = ladatutAsetukset.KaavioTyyppi;
         }
 
         private static void LataaRankingAsetukset(Ranking.RankingAsetukset omatAsetukset, Ranking.RankingAsetukset ladatutAsetukset, Laji laji)
@@ -337,7 +445,24 @@ namespace KaisaKaavio
                 case Laji.Pool: return this.RankingAsetuksetPool;
                 case Laji.Kara: return this.RankingAsetuksetKara;
                 case Laji.Heyball: return this.RankingAsetuksetHeyball;
-                default: return this.RankingAsetuksetKaisa;
+                case Laji.Kaisa: return this.RankingAsetuksetKaisa;
+
+                default: throw new NotImplementedException(string.Format("Laji {0}", laji));
+            }
+        }
+
+        public KisaOletusasetukset OletusAsetukset(Laji laji)
+        {
+            switch (laji)
+            {
+                case Laji.Heyball: return this.OletusAsetuksetHeyball;
+                case Laji.Kaisa: return this.OletusAsetuksetKaisa;
+                case Laji.Kara: return this.OletusAsetuksetKara;
+                case Laji.Pool: return this.OletusAsetuksetPool;
+                case Laji.Pyramidi: return this.OletusAsetuksetPyramidi;
+                case Laji.Snooker: return this.OletusAsetuksetSnooker;
+
+                default: throw new NotImplementedException(string.Format("Laji {0}", laji));
             }
         }
     }
