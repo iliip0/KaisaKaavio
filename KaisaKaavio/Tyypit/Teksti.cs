@@ -23,7 +23,7 @@ namespace KaisaKaavio.Tyypit
         public Teksti()
         {
             this.rtf.AppendLine(@"{\rtf1\ansi\fs20");
-            this.rtf.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red16\green82\blue137;}");
+            this.rtf.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red16\green82\blue137;\red255\green201\blue14;\red192\green192\blue192;\red222\green131\blue29;}");
         }
 
         public Teksti RivinVaihto()
@@ -109,6 +109,42 @@ namespace KaisaKaavio.Tyypit
             return this;
         }
 
+        public Teksti KultainenTeksti(string teksti)
+        {
+            if (!string.IsNullOrEmpty(teksti))
+            {
+                this.rtf.Append(@"\b \cf5 " + teksti + @" \cf1 \b0");
+                this.sbil.Append("[b][color=#ffaa22]" + teksti + "[/color][/b]");
+                this.plain.Append(teksti);
+            }
+
+            return this;
+        }
+
+        public Teksti HopeinenTeksti(string teksti)
+        {
+            if (!string.IsNullOrEmpty(teksti))
+            {
+                this.rtf.Append(@"\b \cf6 " + teksti + @" \cf1 \b0");
+                this.sbil.Append("[b][color=#ffaa22]" + teksti + "[/color][/b]");
+                this.plain.Append(teksti);
+            }
+
+            return this;
+        }
+
+        public Teksti PronssinenTeksti(string teksti)
+        {
+            if (!string.IsNullOrEmpty(teksti))
+            {
+                this.rtf.Append(@"\b \cf7 " + teksti + @" \cf1 \b0");
+                this.sbil.Append("[b][color=#ffaa22]" + teksti + "[/color][/b]");
+                this.plain.Append(teksti);
+            }
+
+            return this;
+        }
+        
         public Teksti NormaaliTeksti(string teksti)
         {
             if (!string.IsNullOrEmpty(teksti))

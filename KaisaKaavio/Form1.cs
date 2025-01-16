@@ -110,6 +110,7 @@ namespace KaisaKaavio
             this.kaavioTyyppiComboBox.DataSource = Enum.GetValues(typeof(KaavioTyyppi));
             this.kilpasarjaComboBox.DataSource = Enum.GetValues(typeof(KilpaSarja));
             this.sijoitustenMaaraytyminenComboBox.DataSource = Enum.GetValues(typeof(SijoitustenMaaraytyminen));
+            this.tuloksetSijoitustenMaaraytyminenComboBox.DataSource = Enum.GetValues(typeof(SijoitustenMaaraytyminen));
 
             this.rankingKisaTyyppiComboBox.DataSource = Enum.GetValues(typeof(Ranking.RankingSarjanPituus));
             this.rankingVuosiComboBox.Items.AddRange(this.ranking.Vuodet.Select(x => (object)x).ToArray());
@@ -405,6 +406,7 @@ namespace KaisaKaavio
                     this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
                     this.kilpailu.KilpaSarja = KilpaSarja.Yleinen;
                     this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
+                    this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista;
 
                     this.kilpailu.OsallistumisMaksu = "10€";
 
@@ -420,6 +422,7 @@ namespace KaisaKaavio
                     this.kilpailu.RankkareidenMaara = 5;
                     this.kilpailu.KellonAika = "10:00";
                     this.kilpailu.LisenssiVaatimus = string.Empty; // TODO, linkit 
+                    this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
 
                     if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu)
                     {
@@ -1232,11 +1235,7 @@ namespace KaisaKaavio
                 this.pelitDataGridView.ResumeLayout();
                 this.pelitDataGridView.Enabled = true;
 
-                if (currentRow >= this.pelitDataGridView.Rows.Count - 2)
-                {
-                    ScrollaaPelitListanLoppuun();
-                }
-                else if (currentRow >= 0 && currentColumn >= 0)
+                if (currentRow >= 0 && currentColumn >= 0)
                 {
                     if (currentRow < this.pelitDataGridView.Rows.Count &&
                         currentColumn < this.pelitDataGridView.Columns.Count)
@@ -1244,7 +1243,6 @@ namespace KaisaKaavio
                         try
                         {
                             this.pelitDataGridView.CurrentCell = this.pelitDataGridView.Rows[currentRow].Cells[currentColumn];
-                            this.pelitDataGridView.FirstDisplayedScrollingRowIndex = currentRow;
                             this.pelitDataGridView.Focus();
                         }
                         catch (Exception exx)
@@ -1252,6 +1250,11 @@ namespace KaisaKaavio
                             this.loki.Kirjoita("Kursorin palautus epäonnistui haun jälkeen", exx, false);
                         }
                     }
+                }
+
+                if (currentRow >= this.pelitDataGridView.RowCount - this.pelitDataGridView.DisplayedRowCount(true))
+                {
+                    ScrollaaPelitListanLoppuun();
                 }
 
                 this.loki.Kirjoita("Haku valmis");
@@ -3117,61 +3120,6 @@ namespace KaisaKaavio
         // ========={( Sbil keskustelupalstalle kopioituvat tekstit )}========================================= //
         #region Sbil keskustelupalsta
 
-        /*
-        private void RtfInfoRivi(string otsikko, string sisalto, StringBuilder rtf, StringBuilder sbil)
-        {
-            if (!string.IsNullOrEmpty(sisalto))
-            {
-                rtf.Append(@"\b " + otsikko + @" \b0 : " + sisalto);
-                rtf.Append(@" \line ");
-                sbil.AppendLine("[b]" + otsikko + "[/b] : " + sisalto);
-            }
-        }
-
-        private void RtfOtsikko(string otsikko, StringBuilder rtf, StringBuilder sbil)
-        {
-            rtf.Append(@"\b " + otsikko + @" \b0 ");
-            rtf.Append(@" \line ");
-            sbil.AppendLine("[b]" + otsikko + "[/b]");
-        }
-
-        private void RtfLinkki(string otsikko, string sisalto, StringBuilder rtf, StringBuilder sbil)
-        {
-            if (!string.IsNullOrEmpty(otsikko))
-            {
-                rtf.Append(otsikko + " : ");
-                sbil.Append(otsikko + " : ");
-            }
-
-            if (!string.IsNullOrEmpty(sisalto))
-            {
-                if (sisalto.Length > 32)
-                {
-                    rtf.Append(sisalto.Substring(0, 15) + "..." + sisalto.Substring(sisalto.Length - 15));
-                }
-                else
-                {
-                    rtf.Append(sisalto);
-                }
-
-                rtf.Append(@" \line ");
-                sbil.AppendLine("[url]" + sisalto + "[/url]");
-            }
-        }
-
-        private void RtfRivinvaihto(StringBuilder rtf, StringBuilder sbil)
-        {
-            rtf.Append(@" \line ");
-            sbil.AppendLine();
-        }
-
-        private void RtfOsionVaihto(StringBuilder rtf, StringBuilder sbil)
-        {
-            rtf.Append(@" ------------------------------------------------------------------------------------- \line ");
-            sbil.Append(" ------------------------------------------------------------------------------------- " + Environment.NewLine);
-        }
-        */
-
         private void PaivitaKilpailukutsuTeksti()
         {
             Tyypit.Teksti teksti = new Tyypit.Teksti();
@@ -3290,27 +3238,6 @@ namespace KaisaKaavio
             this.alkavatPelitRichTextBox.Rtf = teksti.Rtf;
             this.alkavatPelitRichTextBox.Tag = teksti.Sbil;
         }
-
-        /*
-        private void AloitaRtfTeksti(StringBuilder s)
-        {
-            s.AppendLine(@"{\rtf1\ansi");
-            s.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red170\green170\blue200;}");
-            //s.AppendLine(@" \line ");
-        }
-
-        private void LopetaRtfTeksti(StringBuilder s)
-        {
-            s.Append(@"}");
-        }
-
-        private void LopetaSbilTeksti(StringBuilder s)
-        {
-            s.AppendLine(
-                string.Format("[size=85]Kilpailu vedetty ilmaisella, avoimen lähdekoodin [url=https://github.com/iliip0/KaisaKaavio] KaisaKaavio [/url] -ohjelmalla[color=#999999] (versio {0})[/color][/size]",
-                    Assembly.GetEntryAssembly().GetName().Version));
-        }
-         */
 
         private void PaivitaPelitTeksti()
         {
@@ -3521,7 +3448,24 @@ namespace KaisaKaavio
 
         private void KirjoitaTuloksetTeksti(Tyypit.Teksti teksti)
         {
-            teksti.Otsikko("Tulokset");
+            teksti.PaksuTeksti("Tulokset");
+
+            if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista)
+            {
+                teksti.NormaaliTeksti(" ");
+                switch (this.kilpailu.SijoitustenMaaraytyminen)
+                {
+                    case SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista:
+                        teksti.PieniTeksti(" (Finaalin hävinnyt sijoittuu toiseksi)");
+                        break;
+                    
+                    case SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista: 
+                        teksti.PieniTeksti(" (Sijat 1-3 kierrosten perusteella)");
+                        break;
+                }
+            }
+
+            teksti.RivinVaihto();
             teksti.RivinVaihto();
 
             Dictionary<string, List<int>> sarjat = new Dictionary<string, List<int>>();
@@ -3567,38 +3511,54 @@ namespace KaisaKaavio
             bool paattynyt = this.kilpailu.KilpailuOnPaattynyt;
 
             var tulosluettelo = this.kilpailu.Tulokset();
+
+            int maxKierros = 1;
+
+            if (paattynyt)
+            {
+                var pudonneet = tulosluettelo.Where(x => x.Pudotettu);
+                if (pudonneet.Count() > 0)
+                {
+                    maxKierros = pudonneet.Select(x => x.PudonnutKierroksella).Max() + 1;
+                }
+            }
+
+            int voittajanKierros = -1;
+            int kakkosenKierros = -1;
+            int kolmostenKierros = -1;
+            int kolmosia = 0;
+
             foreach (var osallistuja in tulosluettelo)
             {
                 if (osallistuja.SijoitusOnVarma)
                 {
+                    teksti.NormaaliTeksti(string.Format("{0}. {1} - {2}/{3}",
+                        osallistuja.Sijoitus,
+                        this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
+                        osallistuja.Voitot,
+                        osallistuja.Pisteet));
+
                     if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista &&
                         osallistuja.Sijoitus == 1)
                     {
-                        teksti.PaksuTeksti(string.Format("{0}. {1}", osallistuja.Sijoitus, this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
-                        teksti.NormaaliTeksti(string.Format(" {0}/{1}", osallistuja.Voitot, osallistuja.Pisteet));
-                        teksti.PieniTeksti(" (voittaja)");
+                        voittajanKierros = maxKierros;
+                        teksti.NormaaliTeksti(" ");
+                        teksti.PieniTeksti(" (*)");
                     }
                     else if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista &&
                         osallistuja.Sijoitus == 2)
                     {
-                        teksti.PaksuTeksti(string.Format("{0}. {1}", osallistuja.Sijoitus, this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
-                        teksti.NormaaliTeksti(string.Format(" {0}/{1}", osallistuja.Voitot, osallistuja.Pisteet));
-                        teksti.PieniTeksti(" (toinen finalisti)");
+                        kakkosenKierros = osallistuja.PudonnutKierroksella;
+                        teksti.NormaaliTeksti(" ");
+                        teksti.PieniTeksti(" (**)");
                     }
                     else if (this.kilpailu.SijoitustenMaaraytyminen == SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
                         osallistuja.Sijoitus == 3)
                     {
-                        teksti.PaksuTeksti(string.Format("{0}. {1}", osallistuja.Sijoitus, this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
-                        teksti.NormaaliTeksti(string.Format(" {0}/{1}", osallistuja.Voitot, osallistuja.Pisteet));
-                        teksti.PieniTeksti(string.Format(" (semifinalisti {0}. kierros)", osallistuja.PudonnutKierroksella));
-                    }
-                    else
-                    {
-                        teksti.NormaaliTeksti(string.Format("{0}. {1} - {2}/{3}",
-                            osallistuja.Sijoitus,
-                            this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
-                            osallistuja.Voitot,
-                            osallistuja.Pisteet));
+                        kolmostenKierros = osallistuja.PudonnutKierroksella;
+                        kolmosia++;
+                        teksti.NormaaliTeksti(" ");
+                        teksti.PieniTeksti(" (***)");
                     }
                 }
                 else 
@@ -3607,6 +3567,36 @@ namespace KaisaKaavio
                 }
 
                 teksti.RivinVaihto();
+            }
+
+            if (voittajanKierros >= 0 || kakkosenKierros >= 0 || kolmostenKierros >= 0)
+            {
+                teksti.RivinVaihto();
+
+                if (voittajanKierros >= 0)
+                {
+                    teksti.PieniTeksti("(*) = Finaalin voittaja");
+                    teksti.RivinVaihto();
+                }
+
+                if (kakkosenKierros >= 0)
+                {
+                    teksti.PieniTeksti(string.Format("(**) = Kakkonen, pudonnut {0}. kierroksella", kakkosenKierros));
+                    teksti.RivinVaihto();
+                }
+
+                if (kolmostenKierros >= 0)
+                {
+                    if (kolmosia == 1)
+                    {
+                        teksti.PieniTeksti(string.Format("(***) = Kolmonen, pudonnut {0}. kierroksella", kolmostenKierros));
+                    }
+                    else
+                    {
+                        teksti.PieniTeksti(string.Format("(***) = Kolmoset, pudonneet {0}. kierroksella", kolmostenKierros));
+                    }
+                    teksti.RivinVaihto();
+                }
             }
 
             if (eiTyhjatSarjat.Count() > 0)
@@ -4591,6 +4581,12 @@ namespace KaisaKaavio
         private void label25_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void tuloksetSijoitustenMaaraytyminenComboBox_Validated(object sender, EventArgs e)
+        {
+            PaivitaPelitTeksti();
+            PaivitaTuloksetTeksti();
         }
     }
 }

@@ -228,6 +228,13 @@
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.kilpailuKutsuSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.pictureBox14 = new System.Windows.Forms.PictureBox();
+            this.richTextBox8 = new System.Windows.Forms.RichTextBox();
+            this.kilpailuKutsuAlkamisAikaTextBox = new System.Windows.Forms.TextBox();
+            this.alkavatPelitPoytiaNmericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.kilpailuKutsuRichTextBox = new System.Windows.Forms.RichTextBox();
             this.kilpailuKutsuButton = new System.Windows.Forms.Button();
@@ -487,13 +494,10 @@
             this.medalImages = new System.Windows.Forms.ImageList(this.components);
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.kilpailuKutsuSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.alkavatPelitPoytiaNmericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.kilpailuKutsuAlkamisAikaTextBox = new System.Windows.Forms.TextBox();
-            this.richTextBox8 = new System.Windows.Forms.RichTextBox();
-            this.pictureBox14 = new System.Windows.Forms.PictureBox();
+            this.splitContainer18 = new System.Windows.Forms.SplitContainer();
+            this.pictureBox15 = new System.Windows.Forms.PictureBox();
+            this.label57 = new System.Windows.Forms.Label();
+            this.tuloksetSijoitustenMaaraytyminenComboBox = new System.Windows.Forms.ComboBox();
             this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -597,6 +601,12 @@
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kilpailuKutsuSplitContainer)).BeginInit();
+            this.kilpailuKutsuSplitContainer.Panel1.SuspendLayout();
+            this.kilpailuKutsuSplitContainer.Panel2.SuspendLayout();
+            this.kilpailuKutsuSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.alkavatPelitPoytiaNmericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
@@ -667,12 +677,11 @@
             this.splitContainer9.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kilpailuKutsuSplitContainer)).BeginInit();
-            this.kilpailuKutsuSplitContainer.Panel1.SuspendLayout();
-            this.kilpailuKutsuSplitContainer.Panel2.SuspendLayout();
-            this.kilpailuKutsuSplitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.alkavatPelitPoytiaNmericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).BeginInit();
+            this.splitContainer18.Panel1.SuspendLayout();
+            this.splitContainer18.Panel2.SuspendLayout();
+            this.splitContainer18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jalkiIlmoBindingSource)).BeginInit();
@@ -2581,9 +2590,9 @@
             this.kilpailuKutsuTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.kilpailuKutsuTabPage.Controls.Add(this.splitContainer4);
             this.kilpailuKutsuTabPage.ImageIndex = 14;
-            this.kilpailuKutsuTabPage.Location = new System.Drawing.Point(4, 87);
+            this.kilpailuKutsuTabPage.Location = new System.Drawing.Point(4, 44);
             this.kilpailuKutsuTabPage.Name = "kilpailuKutsuTabPage";
-            this.kilpailuKutsuTabPage.Size = new System.Drawing.Size(776, 534);
+            this.kilpailuKutsuTabPage.Size = new System.Drawing.Size(776, 577);
             this.kilpailuKutsuTabPage.TabIndex = 3;
             this.kilpailuKutsuTabPage.Text = "Kilpailukutsu";
             this.kilpailuKutsuTabPage.UseVisualStyleBackColor = true;
@@ -2608,7 +2617,7 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.kilpailuKutsuSplitContainer);
-            this.splitContainer4.Size = new System.Drawing.Size(772, 530);
+            this.splitContainer4.Size = new System.Drawing.Size(772, 573);
             this.splitContainer4.SplitterDistance = 61;
             this.splitContainer4.TabIndex = 0;
             // 
@@ -2638,6 +2647,110 @@
             this.richTextBox1.Text = "Tältä välilehdeltä voit kopioda kilpailukutsun sekä ensimmäiset alkavat pelit suo" +
     "raan liitettäväksi SBiL keskustelupalstalle\n";
             // 
+            // kilpailuKutsuSplitContainer
+            // 
+            this.kilpailuKutsuSplitContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.kilpailuKutsuSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kilpailuKutsuSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.kilpailuKutsuSplitContainer.IsSplitterFixed = true;
+            this.kilpailuKutsuSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.kilpailuKutsuSplitContainer.Name = "kilpailuKutsuSplitContainer";
+            this.kilpailuKutsuSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // kilpailuKutsuSplitContainer.Panel1
+            // 
+            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.pictureBox14);
+            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.richTextBox8);
+            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.kilpailuKutsuAlkamisAikaTextBox);
+            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.alkavatPelitPoytiaNmericUpDown);
+            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.label56);
+            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.label55);
+            // 
+            // kilpailuKutsuSplitContainer.Panel2
+            // 
+            this.kilpailuKutsuSplitContainer.Panel2.Controls.Add(this.splitContainer5);
+            this.kilpailuKutsuSplitContainer.Size = new System.Drawing.Size(772, 508);
+            this.kilpailuKutsuSplitContainer.SplitterDistance = 83;
+            this.kilpailuKutsuSplitContainer.TabIndex = 2;
+            // 
+            // pictureBox14
+            // 
+            this.pictureBox14.Image = global::KaisaKaavio.Properties.Resources.Sali;
+            this.pictureBox14.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox14.Name = "pictureBox14";
+            this.pictureBox14.Size = new System.Drawing.Size(36, 36);
+            this.pictureBox14.TabIndex = 8;
+            this.pictureBox14.TabStop = false;
+            // 
+            // richTextBox8
+            // 
+            this.richTextBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox8.BackColor = System.Drawing.Color.Green;
+            this.richTextBox8.ForeColor = System.Drawing.Color.White;
+            this.richTextBox8.Location = new System.Drawing.Point(380, 6);
+            this.richTextBox8.Name = "richTextBox8";
+            this.richTextBox8.ReadOnly = true;
+            this.richTextBox8.Size = new System.Drawing.Size(380, 70);
+            this.richTextBox8.TabIndex = 7;
+            this.richTextBox8.Text = "Voit muokata käytettävissä olevien pöytien määrää sekä muita pöytien tietoja kute" +
+    "n striimilinkkejä \'Salin tiedot\' välilehdeltä.";
+            // 
+            // kilpailuKutsuAlkamisAikaTextBox
+            // 
+            this.kilpailuKutsuAlkamisAikaTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "KellonAika", true));
+            this.kilpailuKutsuAlkamisAikaTextBox.Location = new System.Drawing.Point(311, 50);
+            this.kilpailuKutsuAlkamisAikaTextBox.Name = "kilpailuKutsuAlkamisAikaTextBox";
+            this.kilpailuKutsuAlkamisAikaTextBox.Size = new System.Drawing.Size(55, 26);
+            this.kilpailuKutsuAlkamisAikaTextBox.TabIndex = 4;
+            this.kilpailuKutsuAlkamisAikaTextBox.Text = "10:00";
+            this.kilpailuKutsuAlkamisAikaTextBox.TextChanged += new System.EventHandler(this.kilpailuKutsuAlkamisAikaTextBox_TextChanged);
+            this.kilpailuKutsuAlkamisAikaTextBox.Validated += new System.EventHandler(this.kilpailuKutsuAlkamisAikaTextBox_Validated);
+            // 
+            // alkavatPelitPoytiaNmericUpDown
+            // 
+            this.alkavatPelitPoytiaNmericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.saliBindingSource, "PoytiaKaytettavissa", true));
+            this.alkavatPelitPoytiaNmericUpDown.Increment = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.alkavatPelitPoytiaNmericUpDown.Location = new System.Drawing.Point(311, 10);
+            this.alkavatPelitPoytiaNmericUpDown.Maximum = new decimal(new int[] {
+            32,
+            0,
+            0,
+            0});
+            this.alkavatPelitPoytiaNmericUpDown.Name = "alkavatPelitPoytiaNmericUpDown";
+            this.alkavatPelitPoytiaNmericUpDown.ReadOnly = true;
+            this.alkavatPelitPoytiaNmericUpDown.Size = new System.Drawing.Size(55, 26);
+            this.alkavatPelitPoytiaNmericUpDown.TabIndex = 3;
+            this.alkavatPelitPoytiaNmericUpDown.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.alkavatPelitPoytiaNmericUpDown.ValueChanged += new System.EventHandler(this.alkavatPelitPoytiaNmericUpDown_ValueChanged);
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(45, 53);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(245, 20);
+            this.label56.TabIndex = 2;
+            this.label56.Text = "Ensimmäisten pelien alkamisaika:";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(45, 12);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(152, 20);
+            this.label55.TabIndex = 1;
+            this.label55.Text = "Pöytiä käytettävissä:";
+            // 
             // splitContainer5
             // 
             this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -2656,7 +2769,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.alkavatPelitButton);
             this.splitContainer5.Panel2.Controls.Add(this.alkavatPelitRichTextBox);
-            this.splitContainer5.Size = new System.Drawing.Size(772, 378);
+            this.splitContainer5.Size = new System.Drawing.Size(772, 421);
             this.splitContainer5.SplitterDistance = 373;
             this.splitContainer5.TabIndex = 1;
             // 
@@ -2670,7 +2783,7 @@
             this.kilpailuKutsuRichTextBox.Location = new System.Drawing.Point(3, 49);
             this.kilpailuKutsuRichTextBox.Name = "kilpailuKutsuRichTextBox";
             this.kilpailuKutsuRichTextBox.ReadOnly = true;
-            this.kilpailuKutsuRichTextBox.Size = new System.Drawing.Size(363, 322);
+            this.kilpailuKutsuRichTextBox.Size = new System.Drawing.Size(363, 365);
             this.kilpailuKutsuRichTextBox.TabIndex = 0;
             this.kilpailuKutsuRichTextBox.Text = "";
             // 
@@ -2721,7 +2834,7 @@
             this.alkavatPelitRichTextBox.Location = new System.Drawing.Point(3, 49);
             this.alkavatPelitRichTextBox.Name = "alkavatPelitRichTextBox";
             this.alkavatPelitRichTextBox.ReadOnly = true;
-            this.alkavatPelitRichTextBox.Size = new System.Drawing.Size(385, 322);
+            this.alkavatPelitRichTextBox.Size = new System.Drawing.Size(385, 365);
             this.alkavatPelitRichTextBox.TabIndex = 0;
             this.alkavatPelitRichTextBox.Text = "";
             // 
@@ -2730,9 +2843,9 @@
             this.tuloksetTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tuloksetTabPage.Controls.Add(this.tuloksetSplitContainer);
             this.tuloksetTabPage.ImageIndex = 19;
-            this.tuloksetTabPage.Location = new System.Drawing.Point(4, 44);
+            this.tuloksetTabPage.Location = new System.Drawing.Point(4, 87);
             this.tuloksetTabPage.Name = "tuloksetTabPage";
-            this.tuloksetTabPage.Size = new System.Drawing.Size(776, 577);
+            this.tuloksetTabPage.Size = new System.Drawing.Size(776, 534);
             this.tuloksetTabPage.TabIndex = 4;
             this.tuloksetTabPage.Text = "Tulokset";
             this.tuloksetTabPage.UseVisualStyleBackColor = true;
@@ -2756,8 +2869,8 @@
             // 
             // tuloksetSplitContainer.Panel2
             // 
-            this.tuloksetSplitContainer.Panel2.Controls.Add(this.splitContainer3);
-            this.tuloksetSplitContainer.Size = new System.Drawing.Size(772, 573);
+            this.tuloksetSplitContainer.Panel2.Controls.Add(this.splitContainer18);
+            this.tuloksetSplitContainer.Size = new System.Drawing.Size(772, 530);
             this.tuloksetSplitContainer.SplitterDistance = 61;
             this.tuloksetSplitContainer.TabIndex = 0;
             // 
@@ -2804,7 +2917,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.tuloksetButton);
             this.splitContainer3.Panel2.Controls.Add(this.tuloksetRichTextBox);
-            this.splitContainer3.Size = new System.Drawing.Size(772, 508);
+            this.splitContainer3.Size = new System.Drawing.Size(772, 391);
             this.splitContainer3.SplitterDistance = 485;
             this.splitContainer3.TabIndex = 1;
             // 
@@ -2817,7 +2930,7 @@
             this.pelitRichTextBox.Location = new System.Drawing.Point(3, 49);
             this.pelitRichTextBox.Name = "pelitRichTextBox";
             this.pelitRichTextBox.ReadOnly = true;
-            this.pelitRichTextBox.Size = new System.Drawing.Size(475, 452);
+            this.pelitRichTextBox.Size = new System.Drawing.Size(475, 335);
             this.pelitRichTextBox.TabIndex = 0;
             this.pelitRichTextBox.Text = "";
             // 
@@ -2865,7 +2978,7 @@
             this.tuloksetRichTextBox.Location = new System.Drawing.Point(3, 49);
             this.tuloksetRichTextBox.Name = "tuloksetRichTextBox";
             this.tuloksetRichTextBox.ReadOnly = true;
-            this.tuloksetRichTextBox.Size = new System.Drawing.Size(273, 452);
+            this.tuloksetRichTextBox.Size = new System.Drawing.Size(273, 335);
             this.tuloksetRichTextBox.TabIndex = 0;
             this.tuloksetRichTextBox.Text = "";
             // 
@@ -5574,109 +5687,60 @@
             // 
             this.sarjatBindingSourceBindingSource.DataSource = this.rankingBindingSource;
             // 
-            // kilpailuKutsuSplitContainer
+            // splitContainer18
             // 
-            this.kilpailuKutsuSplitContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.kilpailuKutsuSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kilpailuKutsuSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.kilpailuKutsuSplitContainer.IsSplitterFixed = true;
-            this.kilpailuKutsuSplitContainer.Location = new System.Drawing.Point(0, 0);
-            this.kilpailuKutsuSplitContainer.Name = "kilpailuKutsuSplitContainer";
-            this.kilpailuKutsuSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainer18.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer18.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer18.IsSplitterFixed = true;
+            this.splitContainer18.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer18.Name = "splitContainer18";
+            this.splitContainer18.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // kilpailuKutsuSplitContainer.Panel1
+            // splitContainer18.Panel1
             // 
-            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.pictureBox14);
-            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.richTextBox8);
-            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.kilpailuKutsuAlkamisAikaTextBox);
-            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.alkavatPelitPoytiaNmericUpDown);
-            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.label56);
-            this.kilpailuKutsuSplitContainer.Panel1.Controls.Add(this.label55);
+            this.splitContainer18.Panel1.Controls.Add(this.tuloksetSijoitustenMaaraytyminenComboBox);
+            this.splitContainer18.Panel1.Controls.Add(this.label57);
+            this.splitContainer18.Panel1.Controls.Add(this.pictureBox15);
             // 
-            // kilpailuKutsuSplitContainer.Panel2
+            // splitContainer18.Panel2
             // 
-            this.kilpailuKutsuSplitContainer.Panel2.Controls.Add(this.splitContainer5);
-            this.kilpailuKutsuSplitContainer.Size = new System.Drawing.Size(772, 465);
-            this.kilpailuKutsuSplitContainer.SplitterDistance = 83;
-            this.kilpailuKutsuSplitContainer.TabIndex = 2;
+            this.splitContainer18.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainer18.Size = new System.Drawing.Size(772, 465);
+            this.splitContainer18.SplitterDistance = 70;
+            this.splitContainer18.TabIndex = 2;
             // 
-            // label55
+            // pictureBox15
             // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(45, 12);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(152, 20);
-            this.label55.TabIndex = 1;
-            this.label55.Text = "Pöytiä käytettävissä:";
+            this.pictureBox15.Image = global::KaisaKaavio.Properties.Resources.Tulokset;
+            this.pictureBox15.Location = new System.Drawing.Point(13, 7);
+            this.pictureBox15.Name = "pictureBox15";
+            this.pictureBox15.Size = new System.Drawing.Size(51, 50);
+            this.pictureBox15.TabIndex = 0;
+            this.pictureBox15.TabStop = false;
             // 
-            // label56
+            // label57
             // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(45, 53);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(245, 20);
-            this.label56.TabIndex = 2;
-            this.label56.Text = "Ensimmäisten pelien alkamisaika:";
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(70, 7);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(247, 20);
+            this.label57.TabIndex = 1;
+            this.label57.Text = "Valitse sijoitusten määräytyminen:";
             // 
-            // alkavatPelitPoytiaNmericUpDown
+            // tuloksetSijoitustenMaaraytyminenComboBox
             // 
-            this.alkavatPelitPoytiaNmericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.saliBindingSource, "PoytiaKaytettavissa", true));
-            this.alkavatPelitPoytiaNmericUpDown.Increment = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.alkavatPelitPoytiaNmericUpDown.Location = new System.Drawing.Point(311, 10);
-            this.alkavatPelitPoytiaNmericUpDown.Maximum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            0});
-            this.alkavatPelitPoytiaNmericUpDown.Name = "alkavatPelitPoytiaNmericUpDown";
-            this.alkavatPelitPoytiaNmericUpDown.ReadOnly = true;
-            this.alkavatPelitPoytiaNmericUpDown.Size = new System.Drawing.Size(55, 26);
-            this.alkavatPelitPoytiaNmericUpDown.TabIndex = 3;
-            this.alkavatPelitPoytiaNmericUpDown.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.alkavatPelitPoytiaNmericUpDown.ValueChanged += new System.EventHandler(this.alkavatPelitPoytiaNmericUpDown_ValueChanged);
-            // 
-            // kilpailuKutsuAlkamisAikaTextBox
-            // 
-            this.kilpailuKutsuAlkamisAikaTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "KellonAika", true));
-            this.kilpailuKutsuAlkamisAikaTextBox.Location = new System.Drawing.Point(311, 50);
-            this.kilpailuKutsuAlkamisAikaTextBox.Name = "kilpailuKutsuAlkamisAikaTextBox";
-            this.kilpailuKutsuAlkamisAikaTextBox.Size = new System.Drawing.Size(55, 26);
-            this.kilpailuKutsuAlkamisAikaTextBox.TabIndex = 4;
-            this.kilpailuKutsuAlkamisAikaTextBox.Text = "10:00";
-            this.kilpailuKutsuAlkamisAikaTextBox.TextChanged += new System.EventHandler(this.kilpailuKutsuAlkamisAikaTextBox_TextChanged);
-            this.kilpailuKutsuAlkamisAikaTextBox.Validated += new System.EventHandler(this.kilpailuKutsuAlkamisAikaTextBox_Validated);
-            // 
-            // richTextBox8
-            // 
-            this.richTextBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tuloksetSijoitustenMaaraytyminenComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox8.BackColor = System.Drawing.Color.Green;
-            this.richTextBox8.ForeColor = System.Drawing.Color.White;
-            this.richTextBox8.Location = new System.Drawing.Point(380, 6);
-            this.richTextBox8.Name = "richTextBox8";
-            this.richTextBox8.ReadOnly = true;
-            this.richTextBox8.Size = new System.Drawing.Size(380, 70);
-            this.richTextBox8.TabIndex = 7;
-            this.richTextBox8.Text = "Voit muokata käytettävissä olevien pöytien määrää sekä muita pöytien tietoja kute" +
-    "n striimilinkkejä \'Salin tiedot\' välilehdeltä.";
-            // 
-            // pictureBox14
-            // 
-            this.pictureBox14.Image = global::KaisaKaavio.Properties.Resources.Sali;
-            this.pictureBox14.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox14.Name = "pictureBox14";
-            this.pictureBox14.Size = new System.Drawing.Size(36, 36);
-            this.pictureBox14.TabIndex = 8;
-            this.pictureBox14.TabStop = false;
+            this.tuloksetSijoitustenMaaraytyminenComboBox.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.kilpailuBindingSource, "SijoitustenMaaraytyminen", true));
+            this.tuloksetSijoitustenMaaraytyminenComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tuloksetSijoitustenMaaraytyminenComboBox.FormattingEnabled = true;
+            this.tuloksetSijoitustenMaaraytyminenComboBox.Location = new System.Drawing.Point(70, 29);
+            this.tuloksetSijoitustenMaaraytyminenComboBox.Name = "tuloksetSijoitustenMaaraytyminenComboBox";
+            this.tuloksetSijoitustenMaaraytyminenComboBox.Size = new System.Drawing.Size(695, 28);
+            this.tuloksetSijoitustenMaaraytyminenComboBox.TabIndex = 2;
+            this.tuloksetSijoitustenMaaraytyminenComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.sijoitustenMaaraytyminenComboBox_Format);
+            this.tuloksetSijoitustenMaaraytyminenComboBox.Validated += new System.EventHandler(this.tuloksetSijoitustenMaaraytyminenComboBox_Validated);
             // 
             // kilpailuBindingSource
             // 
@@ -6172,6 +6236,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.kilpailuKutsuSplitContainer.Panel1.ResumeLayout(false);
+            this.kilpailuKutsuSplitContainer.Panel1.PerformLayout();
+            this.kilpailuKutsuSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kilpailuKutsuSplitContainer)).EndInit();
+            this.kilpailuKutsuSplitContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.alkavatPelitPoytiaNmericUpDown)).EndInit();
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
@@ -6250,13 +6321,12 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).EndInit();
-            this.kilpailuKutsuSplitContainer.Panel1.ResumeLayout(false);
-            this.kilpailuKutsuSplitContainer.Panel1.PerformLayout();
-            this.kilpailuKutsuSplitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kilpailuKutsuSplitContainer)).EndInit();
-            this.kilpailuKutsuSplitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.alkavatPelitPoytiaNmericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
+            this.splitContainer18.Panel1.ResumeLayout(false);
+            this.splitContainer18.Panel1.PerformLayout();
+            this.splitContainer18.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).EndInit();
+            this.splitContainer18.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.jalkiIlmoBindingSource)).EndInit();
@@ -6741,6 +6811,10 @@
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.PictureBox pictureBox14;
         private System.Windows.Forms.RichTextBox richTextBox8;
+        private System.Windows.Forms.SplitContainer splitContainer18;
+        private System.Windows.Forms.ComboBox tuloksetSijoitustenMaaraytyminenComboBox;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.PictureBox pictureBox15;
     }
 }
 
