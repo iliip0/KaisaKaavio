@@ -147,6 +147,8 @@ namespace KaisaKaavio
             this.testaaToolStripMenuItem.Visible = false;
 #endif
 
+            Kayttoliittyma.Mukauttaja.Mukauta(this);
+
             this.loki.Kirjoita("KaisaKaavio käynnistetty onnistuneesti", null, false);
         }
 
@@ -3355,7 +3357,7 @@ namespace KaisaKaavio
                                 alkoi = ekapeli.Alkoi;
                             }
 
-                            if (this.kilpailu.Pelit.Any(x => x.Kierros <= kierros && x.Tilanne != PelinTilanne.Pelattu))
+                            if (!this.kilpailu.Pelit.Any(x => x.Kierros <= kierros && x.Tilanne != PelinTilanne.Pelattu))
                             {
                                 var vikapeli = this.kilpailu.Pelit.Where(x => x.Kierros == kierros && !string.IsNullOrEmpty(x.Alkoi)).LastOrDefault();
                                 if (vikapeli != null)
@@ -3383,7 +3385,7 @@ namespace KaisaKaavio
                         teksti.RivinVaihto();
                     }
 
-                    peli.RichTextKuvaus(this.asetukset.Sali, teksti, false);
+                    peli.RichTextKuvaus(this.asetukset.Sali, teksti);
 
                     try
                     {

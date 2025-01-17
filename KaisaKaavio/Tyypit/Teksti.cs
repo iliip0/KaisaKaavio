@@ -182,9 +182,9 @@ namespace KaisaKaavio.Tyypit
         {
             if (!string.IsNullOrEmpty(teksti))
             {
-                this.rtf.Append(@"\fs18\cf4");
+                this.rtf.Append(@"\fs17\cf4");
                 this.rtf.Append(teksti);
-                this.rtf.Append(@"\fs20\cf1");
+                this.rtf.Append(@" \fs20\cf1");
 
                 this.sbil.Append(string.Format("[size=85][color=#115099]{0}[/color][/size]", teksti));
                 this.plain.Append(teksti);
@@ -193,27 +193,20 @@ namespace KaisaKaavio.Tyypit
             return this;
         }
 
-        public Teksti PelinTilanneTeksti(string poyta, string alkoi)
+        public Teksti PelinTilanneTeksti(string teksti)
         {
-            this.rtf.Append(@"\cf3");
-            this.sbil.Append("[color=#0000FF]");
-
-            if (string.IsNullOrEmpty(poyta))
+            if (!string.IsNullOrEmpty(teksti))
             {
-                NormaaliTeksti(" - Käynnissä");
-            }
-            else
-            {
-                NormaaliTeksti(string.Format(" - Pöytä {0}", poyta));
-            }
+                this.rtf.Append(@"\b \cf3 ");
+                this.sbil.Append("[color=#0000FF][b]");
 
-            if (!string.IsNullOrEmpty(alkoi))
-            {
-                NormaaliTeksti(string.Format(" ({0})", alkoi));
-            }
+                this.rtf.Append(teksti);
+                this.sbil.Append(teksti);
+                this.plain.Append(teksti);
 
-            this.rtf.Append(@". \cf1");
-            this.sbil.Append(".[/color]");
+                this.rtf.Append(@" \cf1 \b0");
+                this.sbil.Append("[/b][/color]");
+            }
 
             return this;
         }

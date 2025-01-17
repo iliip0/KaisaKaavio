@@ -1799,9 +1799,9 @@
             this.kisaInfoTabPage.Controls.Add(this.splitContainer12);
             this.kisaInfoTabPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kisaInfoTabPage.ImageIndex = 20;
-            this.kisaInfoTabPage.Location = new System.Drawing.Point(4, 44);
+            this.kisaInfoTabPage.Location = new System.Drawing.Point(4, 87);
             this.kisaInfoTabPage.Name = "kisaInfoTabPage";
-            this.kisaInfoTabPage.Size = new System.Drawing.Size(776, 577);
+            this.kisaInfoTabPage.Size = new System.Drawing.Size(776, 534);
             this.kisaInfoTabPage.TabIndex = 5;
             this.kisaInfoTabPage.Text = "Kisainfo";
             // 
@@ -1837,7 +1837,7 @@
             // splitContainer12.Panel2
             // 
             this.splitContainer12.Panel2.Controls.Add(this.splitContainer13);
-            this.splitContainer12.Size = new System.Drawing.Size(772, 573);
+            this.splitContainer12.Size = new System.Drawing.Size(772, 530);
             this.splitContainer12.SplitterDistance = 61;
             this.splitContainer12.TabIndex = 61;
             this.splitContainer12.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer12_SplitterMoved);
@@ -1993,7 +1993,7 @@
             // splitContainer13.Panel2
             // 
             this.splitContainer13.Panel2.Controls.Add(this.rankingJaKilpailuKutsuSplitContainer);
-            this.splitContainer13.Size = new System.Drawing.Size(772, 508);
+            this.splitContainer13.Size = new System.Drawing.Size(772, 465);
             this.splitContainer13.SplitterDistance = 120;
             this.splitContainer13.TabIndex = 58;
             // 
@@ -2226,7 +2226,7 @@
             // rankingJaKilpailuKutsuSplitContainer.Panel2
             // 
             this.rankingJaKilpailuKutsuSplitContainer.Panel2.Controls.Add(this.kisaDetaljitGroupBox);
-            this.rankingJaKilpailuKutsuSplitContainer.Size = new System.Drawing.Size(772, 384);
+            this.rankingJaKilpailuKutsuSplitContainer.Size = new System.Drawing.Size(772, 341);
             this.rankingJaKilpailuKutsuSplitContainer.SplitterDistance = 116;
             this.rankingJaKilpailuKutsuSplitContainer.TabIndex = 0;
             // 
@@ -2364,7 +2364,7 @@
             this.kisaDetaljitGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kisaDetaljitGroupBox.Location = new System.Drawing.Point(0, 0);
             this.kisaDetaljitGroupBox.Name = "kisaDetaljitGroupBox";
-            this.kisaDetaljitGroupBox.Size = new System.Drawing.Size(768, 260);
+            this.kisaDetaljitGroupBox.Size = new System.Drawing.Size(768, 217);
             this.kisaDetaljitGroupBox.TabIndex = 35;
             this.kisaDetaljitGroupBox.TabStop = false;
             this.kisaDetaljitGroupBox.Text = "Kilpailukutsu:";
@@ -2508,7 +2508,7 @@
             this.textBox20.Location = new System.Drawing.Point(219, 186);
             this.textBox20.Multiline = true;
             this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(543, 68);
+            this.textBox20.Size = new System.Drawing.Size(543, 25);
             this.textBox20.TabIndex = 30;
             // 
             // label26
@@ -2590,9 +2590,9 @@
             this.kilpailuKutsuTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.kilpailuKutsuTabPage.Controls.Add(this.splitContainer4);
             this.kilpailuKutsuTabPage.ImageIndex = 14;
-            this.kilpailuKutsuTabPage.Location = new System.Drawing.Point(4, 44);
+            this.kilpailuKutsuTabPage.Location = new System.Drawing.Point(4, 87);
             this.kilpailuKutsuTabPage.Name = "kilpailuKutsuTabPage";
-            this.kilpailuKutsuTabPage.Size = new System.Drawing.Size(776, 577);
+            this.kilpailuKutsuTabPage.Size = new System.Drawing.Size(776, 534);
             this.kilpailuKutsuTabPage.TabIndex = 3;
             this.kilpailuKutsuTabPage.Text = "Kilpailukutsu";
             this.kilpailuKutsuTabPage.UseVisualStyleBackColor = true;
@@ -2617,7 +2617,7 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.kilpailuKutsuSplitContainer);
-            this.splitContainer4.Size = new System.Drawing.Size(772, 573);
+            this.splitContainer4.Size = new System.Drawing.Size(772, 530);
             this.splitContainer4.SplitterDistance = 61;
             this.splitContainer4.TabIndex = 0;
             // 
@@ -2669,7 +2669,7 @@
             // kilpailuKutsuSplitContainer.Panel2
             // 
             this.kilpailuKutsuSplitContainer.Panel2.Controls.Add(this.splitContainer5);
-            this.kilpailuKutsuSplitContainer.Size = new System.Drawing.Size(772, 508);
+            this.kilpailuKutsuSplitContainer.Size = new System.Drawing.Size(772, 465);
             this.kilpailuKutsuSplitContainer.SplitterDistance = 83;
             this.kilpailuKutsuSplitContainer.TabIndex = 2;
             // 
@@ -2769,7 +2769,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.alkavatPelitButton);
             this.splitContainer5.Panel2.Controls.Add(this.alkavatPelitRichTextBox);
-            this.splitContainer5.Size = new System.Drawing.Size(772, 421);
+            this.splitContainer5.Size = new System.Drawing.Size(772, 378);
             this.splitContainer5.SplitterDistance = 373;
             this.splitContainer5.TabIndex = 1;
             // 
@@ -2783,7 +2783,7 @@
             this.kilpailuKutsuRichTextBox.Location = new System.Drawing.Point(3, 49);
             this.kilpailuKutsuRichTextBox.Name = "kilpailuKutsuRichTextBox";
             this.kilpailuKutsuRichTextBox.ReadOnly = true;
-            this.kilpailuKutsuRichTextBox.Size = new System.Drawing.Size(363, 365);
+            this.kilpailuKutsuRichTextBox.Size = new System.Drawing.Size(363, 322);
             this.kilpailuKutsuRichTextBox.TabIndex = 0;
             this.kilpailuKutsuRichTextBox.Text = "";
             // 
@@ -2834,7 +2834,7 @@
             this.alkavatPelitRichTextBox.Location = new System.Drawing.Point(3, 49);
             this.alkavatPelitRichTextBox.Name = "alkavatPelitRichTextBox";
             this.alkavatPelitRichTextBox.ReadOnly = true;
-            this.alkavatPelitRichTextBox.Size = new System.Drawing.Size(385, 365);
+            this.alkavatPelitRichTextBox.Size = new System.Drawing.Size(385, 322);
             this.alkavatPelitRichTextBox.TabIndex = 0;
             this.alkavatPelitRichTextBox.Text = "";
             // 
