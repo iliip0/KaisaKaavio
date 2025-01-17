@@ -28,7 +28,7 @@ namespace KaisaKaavio
             this.kilpaSarjaComboBox.SelectedIndex = 0;
 
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
-            this.kaavioComboBox.SelectedIndex = 0;
+            this.kaavioComboBox.SelectedIndex = 2;
 
             this.rankingComboBox.SelectedIndex = 0;
             this.rankingCheckBox.Checked = false;
@@ -41,6 +41,9 @@ namespace KaisaKaavio
 
         private void PaivitaUiLajille(Laji laji, bool oletusArvot)
         {
+            this.alaLajiComboBox.DataSource = null;
+            bool viikkokisa = this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa;
+
             switch (laji)
             {
                 case KaisaKaavio.Laji.Kara:
@@ -64,9 +67,9 @@ namespace KaisaKaavio
                     if (oletusArvot)
                     {
                         this.peliAikaCheckBox.Checked = true;
-                        this.peliAikaNumericUpDown.Value = 40;
+                        this.peliAikaNumericUpDown.Value = viikkokisa ? 40 : 60;
                         this.tavoiteNumericUpDown.Value = 60;
-                        this.rankingCheckBox.Checked = true;
+                        this.rankingCheckBox.Checked = this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa;
                         this.rankingComboBox.SelectedIndex = 0;
                     }
                     break;
@@ -132,6 +135,8 @@ namespace KaisaKaavio
                     }
                     break;
             }
+
+            this.lajiSplitContainer.Panel2Collapsed = this.alaLajiComboBox.DataSource == null;
         }
 
         public void AsetaOletusarvot(Asetukset.KisaOletusasetukset asetukset, Laji laji, KilpailunTyyppi kilpailunTyyppi, bool salliVaihtaa)
@@ -167,15 +172,7 @@ namespace KaisaKaavio
                     this.kilpaSarjaComboBox.Visible = false;
                 }
 
-                this.alaLajiComboBox.DataSource = null;
-
-                switch (laji)
-                {
-                    case KaisaKaavio.Laji.Kara:
-                        this.alaLajiComboBox.DataSource = new string[] { "Kolmen vallin kara", "Suora kara" };
-                        this.tavoiteLabel.Text = "karaan";
-                        break;
-                }
+                PaivitaUiLajille(laji, true);
 
                 if (this.asetukset != null)
                 {
@@ -373,7 +370,6 @@ namespace KaisaKaavio
 
         private void uusiKilpailuLajiComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PaivitaKilpailunOletusNimi();
         }
 
         private void kilpailunNimiTextBox_Validated(object sender, EventArgs e)
@@ -401,6 +397,13 @@ namespace KaisaKaavio
         {
             this.avattu = true;
             this.oletusNimi = this.kilpailunNimiTextBox.Text;
+            PaivitaUiLajille((KaisaKaavio.Laji)uusiKilpailuLajiComboBox.SelectedItem, true);
+        }
+
+        private void uusiKilpailuLajiComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            PaivitaKilpailunOletusNimi();
+            PaivitaUiLajille((Laji)this.uusiKilpailuLajiComboBox.SelectedItem, true);
         }
     }
 }

@@ -105,6 +105,18 @@ namespace KaisaKaavio.Ranking
             }
         }
 
+        /// <summary>
+        /// Rankingsarjan tilanneteksti paljaana teksti muodossa
+        /// </summary>
+        [XmlIgnore]
+        public string TilannePlain
+        {
+            get
+            {
+                return this.tilannePitka.Plain;
+            }
+        }
+
         [XmlIgnore]
         public string TilanneRtfLyhyt
         {
@@ -230,6 +242,8 @@ namespace KaisaKaavio.Ranking
 #endif
                 }
             }
+
+            PaivitaTilanne();
         }
 
         public void Tallenna(Loki loki, bool tallennaVaikkaEiOlisiMuokattu)
@@ -555,6 +569,9 @@ namespace KaisaKaavio.Ranking
             this.tilannePitka = new Tyypit.Teksti();
 
             KirjoitaViimeisinTulos(this.tilannePitka);
+
+            tilannePitka.RivinVaihto();
+
             KirjoitaTilanne(this.tilannePitka);
             KirjoitaTilanne(this.tilanneLyhyt);
         }

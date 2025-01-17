@@ -176,6 +176,7 @@
             this.uusiKilpailuLajiComboBox.Size = new System.Drawing.Size(206, 32);
             this.uusiKilpailuLajiComboBox.TabIndex = 10;
             this.uusiKilpailuLajiComboBox.SelectedIndexChanged += new System.EventHandler(this.uusiKilpailuLajiComboBox_SelectedIndexChanged);
+            this.uusiKilpailuLajiComboBox.SelectionChangeCommitted += new System.EventHandler(this.uusiKilpailuLajiComboBox_SelectionChangeCommitted);
             // 
             // splitContainer1
             // 

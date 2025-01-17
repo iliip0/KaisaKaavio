@@ -44,7 +44,7 @@ namespace KaisaKaavio.Ranking
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
         }
 
-        private StringBuilder tilanne = new StringBuilder();
+        private Tyypit.Teksti tilanne = new Tyypit.Teksti();
 
         /// <summary>
         /// Rankingosakilpailun tilanneteksti rtf muodossa
@@ -54,7 +54,7 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return tilanne.ToString();
+                return tilanne.Rtf;
             }
         }
 
@@ -66,7 +66,7 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return tilanne.ToString();
+                return tilanne.Sbil;
             }
         }
 
@@ -235,22 +235,26 @@ namespace KaisaKaavio.Ranking
 
         public void PaivitaTilanneTeksti()
         {
-            this.tilanne.Clear();
+            this.tilanne = new Tyypit.Teksti();
 
-            this.tilanne.AppendLine(this.Nimi);
-            this.tilanne.AppendLine(string.Format("Osallistui {0} pelaajaa", this.Osallistujat.Count));
-            this.tilanne.AppendLine();
-
+            this.tilanne.Otsikko(this.Nimi);
+            this.tilanne.NormaaliRivi(string.Format("Osallistui {0} pelaajaa", this.Osallistujat.Count));
+            this.tilanne.RivinVaihto();
+        
             foreach (var o in this.Osallistujat.OrderBy(x => x.Sijoitus))
             {
                 if (o.Sijoitus > 0)
                 {
-                    tilanne.AppendLine(string.Format("{0}. {1} ({2})", o.Sijoitus, o.Nimi, o.RankingPisteString));
+                    tilanne.NormaaliTeksti(string.Format("{0}. {1} ", o.Sijoitus, o.Nimi));
                 }
                 else
                 {
-                    tilanne.AppendLine(string.Format("{0} ({1})", o.Nimi, o.RankingPisteString));
+                    tilanne.NormaaliTeksti(o.Nimi + " ");
                 }
+
+                tilanne.PaksuTeksti(string.Format("{0}p ", o.RankingPisteet));
+                tilanne.PieniTeksti(" (" + o.RankingPisteString + ")");
+                tilanne.RivinVaihto();
             }
         }
     }

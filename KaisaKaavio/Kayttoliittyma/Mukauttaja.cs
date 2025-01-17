@@ -37,7 +37,6 @@ namespace KaisaKaavio.Kayttoliittyma
                     }
                     catch
                     {
-                        int iii = 0;
                     }
                 }
             }

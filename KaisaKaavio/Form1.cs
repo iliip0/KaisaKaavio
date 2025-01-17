@@ -1807,7 +1807,7 @@ namespace KaisaKaavio
         {
             try
             {
-                if (e.RowIndex >= 0)
+                if (e.RowIndex >= 0 && e.RowIndex < this.osallistujatDataGridView.Rows.Count)
                 {
                     var rivi = this.osallistujatDataGridView.Rows[e.RowIndex];
                     var pelaaja = (Pelaaja)rivi.DataBoundItem;
@@ -4011,6 +4011,9 @@ namespace KaisaKaavio
 
             PaivitaRankingsarjaBoksienNakyvyys();
 
+            this.rankingKokonaistilanneRichTextBox.Rtf = this.ranking.KokonaisTilanneRtf;
+            this.rankingOsakilpailuRichTextBox.Rtf = this.ranking.OsakilpailunTilanneRtf;
+
             this.rankingSivuaRakennetaan = false;
 
             this.rankingTabPage.ResumeLayout();
@@ -4195,6 +4198,9 @@ namespace KaisaKaavio
         private void rankingComboBox_SelectionChangeCommitted2(object sender, EventArgs e)
         {
             RankingComboBoxEditEnd(false);
+
+            this.rankingOsakilpailuRichTextBox.Rtf = this.ranking.OsakilpailunTilanneRtf;
+            this.rankingKokonaistilanneRichTextBox.Rtf = this.ranking.KokonaisTilanneRtf;
         }
 
         private void rankingSarjaComboBox_Format(object sender, ListControlConvertEventArgs e)
@@ -4433,12 +4439,12 @@ namespace KaisaKaavio
 
         private void kopioiKokonaistilanneButton_Click(object sender, EventArgs e)
         {
-            KopioiLeikepoydalle(this.rankingKokonaistilanneRichTextBox.Text);
+            KopioiLeikepoydalle((string)this.rankingKokonaistilanneRichTextBox.Tag);
         }
 
         private void kopioOsakilpailuButton_Click(object sender, EventArgs e)
         {
-            KopioiLeikepoydalle(this.rankingOsakilpailuRichTextBox.Text);
+            KopioiLeikepoydalle((string)this.rankingOsakilpailuRichTextBox.Tag);
         }
 
         private void rankingKisaTyyppiComboBox_Format(object sender, ListControlConvertEventArgs e)
@@ -4469,6 +4475,11 @@ namespace KaisaKaavio
 
                 this.ranking.ValitseRankingSarja(vuosi, laji, pituus, numero, this.kilpailu);
                 this.haeRankingSarjaButton.Enabled = false;
+
+                this.rankingKokonaistilanneRichTextBox.Rtf = this.ranking.KokonaisTilanneRtf;
+                this.rankingOsakilpailuRichTextBox.Rtf = this.ranking.OsakilpailunTilanneRtf;
+
+                PaivitaRankingTaulukko();
             }
             catch (Exception ex)
             {
