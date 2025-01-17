@@ -8,6 +8,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Mahdollisuus pelata "testikisoja", jotka tallentuvat eri paikkaan eri rankingeillä
 * Korjauksia ja parannuksia SBiL keskustelupalsta tulosteisiin
 * Korjauksia viikkokisaranking systeemiin
+* Vanhojen loki ja varmuuskopioden automaattinen poisto
 
 ## Versio 1.0.0.15		(julkaistu 14.1.2025)
 
