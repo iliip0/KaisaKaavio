@@ -54,6 +54,9 @@ namespace KaisaKaavio
         [DefaultValue(true)]
         public bool Yksipaivainen { get; set; }
 
+        [DefaultValue(false)]
+        public bool TestiKilpailu { get; set; }
+
         [XmlIgnore]
         public Ranking.RankingOsakilpailuTietue RankingOsakilpailu { get; set; }
 
@@ -113,6 +116,9 @@ namespace KaisaKaavio
         }
 
         public SijoitustenMaaraytyminen SijoitustenMaaraytyminen { get; set; }
+
+        [DefaultValue(true)]
+        public bool PeliaikaOnRajattu { get; set; }
 
         public decimal PeliAika { get; set; }
         public decimal RankkareidenMaara { get; set; }
@@ -231,6 +237,7 @@ namespace KaisaKaavio
             KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
             JarjestavaSeura = string.Empty;
             PeliAika = 40;
+            PeliaikaOnRajattu = true;
             TavoitePistemaara = 60;
             RankkareidenMaara = 3;
             Tiedosto = string.Empty;
@@ -250,6 +257,8 @@ namespace KaisaKaavio
 
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             TallennusTarvitaan = false;
+
+            TestiKilpailu = false;
         }
 
 #region Pelit
@@ -761,6 +770,7 @@ namespace KaisaKaavio
                 this.JarjestavaSeura = kilpailu.JarjestavaSeura;
                 this.Nimi = kilpailu.Nimi;
                 this.PeliAika = kilpailu.PeliAika;
+                this.PeliaikaOnRajattu = kilpailu.PeliaikaOnRajattu;
                 this.PuhelinNumero = kilpailu.PuhelinNumero;
                 this.RankkareidenMaara = kilpailu.RankkareidenMaara;
                 this.KaavioTyyppi = kilpailu.KaavioTyyppi;
@@ -781,6 +791,7 @@ namespace KaisaKaavio
                 this.Sijoittaminen = kilpailu.Sijoittaminen;
                 this.SijoitustenMaaraytyminen = kilpailu.SijoitustenMaaraytyminen;
                 this.KilpaSarja = kilpailu.KilpaSarja;
+                this.TestiKilpailu = kilpailu.TestiKilpailu;
 
                 this.RankingOsakilpailu = null;
 

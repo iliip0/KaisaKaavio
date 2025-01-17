@@ -217,12 +217,16 @@ namespace KaisaKaavio
 
             try
             {
-                if (!string.IsNullOrEmpty(this.kilpailu.Tiedosto) && File.Exists(this.kilpailu.Tiedosto))
+                if (!this.kilpailu.TestiKilpailu)
                 {
-                    this.asetukset.ViimeisinKilpailu = this.kilpailu.Tiedosto;
+                    if (!string.IsNullOrEmpty(this.kilpailu.Tiedosto) && File.Exists(this.kilpailu.Tiedosto))
+                    {
+                        this.asetukset.ViimeisinKilpailu = this.kilpailu.Tiedosto;
+                    }
+
+                    this.asetukset.TallennaPelaajat(this.kilpailu);
                 }
 
-                this.asetukset.TallennaPelaajat(this.kilpailu);
                 this.asetukset.Tallenna();
             }
             catch (Exception ex)
@@ -230,31 +234,34 @@ namespace KaisaKaavio
                 this.loki.Kirjoita("Asetusten tallennus epäonnistui", ex, false);
             }
 
-            try
+            if (!this.kilpailu.TestiKilpailu)
             {
-                if (!string.IsNullOrEmpty(this.kilpailu.Tiedosto) && File.Exists(this.kilpailu.Tiedosto))
+                try
                 {
-                    // Luo varmuuskopio
-                    FileInfo tiedosto = new FileInfo(this.kilpailu.Tiedosto);
+                    if (!string.IsNullOrEmpty(this.kilpailu.Tiedosto) && File.Exists(this.kilpailu.Tiedosto))
+                    {
+                        // Luo varmuuskopio
+                        FileInfo tiedosto = new FileInfo(this.kilpailu.Tiedosto);
 
-                    var now = DateTime.Now;
-                    string aika = string.Format("{0}-{1}-{2}_{3}-{4}-{5}",
-                        now.Year,
-                        now.Month,
-                        now.Day,
-                        now.Hour,
-                        now.Minute,
-                        now.Second);
+                        var now = DateTime.Now;
+                        string aika = string.Format("{0}-{1}-{2}_{3}-{4}-{5}",
+                            now.Year,
+                            now.Month,
+                            now.Day,
+                            now.Hour,
+                            now.Minute,
+                            now.Second);
 
-                    string varmuuskopionNimi = Path.Combine(
-                        this.varmuuskopioKansio, aika + "_" + tiedosto.Name);
+                        string varmuuskopionNimi = Path.Combine(
+                            this.varmuuskopioKansio, aika + "_" + tiedosto.Name);
 
-                    File.Copy(this.kilpailu.Tiedosto, varmuuskopionNimi);
+                        File.Copy(this.kilpailu.Tiedosto, varmuuskopionNimi);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                this.loki.Kirjoita("Varmuuskopiointi epäonnistui", ex, false);
+                catch (Exception ex)
+                {
+                    this.loki.Kirjoita("Varmuuskopiointi epäonnistui", ex, false);
+                }
             }
         }
 
@@ -369,6 +376,12 @@ namespace KaisaKaavio
             string nimi = popup.Nimi;
             string tiedosto = Path.Combine(this.kansio, ToValidFileName(nimi) + ".xml");
 
+            if (popup.LuoTestikilpailu)
+            {
+                Directory.CreateDirectory(Path.Combine(this.kansio, "TestiKilpailut"));
+                tiedosto = Path.Combine(this.kansio, "TestiKilpailut", ToValidFileName(nimi) + ".xml");
+            }
+
             if (kysyKilpailunPaalleKirjoitus(tiedosto))
             {
                 this.tabControl1.SelectedTab = this.kisaInfoTabPage;
@@ -387,16 +400,19 @@ namespace KaisaKaavio
                 this.kilpailu.Nimi = popup.Nimi;
                 this.kilpailu.Laji = popup.Laji;
                 this.kilpailu.KilpailunTyyppi = popup.KilpailunTyyppi;
+                this.kilpailu.KaavioTyyppi = popup.KaavioTyyppi;
                 this.kilpailu.KilpaSarja = popup.KilpaSarja;
                 this.kilpailu.AlkamisAika = popup.Aika;
+                this.kilpailu.TavoitePistemaara = popup.Tavoite;
+                this.kilpailu.PeliAika = popup.Peliaika;
+                this.kilpailu.PeliaikaOnRajattu = popup.Peliaika > 0;
+                this.kilpailu.TestiKilpailu = popup.LuoTestikilpailu;
 
                 this.kilpailu.Palkinnot = string.Empty;
                 this.kilpailu.Ilmoittautuminen = string.Empty;
 
                 if (popup.LuoViikkokisa)
                 {
-                    this.kilpailu.KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
-                    this.kilpailu.PeliAika = 40;
                     this.kilpailu.RankkareidenMaara = 3;
                     this.kilpailu.KellonAika = "18:00";
                     this.kilpailu.LisenssiVaatimus = string.Empty;
@@ -406,7 +422,6 @@ namespace KaisaKaavio
                     this.kilpailu.Pukeutuminen = string.Empty;
                     this.kilpailu.Yksipaivainen = true;
                     this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
-                    this.kilpailu.KilpaSarja = KilpaSarja.Yleinen;
                     this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
                     this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista;
 
@@ -419,8 +434,6 @@ namespace KaisaKaavio
                 }
                 else
                 {
-                    this.kilpailu.KaavioTyyppi = KaavioTyyppi.TuplaKaavio;
-                    this.kilpailu.PeliAika = 60;
                     this.kilpailu.RankkareidenMaara = 5;
                     this.kilpailu.KellonAika = "10:00";
                     this.kilpailu.LisenssiVaatimus = string.Empty; // TODO, linkit 
@@ -471,22 +484,6 @@ namespace KaisaKaavio
                 this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
                 this.kilpailu.RankingKisaLaji = popup.Laji;
 
-                switch (this.kilpailu.Laji)
-                {
-                    case Laji.Kaisa:
-                        this.kilpailu.TavoitePistemaara = 60;
-                        break;
-
-                    case Laji.Kara:
-                        this.kilpailu.TavoitePistemaara = popup.LuoViikkokisa ? 20 : 30;
-                        this.kilpailu.PeliAika = popup.LuoViikkokisa ? 20 : 40;
-                        break;
-
-                    default:
-                        this.kilpailu.TavoitePistemaara = 4;
-                        break;
-                }
-
                 PaivitaKilpailuTyyppi();
                 ResumeAllDataBinding();
 
@@ -529,16 +526,16 @@ namespace KaisaKaavio
 
             if (this.kilpailu.Laji == Laji.Pool)
             {
-                this.peliAikaLabel.Visible = false;
-                this.peliAikaLabel2.Visible = false;
-                this.peliaikaNumericUpDown.Visible = false;
+                //this.peliAikaLabel.Visible = false;
+                //this.peliAikaLabel2.Visible = false;
+                //this.peliaikaNumericUpDown.Visible = false;
                 this.tavoitePistemaaraLabel.Text = "voittoon";
             }
             else
             {
-                this.peliAikaLabel.Visible = true;
-                this.peliAikaLabel2.Visible = true;
-                this.peliaikaNumericUpDown.Visible = true;
+                //this.peliAikaLabel.Visible = true;
+                //this.peliAikaLabel2.Visible = true;
+                //this.peliaikaNumericUpDown.Visible = true;
                 this.tavoitePistemaaraLabel.Text = "pisteeseen";
             }
 
@@ -821,6 +818,11 @@ namespace KaisaKaavio
                     software,
                     this.kilpailu.Nimi,
                     this.kilpailu.AlkamisAika);
+            }
+
+            if (this.kilpailu.TestiKilpailu && !this.kilpailu.Nimi.Contains("TESTI"))
+            {
+                this.Text = this.Text + " (TESTI)";
             }
         }
 
@@ -1316,7 +1318,7 @@ namespace KaisaKaavio
                         this.kilpailu.AlkamisAikaDt,
                         this.alkamisAikaDateTimePicker.Value));
 
-                    this.ranking.PoistaRankingTietue(this.kilpailu.RankingOsakilpailu);
+                    this.ranking.PoistaRankingTietue(this.kilpailu.RankingOsakilpailu, this.kilpailu.TestiKilpailu);
                     this.kilpailu.RankingOsakilpailu = null;
                 }
 
@@ -3430,6 +3432,7 @@ namespace KaisaKaavio
                 this.kilpailu.RankingKisa)
             {
                 // Päivittää ranking pisteet avatulle kilpailulle
+                this.ranking.TallennaAvatutSarjat();
                 this.ranking.ValitseRankingSarjaKilpailulle(this.kilpailu);
 
                 var rankingSarja = this.ranking.AvaaRankingSarja(this.kilpailu);
@@ -3583,7 +3586,7 @@ namespace KaisaKaavio
 
                 if (kakkosenKierros >= 0)
                 {
-                    teksti.PieniTeksti(string.Format("(**) = Kakkonen, pudonnut {0}. kierroksella", kakkosenKierros));
+                    teksti.PieniTeksti(string.Format("(**) = Finaalin kakkonen"));
                     teksti.RivinVaihto();
                 }
 

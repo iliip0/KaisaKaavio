@@ -60,7 +60,7 @@ namespace KaisaKaavio.Aloitussivu
 
         private void muuViikkokisaButton_Click(object sender, EventArgs e)
         {
-            LuoUusiKilpailu(Laji.Kara, KilpailunTyyppi.Viikkokisa, true);
+            LuoUusiKilpailu(Laji.Pool, KilpailunTyyppi.Viikkokisa, true);
         }
 
         private void kaisaRGButton_Click(object sender, EventArgs e)
@@ -102,10 +102,10 @@ namespace KaisaKaavio.Aloitussivu
 
         private void testiKilpailuButton_Click(object sender, EventArgs e)
         {
-
+            LuoUusiKilpailu(Laji.Kaisa, KilpailunTyyppi.Viikkokisa, true, true);
         }
 
-        private void LuoUusiKilpailu(Laji laji, KilpailunTyyppi tyyppi, bool salliVaihtaa)
+        private void LuoUusiKilpailu(Laji laji, KilpailunTyyppi tyyppi, bool salliVaihtaa, bool testiKilpailu = false)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace KaisaKaavio.Aloitussivu
 
                 using (var popup = new UusiKilpailuPopup())
                 {
-                    popup.AsetaOletusarvot(this.asetukset.OletusAsetukset(laji), laji, tyyppi, salliVaihtaa);
+                    popup.AsetaOletusarvot(this.asetukset.OletusAsetukset(laji), laji, tyyppi, salliVaihtaa, testiKilpailu);
 
                     if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {

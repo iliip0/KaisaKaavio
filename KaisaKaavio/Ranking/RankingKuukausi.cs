@@ -18,6 +18,8 @@ namespace KaisaKaavio.Ranking
 
         public int Kuukausi { get; set; }
 
+        public bool TestiRanking { get; set; }
+
         private bool TallennusTarvitaan = false;
 
         [XmlIgnore]
@@ -39,7 +41,14 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return Path.Combine(this.Kansio, "RankingKilpailut.xml");
+                if (this.TestiRanking)
+                {
+                    return Path.Combine(this.Kansio, "RankingKilpailut_TESTI.xml");
+                }
+                else
+                {
+                    return Path.Combine(this.Kansio, "RankingKilpailut.xml");
+                }
             }
         }
 
@@ -49,12 +58,14 @@ namespace KaisaKaavio.Ranking
         {
             this.Vuosi = DateTime.Now.Year;
             this.Kuukausi = DateTime.Now.Month;
+            this.TestiRanking = false;
         }
 
         public RankingKuukausi(DateTime aika)
         {
             this.Vuosi = aika.Year;
             this.Kuukausi = aika.Month;
+            this.TestiRanking = false;
         }
 
         public bool TallennaTarvittaessa(Loki loki)
@@ -154,6 +165,7 @@ namespace KaisaKaavio.Ranking
                 {
                     this.Vuosi = rankingKuukausi.Vuosi;
                     this.Kuukausi = rankingKuukausi.Kuukausi;
+                    this.TestiRanking = rankingKuukausi.TestiRanking;
 
                     this.Osakilpailut.Clear();
                     foreach (var o in rankingKuukausi.Osakilpailut)

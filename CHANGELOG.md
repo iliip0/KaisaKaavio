@@ -8,6 +8,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Vaihdettu niin että tulokset näytetään ennen pelejä SBiL osiossa jos kilpailu on päättynyt
 * Asetettiin ohjelma aukeamaan tyhjänä. Aiemmin ohjelma avasi edellisen kisan alussa
 * Osallistumismaksu automaattisesti pelaajille ilmoittautumissivulle
+* Uusi aloitussivu, josta on helppo aloittaa uusi kilpailu.
+* Mahdollisuus pelata "testikisoja", jotka tallentuvat eri paikkaan eri rankingeillä
 
 ## Versio 1.0.0.14		(julkaistu 11.1.2025)
 

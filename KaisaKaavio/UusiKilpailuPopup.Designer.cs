@@ -54,7 +54,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.peliAikaCheckBox = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.peliaikaLabel = new System.Windows.Forms.Label();
             this.peliAikaNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.uusiKilpailuButton = new System.Windows.Forms.Button();
@@ -259,7 +259,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.pictureBox3);
             this.splitContainer3.Panel2.Controls.Add(this.peliAikaCheckBox);
-            this.splitContainer3.Panel2.Controls.Add(this.label8);
+            this.splitContainer3.Panel2.Controls.Add(this.peliaikaLabel);
             this.splitContainer3.Panel2.Controls.Add(this.peliAikaNumericUpDown);
             this.splitContainer3.Size = new System.Drawing.Size(845, 296);
             this.splitContainer3.SplitterDistance = 233;
@@ -413,14 +413,14 @@
             this.peliAikaCheckBox.Text = "Peliaika rajattu?";
             this.peliAikaCheckBox.UseVisualStyleBackColor = true;
             // 
-            // label8
+            // peliaikaLabel
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(448, 13);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(85, 24);
-            this.label8.TabIndex = 22;
-            this.label8.Text = "minuuttia";
+            this.peliaikaLabel.AutoSize = true;
+            this.peliaikaLabel.Location = new System.Drawing.Point(448, 13);
+            this.peliaikaLabel.Name = "peliaikaLabel";
+            this.peliaikaLabel.Size = new System.Drawing.Size(85, 24);
+            this.peliaikaLabel.TabIndex = 22;
+            this.peliaikaLabel.Text = "minuuttia";
             // 
             // peliAikaNumericUpDown
             // 
@@ -549,7 +549,7 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.CheckBox peliAikaCheckBox;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label peliaikaLabel;
         private System.Windows.Forms.NumericUpDown peliAikaNumericUpDown;
         private System.Windows.Forms.ComboBox kaavioComboBox;
         private System.Windows.Forms.Label label6;

@@ -199,7 +199,7 @@ namespace KaisaKaavio.Ranking
         /// </summary>
         public void ValitseRankingSarja(int vuosi, Laji laji, RankingSarjanPituus pituus, int numero, Kilpailu kilpailu)
         {
-            this.ValittuSarja = AvaaRankingSarja(vuosi, laji, pituus, numero, kilpailu);
+            this.ValittuSarja = AvaaRankingSarja(vuosi, laji, pituus, numero, kilpailu, kilpailu.TestiKilpailu);
         }
 
         public RankingSarja AvaaRankingSarja(Kilpailu kilpailu)
@@ -209,7 +209,8 @@ namespace KaisaKaavio.Ranking
                 kilpailu.RankingKisaLaji,
                 kilpailu.RankingKisaTyyppi,
                 Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, kilpailu.AlkamisAikaDt),
-                kilpailu);
+                kilpailu,
+                kilpailu.TestiKilpailu);
         }
 
         /// <summary>
@@ -218,13 +219,14 @@ namespace KaisaKaavio.Ranking
         /// Sarjan tilanne päivitetään mikäli jotain on muuttunut edellisen tarkastelun jälkeen.
         /// Tämä funktio palauttaa tyhjän sarjan mikäli sarjaan ei ole merkitty yhtään osakilpailua
         /// </summary>
-        private RankingSarja AvaaRankingSarja(int vuosi, Laji laji, RankingSarjanPituus pituus, int numero, Kilpailu kilpailu)
+        private RankingSarja AvaaRankingSarja(int vuosi, Laji laji, RankingSarjanPituus pituus, int numero, Kilpailu kilpailu, bool testiSarja)
         {
             var sarja = this.rankingSarjat.FirstOrDefault(x => 
                 x.Vuosi == vuosi &&
                 x.Laji == laji &&
                 x.Pituus == pituus &&
-                x.SarjanNumero == numero);
+                x.SarjanNumero == numero &&
+                x.TestiSarja == testiSarja);
 
             if (sarja != null)
             {
@@ -249,6 +251,7 @@ namespace KaisaKaavio.Ranking
                 Laji = laji,
                 Pituus = pituus,
                 SarjanNumero = numero,
+                TestiSarja = kilpailu != null ? kilpailu.TestiKilpailu : testiSarja
             };
 
             if (kilpailu != null &&
@@ -272,13 +275,13 @@ namespace KaisaKaavio.Ranking
             return sarja;
         }
 
-        public void PoistaRankingTietue(RankingOsakilpailuTietue tietue)
+        public void PoistaRankingTietue(RankingOsakilpailuTietue tietue, bool testiRanking)
         {
-            var kuukausi = AvaaRankingKuukausi(tietue.PvmDt.Year, tietue.PvmDt.Month);
+            var kuukausi = AvaaRankingKuukausi(tietue.PvmDt.Year, tietue.PvmDt.Month, testiRanking);
             kuukausi.PoistaOsakilpailu(tietue, this.Loki);
         }
 
-        public RankingKuukausi AvaaRankingKuukausi(int vuosi, int kuu)
+        public RankingKuukausi AvaaRankingKuukausi(int vuosi, int kuu, bool testiRanking)
         {
             var kuukausi = this.kuukaudet.FirstOrDefault(x => x.Vuosi == vuosi && x.Kuukausi == kuu);
             if (kuukausi == null)
@@ -286,7 +289,8 @@ namespace KaisaKaavio.Ranking
                 kuukausi = new RankingKuukausi()
                 {
                     Vuosi = vuosi,
-                    Kuukausi = kuu
+                    Kuukausi = kuu,
+                    TestiRanking = testiRanking
                 };
 
                 kuukausi.Avaa(this.Loki);
@@ -309,15 +313,15 @@ namespace KaisaKaavio.Ranking
                 }
 
                 kuukausi.PoistaOsakilpailu(kisa, this.Loki);
-                AvaaRankingKuukausi(kisa.PvmDt);
+                AvaaRankingKuukausi(kisa.PvmDt, testiRanking);
             }
 
             return kuukausi;
         }
 
-        public RankingKuukausi AvaaRankingKuukausi(DateTime aika)
+        public RankingKuukausi AvaaRankingKuukausi(DateTime aika, bool testiRanking)
         {
-            return AvaaRankingKuukausi(aika.Year, aika.Month);
+            return AvaaRankingKuukausi(aika.Year, aika.Month, testiRanking);
         }
 
         /// <summary>
@@ -330,7 +334,7 @@ namespace KaisaKaavio.Ranking
             this.kuukaudet.Clear();
             this.rankingSarjat.Clear();
 
-            var kuukausi = AvaaRankingKuukausi(kilpailu.AlkamisAikaDt);
+            var kuukausi = AvaaRankingKuukausi(kilpailu.AlkamisAikaDt, kilpailu.TestiKilpailu);
 
             return kuukausi.AvaaKilpailunTietue(kilpailu, this.Loki);
         }
@@ -412,7 +416,8 @@ namespace KaisaKaavio.Ranking
                 kilpailu.RankingKisaLaji,
                 kilpailu.RankingKisaTyyppi,
                 Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, aika),
-                null);
+                null,
+                kilpailu.TestiKilpailu);
         }
 
         public bool HaeNykyinenRankingSijoitus(Kilpailu kilpailu, Asetukset asetukset, string pelaaja, out int sijoitus)
@@ -424,7 +429,8 @@ namespace KaisaKaavio.Ranking
                 kilpailu.RankingKisaLaji,
                 kilpailu.RankingKisaTyyppi,
                 Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, aika),
-                kilpailu);
+                kilpailu,
+                kilpailu.TestiKilpailu);
 
             if (ranking != null &&
                 asetukset.RankingPisteytys(kilpailu.RankingKisaLaji).EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta &&

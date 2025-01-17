@@ -15,7 +15,7 @@ namespace KaisaKaavio.Ranking
         public RankingSarjanPituus Pituus { get; set; }
         public int SarjanNumero { get; set; }
         public Laji Laji { get; set; }
-
+        public bool TestiSarja { get; set; }
         public BindingList<RankingOsakilpailu> Osakilpailut { get; set; }
         public BindingList<RankingPelaajaTietue> Osallistujat { get; set; }
 
@@ -42,7 +42,14 @@ namespace KaisaKaavio.Ranking
 
                 string sarja = Tyypit.Aika.RankingSarjanNimi(this.Pituus, this.SarjanNumero);
 
-                return string.Format("{0} viikkokisaranking {1} {2}", laji, sarja, this.Vuosi);
+                if (this.TestiSarja)
+                {
+                    return string.Format("{0} viikkokisaranking (TESTI) {1} {2}", laji, sarja, this.Vuosi);
+                }
+                else
+                {
+                    return string.Format("{0} viikkokisaranking {1} {2}", laji, sarja, this.Vuosi);
+                }
             }
         }
 
@@ -72,11 +79,8 @@ namespace KaisaKaavio.Ranking
             this.Laji = Laji.Kaisa;
             this.Osakilpailut = new BindingList<RankingOsakilpailu>();
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
+            this.TestiSarja = false;
         }
-
-        //private StringBuilder viimeisinTulos = new StringBuilder();
-        //private StringBuilder rankingTilanneRtf = new StringBuilder();
-        //private StringBuilder rankingTilanneSbil = new StringBuilder();
 
         private Tyypit.Teksti tilanneLyhyt = new Tyypit.Teksti();
         private Tyypit.Teksti tilannePitka = new Tyypit.Teksti();
@@ -176,11 +180,22 @@ namespace KaisaKaavio.Ranking
         {
             get
             {
-                return Path.Combine(
-                    this.Kansio,
-                    string.Format("{0}_{1}.xml", 
-                        Enum.GetName(typeof(Laji), this.Laji),
-                        Tyypit.Aika.RankingSarjanTiedostonNimi(this.Pituus, this.SarjanNumero)));
+                if (this.TestiSarja)
+                {
+                    return Path.Combine(
+                        this.Kansio,
+                        string.Format("{0}_{1}_(TESTI).xml",
+                            Enum.GetName(typeof(Laji), this.Laji),
+                            Tyypit.Aika.RankingSarjanTiedostonNimi(this.Pituus, this.SarjanNumero)));
+                }
+                else
+                {
+                    return Path.Combine(
+                        this.Kansio,
+                        string.Format("{0}_{1}.xml",
+                            Enum.GetName(typeof(Laji), this.Laji),
+                            Tyypit.Aika.RankingSarjanTiedostonNimi(this.Pituus, this.SarjanNumero)));
+                }
             }
         }
 
@@ -223,6 +238,7 @@ namespace KaisaKaavio.Ranking
                 this.Pituus = sarja.Pituus;
                 this.SarjanNumero = sarja.SarjanNumero;
                 this.Laji = sarja.Laji;
+                this.TestiSarja = sarja.TestiSarja;
 
                 this.muokattu = false;
 
@@ -320,7 +336,7 @@ namespace KaisaKaavio.Ranking
 
                 for (int kk = kk0; kk <= kk1; ++kk)
                 {
-                    var rankingKuukausi = ranking.AvaaRankingKuukausi(this.Vuosi, kk);
+                    var rankingKuukausi = ranking.AvaaRankingKuukausi(this.Vuosi, kk, this.TestiSarja);
                     if (rankingKuukausi != null)
                     {
                         var osakilpailut = rankingKuukausi.Osakilpailut
@@ -366,7 +382,7 @@ namespace KaisaKaavio.Ranking
 
                 for (int kk = kk0; kk <= kk1; ++kk)
                 {
-                    var rankingKuukausi = ranking.AvaaRankingKuukausi(this.Vuosi, kk);
+                    var rankingKuukausi = ranking.AvaaRankingKuukausi(this.Vuosi, kk, this.TestiSarja);
                     if (rankingKuukausi != null)
                     {
                         oikeatOsakilpailut.AddRange(rankingKuukausi.Osakilpailut
