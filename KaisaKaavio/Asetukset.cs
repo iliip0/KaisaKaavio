@@ -297,6 +297,11 @@ namespace KaisaKaavio
 
         public void LisaaViimeisimpiinKilpailuihin(Kilpailu kilpailu)
         {
+            if (kilpailu.TestiKilpailu)
+            {
+                return; // Ei tallenneta höpöhöpödataa
+            }
+
             try
             {
                 if (kilpailu != null &&
@@ -371,6 +376,11 @@ namespace KaisaKaavio
 
         public void TallennaPelaajat(Kilpailu kilpailu)
         {
+            if (kilpailu.TestiKilpailu)
+            {
+                return; // Ei tallenneta höpöhöpödataa
+            }
+
             foreach (var osallistuja in kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
             {
                 string nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(osallistuja.Nimi);

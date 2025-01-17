@@ -156,6 +156,8 @@ namespace KaisaKaavio
             }
 
             this.lajiSplitContainer.Panel2Collapsed = this.alaLajiComboBox.DataSource == null;
+            this.peliAikaNumericUpDown.Visible = this.peliAikaCheckBox.Checked;
+            this.peliaikaLabel.Visible = this.peliAikaCheckBox.Checked;
         }
 
         public void AsetaOletusarvot(Asetukset.KisaOletusasetukset asetukset, Laji laji, KilpailunTyyppi kilpailunTyyppi, bool salliVaihtaa, bool luoTestiKilpailu)
@@ -452,6 +454,12 @@ namespace KaisaKaavio
         {
             PaivitaUiLajille((Laji)this.uusiKilpailuLajiComboBox.SelectedItem, true);
             PaivitaKilpailunOletusNimi();
+        }
+
+        private void peliAikaCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.peliAikaNumericUpDown.Visible = this.peliAikaCheckBox.Checked;
+            this.peliaikaLabel.Visible = this.peliAikaCheckBox.Checked;
         }
     }
 }

@@ -26,6 +26,8 @@ namespace KaisaKaavio
             Directory.CreateDirectory(this.kansio);
 
             this.tiedosto = Path.Combine(this.kansio, string.Format("loki_{0}.txt", DateTime.Today.ToShortDateString()));
+
+            Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.kansio, 40);
         }
 
         /// <summary>

@@ -2,7 +2,14 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.15		(työn alla)
+## Versio 1.0.0.16		(julkaistu 17.1.2025)
+
+* Uusi aloitussivu, josta on helppo aloittaa uusi kilpailu.
+* Mahdollisuus pelata "testikisoja", jotka tallentuvat eri paikkaan eri rankingeillä
+* Korjauksia ja parannuksia SBiL keskustelupalsta tulosteisiin
+* Korjauksia viikkokisaranking systeemiin
+
+## Versio 1.0.0.15		(julkaistu 14.1.2025)
 
 * Lisätty 'Tasuri' sarake ilmoittautumislistalle
 * Vaihdettu niin että tulokset näytetään ennen pelejä SBiL osiossa jos kilpailu on päättynyt

@@ -69,6 +69,8 @@ namespace KaisaKaavio
             this.varmuuskopioKansio = Path.Combine(this.kansio, "Varmuuskopiot");
             Directory.CreateDirectory(this.varmuuskopioKansio);
 
+            Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.varmuuskopioKansio, 50);
+
             this.loki = new Loki(this.kansio);
             this.kilpailu.Loki = this.loki;
 

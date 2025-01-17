@@ -412,6 +412,7 @@
             this.peliAikaCheckBox.TabIndex = 23;
             this.peliAikaCheckBox.Text = "Peliaika rajattu?";
             this.peliAikaCheckBox.UseVisualStyleBackColor = true;
+            this.peliAikaCheckBox.CheckedChanged += new System.EventHandler(this.peliAikaCheckBox_CheckedChanged);
             // 
             // peliaikaLabel
             // 

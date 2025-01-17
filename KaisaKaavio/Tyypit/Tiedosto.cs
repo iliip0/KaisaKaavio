@@ -29,6 +29,31 @@ namespace KaisaKaavio.Tyypit
             try
             {
                 DirectoryInfo dir = new DirectoryInfo(kansio);
+
+                var files = dir.EnumerateFiles();
+
+                List<string> poistettavat = new List<string>();
+
+                if (files.Count() > sailytaN)
+                {
+                    foreach (var file in files
+                        .OrderBy(x => x.CreationTime)
+                        .Skip(sailytaN))
+                    {
+                        poistettavat.Add(file.FullName);
+                    }
+                }
+
+                foreach (var poistettava in poistettavat)
+                {
+                    try
+                    {
+                        File.Delete(poistettava);
+                    }
+                    catch
+                    { 
+                    }
+                }
             }
             catch
             { 
