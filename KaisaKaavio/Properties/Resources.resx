@@ -319,16 +319,64 @@
   <data name="KaisaKaavio64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KaisaKaavio64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Peliaika" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Peliaika.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Testaa128" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Testaa128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Tyhja128" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tyhja128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Viimeisimmat128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Viimeisimmat128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Viimeisin128" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Viimeisin128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Peliaika" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Peliaika.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HeyballIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HeyballIso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KaisaIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KaisaIso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KaraIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KaraIso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PoolIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PoolIso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PyramidiIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PyramidiIso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SnookerIso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SnookerIso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KaisaOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KaisaOpen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KaisaSBiL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KaisaSBiL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PoolOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PoolOpen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HeyballMV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HeyballMV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KaisaMV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KaisaMV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KaraMV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KaraMV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PoolMV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PoolMV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PyramidiMV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PyramidiMV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SnookerMV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SnookerMV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

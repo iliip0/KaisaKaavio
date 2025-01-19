@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -35,6 +36,8 @@ namespace KaisaKaavio.Aloitussivu
                 this.viimeisimmatPictureBox.Visible = false;
                 this.avaaKilpailuButton.Visible = false;
             }
+
+            this.versioLabel.Text = string.Format("versio {0}", Assembly.GetEntryAssembly().GetName().Version);
         }
 
         private void jatkaButton_Click(object sender, EventArgs e)
@@ -60,7 +63,17 @@ namespace KaisaKaavio.Aloitussivu
 
         private void muuViikkokisaButton_Click(object sender, EventArgs e)
         {
-            LuoUusiKilpailu(Laji.Pool, KilpailunTyyppi.Viikkokisa, true);
+            LuoUusiKilpailu(Laji.Pool, KilpailunTyyppi.Viikkokisa, false);
+        }
+
+        private void snookerViikkokisaButton_Click(object sender, EventArgs e)
+        {
+            LuoUusiKilpailu(Laji.Snooker, KilpailunTyyppi.Viikkokisa, false);
+        }
+
+        private void heyballViikkokisaButton_Click(object sender, EventArgs e)
+        {
+            LuoUusiKilpailu(Laji.Heyball, KilpailunTyyppi.Viikkokisa, false);
         }
 
         private void kaisaRGButton_Click(object sender, EventArgs e)
@@ -80,7 +93,7 @@ namespace KaisaKaavio.Aloitussivu
 
         private void muuAvoinButton_Click(object sender, EventArgs e)
         {
-            LuoUusiKilpailu(Laji.Kaisa, KilpailunTyyppi.AvoinKilpailu, true);
+            LuoUusiKilpailu(Laji.Pool, KilpailunTyyppi.AvoinKilpailu, true);
         }
 
         private void avaaKilpailuButton_Click(object sender, EventArgs e)
@@ -97,6 +110,22 @@ namespace KaisaKaavio.Aloitussivu
             }
             catch
             {
+            }
+        }
+
+        private void avaaTiedostoButton_Click(object sender, EventArgs e)
+        {
+            Hide();
+
+            if (this.ikkuna.AvaaTiedostoDialogista())
+            {
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                this.Close();
+                return;
+            }
+            else
+            {
+                Show();
             }
         }
 
@@ -132,6 +161,13 @@ namespace KaisaKaavio.Aloitussivu
             {
             }
 
+        }
+
+        private void Aloitussivu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+            }
         }
     }
 }

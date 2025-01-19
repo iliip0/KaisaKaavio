@@ -50,16 +50,19 @@ namespace KaisaKaavio
 
             if (laji == KaisaKaavio.Laji.Kara)
             {
+                peliAikaCheckBox.Text = "Lyöntimäärä rajattu?";
                 peliaikaLabel.Text = "lyöntivuoroa";
             }
             else
             {
+                peliAikaCheckBox.Text = "Peliaika rajattu?";
                 peliaikaLabel.Text = "minuuttia";
             }
 
             switch (laji)
             {
                 case KaisaKaavio.Laji.Kara:
+                    this.lajiPictureBox.BackgroundImage = Properties.Resources.KaraMV;
                     this.alaLajiComboBox.DataSource = new string[] { "Kolmen vallin kara", "Suora kara" };
                     this.tavoiteLabel.Text = "karaan";
 
@@ -75,6 +78,7 @@ namespace KaisaKaavio
                     break;
 
                 case KaisaKaavio.Laji.Kaisa:
+                    this.lajiPictureBox.BackgroundImage = Properties.Resources.KaisaMV;
                     this.alaLajiComboBox.DataSource = null;
                     this.tavoiteLabel.Text = "pisteeseen";
 
@@ -90,6 +94,7 @@ namespace KaisaKaavio
                     break;
 
                 case KaisaKaavio.Laji.Pyramidi:
+                    this.lajiPictureBox.BackgroundImage = Properties.Resources.PyramidiMV;
                     this.alaLajiComboBox.DataSource = new string[] { "Amerikanka", "Nevskaja", "Moskovskaja", "Corona", "Straight (15 ball)" };
                     this.tavoiteLabel.Text = "erävoittoon";
 
@@ -105,6 +110,7 @@ namespace KaisaKaavio
                     break;
 
                 case KaisaKaavio.Laji.Pool:
+                    this.lajiPictureBox.BackgroundImage = Properties.Resources.PoolMV;
                     this.alaLajiComboBox.DataSource = new string[] 
                     { 
                         "9-ball", "10-ball", "8-ball", "14.1 (straightpool)", 
@@ -125,7 +131,8 @@ namespace KaisaKaavio
                     break;
 
                 case KaisaKaavio.Laji.Heyball:
-                    this.alaLajiComboBox.DataSource = null;
+                    this.lajiPictureBox.BackgroundImage = Properties.Resources.HeyballMV;
+                    this.alaLajiComboBox.DataSource = new string[] { "Chinese 8-ball", "Chinese Snooker (10 reds)", "Chinese Snooker (6 reds)" };
                     this.tavoiteLabel.Text = "erävoittoon";
 
                     if (oletusArvot)
@@ -140,6 +147,7 @@ namespace KaisaKaavio
                     break;
 
                 case KaisaKaavio.Laji.Snooker:
+                    this.lajiPictureBox.BackgroundImage = Properties.Resources.SnookerMV;
                     this.alaLajiComboBox.DataSource = new string[] { "Snooker", "Six reds", "Ten reds" };
                     this.tavoiteLabel.Text = "erävoittoon";
 
@@ -416,10 +424,6 @@ namespace KaisaKaavio
                     this.kilpailunNimiTextBox.Text += " (TESTI)";
                 }
             }
-        }
-
-        private void uusiKilpailuLajiComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
         }
 
         private void kilpailunNimiTextBox_Validated(object sender, EventArgs e)

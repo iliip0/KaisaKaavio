@@ -615,7 +615,7 @@ namespace KaisaKaavio
             this.TasoitusColumn.Visible = this.kilpailu.KilpailuOnTasurikisa;
         }
 
-        private void avaaToolStripMenuItem_Click(object sender, EventArgs e)
+        public bool AvaaTiedostoDialogista()
         {
             try
             {
@@ -624,12 +624,21 @@ namespace KaisaKaavio
                 if (this.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     AvaaKilpailuTiedostosta(this.openFileDialog1.FileName);
+
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 this.loki.Kirjoita("Kaavion avaaminen epäonnistui", ex, true);
             }
+
+            return false;
+        }
+
+        private void avaaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AvaaTiedostoDialogista();
         }
 
         private void AvaaKilpailuTiedostosta(string tiedosto)
@@ -704,6 +713,7 @@ namespace KaisaKaavio
                 this.Close();
                 return;
             }
+
             this.pelaajienNimet = new AutoCompleteStringCollection();
             this.pelaajienNimet.AddRange(this.asetukset.Pelaajat.Select(x => x.Nimi).ToArray());
 
@@ -726,6 +736,9 @@ namespace KaisaKaavio
                     this.tabControl1.SelectedTab = this.arvontaTabPage;
                     break;
             }
+
+            this.BringToFront();
+            this.Focus();
         }
 
         void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -3549,15 +3562,15 @@ namespace KaisaKaavio
                         osallistuja.Sijoitus == 1)
                     {
                         voittajanKierros = maxKierros;
-                        teksti.NormaaliTeksti(" ");
-                        teksti.PieniTeksti(" (*)");
+                        //teksti.NormaaliTeksti(" ");
+                        //teksti.PieniTeksti(" (*)");
                     }
                     else if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista &&
                         osallistuja.Sijoitus == 2)
                     {
                         kakkosenKierros = osallistuja.PudonnutKierroksella;
                         teksti.NormaaliTeksti(" ");
-                        teksti.PieniTeksti(" (**)");
+                        teksti.PieniTeksti(" (*)");
                     }
                     else if (this.kilpailu.SijoitustenMaaraytyminen == SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
                         osallistuja.Sijoitus == 3)
@@ -3565,7 +3578,7 @@ namespace KaisaKaavio
                         kolmostenKierros = osallistuja.PudonnutKierroksella;
                         kolmosia++;
                         teksti.NormaaliTeksti(" ");
-                        teksti.PieniTeksti(" (***)");
+                        teksti.PieniTeksti(" (**)");
                     }
                 }
                 else 
@@ -3580,15 +3593,15 @@ namespace KaisaKaavio
             {
                 teksti.RivinVaihto();
 
-                if (voittajanKierros >= 0)
-                {
-                    teksti.PieniTeksti("(*) = Finaalin voittaja");
-                    teksti.RivinVaihto();
-                }
+                //if (voittajanKierros >= 0)
+                //{
+                //    teksti.PieniTeksti("(*) = Finaalin voittaja");
+                //    teksti.RivinVaihto();
+                //}
 
                 if (kakkosenKierros >= 0)
                 {
-                    teksti.PieniTeksti(string.Format("(**) = Finaalin kakkonen"));
+                    teksti.PieniTeksti(string.Format("(*) = Finalisti, pudonnut {0}. kierroksella", kakkosenKierros));
                     teksti.RivinVaihto();
                 }
 
@@ -3596,11 +3609,11 @@ namespace KaisaKaavio
                 {
                     if (kolmosia == 1)
                     {
-                        teksti.PieniTeksti(string.Format("(***) = Kolmonen, pudonnut {0}. kierroksella", kolmostenKierros));
+                        teksti.PieniTeksti(string.Format("(**) = Kolmonen, pudonnut {0}. kierroksella", kolmostenKierros));
                     }
                     else
                     {
-                        teksti.PieniTeksti(string.Format("(***) = Kolmoset, pudonneet {0}. kierroksella", kolmostenKierros));
+                        teksti.PieniTeksti(string.Format("(**) = Kolmoset, pudonneet {0}. kierroksella", kolmostenKierros));
                     }
                     teksti.RivinVaihto();
                 }

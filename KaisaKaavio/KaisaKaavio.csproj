@@ -305,6 +305,22 @@
     <None Include="Resources\Viimeisin128.png" />
     <None Include="Resources\KaisaKaavio64.png" />
     <None Include="Resources\Peliaika.png" />
+    <None Include="Resources\Viimeisimmat128.png" />
+    <None Include="Resources\HeyballIso.png" />
+    <None Include="Resources\KaisaIso.png" />
+    <None Include="Resources\KaraIso.png" />
+    <None Include="Resources\PoolIso.png" />
+    <None Include="Resources\PyramidiIso.png" />
+    <None Include="Resources\SnookerIso.png" />
+    <None Include="Resources\KaisaOpen.png" />
+    <None Include="Resources\KaisaSBiL.png" />
+    <None Include="Resources\PoolOpen.png" />
+    <None Include="Resources\HeyballMV.png" />
+    <None Include="Resources\KaisaMV.png" />
+    <None Include="Resources\KaraMV.png" />
+    <None Include="Resources\PoolMV.png" />
+    <None Include="Resources\PyramidiMV.png" />
+    <None Include="Resources\SnookerMV.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
