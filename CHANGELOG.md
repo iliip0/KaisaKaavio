@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.18		(julkaistu 20.1.2025)
+
+* Lisätty testikilpailua pelatessa mahdollisuus lisätä nappia painamalla 5, 10 tai 20 pelaajaa kaavioon
+
 ## Versio 1.0.0.17		(julkaistu 19.1.2025)
 
 * Uudet kuvat aloitussivun painikkeisiin.

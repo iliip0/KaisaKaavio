@@ -1544,6 +1544,8 @@ namespace KaisaKaavio
                     this.splitContainer10.Panel2Collapsed = true;
                 }
 
+                this.osallistujatSplitContainer.Panel1Collapsed = !this.kilpailu.TestiKilpailu;
+
                 this.arvoKaavioButton.Visible = !this.kilpailu.ToinenKierrosAlkanut;
             }
             catch
@@ -3562,8 +3564,6 @@ namespace KaisaKaavio
                         osallistuja.Sijoitus == 1)
                     {
                         voittajanKierros = maxKierros;
-                        //teksti.NormaaliTeksti(" ");
-                        //teksti.PieniTeksti(" (*)");
                     }
                     else if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista &&
                         osallistuja.Sijoitus == 2)
@@ -3592,12 +3592,6 @@ namespace KaisaKaavio
             if (voittajanKierros >= 0 || kakkosenKierros >= 0 || kolmostenKierros >= 0)
             {
                 teksti.RivinVaihto();
-
-                //if (voittajanKierros >= 0)
-                //{
-                //    teksti.PieniTeksti("(*) = Finaalin voittaja");
-                //    teksti.RivinVaihto();
-                //}
 
                 if (kakkosenKierros >= 0)
                 {
@@ -3647,6 +3641,12 @@ namespace KaisaKaavio
 
             this.tuloksetRichTextBox.Rtf = teksti.Rtf;
             this.tuloksetRichTextBox.Tag = teksti.Sbil;
+        }
+
+        private void tuloksetSijoitustenMaaraytyminenComboBox_Validated(object sender, EventArgs e)
+        {
+            PaivitaPelitTeksti();
+            PaivitaTuloksetTeksti();
         }
 
         private void KopioiLeikepoydalle(object teksti)
@@ -3998,6 +3998,67 @@ namespace KaisaKaavio
                 this.kilpailu.HakuTarvitaan = true;
             }
 #endif
+        }
+
+        private void LisaaTestiPelaajia(int n)
+        {
+            string[] etunimet = 
+            { 
+                "Antti", "Anna", "Aino", "Arto", "Arhi", "Aku", "Alli", "Asku", "Asko", "Bert", "Dave", "Daalia", 
+                "Eero", "Eki", "Ensiö", "Emilia", "Elli", "Essi", "Esko", "Eerik", "Ella", "Eetu", "Fred", "Gabriel", "Heikki", 
+                "Hiski", "Hanna", "Hilkka", "Hilma", "Hannele", "Helvi", "Hannu", "Ilpo", "Ile", "Ilona", "Iivo", "Iiro", "Iiris", "Jaakko", "Jokke",
+                "Jaana", "Johanna", "Juha", "Juho", "Jens", "Klaus", "Kalle", "Kim", "Kiira", "Kaisa", "Kaija", "Keke", "Laija", "Linda",
+                "Laila",
+                "Lauri", "Late", "Mauno", "Meri", "Maarit", "Mari", "Marjut", "Mauri", "Niilo", "Niko", "Nea", "Nelli", "Olavi", "Outi", "Oula",
+                "Pete", "Paula", "Pauli", "Pieta", "Ripa", "Raija", "Risto", "Reija", "Raakel", "Sven", "Sakari", "Sulevi", "Seija", "Sanna",
+                "Taru", "Tuija", "Tero", "Timo", "Tauri", "Ulla", "Urho", "Ville", "Vili", "Veera", "Ylermi"
+            };
+
+            string[] sukunimet = 
+            {
+                "Alinen", "Autti", "Alajärvi", "Autio", "Brunhilde", "Brecht", "Croft", "Erämies", "Eskelinen", "Fränti", "Giers", 
+                "Hannula", "Hietamies", "Hämäläinen", "Hilla", "Hanski", "Hietanen", "Hietala", "Hakala", "Hautala", "Hummais", 
+                "Ilonen", "Ilola", "Jukola", "Jäntti", "Jukola", "Jukarainen", "Jämerä", "Jantunen", "Jouppi", 
+                "Janatuinen", "Joukainen", "Kivi", "Kokko", "Kekäle", "Korpi", "Korpela", "Korpinen", "Källström", 
+                "Karalahti", "Kanerva", "Kuutamo", "Kolehmainen", "Karakorpi", "Kallio", "Kilpi", "Klemetti",
+                "Kokkonen", "Kerminen", "Kurvinen", "Kielo", "Lemi", "Lemmetyinen", "Lahtela", "Lemmetyinen", "Liehu", "Lahti", "Lahtinen", "Lehterä",
+                "Liimatainen", "Manninen", "Mannila", "Mononen", "Montonen", "Niemi", "Nieminen", "Niemelä", "Naumann", 
+                "Nuotio", "Orpo", "Olli", "Ovaskainen", "Pollari", "Pajari", "Piippo", "Pusa", "Poikolainen", "Piri", "Puujärvi",
+                "Ryti", "Rantunen", "Räihä", "Räsänen", "Sukari", "Sahamies", "Säynävä", "Sieviö", "Sauri", "Tuomi",
+                "Tapani", "Tiitinen", "Uski", "Uotila", "Uotinen", "Vähäsarja", "Viertiö", "Vanhanen", "Vahanen",
+                "Virta", "Virtanen", "Väyrynen"
+            };
+
+            var random = new Random();
+
+            this.osallistujatDataGridView.SuspendLayout();
+            this.pelaajaBindingSource.SuspendBinding();
+
+            for (int i = 0; i < n; ++i)
+            {
+                int e = random.Next(0, etunimet.Count() - 1);
+                int s = random.Next(0, sukunimet.Count() - 1);
+                this.kilpailu.LisaaPelaaja(sukunimet[s] + " " + etunimet[e]);
+            }
+
+            this.pelaajaBindingSource.ResumeBinding();
+            this.osallistujatDataGridView.ResumeLayout();
+            this.osallistujatDataGridView.Refresh();
+        }
+
+        private void lisaa5TestiPelaajaaButton_Click(object sender, EventArgs e)
+        {
+            LisaaTestiPelaajia(5);
+        }
+
+        private void lisaa10TestiPelaajaaButton_Click(object sender, EventArgs e)
+        {
+            LisaaTestiPelaajia(10);
+        }
+
+        private void lisaa20TestiPelaajaaButton_Click(object sender, EventArgs e)
+        {
+            LisaaTestiPelaajia(20);
         }
 
         #endregion
@@ -4612,12 +4673,6 @@ namespace KaisaKaavio
         private void label25_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void tuloksetSijoitustenMaaraytyminenComboBox_Validated(object sender, EventArgs e)
-        {
-            PaivitaPelitTeksti();
-            PaivitaTuloksetTeksti();
         }
     }
 }

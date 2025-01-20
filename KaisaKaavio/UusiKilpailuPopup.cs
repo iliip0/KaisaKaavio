@@ -172,6 +172,15 @@ namespace KaisaKaavio
         {
             try
             {
+                if (luoTestiKilpailu)
+                {
+                    this.Text = "Luo uusi testikilpailu";
+                }
+                else
+                {
+                    this.Text = "Luo uusi kilpailu";
+                }
+
                 this.asetukset = asetukset;
                 this.LuoTestikilpailu = luoTestiKilpailu;
 

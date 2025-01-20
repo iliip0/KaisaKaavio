@@ -526,6 +526,24 @@ namespace KaisaKaavio
 #endregion
 
 #region Osallistujat
+
+        public bool LisaaPelaaja(string nimi)
+        {
+            if (this.Osallistujat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi)))
+            {
+                return false;
+            }
+
+            Pelaaja pelaaja = new Pelaaja()
+            {
+                Nimi = nimi
+            };
+
+            this.Osallistujat.Add(pelaaja);
+
+            return true;
+        }
+
         public void PoistaEiMukanaOlevatPelaajat()
         {
             while (true)
