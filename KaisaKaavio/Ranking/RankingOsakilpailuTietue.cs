@@ -187,7 +187,7 @@ namespace KaisaKaavio.Ranking
                 {
                     Kilpailu kilpailu = new Kilpailu();
 
-                    kilpailu.Avaa(tiedosto);
+                    kilpailu.Avaa(tiedosto, false);
 
                     return kilpailu;
                 }

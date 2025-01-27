@@ -209,6 +209,41 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool KilpailuPaattyiJuuri = false;
 
+        /*
+        [XmlIgnore]
+        private int BindingKeskeyttajaLaskuri = 0;
+
+        private class BindingKeskeyttaja : IDisposable
+        {
+            private Kilpailu kilpailu = null;
+
+            public BindingKeskeyttaja(Kilpailu kilpailu)
+            {
+                this.kilpailu = kilpailu;
+                this.kilpailu.BindingKeskeyttajaLaskuri++;
+                if (this.kilpailu.BindingKeskeyttajaLaskuri == 1)
+                {
+                    this.kilpailu.Osallistujat.RaiseListChangedEvents = false;
+                    this.kilpailu.OsallistujatJarjestyksessa.RaiseListChangedEvents = false;
+                    this.kilpailu.Pelit.RaiseListChangedEvents = false;
+                    this.kilpailu.JalkiIlmoittautuneet.RaiseListChangedEvents = false;
+                }
+            }
+
+            public void Dispose()
+            {
+                this.kilpailu.BindingKeskeyttajaLaskuri--;
+                if (this.kilpailu.BindingKeskeyttajaLaskuri == 0)
+                {
+                    this.kilpailu.Osallistujat.RaiseListChangedEvents = true;
+                    this.kilpailu.OsallistujatJarjestyksessa.RaiseListChangedEvents = true;
+                    this.kilpailu.Pelit.RaiseListChangedEvents = true;
+                    this.kilpailu.JalkiIlmoittautuneet.RaiseListChangedEvents = true;
+                }
+            }
+        }
+        */
+
         public Kilpailu()
         {
             Osallistujat = new BindingList<Pelaaja>();
@@ -282,9 +317,17 @@ namespace KaisaKaavio
 
         public void PoistaKaikkiPelit()
         {
-            while (Pelit.Count() > 0)
+            if (Pelit.Any())
             {
-                PoistaPeli(Pelit.First());
+#if PROFILE
+                using (new Testaus.Profileri("Kilpailu.PoistaKaikkiPelit"))
+#endif
+                {
+                    while (Pelit.Any())
+                    {
+                        PoistaPeli(Pelit.First());
+                    }
+                }
             }
         }
 
@@ -501,7 +544,9 @@ namespace KaisaKaavio
 
         public PelinTilanne LisaaPeli(Pelaaja pelaaja, Pelaaja vastustaja)
         {
+#if PROFILE
             using (new Testaus.Profileri("Kilpailu.LisaaPeli"))
+#endif
             {
                 int kierros1 = pelaaja == null ? 0 : Pelit.Count(x =>
                     x.SisaltaaPelaajan(pelaaja.Id)) + 1;
@@ -566,7 +611,9 @@ namespace KaisaKaavio
 
         public void PaivitaOsallistujatJarjestyksessa()
         {
+#if PROFILE
             using (new Testaus.Profileri("Kilpailu.PaivitaOsallistujatJarjestyksessa"))
+#endif
             {
                 this.OsallistujatJarjestyksessa.Clear();
 
@@ -602,7 +649,7 @@ namespace KaisaKaavio
 
                 if (osallistuja1 != null && osallistuja2 != null)
                 {
-                    Pelaaja.PeliTietue p1 = new Pelaaja.PeliTietue() 
+                    Pelaaja.PeliTietue p1 = new Pelaaja.PeliTietue()
                     {
                         Vastustaja = peli.Id2,
                         Pisteet = peli.Pisteet(peli.Id1),
@@ -650,7 +697,7 @@ namespace KaisaKaavio
                             p2.Voitto = true;
                             osallistuja2.Sijoitus.Voitot++;
                         }
-                        else 
+                        else
                         {
                             osallistuja2.Sijoitus.Tappiot++;
                             if (osallistuja2.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli())
@@ -767,8 +814,12 @@ namespace KaisaKaavio
             }
         }
 
-        public void Avaa(string tiedosto)
+        public void Avaa(string tiedosto, bool editoitavaksi)
         {
+            this.Osallistujat.RaiseListChangedEvents = false;
+            this.OsallistujatJarjestyksessa.RaiseListChangedEvents = false;
+            this.Pelit.RaiseListChangedEvents = false;
+
             if (Loki != null)
             {
                 Loki.Kirjoita(string.Format("Avataan kilpailu tiedostosta {0}", tiedosto));
@@ -865,7 +916,10 @@ namespace KaisaKaavio
                     }
                 }
 
-                PaivitaOsallistujatJarjestyksessa();
+                if (editoitavaksi)
+                {
+                    PaivitaOsallistujatJarjestyksessa();
+                }
 
                 this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             }
@@ -892,15 +946,32 @@ namespace KaisaKaavio
                 nimi += " " + pelaaja.Seura.Trim();
             }
 
-            if (detaljit && !string.IsNullOrEmpty(pelaaja.Sijoitettu))
+            if (this.KilpailuOnViikkokisa)
             {
-                if (pelaaja.Sijoitettu.Contains('(') || pelaaja.Sijoitettu.Contains('['))
+                if (detaljit && !string.IsNullOrEmpty(pelaaja.Sijoitettu))
                 {
-                    nimi += pelaaja.Sijoitettu.Trim();
+                    if (pelaaja.Sijoitettu.Contains('(') || pelaaja.Sijoitettu.Contains('['))
+                    {
+                        nimi += " " + pelaaja.Sijoitettu.Trim();
+                    }
+                    else
+                    {
+                        nimi += " (" + pelaaja.Sijoitettu.Trim() + ")";
+                    }
                 }
-                else
+            }
+            else
+            {
+                if (detaljit && !string.IsNullOrEmpty(pelaaja.Sijoitettu))
                 {
-                    nimi += "[" + pelaaja.Sijoitettu.Trim() + "]";
+                    if (pelaaja.Sijoitettu.Contains('(') || pelaaja.Sijoitettu.Contains('['))
+                    {
+                        nimi = pelaaja.Sijoitettu.Trim() + nimi;
+                    }
+                    else
+                    {
+                        nimi = "[" + pelaaja.Sijoitettu.Trim() + "]" + nimi;
+                    }
                 }
             }
 
@@ -977,7 +1048,9 @@ namespace KaisaKaavio
 
         public bool ArvoKaavio(out string virhe)
         {
+#if PROFILE
             using (new Testaus.Profileri("Kilpailu.ArvoKaavio"))
+#endif
             {
                 virhe = string.Empty;
 
@@ -995,10 +1068,6 @@ namespace KaisaKaavio
                         return false;
                     }
                 }
-
-                this.Pelit.RaiseListChangedEvents = false;
-                this.Osallistujat.RaiseListChangedEvents = false;
-                this.OsallistujatJarjestyksessa.RaiseListChangedEvents = false;
 
                 PoistaTyhjatOsallistujat();
                 PoistaTyhjatPelit(1);
@@ -1018,13 +1087,6 @@ namespace KaisaKaavio
 
                 var tulos = HaeAlkukierrokset(out virhe);
 
-                this.Pelit.RaiseListChangedEvents = true;
-                this.Osallistujat.RaiseListChangedEvents = true;
-                this.OsallistujatJarjestyksessa.RaiseListChangedEvents = true;
-
-                this.Pelit.ResetBindings();
-                this.Osallistujat.ResetBindings();
-                this.OsallistujatJarjestyksessa.ResetBindings();
 
                 return tulos;
             }
@@ -1247,7 +1309,9 @@ namespace KaisaKaavio
 
         private bool HaeAlkukierrokset(out string virhe)
         {
+#if PROFILE
             using (new Testaus.Profileri("Kilpailu.HaeAlkukierrokset"))
+#endif
             {
                 virhe = string.Empty;
 
@@ -1451,54 +1515,64 @@ namespace KaisaKaavio
 
         public void PaivitaPelienTulokset()
         {
-            foreach (var peli in this.Pelit)
+#if PROFILE
+            using (new Testaus.Profileri("Kilpailu.PaivitaPelienTulokset"))
+#endif
             {
-                peli.PaivitaTulos();
+                foreach (var peli in this.Pelit)
+                {
+                    peli.PaivitaTulos();
+                }
             }
         }
 
         public void PaivitaPelitValmiinaAlkamaan()
         {
-            this.PelienTilannePaivitysTarvitaan = false;
-
-            foreach (var peli in this.Pelit)
+#if PROFILE
+            using (new Testaus.Profileri("Kilpailu.PaivitaPelitValmiinaAlkamaan"))
+#endif
             {
-                if (peli.Tilanne != PelinTilanne.Pelattu && peli.Tilanne != PelinTilanne.Kaynnissa)
+                this.PelienTilannePaivitysTarvitaan = false;
+
+                foreach (var peli in this.Pelit)
                 {
-                    if (peli.Id1 >= 0 && peli.Id2 >= 0)
+                    if (peli.Tilanne != PelinTilanne.Pelattu && peli.Tilanne != PelinTilanne.Kaynnissa)
                     {
-                        if (peli.Kierros > 2 &&
-                            this.Pelit.Any(x =>
-                            x.PeliNumero < peli.PeliNumero &&
-                            x.Tilanne != PelinTilanne.Pelattu &&
-                            x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
+                        if (peli.Id1 >= 0 && peli.Id2 >= 0)
                         {
-                            // Pelaamattomia pelejä aikaisemmalla kierroksella => Ei voi aloittaa
-                            peli.Tilanne = PelinTilanne.Tyhja;
-                        }
+                            if (peli.Kierros > 2 &&
+                                this.Pelit.Any(x =>
+                                x.PeliNumero < peli.PeliNumero &&
+                                x.Tilanne != PelinTilanne.Pelattu &&
+                                x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
+                            {
+                                // Pelaamattomia pelejä aikaisemmalla kierroksella => Ei voi aloittaa
+                                peli.Tilanne = PelinTilanne.Tyhja;
+                            }
 
-                        else if (this.Pelit.Any(x =>
-                            x != peli &&
-                            x.Tilanne == PelinTilanne.Kaynnissa &&
-                            x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
-                        {
-                            // Toisella pelaajista on käynnissä peli
-                            peli.Tilanne = PelinTilanne.Tyhja;
-                        }
+                            else if (this.Pelit.Any(x =>
+                                x != peli &&
+                                x.Tilanne == PelinTilanne.Kaynnissa &&
+                                x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
+                            {
+                                // Toisella pelaajista on käynnissä peli
+                                peli.Tilanne = PelinTilanne.Tyhja;
+                            }
 
-                        else if (this.Pelit.Any(x => x.Tulos == PelinTulos.Virheellinen))
-                        {
-                            // Jos kaaviossa on virhe, niin uusia pelejä ei voida aloittaa
-                            peli.Tilanne = PelinTilanne.Tyhja;
+                            else if (this.Pelit.Any(x => x.Tulos == PelinTulos.Virheellinen))
+                            {
+                                // Jos kaaviossa on virhe, niin uusia pelejä ei voida aloittaa
+                                peli.Tilanne = PelinTilanne.Tyhja;
+                            }
+                            else
+                            {
+                                peli.Tilanne = PelinTilanne.ValmiinaAlkamaan;
+                            }
                         }
                         else
                         {
-                            peli.Tilanne = PelinTilanne.ValmiinaAlkamaan;
+                            peli.Tilanne = PelinTilanne.Tyhja;
                         }
-                    }
-                    else
-                    {
-                        peli.Tilanne = PelinTilanne.Tyhja;
                     }
                 }
             }

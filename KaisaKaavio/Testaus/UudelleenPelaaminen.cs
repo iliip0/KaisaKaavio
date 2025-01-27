@@ -31,7 +31,7 @@ namespace KaisaKaavio.Testaus
             try
             {
                 this.vanhaKilpailu = new Kilpailu();
-                this.vanhaKilpailu.Avaa(tiedosto);
+                this.vanhaKilpailu.Avaa(tiedosto, false);
 
                 this.kilpailu.Nimi = this.vanhaKilpailu.Nimi + "(Uusinta)";
                 this.kilpailu.Tiedosto = this.vanhaKilpailu.Tiedosto.Replace(".xml", "(Uusinta).xml");

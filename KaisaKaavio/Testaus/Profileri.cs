@@ -8,23 +8,29 @@ using System.Threading.Tasks;
 
 namespace KaisaKaavio.Testaus
 {
+    /// <summary>
+    /// Työkalu funktioiden suoritusajan mittaamiseen sekä 
+    /// kutsupuiden tarkasteluun.
+    /// 
+    /// Tämä helpottaa ohjelman optimointia
+    /// </summary>
     public class Profileri : IDisposable
     {
         public Profileri(string funktio)
         {
-#if DEBUG
+#if PROFILE
             AloitaKutsu(funktio);
 #endif
         }
 
         public void Dispose()
         {
-#if DEBUG
+#if PROFILE
             LopetaKutsu();
 #endif
         }
 
-#if DEBUG
+#if PROFILE
         private class Kutsu
         {
             public string Funktio { get; set; }
@@ -53,7 +59,7 @@ namespace KaisaKaavio.Testaus
 
         public static void AloitaKutsu(string funktio)
         {
-#if DEBUG
+#if PROFILE
             int id = Thread.CurrentThread.ManagedThreadId;
 
             var pino = Kutsupino(id);
@@ -67,7 +73,7 @@ namespace KaisaKaavio.Testaus
             pino.Push(kutsu);
 
             int indent = pino.Count;
-            StringBuilder rivi = new StringBuilder(id.ToString() + ":");
+            StringBuilder rivi = new StringBuilder(id.ToString() + ": ");
 
             for (int i = 0; i < indent; ++i)
             {
@@ -76,27 +82,30 @@ namespace KaisaKaavio.Testaus
 
             rivi.Append(funktio + " (");
 
-            Debug.WriteLine(rivi.ToString());
+            Trace.WriteLine(rivi.ToString());
 #endif
         }
 
         public static void LopetaKutsu()
         {
-#if DEBUG
+#if PROFILE
             int id = Thread.CurrentThread.ManagedThreadId;
 
             var pino = Kutsupino(id);
 
             long ticks = 0;
+            string nimi = string.Empty;
+
+            int indent = pino.Count;
 
             if (pino.Count > 0)
             {
                 ticks = DateTime.Now.Ticks - pino.First().Ticks;
+                nimi = pino.First().Funktio;
                 pino.Pop();
             }
 
-            int indent = pino.Count;
-            StringBuilder rivi = new StringBuilder(id.ToString() + ":");
+            StringBuilder rivi = new StringBuilder(id.ToString() + ": ");
 
             for (int i = 0; i < indent; ++i)
             {
@@ -104,15 +113,15 @@ namespace KaisaKaavio.Testaus
             }
 
             TimeSpan kesto = new TimeSpan(ticks);
-            rivi.Append(string.Format(") {0}ms", kesto.Milliseconds));
+            rivi.Append(string.Format(") {0}ms // {1}", kesto.Milliseconds, nimi));
 
-            Debug.WriteLine(rivi.ToString());
+            Trace.WriteLine(rivi.ToString());
 #endif
         }
 
         public static void KirjaaKutsu(string funktio)
         {
-#if DEBUG
+#if PROFILE
             int id = Thread.CurrentThread.ManagedThreadId;
 
             var pino = Kutsupino(id);
@@ -126,8 +135,7 @@ namespace KaisaKaavio.Testaus
             }
 
             rivi.Append(funktio + "(...)");
-
-            Debug.WriteLine(rivi.ToString());
+            Trace.WriteLine(rivi.ToString());
 #endif
         }
     }

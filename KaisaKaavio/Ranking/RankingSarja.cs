@@ -345,47 +345,52 @@ namespace KaisaKaavio.Ranking
 
         public void Luo(Ranking ranking, Loki loki)
         {
-            try
+#if PROFILE
+            using (new Testaus.Profileri("RankingSarja.Luo"))
+#endif
             {
-                int kk0 = 0;
-                int kk1 = 0;
-                Tyypit.Aika.RankingSarjaKuukaudet(this.Pituus, this.SarjanNumero, out kk0, out kk1);
-
-                this.Osallistujat.Clear();
-                this.Osakilpailut.Clear();
-
-                for (int kk = kk0; kk <= kk1; ++kk)
+                try
                 {
-                    var rankingKuukausi = ranking.AvaaRankingKuukausi(this.Vuosi, kk, this.TestiSarja);
-                    if (rankingKuukausi != null)
-                    {
-                        var osakilpailut = rankingKuukausi.Osakilpailut
-                            .Where(x => x.OnRankingOsakilpailu && SisaltaaOsakilpailun(x))
-                            .OrderBy(x => x.PvmDt);
+                    int kk0 = 0;
+                    int kk1 = 0;
+                    Tyypit.Aika.RankingSarjaKuukaudet(this.Pituus, this.SarjanNumero, out kk0, out kk1);
 
-                        foreach (var osakilpailu in osakilpailut)
+                    this.Osallistujat.Clear();
+                    this.Osakilpailut.Clear();
+
+                    for (int kk = kk0; kk <= kk1; ++kk)
+                    {
+                        var rankingKuukausi = ranking.AvaaRankingKuukausi(this.Vuosi, kk, this.TestiSarja);
+                        if (rankingKuukausi != null)
                         {
-                            if (SisaltaaOsakilpailun(osakilpailu))
+                            var osakilpailut = rankingKuukausi.Osakilpailut
+                                .Where(x => x.OnRankingOsakilpailu && SisaltaaOsakilpailun(x))
+                                .OrderBy(x => x.PvmDt);
+
+                            foreach (var osakilpailu in osakilpailut)
                             {
-                                var kilpailu = osakilpailu.LataaKilpailu(loki);
-                                if (kilpailu != null)
+                                if (SisaltaaOsakilpailun(osakilpailu))
                                 {
-                                    LisaaKilpailu(ranking, kilpailu, osakilpailu, false);
+                                    var kilpailu = osakilpailu.LataaKilpailu(loki);
+                                    if (kilpailu != null)
+                                    {
+                                        LisaaKilpailu(ranking, kilpailu, osakilpailu, false);
+                                    }
                                 }
                             }
                         }
                     }
+
+                    PaivitaTilanne();
+
+                    Tallenna(loki, true);
                 }
-
-                PaivitaTilanne();
-
-                Tallenna(loki, true);
-            }
-            catch (Exception e)
-            {
-                if (loki != null)
+                catch (Exception e)
                 {
-                    loki.Kirjoita("Rankingsarjan päivitys epäonnistui", e, false);
+                    if (loki != null)
+                    {
+                        loki.Kirjoita("Rankingsarjan päivitys epäonnistui", e, false);
+                    }
                 }
             }
         }

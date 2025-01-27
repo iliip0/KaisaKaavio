@@ -6,4 +6,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartArguments>C:\KaisaKaavio\KaisaKaavio\KaisaKaavio\bin\Release\KaisaKaavio.exe</StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Profile|AnyCPU'">
+    <StartArguments>C:\KaisaKaavio\KaisaKaavio\KaisaKaavio\bin\Release\KaisaKaavio.exe</StartArguments>
+  </PropertyGroup>
 </Project>

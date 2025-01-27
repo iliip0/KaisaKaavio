@@ -17,26 +17,29 @@ namespace KaisaKaavio.Kayttoliittyma
 
         public static void Mukauta(Control control)
         {
-            if (control is ComboBox)
+            //using (new Testaus.Profileri("Mukauttaja.Mukauta"))
             {
-                MukautaComboBox((ComboBox)control);
-            }
-
-            if (control is TextBox)
-            {
-                MukautaTextBox((TextBox)control);
-            }
-
-            foreach (var child in control.Controls)
-            {
-                if (child is Control)
+                if (control is ComboBox)
                 {
-                    try
+                    MukautaComboBox((ComboBox)control);
+                }
+
+                if (control is TextBox)
+                {
+                    MukautaTextBox((TextBox)control);
+                }
+
+                foreach (var child in control.Controls)
+                {
+                    if (child is Control)
                     {
-                        Mukauta((Control)child);
-                    }
-                    catch
-                    {
+                        try
+                        {
+                            Mukauta((Control)child);
+                        }
+                        catch
+                        {
+                        }
                     }
                 }
             }
