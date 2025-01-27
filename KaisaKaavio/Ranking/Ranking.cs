@@ -430,42 +430,5 @@ namespace KaisaKaavio.Ranking
                 null,
                 kilpailu.TestiKilpailu);
         }
-
-        public bool HaeNykyinenRankingSijoitus(Kilpailu kilpailu, Asetukset asetukset, string pelaaja, out int sijoitus)
-        {
-            var aika = kilpailu.AlkamisAikaDt;
-
-            var ranking = AvaaRankingSarja(
-                aika.Year,
-                kilpailu.RankingKisaLaji,
-                kilpailu.RankingKisaTyyppi,
-                Tyypit.Aika.RankingSarjanNumeroAjasta(kilpailu.RankingKisaTyyppi, aika),
-                kilpailu,
-                kilpailu.TestiKilpailu);
-
-            if (ranking != null &&
-                asetukset.RankingPisteytys(kilpailu.RankingKisaLaji).EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta &&
-                ranking.OnSarjanEnsimmainenKilpailu(kilpailu))
-            {
-                ranking = AvaaEdellinenSarja(kilpailu);
-            }
-
-            if (ranking != null)
-            {
-                var r = ranking.RankingEnnenOsakilpailua(DateTime.Now);
-                if (r != null)
-                {
-                    var p = r.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja));
-                    if (p != null)
-                    {
-                        sijoitus = p.KumulatiivinenSijoitus;
-                        return true;
-                    }
-                }
-            }
-
-            sijoitus = 0;
-            return false;
-        }
     }
 }

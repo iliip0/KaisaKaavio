@@ -665,16 +665,14 @@ namespace KaisaKaavio.Ranking
             return false;
         }
 
-        public List<RankingPelaajaTietue> HaeRankingKarjetKilpailulle(Asetukset asetukset, Ranking ranking, Kilpailu kilpailu)
+        public List<RankingPelaajaTietue> HaeRankingKarjetKilpailulle(Ranking ranking, Kilpailu kilpailu)
         {
             List<RankingPelaajaTietue> rankingKarjet = new List<RankingPelaajaTietue>();
-
-            var a = asetukset.RankingPisteytys(kilpailu.RankingKisaLaji);
 
             var r = RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
 
             if (OnSarjanEnsimmainenKilpailu(kilpailu)
-                && a.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta)
+                && this.Asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta)
             {
                 var s = ranking.AvaaEdellinenSarja(kilpailu);
                 if (s != null)
@@ -685,7 +683,7 @@ namespace KaisaKaavio.Ranking
 
             if (r != null)
             {
-                if (a.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista)
+                if (this.Asetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista)
                 {
                     var parhaatSijat = r
                         .Where(x => kilpailu.Osallistujat.Any(y => Tyypit.Nimi.Equals(y.Nimi, x.Nimi)))

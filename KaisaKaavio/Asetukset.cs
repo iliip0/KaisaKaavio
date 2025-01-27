@@ -47,7 +47,9 @@ namespace KaisaKaavio
         public BindingList<PelaajaTietue> Pelaajat { get; set; }
 
         /// <summary>
-        /// Rankingkisojen (viikkokisat) pisteytysasetukset
+        /// Rankingkisojen (viikkokisat) viimeisimmät pisteytysasetukset.
+        /// Jokaisella sarjalla on omat asetuksensa, jotka tallentuvat sarjatiedostoihin.
+        /// Näitä oletusasetuksia käytetään uusille alkaville sarjoille.
         /// </summary>
         public Ranking.RankingAsetukset RankingAsetuksetKaisa { get; set; }
         public Ranking.RankingAsetukset RankingAsetuksetPool { get; set; }

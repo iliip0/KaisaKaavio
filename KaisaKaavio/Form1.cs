@@ -1033,9 +1033,23 @@ namespace KaisaKaavio
             }
         }
 
+        private Ranking.RankingAsetukset RankingAsetuksetAvatulleKilpailulle()
+        {
+            if (this.ranking.ValittuSarja != null && 
+                this.kilpailu.RankingOsakilpailu != null &&
+                this.ranking.ValittuSarja.SisaltaaOsakilpailun(this.kilpailu.RankingOsakilpailu))
+            {
+                return this.ranking.ValittuSarja.Asetukset;
+            }
+
+            return null;
+        }
+
         private void PaivitaSijoitusSarakkeenNakyvyys()
         {
-            if (this.asetukset.RankingPisteytys(this.kilpailu.RankingKisaLaji).RankingKarjetRelevantteja ||
+            var asetukset = RankingAsetuksetAvatulleKilpailulle();
+
+            if ((asetukset != null && asetukset.RankingKarjetRelevantteja) ||
                 this.kilpailu.Sijoittaminen != Sijoittaminen.EiSijoittamista)
             {
                 this.sijoitettuDataGridViewTextBoxColumn.Visible = true;
@@ -1524,7 +1538,7 @@ namespace KaisaKaavio
                     var sarja = this.ranking.AvaaRankingSarja(this.kilpailu);
                     if (sarja != null)
                     {
-                        karki = sarja.HaeRankingKarjetKilpailulle(this.asetukset, this.ranking, this.kilpailu);
+                        karki = sarja.HaeRankingKarjetKilpailulle(this.ranking, this.kilpailu);
                     }
 
                     foreach (var p in this.kilpailu.Osallistujat)
@@ -4647,7 +4661,9 @@ namespace KaisaKaavio
                             this.ranking.TyhjennaSarjatMuistista();
                             this.ranking.ValitseRankingSarjaKilpailulle(this.kilpailu);
 
-                            if (this.ranking.ValittuSarja != null)
+                            if (this.ranking.ValittuSarja != null &&
+                                this.kilpailu.RankingOsakilpailu != null &&
+                                this.ranking.ValittuSarja.SisaltaaOsakilpailun(this.kilpailu.RankingOsakilpailu))
                             {
                                 this.ranking.ValittuSarja.Asetukset.KopioiAsetuksista(this.asetukset.RankingPisteytys(this.kilpailu.RankingKisaLaji));
                             }
