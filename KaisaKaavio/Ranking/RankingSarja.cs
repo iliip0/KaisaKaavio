@@ -18,6 +18,7 @@ namespace KaisaKaavio.Ranking
         public bool TestiSarja { get; set; }
         public BindingList<RankingOsakilpailu> Osakilpailut { get; set; }
         public BindingList<RankingPelaajaTietue> Osallistujat { get; set; }
+        public RankingAsetukset Asetukset { get; set; }
 
         private bool muokattu = true;
 
@@ -80,6 +81,7 @@ namespace KaisaKaavio.Ranking
             this.Osakilpailut = new BindingList<RankingOsakilpailu>();
             this.Osallistujat = new BindingList<RankingPelaajaTietue>();
             this.TestiSarja = false;
+            this.Asetukset = new RankingAsetukset();
         }
 
         private Tyypit.Teksti tilanneLyhyt = new Tyypit.Teksti();
@@ -137,6 +139,21 @@ namespace KaisaKaavio.Ranking
             {
                 return this.tilanneLyhyt.Sbil;
             }
+        }
+
+        public bool SisaltaaPaivamaaran(DateTime aika)
+        {
+            if (aika.Year != this.Vuosi)
+            {
+                return false;
+            }
+
+            if (Tyypit.Aika.RankingSarjanNumeroAjasta(this.Pituus, aika) != this.SarjanNumero)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public bool SisaltaaOsakilpailun(RankingOsakilpailuTietue tietue)
@@ -240,6 +257,9 @@ namespace KaisaKaavio.Ranking
                 this.Laji = sarja.Laji;
                 this.TestiSarja = sarja.TestiSarja;
 
+                this.Asetukset.KopioiAsetuksista(sarja.Asetukset);
+                this.Asetukset.Laji = this.Laji;
+
                 this.muokattu = false;
 
                 this.Osakilpailut.Clear();
@@ -323,7 +343,7 @@ namespace KaisaKaavio.Ranking
             }
         }
 
-        public void Luo(Ranking ranking, RankingAsetukset asetukset, Loki loki)
+        public void Luo(Ranking ranking, Loki loki)
         {
             try
             {
@@ -350,7 +370,7 @@ namespace KaisaKaavio.Ranking
                                 var kilpailu = osakilpailu.LataaKilpailu(loki);
                                 if (kilpailu != null)
                                 {
-                                    LisaaKilpailu(ranking, kilpailu, osakilpailu, asetukset, false);
+                                    LisaaKilpailu(ranking, kilpailu, osakilpailu, false);
                                 }
                             }
                         }
@@ -592,7 +612,7 @@ namespace KaisaKaavio.Ranking
             KirjoitaTilanne(this.tilanneLyhyt);
         }
 
-        public void LisaaKilpailu(Ranking rankingit, Kilpailu kilpailu, RankingOsakilpailuTietue tietue, RankingAsetukset asetukset, bool paivitaTilanne)
+        public void LisaaKilpailu(Ranking rankingit, Kilpailu kilpailu, RankingOsakilpailuTietue tietue, bool paivitaTilanne)
         {
             if (this.Osakilpailut.Any(x => x.AlkamisAikaDt > kilpailu.AlkamisAikaDt))
             {
@@ -620,7 +640,7 @@ namespace KaisaKaavio.Ranking
                 }
             }
 
-            osakilpailu.PaivitaKilpailu(rankingit, kilpailu, this, asetukset);
+            osakilpailu.PaivitaKilpailu(rankingit, kilpailu, this, this.Asetukset);
 
             if (paivitaTilanne)
             {

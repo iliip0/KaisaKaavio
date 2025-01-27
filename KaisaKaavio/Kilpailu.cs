@@ -501,25 +501,28 @@ namespace KaisaKaavio
 
         public PelinTilanne LisaaPeli(Pelaaja pelaaja, Pelaaja vastustaja)
         {
-            int kierros1 = pelaaja == null ? 0 : Pelit.Count(x =>
-                x.SisaltaaPelaajan(pelaaja.Id)) + 1;
-
-            int kierros2 = vastustaja == null ? 0 : Pelit.Count(x =>
-                x.SisaltaaPelaajan(vastustaja.Id)) + 1;
-
-            if (kierros2 < kierros1)
+            using (new Testaus.Profileri("Kilpailu.LisaaPeli"))
             {
-                return LisaaPeli(vastustaja, kierros2, pelaaja, kierros1);
-            }
+                int kierros1 = pelaaja == null ? 0 : Pelit.Count(x =>
+                    x.SisaltaaPelaajan(pelaaja.Id)) + 1;
 
-            else if ((kierros1 == kierros2) && (vastustaja.Id < pelaaja.Id))
-            {
-                return LisaaPeli(vastustaja, kierros2, pelaaja, kierros1);
-            }
+                int kierros2 = vastustaja == null ? 0 : Pelit.Count(x =>
+                    x.SisaltaaPelaajan(vastustaja.Id)) + 1;
 
-            else
-            {
-                return LisaaPeli(pelaaja, kierros1, vastustaja, kierros2);
+                if (kierros2 < kierros1)
+                {
+                    return LisaaPeli(vastustaja, kierros2, pelaaja, kierros1);
+                }
+
+                else if ((kierros1 == kierros2) && (vastustaja.Id < pelaaja.Id))
+                {
+                    return LisaaPeli(vastustaja, kierros2, pelaaja, kierros1);
+                }
+
+                else
+                {
+                    return LisaaPeli(pelaaja, kierros1, vastustaja, kierros2);
+                }
             }
         }
 
@@ -563,13 +566,16 @@ namespace KaisaKaavio
 
         public void PaivitaOsallistujatJarjestyksessa()
         {
-            this.OsallistujatJarjestyksessa.Clear();
-
-            foreach (var o in this.Osallistujat
-                .Where(x => !string.IsNullOrEmpty(x.Nimi) && x.Id >= 0)
-                .OrderBy(x => x.Id))
+            using (new Testaus.Profileri("Kilpailu.PaivitaOsallistujatJarjestyksessa"))
             {
-                this.OsallistujatJarjestyksessa.Add(o);
+                this.OsallistujatJarjestyksessa.Clear();
+
+                foreach (var o in this.Osallistujat
+                    .Where(x => !string.IsNullOrEmpty(x.Nimi) && x.Id >= 0)
+                    .OrderBy(x => x.Id))
+                {
+                    this.OsallistujatJarjestyksessa.Add(o);
+                }
             }
         }
 
@@ -971,40 +977,57 @@ namespace KaisaKaavio
 
         public bool ArvoKaavio(out string virhe)
         {
-            virhe = string.Empty;
-
-            if (Pelit.Any(x => (x.Kierros > 1) && (x.Tilanne == PelinTilanne.Pelattu || x.Tilanne == PelinTilanne.Kaynnissa)))
+            using (new Testaus.Profileri("Kilpailu.ArvoKaavio"))
             {
-                this.Loki.Kirjoita("Kaavion arpominen ei ole mahdollista enää toisen kierroksen alettua");
-                return false;
-            }
+                virhe = string.Empty;
 
-            foreach (var osallistuja in this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
-            {
-                if (this.Osallistujat.Count(x => string.Equals(x.Nimi, osallistuja.Nimi, StringComparison.OrdinalIgnoreCase)) > 1)
+                if (Pelit.Any(x => (x.Kierros > 1) && (x.Tilanne == PelinTilanne.Pelattu || x.Tilanne == PelinTilanne.Kaynnissa)))
                 {
-                    virhe = string.Format("Pelaaja {0} on kahdesti osallistujalistalla", osallistuja.Nimi);
+                    this.Loki.Kirjoita("Kaavion arpominen ei ole mahdollista enää toisen kierroksen alettua");
                     return false;
                 }
+
+                foreach (var osallistuja in this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
+                {
+                    if (this.Osallistujat.Count(x => string.Equals(x.Nimi, osallistuja.Nimi, StringComparison.OrdinalIgnoreCase)) > 1)
+                    {
+                        virhe = string.Format("Pelaaja {0} on kahdesti osallistujalistalla", osallistuja.Nimi);
+                        return false;
+                    }
+                }
+
+                this.Pelit.RaiseListChangedEvents = false;
+                this.Osallistujat.RaiseListChangedEvents = false;
+                this.OsallistujatJarjestyksessa.RaiseListChangedEvents = false;
+
+                PoistaTyhjatOsallistujat();
+                PoistaTyhjatPelit(1);
+
+                if (!KilpailuOnViikkokisa &&
+                    this.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Sijoitettu)) &&
+                    !this.Osallistujat.Any(x => x.Id > 0))
+                {
+                    ArvoPelaajienIdtSijoituksilla();
+                }
+                else
+                {
+                    ArvoPelaajienIdt();
+                }
+
+                PaivitaOsallistujatJarjestyksessa();
+
+                var tulos = HaeAlkukierrokset(out virhe);
+
+                this.Pelit.RaiseListChangedEvents = true;
+                this.Osallistujat.RaiseListChangedEvents = true;
+                this.OsallistujatJarjestyksessa.RaiseListChangedEvents = true;
+
+                this.Pelit.ResetBindings();
+                this.Osallistujat.ResetBindings();
+                this.OsallistujatJarjestyksessa.ResetBindings();
+
+                return tulos;
             }
-
-            PoistaTyhjatOsallistujat();
-            PoistaTyhjatPelit(1);
-
-            if (!KilpailuOnViikkokisa && 
-                this.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Sijoitettu)) &&
-                !this.Osallistujat.Any(x => x.Id > 0))
-            {
-                ArvoPelaajienIdtSijoituksilla();
-            }
-            else
-            {
-                ArvoPelaajienIdt();
-            }
-
-            PaivitaOsallistujatJarjestyksessa();
-
-            return HaeAlkukierrokset(out virhe);
         }
 
         private void ArvoPelaajienIdt()
@@ -1224,124 +1247,127 @@ namespace KaisaKaavio
 
         private bool HaeAlkukierrokset(out string virhe)
         {
-            virhe = string.Empty;
+            using (new Testaus.Profileri("Kilpailu.HaeAlkukierrokset"))
+            {
+                virhe = string.Empty;
 
 #if DEBUG // Invariantit:
-            if (this.OsallistujatJarjestyksessa.Count != this.Osallistujat.Count)
-            {
-                this.Loki.Kirjoita("BUGI!!! Osallistujalistat epäsynkassa arvottaessa alkukierroksia!", null, true);
-                return false;
-            }
-
-            if (this.Osallistujat.Any(x => x.Id < 0))
-            {
-                this.Loki.Kirjoita("BUGI!!! Osallistujissa on id:ttömiä pelaajia arvottaessa alkukierroksia!", null, true);
-                return false;
-            }
-
-            if (this.Osallistujat.Count < Asetukset.PelaajiaVahintaanKaaviossa)
-            {
-                this.Loki.Kirjoita("BUGI!!! Liian vähän osallistujia arvottaessa alkukierroksia!", null, true);
-                return false;
-            }
-
-            if (this.Pelit.Any(x => x.Kierros > 1))
-            {
-                this.Loki.Kirjoita("BUGI!!! Kaaviossa on toisen kierroksen pelejä arvottaessa ekoja kierroksia!", null, true);
-                return false;
-            }
-#endif
-
-            Loki.Kirjoita("Haetaan pelit kierrokselle 1");
-
-            while (true)
-            {
-                var mukana = this.Osallistujat.Where(x => Pelit.Count(y => y.SisaltaaPelaajan(x.Id)) == 0);
-
-                var hakijat = mukana
-                    .OrderBy(x => x.Id)
-                    .OrderBy(x => Pelit.Count(y => (y.Kierros == 1) && y.SisaltaaPelaajan(x.Id)));
-
-                if (hakijat.Count() < 2)
+                if (this.OsallistujatJarjestyksessa.Count != this.Osallistujat.Count)
                 {
-                    break;
-                }
-
-                var hakija = hakijat.First();
-
-                var vastustajat = hakijat
-                    .Where(x => (x.Id != hakija.Id) && !Pelit.Any(y => y.SisaltaaPelaajat(hakija.Id, x.Id)))
-                    .OrderBy(x => x.Id)
-                    .OrderBy(x => Pelit.Count(y => (y.Kierros == 1) && y.SisaltaaPelaajan(x.Id)));
-
-                if (vastustajat.Count() < 1)
-                {
-#if DEBUG
-                    this.Loki.Kirjoita("BUGI!!! Hakijalle ei löytynyt vastustajaa alkukierrokselle", null, true);
-#endif
+                    this.Loki.Kirjoita("BUGI!!! Osallistujalistat epäsynkassa arvottaessa alkukierroksia!", null, true);
                     return false;
                 }
 
-                LisaaPeli(hakija, vastustajat.First());
-            }
-
-            Loki.Kirjoita("Haetaan pelit kierrokselle 2");
-
-            bool parillinen = (this.Osallistujat.Count() % 2) == 0;
-            bool jaollinenNeljalla = (this.Osallistujat.Count() % 4) == 0;
-
-            // Jos pelaajia on parillinen, mutta ei neljällä jaollinen määrä niin tokan kierroksen lopussa tarvitaan "kieppi"
-            if (parillinen && !jaollinenNeljalla)
-            { 
-                var a = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 5];
-                var b = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 2];
-                LisaaPeli(a, b);
-
-                var c = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 3];
-                var d = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 1];
-                LisaaPeli(c, d);
-            }
-
-            while (true)
-            {
-                var mukana = this.Osallistujat.Where(x => x.Id >= 0 && Pelit.Count(y => y.SisaltaaPelaajan(x.Id)) < 2);
-
-                var hakijat = mukana
-                    .OrderBy(x => x.Id)
-                    .OrderBy(x => Pelit.Count(y => y.SisaltaaPelaajan(x.Id)));
-
-#if DEBUG
-                Debug.WriteLine(string.Format("# Hakijat {0}", string.Join(",", hakijat.Select(x => ("(" + x.Id + " " + x.Nimi + ")")))));
-#endif
-
-                if (hakijat.Count() < 2)
+                if (this.Osallistujat.Any(x => x.Id < 0))
                 {
-                    break;
-                }
-
-                var hakija = hakijat.First();
-
-                var vastustajat = hakijat
-                    .Where(x => (x.Id != hakija.Id) && !Pelit.Any(y => y.SisaltaaPelaajat(hakija.Id, x.Id)))
-                    .OrderBy(x => x.Id)
-                    .OrderBy(x => Pelit.Count(y => y.SisaltaaPelaajan(x.Id)));
-
-                if (vastustajat.Count() < 1)
-                {
-#if DEBUG
-                    this.Loki.Kirjoita("BUGI!!! Hakijalle ei löytynyt vastustajaa alkukierrokselle", null, true);
-#endif
+                    this.Loki.Kirjoita("BUGI!!! Osallistujissa on id:ttömiä pelaajia arvottaessa alkukierroksia!", null, true);
                     return false;
                 }
 
-#if DEBUG
-                Debug.WriteLine(string.Format("# Vastustajat {0}", string.Join(",", vastustajat.Select(x => ("(" + x.Id + " " + x.Nimi + ")")))));
+                if (this.Osallistujat.Count < Asetukset.PelaajiaVahintaanKaaviossa)
+                {
+                    this.Loki.Kirjoita("BUGI!!! Liian vähän osallistujia arvottaessa alkukierroksia!", null, true);
+                    return false;
+                }
+
+                if (this.Pelit.Any(x => x.Kierros > 1))
+                {
+                    this.Loki.Kirjoita("BUGI!!! Kaaviossa on toisen kierroksen pelejä arvottaessa ekoja kierroksia!", null, true);
+                    return false;
+                }
 #endif
 
-                LisaaPeli(hakija, vastustajat.First());
-            }
+                Loki.Kirjoita("Haetaan pelit kierrokselle 1");
 
-            return true;
+                while (true)
+                {
+                    var mukana = this.Osallistujat.Where(x => Pelit.Count(y => y.SisaltaaPelaajan(x.Id)) == 0);
+
+                    var hakijat = mukana
+                        .OrderBy(x => x.Id)
+                        .OrderBy(x => Pelit.Count(y => (y.Kierros == 1) && y.SisaltaaPelaajan(x.Id)));
+
+                    if (hakijat.Count() < 2)
+                    {
+                        break;
+                    }
+
+                    var hakija = hakijat.First();
+
+                    var vastustajat = hakijat
+                        .Where(x => (x.Id != hakija.Id) && !Pelit.Any(y => y.SisaltaaPelaajat(hakija.Id, x.Id)))
+                        .OrderBy(x => x.Id)
+                        .OrderBy(x => Pelit.Count(y => (y.Kierros == 1) && y.SisaltaaPelaajan(x.Id)));
+
+                    if (vastustajat.Count() < 1)
+                    {
+#if DEBUG
+                        this.Loki.Kirjoita("BUGI!!! Hakijalle ei löytynyt vastustajaa alkukierrokselle", null, true);
+#endif
+                        return false;
+                    }
+
+                    LisaaPeli(hakija, vastustajat.First());
+                }
+
+                Loki.Kirjoita("Haetaan pelit kierrokselle 2");
+
+                bool parillinen = (this.Osallistujat.Count() % 2) == 0;
+                bool jaollinenNeljalla = (this.Osallistujat.Count() % 4) == 0;
+
+                // Jos pelaajia on parillinen, mutta ei neljällä jaollinen määrä niin tokan kierroksen lopussa tarvitaan "kieppi"
+                if (parillinen && !jaollinenNeljalla)
+                {
+                    var a = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 5];
+                    var b = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 2];
+                    LisaaPeli(a, b);
+
+                    var c = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 3];
+                    var d = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 1];
+                    LisaaPeli(c, d);
+                }
+
+                while (true)
+                {
+                    var mukana = this.Osallistujat.Where(x => x.Id >= 0 && Pelit.Count(y => y.SisaltaaPelaajan(x.Id)) < 2);
+
+                    var hakijat = mukana
+                        .OrderBy(x => x.Id)
+                        .OrderBy(x => Pelit.Count(y => y.SisaltaaPelaajan(x.Id)));
+
+#if DEBUG
+                    Debug.WriteLine(string.Format("# Hakijat {0}", string.Join(",", hakijat.Select(x => ("(" + x.Id + " " + x.Nimi + ")")))));
+#endif
+
+                    if (hakijat.Count() < 2)
+                    {
+                        break;
+                    }
+
+                    var hakija = hakijat.First();
+
+                    var vastustajat = hakijat
+                        .Where(x => (x.Id != hakija.Id) && !Pelit.Any(y => y.SisaltaaPelaajat(hakija.Id, x.Id)))
+                        .OrderBy(x => x.Id)
+                        .OrderBy(x => Pelit.Count(y => y.SisaltaaPelaajan(x.Id)));
+
+                    if (vastustajat.Count() < 1)
+                    {
+#if DEBUG
+                        this.Loki.Kirjoita("BUGI!!! Hakijalle ei löytynyt vastustajaa alkukierrokselle", null, true);
+#endif
+                        return false;
+                    }
+
+#if DEBUG
+                    Debug.WriteLine(string.Format("# Vastustajat {0}", string.Join(",", vastustajat.Select(x => ("(" + x.Id + " " + x.Nimi + ")")))));
+#endif
+
+                    LisaaPeli(hakija, vastustajat.First());
+                }
+
+                return true;
+            }
         }
 
         public HakuAlgoritmi Haku(IStatusRivi status)
@@ -1861,7 +1887,7 @@ namespace KaisaKaavio
                     {
                         if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
                             mukana <= 2 &&
-                            t.Sijoitus >= 2)
+                            t.Sijoitus >= 3)
                         {
                         }
                         else
@@ -1872,7 +1898,7 @@ namespace KaisaKaavio
 
                     if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
                         mukana > 2 &&
-                        t.Sijoitus <= 5)
+                        t.Sijoitus <= 3)
                     {
                         t.SijoitusOnVarma = false;
                     }

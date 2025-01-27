@@ -18,6 +18,14 @@ namespace KaisaKaavio
         [XmlAttribute]
         public int Kierros { get; set; }
 
+        [XmlIgnore]
+        public string KierrosTeksti { 
+            get 
+            {
+                return OnPudotusPeli() ? string.Format("{0} (CUP)", Kierros) : Kierros.ToString();
+            }    
+        }
+
         [XmlAttribute]
         public int KierrosPelaaja1 { get; set; }
 

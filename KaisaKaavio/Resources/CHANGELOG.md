@@ -2,6 +2,16 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.19		(työn alla)
+
+* Lisätty (CUP) teksti kierroksen perään pelit näkymässä jos peli on pudari
+* Muutettu rankingpisteytyksiä niin, että pisteytykset tallentuvat kullekin sarjalle erikseen. Siten pisteytyksen muuttaminen jatkossa ei muuta vanhojen sarjojen pisteytystä
+* Muutettu oletusrankingpisteytys tasaisemmaksi (vähemmän osakilpailun voittajaa suosivaksi)
+
+## Versio 1.0.0.18		(julkaistu 20.1.2025)
+
+* Lisätty testikilpailua pelatessa mahdollisuus lisätä nappia painamalla 5, 10 tai 20 pelaajaa kaavioon
+
 ## Versio 1.0.0.17		(julkaistu 19.1.2025)
 
 * Uudet kuvat aloitussivun painikkeisiin.

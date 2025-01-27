@@ -349,26 +349,9 @@ namespace KaisaKaavio
 
         private static void LataaRankingAsetukset(Ranking.RankingAsetukset omatAsetukset, Ranking.RankingAsetukset ladatutAsetukset, Laji laji)
         {
-            omatAsetukset.PistetytysPeleista.Clear();
-            foreach (var p in ladatutAsetukset.PistetytysPeleista)
-            {
-                if (p.Pisteet > 0)
-                {
-                    omatAsetukset.PistetytysPeleista.Add(p);
-                }
-            }
-
-            omatAsetukset.PisteytysSijoituksista.Clear();
-            foreach (var p in ladatutAsetukset.PisteytysSijoituksista)
-            {
-                if (p.Pisteet > 0)
-                {
-                    omatAsetukset.PisteytysSijoituksista.Add(p);
-                }
-            }
-
-            if (omatAsetukset.PistetytysPeleista.Count == 0 &&
-                omatAsetukset.PisteytysSijoituksista.Count == 0)
+            omatAsetukset.KopioiAsetuksista(ladatutAsetukset);
+            omatAsetukset.Laji = laji;
+            if (omatAsetukset.Tyhja)
             {
                 omatAsetukset.AsetaOletusasetukset(laji);
             }

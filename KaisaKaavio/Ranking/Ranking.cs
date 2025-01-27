@@ -259,14 +259,25 @@ namespace KaisaKaavio.Ranking
                 kilpailu.RankingOsakilpailu != null &&
                 sarja.SisaltaaOsakilpailun(kilpailu.RankingOsakilpailu))
             {
-                sarja.Luo(this, this.Asetukset.RankingPisteytys(laji), this.Loki);
+                if (sarja.Asetukset.Tyhja)
+                {
+                    sarja.Asetukset.KopioiAsetuksista(this.Asetukset.RankingPisteytys(laji));
+                }
+
+                sarja.Luo(this, this.Loki);
             }
             else
             {
                 sarja.Avaa(this.Loki);
+
+                if (sarja.Asetukset.Tyhja)
+                {
+                    sarja.Asetukset.KopioiAsetuksista(this.Asetukset.RankingPisteytys(laji));
+                }
+
                 if (sarja.TarkistaOnkoSarjaMuuttunut(this, this.Loki))
                 {
-                    sarja.Luo(this, this.Asetukset.RankingPisteytys(laji), this.Loki);
+                    sarja.Luo(this, this.Loki);
                 }
             }
 

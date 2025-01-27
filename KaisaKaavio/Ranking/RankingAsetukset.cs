@@ -38,6 +38,17 @@ namespace KaisaKaavio.Ranking
             }
         }
 
+        [XmlIgnore]
+        public bool Tyhja
+        {
+            get 
+            {
+                return 
+                    !this.PistetytysPeleista.Any(x => x.Pisteet > 0) &&
+                    !this.PistetytysPeleista.Any(x => x.Pisteet > 0);
+            }
+        }
+
         public RankingAsetukset()
         {
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();
@@ -54,6 +65,33 @@ namespace KaisaKaavio.Ranking
             this.Laji = laji;
             this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
             this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
+        }
+
+        public void KopioiAsetuksista(RankingAsetukset asetukset)
+        {
+            this.Laji = asetukset.Laji;
+            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = asetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista;
+            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta;
+
+            this.PistetytysPeleista.Clear();
+            foreach (var p in asetukset.PistetytysPeleista)
+            {
+                this.PistetytysPeleista.Add(new RankingPisteytysPelista() 
+                {
+                    Ehto = p.Ehto,
+                    Pisteet = p.Pisteet
+                });
+            }
+
+            this.PisteytysSijoituksista.Clear();
+            foreach (var p in asetukset.PisteytysSijoituksista)
+            {
+                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta() 
+                {
+                    Ehto = p.Ehto,
+                    Pisteet = p.Pisteet
+                });
+            }
         }
 
         public void AsetaOletusasetukset(Laji laji)
@@ -76,8 +114,8 @@ namespace KaisaKaavio.Ranking
             else
             { 
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Voittajalle, 15));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kakkoselle, 10));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kolmoselle, 9));
+                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kakkoselle, 12));
+                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kolmoselle, 10));
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Neloselle, 8));
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Vitoselle, 7));
                 this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kutoselle, 6));
