@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.18		(työn alla)
+## Versio 1.0.0.18		(julkaistu 29.1.2025)
 
 * Lisätty testikilpailua pelatessa mahdollisuus lisätä nappia painamalla 5, 10 tai 20 pelaajaa kaavioon
 * Lisätty (CUP) teksti kierroksen perään pelit näkymässä jos peli on pudari
