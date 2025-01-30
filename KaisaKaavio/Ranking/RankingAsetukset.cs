@@ -102,29 +102,23 @@ namespace KaisaKaavio.Ranking
             this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
             this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
 
-            //if (laji == Laji.Kaisa) Pvk:kin siirtynyt Kaisassa "normaaliin" rankingpisteytykseen II/2025
-            //{
-                // Oletusrankingasetukset (Puh.veli klubin rankinging pisteytys)
-            //    this.PistetytysPeleista.Add(new RankingPisteytysPelista(RankingPisteetPelista.JokaisestaVoitosta, 1));
-            //    this.PistetytysPeleista.Add(new RankingPisteytysPelista(RankingPisteetPelista.RankingYkkosenVoitosta, 2));
-            //    this.PistetytysPeleista.Add(new RankingPisteytysPelista(RankingPisteetPelista.RankingKakkosenVoitosta, 1));
-            //    this.PistetytysPeleista.Add(new RankingPisteytysPelista(RankingPisteetPelista.EkanKierroksenVoitostaKunTokaKierrosOnPudari, 1));
-            //    this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.KaikilleOsallistujille, 1));
-            //}
-            //else
-            //{ 
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Voittajalle, 15));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kakkoselle, 12));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kolmoselle, 10));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Neloselle, 8));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Vitoselle, 7));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kutoselle, 6));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Seiskalle, 5));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kasille, 4));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Ysille, 3));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kymmenennelle, 2));
-                this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.KaikilleOsallistujille, 1));
-            //}
+            if (laji == Laji.Kaisa) // Pvk:kin siirtynyt Kaisassa "normaaliin" rankingpisteytykseen II/2025,
+                                    // pelien voitosta saa kuitenkin 1p/voitettu peli, toisin kuin muissa lajeissa
+            {
+                this.PistetytysPeleista.Add(new RankingPisteytysPelista(RankingPisteetPelista.JokaisestaVoitosta, 1));
+            }
+
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Voittajalle, 15));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kakkoselle, 12));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kolmoselle, 10));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Neloselle, 8));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Vitoselle, 7));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kutoselle, 6));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Seiskalle, 5));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kasille, 4));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Ysille, 3));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kymmenennelle, 2));
+            this.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.KaikilleOsallistujille, 1));
         }
 
         public int PisteitaVoitosta(int rankingSijoitus)

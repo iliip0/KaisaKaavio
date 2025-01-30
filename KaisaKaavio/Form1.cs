@@ -1580,25 +1580,25 @@ namespace KaisaKaavio
             {
                 if (this.kilpailu.KilpailuOnViikkokisa && this.kilpailu.RankingKisa)
                 {
-                    this.osallistujatDataGridView.SuspendLayout();
-                    this.kilpailu.Osallistujat.RaiseListChangedEvents = false;
-
                     List<Ranking.RankingPelaajaTietue> karki = null;
 
                     var sarja = this.ranking.AvaaRankingSarja(this.kilpailu, false);
-                    if (sarja != null)
+                    if (sarja != null && sarja.Asetukset.RankingKarjetRelevantteja)
                     {
                         karki = sarja.HaeRankingKarjetKilpailulle(this.ranking, this.kilpailu);
-                    }
 
-                    foreach (var p in this.kilpailu.Osallistujat)
-                    {
-                        PaivitaPelaajanRankingPisteetOsallistujalistaan(sarja, karki, p);
-                    }
+                        this.osallistujatDataGridView.SuspendLayout();
+                        this.kilpailu.Osallistujat.RaiseListChangedEvents = false;
 
-                    this.kilpailu.Osallistujat.RaiseListChangedEvents = true;
-                    this.kilpailu.Osallistujat.ResetBindings();
-                    this.osallistujatDataGridView.ResumeLayout();
+                        foreach (var p in this.kilpailu.Osallistujat)
+                        {
+                            PaivitaPelaajanRankingPisteetOsallistujalistaan(sarja, karki, p);
+                        }
+
+                        this.kilpailu.Osallistujat.RaiseListChangedEvents = true;
+                        this.kilpailu.Osallistujat.ResetBindings();
+                        this.osallistujatDataGridView.ResumeLayout();
+                    }
                 }
             }
         }

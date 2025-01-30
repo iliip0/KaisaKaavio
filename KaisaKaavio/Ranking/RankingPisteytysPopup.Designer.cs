@@ -87,6 +87,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
+            this.oletusPisteytysButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.rpOsallistuminenNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rp10NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rp9NumericUpDown)).BeginInit();
@@ -830,6 +831,20 @@
             this.peruutaButton.UseVisualStyleBackColor = true;
             this.peruutaButton.Click += new System.EventHandler(this.peruutaButton_Click);
             // 
+            // oletusPisteytysButton
+            // 
+            this.oletusPisteytysButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.oletusPisteytysButton.Image = global::KaisaKaavio.Properties.Resources.Sulje;
+            this.oletusPisteytysButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.oletusPisteytysButton.Location = new System.Drawing.Point(337, 458);
+            this.oletusPisteytysButton.Name = "oletusPisteytysButton";
+            this.oletusPisteytysButton.Padding = new System.Windows.Forms.Padding(7, 0, 0, 0);
+            this.oletusPisteytysButton.Size = new System.Drawing.Size(301, 42);
+            this.oletusPisteytysButton.TabIndex = 33;
+            this.oletusPisteytysButton.Text = "Palauta oletuspisteytys";
+            this.oletusPisteytysButton.UseVisualStyleBackColor = true;
+            this.oletusPisteytysButton.Click += new System.EventHandler(this.oletusPisteytysButton_Click);
+            // 
             // RankingPisteytysPopup
             // 
             this.AcceptButton = this.okButton;
@@ -837,6 +852,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.peruutaButton;
             this.ClientSize = new System.Drawing.Size(960, 505);
+            this.Controls.Add(this.oletusPisteytysButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.peruutaButton);
             this.Controls.Add(this.splitContainer1);
@@ -942,5 +958,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox rankingSijaisetCheckBox;
         private System.Windows.Forms.CheckBox rankingKarkiEdellisestaCheckBox;
+        private System.Windows.Forms.Button oletusPisteytysButton;
     }
 }

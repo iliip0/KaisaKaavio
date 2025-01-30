@@ -15,13 +15,16 @@ namespace KaisaKaavio.Ranking
     /// </summary>
     public partial class RankingPisteytysPopup : Form
     {
-        private RankingAsetukset asetukset = null;
+        private RankingAsetukset editoitavatAsetukset = null;
+        private RankingAsetukset oikeatAsetukset = null;
         private Font paksuPieniFontti = new Font(FontFamily.GenericSansSerif, 10.0f, FontStyle.Bold);
         private Font ohutPieniFontti = new Font(FontFamily.GenericSansSerif, 10.0f, FontStyle.Regular);
 
         public RankingPisteytysPopup(RankingAsetukset asetukset)
         {
-            this.asetukset = asetukset;
+            this.editoitavatAsetukset = new RankingAsetukset(asetukset.Laji);
+            this.editoitavatAsetukset.KopioiAsetuksista(asetukset);
+            this.oikeatAsetukset = asetukset;
 
             InitializeComponent();
 
@@ -29,6 +32,11 @@ namespace KaisaKaavio.Ranking
         }
 
         void RankingPisteytysPopup_Shown(object sender, EventArgs e)
+        {
+            AsetaUI();
+        }
+
+        private void AsetaUI()
         {
             PaivitaRankingPisteytysPelistaLiuku(RankingPisteetPelista.JokaisestaVoitosta, this.rpJokaPeliNumericUpDown);
             PaivitaRankingPisteytysPelistaLiuku(RankingPisteetPelista.EkanKierroksenVoitostaKunTokaKierrosOnPudari, this.rpEkaKierrosNumericUpDown);
@@ -48,8 +56,8 @@ namespace KaisaKaavio.Ranking
             PaivitaRankingPisteytysSijoituksestaLiuku(RankingPisteetSijoituksesta.Kymmenennelle, this.rp10NumericUpDown);
             PaivitaRankingPisteytysSijoituksestaLiuku(RankingPisteetSijoituksesta.KaikilleOsallistujille, this.rpOsallistuminenNumericUpDown);
 
-            this.rankingKarkiEdellisestaCheckBox.Checked = this.asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta;
-            this.rankingSijaisetCheckBox.Checked = this.asetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista;
+            this.rankingKarkiEdellisestaCheckBox.Checked = this.editoitavatAsetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta;
+            this.rankingSijaisetCheckBox.Checked = this.editoitavatAsetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista;
         }
 
         void okButton_Click(object sender, EventArgs e)
@@ -72,15 +80,17 @@ namespace KaisaKaavio.Ranking
             PaivitaRankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.Kymmenennelle, this.rp10NumericUpDown);
             PaivitaRankingPisteytysSijoituksesta(RankingPisteetSijoituksesta.KaikilleOsallistujille, this.rpOsallistuminenNumericUpDown);
 
-            this.asetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = this.rankingSijaisetCheckBox.Checked;
-            this.asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = this.rankingKarkiEdellisestaCheckBox.Checked;
+            this.editoitavatAsetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = this.rankingSijaisetCheckBox.Checked;
+            this.editoitavatAsetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = this.rankingKarkiEdellisestaCheckBox.Checked;
+
+            this.oikeatAsetukset.KopioiAsetuksista(this.editoitavatAsetukset);
 
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
         private void PaivitaRankingPisteytysPelistaLiuku(RankingPisteetPelista peliEhto, NumericUpDown liuku)
         {
-            var asetus = this.asetukset.PistetytysPeleista.FirstOrDefault(x => x.Ehto == peliEhto);
+            var asetus = this.editoitavatAsetukset.PistetytysPeleista.FirstOrDefault(x => x.Ehto == peliEhto);
             if (asetus != null)
             {
                 liuku.Value = (decimal)asetus.Pisteet;
@@ -93,7 +103,7 @@ namespace KaisaKaavio.Ranking
 
         private void PaivitaRankingPisteytysSijoituksestaLiuku(RankingPisteetSijoituksesta ehto, NumericUpDown liuku)
         {
-            var asetus = this.asetukset.PisteytysSijoituksista.FirstOrDefault(x => x.Ehto == ehto);
+            var asetus = this.editoitavatAsetukset.PisteytysSijoituksista.FirstOrDefault(x => x.Ehto == ehto);
             if (asetus != null)
             {
                 liuku.Value = (decimal)asetus.Pisteet;
@@ -106,14 +116,14 @@ namespace KaisaKaavio.Ranking
 
         private void PaivitaRankingPisteytysSijoituksesta(RankingPisteetSijoituksesta ehto, NumericUpDown liuku)
         {
-            var asetus = this.asetukset.PisteytysSijoituksista.FirstOrDefault(x => x.Ehto == ehto);
+            var asetus = this.editoitavatAsetukset.PisteytysSijoituksista.FirstOrDefault(x => x.Ehto == ehto);
 
             int pisteet = (int)liuku.Value;
             if (pisteet > 0)
             {
                 if (asetus == null)
                 {
-                    this.asetukset.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta()
+                    this.editoitavatAsetukset.PisteytysSijoituksista.Add(new RankingPisteytysSijoituksesta()
                     {
                         Ehto = ehto,
                         Pisteet = pisteet
@@ -128,21 +138,21 @@ namespace KaisaKaavio.Ranking
             {
                 if (asetus != null)
                 {
-                    this.asetukset.PisteytysSijoituksista.Remove(asetus);
+                    this.editoitavatAsetukset.PisteytysSijoituksista.Remove(asetus);
                 }
             }
         }
 
         private void PaivitaRankingPisteytysPelista(RankingPisteetPelista peliEhto, NumericUpDown liuku)
         {
-            var asetus = this.asetukset.PistetytysPeleista.FirstOrDefault(x => x.Ehto == peliEhto);
+            var asetus = this.editoitavatAsetukset.PistetytysPeleista.FirstOrDefault(x => x.Ehto == peliEhto);
 
             int pisteet = (int)liuku.Value;
             if (pisteet > 0)
             {
                 if (asetus == null)
                 {
-                    this.asetukset.PistetytysPeleista.Add(new RankingPisteytysPelista()
+                    this.editoitavatAsetukset.PistetytysPeleista.Add(new RankingPisteytysPelista()
                     {
                         Ehto = peliEhto,
                         Pisteet = pisteet
@@ -157,7 +167,7 @@ namespace KaisaKaavio.Ranking
             {
                 if (asetus != null)
                 {
-                    this.asetukset.PistetytysPeleista.Remove(asetus);
+                    this.editoitavatAsetukset.PistetytysPeleista.Remove(asetus);
                 }
             }
         }
@@ -183,6 +193,12 @@ namespace KaisaKaavio.Ranking
         private void peruutaButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+        }
+
+        private void oletusPisteytysButton_Click(object sender, EventArgs e)
+        {
+            this.editoitavatAsetukset.AsetaOletusasetukset(this.editoitavatAsetukset.Laji);
+            AsetaUI();
         }
     }
 }

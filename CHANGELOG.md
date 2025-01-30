@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.20		(työn alla)
+
+* Lisätty "palauta oletuspisteytys" nappi ranking pisteytyksen editointi-ikkunaan
+
 ## Versio 1.0.0.19		(julkaistu 30.1.2025)
 
 * Bugikorjaus ranking pisteytyksiin, ei osannut laskea oikein kun ranking ykkönen, kakkonen tai kolmonen ei oo kisoissa mukana
