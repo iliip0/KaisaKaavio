@@ -1892,29 +1892,32 @@ namespace KaisaKaavio
             int mukana = tulokset.Count(x => !x.Pudotettu);
 
             // Huomioidaan sijoituksissa kuinka pitkälle pelaaja pääsi (jos näin on asetettu) 
-            if (this.SijoitustenMaaraytyminen != KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista && KilpailuOnPaattynyt)
+            if (this.SijoitustenMaaraytyminen != KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista && mukana <= 2)
             {
                 var finaali = this.Pelit.LastOrDefault();
                 if (finaali != null)
                 {
-                    var finalisti = tulokset.FirstOrDefault(x => x.Pelaaja == finaali.Haviaja());
-                    if (finalisti != null)
+                    if (KilpailuOnPaattynyt)
                     {
-                        finalisti.SijoitusPisteet += 500000000;
-
-                        if (this.SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista)
+                        var finalisti = tulokset.FirstOrDefault(x => x.Pelaaja == finaali.Haviaja());
+                        if (finalisti != null)
                         {
-                            var t = tulokset
-                                .Where(x => !finaali.SisaltaaPelaajan(x.Pelaaja.Id))
-                                .OrderByDescending(x => x.PudonnutKierroksella);
+                            finalisti.SijoitusPisteet += 500000000;
+                        }
+                    }
 
-                            if (t.Count() > 0)
+                    if (this.SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista)
+                    {
+                        var t = tulokset
+                            .Where(x => !finaali.SisaltaaPelaajan(x.Pelaaja.Id))
+                            .OrderByDescending(x => x.PudonnutKierroksella);
+
+                        if (t.Count() > 0)
+                        {
+                            int pronssiKierros = t.FirstOrDefault().PudonnutKierroksella;
+                            foreach (var tt in t.Where(x => x.PudonnutKierroksella == pronssiKierros))
                             {
-                                int pronssiKierros = t.FirstOrDefault().PudonnutKierroksella;
-                                foreach (var tt in t.Where(x => x.PudonnutKierroksella == pronssiKierros))
-                                {
-                                    tt.SijoitusPisteet = 250000000;
-                                }
+                                tt.SijoitusPisteet = 250000000;
                             }
                         }
                     }
