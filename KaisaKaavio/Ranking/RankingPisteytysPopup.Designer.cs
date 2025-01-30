@@ -64,7 +64,6 @@
             this.label55 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.rankingSijaisetCheckBox = new System.Windows.Forms.CheckBox();
             this.rankingKarkiEdellisestaCheckBox = new System.Windows.Forms.CheckBox();
@@ -88,6 +87,7 @@
             this.okButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
             this.oletusPisteytysButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.rpOsallistuminenNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rp10NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rp9NumericUpDown)).BeginInit();
@@ -108,11 +108,11 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label71
@@ -522,24 +522,16 @@
             // 
             this.richTextBox1.BackColor = System.Drawing.Color.DarkGreen;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.ForeColor = System.Drawing.Color.White;
-            this.richTextBox1.Location = new System.Drawing.Point(72, 3);
+            this.richTextBox1.Location = new System.Drawing.Point(81, 14);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox1.Size = new System.Drawing.Size(869, 72);
+            this.richTextBox1.Size = new System.Drawing.Size(869, 39);
             this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.Tiedoksi;
-            this.pictureBox1.Location = new System.Drawing.Point(7, 5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 48);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.richTextBox1.Text = "Tässä ikkunassa voit määrittää miten ranking sarjassa kertyy pisteitä pelaajille." +
+    "\n";
             // 
             // splitContainer2
             // 
@@ -845,6 +837,15 @@
             this.oletusPisteytysButton.UseVisualStyleBackColor = true;
             this.oletusPisteytysButton.Click += new System.EventHandler(this.oletusPisteytysButton_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.Ranking;
+            this.pictureBox1.Location = new System.Drawing.Point(9, 14);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 48);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // RankingPisteytysPopup
             // 
             this.AcceptButton = this.okButton;
@@ -887,13 +888,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -934,7 +935,6 @@
         private System.Windows.Forms.NumericUpDown rpJokaPeliNumericUpDown;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button peruutaButton;
         private System.Windows.Forms.Button okButton;
@@ -959,5 +959,6 @@
         private System.Windows.Forms.CheckBox rankingSijaisetCheckBox;
         private System.Windows.Forms.CheckBox rankingKarkiEdellisestaCheckBox;
         private System.Windows.Forms.Button oletusPisteytysButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

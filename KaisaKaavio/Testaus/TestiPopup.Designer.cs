@@ -35,8 +35,23 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.testaaButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.mcCheckBox = new System.Windows.Forms.CheckBox();
+            this.mcAsetuksetGroupBox = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.mcKisojaNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mcMinPelaajiaNnumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mcMaxPelaajiaNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.mcAsetuksetGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mcKisojaNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcMinPelaajiaNnumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcMaxPelaajiaNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // numericUpDown1
@@ -95,7 +110,7 @@
             this.testaaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.testaaButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
             this.testaaButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.testaaButton.Location = new System.Drawing.Point(155, 128);
+            this.testaaButton.Location = new System.Drawing.Point(155, 370);
             this.testaaButton.Name = "testaaButton";
             this.testaaButton.Size = new System.Drawing.Size(117, 39);
             this.testaaButton.TabIndex = 4;
@@ -109,12 +124,162 @@
             this.peruutaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.peruutaButton.Image = global::KaisaKaavio.Properties.Resources.Peruuta;
             this.peruutaButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.peruutaButton.Location = new System.Drawing.Point(12, 128);
+            this.peruutaButton.Location = new System.Drawing.Point(12, 370);
             this.peruutaButton.Name = "peruutaButton";
             this.peruutaButton.Size = new System.Drawing.Size(127, 39);
             this.peruutaButton.TabIndex = 5;
             this.peruutaButton.Text = "Peruuta";
             this.peruutaButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.mcAsetuksetGroupBox);
+            this.groupBox2.Controls.Add(this.mcCheckBox);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Location = new System.Drawing.Point(12, 117);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(269, 247);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Monte Carlo testaus:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(245, 52);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Mikäli käytössä, testiajossa luodaan X satunnaista \r\nkilpailua ja pelataan ne läp" +
+    "i satunnaisesti. \r\nLopussa katsotaan monessako kilpailussa \r\ntuli uusintaottelu " +
+    "ennen finaalia";
+            // 
+            // mcCheckBox
+            // 
+            this.mcCheckBox.AutoSize = true;
+            this.mcCheckBox.Location = new System.Drawing.Point(20, 93);
+            this.mcCheckBox.Name = "mcCheckBox";
+            this.mcCheckBox.Size = new System.Drawing.Size(129, 17);
+            this.mcCheckBox.TabIndex = 1;
+            this.mcCheckBox.Text = "Aja Monte Carlo testi?";
+            this.mcCheckBox.UseVisualStyleBackColor = true;
+            this.mcCheckBox.CheckedChanged += new System.EventHandler(this.mcCheckBox_CheckedChanged);
+            // 
+            // mcAsetuksetGroupBox
+            // 
+            this.mcAsetuksetGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcAsetuksetGroupBox.Controls.Add(this.mcMaxPelaajiaNumericUpDown);
+            this.mcAsetuksetGroupBox.Controls.Add(this.mcMinPelaajiaNnumericUpDown);
+            this.mcAsetuksetGroupBox.Controls.Add(this.mcKisojaNumericUpDown);
+            this.mcAsetuksetGroupBox.Controls.Add(this.label5);
+            this.mcAsetuksetGroupBox.Controls.Add(this.label4);
+            this.mcAsetuksetGroupBox.Controls.Add(this.label3);
+            this.mcAsetuksetGroupBox.Location = new System.Drawing.Point(9, 116);
+            this.mcAsetuksetGroupBox.Name = "mcAsetuksetGroupBox";
+            this.mcAsetuksetGroupBox.Size = new System.Drawing.Size(251, 125);
+            this.mcAsetuksetGroupBox.TabIndex = 2;
+            this.mcAsetuksetGroupBox.TabStop = false;
+            this.mcAsetuksetGroupBox.Text = "Asetukset:";
+            this.mcAsetuksetGroupBox.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(137, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Testattavien kisojen määrä:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 57);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(127, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Pelaajia vähintään / kisa:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 83);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(121, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Pelaajia enintään / kisa:";
+            // 
+            // mcKisojaNumericUpDown
+            // 
+            this.mcKisojaNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcKisojaNumericUpDown.Location = new System.Drawing.Point(156, 29);
+            this.mcKisojaNumericUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.mcKisojaNumericUpDown.Name = "mcKisojaNumericUpDown";
+            this.mcKisojaNumericUpDown.Size = new System.Drawing.Size(86, 20);
+            this.mcKisojaNumericUpDown.TabIndex = 3;
+            this.mcKisojaNumericUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // mcMinPelaajiaNnumericUpDown
+            // 
+            this.mcMinPelaajiaNnumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcMinPelaajiaNnumericUpDown.Location = new System.Drawing.Point(156, 55);
+            this.mcMinPelaajiaNnumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.mcMinPelaajiaNnumericUpDown.Minimum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            this.mcMinPelaajiaNnumericUpDown.Name = "mcMinPelaajiaNnumericUpDown";
+            this.mcMinPelaajiaNnumericUpDown.Size = new System.Drawing.Size(86, 20);
+            this.mcMinPelaajiaNnumericUpDown.TabIndex = 4;
+            this.mcMinPelaajiaNnumericUpDown.Value = new decimal(new int[] {
+            24,
+            0,
+            0,
+            0});
+            // 
+            // mcMaxPelaajiaNumericUpDown
+            // 
+            this.mcMaxPelaajiaNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcMaxPelaajiaNumericUpDown.Location = new System.Drawing.Point(156, 81);
+            this.mcMaxPelaajiaNumericUpDown.Maximum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+            this.mcMaxPelaajiaNumericUpDown.Minimum = new decimal(new int[] {
+            17,
+            0,
+            0,
+            0});
+            this.mcMaxPelaajiaNumericUpDown.Name = "mcMaxPelaajiaNumericUpDown";
+            this.mcMaxPelaajiaNumericUpDown.Size = new System.Drawing.Size(86, 20);
+            this.mcMaxPelaajiaNumericUpDown.TabIndex = 5;
+            this.mcMaxPelaajiaNumericUpDown.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
             // 
             // TestiPopup
             // 
@@ -122,19 +287,30 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.peruutaButton;
-            this.ClientSize = new System.Drawing.Size(284, 179);
+            this.ClientSize = new System.Drawing.Size(284, 421);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.peruutaButton);
             this.Controls.Add(this.testaaButton);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(304, 464);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(304, 464);
             this.Name = "TestiPopup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Testikaavioiden ajo:";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.mcAsetuksetGroupBox.ResumeLayout(false);
+            this.mcAsetuksetGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mcKisojaNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcMinPelaajiaNnumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcMaxPelaajiaNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -147,5 +323,15 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button testaaButton;
         private System.Windows.Forms.Button peruutaButton;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox mcAsetuksetGroupBox;
+        private System.Windows.Forms.CheckBox mcCheckBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown mcMaxPelaajiaNumericUpDown;
+        private System.Windows.Forms.NumericUpDown mcMinPelaajiaNnumericUpDown;
+        private System.Windows.Forms.NumericUpDown mcKisojaNumericUpDown;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
     }
 }

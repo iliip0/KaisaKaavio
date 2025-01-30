@@ -140,5 +140,40 @@ namespace KaisaKaavio.Tyypit
 
             return s.ToString();
         }
+
+        public static string KeksiNimi(Random random)
+        {
+            string[] etunimet = 
+            { 
+                "Antti", "Anna", "Aino", "Arto", "Arhi", "Aku", "Alli", "Asku", "Asko", "Bert", "Dave", "Daalia", 
+                "Eero", "Eki", "Ensiö", "Emilia", "Elli", "Essi", "Esko", "Eerik", "Ella", "Eetu", "Fred", "Gabriel", "Heikki", 
+                "Hiski", "Hanna", "Hilkka", "Hilma", "Hannele", "Helvi", "Hannu", "Ilpo", "Ile", "Ilona", "Iivo", "Iiro", "Iiris", "Jaakko", "Jokke",
+                "Jaana", "Johanna", "Juha", "Juho", "Jens", "Klaus", "Kalle", "Kim", "Kiira", "Kaisa", "Kaija", "Keke", "Laija", "Linda",
+                "Laila",
+                "Lauri", "Late", "Mauno", "Meri", "Maarit", "Mari", "Marjut", "Mauri", "Niilo", "Niko", "Nea", "Nelli", "Olavi", "Outi", "Oula",
+                "Pete", "Paula", "Pauli", "Pieta", "Ripa", "Raija", "Risto", "Reija", "Raakel", "Sven", "Sakari", "Sulevi", "Seija", "Sanna",
+                "Taru", "Tuija", "Tero", "Timo", "Tauri", "Ulla", "Urho", "Ville", "Vili", "Veera", "Ylermi"
+            };
+
+            string[] sukunimet = 
+            {
+                "Alinen", "Autti", "Alajärvi", "Autio", "Brunhilde", "Brecht", "Croft", "Erämies", "Eskelinen", "Fränti", "Giers", 
+                "Hannula", "Hietamies", "Hämäläinen", "Hilla", "Hanski", "Hietanen", "Hietala", "Hakala", "Hautala", "Hummais", 
+                "Ilonen", "Ilola", "Jukola", "Jäntti", "Jukola", "Jukarainen", "Jämerä", "Jantunen", "Jouppi", 
+                "Janatuinen", "Joukainen", "Kivi", "Kokko", "Kekäle", "Korpi", "Korpela", "Korpinen", "Källström", 
+                "Karalahti", "Kanerva", "Kuutamo", "Kolehmainen", "Karakorpi", "Kallio", "Kilpi", "Klemetti",
+                "Kokkonen", "Kerminen", "Kurvinen", "Kielo", "Lemi", "Lemmetyinen", "Lahtela", "Lemmetyinen", "Liehu", "Lahti", "Lahtinen", "Lehterä",
+                "Liimatainen", "Manninen", "Mannila", "Mononen", "Montonen", "Niemi", "Nieminen", "Niemelä", "Naumann", 
+                "Nuotio", "Orpo", "Olli", "Ovaskainen", "Pollari", "Pajari", "Piippo", "Pusa", "Poikolainen", "Piri", "Puujärvi",
+                "Ryti", "Rantunen", "Räihä", "Räsänen", "Sukari", "Sahamies", "Säynävä", "Sieviö", "Sauri", "Tuomi",
+                "Tapani", "Tiitinen", "Uski", "Uotila", "Uotinen", "Vähäsarja", "Viertiö", "Vanhanen", "Vahanen",
+                "Virta", "Virtanen", "Väyrynen"
+            };
+
+
+            int e = random.Next(0, etunimet.Count() - 1);
+            int s = random.Next(0, sukunimet.Count() - 1);
+            return sukunimet[s] + " " + etunimet[e];
+        }
     }
 }

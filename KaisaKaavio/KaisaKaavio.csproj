@@ -156,6 +156,9 @@
     </Compile>
     <Compile Include="Sijoittaminen.cs" />
     <Compile Include="SijoitustenMaaraytyminen.cs" />
+    <Compile Include="Testaus\ITestiAjo.cs" />
+    <Compile Include="Testaus\MonteCarloTestiAjo.cs" />
+    <Compile Include="Testaus\MonteCarloTestiKilpailu.cs" />
     <Compile Include="Testaus\Profileri.cs" />
     <Compile Include="Testaus\TestiAjo.cs" />
     <Compile Include="Testaus\TestiKilpailu.cs" />

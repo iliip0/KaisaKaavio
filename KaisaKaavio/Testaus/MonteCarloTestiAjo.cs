@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace KaisaKaavio.Testaus
 {
-    /// <summary>
-    /// Testaa kaikki kilpailut kansiossa
-    /// </summary>
-    public class TestiAjo : ITestiAjo
+    public class MonteCarloTestiAjo : ITestiAjo
     {
-        public string Kansio { get; private set; }
+        public int Kisoja { get; private set; }
+        public int MinPelaajia { get; private set; }
+        public int MaxPelaajia { get; private set; }
         public int PoytienMaara { get; private set; }
         public bool SatunnainenPelienJarjestys { get; private set; }
         public int OnnistuneitaTesteja { get; set; }
@@ -21,11 +20,13 @@ namespace KaisaKaavio.Testaus
 
         private IStatusRivi status = null;
 
-        public TestiAjo(string kansio, int poytienMaara, bool satunnainenPelienJarjestys, IStatusRivi status)
+        public MonteCarloTestiAjo(int poytienMaara, bool satunnainenPelienJarjestys, int kisoja, int minPelaajia, int maxPelaajia, IStatusRivi status)
         {
             this.PoytienMaara = poytienMaara;
             this.SatunnainenPelienJarjestys = satunnainenPelienJarjestys;
-            this.Kansio = kansio;
+            this.Kisoja = kisoja;
+            this.MinPelaajia = minPelaajia;
+            this.MaxPelaajia = maxPelaajia;
             this.OnnistuneitaTesteja = 0;
             this.EpaonnistuneitaTesteja = 0;
 
@@ -34,7 +35,8 @@ namespace KaisaKaavio.Testaus
             this.VirheKansio = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
                 "KaisaKaaviot",
-                "Testit", 
+                "Testit",
+                "MonteCarlo",
                 string.Format("{0}_{1}_{2}_{3}_{4}",
                     DateTime.Now.Year,
                     DateTime.Now.Month,
@@ -47,28 +49,28 @@ namespace KaisaKaavio.Testaus
 
         public bool Aja()
         {
-            DirectoryInfo dir = new DirectoryInfo(this.Kansio);
+            Random random = new Random();
 
-            var tiedostot = dir.EnumerateFiles("*.xml", SearchOption.TopDirectoryOnly);
-
-            int i = 0;
-
-            foreach (var tiedosto in tiedostot)
+            for (int i = 0; i < this.Kisoja; ++i)
             {
-                Kilpailu testiKilpailu = new Kilpailu();
+                int pelaajia = random.Next(this.MinPelaajia, this.MaxPelaajia);
+                string nimi = string.Format("TestiKilpailu_{0}", i + 1);
 
-                string kansio = Path.Combine(this.VirheKansio, tiedosto.Name);
+                string kansio = Path.Combine(this.VirheKansio, nimi);
                 Directory.CreateDirectory(kansio);
 
                 Loki loki = new Loki(kansio);
-                testiKilpailu.Loki = loki;
-                testiKilpailu.Avaa(tiedosto.FullName, false);
 
-                TestiKilpailu testi = new TestiKilpailu(this.PoytienMaara, this.SatunnainenPelienJarjestys, loki, testiKilpailu);
+                MonteCarloTestiKilpailu testiKilpailu = new MonteCarloTestiKilpailu(
+                    nimi,
+                    this.PoytienMaara,
+                    this.SatunnainenPelienJarjestys,
+                    pelaajia,
+                    loki);
 
                 try
                 {
-                    testi.PelaaKilpailu(this.status, i * 3, tiedostot.Count() * 3);
+                    testiKilpailu.PelaaKilpailu(this.status, i * 3, this.Kisoja * 3);
                     this.OnnistuneitaTesteja++;
                 }
                 catch (Exception ee)
@@ -78,10 +80,9 @@ namespace KaisaKaavio.Testaus
                     // Tallenna epäonnistuneen ajon testikaavio tutkimuksia varten
                     try
                     {
-                        loki.Kirjoita(string.Format("Testi {0} epäonnistui: {1}", testiKilpailu.Nimi, ee.Message), ee, false);
+                        loki.Kirjoita(string.Format("Testi {0} epäonnistui: {1}", nimi, ee.Message), ee, false);
 
-                        testi.OikeaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + ".xml"), false);
-                        testi.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + "_VIRHE.xml"), false);
+                        testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_VIRHE.xml"), false);
                     }
                     catch
                     { 
