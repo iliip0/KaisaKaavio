@@ -2,10 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.19		(työn alla)
+## Versio 1.0.0.19		(julkaistu 30.1.2025)
 
 * Bugikorjaus ranking pisteytyksiin, ei osannut laskea oikein kun ranking ykkönen, kakkonen tai kolmonen ei oo kisoissa mukana
 * Bugikorjaus tulosten näyttämiseen kun kisa on kesken. Saattoi näyttää 3.sijan väärin
+* Korjattu jaetut sijat pois tulosten alkupäästä kun kilpailu on vielä kesken
 
 ## Versio 1.0.0.18		(julkaistu 29.1.2025)
 
