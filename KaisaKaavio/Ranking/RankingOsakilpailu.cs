@@ -127,15 +127,13 @@ namespace KaisaKaavio.Ranking
 
         public void PaivitaKilpailu(Ranking rankingit, Kilpailu kilpailu, RankingSarja sarja, RankingAsetukset asetukset)
         {
-            var ranking = sarja.RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
+            var kokonaisRanking = sarja.RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
 
             if (asetukset.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta &&
                 sarja.OnSarjanEnsimmainenKilpailu(kilpailu))
             {
-                ranking = rankingit.AvaaEdellinenSarja(kilpailu).RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
+                kokonaisRanking = rankingit.AvaaEdellinenSarja(kilpailu).RankingEnnenOsakilpailua(kilpailu.AlkamisAikaDt);
             }
-
-            // TODO!!! Parhaat osallistujista jos rankingkärki ei osallistu
 
             bool paattynyt = kilpailu.KilpailuOnPaattynyt;
             var tulokset = kilpailu.Tulokset();
@@ -153,13 +151,39 @@ namespace KaisaKaavio.Ranking
             }
 
             // Laitetaan rankinglistalle samat id kuin osallistujille
-            foreach (var r in ranking)
+            foreach (var r in kokonaisRanking)
             {
                 var p = Osallistujat.FirstOrDefault(x => Tyypit.Nimi.Equals(r.Nimi, x.Nimi));
                 if (p != null)
                 {
                     r.Id = p.Id;
                 }
+            }
+
+            var mukanaOlevienRanking = kokonaisRanking
+                .Where(x => Osallistujat.Any(y => y.Id == x.Id))
+                .OrderBy(x => x.KumulatiivinenSijoitus);
+
+            List<RankingPelaajaTietue> ranking = new List<RankingPelaajaTietue>();
+
+            if (asetukset.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista)
+            {
+                ranking.AddRange(mukanaOlevienRanking);
+            }
+            else 
+            {
+                ranking.AddRange(kokonaisRanking);
+            }
+
+            List<int> sijoitukset = new List<int>();
+            sijoitukset.AddRange(mukanaOlevienRanking
+                .Select(x => x.KumulatiivinenSijoitus)
+                .Distinct()
+                .OrderBy(x => x));
+
+            foreach (var m in mukanaOlevienRanking)
+            {
+                m.KumulatiivinenSijoitus = sijoitukset.IndexOf(m.KumulatiivinenSijoitus) + 1;
             }
 
             foreach (var o in this.Osallistujat)

@@ -1550,7 +1550,7 @@ namespace KaisaKaavio
                     {
                         if (!string.IsNullOrEmpty(pelaaja.Nimi))
                         {
-                            var karki = rankingKarki.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
+                            var karki = rankingKarki.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
                             if (karki != null)
                             {
                                 if (karki.KumulatiivinenSijoitus >= 1 && karki.KumulatiivinenSijoitus <= 3)
@@ -4485,7 +4485,7 @@ namespace KaisaKaavio
                     Ranking.RankingPelaajaTietue pelaaja = (Ranking.RankingPelaajaTietue)this.rankingDataGridView.Rows[rivi].DataBoundItem;
                     if (pelaaja != null)
                     {
-                        return kilpailu.Osallistujat.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Nimi, StringComparison.OrdinalIgnoreCase));
+                        return kilpailu.Osallistujat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
                     }
                 }
             }

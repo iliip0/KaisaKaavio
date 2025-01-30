@@ -1062,7 +1062,7 @@ namespace KaisaKaavio
 
                 foreach (var osallistuja in this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
                 {
-                    if (this.Osallistujat.Count(x => string.Equals(x.Nimi, osallistuja.Nimi, StringComparison.OrdinalIgnoreCase)) > 1)
+                    if (this.Osallistujat.Count(x => Tyypit.Nimi.Equals(x.Nimi, osallistuja.Nimi)) > 1)
                     {
                         virhe = string.Format("Pelaaja {0} on kahdesti osallistujalistalla", osallistuja.Nimi);
                         return false;

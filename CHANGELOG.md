@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.19		(työn alla)
+
+* Bugikorjaus ranking pisteytyksiin, ei osannut laskea oikein kun ranking ykkönen, kakkonen tai kolmonen ei oo kisoissa mukana
+
 ## Versio 1.0.0.18		(julkaistu 29.1.2025)
 
 * Lisätty testikilpailua pelatessa mahdollisuus lisätä nappia painamalla 5, 10 tai 20 pelaajaa kaavioon
