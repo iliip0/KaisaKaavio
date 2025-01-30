@@ -1994,6 +1994,13 @@ namespace KaisaKaavio
                 }
             }
 
+            // Poistetaan jaetut sijat tulosten alkupäästä, kun nimet ovat tyhjiä
+            int sija = 1;
+            foreach (var t in tulokset.Where(x => !x.SijoitusOnVarma))
+            {
+                t.Sijoitus = sija++;
+            }
+
             return tulokset;
         }
 
