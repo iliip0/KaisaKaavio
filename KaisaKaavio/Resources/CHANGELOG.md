@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.20		(työn alla)
 
 * Lisätty "palauta oletuspisteytys" nappi ranking pisteytyksen editointi-ikkunaan
+* Lisätty mahdollisuus Monte Carlo testata kaaviota generoimalla satunnaisia kisoja
 
 ## Versio 1.0.0.19		(julkaistu 30.1.2025)
 

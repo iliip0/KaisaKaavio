@@ -72,6 +72,14 @@ namespace KaisaKaavio.Testaus
                 {
                     testiKilpailu.PelaaKilpailu(this.status, i * 3, this.Kisoja * 3);
                     this.OnnistuneitaTesteja++;
+
+                    try
+                    {
+                        Directory.Delete(kansio, true);
+                    }
+                    catch
+                    { 
+                    }
                 }
                 catch (Exception ee)
                 {

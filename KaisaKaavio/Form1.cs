@@ -149,6 +149,8 @@ namespace KaisaKaavio
 
 #if DEBUG
             this.testaaToolStripMenuItem.Visible = true;
+            this.testiajoBackgroundWorker1.DoWork += testiajoBackgroundWorker1_DoWork;
+            this.testiajoBackgroundWorker1.RunWorkerCompleted += testiajoBackgroundWorker1_RunWorkerCompleted;
 #else
             this.testaaToolStripMenuItem.Visible = false;
 #endif
@@ -4026,6 +4028,46 @@ namespace KaisaKaavio
         // ========={( Ohjelman testaus )}===================================================================== //
         #region Testaus
 
+        private void testiajoBackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Enabled = true;
+        }
+
+        private void testiajoBackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var testi = (Testaus.ITestiAjo)e.Argument;
+
+            if (testi.Aja())
+            {
+                MessageBox.Show(
+                    string.Format("Testi onnistui: {0} kaaviota pelattu oikein läpi", testi.OnnistuneitaTesteja),
+                    "Testi valmis",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                    {
+                        FileName = testi.VirheKansio,
+                        UseShellExecute = true,
+                        Verb = "open"
+                    });
+                }
+                catch
+                {
+                }
+
+                MessageBox.Show(
+                    string.Format("Testi epäonnistui: {0} kaaviota pelattu virheellisesti", testi.EpaonnistuneitaTesteja),
+                    "Testi valmis",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
         private void pelaaTestikaaviotToolStripMenuItem_Click(object sender, EventArgs e)
         {
 #if DEBUG
@@ -4074,35 +4116,8 @@ namespace KaisaKaavio
                                 this);
                         }
 
-                        if (testi.Aja())
-                        {
-                            MessageBox.Show(
-                                string.Format("Testi onnistui: {0} kaaviota pelattu oikein läpi", testi.OnnistuneitaTesteja),
-                                "Testi valmis",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            try
-                            {
-                                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-                                {
-                                    FileName = testi.VirheKansio,
-                                    UseShellExecute = true,
-                                    Verb = "open"
-                                });
-                            }
-                            catch
-                            { 
-                            }
-
-                            MessageBox.Show(
-                                string.Format("Testi epäonnistui: {0} kaaviota pelattu virheellisesti", testi.EpaonnistuneitaTesteja),
-                                "Testi valmis",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-                        }
+                        this.Enabled = false;
+                        this.testiajoBackgroundWorker1.RunWorkerAsync(testi);
                     }
                     catch (Exception ex)
                     {
