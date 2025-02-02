@@ -54,8 +54,8 @@ namespace KaisaKaavio.Ranking
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();
             this.PisteytysSijoituksista = new BindingList<RankingPisteytysSijoituksesta>();
             this.Laji = KaisaKaavio.Laji.Kaisa;
-            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
-            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
+            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = false;
+            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = false;
         }
 
         public RankingAsetukset(Laji laji)
@@ -63,8 +63,8 @@ namespace KaisaKaavio.Ranking
             this.PistetytysPeleista = new BindingList<RankingPisteytysPelista>();
             this.PisteytysSijoituksista = new BindingList<RankingPisteytysSijoituksesta>();
             this.Laji = laji;
-            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
-            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
+            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = false;
+            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = false;
         }
 
         public void KopioiAsetuksista(RankingAsetukset asetukset)
@@ -99,8 +99,8 @@ namespace KaisaKaavio.Ranking
             this.PisteytysSijoituksista.Clear();
             this.PistetytysPeleista.Clear();
 
-            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = true;
-            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = true;
+            this.EnsimmaisenOsakilpailunRankingParhaatEdellisestaSarjasta = false;
+            this.KorvaaPuuttuvatRankingParhaatParhaillaPaikallaOlijoista = false;
 
             if (laji == Laji.Kaisa) // Pvk:kin siirtynyt Kaisassa "normaaliin" rankingpisteytykseen II/2025,
                                     // pelien voitosta saa kuitenkin 1p/voitettu peli, toisin kuin muissa lajeissa
