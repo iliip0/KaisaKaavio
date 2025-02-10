@@ -217,29 +217,7 @@ namespace KaisaKaavio
                     this.ViimeisimmanPaivityksenPaiva = asetukset.ViimeisimmanPaivityksenPaiva;
                     this.PaivitaAutomaattisesti = asetukset.PaivitaAutomaattisesti;
 
-                    this.Sali.Nimi = asetukset.Sali.Nimi;
-                    this.Sali.Osoite = asetukset.Sali.Osoite;
-                    this.Sali.PuhelinNumero = asetukset.Sali.PuhelinNumero;
-                    this.Sali.Seura = asetukset.Sali.Seura;
-                    this.Sali.Lyhenne = asetukset.Sali.Lyhenne;
-
-                    this.Sali.Linkit.Clear();
-                    foreach (var linkki in asetukset.Sali.Linkit)
-                    {
-                        if (!string.IsNullOrEmpty(linkki.Osoite))
-                        {
-                            this.Sali.Linkit.Add(linkki);
-                        }
-                    }
-
-                    this.Sali.Poydat.Clear();
-                    foreach (var poyta in asetukset.Sali.Poydat)
-                    {
-                        if (!string.IsNullOrEmpty(poyta.Numero))
-                        {
-                            this.Sali.Poydat.Add(poyta);
-                        }
-                    }
+                    this.Sali.KopioiSalista(asetukset.Sali);
 
                     this.Pelaajat.Clear();
                     foreach (var pelaaja in asetukset.Pelaajat)

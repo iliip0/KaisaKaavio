@@ -48,6 +48,7 @@ namespace KaisaKaavio
         private Color tummaHarmaa = Color.FromArgb(255, 100, 100, 100);
 
         private AutoCompleteStringCollection pelaajienNimet = null;
+        private AutoCompleteStringCollection pelipaikkojenNimet = null;
 
         private Brush rajaHarja = null;
         private Brush kultaHarja = null;
@@ -735,6 +736,8 @@ namespace KaisaKaavio
             this.pelaajienNimet = new AutoCompleteStringCollection();
             this.pelaajienNimet.AddRange(this.asetukset.Pelaajat.Select(x => x.Nimi).ToArray());
 
+            this.pelipaikkojenNimet = new AutoCompleteStringCollection();
+
             PaivitaStatusRivi(string.Empty, false, 0, 0);
             PaivitaArvontaTabi();
             PaivitaViimeisimmatTiedostot();
@@ -941,6 +944,7 @@ namespace KaisaKaavio
 
                     PaivitaPelaajienRankingPisteetOsallistujalistaan();
                     PaivitaSijoitusSarakkeenNakyvyys();
+                    PaivitaPelipaikkaSarakkeenNakyvyys();
 
                     this.kilpailuBindingSource.ResetBindings(false);
                     this.pelaajaBindingSource.ResetBindings(false);
@@ -1096,6 +1100,20 @@ namespace KaisaKaavio
             {
                 this.sijoitettuDataGridViewTextBoxColumn.Visible = false;
             }
+
+            this.sijoitettuDataGridViewTextBoxColumn.ReadOnly =
+                this.kilpailu.Sijoittaminen != Sijoittaminen.EiSijoittamista &&
+                this.kilpailu.KaavioArvottu;
+        }
+
+        private void PaivitaPelipaikkaSarakkeenNakyvyys()
+        {
+            this.PeliPaikkaColumn.Visible = 
+                !this.kilpailu.KilpailuOnViikkokisa &&
+                this.kilpailu.PeliPaikat.Any(x => !string.IsNullOrEmpty(x.Nimi));
+
+            this.PeliPaikkaColumn.ReadOnly =
+                this.kilpailu.KaavioArvottu;
         }
 
         #endregion
@@ -1771,15 +1789,23 @@ namespace KaisaKaavio
         /// </summary>
         private void osallistujatDataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-#if !DEBUG
             try
             {
-                EhdotaPelaajienNimia(e, osallistujatDataGridView.CurrentCell.ColumnIndex, this.nimiDataGridViewTextBoxColumn.Index);
+                if (osallistujatDataGridView.CurrentCell != null)
+                {
+                    if (osallistujatDataGridView.CurrentCell.ColumnIndex == this.PeliPaikkaColumn.Index)
+                    {
+                        EhdotaPelipaikkoja(e, osallistujatDataGridView.CurrentCell.ColumnIndex, this.PeliPaikkaColumn.Index);
+                    }
+                    else if (osallistujatDataGridView.CurrentCell.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
+                    {
+                        EhdotaPelaajienNimia(e, osallistujatDataGridView.CurrentCell.ColumnIndex, this.nimiDataGridViewTextBoxColumn.Index);
+                    }
+                }
             }
             catch
             { 
             }
-#endif
         }
 
         private void jalkiIlmoittautuneetDataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -1793,6 +1819,64 @@ namespace KaisaKaavio
             { 
             }
 #endif
+        }
+
+        private void EhdotaPelipaikkoja(DataGridViewEditingControlShowingEventArgs e, int nykySarake, int nimiSarake)
+        {
+            try
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    int column = nykySarake;
+                    if (column == nimiSarake)
+                    {
+                        if (this.kilpailu.PeliPaikat.Any(x => !string.IsNullOrEmpty(x.Nimi)))
+                        {
+                            List<string> nimet = new List<string>();
+
+                            if (!string.IsNullOrEmpty(this.asetukset.Sali.Lyhenne))
+                            {
+                                nimet.Add(this.asetukset.Sali.Lyhenne);
+                            }
+                            else if (!string.IsNullOrEmpty(this.asetukset.Sali.Nimi))
+                            {
+                                nimet.Add(this.asetukset.Sali.Nimi);
+                            }
+
+                            foreach (var sali in this.kilpailu.PeliPaikat)
+                            {
+                                if (!string.IsNullOrEmpty(sali.Lyhenne))
+                                {
+                                    nimet.Add(sali.Lyhenne);
+                                }
+                                else if (!string.IsNullOrEmpty(sali.Nimi))
+                                {
+                                    nimet.Add(sali.Nimi);
+                                }
+                            }
+
+                            this.pelipaikkojenNimet.Clear();
+                            this.pelipaikkojenNimet.AddRange(nimet.ToArray());
+
+                            tb.AutoCompleteMode = AutoCompleteMode.Suggest;
+                            tb.AutoCompleteCustomSource = this.pelipaikkojenNimet;
+                            tb.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        }
+                        else
+                        {
+                            tb.AutoCompleteMode = AutoCompleteMode.None;
+                        }
+                    }
+                    else
+                    {
+                        tb.AutoCompleteMode = AutoCompleteMode.None;
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void EhdotaPelaajienNimia(DataGridViewEditingControlShowingEventArgs e, int nykySarake, int nimiSarake)
@@ -4842,7 +4926,19 @@ namespace KaisaKaavio
                 if (e.RowIndex >= 0)
                 {
                     var rivi = peliPaikatDataGridView.Rows[e.RowIndex];
-                    //Sali sali = (Sali)
+                    Sali sali = (Sali)rivi.DataBoundItem;
+                    if (sali != null)
+                    {
+                        if (e.ColumnIndex == PelipaikanDetaljitColumn.Index)
+                        {
+                            using (var popup = new SalinTiedotPopup(sali))
+                            {
+                                popup.ShowDialog();
+                            }
+
+                            this.peliPaikatDataGridView.Refresh();
+                        }
+                    }
                 }
             }
             catch

@@ -1680,6 +1680,12 @@ namespace KaisaKaavio
         }
 
         [XmlIgnore]
+        public bool KaavioArvottu
+        {
+            get { return this.Pelit.Any(); }
+        }
+
+        [XmlIgnore]
         public bool VoiLisataPelaajia
         {
             get

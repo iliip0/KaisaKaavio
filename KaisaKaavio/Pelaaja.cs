@@ -117,6 +117,27 @@ namespace KaisaKaavio
         [XmlIgnore]
         public string IlmoittautumisNumero { get; set; }
 
+        private string peliPaikka = string.Empty;
+
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string PeliPaikka
+        {
+            get
+            {
+                return this.peliPaikka;
+            }
+
+            set
+            {
+                if (!string.Equals(this.peliPaikka, value))
+                {
+                    this.peliPaikka = value;
+                    RaisePropertyChanged("PeliPaikka");
+                }
+            }
+        }
+
         private int id = 0;
 
         [XmlAttribute]

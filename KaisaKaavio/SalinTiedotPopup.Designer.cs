@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(717, 516);
             this.Name = "SalinTiedotPopup";
             this.Text = "SalinTiedotPopup";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SalinTiedotPopup_FormClosed);
             this.ResumeLayout(false);
 
         }

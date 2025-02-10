@@ -15,6 +15,8 @@ namespace KaisaKaavio
         public SalinTiedotPanel()
         {
             InitializeComponent();
+
+            rooliDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(ToimitsijanRooli));
         }
     }
 }

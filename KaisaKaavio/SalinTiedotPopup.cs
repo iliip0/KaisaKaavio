@@ -18,6 +18,7 @@ namespace KaisaKaavio
         public SalinTiedotPopup(Sali sali)
         {
             this.sali = sali;
+            this.sali.VarmistaAinakinYksiPoyta();
 
             InitializeComponent();
 
@@ -25,8 +26,14 @@ namespace KaisaKaavio
             this.panel.poytaBindingSource.DataSource = this.sali.Poydat;
             this.panel.linkkiBindingSource.DataSource = this.sali.Linkit;
             this.panel.saliBindingSource.DataSource = this.sali;
+            this.panel.Dock = DockStyle.Fill;
 
             this.Controls.Add(panel);
+        }
+
+        private void SalinTiedotPopup_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.sali.VarmistaAinakinYksiPoyta();
         }
     }
 }
