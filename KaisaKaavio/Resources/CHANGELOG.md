@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.21		(työn alla)
+
+* Usean pelipaikan kisojen toteutus aloitettu
+
 ## Versio 1.0.0.20		(julkaistu 2.2.2025)
 
 * Lisätty "palauta oletuspisteytys" nappi ranking pisteytyksen editointi-ikkunaan

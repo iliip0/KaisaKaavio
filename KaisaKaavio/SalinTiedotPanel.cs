@@ -18,5 +18,29 @@ namespace KaisaKaavio
 
             rooliDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(ToimitsijanRooli));
         }
+
+        public void EndEditing()
+        {
+            try
+            {
+                if (this.poydatDataGridView.IsCurrentCellInEditMode)
+                {
+                    this.poydatDataGridView.EndEdit();
+                }
+
+                if (this.saliLinkitDataGridView.IsCurrentCellInEditMode)
+                {
+                    this.saliLinkitDataGridView.EndEdit();
+                }
+
+                if (this.toimitsijatDataGridView.IsCurrentCellInEditMode)
+                {
+                    this.toimitsijatDataGridView.EndEdit();
+                }
+            }
+            catch 
+            {
+            }
+        }
     }
 }

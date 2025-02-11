@@ -69,14 +69,6 @@ namespace KaisaKaavio
             this.Linkit = new BindingList<Linkki>();
             this.Poydat = new BindingList<Poyta>();
             this.Toimitsijat = new BindingList<Toimitsija>();
-
-            this.Poydat.Add(new Poyta()
-            {
-                Numero = "1",
-                Kaytossa = true,
-                StriimiLinkki = string.Empty,
-                TulosLinkki = string.Empty
-            });
         }
 
         public void KopioiSalista(Sali sali)
@@ -91,13 +83,16 @@ namespace KaisaKaavio
             this.Poydat.Clear();
             foreach (var p in sali.Poydat.Where(x => !string.IsNullOrEmpty(x.Numero)))
             {
-                this.Poydat.Add(new Poyta() 
+                if (!this.Poydat.Any(x => string.Equals(x.Numero, p.Numero)))
                 {
-                    Numero = p.Numero,
-                    Kaytossa = p.Kaytossa,
-                    StriimiLinkki = p.StriimiLinkki,
-                    TulosLinkki = p.TulosLinkki
-                });
+                    this.Poydat.Add(new Poyta()
+                    {
+                        Numero = p.Numero,
+                        Kaytossa = p.Kaytossa,
+                        StriimiLinkki = p.StriimiLinkki,
+                        TulosLinkki = p.TulosLinkki
+                    });
+                }
             }
 
             VarmistaAinakinYksiPoyta();
@@ -126,6 +121,24 @@ namespace KaisaKaavio
 
         public void VarmistaAinakinYksiPoyta()
         {
+            List<Poyta> poydat = new List<Poyta>();
+
+            foreach (var p in this.Poydat.Where(x => !string.IsNullOrEmpty(x.Numero)))
+            {
+                if (!poydat.Any(x => string.Equals(x.Numero, p.Numero)))
+                {
+                    poydat.Add(p);
+                }
+            }
+
+
+            this.Poydat.Clear();
+
+            foreach (var p in poydat.OrderBy(x => x.Numero))
+            {
+                this.Poydat.Add(p);
+            }
+
             if (!this.Poydat.Any(x => !string.IsNullOrEmpty(x.Numero)))
             {
                 this.Poydat.Clear();

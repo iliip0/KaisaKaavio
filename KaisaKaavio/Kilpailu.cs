@@ -875,8 +875,10 @@ namespace KaisaKaavio
                 this.PeliPaikat.Clear();
                 foreach (var p in kilpailu.PeliPaikat)
                 {
-                    if (!string.IsNullOrEmpty(p.Nimi))
+                    if (!string.IsNullOrEmpty(p.Nimi) &&
+                        !this.PeliPaikat.Any(x => string.Equals(x.Nimi, p.Nimi, StringComparison.OrdinalIgnoreCase)))
                     {
+                        p.VarmistaAinakinYksiPoyta();
                         this.PeliPaikat.Add(p);
                     }
                 }

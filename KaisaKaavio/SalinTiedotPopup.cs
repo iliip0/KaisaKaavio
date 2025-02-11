@@ -35,5 +35,10 @@ namespace KaisaKaavio
         {
             this.sali.VarmistaAinakinYksiPoyta();
         }
+
+        private void SalinTiedotPopup_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.panel.EndEditing();
+        }
     }
 }
