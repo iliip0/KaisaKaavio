@@ -34,6 +34,10 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string Lyhenne { get; set; }
 
+        [XmlAttribute]
+        [DefaultValue(0)]
+        public int Pelaajia { get; set; }
+
         public BindingList<Linkki> Linkit { get; set; }
 
         public BindingList<Poyta> Poydat { get; set; }
@@ -69,6 +73,7 @@ namespace KaisaKaavio
             this.Linkit = new BindingList<Linkki>();
             this.Poydat = new BindingList<Poyta>();
             this.Toimitsijat = new BindingList<Toimitsija>();
+            this.Pelaajia = 0;
         }
 
         public void KopioiSalista(Sali sali)
@@ -79,6 +84,7 @@ namespace KaisaKaavio
             this.Osoite = sali.Osoite;
             this.PuhelinNumero = sali.PuhelinNumero;
             this.Seura = sali.Seura;
+            this.Pelaajia = sali.Pelaajia;
 
             this.Poydat.Clear();
             foreach (var p in sali.Poydat.Where(x => !string.IsNullOrEmpty(x.Numero)))

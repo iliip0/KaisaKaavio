@@ -89,6 +89,12 @@
     <Compile Include="Aloitussivu\Aloitussivu.Designer.cs">
       <DependentUpon>Aloitussivu.cs</DependentUpon>
     </Compile>
+    <Compile Include="ArvontaPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ArvontaPopup.Designer.cs">
+      <DependentUpon>ArvontaPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Asetukset.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -184,6 +190,9 @@
     </Compile>
     <EmbeddedResource Include="Aloitussivu\Aloitussivu.resx">
       <DependentUpon>Aloitussivu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ArvontaPopup.resx">
+      <DependentUpon>ArvontaPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
