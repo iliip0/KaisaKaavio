@@ -142,6 +142,29 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Paikka { get; set; }
+
+        [XmlIgnore]
+        public string PaikkaTeksti 
+        {
+            get 
+            {
+                if (!string.IsNullOrEmpty(this.Paikka))
+                {
+                    return this.Paikka;
+                }
+
+                if (this.Kilpailu != null && this.Kilpailu.Sali != null)
+                {
+                    return this.Kilpailu.Sali.LyhytNimi;
+                }
+
+                return string.Empty;
+            }
+        }
+
         private PelinTilanne tilanne = PelinTilanne.Tyhja;
 
         [XmlAttribute]
@@ -433,6 +456,7 @@ namespace KaisaKaavio
             ToiseksiPisinSarja1 = string.Empty;
             PisinSarja2 = string.Empty;
             ToiseksiPisinSarja2 = string.Empty;
+            Paikka = string.Empty;
         }
 
         /// <summary>
@@ -443,7 +467,14 @@ namespace KaisaKaavio
         {
             get 
             {
-                return Kierros * 100000000 + KierrosPelaaja1 * 1000000 + Id1 * 1000 + Id2;
+                if (this.Kilpailu != null && this.Kilpailu.OnUseanPelipaikanKilpailu)
+                {
+                    return Kierros * 100000000 + this.Kilpailu.PelipaikanIndeksi(this.Paikka) * 10000000 + KierrosPelaaja1 * 1000000 + Id1 * 1000 + Id2;
+                }
+                else
+                {
+                    return Kierros * 100000000 + KierrosPelaaja1 * 1000000 + Id1 * 1000 + Id2;
+                }
             }
         }
 

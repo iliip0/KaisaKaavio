@@ -39,25 +39,25 @@
             this.pelaajatRichTextBox = new System.Windows.Forms.RichTextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pelaajatDataGridView = new System.Windows.Forms.DataGridView();
-            this.paikatSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.paikatRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.paikatDataGridView = new System.Windows.Forms.DataGridView();
-            this.PelaajiaPoytaaKohden = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.virheRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.peruutaButton = new System.Windows.Forms.Button();
-            this.okButton = new System.Windows.Forms.Button();
             this.nimiDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seuraDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sijoitettuDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peliPaikkaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pelaajaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.paikatSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.paikatRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.paikatDataGridView = new System.Windows.Forms.DataGridView();
             this.kaytossaDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lyhenneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.poytiaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pelaajiaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PelaajiaPoytaaKohden = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saliBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.virheRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.peruutaButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -77,13 +77,13 @@
             this.pelaajatSplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajatDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.paikatSplitContainer)).BeginInit();
             this.paikatSplitContainer.Panel1.SuspendLayout();
             this.paikatSplitContainer.Panel2.SuspendLayout();
             this.paikatSplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.paikatDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.saliBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -245,6 +245,48 @@
             this.pelaajatDataGridView.Size = new System.Drawing.Size(418, 374);
             this.pelaajatDataGridView.TabIndex = 0;
             // 
+            // nimiDataGridViewTextBoxColumn1
+            // 
+            this.nimiDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.nimiDataGridViewTextBoxColumn1.DataPropertyName = "Nimi";
+            this.nimiDataGridViewTextBoxColumn1.DividerWidth = 3;
+            this.nimiDataGridViewTextBoxColumn1.HeaderText = "Nimi";
+            this.nimiDataGridViewTextBoxColumn1.Name = "nimiDataGridViewTextBoxColumn1";
+            this.nimiDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // seuraDataGridViewTextBoxColumn1
+            // 
+            this.seuraDataGridViewTextBoxColumn1.DataPropertyName = "Seura";
+            this.seuraDataGridViewTextBoxColumn1.DividerWidth = 3;
+            this.seuraDataGridViewTextBoxColumn1.HeaderText = "Seura";
+            this.seuraDataGridViewTextBoxColumn1.MinimumWidth = 64;
+            this.seuraDataGridViewTextBoxColumn1.Name = "seuraDataGridViewTextBoxColumn1";
+            this.seuraDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.seuraDataGridViewTextBoxColumn1.Width = 64;
+            // 
+            // sijoitettuDataGridViewTextBoxColumn
+            // 
+            this.sijoitettuDataGridViewTextBoxColumn.DataPropertyName = "Sijoitettu";
+            this.sijoitettuDataGridViewTextBoxColumn.DividerWidth = 3;
+            this.sijoitettuDataGridViewTextBoxColumn.HeaderText = "Sijoitettu";
+            this.sijoitettuDataGridViewTextBoxColumn.MinimumWidth = 64;
+            this.sijoitettuDataGridViewTextBoxColumn.Name = "sijoitettuDataGridViewTextBoxColumn";
+            this.sijoitettuDataGridViewTextBoxColumn.ReadOnly = true;
+            this.sijoitettuDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // peliPaikkaDataGridViewTextBoxColumn
+            // 
+            this.peliPaikkaDataGridViewTextBoxColumn.DataPropertyName = "PeliPaikka";
+            this.peliPaikkaDataGridViewTextBoxColumn.HeaderText = "Ennalta määrätty pelipaikka";
+            this.peliPaikkaDataGridViewTextBoxColumn.MinimumWidth = 80;
+            this.peliPaikkaDataGridViewTextBoxColumn.Name = "peliPaikkaDataGridViewTextBoxColumn";
+            this.peliPaikkaDataGridViewTextBoxColumn.ReadOnly = true;
+            this.peliPaikkaDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // pelaajaBindingSource
+            // 
+            this.pelaajaBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
+            // 
             // paikatSplitContainer
             // 
             this.paikatSplitContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -320,102 +362,6 @@
             this.paikatDataGridView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.paikatDataGridView_EditingControlShowing);
             this.paikatDataGridView.Click += new System.EventHandler(this.paikatDataGridView_Click);
             // 
-            // PelaajiaPoytaaKohden
-            // 
-            this.PelaajiaPoytaaKohden.DataPropertyName = "PelaajiaPoytaaKohden";
-            this.PelaajiaPoytaaKohden.HeaderText = "Pelaajia / Pöytä";
-            this.PelaajiaPoytaaKohden.MinimumWidth = 92;
-            this.PelaajiaPoytaaKohden.Name = "PelaajiaPoytaaKohden";
-            this.PelaajiaPoytaaKohden.ReadOnly = true;
-            this.PelaajiaPoytaaKohden.Width = 92;
-            // 
-            // virheRichTextBox
-            // 
-            this.virheRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.virheRichTextBox.BackColor = System.Drawing.Color.Salmon;
-            this.virheRichTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.virheRichTextBox.ForeColor = System.Drawing.Color.White;
-            this.virheRichTextBox.Location = new System.Drawing.Point(181, 4);
-            this.virheRichTextBox.Name = "virheRichTextBox";
-            this.virheRichTextBox.ReadOnly = true;
-            this.virheRichTextBox.Size = new System.Drawing.Size(664, 92);
-            this.virheRichTextBox.TabIndex = 2;
-            this.virheRichTextBox.Text = "Virhe!";
-            this.virheRichTextBox.Visible = false;
-            // 
-            // peruutaButton
-            // 
-            this.peruutaButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.peruutaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.peruutaButton.Image = global::KaisaKaavio.Properties.Resources.Peruuta;
-            this.peruutaButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.peruutaButton.Location = new System.Drawing.Point(3, 3);
-            this.peruutaButton.Name = "peruutaButton";
-            this.peruutaButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.peruutaButton.Size = new System.Drawing.Size(171, 93);
-            this.peruutaButton.TabIndex = 1;
-            this.peruutaButton.Text = "Peruuta";
-            this.peruutaButton.UseVisualStyleBackColor = true;
-            // 
-            // okButton
-            // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
-            this.okButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.okButton.Location = new System.Drawing.Point(851, 3);
-            this.okButton.Name = "okButton";
-            this.okButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.okButton.Size = new System.Drawing.Size(202, 93);
-            this.okButton.TabIndex = 0;
-            this.okButton.Text = "Arvo kaavio!";
-            this.okButton.UseVisualStyleBackColor = true;
-            // 
-            // nimiDataGridViewTextBoxColumn1
-            // 
-            this.nimiDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nimiDataGridViewTextBoxColumn1.DataPropertyName = "Nimi";
-            this.nimiDataGridViewTextBoxColumn1.DividerWidth = 3;
-            this.nimiDataGridViewTextBoxColumn1.HeaderText = "Nimi";
-            this.nimiDataGridViewTextBoxColumn1.Name = "nimiDataGridViewTextBoxColumn1";
-            this.nimiDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // seuraDataGridViewTextBoxColumn1
-            // 
-            this.seuraDataGridViewTextBoxColumn1.DataPropertyName = "Seura";
-            this.seuraDataGridViewTextBoxColumn1.DividerWidth = 3;
-            this.seuraDataGridViewTextBoxColumn1.HeaderText = "Seura";
-            this.seuraDataGridViewTextBoxColumn1.MinimumWidth = 64;
-            this.seuraDataGridViewTextBoxColumn1.Name = "seuraDataGridViewTextBoxColumn1";
-            this.seuraDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.seuraDataGridViewTextBoxColumn1.Width = 64;
-            // 
-            // sijoitettuDataGridViewTextBoxColumn
-            // 
-            this.sijoitettuDataGridViewTextBoxColumn.DataPropertyName = "Sijoitettu";
-            this.sijoitettuDataGridViewTextBoxColumn.DividerWidth = 3;
-            this.sijoitettuDataGridViewTextBoxColumn.HeaderText = "Sijoitettu";
-            this.sijoitettuDataGridViewTextBoxColumn.MinimumWidth = 64;
-            this.sijoitettuDataGridViewTextBoxColumn.Name = "sijoitettuDataGridViewTextBoxColumn";
-            this.sijoitettuDataGridViewTextBoxColumn.ReadOnly = true;
-            this.sijoitettuDataGridViewTextBoxColumn.Width = 64;
-            // 
-            // peliPaikkaDataGridViewTextBoxColumn
-            // 
-            this.peliPaikkaDataGridViewTextBoxColumn.DataPropertyName = "PeliPaikka";
-            this.peliPaikkaDataGridViewTextBoxColumn.HeaderText = "Ennalta määrätty pelipaikka";
-            this.peliPaikkaDataGridViewTextBoxColumn.MinimumWidth = 80;
-            this.peliPaikkaDataGridViewTextBoxColumn.Name = "peliPaikkaDataGridViewTextBoxColumn";
-            this.peliPaikkaDataGridViewTextBoxColumn.ReadOnly = true;
-            this.peliPaikkaDataGridViewTextBoxColumn.Width = 80;
-            // 
-            // pelaajaBindingSource
-            // 
-            this.pelaajaBindingSource.DataSource = typeof(KaisaKaavio.Pelaaja);
-            // 
             // kaytossaDataGridViewCheckBoxColumn
             // 
             this.kaytossaDataGridViewCheckBoxColumn.DataPropertyName = "Kaytossa";
@@ -462,9 +408,64 @@
             this.pelaajiaDataGridViewTextBoxColumn.ReadOnly = true;
             this.pelaajiaDataGridViewTextBoxColumn.Width = 64;
             // 
+            // PelaajiaPoytaaKohden
+            // 
+            this.PelaajiaPoytaaKohden.DataPropertyName = "PelaajiaPoytaaKohden";
+            this.PelaajiaPoytaaKohden.HeaderText = "Pelaajia / Pöytä";
+            this.PelaajiaPoytaaKohden.MinimumWidth = 92;
+            this.PelaajiaPoytaaKohden.Name = "PelaajiaPoytaaKohden";
+            this.PelaajiaPoytaaKohden.ReadOnly = true;
+            this.PelaajiaPoytaaKohden.Width = 92;
+            // 
             // saliBindingSource
             // 
             this.saliBindingSource.DataSource = typeof(KaisaKaavio.Sali);
+            // 
+            // virheRichTextBox
+            // 
+            this.virheRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.virheRichTextBox.BackColor = System.Drawing.Color.Salmon;
+            this.virheRichTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.virheRichTextBox.ForeColor = System.Drawing.Color.White;
+            this.virheRichTextBox.Location = new System.Drawing.Point(181, 4);
+            this.virheRichTextBox.Name = "virheRichTextBox";
+            this.virheRichTextBox.ReadOnly = true;
+            this.virheRichTextBox.Size = new System.Drawing.Size(664, 92);
+            this.virheRichTextBox.TabIndex = 2;
+            this.virheRichTextBox.Text = "Virhe!";
+            this.virheRichTextBox.Visible = false;
+            // 
+            // peruutaButton
+            // 
+            this.peruutaButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.peruutaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.peruutaButton.Image = global::KaisaKaavio.Properties.Resources.Peruuta;
+            this.peruutaButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.peruutaButton.Location = new System.Drawing.Point(3, 3);
+            this.peruutaButton.Name = "peruutaButton";
+            this.peruutaButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.peruutaButton.Size = new System.Drawing.Size(171, 93);
+            this.peruutaButton.TabIndex = 1;
+            this.peruutaButton.Text = "Peruuta";
+            this.peruutaButton.UseVisualStyleBackColor = true;
+            // 
+            // okButton
+            // 
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
+            this.okButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.okButton.Location = new System.Drawing.Point(851, 3);
+            this.okButton.Name = "okButton";
+            this.okButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.okButton.Size = new System.Drawing.Size(202, 93);
+            this.okButton.TabIndex = 0;
+            this.okButton.Text = "Arvo kaavio!";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // ArvontaPopup
             // 
@@ -502,13 +503,13 @@
             this.pelaajatSplitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajatDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).EndInit();
             this.paikatSplitContainer.Panel1.ResumeLayout(false);
             this.paikatSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.paikatSplitContainer)).EndInit();
             this.paikatSplitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.paikatDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.saliBindingSource)).EndInit();
             this.ResumeLayout(false);
 

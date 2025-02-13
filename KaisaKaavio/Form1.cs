@@ -76,6 +76,7 @@ namespace KaisaKaavio
 
             this.loki = new Loki(this.kansio);
             this.kilpailu.Loki = this.loki;
+            this.kilpailu.Sali = this.asetukset.Sali;
 
             this.ranking.Loki = this.loki;
             this.ranking.Asetukset = this.asetukset;
@@ -987,7 +988,7 @@ namespace KaisaKaavio
                         this.pelitDataGridView.SuspendLayout();
                         this.kilpailu.Pelit.RaiseListChangedEvents = false;
 
-                        //this.peliBindingSource.SuspendBinding();
+                        this.PelinPaikkaColumn.Visible = this.kilpailu.OnUseanPelipaikanKilpailu;
 
                         this.kilpailu.PaivitaPelienTulokset();
 
@@ -1000,10 +1001,6 @@ namespace KaisaKaavio
 
                         this.kilpailu.Pelit.RaiseListChangedEvents = true;
                         this.kilpailu.Pelit.ResetBindings();
-
-                        //this.peliBindingSource.ResetBindings(false);
-
-                        //this.peliBindingSource.ResumeBinding();
                         this.pelitDataGridView.ResumeLayout();
 
                         ScrollaaPelitListanLoppuun();
@@ -1530,7 +1527,7 @@ namespace KaisaKaavio
                     var pelaaja = (Pelaaja)rivi.DataBoundItem;
                     if (pelaaja != null)
                     {
-                        if (e.ColumnIndex == 0)
+                        if (e.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
                         {
                             PaivitaOsallistujaLista();
                         }
@@ -1707,6 +1704,8 @@ namespace KaisaKaavio
                     }
                     else
                     {
+                        this.kilpailu.PeruutaArvonta();
+
                         MessageBox.Show(
                             string.Format("Kaavion arpominen ei onnistunut: {0}", virhe),
                             "Virhe",
@@ -2080,7 +2079,6 @@ namespace KaisaKaavio
                         this.kilpailu.PaivitaPelitValmiinaAlkamaan();
 
                         this.kilpailu.Pelit.RaiseListChangedEvents = true;
-                        //this.kilpailu.Pelit.ResetBindings();
                     }
 
                     this.pelitDataGridView.ResumeLayout();

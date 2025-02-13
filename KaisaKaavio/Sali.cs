@@ -38,6 +38,12 @@ namespace KaisaKaavio
         [DefaultValue(0)]
         public int Pelaajia { get; set; }
 
+        [XmlIgnore]
+        public int MinPelaajaId = 0;
+
+        [XmlIgnore]
+        public int MaxPelaajaId = 0;
+
         public BindingList<Linkki> Linkit { get; set; }
 
         public BindingList<Poyta> Poydat { get; set; }

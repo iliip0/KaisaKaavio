@@ -58,6 +58,9 @@ namespace KaisaKaavio
         public bool TestiKilpailu { get; set; }
 
         [XmlIgnore]
+        public Sali Sali { get; set; }
+
+        [XmlIgnore]
         public Ranking.RankingOsakilpailuTietue RankingOsakilpailu { get; set; }
 
         [XmlIgnore]
@@ -294,6 +297,8 @@ namespace KaisaKaavio
             TallennusTarvitaan = false;
 
             TestiKilpailu = false;
+
+            this.Sali = null;
         }
 
 #region Pelit
@@ -449,6 +454,15 @@ namespace KaisaKaavio
 
         private PelinTilanne LisaaPeli(Pelaaja pelaaja, int kierros1, Pelaaja vastustaja, int kierros2)
         {
+            string paikka = pelaaja.PeliPaikka;
+
+#if DEBUG
+            if (!string.Equals(pelaaja.PeliPaikka, vastustaja.PeliPaikka))
+            {
+                paikka = string.Format("{0}/{1}", pelaaja.PeliPaikka, vastustaja.PeliPaikka);
+            }
+#endif
+
             Peli peli = new Peli()
             {
                 Kierros = Math.Max(kierros1, kierros2),
@@ -464,7 +478,8 @@ namespace KaisaKaavio
                 Pisteet2 = string.Empty,
                 Poyta = string.Empty,
                 Tilanne = PelinTilanne.Tyhja,
-                PaivitaRivinUlkoasu = true
+                PaivitaRivinUlkoasu = true,
+                Paikka = paikka
             };
 
             if (TarkistaVoikoPeliAlkaa(peli))
@@ -1048,6 +1063,18 @@ namespace KaisaKaavio
             this.JalkiIlmoittautuneet.Clear();
         }
 
+        public void PeruutaArvonta()
+        {
+            this.Pelit.Clear();
+
+            foreach (var o in this.Osallistujat)
+            {
+                o.Id = -1;
+            }
+
+            PaivitaOsallistujatJarjestyksessa();
+        }
+
         public bool ArvoKaavio(out string virhe)
         {
 #if PROFILE
@@ -1059,6 +1086,7 @@ namespace KaisaKaavio
                 if (Pelit.Any(x => (x.Kierros > 1) && (x.Tilanne == PelinTilanne.Pelattu || x.Tilanne == PelinTilanne.Kaynnissa)))
                 {
                     this.Loki.Kirjoita("Kaavion arpominen ei ole mahdollista enää toisen kierroksen alettua");
+                    virhe = "Kaavion arpominen ei ole mahdollista enää toisen kierroksen alettua";
                     return false;
                 }
 
@@ -1074,7 +1102,7 @@ namespace KaisaKaavio
                 PoistaTyhjatOsallistujat();
                 PoistaTyhjatPelit(1);
 
-                if (!KilpailuOnViikkokisa &&
+                if (this.Sijoittaminen != KaisaKaavio.Sijoittaminen.EiSijoittamista &&
                     this.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Sijoitettu)) &&
                     !this.Osallistujat.Any(x => x.Id > 0))
                 {
@@ -1085,12 +1113,227 @@ namespace KaisaKaavio
                     ArvoPelaajienIdt();
                 }
 
+                if (this.OnUseanPelipaikanKilpailu)
+                {
+                    if (!AsetaPelipaikatPelaajille(out virhe))
+                    {
+                        return false;
+                    }
+                }
+                
                 PaivitaOsallistujatJarjestyksessa();
 
-                var tulos = HaeAlkukierrokset(out virhe);
+                if (this.OnUseanPelipaikanKilpailu)
+                {
+                    return HaeAlkukierroksetUseanPelipaikanKisaan(out virhe);
+                }
+                else
+                {
+                    return HaeAlkukierroksetYhdenPelipaikanKisaan(out virhe);
+                }
+            }
+        }
 
+        public int PelipaikanIndeksi(string pelipaikka)
+        {
+            if (string.IsNullOrEmpty(pelipaikka))
+            {
+                return 0;
+            }
 
-                return tulos;
+            int indeksi = 1;
+            foreach (var p in this.PeliPaikat.Where(x => x.Kaytossa))
+            {
+                if (string.Equals(pelipaikka, p.LyhytNimi, StringComparison.OrdinalIgnoreCase))
+                {
+                    return indeksi;
+                }
+                indeksi++;
+            }
+
+            return indeksi;
+        }
+
+        private int PelaajanPaikkaOsakaaviossa(Pelaaja pelaaja, List<Sali> salit)
+        {
+            var sali = salit.FirstOrDefault(x => pelaaja.Id >= x.MinPelaajaId && pelaaja.Id <= x.MaxPelaajaId);
+            if (sali == null)
+            {
+                return pelaaja.Id;
+            }
+
+            return pelaaja.Id - sali.MinPelaajaId;
+        }
+
+        private bool VaarassaPaikassa(Pelaaja pelaaja, List<Sali> salit)
+        {
+            if (string.IsNullOrEmpty(pelaaja.PeliPaikka))
+            {
+                return false;
+            }
+
+            var s = salit.FirstOrDefault(x => string.Equals(pelaaja.PeliPaikka, x.LyhytNimi, StringComparison.OrdinalIgnoreCase));
+            if (s == null)
+            {
+                return false;
+            }
+
+            return pelaaja.Id < s.MinPelaajaId || pelaaja.Id > s.MaxPelaajaId;
+        }
+
+        private bool AsetaPelipaikatPelaajille(out string virhe)
+        {
+            int max = 0;
+
+            if (this.Sali != null)
+            {
+                this.Sali.MinPelaajaId = 1;
+                this.Sali.MaxPelaajaId = this.Sali.Pelaajia;
+                max = this.Sali.MaxPelaajaId;
+            }
+
+            foreach (var s in this.PeliPaikat.Where(x => x.Kaytossa))
+            {
+                s.MinPelaajaId = max + 1;
+                s.MaxPelaajaId = s.MinPelaajaId + s.Pelaajia;
+                max = s.MaxPelaajaId;
+            }
+
+            List<Sali> salit = new List<Sali>();
+
+            if (this.Sali != null)
+            {
+                salit.Add(this.Sali);
+            }
+
+            salit.AddRange(this.PeliPaikat.Where(x => x.Kaytossa));
+
+            Dictionary<Pelaaja, Sali> pelaajatVaarallaSalilla = new Dictionary<Pelaaja, Sali>();
+
+            // Varmista, että pelaajat joilla on ennalta määrätty pelipaikka päätyvät oikealle salille
+            foreach (var pelaaja in this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.PeliPaikka)))
+            {
+                var s = salit.FirstOrDefault(x => string.Equals(pelaaja.PeliPaikka, x.LyhytNimi, StringComparison.OrdinalIgnoreCase));
+                if (s == null)
+                {
+                    if (this.PeliPaikat.Any(x => string.Equals(x.LyhytNimi, pelaaja.PeliPaikka, StringComparison.OrdinalIgnoreCase)
+                        && !x.Kaytossa))
+                    {
+                        pelaaja.PeliPaikka = string.Empty;
+                    }
+                    else
+                    {
+                        virhe = string.Format("Pelaajalle ennaltamäärättyä pelipaikkaa '{0}' ei löydy pelipaikoista", pelaaja.PeliPaikka);
+                        return false;
+                    }
+                }
+                else if (pelaaja.Id < s.MinPelaajaId || pelaaja.Id > s.MaxPelaajaId)
+                {
+                    pelaajatVaarallaSalilla.Add(pelaaja, s);
+                }
+            }
+
+            while (pelaajatVaarallaSalilla.Any())
+            {
+                var pelaaja = pelaajatVaarallaSalilla.OrderBy(x => string.IsNullOrEmpty(x.Key.Sijoitettu) ? 1 : 0).First();
+                pelaajatVaarallaSalilla.Remove(pelaaja.Key);
+                if (!VaihdaPelaajaOikealleSalille(pelaaja.Key, pelaaja.Value, pelaajatVaarallaSalilla, salit, out virhe))
+                {
+                    return false;
+                }
+            }
+
+            // Aseta lopulliset salipaikat
+            foreach (var s in salit)
+            {
+                foreach (var p in this.Osallistujat.Where(x => x.Id >= s.MinPelaajaId && x.Id <= s.MaxPelaajaId))
+                {
+                    p.PeliPaikka = s.LyhytNimi;
+                }
+            }
+
+            virhe = string.Empty;
+            return true;
+        }
+
+        private bool VaihdaPelaajaOikealleSalille(
+            Pelaaja pelaaja, 
+            Sali sali,
+            Dictionary<Pelaaja, Sali> pelaajatVaarallaPaikalla, 
+            List<Sali> salit,
+            out string virhe)
+        {
+            List<Pelaaja> vaihtopelaajat = new List<Pelaaja>();
+
+            foreach (var o in this.Osallistujat)
+            {
+                if (o.Id >= sali.MinPelaajaId && o.Id <= sali.MaxPelaajaId)
+                {
+                    if (!string.IsNullOrEmpty(o.PeliPaikka) && string.Equals(o.PeliPaikka, sali.LyhytNimi, StringComparison.OrdinalIgnoreCase))
+                    {
+                    }
+                    else 
+                    {
+                        vaihtopelaajat.Add(o);
+                    }
+                }
+            }
+
+            Pelaaja parasVaihto = null;
+            int parhaatPisteet = 0;
+
+            int pelaajanPaikka = PelaajanPaikkaOsakaaviossa(pelaaja, salit);
+
+            foreach (var vaihtopelaaja in vaihtopelaajat)
+            {
+                int pisteet = 0;
+
+                int vaihtopelaajanPaikka = PelaajanPaikkaOsakaaviossa(vaihtopelaaja, salit);
+
+                int paikkaEtaisyys = Math.Abs(pelaajanPaikka - vaihtopelaajanPaikka);
+
+                if (paikkaEtaisyys < 5)
+                {
+                    pisteet += 5 - paikkaEtaisyys; // Vaihda mielellään samasta kohtaa kaavioita pelaajat keskenään
+                }
+
+                if (!string.IsNullOrEmpty(pelaaja.Sijoitettu) && !string.IsNullOrEmpty(vaihtopelaaja.Sijoitettu))
+                {
+                    pisteet += 1000; // Vaihda sijoitettu pelaaja mielellään toisen sijoitetun pelaajan kanssa
+                }
+
+                if (string.IsNullOrEmpty(pelaaja.Sijoitettu) != string.IsNullOrEmpty(vaihtopelaaja.Sijoitettu))
+                {
+                    pisteet -= 100000; // Älä ikinä vaihda sijoitetun ja ei-sijoitetun pelaajan paikkaa
+                }
+
+                if (pisteet > parhaatPisteet)
+                {
+                    parasVaihto = vaihtopelaaja;
+                    parhaatPisteet = pisteet;
+                }
+            }
+
+            if (parasVaihto != null)
+            {
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("Vaihdettiin pelaajien {0} ja {1} paikat kaaviossa jotta aiempi saadaan oikealle salille", 
+                        pelaaja.Nimi,
+                        parasVaihto.Nimi));
+                }
+
+                int temp = parasVaihto.Id;
+                parasVaihto.Id = pelaaja.Id;
+                pelaaja.Id = temp;
+
+                virhe = string.Empty;
+                return true;
+            }
+            else
+            {
+                virhe = string.Format("Pelaajien vaihto pelipaikan varmistamiseksi ei onnistunut pelaajalle {0}", pelaaja.Nimi);
+                return false;
             }
         }
 
@@ -1307,6 +1550,29 @@ namespace KaisaKaavio
                     return;
                 }
             }
+        }
+
+        private bool HaeAlkukierroksetYhdenPelipaikanKisaan(out string virhe)
+        {
+            return HaeAlkukierrokset(out virhe);
+        }
+
+        private bool HaeAlkukierroksetUseanPelipaikanKisaan(out string virhe)
+        {
+            var osakilpailut = Osakilpailut();
+
+            foreach (var osakilpailu in osakilpailut)
+            {
+                if (!osakilpailu.HaeAlkukierroksetYhdenPelipaikanKisaan(out virhe))
+                {
+                    return false;
+                }
+            }
+
+            PaivitaOsakilpailujenHaut(osakilpailut);
+
+            virhe = string.Empty;
+            return true;
         }
 
         private bool HaeAlkukierrokset(out string virhe)
@@ -2294,6 +2560,149 @@ namespace KaisaKaavio
             PaivitaPelinumerot();
 
             this.HakuTarvitaan = true;
+        }
+
+        public List<Sali> Salit()
+        {
+            List<Sali> salit = new List<Sali>();
+
+            if (this.Sali != null)
+            {
+                salit.Add(this.Sali);
+            }
+
+            salit.AddRange(this.PeliPaikat.Where(x => x.Kaytossa));
+
+            return salit;
+        }
+
+        /// <summary>
+        /// Luo jokaiselle pelipaikalle oman osakilpailunsa kilpailun tämänhetkisen tilanteen perusteella
+        /// </summary>
+        public List<Kilpailu> Osakilpailut()
+        {
+            List<Kilpailu> osakilpailut = new List<Kilpailu>();
+
+            var salit = Salit();
+
+            bool oletusSali = true;
+
+            foreach (var sali in salit)
+            {
+                Kilpailu osakilpailu = new Kilpailu() 
+                {
+                   KaavioTyyppi = this.KaavioTyyppi,
+                   KilpailunTyyppi = this.KilpailunTyyppi,
+                   KilpaSarja = this.KilpaSarja,
+                   Laji = this.Laji,
+                   Nimi = this.Nimi,
+                   TavoitePistemaara = this.TavoitePistemaara,
+                   TestiKilpailu = this.TestiKilpailu,
+                   Loki = this.Loki,
+                   Sijoittaminen = this.Sijoittaminen,
+                };
+
+                foreach (var pelaaja in this.Osallistujat.Where(x => x.Id >= 0))
+                {
+                    if (oletusSali)
+                    {
+                        if (string.IsNullOrEmpty(pelaaja.PeliPaikka) || string.Equals(pelaaja.PeliPaikka, sali.LyhytNimi))
+                        {
+                            osakilpailu.Osallistujat.Add(new Pelaaja() 
+                            {
+                                Id = pelaaja.Id,
+                                Nimi = pelaaja.Nimi,
+                            });
+                        }
+                    }
+                    else 
+                    {
+                        if (string.Equals(pelaaja.PeliPaikka, sali.LyhytNimi))
+                        {
+                            osakilpailu.Osallistujat.Add(new Pelaaja()
+                            {
+                                Id = pelaaja.Id,
+                                Nimi = pelaaja.Nimi,
+                            });
+                        }
+                    }
+                }
+
+                osakilpailu.PaivitaOsallistujatJarjestyksessa();
+
+                foreach (var peli in this.Pelit)
+                {
+                    if (oletusSali)
+                    {
+                        if (string.IsNullOrEmpty(peli.Paikka) || string.Equals(peli.Paikka, sali.LyhytNimi))
+                        {
+                            osakilpailu.Pelit.Add(new Peli() 
+                            {
+                                PelaajaId1 = peli.PelaajaId1,
+                                PelaajaId2 = peli.PelaajaId2,
+                                KierrosPelaaja1 = peli.KierrosPelaaja1,
+                                KierrosPelaaja2 = peli.KierrosPelaaja2,
+                                Kierros = peli.Kierros,
+                                Kilpailu = osakilpailu,
+                                PeliNumero = peli.PeliNumero,
+                                Pisteet1 = peli.Pisteet1,
+                                Pisteet2 = peli.Pisteet2,
+                                Tilanne = peli.Tilanne,
+                                Tulos = peli.Tulos
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (string.Equals(peli.Paikka, sali.LyhytNimi))
+                        {
+                            osakilpailu.Pelit.Add(new Peli()
+                            {
+                                PelaajaId1 = peli.PelaajaId1,
+                                PelaajaId2 = peli.PelaajaId2,
+                                KierrosPelaaja1 = peli.KierrosPelaaja1,
+                                KierrosPelaaja2 = peli.KierrosPelaaja2,
+                                Kierros = peli.Kierros,
+                                Kilpailu = osakilpailu,
+                                PeliNumero = peli.PeliNumero,
+                                Pisteet1 = peli.Pisteet1,
+                                Pisteet2 = peli.Pisteet2,
+                                Tilanne = peli.Tilanne,
+                                Tulos = peli.Tulos
+                            });
+                        }
+                    }
+                }
+
+                osakilpailut.Add(osakilpailu);
+
+                oletusSali = false;
+            }
+
+            return osakilpailut;
+        }
+
+        public void PaivitaOsakilpailujenHaut(List<Kilpailu> osakilpailut)
+        {
+            foreach (var osakilpailu in osakilpailut)
+            {
+                foreach (var peli in osakilpailu.Pelit)
+                {
+                    if (!this.Pelit.Any(x => 
+                        x.Id1 == peli.Id1 &&
+                        x.Id2 == peli.Id2 &&
+                        x.Kierros == peli.Kierros &&
+                        x.KierrosPelaaja1 == peli.KierrosPelaaja1 &&
+                        x.KierrosPelaaja2 == peli.KierrosPelaaja2))
+                    {
+                        this.LisaaPeli(
+                            this.Osallistujat.First(x => x.Id == peli.Id1),
+                            peli.KierrosPelaaja1,
+                            this.Osallistujat.First(x => x.Id == peli.Id2),
+                            peli.KierrosPelaaja2);
+                    }
+                }
+            }
         }
     }
 }

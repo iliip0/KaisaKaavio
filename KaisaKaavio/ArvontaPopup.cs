@@ -21,8 +21,6 @@ namespace KaisaKaavio
         private List<string> virheet = new List<string>();
         private List<string> varoitukset = new List<string>();
 
-        private bool alustettu = false;
-
         public ArvontaPopup(Sali sali, Kilpailu kilpailu, Loki loki)
         {
             this.kilpailu = kilpailu;
@@ -296,8 +294,13 @@ namespace KaisaKaavio
 
         private void ArvontaPopup_Shown(object sender, EventArgs e)
         {
-            this.alustettu = true;
             this.paikatDataGridView.Rows[0].Cells[0].ReadOnly = true;
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.Close();
         }
     }
 }
