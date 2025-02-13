@@ -45,6 +45,45 @@ namespace KaisaKaavio
         public BindingList<Toimitsija> Toimitsijat { get; set; }
 
         [XmlIgnore]
+        public decimal PelaajiaPoytaaKohden
+        {
+            get
+            {
+                if (PoytiaKaytettavissa > 0)
+                {
+                    return (decimal)(((int)(((decimal)Pelaajia / PoytiaKaytettavissa) * 10)) / (decimal)10);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public string LyhytNimi
+        {
+            get 
+            {
+                if (!string.IsNullOrEmpty(this.Lyhenne))
+                {
+                    return this.Lyhenne;
+                }
+
+                return this.Nimi;
+            }
+        }
+
+        [XmlIgnore]
+        public bool Tyhja
+        {
+            get 
+            {
+                return string.IsNullOrEmpty(this.Nimi) && string.IsNullOrEmpty(this.Lyhenne);
+            }
+        }
+
+        [XmlIgnore]
         public int Poytia 
         { 
             get 

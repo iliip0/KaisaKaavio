@@ -586,7 +586,10 @@ namespace KaisaKaavio
             this.rankkarienMaaraLabel.Visible = this.kilpailu.Laji == Laji.Kaisa;
             this.rankkarienMaaraNumericUpDown.Visible = this.kilpailu.Laji == Laji.Kaisa;
 
-            this.kabikeMaksuDataGridViewTextBoxColumn.Visible = (this.kilpailu.Laji == Laji.Kaisa) && (!this.kilpailu.KilpailuOnViikkokisa);
+            this.kabikeMaksuDataGridViewTextBoxColumn.Visible =
+                (this.kilpailu.Laji == Laji.Kaisa) &&
+                (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu ||
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu);
             this.piilotaToinenKierrosCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
 
             this.rankingKisaCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
@@ -1523,30 +1526,33 @@ namespace KaisaKaavio
                 if (e.RowIndex >= 0)
                 {
                     var rivi = this.osallistujatDataGridView.Rows[e.RowIndex];
+
                     var pelaaja = (Pelaaja)rivi.DataBoundItem;
-
-                    if (e.ColumnIndex == 0)
+                    if (pelaaja != null)
                     {
-                        PaivitaOsallistujaLista();
-                    }
-
-                    if (e.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
-                    {
-                        PaivitaPelaajienRankingPisteetOsallistujalistaan();
-
-                        var tietue = this.asetukset.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
-                        if (tietue != null)
+                        if (e.ColumnIndex == 0)
                         {
-                            pelaaja.Nimi = Tyypit.Nimi.MuotoileNimi(pelaaja.Nimi);
-                            pelaaja.Seura = tietue.Seura;
-
-                            if (this.kilpailu.KilpailuOnTasurikisa)
-                            {
-                                pelaaja.Tasoitus = tietue.Tasoitus(this.kilpailu.Laji);
-                            }
+                            PaivitaOsallistujaLista();
                         }
-                        else
+
+                        if (e.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
                         {
+                            PaivitaPelaajienRankingPisteetOsallistujalistaan();
+
+                            var tietue = this.asetukset.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
+                            if (tietue != null)
+                            {
+                                pelaaja.Nimi = Tyypit.Nimi.MuotoileNimi(pelaaja.Nimi);
+                                pelaaja.Seura = tietue.Seura;
+
+                                if (this.kilpailu.KilpailuOnTasurikisa)
+                                {
+                                    pelaaja.Tasoitus = tietue.Tasoitus(this.kilpailu.Laji);
+                                }
+                            }
+                            else
+                            {
+                            }
                         }
                     }
                 }
@@ -1663,6 +1669,19 @@ namespace KaisaKaavio
 
                 try
                 {
+                    if (this.kilpailu.OnUseanPelipaikanKilpailu ||
+                        this.kilpailu.Sijoittaminen != Sijoittaminen.EiSijoittamista)
+                    { 
+                        using (var arvontaPopup = new ArvontaPopup(this.asetukset.Sali, this.kilpailu, this.loki))
+                        {
+                            if (arvontaPopup.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+                            {
+                                this.loki.Kirjoita("Arvonta peruttu tietoja tarkistettaessa");
+                                return;
+                            }
+                        }
+                    }
+
                     this.arvontaKaynnissa = true;
 
                     this.kilpailu.Osallistujat.RaiseListChangedEvents = false;
@@ -1671,9 +1690,6 @@ namespace KaisaKaavio
                     this.osallistujatDataGridView.SuspendLayout();
                     this.pelitDataGridView.SuspendLayout();
                     
-                    //this.peliBindingSource.SuspendBinding();
-                    //this.pelaajaBindingSource.SuspendBinding();
-
                     this.loki.Kirjoita("Arvotaan kaavio...", null, false);
 
                     string virhe = string.Empty;
@@ -1712,8 +1728,6 @@ namespace KaisaKaavio
                     this.kilpailu.Pelit.RaiseListChangedEvents = true;
                     this.kilpailu.Pelit.ResetBindings();
 
-                    //this.pelaajaBindingSource.ResumeBinding();
-                    //this.peliBindingSource.ResumeBinding();
                     this.pelitDataGridView.ResumeLayout();
                     this.osallistujatDataGridView.ResumeLayout();
 
@@ -1831,29 +1845,15 @@ namespace KaisaKaavio
                     int column = nykySarake;
                     if (column == nimiSarake)
                     {
-                        if (this.kilpailu.PeliPaikat.Any(x => !string.IsNullOrEmpty(x.Nimi)))
+                        if (this.kilpailu.PeliPaikat.Any(x => !x.Tyhja))
                         {
                             List<string> nimet = new List<string>();
 
-                            if (!string.IsNullOrEmpty(this.asetukset.Sali.Lyhenne))
-                            {
-                                nimet.Add(this.asetukset.Sali.Lyhenne);
-                            }
-                            else if (!string.IsNullOrEmpty(this.asetukset.Sali.Nimi))
-                            {
-                                nimet.Add(this.asetukset.Sali.Nimi);
-                            }
+                            nimet.Add(this.asetukset.Sali.LyhytNimi);
 
                             foreach (var sali in this.kilpailu.PeliPaikat)
                             {
-                                if (!string.IsNullOrEmpty(sali.Lyhenne))
-                                {
-                                    nimet.Add(sali.Lyhenne);
-                                }
-                                else if (!string.IsNullOrEmpty(sali.Nimi))
-                                {
-                                    nimet.Add(sali.Nimi);
-                                }
+                                nimet.Add(sali.LyhytNimi);
                             }
 
                             this.pelipaikkojenNimet.Clear();

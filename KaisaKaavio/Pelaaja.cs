@@ -73,6 +73,20 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlIgnore]
+        public int SijoitusNumero
+        {
+            get
+            {
+                int numero = Int32.MaxValue;
+                if (!string.IsNullOrEmpty(this.sijoitettu))
+                {
+                    Int32.TryParse(this.sijoitettu, out numero);
+                }
+                return numero;
+            }
+        }
+
         private string tasoitus = string.Empty;
 
         [XmlAttribute]

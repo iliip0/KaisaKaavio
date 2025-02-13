@@ -1858,6 +1858,15 @@ namespace KaisaKaavio
         }
 
         [XmlIgnore]
+        public bool OnUseanPelipaikanKilpailu
+        {
+            get
+            {
+                return this.PeliPaikat.Any(x => !x.Tyhja);
+            }
+        }
+
+        [XmlIgnore]
         public bool KilpailuOnPaattynyt
         {
             get 
