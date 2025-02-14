@@ -57,7 +57,7 @@ namespace KaisaKaavio
         private Pen rajaKyna = null;
         private Pen paksuRajaKyna = null;
 
-        private HakuAlgoritmi haku = null;
+        private IHakuAlgoritmi haku = null;
 
         private bool kilpailunLatausKaynnissa = false; // 
         private bool arvontaKaynnissa = false;
@@ -1110,7 +1110,7 @@ namespace KaisaKaavio
         {
             this.PeliPaikkaColumn.Visible = 
                 !this.kilpailu.KilpailuOnViikkokisa &&
-                this.kilpailu.PeliPaikat.Any(x => !string.IsNullOrEmpty(x.Nimi));
+                this.kilpailu.PeliPaikat.Any(x => !x.Tyhja);
 
             this.PeliPaikkaColumn.ReadOnly =
                 this.kilpailu.KaavioArvottu;
@@ -1260,7 +1260,7 @@ namespace KaisaKaavio
         {
             try
             {
-                HakuAlgoritmi algoritmi = (HakuAlgoritmi)e.Argument;
+                IHakuAlgoritmi algoritmi = (IHakuAlgoritmi)e.Argument;
                 algoritmi.Hae();
                 e.Result = algoritmi;
             }
@@ -1272,7 +1272,7 @@ namespace KaisaKaavio
 
         void hakuBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            HakuAlgoritmi algoritmi = (HakuAlgoritmi)e.Result;
+            IHakuAlgoritmi algoritmi = (IHakuAlgoritmi)e.Result;
 
             lock (this.kilpailu)
             {
@@ -1291,7 +1291,7 @@ namespace KaisaKaavio
             this.haku = null;
         }
 
-        private void PaivitaHaku(HakuAlgoritmi algoritmi)
+        private void PaivitaHaku(IHakuAlgoritmi algoritmi)
         {
             if (algoritmi == null ||
                 algoritmi.HakuVirhe != null ||
@@ -1315,6 +1315,8 @@ namespace KaisaKaavio
                 this.pelitDataGridView.Enabled = false;
                 this.pelitDataGridView.SuspendLayout();
 
+                this.kilpailu.Pelit.RaiseListChangedEvents = false;
+
                 lock (this.kilpailu)
                 {
                     foreach (var peli in algoritmi.UudetPelit)
@@ -1327,6 +1329,9 @@ namespace KaisaKaavio
                         this.kilpailu.HakuTarvitaan = true;
                     }
                 }
+
+                this.kilpailu.Pelit.RaiseListChangedEvents = true;
+                this.kilpailu.Pelit.ResetBindings();
 
                 this.pelitDataGridView.ResumeLayout();
                 this.pelitDataGridView.Enabled = true;
@@ -3338,7 +3343,7 @@ namespace KaisaKaavio
                         poistettavaPeli.Tilanne != PelinTilanne.Pelattu &&
                         poistettavaPeli.Tilanne != PelinTilanne.Kaynnissa)
                     {
-                        this.kilpailu.PoistaPeli(poistettavaPeli);
+                        this.kilpailu.PoistaPeli(poistettavaPeli, true);
 
                         this.loki.Kirjoita(string.Format("Poistettiin peli {0} kaaviosta manuaalisesti", poistettavaPeli.Kuvaus()));
 

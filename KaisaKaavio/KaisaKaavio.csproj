@@ -103,6 +103,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="HakuAlgoritmi.cs" />
+    <Compile Include="IHakuAlgoritmi.cs" />
     <Compile Include="IStatusRivi.cs" />
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kayttoliittyma\Mukauttaja.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Tyypit\Nimi.cs" />
     <Compile Include="Tyypit\Teksti.cs" />
     <Compile Include="Tyypit\Tiedosto.cs" />
+    <Compile Include="UseanPelipaikanHakuAlgoritmi.cs" />
     <Compile Include="UusiKilpailuPopup.cs">
       <SubType>Form</SubType>
     </Compile>

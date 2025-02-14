@@ -312,12 +312,16 @@ namespace KaisaKaavio
             Pelit.Add(peli);
         }
 
-        public void PoistaPeli(Peli peli)
+        public void PoistaPeli(Peli peli, bool nollaaKilpailu)
         {
             Pelit.Remove(peli);
 
             peli.PropertyChanged -= Kilpailu_PropertyChanged;
-            peli.Kilpailu = null;
+
+            if (nollaaKilpailu)
+            {
+                peli.Kilpailu = null;
+            }
         }
 
         public void PoistaKaikkiPelit()
@@ -330,7 +334,7 @@ namespace KaisaKaavio
                 {
                     while (Pelit.Any())
                     {
-                        PoistaPeli(Pelit.First());
+                        PoistaPeli(Pelit.First(), true);
                     }
                 }
             }
@@ -406,7 +410,7 @@ namespace KaisaKaavio
 #if DEBUG
                     Debug.WriteLine("Poistetaan alkamaton peli {0} - {1} kierrokselta {2}", tyhja.Pelaaja1, tyhja.Pelaaja2, tyhja.Kierros);
 #endif
-                    PoistaPeli(tyhja);
+                    PoistaPeli(tyhja, true);
                     poistettiinJotain = true;
                 }
                 else
@@ -437,7 +441,7 @@ namespace KaisaKaavio
 #if DEBUG
                     this.Loki.Kirjoita(string.Format("Poistetaan alkamaton peli {0} - {1} kierrokselta {2}", tyhja.Pelaaja1, tyhja.Pelaaja2, tyhja.Kierros));
 #endif
-                    PoistaPeli(tyhja);
+                    PoistaPeli(tyhja, true);
                     poistettiinJotain = true;
                 }
                 else
@@ -506,7 +510,7 @@ namespace KaisaKaavio
                 while ((Pelit.Count > 0) && (Pelit.Last().LajitteluNumero > peli.LajitteluNumero))
                 {
                     lajittelemattomat.Add(Pelit.Last());
-                    PoistaPeli(Pelit.Last());
+                    PoistaPeli(Pelit.Last(), false);
                 }
 
                 foreach (var lajiteltuPeli in lajittelemattomat.OrderBy(x => x.LajitteluNumero))
@@ -1141,8 +1145,11 @@ namespace KaisaKaavio
                 return 0;
             }
 
-            int indeksi = 1;
-            foreach (var p in this.PeliPaikat.Where(x => x.Kaytossa))
+            int indeksi = 0;
+
+            var salit = Salit();
+
+            foreach (var p in salit)
             {
                 if (string.Equals(pelipaikka, p.LyhytNimi, StringComparison.OrdinalIgnoreCase))
                 {
@@ -1702,7 +1709,42 @@ namespace KaisaKaavio
             }
         }
 
-        public HakuAlgoritmi Haku(IStatusRivi status)
+        public IHakuAlgoritmi Haku(IStatusRivi status)
+        {
+            if (this.OnUseanPelipaikanKilpailu)
+            {
+                return UseanPelipaikanHaku(status);
+            }
+            else 
+            {
+                return YhdenPelipaikanHaku(status);
+            }
+        }
+
+        private IHakuAlgoritmi UseanPelipaikanHaku(IStatusRivi status)
+        {
+            var osakilpailut = Osakilpailut();
+
+            List<IHakuAlgoritmi> haut = new List<IHakuAlgoritmi>();
+
+            foreach (var kilpailu in osakilpailut)
+            {
+                var haku = kilpailu.Haku(status);
+                if (haku != null)
+                {
+                    haut.Add(haku);
+                }
+            }
+
+            if (haut.Any())
+            {
+                return new UseanPelipaikanHakuAlgoritmi(haut); 
+            }
+
+            return null;
+        }
+
+        private IHakuAlgoritmi YhdenPelipaikanHaku(IStatusRivi status)
         {
             int kierros = 1;
             int pelejaKesken = 0;
@@ -1870,10 +1912,7 @@ namespace KaisaKaavio
             return tappiot;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public HakuAlgoritmi Haku(int kierros, IStatusRivi status)
+        private IHakuAlgoritmi Haku(int kierros, IStatusRivi status)
         {
             return new HakuAlgoritmi(this, Loki, kierros, status);
         }
@@ -2504,7 +2543,7 @@ namespace KaisaKaavio
                 {
                     this.Loki.Kirjoita(string.Format("  -Poistetaan peli {0}", peli.Kuvaus()));
                 }
-                this.PoistaPeli(peli);
+                this.PoistaPeli(peli, true);
             }
             else if (uusiTulos == PelinTulos.Pelaaja1Voitti)
             {
@@ -2553,7 +2592,7 @@ namespace KaisaKaavio
                     {
                         this.Loki.Kirjoita(string.Format("  -Poistetaan peli {0}", poistettavaPeli.Kuvaus()));
                     }
-                    this.PoistaPeli(poistettavaPeli);
+                    this.PoistaPeli(poistettavaPeli, true);
                 }
             }
 
@@ -2612,6 +2651,8 @@ namespace KaisaKaavio
                             {
                                 Id = pelaaja.Id,
                                 Nimi = pelaaja.Nimi,
+                                PeliPaikka = sali.LyhytNimi,
+                                Sijoitettu = pelaaja.Sijoitettu
                             });
                         }
                     }
@@ -2623,6 +2664,8 @@ namespace KaisaKaavio
                             {
                                 Id = pelaaja.Id,
                                 Nimi = pelaaja.Nimi,
+                                PeliPaikka = pelaaja.PeliPaikka,
+                                Sijoitettu = pelaaja.Sijoitettu
                             });
                         }
                     }
@@ -2648,7 +2691,8 @@ namespace KaisaKaavio
                                 Pisteet1 = peli.Pisteet1,
                                 Pisteet2 = peli.Pisteet2,
                                 Tilanne = peli.Tilanne,
-                                Tulos = peli.Tulos
+                                Tulos = peli.Tulos,
+                                Paikka = sali.LyhytNimi
                             });
                         }
                     }
@@ -2668,7 +2712,8 @@ namespace KaisaKaavio
                                 Pisteet1 = peli.Pisteet1,
                                 Pisteet2 = peli.Pisteet2,
                                 Tilanne = peli.Tilanne,
-                                Tulos = peli.Tulos
+                                Tulos = peli.Tulos,
+                                Paikka = sali.LyhytNimi
                             });
                         }
                     }

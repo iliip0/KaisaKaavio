@@ -88,7 +88,7 @@ namespace KaisaKaavio
 
             this.salit.Add(sali);
 
-            foreach (var s in this.kilpailu.PeliPaikat.OrderBy(x => x.Poytia))
+            foreach (var s in this.kilpailu.PeliPaikat.OrderByDescending(x => x.Poytia))
             {
                 this.salit.Add(s);
             }

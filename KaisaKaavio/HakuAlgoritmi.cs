@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KaisaKaavio
 {
-    public class HakuAlgoritmi
+    public class HakuAlgoritmi : IHakuAlgoritmi
     {
         public class Pelaajat
         {
@@ -82,23 +82,27 @@ namespace KaisaKaavio
         List<HakuPeli> JoArvotutPelit = new List<HakuPeli>();
         List<HakuTulos> Hakutulokset = new List<HakuTulos>();
 
-        public List<Pelaajat> UudetPelit = new List<Pelaajat>();
-        public Exception HakuVirhe = null;
-        public bool PeruutaHaku = false;
-        public bool UusiHakuTarvitaan = false;
+        public List<Pelaajat> UudetPelit { get; private set; }
+        public Exception HakuVirhe { get; private set; }
+        public bool PeruutaHaku { get; set; }
+        public bool UusiHakuTarvitaan { get; private set; }
+        public bool AutomaattinenTestausMenossa { get; set; }
 
         Kilpailu Kilpailu = null;
         int Kierros = 0;
         int EkaPudariKierros = 0;
         bool HakuKesken = true;
 
-        public bool AutomaattinenTestausMenossa = false;
-
         public HakuAlgoritmi(Kilpailu kilpailu, Loki loki, int kierros, IStatusRivi status)
         {
             this.status = status;
             this.Kilpailu = kilpailu;
             this.Kierros = kierros;
+            this.HakuVirhe = null;
+            this.PeruutaHaku = false;
+            this.UudetPelit = new List<Pelaajat>();
+            this.UusiHakuTarvitaan = false;
+            this.AutomaattinenTestausMenossa = false;
 
             switch (this.Kilpailu.KaavioTyyppi)
             {
@@ -127,6 +131,18 @@ namespace KaisaKaavio
                     Tulos = peli.Tulos,
                     Tilanne = peli.Tilanne
                 };
+
+#if DEBUG
+                if (p.Pelaaja1 == null)
+                {
+                    throw new NullReferenceException(string.Format("Pelaajaa ei löytynyt id:lle {0} peliin {1}", peli.Id1, peli.Kuvaus()));
+                }
+
+                if (p.Pelaaja2 == null)
+                {
+                    throw new NullReferenceException(string.Format("Pelaajaa ei löytynyt id:lle {0} peliin {1}", peli.Id2, peli.Kuvaus()));
+                }
+#endif
 
                 if (peli.Kierros < this.Kierros)
                 {
