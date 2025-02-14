@@ -42,5 +42,14 @@ namespace KaisaKaavio
             {
             }
         }
+
+        public void Lukitse()
+        {
+            this.salinNimiTextBox.ReadOnly = true;
+            this.salinLyhenneTextBox.ReadOnly = true;
+            this.poydatDataGridView.AllowUserToAddRows = false;
+            this.poydatDataGridView.AllowUserToDeleteRows = false;
+            this.numeroDataGridViewTextBoxColumn.ReadOnly = true;
+        }
     }
 }

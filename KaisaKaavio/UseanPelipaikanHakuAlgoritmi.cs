@@ -12,17 +12,22 @@ namespace KaisaKaavio
     public class UseanPelipaikanHakuAlgoritmi : IHakuAlgoritmi
     {
         private List<IHakuAlgoritmi> haut = new List<IHakuAlgoritmi>();
+        private int maxKierros = 0;
 
-        public UseanPelipaikanHakuAlgoritmi(List<Kilpailu> kilpailut, Loki loki, int kierros, IStatusRivi status)
+        public UseanPelipaikanHakuAlgoritmi(List<Kilpailu> kilpailut, Loki loki, int kierros, IStatusRivi status, int maxKierros)
         {
+            this.maxKierros = maxKierros;
+
             foreach (var kilpailu in kilpailut)
             {
                 this.haut.Add(new HakuAlgoritmi(kilpailu, loki, kierros, status));
             }
         }
 
-        public UseanPelipaikanHakuAlgoritmi(List<IHakuAlgoritmi> haut)
+        public UseanPelipaikanHakuAlgoritmi(List<IHakuAlgoritmi> haut, int maxKierros)
         {
+            this.maxKierros = maxKierros;
+
             foreach (var haku in haut)
             {
                 this.haut.Add(haku);
@@ -42,6 +47,19 @@ namespace KaisaKaavio
                 }
 
                 return null;
+            }
+        }
+
+        public int Kierros
+        {
+            get
+            {
+                if (this.haut.Any())
+                {
+                    return this.haut.Select(x => x.Kierros).Max();
+                }
+
+                return 1;
             }
         }
 
@@ -131,7 +149,17 @@ namespace KaisaKaavio
 
                 foreach (var h in this.haut)
                 {
-                    pelit.AddRange(h.UudetPelit);
+                    foreach (var p in h.UudetPelit)
+                    {
+                        if (p.Kierros <= this.maxKierros)
+                        {
+                            pelit.Add(p);
+                        }
+                        else
+                        {
+                            int iii = 0;
+                        }
+                    }
                 }
 
                 return pelit;

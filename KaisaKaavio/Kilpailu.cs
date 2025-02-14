@@ -57,6 +57,20 @@ namespace KaisaKaavio
         [DefaultValue(false)]
         public bool TestiKilpailu { get; set; }
 
+        [DefaultValue("")]
+        public string KaavioidenYhdistaminenKierroksesta { get; set; }
+
+        [XmlIgnore]
+        public int KaavioidenYhdistaminenKierroksestaInt 
+        {
+            get
+            {
+                int k = 0;
+                Int32.TryParse(this.KaavioidenYhdistaminenKierroksesta, out k);
+                return k;
+            }
+        }
+
         [XmlIgnore]
         public Sali Sali { get; set; }
 
@@ -299,6 +313,7 @@ namespace KaisaKaavio
             TestiKilpailu = false;
 
             this.Sali = null;
+            this.KaavioidenYhdistaminenKierroksesta = "5";
         }
 
 #region Pelit
@@ -467,9 +482,16 @@ namespace KaisaKaavio
             }
 #endif
 
+            int kierros = Math.Max(kierros1, kierros2);
+
+            if (OnUseanPelipaikanKilpailu && kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
+            {
+                paikka = Salit().First().LyhytNimi;
+            }
+
             Peli peli = new Peli()
             {
-                Kierros = Math.Max(kierros1, kierros2),
+                Kierros = kierros,
                 KierrosPelaaja1 = kierros1,
                 KierrosPelaaja2 = kierros2,
                 Kilpailu = this,
@@ -886,7 +908,7 @@ namespace KaisaKaavio
                 this.SijoitustenMaaraytyminen = kilpailu.SijoitustenMaaraytyminen;
                 this.KilpaSarja = kilpailu.KilpaSarja;
                 this.TestiKilpailu = kilpailu.TestiKilpailu;
-
+                this.KaavioidenYhdistaminenKierroksesta = kilpailu.KaavioidenYhdistaminenKierroksesta;
                 this.RankingOsakilpailu = null;
 
                 VarmistaEttaKilpailullaOnId();
@@ -1713,7 +1735,32 @@ namespace KaisaKaavio
         {
             if (this.OnUseanPelipaikanKilpailu)
             {
-                return UseanPelipaikanHaku(status);
+                int kierros = this.Pelit
+                    .Where(x => x.Tilanne != PelinTilanne.Pelattu)
+                    .Select(x => x.Kierros)
+                    .Min();
+
+                if (kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
+                {
+                    return YhdenPelipaikanHaku(status);
+                }
+
+                int minKierros = 0;
+
+                var haku = UseanPelipaikanHaku(status, out minKierros);
+
+                if (haku != null)
+                {
+                    return haku;
+                }
+                //else if (minKierros >= this.KaavioidenYhdistaminenKierroksestaInt)
+                //{
+                //    return YhdenPelipaikanHaku(status);
+                //}
+                else
+                {
+                    return null;
+                }
             }
             else 
             {
@@ -1721,8 +1768,10 @@ namespace KaisaKaavio
             }
         }
 
-        private IHakuAlgoritmi UseanPelipaikanHaku(IStatusRivi status)
+        private IHakuAlgoritmi UseanPelipaikanHaku(IStatusRivi status, out int minKierros)
         {
+            minKierros = 0;
+
             var osakilpailut = Osakilpailut();
 
             List<IHakuAlgoritmi> haut = new List<IHakuAlgoritmi>();
@@ -1732,13 +1781,25 @@ namespace KaisaKaavio
                 var haku = kilpailu.Haku(status);
                 if (haku != null)
                 {
-                    haut.Add(haku);
+                    if (haku.Kierros <= this.KaavioidenYhdistaminenKierroksestaInt - 1)
+                    {
+                        haut.Add(haku);
+                    }
+
+                    if (minKierros == 0)
+                    {
+                        minKierros = haku.Kierros;
+                    }
+                    else
+                    {
+                        minKierros = Math.Min(minKierros, haku.Kierros);
+                    }
                 }
             }
 
             if (haut.Any())
             {
-                return new UseanPelipaikanHakuAlgoritmi(haut); 
+                return new UseanPelipaikanHakuAlgoritmi(haut, this.KaavioidenYhdistaminenKierroksestaInt - 1); 
             }
 
             return null;

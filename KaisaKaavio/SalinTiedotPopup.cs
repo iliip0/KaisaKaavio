@@ -14,11 +14,13 @@ namespace KaisaKaavio
     {
         private SalinTiedotPanel panel = new SalinTiedotPanel();
         private Sali sali = null;
+        private bool kaavioArvottu = false;
 
-        public SalinTiedotPopup(Sali sali)
+        public SalinTiedotPopup(Sali sali, bool kaavioArvottu)
         {
             this.sali = sali;
             this.sali.VarmistaAinakinYksiPoyta();
+            this.kaavioArvottu = kaavioArvottu;
 
             InitializeComponent();
 
@@ -29,11 +31,19 @@ namespace KaisaKaavio
             this.panel.Dock = DockStyle.Fill;
 
             this.Controls.Add(panel);
+
+            if (this.kaavioArvottu)
+            {
+                this.panel.Lukitse();
+            }
         }
 
         private void SalinTiedotPopup_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.sali.VarmistaAinakinYksiPoyta();
+            if (!this.kaavioArvottu)
+            {
+                this.sali.VarmistaAinakinYksiPoyta();
+            }
         }
 
         private void SalinTiedotPopup_FormClosing(object sender, FormClosingEventArgs e)

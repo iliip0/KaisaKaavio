@@ -8,6 +8,7 @@ namespace KaisaKaavio
 {
     public interface IHakuAlgoritmi
     {
+        int Kierros { get; }
         Exception HakuVirhe { get; }
         bool PeruutaHaku { get; set; }
         bool HakuValmis { get; }

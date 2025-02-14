@@ -14,6 +14,7 @@ namespace KaisaKaavio
         {
             public Pelaaja Pelaaja1 = null;
             public Pelaaja Pelaaja2 = null;
+            public int Kierros = 0;
 
             public bool SisaltaaPelaajan(Pelaaja pelaaja)
             {
@@ -87,9 +88,9 @@ namespace KaisaKaavio
         public bool PeruutaHaku { get; set; }
         public bool UusiHakuTarvitaan { get; private set; }
         public bool AutomaattinenTestausMenossa { get; set; }
+        public int Kierros { get; private set; }
 
         Kilpailu Kilpailu = null;
-        int Kierros = 0;
         int EkaPudariKierros = 0;
         bool HakuKesken = true;
 
@@ -351,7 +352,8 @@ namespace KaisaKaavio
                     UudetPelit.Add(new Pelaajat() 
                     {
                         Pelaaja1 = pari.Pelaaja1,
-                        Pelaaja2 = pari.Pelaaja2
+                        Pelaaja2 = pari.Pelaaja2,
+                        Kierros = pari.Kierros
                     });
                 }
             }
@@ -393,7 +395,8 @@ namespace KaisaKaavio
                         UudetPelit.Add(new Pelaajat() 
                         {
                             Pelaaja1 = pari.Pelaaja1,
-                            Pelaaja2 = pari.Pelaaja2
+                            Pelaaja2 = pari.Pelaaja2,
+                            Kierros = pari.Kierros
                         });
                     }
                 }
@@ -476,7 +479,8 @@ namespace KaisaKaavio
                     peliparit.Add(new Pelaajat()
                     {
                         Pelaaja1 = peli.Pelaaja1,
-                        Pelaaja2 = peli.Pelaaja2
+                        Pelaaja2 = peli.Pelaaja2,
+                        Kierros = peli.Kierros
                     });
 
                     if (peli.KierrosPelaaja1 < peli.Kierros ||

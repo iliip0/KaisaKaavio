@@ -986,7 +986,7 @@ namespace KaisaKaavio
                         this.kilpailu.HakuTarvitaan = false;
 
                         this.pelitDataGridView.SuspendLayout();
-                        this.kilpailu.Pelit.RaiseListChangedEvents = false;
+                        //this.kilpailu.Pelit.RaiseListChangedEvents = false;
 
                         this.PelinPaikkaColumn.Visible = this.kilpailu.OnUseanPelipaikanKilpailu;
 
@@ -999,8 +999,8 @@ namespace KaisaKaavio
                             PaivitaHaku(algoritmi);
                         }
 
-                        this.kilpailu.Pelit.RaiseListChangedEvents = true;
-                        this.kilpailu.Pelit.ResetBindings();
+                        //this.kilpailu.Pelit.RaiseListChangedEvents = true;
+                        //this.kilpailu.Pelit.ResetBindings();
                         this.pelitDataGridView.ResumeLayout();
 
                         ScrollaaPelitListanLoppuun();
@@ -4934,18 +4934,48 @@ namespace KaisaKaavio
                     {
                         if (e.ColumnIndex == PelipaikanDetaljitColumn.Index)
                         {
-                            using (var popup = new SalinTiedotPopup(sali))
+                            using (var popup = new SalinTiedotPopup(sali, this.kilpailu.KaavioArvottu))
                             {
                                 popup.ShowDialog();
                             }
 
                             this.peliPaikatDataGridView.Refresh();
                         }
+                        else if (e.ColumnIndex == PoistaPelipaikkaColumn.Index)
+                        {
+                            if (!this.kilpailu.KaavioArvottu)
+                            {
+                                this.kilpailu.PeliPaikat.Remove(sali);
+                                this.kilpailu.PeliPaikat.ResetBindings();
+                            }
+                            else 
+                            {
+                            }
+                        }
                     }
                 }
             }
             catch
             { }
+        }
+
+        private void peliPaikatDataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var row = this.peliPaikatDataGridView.Rows[e.RowIndex];
+                    Sali sali = (Sali)row.DataBoundItem;
+                    if (sali != null)
+                    {
+                        sali.VarmistaAinakinYksiPoyta();
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
 
         #endregion
