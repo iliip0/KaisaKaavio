@@ -715,7 +715,7 @@ namespace KaisaKaavio
                 // Automaattinen pöydän valinta
                 if (valitsePoytaAutomaattisesti && string.IsNullOrEmpty(this.Poyta))
                 {
-                    var vapaaPoyta = this.Kilpailu.VapaatPoydat(asetukset).FirstOrDefault();
+                    var vapaaPoyta = this.Kilpailu.VapaatPoydat(this, asetukset).FirstOrDefault();
                     if (vapaaPoyta != null)
                     {
                         this.Poyta = vapaaPoyta;
@@ -727,6 +727,21 @@ namespace KaisaKaavio
             }
 
             return false;
+        }
+
+        public bool OnSalilla(Sali sali)
+        {
+            if (sali == null)
+            {
+                return true;
+            }
+
+            if (string.IsNullOrEmpty(this.Paikka) && this.Kilpailu != null && this.Kilpailu.Sali == sali)
+            {
+                return true;
+            }
+
+            return string.Equals(this.Paikka, sali.LyhytNimi);
         }
 
         static public int Pisteet(string teksti, out bool voitti, out bool havisi)

@@ -2846,7 +2846,7 @@ namespace KaisaKaavio
                             var borderWidth = (this.Size.Width - this.ClientSize.Width) / 2;
                             var borderHeight = (this.Size.Height - this.ClientSize.Height) / 2 - borderWidth;
 
-                            var poydat = this.kilpailu.VapaatPoydat(this.asetukset);
+                            var poydat = this.kilpailu.VapaatPoydat(peli, this.asetukset);
                             if (poydat.Any())
                             {
                                 if (poydat.Count() == 1)

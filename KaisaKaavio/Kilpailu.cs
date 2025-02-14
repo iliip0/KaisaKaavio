@@ -2132,34 +2132,67 @@ namespace KaisaKaavio
             return null;
         }
 
-        public IEnumerable<string> Poydat(Asetukset asetukset)
+        public IEnumerable<string> Poydat(Sali sali)
         {
             List<string> poydat = new List<string>();
 
-            if (asetukset != null)
+            if (sali != null)
             {
-                poydat.AddRange(asetukset.Sali.Poydat
+                poydat.AddRange(sali.Poydat
                     .Where(x => !string.IsNullOrEmpty(x.Numero))
                     .OrderBy(x => x.Numero)
                     .Select(x => x.Numero));
             }
 
-            foreach (var peli in this.Pelit.Where(x => !string.IsNullOrEmpty(x.Poyta)))
+            if (!OnUseanPelipaikanKilpailu)
             {
-                if (!poydat.Contains(peli.Poyta))
+                foreach (var peli in this.Pelit.Where(x => !string.IsNullOrEmpty(x.Poyta)))
                 {
-                    poydat.Add(peli.Poyta); 
+                    if (!poydat.Contains(peli.Poyta))
+                    {
+                        poydat.Add(peli.Poyta);
+                    }
                 }
             }
 
             return poydat.OrderBy(x => x);
         }
 
-        public IEnumerable<string> VapaatPoydat(Asetukset asetukset)
+        public IEnumerable<string> VapaatPoydat(Peli peli, Asetukset asetukset)
         {
-            var poydat = Poydat(asetukset);
+            Sali sali = null;
 
-            return poydat.Where(x => !this.Pelit.Any(y => y.Tilanne == PelinTilanne.Kaynnissa && string.Equals(y.Poyta, x)));
+            if (this.OnUseanPelipaikanKilpailu) // TODO!!! Kaavioiden yhdistäminen
+            {
+                var salit = Salit();
+
+                if (string.IsNullOrEmpty(peli.Paikka))
+                {
+                    sali = salit.FirstOrDefault();
+                }
+                else
+                {
+                    sali = salit.FirstOrDefault(x => string.Equals(peli.Paikka, x.LyhytNimi));
+                }
+            }
+            else
+            {
+                sali = asetukset.Sali;
+            }
+
+            var poydat = Poydat(sali);
+
+            if (this.OnUseanPelipaikanKilpailu) // TODO!!! Kaavioiden yhdistäminen
+            {
+                return poydat.Where(x => !this.Pelit.Any(y => 
+                    y.OnSalilla(sali) &&
+                    y.Tilanne == PelinTilanne.Kaynnissa && 
+                    string.Equals(y.Poyta, x)));
+            }
+            else
+            {
+                return poydat.Where(x => !this.Pelit.Any(y => y.Tilanne == PelinTilanne.Kaynnissa && string.Equals(y.Poyta, x)));
+            }
         }
 
         [XmlIgnore]
