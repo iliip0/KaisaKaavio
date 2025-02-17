@@ -3415,29 +3415,30 @@ namespace KaisaKaavio
             teksti.InfoRivi("Ilmoittautuminen", this.kilpailu.Ilmoittautuminen);
             teksti.InfoRivi("Alkamisaika", this.kilpailu.AlkamisAikaString());
             teksti.InfoRivi("Kesto", this.kilpailu.Yksipaivainen ? "Kilpailu on yksipäiväinen" : "Kilpailu on kaksipäiväinen");
-            teksti.InfoRivi("Pelipaikka", this.asetukset.Sali.Nimi);
-            teksti.InfoRivi("Pelipaikan osoite", this.asetukset.Sali.Osoite);
-            teksti.InfoRivi("Pelipaikan puhelinnumero", this.asetukset.Sali.PuhelinNumero);
             teksti.RivinVaihto();
 
-            int poytia = this.asetukset.Sali.Poydat.Where(x => x.Kaytossa).Count();
-            if (poytia > 0)
-            {
-                teksti.InfoRivi("Käytössä", string.Format("{0} pöytää", poytia));
-            }
+            List<Sali> salit = new List<Sali>();
 
-            if (this.asetukset.Sali.Linkit.Count > 0)
-            {
-                teksti.RivinVaihto();
-                teksti.Otsikko("Linkit");
-                teksti.RivinVaihto();
+            salit.Add(this.asetukset.Sali);
 
-                foreach (var linkki in this.asetukset.Sali.Linkit)
+            foreach (var s in this.kilpailu.PeliPaikat)
+            {
+                if (s.Kaytossa || !kilpailu.KaavioArvottu)
                 {
-                    teksti.Linkki(linkki.Teksti, linkki.Osoite, null);
+                    salit.Add(s);
                 }
             }
 
+            bool ekasali = true;
+
+            foreach (var sali in salit)
+            {
+                KirjoitaPelipaikanTiedot(teksti, sali, ekasali);
+                ekasali = false;
+            }
+
+            teksti.RivinVaihto();
+            teksti.OsionVaihto();
             teksti.RivinVaihto();
             teksti.InfoRivi("Kilpailunjohtaja", this.kilpailu.KilpailunJohtaja);
             teksti.InfoRivi("Puhelinnumero", this.kilpailu.PuhelinNumero);
@@ -3470,6 +3471,74 @@ namespace KaisaKaavio
             this.kilpailuKutsuRichTextBox.Tag = teksti.Sbil;
         }
 
+        private void KirjoitaPelipaikanTiedot(Tyypit.Teksti teksti, Sali sali, bool varsinainenPelipaikka)
+        {
+            if (this.kilpailu.KaavioArvottu && !sali.Kaytossa)
+            {
+                return;
+            }
+
+            teksti.RivinVaihto();
+            teksti.OsionVaihto();
+
+            if (varsinainenPelipaikka)
+            {
+                teksti.InfoRivi("Pelipaikka", sali.Nimi);
+            }
+            else
+            {
+                if (this.kilpailu.KaavioArvottu)
+                {
+                    teksti.InfoRivi("Varasali", sali.Nimi);
+                }
+                else 
+                {
+                    teksti.InfoRivi("Varasali (tarvittaessa)", sali.Nimi);
+                }
+            }
+
+            teksti.InfoRivi("Pelipaikan osoite", sali.Osoite);
+            teksti.InfoRivi("Pelipaikan puhelinnumero", sali.PuhelinNumero);
+            teksti.RivinVaihto();
+
+            int poytia = sali.Poydat.Where(x => x.Kaytossa).Count();
+            if (poytia > 0)
+            {
+                teksti.InfoRivi("Käytössä", string.Format("{0} pöytää", poytia));
+            }
+
+            if (sali.Linkit.Any())
+            {
+                teksti.RivinVaihto();
+                teksti.Otsikko("Linkit");
+                teksti.RivinVaihto();
+
+                foreach (var linkki in sali.Linkit)
+                {
+                    teksti.Linkki(linkki.Teksti, linkki.Osoite, null);
+                }
+            }
+
+            if (sali.Toimitsijat.Any())
+            {
+                teksti.RivinVaihto();
+                teksti.Otsikko("Pelipaikan vastuuhenkilöt");
+                teksti.RivinVaihto();
+
+                foreach (var toimitsija in sali.Toimitsijat)
+                {
+                    teksti.NormaaliTeksti(string.Format("{0} ({1})", toimitsija.Nimi, toimitsija.Rooli));
+
+                    if (!string.IsNullOrEmpty(toimitsija.PuhelinNumero))
+                    {
+                        teksti.NormaaliTeksti(string.Format(" - puhelinnumero {0}", toimitsija.PuhelinNumero));
+                    }
+
+                    teksti.RivinVaihto();
+                }
+            }
+        }
+
         private void PaivitaAlkavatPelit()
         {
             Tyypit.Teksti teksti = new Tyypit.Teksti();
@@ -3478,21 +3547,38 @@ namespace KaisaKaavio
             teksti.RivinVaihto();
 
             int kierros = 0;
+            string pelipaikka = string.Empty;
 
-            int peliNumero = 1;
+            Dictionary<string, int> peliNumerot = new Dictionary<string,int>();
 
             foreach (var peli in this.kilpailu.Pelit.Where(x => x.Kierros <= 2).ToArray())
             {
-                if (peli.Kierros != kierros)
+                if (peli.Kierros != kierros ||
+                    !string.Equals(peli.Paikka, pelipaikka))
                 {
-                    kierros = peli.Kierros;
-
-                    if (kierros != 1)
+                    if (peli.Kierros != kierros && peli.Kierros != 1)
                     {
                         teksti.RivinVaihto();
                     }
+                    else 
+                    {
+                        if (!string.Equals(peli.Paikka, pelipaikka))
+                        {
+                            teksti.RivinVaihto();
+                        }
+                    }
 
-                    teksti.PaksuTeksti(string.Format("{0}. kierros", kierros));
+                    kierros = peli.Kierros;
+                    pelipaikka = peli.Paikka;
+
+                    if (!string.IsNullOrEmpty(pelipaikka))
+                    {
+                        teksti.PaksuTeksti(string.Format("{0}. kierros - {1}", kierros, pelipaikka));
+                    }
+                    else
+                    {
+                        teksti.PaksuTeksti(string.Format("{0}. kierros", kierros));
+                    }
 
                     if (peli.OnPudotusPeli())
                     {
@@ -3503,11 +3589,40 @@ namespace KaisaKaavio
                     teksti.RivinVaihto();
                 }
 
-                peli.RichTextKuvausAlkaviinPeleihin(teksti, 
-                    peliNumero <= (int)this.alkavatPelitPoytiaNmericUpDown.Value ? peliNumero.ToString() : null,
-                    peliNumero <= (int)this.alkavatPelitPoytiaNmericUpDown.Value ? this.kilpailu.KellonAika : null);
+                var salit = this.kilpailu.Salit();
+                var sali = salit.FirstOrDefault(x => string.Equals(x.LyhytNimi, peli.Paikka));
 
-                peliNumero++;
+                int pelinumero = 1;
+
+                if (sali != null)
+                {
+                    if (peliNumerot.ContainsKey(sali.LyhytNimi))
+                    {
+                        peliNumerot[sali.LyhytNimi]++;
+                        pelinumero = peliNumerot[sali.LyhytNimi];
+                    }
+                    else
+                    {
+                        peliNumerot.Add(sali.LyhytNimi, 1);
+                    }
+
+                    var poydat = sali.Poydat.Where(x => x.Kaytossa);
+
+                    if (pelinumero <= poydat.Count())
+                    {
+                        peli.RichTextKuvausAlkaviinPeleihin(teksti,
+                            poydat.ElementAt(pelinumero - 1).Numero,
+                            this.kilpailu.KellonAika);
+                    }
+                    else 
+                    {
+                        peli.RichTextKuvausAlkaviinPeleihin(teksti, null, null);
+                    }
+                }
+                else
+                {
+                    peli.RichTextKuvausAlkaviinPeleihin(teksti, null, null);
+                }
             }
 
             teksti.RivinVaihto();
@@ -3595,6 +3710,7 @@ namespace KaisaKaavio
             }
 
             int kierros = 0;
+            string pelipaikka = string.Empty;
 
             if (this.kilpailu.Pelit.Count > 0)
             {
@@ -3602,16 +3718,28 @@ namespace KaisaKaavio
 
                 foreach (var peli in this.kilpailu.Pelit.ToArray())
                 {
-                    if (peli.Kierros != kierros)
+                    if (peli.Kierros != kierros || !string.Equals(peli.Paikka, pelipaikka))
                     {
-                        kierros = peli.Kierros;
-
-                        if (kierros != 1)
+                        if (peli.Kierros != kierros && peli.Kierros != 1)
+                        {
+                            teksti.RivinVaihto();
+                        }
+                        else if (!string.Equals(peli.Paikka, pelipaikka))
                         {
                             teksti.RivinVaihto();
                         }
 
-                        teksti.PaksuTeksti(string.Format("{0}. Kierros", kierros));
+                        kierros = peli.Kierros;
+                        pelipaikka = peli.Paikka;
+
+                        if (this.kilpailu.OnUseanPelipaikanKilpailu)
+                        {
+                            teksti.PaksuTeksti(string.Format("{0}. Kierros - {1}", kierros, pelipaikka));
+                        }
+                        else
+                        {
+                            teksti.PaksuTeksti(string.Format("{0}. Kierros", kierros));
+                        }
 
                         var mukana = this.kilpailu.MukanaOlevatPelaajatEnnenPelia(peli);
                         if (mukana.Count() == 2)
@@ -3628,7 +3756,11 @@ namespace KaisaKaavio
                             string alkoi = string.Empty;
                             string paattyi = string.Empty;
 
-                            var ekapeli = this.kilpailu.Pelit.Where(x => x.Kierros == kierros && !string.IsNullOrEmpty(x.Alkoi)).FirstOrDefault();
+                            var ekapeli = this.kilpailu.Pelit.Where(x => 
+                                x.Kierros == kierros && 
+                                !string.IsNullOrEmpty(x.Alkoi) &&
+                                string.Equals(x.Paikka, pelipaikka)).FirstOrDefault();
+
                             if (ekapeli != null)
                             {
                                 alkoi = ekapeli.Alkoi;
@@ -3636,7 +3768,11 @@ namespace KaisaKaavio
 
                             if (!this.kilpailu.Pelit.Any(x => x.Kierros <= kierros && x.Tilanne != PelinTilanne.Pelattu))
                             {
-                                var vikapeli = this.kilpailu.Pelit.Where(x => x.Kierros == kierros && !string.IsNullOrEmpty(x.Alkoi)).LastOrDefault();
+                                var vikapeli = this.kilpailu.Pelit.Where(x => 
+                                    x.Kierros == kierros && 
+                                    !string.IsNullOrEmpty(x.Alkoi) &&
+                                    string.Equals(x.Paikka, pelipaikka)).LastOrDefault();
+
                                 if (vikapeli != null)
                                 {
                                     paattyi = vikapeli.Paattyi;
@@ -3662,7 +3798,18 @@ namespace KaisaKaavio
                         teksti.RivinVaihto();
                     }
 
-                    peli.RichTextKuvaus(this.asetukset.Sali, teksti);
+                    Sali sali = this.asetukset.Sali;
+
+                    if (this.kilpailu.OnUseanPelipaikanKilpailu)
+                    {
+                        var s = this.kilpailu.Salit().FirstOrDefault(x => string.Equals(x.LyhytNimi, pelipaikka));
+                        if (s != null)
+                        {
+                            sali = s;
+                        }
+                    }
+
+                    peli.RichTextKuvaus(sali, teksti);
 
                     try
                     {
