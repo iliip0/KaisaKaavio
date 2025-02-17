@@ -2,9 +2,9 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.21		(työn alla)
+## Versio 1.0.0.21		(julkaistu 17.2.2025)
 
-* Usean pelipaikan kisojen toteutus aloitettu
+* Lisätty mahdollisuus pelata alkukierrokset usealla pelipaikalla
 
 ## Versio 1.0.0.20		(julkaistu 2.2.2025)
 

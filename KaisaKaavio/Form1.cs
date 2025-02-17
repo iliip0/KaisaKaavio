@@ -125,6 +125,8 @@ namespace KaisaKaavio
             this.rankingSarjanLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
             this.rankingHakuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
 
+            this.kaavioidenYhdistaminenComboBox.SelectedIndex = 1;
+
             this.openFileDialog1.InitialDirectory = this.kansio;
 
             Shown += Form1_Shown;
@@ -986,7 +988,6 @@ namespace KaisaKaavio
                         this.kilpailu.HakuTarvitaan = false;
 
                         this.pelitDataGridView.SuspendLayout();
-                        //this.kilpailu.Pelit.RaiseListChangedEvents = false;
 
                         this.PelinPaikkaColumn.Visible = this.kilpailu.OnUseanPelipaikanKilpailu;
 
@@ -999,8 +1000,6 @@ namespace KaisaKaavio
                             PaivitaHaku(algoritmi);
                         }
 
-                        //this.kilpailu.Pelit.RaiseListChangedEvents = true;
-                        //this.kilpailu.Pelit.ResetBindings();
                         this.pelitDataGridView.ResumeLayout();
 
                         ScrollaaPelitListanLoppuun();
@@ -1047,6 +1046,10 @@ namespace KaisaKaavio
                 else if (this.tabControl1.SelectedTab == this.rankingTabPage)
                 {
                     AlustaRankingTab();
+                }
+                else if (this.tabControl1.SelectedTab == this.pelipaikatTabPage)
+                {
+                    PaivitaPelipaikatUI();
                 }
 
                 bool pelitTabilla = this.tabControl1.SelectedTab == this.pelitTabPage;
@@ -5069,6 +5072,28 @@ namespace KaisaKaavio
         // ========={( Pelipaikat sivun päivitys )}============================================================ //
         #region Pelipaikat
 
+        private void PaivitaPelipaikatUI()
+        {
+            this.kaavioidenYhdistaminenComboBox.Enabled = !this.kilpailu.KaavioArvottu;
+
+            if (this.kilpailu.PeliPaikat.Any(x => !x.Tyhja))
+            {
+                this.useanPaikanKisaLabel.Text = "Valitse, missä vaiheessa kilpailua siirrytään pelaamaan yhdellä pelipaikalla:";
+                this.kaavioidenYhdistaminenComboBox.Visible = true;
+                this.kilpailu.KaavioidenYhdistaminenKierroksesta = (this.kaavioidenYhdistaminenComboBox.SelectedIndex + 4).ToString();
+
+#if DEBUG
+                Debug.WriteLine(string.Format("## Kaaviot yhdistetään kierroksesta {0}", this.kilpailu.KaavioidenYhdistaminenKierroksesta));
+#endif
+            }
+            else 
+            {
+                this.useanPaikanKisaLabel.Text = "Lisää yksi tai useampia varasaleja alla olevalle listalle:";
+                this.kaavioidenYhdistaminenComboBox.Visible = false;
+                this.kilpailu.KaavioidenYhdistaminenKierroksesta = string.Empty;
+            }
+        }
+
         private void peliPaikatDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -5087,6 +5112,7 @@ namespace KaisaKaavio
                             }
 
                             this.peliPaikatDataGridView.Refresh();
+                            PaivitaPelipaikatUI();
                         }
                         else if (e.ColumnIndex == PoistaPelipaikkaColumn.Index)
                         {
@@ -5094,6 +5120,7 @@ namespace KaisaKaavio
                             {
                                 this.kilpailu.PeliPaikat.Remove(sali);
                                 this.kilpailu.PeliPaikat.ResetBindings();
+                                PaivitaPelipaikatUI();
                             }
                             else 
                             {
@@ -5118,11 +5145,17 @@ namespace KaisaKaavio
                     {
                         sali.VarmistaAinakinYksiPoyta();
                     }
+                    PaivitaPelipaikatUI();
                 }
             }
             catch
             {
             }
+        }
+
+        private void kaavioidenYhdistaminenComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PaivitaPelipaikatUI();
         }
 
         #endregion

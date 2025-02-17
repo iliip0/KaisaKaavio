@@ -155,10 +155,6 @@ namespace KaisaKaavio
                         {
                             pelit.Add(p);
                         }
-                        else
-                        {
-                            int iii = 0;
-                        }
                     }
                 }
 
