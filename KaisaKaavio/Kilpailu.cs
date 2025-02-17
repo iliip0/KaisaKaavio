@@ -473,16 +473,27 @@ namespace KaisaKaavio
 
         private PelinTilanne LisaaPeli(Pelaaja pelaaja, int kierros1, Pelaaja vastustaja, int kierros2)
         {
-            string paikka = pelaaja.PeliPaikka;
+            int kierros = Math.Max(kierros1, kierros2);
+            string paikka = string.Empty;
+
+            if (OnUseanPelipaikanKilpailu)
+            {
+                if (kierros < this.KaavioidenYhdistaminenKierroksestaInt)
+                {
+                    paikka = pelaaja.PeliPaikka;
 
 #if DEBUG
-            if (!string.Equals(pelaaja.PeliPaikka, vastustaja.PeliPaikka))
-            {
-                paikka = string.Format("{0}/{1}", pelaaja.PeliPaikka, vastustaja.PeliPaikka);
-            }
+                    if (!string.Equals(pelaaja.PeliPaikka, vastustaja.PeliPaikka))
+                    {
+                        paikka = string.Format("{0}/{1}", pelaaja.PeliPaikka, vastustaja.PeliPaikka);
+                    }
 #endif
-
-            int kierros = Math.Max(kierros1, kierros2);
+                }
+                else 
+                {
+                    paikka = this.Sali != null ? this.Sali.LyhytNimi : string.Empty;
+                }
+            }
 
             if (OnUseanPelipaikanKilpailu && kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
             {
@@ -1735,14 +1746,32 @@ namespace KaisaKaavio
         {
             if (this.OnUseanPelipaikanKilpailu)
             {
-                int kierros = this.Pelit
-                    .Where(x => x.Tilanne != PelinTilanne.Pelattu)
-                    .Select(x => x.Kierros)
-                    .Min();
-
-                if (kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
+                var pelaamattomatPelit = this.Pelit.Where(x => x.Tilanne != PelinTilanne.Pelattu);
+                if (pelaamattomatPelit.Any())
                 {
-                    return YhdenPelipaikanHaku(status);
+                    int kierros = pelaamattomatPelit
+                        .Select(x => x.Kierros)
+                        .Min();
+
+                    if (kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
+                    {
+                        return YhdenPelipaikanHaku(status);
+                    }
+                }
+                else 
+                {
+                    var pelatutPelit = this.Pelit.Where(x => x.Tilanne == PelinTilanne.Pelattu);
+                    if (pelatutPelit.Any())
+                    {
+                        int kierros = pelatutPelit
+                            .Select(x => x.Kierros)
+                            .Max();
+
+                        if (kierros >= this.KaavioidenYhdistaminenKierroksestaInt - 1)
+                        {
+                            return YhdenPelipaikanHaku(status);
+                        }
+                    }
                 }
 
                 int minKierros = 0;
