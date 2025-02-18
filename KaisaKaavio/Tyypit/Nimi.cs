@@ -141,6 +141,25 @@ namespace KaisaKaavio.Tyypit
             return s.ToString();
         }
 
+        public static string LyhytNimi(string nimi)
+        {
+            if (string.IsNullOrEmpty(nimi))
+            {
+                return string.Empty;
+            }
+
+            if (nimi.Contains(' '))
+            {
+                var alku = nimi.Split(' ').FirstOrDefault();
+                if (alku != null && !alku.Contains('.') && alku.Length > 2)
+                {
+                    return alku;
+                }
+            }
+
+            return nimi;
+        }
+
         public static string KeksiNimi(Random random)
         {
             string[] etunimet = 

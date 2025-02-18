@@ -403,37 +403,37 @@ namespace KaisaKaavio
                 }
                 else if (this.KierrosPelaaja1 < this.Kierros)
                 {
-                    s.Append(string.Format(" ({0} {1}. kierros)", this.Pelaaja1, this.KierrosPelaaja1));
+                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.KierrosPelaaja1));
                 }
                 else if (this.KierrosPelaaja2 < this.Kierros)
                 {
-                    s.Append(string.Format(" ({0} {1}. kierros)", this.Pelaaja2, this.KierrosPelaaja2));
+                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.KierrosPelaaja2));
                 }
 
                 if (!string.IsNullOrEmpty(this.PisinSarja1) && !string.IsNullOrEmpty(this.ToiseksiPisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", this.Pelaaja1, this.PisinSarja1, this.ToiseksiPisinSarja1));
+                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.PisinSarja1, this.ToiseksiPisinSarja1));
                 }
                 else if (!string.IsNullOrEmpty(this.PisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja1, this.PisinSarja1));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.PisinSarja1));
                 }
                 else if (!string.IsNullOrEmpty(this.ToiseksiPisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja1, this.ToiseksiPisinSarja1));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.ToiseksiPisinSarja1));
                 }
 
                 if (!string.IsNullOrEmpty(this.PisinSarja2) && !string.IsNullOrEmpty(this.ToiseksiPisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", this.Pelaaja2, this.PisinSarja2, this.ToiseksiPisinSarja2));
+                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.PisinSarja2, this.ToiseksiPisinSarja2));
                 }
                 else if (!string.IsNullOrEmpty(this.PisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja2, this.PisinSarja2));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.PisinSarja2));
                 }
                 else if (!string.IsNullOrEmpty(this.ToiseksiPisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", this.Pelaaja2, this.ToiseksiPisinSarja2));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.ToiseksiPisinSarja2));
                 }
 
                 return s.ToString();
@@ -1006,31 +1006,49 @@ namespace KaisaKaavio
                 }
             }
 
-            string lyhytNimi1 = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi1);
-            string lyhytNimi2 = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi2);
+            List<string> nootit1 = new List<string>();
+            List<string> nootit2 = new List<string>();
 
-            if (KierrosPelaaja1 < Kierros && KierrosPelaaja2 < Kierros)
+            if (KierrosPelaaja1 < Kierros)
             {
+                nootit1.Add(string.Format("{0}. kierros", KierrosPelaaja1));
+            }
+            
+            if (KierrosPelaaja2 < Kierros)
+            {
+                nootit2.Add(string.Format("{0}. kierros", KierrosPelaaja2));
+            }
+
+            if (!string.IsNullOrEmpty(PisinSarja1) && !string.IsNullOrEmpty(ToiseksiPisinSarja1))
+            {
+                nootit1.Add(string.Format("{0}p ja {1}p sarjat", PisinSarja1, ToiseksiPisinSarja1));
+            }
+            else if (!string.IsNullOrEmpty(PisinSarja1))
+            {
+                nootit1.Add(string.Format("{0}p sarja", PisinSarja1));
+            }
+
+            if (!string.IsNullOrEmpty(PisinSarja2) && !string.IsNullOrEmpty(ToiseksiPisinSarja2))
+            {
+                nootit2.Add(string.Format("{0}p ja {1}p sarjat", PisinSarja2, ToiseksiPisinSarja2));
+            }
+            else if (!string.IsNullOrEmpty(PisinSarja2))
+            {
+                nootit2.Add(string.Format("{0}p sarja", PisinSarja2));
+            }
+
+            if (nootit1.Any())
+            {
+                string lyhytNimi1 = Tyypit.Nimi.LyhytNimi(Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi1));
                 teksti.NormaaliTeksti(" ");
-                teksti.PieniTeksti(string.Format(" - Molempien {0}. kierros", KierrosPelaaja1));
+                teksti.PieniTeksti(string.Format(" ({0} {1})", lyhytNimi1, string.Join(", ", nootit1)));
             }
-            else if (KierrosPelaaja1 < Kierros)
+
+            if (nootit2.Any())
             {
-                Pelaaja pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
-                if (pelaaja != null)
-                {
-                    teksti.NormaaliTeksti(" ");
-                    teksti.PieniTeksti(string.Format(" - {0} {1}. kierros", lyhytNimi1, KierrosPelaaja1));
-                }
-            }
-            else if (KierrosPelaaja2 < Kierros)
-            {
-                Pelaaja pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
-                if (pelaaja != null)
-                {
-                    teksti.NormaaliTeksti(" ");
-                    teksti.PieniTeksti(string.Format(" - {0} {1}. kierros", lyhytNimi2, KierrosPelaaja2));
-                }
+                string lyhytNimi2 = Tyypit.Nimi.LyhytNimi(Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi2));
+                teksti.NormaaliTeksti(" ");
+                teksti.PieniTeksti(string.Format(" ({0} {1})", lyhytNimi2, string.Join(", ", nootit2)));
             }
 
             if (this.Tilanne == PelinTilanne.Kaynnissa)

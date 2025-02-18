@@ -31,6 +31,15 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlIgnore]
+        public string LyhytNimi
+        {
+            get
+            {
+                return Tyypit.Nimi.LyhytNimi(this.Nimi);
+            }
+        }
+
         private string seura = string.Empty;
 
         [XmlAttribute]

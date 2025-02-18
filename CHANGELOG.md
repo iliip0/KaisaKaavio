@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.22		(työn alla)
+
+* Pisimmät sarjat lisätty pelien perään 'Pelit ja Tulokset' osiossa
+
 ## Versio 1.0.0.21		(julkaistu 17.2.2025)
 
 * Lisätty mahdollisuus pelata alkukierrokset usealla pelipaikalla
