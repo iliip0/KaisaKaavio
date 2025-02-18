@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.22		(työn alla)
+## Versio 1.0.0.22		(julkaistu 18.2.2025)
 
 * Pisimmät sarjat lisätty pelien perään 'Pelit ja Tulokset' osiossa
 
