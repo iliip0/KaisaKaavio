@@ -35,13 +35,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 512);
+            this.ClientSize = new System.Drawing.Size(850, 563);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(733, 555);
+            this.MaximumSize = new System.Drawing.Size(870, 606);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(733, 555);
+            this.MinimumSize = new System.Drawing.Size(870, 606);
             this.Name = "SalinTiedotPopup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Muokkaa pelipaikan tietoja";

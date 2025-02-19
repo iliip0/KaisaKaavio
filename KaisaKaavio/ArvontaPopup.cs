@@ -17,6 +17,7 @@ namespace KaisaKaavio
 
         private BindingList<Pelaaja> pelaajat = new BindingList<Pelaaja>();
         private BindingList<Sali> salit = new BindingList<Sali>();
+        private Sali varsinainenSali = null;
 
         private List<string> virheet = new List<string>();
         private List<string> varoitukset = new List<string>();
@@ -25,6 +26,7 @@ namespace KaisaKaavio
         {
             this.kilpailu = kilpailu;
             this.loki = loki;
+            this.varsinainenSali = sali;
 
             InitializeComponent();
 
@@ -74,6 +76,19 @@ namespace KaisaKaavio
                             this.loki.Kirjoita(string.Format("Sijoitettiin toimitsija {0} automaattisesti salille {1} kaaviota arvottaessa", p.Nimi, s.LyhytNimi));
                             p.PeliPaikka = s.LyhytNimi;
                         }
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(this.kilpailu.KilpailunJohtaja))
+            {
+                var pelaaja = pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, this.kilpailu.KilpailunJohtaja));
+                if (pelaaja != null)
+                {
+                    if (string.IsNullOrEmpty(pelaaja.PeliPaikka))
+                    {
+                        pelaaja.PeliPaikka = this.varsinainenSali.LyhytNimi;
+                        this.loki.Kirjoita(string.Format("Sijoitettiin kilpailun johtaja {0} salille {1}", pelaaja.Nimi, this.varsinainenSali.LyhytNimi));
                     }
                 }
             }

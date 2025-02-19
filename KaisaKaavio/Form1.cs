@@ -5153,6 +5153,20 @@ namespace KaisaKaavio
             }
         }
 
+        private void varsinaisenPelipaikanTiedotButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var popup = new SalinTiedotPopup(this.asetukset.Sali, this.kilpailu.KaavioArvottu))
+                {
+                    popup.ShowDialog();
+                }
+            }
+            catch
+            { 
+            }
+        }
+
         private void kaavioidenYhdistaminenComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PaivitaPelipaikatUI();
