@@ -3522,19 +3522,19 @@ namespace KaisaKaavio
                 }
             }
 
-            if (sali.Toimitsijat.Any())
+            if (sali.Toimitsijat.Any(x => !string.IsNullOrEmpty(x.Nimi)))
             {
                 teksti.RivinVaihto();
                 teksti.Otsikko("Pelipaikan vastuuhenkilöt");
                 teksti.RivinVaihto();
 
-                foreach (var toimitsija in sali.Toimitsijat)
+                foreach (var toimitsija in sali.Toimitsijat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
                 {
                     teksti.NormaaliTeksti(string.Format("{0} ({1})", toimitsija.Nimi, toimitsija.Rooli));
 
                     if (!string.IsNullOrEmpty(toimitsija.PuhelinNumero))
                     {
-                        teksti.NormaaliTeksti(string.Format(" - puhelinnumero {0}", toimitsija.PuhelinNumero));
+                        teksti.NormaaliTeksti(string.Format(" - puh {0}", toimitsija.PuhelinNumero));
                     }
 
                     teksti.RivinVaihto();

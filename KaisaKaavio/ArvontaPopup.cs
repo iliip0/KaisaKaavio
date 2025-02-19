@@ -191,9 +191,15 @@ namespace KaisaKaavio
 
             foreach (var s in this.salit)
             {
-                if (s.Kaytossa && s.Pelaajia < 4)
+                if (s.Kaytossa)
                 {
-                    KirjaaVirhe(string.Format("Salilla {0} on alle neljä pelaajaa. Kisat lienee järkevää pelata vähemmällä salimäärällä", s.LyhytNimi), false);
+                    if (s.Pelaajia <= this.kilpailu.KaavioidenYhdistaminenKierroksestaInt)
+                    {
+                        KirjaaVirhe(string.Format("Salilla {0} on alle {1} pelaajaa. Kisat täytyy pelata vähemmällä salimäärällä, tai kaaviot tulee yhdistää aiemmin", 
+                            s.LyhytNimi, 
+                            this.kilpailu.KaavioidenYhdistaminenKierroksestaInt + 1), 
+                            true);
+                    }
                 }
             }
         }
