@@ -60,6 +60,9 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string KaavioidenYhdistaminenKierroksesta { get; set; }
 
+        [DefaultValue("")]
+        public string BiljardiOrgId { get; set; }
+
         [XmlIgnore]
         public int KaavioidenYhdistaminenKierroksestaInt 
         {
@@ -306,6 +309,7 @@ namespace KaisaKaavio
             Sijoittaminen = KaisaKaavio.Sijoittaminen.EiSijoittamista;
             KilpaSarja = KaisaKaavio.KilpaSarja.Yleinen;
             SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
+            BiljardiOrgId = string.Empty;
 
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             TallennusTarvitaan = false;
@@ -920,6 +924,8 @@ namespace KaisaKaavio
                 this.KilpaSarja = kilpailu.KilpaSarja;
                 this.TestiKilpailu = kilpailu.TestiKilpailu;
                 this.KaavioidenYhdistaminenKierroksesta = kilpailu.KaavioidenYhdistaminenKierroksesta;
+                this.BiljardiOrgId = kilpailu.BiljardiOrgId;
+
                 this.RankingOsakilpailu = null;
 
                 VarmistaEttaKilpailullaOnId();

@@ -104,6 +104,14 @@
     </Compile>
     <Compile Include="HakuAlgoritmi.cs" />
     <Compile Include="IHakuAlgoritmi.cs" />
+    <Compile Include="Integraatio\BiljardiOrg.cs" />
+    <Compile Include="Integraatio\HaeOsallistujatBiljardiOrgistaPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Integraatio\HaeOsallistujatBiljardiOrgistaPopup.Designer.cs">
+      <DependentUpon>HaeOsallistujatBiljardiOrgistaPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Integraatio\HtmlLukija.cs" />
     <Compile Include="IStatusRivi.cs" />
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kayttoliittyma\Mukauttaja.cs" />
@@ -198,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integraatio\HaeOsallistujatBiljardiOrgistaPopup.resx">
+      <DependentUpon>HaeOsallistujatBiljardiOrgistaPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PelinTiedotPopup.resx">
       <DependentUpon>PelinTiedotPopup.cs</DependentUpon>

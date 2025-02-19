@@ -46,6 +46,7 @@ namespace KaisaKaavio
         private Color rankingRivinVari0 = Color.FromArgb(255, 235, 235, 235);
         private Color rankingRivinVari1 = Color.FromArgb(255, 255, 255, 255);
         private Color tummaHarmaa = Color.FromArgb(255, 100, 100, 100);
+        private Color biljardiOrgVari = Color.FromArgb(255, 180, 22, 111);
 
         private AutoCompleteStringCollection pelaajienNimet = null;
         private AutoCompleteStringCollection pelipaikkojenNimet = null;
@@ -126,6 +127,8 @@ namespace KaisaKaavio
             this.rankingHakuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
 
             this.kaavioidenYhdistaminenComboBox.SelectedIndex = 1;
+
+            this.haeBiljardOrgSivultaButton.BackColor = this.biljardiOrgVari;
 
             this.openFileDialog1.InitialDirectory = this.kansio;
 
@@ -1654,7 +1657,22 @@ namespace KaisaKaavio
                         this.splitContainer10.Panel2Collapsed = true;
                     }
 
-                    this.osallistujatSplitContainer.Panel1Collapsed = !this.kilpailu.TestiKilpailu;
+                    if (!this.kilpailu.KaavioArvottu &&
+                        (this.kilpailu.TestiKilpailu ||
+                        this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu ||
+                        this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu))
+                    {
+                        this.biljardiOrgSplitContainer.Panel1Collapsed = !(
+                            this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu || 
+                            this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu);
+                        this.biljardiOrgSplitContainer.Panel2Collapsed = !this.kilpailu.TestiKilpailu;
+                    }
+                    else
+                    {
+                        this.biljardiOrgSplitContainer.Panel1Collapsed = false;
+                        this.biljardiOrgSplitContainer.Panel2Collapsed = false;
+                        this.osallistujatSplitContainer.Panel1Collapsed = true;
+                    }
 
                     this.arvoKaavioButton.Visible = !this.kilpailu.ToinenKierrosAlkanut;
                 }
@@ -5170,6 +5188,28 @@ namespace KaisaKaavio
         private void kaavioidenYhdistaminenComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PaivitaPelipaikatUI();
+        }
+
+        #endregion
+
+        // ========={( Integraatio muiden palveluiden kanssa )}============================================================ //
+        #region Integraatio
+
+        private void haeBiljardOrgSivultaButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var popup = new Integraatio.HaeOsallistujatBiljardiOrgistaPopup(this.kilpailu))
+                {
+                    if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    { 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Ilmoittautuneiden hakeminen biljardi.org sivulta epäonnistui", ex, false);
+            }
         }
 
         #endregion

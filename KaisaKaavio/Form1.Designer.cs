@@ -527,6 +527,8 @@
             this.dataGridViewImageColumn28 = new System.Windows.Forms.DataGridViewImageColumn();
             this.testiajoBackgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.dataGridViewImageColumn29 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.biljardiOrgSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.haeBiljardOrgSivultaButton = new System.Windows.Forms.Button();
             this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -728,6 +730,10 @@
             this.splitContainer9.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.biljardiOrgSplitContainer)).BeginInit();
+            this.biljardiOrgSplitContainer.Panel1.SuspendLayout();
+            this.biljardiOrgSplitContainer.Panel2.SuspendLayout();
+            this.biljardiOrgSplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jalkiIlmoBindingSource)).BeginInit();
@@ -1124,24 +1130,21 @@
             // osallistujatSplitContainer.Panel1
             // 
             this.osallistujatSplitContainer.Panel1.BackColor = System.Drawing.Color.SteelBlue;
-            this.osallistujatSplitContainer.Panel1.Controls.Add(this.lisaa20TestiPelaajaaButton);
-            this.osallistujatSplitContainer.Panel1.Controls.Add(this.lisaa10TestiPelaajaaButton);
-            this.osallistujatSplitContainer.Panel1.Controls.Add(this.lisaa5TestiPelaajaaButton);
-            this.osallistujatSplitContainer.Panel1.Controls.Add(this.label58);
+            this.osallistujatSplitContainer.Panel1.Controls.Add(this.biljardiOrgSplitContainer);
             this.osallistujatSplitContainer.Panel1.ForeColor = System.Drawing.Color.White;
             // 
             // osallistujatSplitContainer.Panel2
             // 
             this.osallistujatSplitContainer.Panel2.Controls.Add(this.osallistujatDataGridView);
             this.osallistujatSplitContainer.Size = new System.Drawing.Size(543, 461);
-            this.osallistujatSplitContainer.SplitterDistance = 44;
+            this.osallistujatSplitContainer.SplitterDistance = 75;
             this.osallistujatSplitContainer.TabIndex = 1;
             // 
             // lisaa20TestiPelaajaaButton
             // 
             this.lisaa20TestiPelaajaaButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lisaa20TestiPelaajaaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lisaa20TestiPelaajaaButton.Location = new System.Drawing.Point(432, 3);
+            this.lisaa20TestiPelaajaaButton.Location = new System.Drawing.Point(174, 30);
             this.lisaa20TestiPelaajaaButton.Name = "lisaa20TestiPelaajaaButton";
             this.lisaa20TestiPelaajaaButton.Size = new System.Drawing.Size(81, 38);
             this.lisaa20TestiPelaajaaButton.TabIndex = 3;
@@ -1153,7 +1156,7 @@
             // 
             this.lisaa10TestiPelaajaaButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lisaa10TestiPelaajaaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lisaa10TestiPelaajaaButton.Location = new System.Drawing.Point(345, 3);
+            this.lisaa10TestiPelaajaaButton.Location = new System.Drawing.Point(87, 30);
             this.lisaa10TestiPelaajaaButton.Name = "lisaa10TestiPelaajaaButton";
             this.lisaa10TestiPelaajaaButton.Size = new System.Drawing.Size(81, 38);
             this.lisaa10TestiPelaajaaButton.TabIndex = 2;
@@ -1165,7 +1168,7 @@
             // 
             this.lisaa5TestiPelaajaaButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lisaa5TestiPelaajaaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lisaa5TestiPelaajaaButton.Location = new System.Drawing.Point(271, 3);
+            this.lisaa5TestiPelaajaaButton.Location = new System.Drawing.Point(13, 30);
             this.lisaa5TestiPelaajaaButton.Name = "lisaa5TestiPelaajaaButton";
             this.lisaa5TestiPelaajaaButton.Size = new System.Drawing.Size(68, 38);
             this.lisaa5TestiPelaajaaButton.TabIndex = 1;
@@ -1177,7 +1180,7 @@
             // 
             this.label58.AutoSize = true;
             this.label58.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label58.Location = new System.Drawing.Point(8, 9);
+            this.label58.Location = new System.Drawing.Point(9, 3);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(257, 24);
             this.label58.TabIndex = 0;
@@ -1222,7 +1225,7 @@
             this.osallistujatDataGridView.Name = "osallistujatDataGridView";
             dataGridViewCellStyle12.Padding = new System.Windows.Forms.Padding(1);
             this.osallistujatDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle12;
-            this.osallistujatDataGridView.Size = new System.Drawing.Size(543, 413);
+            this.osallistujatDataGridView.Size = new System.Drawing.Size(543, 382);
             this.osallistujatDataGridView.TabIndex = 0;
             this.osallistujatDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             this.osallistujatDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.osallistujatDataGridView_CellFormatting);
@@ -1740,9 +1743,9 @@
             this.pelitTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pelitTabPage.Controls.Add(this.splitContainer2);
             this.pelitTabPage.ImageIndex = 17;
-            this.pelitTabPage.Location = new System.Drawing.Point(4, 87);
+            this.pelitTabPage.Location = new System.Drawing.Point(4, 44);
             this.pelitTabPage.Name = "pelitTabPage";
-            this.pelitTabPage.Size = new System.Drawing.Size(776, 534);
+            this.pelitTabPage.Size = new System.Drawing.Size(776, 577);
             this.pelitTabPage.TabIndex = 2;
             this.pelitTabPage.Text = "Pelit";
             this.pelitTabPage.UseVisualStyleBackColor = true;
@@ -1769,7 +1772,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.pelitDataGridView);
-            this.splitContainer2.Size = new System.Drawing.Size(772, 530);
+            this.splitContainer2.Size = new System.Drawing.Size(772, 573);
             this.splitContainer2.SplitterDistance = 61;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1876,7 +1879,7 @@
             this.pelitDataGridView.RowHeadersVisible = false;
             this.pelitDataGridView.ShowCellErrors = false;
             this.pelitDataGridView.ShowEditingIcon = false;
-            this.pelitDataGridView.Size = new System.Drawing.Size(768, 461);
+            this.pelitDataGridView.Size = new System.Drawing.Size(768, 504);
             this.pelitDataGridView.TabIndex = 0;
             this.pelitDataGridView.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.pelitDataGridView_CellBeginEdit);
             this.pelitDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.pelitDataGridView_CellContentClick);
@@ -6137,6 +6140,43 @@
             this.dataGridViewImageColumn29.ReadOnly = true;
             this.dataGridViewImageColumn29.Width = 32;
             // 
+            // biljardiOrgSplitContainer
+            // 
+            this.biljardiOrgSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.biljardiOrgSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.biljardiOrgSplitContainer.IsSplitterFixed = true;
+            this.biljardiOrgSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.biljardiOrgSplitContainer.Name = "biljardiOrgSplitContainer";
+            // 
+            // biljardiOrgSplitContainer.Panel1
+            // 
+            this.biljardiOrgSplitContainer.Panel1.Controls.Add(this.haeBiljardOrgSivultaButton);
+            this.biljardiOrgSplitContainer.Panel1.Padding = new System.Windows.Forms.Padding(5);
+            // 
+            // biljardiOrgSplitContainer.Panel2
+            // 
+            this.biljardiOrgSplitContainer.Panel2.Controls.Add(this.lisaa5TestiPelaajaaButton);
+            this.biljardiOrgSplitContainer.Panel2.Controls.Add(this.lisaa20TestiPelaajaaButton);
+            this.biljardiOrgSplitContainer.Panel2.Controls.Add(this.label58);
+            this.biljardiOrgSplitContainer.Panel2.Controls.Add(this.lisaa10TestiPelaajaaButton);
+            this.biljardiOrgSplitContainer.Size = new System.Drawing.Size(543, 75);
+            this.biljardiOrgSplitContainer.SplitterDistance = 271;
+            this.biljardiOrgSplitContainer.TabIndex = 4;
+            // 
+            // haeBiljardOrgSivultaButton
+            // 
+            this.haeBiljardOrgSivultaButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.haeBiljardOrgSivultaButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.haeBiljardOrgSivultaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.haeBiljardOrgSivultaButton.Location = new System.Drawing.Point(5, 5);
+            this.haeBiljardOrgSivultaButton.Name = "haeBiljardOrgSivultaButton";
+            this.haeBiljardOrgSivultaButton.Size = new System.Drawing.Size(261, 65);
+            this.haeBiljardOrgSivultaButton.TabIndex = 0;
+            this.haeBiljardOrgSivultaButton.Text = "Hae ilmoittautuneet biljardi.org sivustolta...";
+            this.toolTip1.SetToolTip(this.haeBiljardOrgSivultaButton, "Hae ilmoittautuneet biljardi.org sivustolta");
+            this.haeBiljardOrgSivultaButton.UseVisualStyleBackColor = true;
+            this.haeBiljardOrgSivultaButton.Click += new System.EventHandler(this.haeBiljardOrgSivultaButton_Click);
+            // 
             // kilpailuBindingSource
             // 
             this.kilpailuBindingSource.DataSource = typeof(KaisaKaavio.Kilpailu);
@@ -6582,7 +6622,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
             this.splitContainer10.ResumeLayout(false);
             this.osallistujatSplitContainer.Panel1.ResumeLayout(false);
-            this.osallistujatSplitContainer.Panel1.PerformLayout();
             this.osallistujatSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.osallistujatSplitContainer)).EndInit();
             this.osallistujatSplitContainer.ResumeLayout(false);
@@ -6744,6 +6783,11 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sarjatBindingSourceBindingSource)).EndInit();
+            this.biljardiOrgSplitContainer.Panel1.ResumeLayout(false);
+            this.biljardiOrgSplitContainer.Panel2.ResumeLayout(false);
+            this.biljardiOrgSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.biljardiOrgSplitContainer)).EndInit();
+            this.biljardiOrgSplitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kilpailuBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pelaajaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.jalkiIlmoBindingSource)).EndInit();
@@ -7261,6 +7305,8 @@
         private System.Windows.Forms.DataGridViewButtonColumn PoistaPelipaikkaColumn;
         private System.Windows.Forms.SplitContainer splitContainer21;
         private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.SplitContainer biljardiOrgSplitContainer;
+        private System.Windows.Forms.Button haeBiljardOrgSivultaButton;
     }
 }
 
