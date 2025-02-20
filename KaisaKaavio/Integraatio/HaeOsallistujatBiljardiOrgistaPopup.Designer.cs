@@ -174,7 +174,7 @@
             this.haeOsallistujatatButton.Location = new System.Drawing.Point(598, 14);
             this.haeOsallistujatatButton.Name = "haeOsallistujatatButton";
             this.haeOsallistujatatButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.haeOsallistujatatButton.Size = new System.Drawing.Size(294, 106);
+            this.haeOsallistujatatButton.Size = new System.Drawing.Size(294, 101);
             this.haeOsallistujatatButton.TabIndex = 2;
             this.haeOsallistujatatButton.Text = "Hae ilmoittautuneet";
             this.haeOsallistujatatButton.UseVisualStyleBackColor = true;
@@ -263,10 +263,11 @@
             this.kisatComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kisatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kisatComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kisatComboBox.FormattingEnabled = true;
             this.kisatComboBox.Location = new System.Drawing.Point(14, 87);
             this.kisatComboBox.Name = "kisatComboBox";
-            this.kisatComboBox.Size = new System.Drawing.Size(578, 32);
+            this.kisatComboBox.Size = new System.Drawing.Size(578, 28);
             this.kisatComboBox.TabIndex = 4;
             this.kisatComboBox.SelectedIndexChanged += new System.EventHandler(this.kisatComboBox_SelectedIndexChanged);
             // 

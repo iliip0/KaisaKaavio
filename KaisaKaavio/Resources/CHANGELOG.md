@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.23		(työn alla)
+## Versio 1.0.0.23		(julkaistu 20.02.2025)
 
 * Varsinaisen pelisalin tiedot muokattaviksi 'Useamman pelipaikan kilpailu' välilehdelle
 * Ilmoittautuneiden haku biljardi.org sivulta - ominaisuuden teko aloitettu
