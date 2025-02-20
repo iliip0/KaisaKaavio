@@ -5199,7 +5199,7 @@ namespace KaisaKaavio
         {
             try
             {
-                using (var popup = new Integraatio.HaeOsallistujatBiljardiOrgistaPopup(this.kilpailu))
+                using (var popup = new Integraatio.HaeOsallistujatBiljardiOrgistaPopup(this.kilpailu, this.loki))
                 {
                     if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     { 

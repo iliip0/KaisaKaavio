@@ -17,6 +17,8 @@ namespace KaisaKaavio.Integraatio
         {
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; 
+                
                 using (WebClient client = new WebClient())
                 {
                     string html = client.DownloadString(osoite);
@@ -41,6 +43,17 @@ namespace KaisaKaavio.Integraatio
             }
 
             return string.Empty;
+        }
+
+        public static HtmlDocument Dokumentti(string html)
+        {
+            WebBrowser browser = new WebBrowser();
+            browser.ScriptErrorsSuppressed = true;
+            browser.DocumentText = html;
+            browser.Document.OpenNew(true);
+            browser.Document.Write(html);
+            //browser.Refresh();
+            return browser.Document;
         }
     }
 }

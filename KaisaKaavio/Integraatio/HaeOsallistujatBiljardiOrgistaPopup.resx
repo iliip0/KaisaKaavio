@@ -117,6 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Voit hakea kilpailuun ilmoittautuneet pelaajat syöttämällä alla olevaan boksiin kilpailun numeron ja painamalla 'Hae ilmoittautuneet' nappia. Kilpailun numeron näet menemällä biljardi.org sivulla kilpailun omalle sivulle (esim 'ilmoittautuneet' osioon). 
+Kilpailun numero näkyy osana sivun osoitetta, esim https://www.biljardi.org/kaisa/1626/ilmoittautuneet.php. Tässä esimerkissa kilpailun numero on 1626 </value>
+  </data>
+  <metadata name="kilpailuBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>186, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

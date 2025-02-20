@@ -6,6 +6,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 * Varsinaisen pelisalin tiedot muokattaviksi 'Useamman pelipaikan kilpailu' välilehdelle
 * Ilmoittautuneiden haku biljardi.org sivulta - ominaisuuden teko aloitettu
+* Kaisaa pelatessa tuloksissa pisteet pakotettu välille 0-60
 
 ## Versio 1.0.0.22		(julkaistu 18.2.2025)
 
