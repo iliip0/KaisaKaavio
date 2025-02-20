@@ -16,6 +16,7 @@ namespace KaisaKaavio.Integraatio
         private Loki loki = null;
         private string ilmoittautuneetSivu = string.Empty;
         private List<Pelaaja> pelaajat = new List<Pelaaja>();
+        private List<Integraatio.BiljardiOrgKilpailu> kisat = new List<BiljardiOrgKilpailu>();
 
         private Color biljardiOrgVari = Color.FromArgb(255, 180, 22, 111);
 
@@ -32,6 +33,31 @@ namespace KaisaKaavio.Integraatio
             this.splitContainer1.Panel1.BackColor = biljardiOrgVari;
 
             this.haeOsallistujatatButton.Enabled = !string.IsNullOrEmpty(this.kilpailunNumeroTextBox.Text);
+
+            var k = Integraatio.BiljardiOrg.LataaTulevatKisat(this.loki);
+            if (k.Any())
+            {
+                this.kisat.Add(new BiljardiOrgKilpailu() { Nimi = "(valitse kilpailu)" });
+                this.kisat.AddRange(k);
+
+                this.kisatComboBox.DataSource = this.kisat;
+                this.kisatComboBox.SelectedIndex = 0;
+                this.kisatComboBox.DisplayMember = "Nimi";
+
+                if (!string.IsNullOrEmpty(this.kilpailu.BiljardiOrgId))
+                {
+                    var kisa = this.kisat.FirstOrDefault(x => string.Equals(x.Id, this.kilpailu.BiljardiOrgId));
+                    if (kisa != null)
+                    {
+                        this.kisatComboBox.SelectedIndex = this.kisat.IndexOf(kisa);
+                    }
+                }
+            }
+            else 
+            {
+                this.kisatLabel.Visible = false;
+                this.kisatComboBox.Visible = false;
+            }
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -143,6 +169,16 @@ namespace KaisaKaavio.Integraatio
             else
             {
                 this.richTextBox2.Text = "Valmis! Ei löytynyt ilmoittautuneita";
+            }
+        }
+
+        private void kisatComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.kisatComboBox.SelectedIndex > 0)
+            {
+                BiljardiOrgKilpailu kisa = (BiljardiOrgKilpailu)this.kisatComboBox.SelectedItem;
+                this.kilpailu.BiljardiOrgId = kisa.Id;
+                this.kilpailunNumeroTextBox.Text = kisa.Id;
             }
         }
     }

@@ -105,6 +105,7 @@
     <Compile Include="HakuAlgoritmi.cs" />
     <Compile Include="IHakuAlgoritmi.cs" />
     <Compile Include="Integraatio\BiljardiOrg.cs" />
+    <Compile Include="Integraatio\BiljardiOrgKilpailu.cs" />
     <Compile Include="Integraatio\HaeOsallistujatBiljardiOrgistaPopup.cs">
       <SubType>Form</SubType>
     </Compile>

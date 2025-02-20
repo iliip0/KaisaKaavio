@@ -29,6 +29,70 @@ namespace KaisaKaavio.Integraatio
             return string.Empty;
         }
 
+        public static List<BiljardiOrgKilpailu> LataaTulevatKisat(Loki loki)
+        {
+            List<BiljardiOrgKilpailu> kisat = new List<BiljardiOrgKilpailu>();
+
+            string url = string.Format("https://www.biljardi.org");
+
+            try
+            {
+                string html = Integraatio.HtmlLukija.Lue(url, loki, false);
+                var rivit = html.Split('\n');
+                if (rivit != null && rivit.Any())
+                {
+                    string edellinenRivi = string.Empty;
+                    foreach (var rivi in rivit)
+                    {
+                        if (rivi.Contains("/kaisa/") &&
+                            rivi.Contains("/ilmoittautuneet.php") &&
+                            !rivi.Contains("/parit/") &&
+                            !rivi.Contains("/joukkueet/"))
+                        {
+                            try
+                            {
+                                int i = rivi.IndexOf("/kaisa/");
+                                var id = rivi.Substring(i + 7);
+
+                                int j = id.IndexOf("/");
+                                id = id.Substring(0, j);
+
+                                if (!string.IsNullOrEmpty(edellinenRivi))
+                                {
+                                    int k = edellinenRivi.IndexOf("</span>");
+                                    var nimi = edellinenRivi.Substring(k + 7).Trim();
+
+                                    int l = nimi.IndexOf("</h3>");
+                                    nimi = nimi.Substring(0, l);
+
+                                    kisat.Add(new BiljardiOrgKilpailu() 
+                                    {
+                                        Nimi = nimi,
+                                        Id = id
+                                    });
+                                }
+                            }
+                            catch
+                            { 
+                            }
+                        }
+
+                        edellinenRivi = rivi;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (loki != null)
+                {
+                    loki.Kirjoita(string.Format("Ilmoittautuneiden haku biljardi.org sivulta {0} epäonnistui", url), ex, true);
+                }
+            }
+
+            return kisat;
+        }
+
         /// <summary>
         /// Hakee kilpailuun ilmoittautuneet pelaajat RG järjestyksessä biljardi.org sivulta
         /// </summary>

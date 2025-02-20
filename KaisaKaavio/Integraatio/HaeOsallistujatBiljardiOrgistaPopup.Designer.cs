@@ -42,6 +42,8 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.kisatLabel = new System.Windows.Forms.Label();
+            this.kisatComboBox = new System.Windows.Forms.ComboBox();
             this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -145,19 +147,21 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(10, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(329, 24);
+            this.label1.Size = new System.Drawing.Size(377, 24);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Kilpailun numero biljardi.org sivustolla:";
+            this.label1.Text = "Syötä kilpailun numero biljardi.org sivustolla:";
             // 
             // kilpailunNumeroTextBox
             // 
+            this.kilpailunNumeroTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.kilpailunNumeroTextBox.BackColor = System.Drawing.Color.White;
             this.kilpailunNumeroTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.kilpailunNumeroTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.kilpailuBindingSource, "BiljardiOrgId", true));
             this.kilpailunNumeroTextBox.ForeColor = System.Drawing.Color.Black;
-            this.kilpailunNumeroTextBox.Location = new System.Drawing.Point(345, 13);
+            this.kilpailunNumeroTextBox.Location = new System.Drawing.Point(393, 14);
             this.kilpailunNumeroTextBox.Name = "kilpailunNumeroTextBox";
-            this.kilpailunNumeroTextBox.Size = new System.Drawing.Size(100, 29);
+            this.kilpailunNumeroTextBox.Size = new System.Drawing.Size(199, 29);
             this.kilpailunNumeroTextBox.TabIndex = 1;
             this.kilpailunNumeroTextBox.TextChanged += new System.EventHandler(this.kilpailunNumeroTextBox_TextChanged);
             // 
@@ -167,10 +171,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.haeOsallistujatatButton.Image = global::KaisaKaavio.Properties.Resources.Copy;
             this.haeOsallistujatatButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.haeOsallistujatatButton.Location = new System.Drawing.Point(598, 3);
+            this.haeOsallistujatatButton.Location = new System.Drawing.Point(598, 14);
             this.haeOsallistujatatButton.Name = "haeOsallistujatatButton";
             this.haeOsallistujatatButton.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.haeOsallistujatatButton.Size = new System.Drawing.Size(294, 49);
+            this.haeOsallistujatatButton.Size = new System.Drawing.Size(294, 106);
             this.haeOsallistujatatButton.TabIndex = 2;
             this.haeOsallistujatatButton.Text = "Hae ilmoittautuneet";
             this.haeOsallistujatatButton.UseVisualStyleBackColor = true;
@@ -188,6 +192,8 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.kisatComboBox);
+            this.splitContainer3.Panel1.Controls.Add(this.kisatLabel);
             this.splitContainer3.Panel1.Controls.Add(this.haeOsallistujatatButton);
             this.splitContainer3.Panel1.Controls.Add(this.label1);
             this.splitContainer3.Panel1.Controls.Add(this.kilpailunNumeroTextBox);
@@ -197,7 +203,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.richTextBox2);
             this.splitContainer3.Size = new System.Drawing.Size(899, 424);
-            this.splitContainer3.SplitterDistance = 59;
+            this.splitContainer3.SplitterDistance = 131;
             this.splitContainer3.TabIndex = 0;
             // 
             // richTextBox1
@@ -234,7 +240,7 @@
             this.richTextBox2.Location = new System.Drawing.Point(0, 0);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(895, 357);
+            this.richTextBox2.Size = new System.Drawing.Size(895, 285);
             this.richTextBox2.TabIndex = 0;
             this.richTextBox2.Text = "";
             // 
@@ -242,6 +248,27 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // kisatLabel
+            // 
+            this.kisatLabel.AutoSize = true;
+            this.kisatLabel.Location = new System.Drawing.Point(10, 50);
+            this.kisatLabel.Name = "kisatLabel";
+            this.kisatLabel.Size = new System.Drawing.Size(307, 24);
+            this.kisatLabel.TabIndex = 3;
+            this.kisatLabel.Text = "Tai valitse tulevista Kaisa kilpailuista:";
+            // 
+            // kisatComboBox
+            // 
+            this.kisatComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kisatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kisatComboBox.FormattingEnabled = true;
+            this.kisatComboBox.Location = new System.Drawing.Point(14, 87);
+            this.kisatComboBox.Name = "kisatComboBox";
+            this.kisatComboBox.Size = new System.Drawing.Size(578, 32);
+            this.kisatComboBox.TabIndex = 4;
+            this.kisatComboBox.SelectedIndexChanged += new System.EventHandler(this.kisatComboBox_SelectedIndexChanged);
             // 
             // kilpailuBindingSource
             // 
@@ -299,5 +326,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ComboBox kisatComboBox;
+        private System.Windows.Forms.Label kisatLabel;
     }
 }
