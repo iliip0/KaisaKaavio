@@ -19,7 +19,8 @@ namespace KaisaKaavio
         public int Kierros { get; set; }
 
         [XmlIgnore]
-        public string KierrosTeksti { 
+        public string KierrosTeksti 
+        { 
             get 
             {
                 return OnPudotusPeli() ? string.Format("{0} (CUP)", Kierros) : Kierros.ToString();
@@ -80,9 +81,10 @@ namespace KaisaKaavio
             get { return this.pisteet1; }
             set
             {
-                if (!string.Equals(this.pisteet1, value))
+                var p = RajaaPisteet(value);
+                if (!string.Equals(this.pisteet1, p))
                 {
-                    this.pisteet1 = value;
+                    this.pisteet1 = p;
                     RaisePropertyChanged("Pisteet1");
 
                     PaivitaTulos();
@@ -104,9 +106,10 @@ namespace KaisaKaavio
             get { return this.pisteet2; }
             set
             {
-                if (!string.Equals(this.pisteet2, value))
+                var p = RajaaPisteet(value);
+                if (!string.Equals(this.pisteet2, p))
                 {
-                    this.pisteet2 = value;
+                    this.pisteet2 = p;
                     RaisePropertyChanged("Pisteet2");
 
                     PaivitaTulos();
@@ -242,6 +245,7 @@ namespace KaisaKaavio
         }
 
         private PelinTulos tulos = PelinTulos.EiTiedossa;
+
         [XmlIgnore]
         public PelinTulos Tulos
         {
@@ -755,16 +759,23 @@ namespace KaisaKaavio
 
             int pisteet = 0;
 
-            string s = string.Empty;
+            StringBuilder s = new StringBuilder();
+
+            if (teksti.StartsWith("-"))
+            {
+                s.Append('-');
+                teksti = teksti.Substring(1);
+            }
+
             foreach (var c in teksti)
             {
                 if (Char.IsDigit(c))
                 {
-                    s += c;
+                    s.Append(c);
                 }
             }
 
-            Int32.TryParse(s, out pisteet);
+            Int32.TryParse(s.ToString(), out pisteet);
 
             voitti = teksti.Contains("v") || teksti.Contains("V");
             havisi = teksti.Contains("h") || teksti.Contains("H");
@@ -1168,6 +1179,55 @@ namespace KaisaKaavio
                 }
                 return PelinTulos.EiTiedossa;
             }
+        }
+
+        private string RajaaPisteet(string p)
+        {
+            if (this.Kilpailu != null && this.Kilpailu.Laji == Laji.Kaisa)
+            {
+                bool voitti = false;
+                bool havisi = false;
+                int pisteet = Pisteet(p, out voitti, out havisi);
+
+                if (pisteet >= 0 && pisteet <= this.Kilpailu.TavoitePistemaara)
+                {
+                    return p;
+                }
+
+                if (pisteet < 0)
+                {
+                    if (voitti)
+                    {
+                        return "0v";
+                    }
+                    else if (havisi)
+                    {
+                        return "0h";
+                    }
+                    else
+                    {
+                        return "0";
+                    }
+                }
+
+                if (pisteet > this.Kilpailu.TavoitePistemaara)
+                {
+                    if (voitti)
+                    {
+                        return this.Kilpailu.TavoitePistemaara.ToString() + "v";
+                    }
+                    else if (havisi)
+                    {
+                        return this.Kilpailu.TavoitePistemaara.ToString() + "h";
+                    }
+                    else
+                    {
+                        return this.Kilpailu.TavoitePistemaara.ToString();
+                    }
+                }
+            }
+
+            return p;
         }
 
         public void PaivitaTulos()

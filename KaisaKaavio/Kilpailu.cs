@@ -63,6 +63,9 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string BiljardiOrgId { get; set; }
 
+        [DefaultValue("")]
+        public string EdellisenBiljardiOrgHaunPvm { get; set; }
+
         [XmlIgnore]
         public int KaavioidenYhdistaminenKierroksestaInt 
         {
@@ -310,6 +313,7 @@ namespace KaisaKaavio
             KilpaSarja = KaisaKaavio.KilpaSarja.Yleinen;
             SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
             BiljardiOrgId = string.Empty;
+            EdellisenBiljardiOrgHaunPvm = string.Empty;
 
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             TallennusTarvitaan = false;
@@ -925,6 +929,7 @@ namespace KaisaKaavio
                 this.TestiKilpailu = kilpailu.TestiKilpailu;
                 this.KaavioidenYhdistaminenKierroksesta = kilpailu.KaavioidenYhdistaminenKierroksesta;
                 this.BiljardiOrgId = kilpailu.BiljardiOrgId;
+                this.EdellisenBiljardiOrgHaunPvm = kilpailu.EdellisenBiljardiOrgHaunPvm;
 
                 this.RankingOsakilpailu = null;
 
