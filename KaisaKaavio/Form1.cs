@@ -611,14 +611,14 @@ namespace KaisaKaavio
                 this.tavoitePistemaaraLabel.Text = "pisteeseen";
             }
 
+            foreach (var c in this.pelitDataGridView.Columns)
+            {
+                ((DataGridViewColumn)c).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                ((DataGridViewColumn)c).HeaderCell.Style.Font = this.ohutPieniFontti;
+            }
+
             if (this.kilpailu.Laji == Laji.Kara)
             {
-                this.KeskiarvoTeksti1.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.KeskiarvoTeksti1.HeaderCell.Style.Font = this.ohutPieniFontti;
-                this.KeskiarvoTeksti2.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.KeskiarvoTeksti2.HeaderCell.Style.Font = this.ohutPieniFontti;
-                this.LyontivuorojaColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.LyontivuorojaColumn.HeaderCell.Style.Font = this.ohutPieniFontti;
                 this.peliAikaLabel.Text = "Lyöntivuoroja:";
                 this.peliAikaLabel2.Text = string.Empty;
                 this.tavoitePistemaaraLabel.Text = "karaan";
