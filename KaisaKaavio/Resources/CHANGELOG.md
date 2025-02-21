@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.24		(työn alla)
+
+* Lisätty 24 pelaajan sijoittaminen Kaisan SM kilpailuihin
+
 ## Versio 1.0.0.23		(julkaistu 20.02.2025)
 
 * Varsinaisen pelisalin tiedot muokattaviksi 'Useamman pelipaikan kilpailu' välilehdelle

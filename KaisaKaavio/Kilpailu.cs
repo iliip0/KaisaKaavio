@@ -1119,7 +1119,7 @@ namespace KaisaKaavio
             }
         }
 
-        public string PelaajanNimiKaaviossa(string idString, bool detaljit)
+        public string PelaajanNimiKaaviossa(string idString, bool detaljit, int kierros)
         {
             int id = -1;
             if (!Int32.TryParse(idString, out id))
@@ -1156,7 +1156,7 @@ namespace KaisaKaavio
             }
             else
             {
-                if (detaljit && !string.IsNullOrEmpty(pelaaja.Sijoitettu))
+                if (detaljit && !string.IsNullOrEmpty(pelaaja.Sijoitettu) && kierros < 4)
                 {
                     if (pelaaja.Sijoitettu.Contains('(') || pelaaja.Sijoitettu.Contains('['))
                     {
@@ -2103,7 +2103,11 @@ namespace KaisaKaavio
                         viimeinenPelattuKierros = kierros;
                     }
 
-                    vajaitaPeleja = Pelit.Count(x => (x.Kierros == kierros) && (x.Id1 < 0 || x.Id2 < 0));
+                    vajaitaPeleja = Pelit.Count(x => 
+                        (x.Kierros == kierros) && 
+                        (x.Tilanne != PelinTilanne.Pelattu) &&
+                        (x.Id1 < 0 || x.Id2 < 0));
+
                     if (pelejaKesken > 0 || vajaitaPeleja > 0)
                     {
                         break;
@@ -3114,11 +3118,18 @@ namespace KaisaKaavio
                         x.KierrosPelaaja1 == peli.KierrosPelaaja1 &&
                         x.KierrosPelaaja2 == peli.KierrosPelaaja2))
                     {
-                        this.LisaaPeli(
-                            this.Osallistujat.First(x => x.Id == peli.Id1),
-                            peli.KierrosPelaaja1,
-                            this.Osallistujat.First(x => x.Id == peli.Id2),
-                            peli.KierrosPelaaja2);
+                        if (peli.Id2 < 0)
+                        {
+                            this.LisaaWO(this.Osallistujat.First(x => x.Id == peli.Id1));
+                        }
+                        else
+                        {
+                            this.LisaaPeli(
+                                this.Osallistujat.First(x => x.Id == peli.Id1),
+                                peli.KierrosPelaaja1,
+                                this.Osallistujat.First(x => x.Id == peli.Id2),
+                                peli.KierrosPelaaja2);
+                        }
                     }
                 }
             }

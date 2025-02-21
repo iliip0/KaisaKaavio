@@ -298,7 +298,7 @@ namespace KaisaKaavio
         { 
             get 
             { 
-                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, true); 
+                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, true, this.Kierros); 
             } 
         }
 
@@ -307,7 +307,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, true);
+                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, true, this.Kierros);
             }
         }
 
@@ -316,7 +316,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, false);
+                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, false, this.Kierros);
             }
         }
 
@@ -325,7 +325,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, false);
+                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, false, this.Kierros);
             }
         }
 
@@ -412,37 +412,37 @@ namespace KaisaKaavio
                 }
                 else if (this.KierrosPelaaja1 < this.Kierros)
                 {
-                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.KierrosPelaaja1));
+                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.KierrosPelaaja1));
                 }
                 else if (this.KierrosPelaaja2 < this.Kierros)
                 {
-                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.KierrosPelaaja2));
+                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.KierrosPelaaja2));
                 }
 
                 if (!string.IsNullOrEmpty(this.PisinSarja1) && !string.IsNullOrEmpty(this.ToiseksiPisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.PisinSarja1, this.ToiseksiPisinSarja1));
+                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.PisinSarja1, this.ToiseksiPisinSarja1));
                 }
                 else if (!string.IsNullOrEmpty(this.PisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.PisinSarja1));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.PisinSarja1));
                 }
                 else if (!string.IsNullOrEmpty(this.ToiseksiPisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja1), this.ToiseksiPisinSarja1));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.ToiseksiPisinSarja1));
                 }
 
                 if (!string.IsNullOrEmpty(this.PisinSarja2) && !string.IsNullOrEmpty(this.ToiseksiPisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.PisinSarja2, this.ToiseksiPisinSarja2));
+                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.PisinSarja2, this.ToiseksiPisinSarja2));
                 }
                 else if (!string.IsNullOrEmpty(this.PisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.PisinSarja2));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.PisinSarja2));
                 }
                 else if (!string.IsNullOrEmpty(this.ToiseksiPisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.Pelaaja2), this.ToiseksiPisinSarja2));
+                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.ToiseksiPisinSarja2));
                 }
 
                 return s.ToString();
