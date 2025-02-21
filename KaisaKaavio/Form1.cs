@@ -3997,6 +3997,14 @@ namespace KaisaKaavio
             }
 
             teksti.RivinVaihto();
+
+            if (this.kilpailu.Laji == Laji.Kara)
+            {
+                teksti.NormaaliTeksti(" ");
+                teksti.PieniVihreaTeksti("[Pelaajan pistekeskiarvo tässä kilpailussa ilman tasoituksia]");
+                teksti.RivinVaihto();
+            }
+
             teksti.RivinVaihto();
 
             Dictionary<string, List<int>> sarjat = new Dictionary<string, List<int>>();
@@ -4063,11 +4071,33 @@ namespace KaisaKaavio
             {
                 if (osallistuja.SijoitusOnVarma)
                 {
-                    teksti.NormaaliTeksti(string.Format("{0}. {1} - {2}/{3}",
-                        osallistuja.Sijoitus,
-                        this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
-                        osallistuja.Voitot,
-                        osallistuja.Pisteet));
+                    if (this.kilpailu.Laji == Laji.Kara && osallistuja.Lyontivuoroja > 0)
+                    {
+                        teksti.NormaaliTeksti(string.Format("{0}. {1} ",
+                            osallistuja.Sijoitus,
+                            this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
+
+#if DEBUG
+                        teksti.PieniVihreaTeksti(string.Format("[{0}/{1}={2}]", 
+                            osallistuja.Karoja,
+                            osallistuja.Lyontivuoroja,
+                            (((float)osallistuja.Karoja) / ((float)osallistuja.Lyontivuoroja)).ToString("0.000")));
+#else
+                        teksti.PieniVihreaTeksti(string.Format("[{0}]", (((float)osallistuja.Karoja) / ((float)osallistuja.Lyontivuoroja)).ToString("0.000")));
+#endif
+
+                        teksti.NormaaliTeksti(string.Format(" - {0}/{1}",
+                            osallistuja.Voitot,
+                            osallistuja.Pisteet));
+                    }
+                    else
+                    {
+                        teksti.NormaaliTeksti(string.Format("{0}. {1} - {2}/{3}",
+                            osallistuja.Sijoitus,
+                            this.kilpailu.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
+                            osallistuja.Voitot,
+                            osallistuja.Pisteet));
+                    }
 
                     if (this.kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista &&
                         osallistuja.Sijoitus == 1)

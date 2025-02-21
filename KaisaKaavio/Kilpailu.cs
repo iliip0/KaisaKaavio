@@ -2564,6 +2564,8 @@ namespace KaisaKaavio
             
             foreach (var o in this.Osallistujat.Where(x => x.Id >= 0))
             {
+                o.Sijoitus.Lyontivuoroja = 0;
+                o.Sijoitus.Karoja = 0;
                 o.Sijoitus.Pisteet = LaskePisteet(o.Id, 999);
                 o.Sijoitus.Voitot = LaskeVoitot(o.Id, 999);
                 o.Sijoitus.Tappiot = LaskeTappiot(o.Id, 999);
@@ -2585,6 +2587,32 @@ namespace KaisaKaavio
                 o.Sijoitus.SijoitusPisteet += o.Sijoitus.Pisteet;
 
                 tulostietueet.Add(o.Sijoitus);
+            }
+
+            if (this.Laji == KaisaKaavio.Laji.Kara)
+            {
+                foreach (var p in this.Pelit)
+                {
+                    var p1 = this.Osallistujat.FirstOrDefault(x => x.Id == p.Id1);
+                    if (p1 != null)
+                    {
+                        p1.Sijoitus.Lyontivuoroja += p.LyontivuorojaInt;
+                        bool v = false, h = false;
+                        int pisteet = Peli.Pisteet(p.Pisteet1, out v, out h) - p1.TasoitusInt;
+                        pisteet = Math.Max(0, pisteet);
+                        p1.Sijoitus.Karoja += pisteet;
+                    }
+
+                    var p2 = this.Osallistujat.FirstOrDefault(x => x.Id == p.Id2);
+                    if (p2 != null)
+                    {
+                        p2.Sijoitus.Lyontivuoroja += p.LyontivuorojaInt;
+                        bool v = false, h = false;
+                        int pisteet = Peli.Pisteet(p.Pisteet2, out v, out h) - p2.TasoitusInt;
+                        pisteet = Math.Max(0, pisteet);
+                        p2.Sijoitus.Karoja += pisteet;
+                    }
+                }
             }
 
             var tulokset = tulostietueet.OrderByDescending(x => x.SijoitusPisteet);

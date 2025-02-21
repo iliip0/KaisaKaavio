@@ -206,6 +206,9 @@ namespace KaisaKaavio.Ranking
                     {
                         o.Sijoitus = tulos.Sijoitus;
 
+                        o.Karoja = tulos.Karoja;
+                        o.Lyontivuoroja = tulos.Lyontivuoroja;
+
                         // Pisteet sijoituksesta
                         foreach (var a in asetukset.PisteytysSijoituksista)
                         {

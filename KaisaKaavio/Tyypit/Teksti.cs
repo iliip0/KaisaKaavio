@@ -23,7 +23,7 @@ namespace KaisaKaavio.Tyypit
         public Teksti()
         {
             this.rtf.AppendLine(@"{\rtf1\ansi\fs20");
-            this.rtf.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red16\green82\blue137;\red255\green201\blue14;\red192\green192\blue192;\red222\green131\blue29;}");
+            this.rtf.AppendLine(@"{\colortbl;\red0\green0\blue0;\red255\green0\blue0;\red0\green0\blue255;\red16\green82\blue137;\red255\green201\blue14;\red192\green192\blue192;\red222\green131\blue29;\red0\green128\blue0;}");
         }
 
         public Teksti RivinVaihto()
@@ -187,6 +187,21 @@ namespace KaisaKaavio.Tyypit
                 this.rtf.Append(@" \fs20\cf1");
 
                 this.sbil.Append(string.Format("[size=85][color=#115099]{0}[/color][/size]", teksti));
+                this.plain.Append(teksti);
+            }
+
+            return this;
+        }
+
+        public Teksti PieniVihreaTeksti(string teksti)
+        {
+            if (!string.IsNullOrEmpty(teksti))
+            {
+                this.rtf.Append(@"\fs17\cf8");
+                this.rtf.Append(teksti);
+                this.rtf.Append(@" \fs20\cf1");
+
+                this.sbil.Append(string.Format("[size=85][color=#008000]{0}[/color][/size]", teksti));
                 this.plain.Append(teksti);
             }
 

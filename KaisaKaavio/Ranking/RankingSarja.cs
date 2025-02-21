@@ -494,6 +494,8 @@ namespace KaisaKaavio.Ranking
                     else
                     {
                         p.LisaaOsakilpailunPisteet(pelaaja.RankingPisteet, pelaaja.RankingPisteString);
+                        p.Lyontivuoroja += pelaaja.Lyontivuoroja;
+                        p.Karoja += pelaaja.Karoja;
                     }
                 }
             }
@@ -593,11 +595,38 @@ namespace KaisaKaavio.Ranking
                     summa));
             }
 
+            if (this.Laji == KaisaKaavio.Laji.Kara)
+            {
+                if (DateTime.Today.Year >= 2025 && DateTime.Today.Month > 2) // Karan viikkokisojen oletuslyöntivuoromäärä oli 40 ennen tätä, bugi
+                {
+                    teksti.PieniVihreaTeksti("[Pelaajan pistekeskiarvo koko rankingsarjan ajalta ilman tasoituksia]");
+                    teksti.RivinVaihto();
+                }
+            }
+
             teksti.RivinVaihto();
 
             foreach (var p in this.Osallistujat.OrderByDescending(x => x.RankingPisteet))
             {
                 teksti.NormaaliTeksti(string.Format("{0}. {1} ", p.Sijoitus, p.Nimi));
+
+                if (this.Laji == KaisaKaavio.Laji.Kara && p.Lyontivuoroja > 0)
+                {
+                    if (DateTime.Today.Year >= 2025 && DateTime.Today.Month > 2) // Karan viikkokisojen oletuslyöntivuoromäärä oli 40 ennen tätä, bugi
+                    {
+                        teksti.NormaaliTeksti(" ");
+#if DEBUG
+                        teksti.PieniVihreaTeksti(string.Format("[{0}/{1}={2}]", 
+                            p.Karoja,
+                            p.Lyontivuoroja,
+                            (((float)p.Karoja) / ((float)p.Lyontivuoroja)).ToString("0.000")));
+#else
+                        teksti.PieniVihreaTeksti(string.Format("[{0}]", (((float)p.Karoja) / ((float)p.Lyontivuoroja)).ToString("0.000")));
+#endif
+                        teksti.NormaaliTeksti(" ");
+                    }
+                }
+
                 teksti.PaksuTeksti(string.Format("{0}p ", p.RankingPisteet));
                 teksti.PieniTeksti(string.Format(" ({0})", p.RankingPisteString));
                 teksti.RivinVaihto();

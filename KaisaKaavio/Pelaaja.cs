@@ -224,6 +224,8 @@ namespace KaisaKaavio
             public int SijoitusPisteet = 0;
             public int PudonnutKierroksella = 0;
             public bool SijoitusOnVarma = false;
+            public int Lyontivuoroja = 0;
+            public int Karoja = 0;
 
             public string Nimi 
             {

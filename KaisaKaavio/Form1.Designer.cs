@@ -536,6 +536,7 @@
             this.dataGridViewImageColumn35 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn36 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn37 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn38 = new System.Windows.Forms.DataGridViewImageColumn();
             this.PelinPaikkaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TilanneTeksti = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Viiva = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -543,7 +544,7 @@
             this.LyontivuorojaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KeskiarvoTeksti2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LisaTietoa = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn38 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn39 = new System.Windows.Forms.DataGridViewImageColumn();
             this.kilpailuBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seuraDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -1380,9 +1381,9 @@
             this.kaavioTabPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.kaavioTabPage.Controls.Add(this.splitContainer6);
             this.kaavioTabPage.ImageIndex = 1;
-            this.kaavioTabPage.Location = new System.Drawing.Point(4, 87);
+            this.kaavioTabPage.Location = new System.Drawing.Point(4, 44);
             this.kaavioTabPage.Name = "kaavioTabPage";
-            this.kaavioTabPage.Size = new System.Drawing.Size(776, 534);
+            this.kaavioTabPage.Size = new System.Drawing.Size(776, 577);
             this.kaavioTabPage.TabIndex = 1;
             this.kaavioTabPage.Text = "Kaavio";
             this.kaavioTabPage.UseVisualStyleBackColor = true;
@@ -1407,7 +1408,7 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.kaavioDataGridView);
-            this.splitContainer6.Size = new System.Drawing.Size(772, 530);
+            this.splitContainer6.Size = new System.Drawing.Size(772, 573);
             this.splitContainer6.SplitterDistance = 61;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -1505,7 +1506,7 @@
             this.kaavioDataGridView.RowHeadersVisible = false;
             this.kaavioDataGridView.RowTemplate.DividerHeight = 3;
             this.kaavioDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.kaavioDataGridView.Size = new System.Drawing.Size(768, 461);
+            this.kaavioDataGridView.Size = new System.Drawing.Size(768, 504);
             this.kaavioDataGridView.TabIndex = 0;
             this.kaavioDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.kaavioDataGridView_CellEndEdit);
             this.kaavioDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.kaavioDataGridView_CellFormatting);
@@ -1892,7 +1893,7 @@
             this.pelitDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Perpetua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -6237,6 +6238,16 @@
             this.dataGridViewImageColumn37.ReadOnly = true;
             this.dataGridViewImageColumn37.Width = 32;
             // 
+            // dataGridViewImageColumn38
+            // 
+            this.dataGridViewImageColumn38.DataPropertyName = "Tilanne";
+            this.dataGridViewImageColumn38.DividerWidth = 3;
+            this.dataGridViewImageColumn38.HeaderText = "";
+            this.dataGridViewImageColumn38.MinimumWidth = 32;
+            this.dataGridViewImageColumn38.Name = "dataGridViewImageColumn38";
+            this.dataGridViewImageColumn38.ReadOnly = true;
+            this.dataGridViewImageColumn38.Width = 32;
+            // 
             // PelinPaikkaColumn
             // 
             this.PelinPaikkaColumn.DataPropertyName = "Paikka";
@@ -6313,15 +6324,15 @@
             this.LisaTietoa.Name = "LisaTietoa";
             this.LisaTietoa.ReadOnly = true;
             // 
-            // dataGridViewImageColumn38
+            // dataGridViewImageColumn39
             // 
-            this.dataGridViewImageColumn38.DataPropertyName = "Tilanne";
-            this.dataGridViewImageColumn38.DividerWidth = 3;
-            this.dataGridViewImageColumn38.HeaderText = "";
-            this.dataGridViewImageColumn38.MinimumWidth = 32;
-            this.dataGridViewImageColumn38.Name = "dataGridViewImageColumn38";
-            this.dataGridViewImageColumn38.ReadOnly = true;
-            this.dataGridViewImageColumn38.Width = 32;
+            this.dataGridViewImageColumn39.DataPropertyName = "Tilanne";
+            this.dataGridViewImageColumn39.DividerWidth = 3;
+            this.dataGridViewImageColumn39.HeaderText = "";
+            this.dataGridViewImageColumn39.MinimumWidth = 32;
+            this.dataGridViewImageColumn39.Name = "dataGridViewImageColumn39";
+            this.dataGridViewImageColumn39.ReadOnly = true;
+            this.dataGridViewImageColumn39.Width = 32;
             // 
             // kilpailuBindingSource
             // 
@@ -6522,7 +6533,7 @@
             // 
             // pelaaja1DataGridViewTextBoxColumn
             // 
-            this.pelaaja1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.pelaaja1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.pelaaja1DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja1";
             dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle26.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -6532,6 +6543,7 @@
             this.pelaaja1DataGridViewTextBoxColumn.MinimumWidth = 128;
             this.pelaaja1DataGridViewTextBoxColumn.Name = "pelaaja1DataGridViewTextBoxColumn";
             this.pelaaja1DataGridViewTextBoxColumn.ReadOnly = true;
+            this.pelaaja1DataGridViewTextBoxColumn.Width = 128;
             // 
             // pisteet1DataGridViewTextBoxColumn
             // 
@@ -6560,7 +6572,7 @@
             // 
             // pelaaja2DataGridViewTextBoxColumn
             // 
-            this.pelaaja2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.pelaaja2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.pelaaja2DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja2";
             dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle33.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -6569,6 +6581,7 @@
             this.pelaaja2DataGridViewTextBoxColumn.MinimumWidth = 128;
             this.pelaaja2DataGridViewTextBoxColumn.Name = "pelaaja2DataGridViewTextBoxColumn";
             this.pelaaja2DataGridViewTextBoxColumn.ReadOnly = true;
+            this.pelaaja2DataGridViewTextBoxColumn.Width = 128;
             // 
             // pelaajaId2DataGridViewTextBoxColumn
             // 
@@ -7445,6 +7458,8 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn34;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn35;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn36;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn37;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn38;
         private System.Windows.Forms.DataGridViewTextBoxColumn kierrosDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn PelinPaikkaColumn;
         private System.Windows.Forms.DataGridViewButtonColumn TilanneTeksti;
@@ -7462,8 +7477,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pelaajaId2DataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewImageColumn Tilanne;
         private System.Windows.Forms.DataGridViewTextBoxColumn LisaTietoa;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn37;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn38;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn39;
     }
 }
 

@@ -33,6 +33,14 @@ namespace KaisaKaavio.Ranking
         [DefaultValue(-1)]
         public int KumulatiivinenSijoitus { get; set; }
 
+        [XmlAttribute]
+        [DefaultValue(0)]
+        public int Lyontivuoroja { get; set; }
+
+        [XmlAttribute]
+        [DefaultValue(0)]
+        public int Karoja { get; set; }
+
         private Dictionary<int, int> pisteKertymat = new Dictionary<int, int>();
         private List<int> yksittaisetPisteet = new List<int>();
 
@@ -44,6 +52,8 @@ namespace KaisaKaavio.Ranking
             this.RankingPisteString = string.Empty;
             this.Sijoitus = -1;
             this.KumulatiivinenSijoitus = -1;
+            this.Lyontivuoroja = 0;
+            this.Karoja = 0;
         }
 
         public void PoistaPisteet()
@@ -54,6 +64,8 @@ namespace KaisaKaavio.Ranking
             this.yksittaisetPisteet.Clear();
             this.Sijoitus = -1;
             this.KumulatiivinenSijoitus = -1;
+            this.Lyontivuoroja = 0;
+            this.Karoja = 0;
         }
 
         private void PaivitaPisteString()

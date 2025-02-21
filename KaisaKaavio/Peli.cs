@@ -328,11 +328,29 @@ namespace KaisaKaavio
                         if (string.IsNullOrEmpty(this.pisteet1))
                         {
                             this.Pisteet1 = "0";
+
+                            if (this.Kilpailu != null)
+                            {
+                                var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
+                                if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
+                                {
+                                    this.Pisteet1 = pelaaja.Tasoitus;
+                                }
+                            }
                         }
 
                         if (string.IsNullOrEmpty(this.pisteet2))
                         {
                             this.Pisteet2 = "0";
+
+                            if (this.Kilpailu != null)
+                            {
+                                var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
+                                if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
+                                {
+                                    this.Pisteet2 = pelaaja.Tasoitus;
+                                }
+                            }
                         }
 
                         if (string.IsNullOrEmpty(this.Alkoi))
@@ -1083,6 +1101,23 @@ namespace KaisaKaavio
             if (tulostaPisteet && !string.IsNullOrEmpty(pisteet))
             {
                 teksti.NormaaliTeksti(" " + pisteet);
+            }
+
+            if (tulostaPisteet)
+            {
+                if (this.Kilpailu != null && this.Kilpailu.Laji == Laji.Kara && this.Tilanne == PelinTilanne.Pelattu)
+                {
+                    teksti.NormaaliTeksti(" ");
+
+                    if (pelaaja.Id == Id1)
+                    {
+                        teksti.PieniVihreaTeksti(string.Format("[{0}]", KeskiarvoTeksti1));
+                    }
+                    else if (pelaaja.Id == Id2)
+                    {
+                        teksti.PieniVihreaTeksti(string.Format("[{0}]", KeskiarvoTeksti2));
+                    }
+                }
             }
         }
 
