@@ -69,8 +69,8 @@ namespace KaisaKaavio
                     if (oletusArvot)
                     {
                         this.peliAikaCheckBox.Checked = true;
-                        this.peliAikaNumericUpDown.Value = 40;
-                        this.tavoiteNumericUpDown.Value = 20;
+                        this.peliAikaNumericUpDown.Value = viikkokisa ? 20 : 40;
+                        this.tavoiteNumericUpDown.Value = viikkokisa ? 20 : 30;
                         this.rankingCheckBox.Checked = viikkokisa;
                         this.rankingComboBox.SelectedIndex = 0;
                         this.kaavioComboBox.SelectedIndex = viikkokisa ? 2 : 0;

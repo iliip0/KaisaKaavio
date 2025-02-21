@@ -72,6 +72,49 @@ namespace KaisaKaavio
             }
         }
 
+        private string lyontivuoroja = string.Empty;
+
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Lyontivuoroja
+        {
+            get
+            {
+                return this.lyontivuoroja;
+            }
+
+            set
+            {
+                if (!string.Equals(this.lyontivuoroja, value))
+                {
+                    this.lyontivuoroja = value;
+                    RaisePropertyChanged("Lyontivuoroja");
+                    RaisePropertyChanged("LyontivuorojaInt");
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public int LyontivuorojaInt
+        {
+            get
+            {
+                int v = 0;
+
+                if (this.Kilpailu != null && this.Tilanne == PelinTilanne.Pelattu)
+                {
+                    v = (int)this.Kilpailu.PeliAika;
+                }
+
+                if (!string.IsNullOrEmpty(this.lyontivuoroja))
+                {
+                    Int32.TryParse(this.lyontivuoroja, out v);
+                }
+
+                return v;
+            }
+        }
+
         private string pisteet1 = string.Empty;
 
         [XmlAttribute]
@@ -1343,6 +1386,19 @@ namespace KaisaKaavio
                 (this.Tilanne == PelinTilanne.ValmiinaAlkamaan || this.Tilanne == PelinTilanne.Kaynnissa))
             {
                 this.Tilanne = PelinTilanne.Pelattu;
+
+                // Päivitä karan lyöntivuorot automaattisesti jos mahdollista
+                if (this.Kilpailu != null && this.Kilpailu.Laji == Laji.Kara)
+                {
+                    if (string.IsNullOrEmpty(this.Lyontivuoroja))
+                    {
+                        if (p1 < (int)this.Kilpailu.TavoitePistemaara &&
+                            p2 < (int)this.Kilpailu.TavoitePistemaara)
+                        {
+                            this.Lyontivuoroja = ((int)this.Kilpailu.PeliAika).ToString();
+                        }
+                    }
+                }
             }
 
             if (this.Tilanne == PelinTilanne.Pelattu && (this.tulos == PelinTulos.EiTiedossa || this.tulos == PelinTulos.Virheellinen))

@@ -622,11 +622,19 @@ namespace KaisaKaavio
                 this.peliAikaLabel.Text = "Lyöntivuoroja:";
                 this.peliAikaLabel2.Text = string.Empty;
                 this.tavoitePistemaaraLabel.Text = "karaan";
+                this.Viiva.Visible = false;
+                this.LyontivuorojaColumn.Visible = true;
+                this.pisteet1DataGridViewTextBoxColumn.HeaderText = "p1";
+                this.pisteet2DataGridViewTextBoxColumn.HeaderText = "p2";
             }
             else
             {
                 this.peliAikaLabel.Text = "Peliaika:";
                 this.peliAikaLabel2.Text = "minuuttia";
+                this.Viiva.Visible = true;
+                this.LyontivuorojaColumn.Visible = false;
+                this.pisteet1DataGridViewTextBoxColumn.HeaderText = string.Empty;
+                this.pisteet2DataGridViewTextBoxColumn.HeaderText = string.Empty;
             }
 
             this.yksipaivainenCheckBox.Visible = !this.kilpailu.KilpailuOnViikkokisa;
@@ -2200,9 +2208,12 @@ namespace KaisaKaavio
             {
                 bool editoitavaSarake = e.ColumnIndex == this.poytaDataGridViewTextBoxColumn.Index ||
                                 e.ColumnIndex == this.pisteet1DataGridViewTextBoxColumn.Index ||
-                                e.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index;
+                                e.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index ||
+                                e.ColumnIndex == this.LyontivuorojaColumn.Index;
+
                 bool pisteSarake = e.ColumnIndex == this.pisteet1DataGridViewTextBoxColumn.Index ||
-                                e.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index;
+                                e.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index ||
+                                e.ColumnIndex == this.LyontivuorojaColumn.Index;
 
                 cell.ToolTipText = string.Empty;
 
@@ -2819,7 +2830,8 @@ namespace KaisaKaavio
 
                 if (e.ColumnIndex == this.poytaDataGridViewTextBoxColumn.Index ||
                     e.ColumnIndex == this.pisteet1DataGridViewTextBoxColumn.Index ||
-                    e.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index)
+                    e.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index ||
+                    e.ColumnIndex == this.LyontivuorojaColumn.Index)
                 {
                     var row = this.pelitDataGridView.Rows[e.RowIndex];
                     var cell = row.Cells[e.ColumnIndex];
@@ -2834,24 +2846,32 @@ namespace KaisaKaavio
 
                     if (this.kilpailu.VoiMuokataPelia(peli))
                     {
-                        e.PaintBackground(e.ClipBounds, true);
+                        if (e.ColumnIndex == this.LyontivuorojaColumn.Index &&
+                            this.kilpailu.Laji == Laji.Kara &&
+                            peli.Tilanne != PelinTilanne.Pelattu)
+                        {
+                        }
+                        else
+                        {
+                            e.PaintBackground(e.ClipBounds, true);
 
-                        Rectangle rectDimensions = e.CellBounds;
+                            Rectangle rectDimensions = e.CellBounds;
 
-                        rectDimensions.Width -= 4;
-                        rectDimensions.Height -= 4;
-                        rectDimensions.X = rectDimensions.Left + 1;
-                        rectDimensions.Y = rectDimensions.Top + 1;
+                            rectDimensions.Width -= 4;
+                            rectDimensions.Height -= 4;
+                            rectDimensions.X = rectDimensions.Left + 1;
+                            rectDimensions.Y = rectDimensions.Top + 1;
 
-                        rectDimensions.Width -= cell.OwningColumn.DividerWidth;
-                        rectDimensions.Height -= row.DividerHeight;
+                            rectDimensions.Width -= cell.OwningColumn.DividerWidth;
+                            rectDimensions.Height -= row.DividerHeight;
 
-                        e.Graphics.DrawRectangle(this.rajaKyna, rectDimensions);
+                            e.Graphics.DrawRectangle(this.rajaKyna, rectDimensions);
 
-                        e.Handled = true;
+                            e.Handled = true;
 
-                        e.PaintContent(e.ClipBounds);
-                        e.Handled = true;
+                            e.PaintContent(e.ClipBounds);
+                            e.Handled = true;
+                        }
                     } 
                 }
             }

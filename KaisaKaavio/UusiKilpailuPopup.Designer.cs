@@ -44,21 +44,21 @@
             this.label6 = new System.Windows.Forms.Label();
             this.kilpaSarjaComboBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.tavoiteLabel = new System.Windows.Forms.Label();
             this.kilpasarjaLabel = new System.Windows.Forms.Label();
-            this.tavoiteNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
             this.alkamisAikaDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.lajiSplitContainer = new System.Windows.Forms.SplitContainer();
             this.alaLajiComboBox = new System.Windows.Forms.ComboBox();
+            this.lajiPictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.peliAikaCheckBox = new System.Windows.Forms.CheckBox();
             this.peliaikaLabel = new System.Windows.Forms.Label();
             this.peliAikaNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tavoiteNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.tavoiteLabel = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.uusiKilpailuButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
-            this.lajiPictureBox = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -71,14 +71,14 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tavoiteNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lajiSplitContainer)).BeginInit();
             this.lajiSplitContainer.Panel1.SuspendLayout();
             this.lajiSplitContainer.Panel2.SuspendLayout();
             this.lajiSplitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.peliAikaNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lajiPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peliAikaNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tavoiteNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -321,16 +321,6 @@
             this.label4.TabIndex = 12;
             this.label4.Text = "Alkamispäivä:";
             // 
-            // tavoiteLabel
-            // 
-            this.tavoiteLabel.AutoSize = true;
-            this.tavoiteLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tavoiteLabel.Location = new System.Drawing.Point(793, 11);
-            this.tavoiteLabel.Name = "tavoiteLabel";
-            this.tavoiteLabel.Size = new System.Drawing.Size(75, 24);
-            this.tavoiteLabel.TabIndex = 19;
-            this.tavoiteLabel.Text = "voittoon";
-            // 
             // kilpasarjaLabel
             // 
             this.kilpasarjaLabel.AutoSize = true;
@@ -340,24 +330,6 @@
             this.kilpasarjaLabel.Size = new System.Drawing.Size(95, 24);
             this.kilpasarjaLabel.TabIndex = 14;
             this.kilpasarjaLabel.Text = "Kilpasarja:";
-            // 
-            // tavoiteNumericUpDown
-            // 
-            this.tavoiteNumericUpDown.Location = new System.Drawing.Point(708, 9);
-            this.tavoiteNumericUpDown.Name = "tavoiteNumericUpDown";
-            this.tavoiteNumericUpDown.Size = new System.Drawing.Size(79, 29);
-            this.tavoiteNumericUpDown.TabIndex = 18;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.SystemColors.Control;
-            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label5.Location = new System.Drawing.Point(311, 11);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(87, 24);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Pelataan:";
             // 
             // alkamisAikaDateTimePicker
             // 
@@ -400,6 +372,27 @@
             this.alaLajiComboBox.Size = new System.Drawing.Size(269, 32);
             this.alaLajiComboBox.TabIndex = 0;
             // 
+            // lajiPictureBox
+            // 
+            this.lajiPictureBox.BackColor = System.Drawing.Color.Black;
+            this.lajiPictureBox.BackgroundImage = global::KaisaKaavio.Properties.Resources.KaisaMV;
+            this.lajiPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.lajiPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lajiPictureBox.Location = new System.Drawing.Point(3, 3);
+            this.lajiPictureBox.Name = "lajiPictureBox";
+            this.lajiPictureBox.Size = new System.Drawing.Size(288, 192);
+            this.lajiPictureBox.TabIndex = 11;
+            this.lajiPictureBox.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::KaisaKaavio.Properties.Resources.KilpailuInfo32;
+            this.pictureBox3.Location = new System.Drawing.Point(10, 11);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(41, 42);
+            this.pictureBox3.TabIndex = 24;
+            this.pictureBox3.TabStop = false;
+            // 
             // peliAikaCheckBox
             // 
             this.peliAikaCheckBox.AutoSize = true;
@@ -432,6 +425,43 @@
             this.peliAikaNumericUpDown.Size = new System.Drawing.Size(79, 29);
             this.peliAikaNumericUpDown.TabIndex = 21;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.SystemColors.Control;
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label5.Location = new System.Drawing.Point(311, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(87, 24);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Pelataan:";
+            // 
+            // tavoiteNumericUpDown
+            // 
+            this.tavoiteNumericUpDown.Location = new System.Drawing.Point(708, 9);
+            this.tavoiteNumericUpDown.Name = "tavoiteNumericUpDown";
+            this.tavoiteNumericUpDown.Size = new System.Drawing.Size(79, 29);
+            this.tavoiteNumericUpDown.TabIndex = 18;
+            // 
+            // tavoiteLabel
+            // 
+            this.tavoiteLabel.AutoSize = true;
+            this.tavoiteLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tavoiteLabel.Location = new System.Drawing.Point(793, 11);
+            this.tavoiteLabel.Name = "tavoiteLabel";
+            this.tavoiteLabel.Size = new System.Drawing.Size(75, 24);
+            this.tavoiteLabel.TabIndex = 19;
+            this.tavoiteLabel.Text = "voittoon";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::KaisaKaavio.Properties.Resources.Ranking32;
+            this.pictureBox2.Location = new System.Drawing.Point(10, 9);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(41, 38);
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
+            // 
             // uusiKilpailuButton
             // 
             this.uusiKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -460,36 +490,6 @@
             this.peruutaButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.peruutaButton.UseVisualStyleBackColor = true;
             this.peruutaButton.Click += new System.EventHandler(this.peruutaButton_Click);
-            // 
-            // lajiPictureBox
-            // 
-            this.lajiPictureBox.BackColor = System.Drawing.Color.Black;
-            this.lajiPictureBox.BackgroundImage = global::KaisaKaavio.Properties.Resources.KaisaMV;
-            this.lajiPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.lajiPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lajiPictureBox.Location = new System.Drawing.Point(3, 3);
-            this.lajiPictureBox.Name = "lajiPictureBox";
-            this.lajiPictureBox.Size = new System.Drawing.Size(288, 192);
-            this.lajiPictureBox.TabIndex = 11;
-            this.lajiPictureBox.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::KaisaKaavio.Properties.Resources.KilpailuInfo32;
-            this.pictureBox3.Location = new System.Drawing.Point(10, 11);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(41, 42);
-            this.pictureBox3.TabIndex = 24;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::KaisaKaavio.Properties.Resources.Ranking32;
-            this.pictureBox2.Location = new System.Drawing.Point(10, 9);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(41, 38);
-            this.pictureBox2.TabIndex = 9;
-            this.pictureBox2.TabStop = false;
             // 
             // UusiKilpailuPopup
             // 
@@ -527,14 +527,14 @@
             this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tavoiteNumericUpDown)).EndInit();
             this.lajiSplitContainer.Panel1.ResumeLayout(false);
             this.lajiSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lajiSplitContainer)).EndInit();
             this.lajiSplitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.peliAikaNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lajiPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.peliAikaNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tavoiteNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
