@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.24		(työn alla)
 
 * Lisätty 24 pelaajan sijoittaminen Kaisan SM kilpailuihin
+* Täydennetty kisojen kisakutsuinfoja kaisan ohjekirjan mukaisiksi
 
 ## Versio 1.0.0.23		(julkaistu 20.02.2025)
 

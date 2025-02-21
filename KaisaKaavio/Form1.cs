@@ -434,6 +434,13 @@ namespace KaisaKaavio
                     this.kilpailu.PeliaikaOnRajattu = popup.Peliaika > 0;
                     this.kilpailu.TestiKilpailu = popup.LuoTestikilpailu;
 
+                    this.kilpailu.LisenssiVaatimus = string.Empty;
+                    this.kilpailu.MaksuTapa = string.Empty;
+                    this.kilpailu.OsallistumisOikeus = string.Empty;
+                    this.kilpailu.OsallistumisMaksu = string.Empty;
+                    this.kilpailu.Pukeutuminen = string.Empty;
+                    this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
+
                     this.kilpailu.Palkinnot = string.Empty;
                     this.kilpailu.Ilmoittautuminen = string.Empty;
 
@@ -441,13 +448,7 @@ namespace KaisaKaavio
                     {
                         this.kilpailu.RankkareidenMaara = 3;
                         this.kilpailu.KellonAika = "18:00";
-                        this.kilpailu.LisenssiVaatimus = string.Empty;
-                        this.kilpailu.MaksuTapa = string.Empty;
-                        this.kilpailu.OsallistumisOikeus = string.Empty;
-                        this.kilpailu.OsallistumisMaksu = string.Empty;
-                        this.kilpailu.Pukeutuminen = string.Empty;
                         this.kilpailu.Yksipaivainen = true;
-                        this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
                         this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
                         this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista;
 
@@ -462,41 +463,91 @@ namespace KaisaKaavio
                     {
                         this.kilpailu.RankkareidenMaara = 5;
                         this.kilpailu.KellonAika = "10:00";
-                        this.kilpailu.LisenssiVaatimus = string.Empty; // TODO, linkit 
                         this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
 
                         if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu)
                         {
                             this.kilpailu.Yksipaivainen = true;
-
-                            this.kilpailu.MaksuTapa = string.Empty;
-                            this.kilpailu.OsallistumisOikeus = string.Empty;
-                            this.kilpailu.Pukeutuminen = string.Empty;
-
-                            this.kilpailu.Sijoittaminen = Sijoittaminen.EiSijoittamista;
                         }
                         else
                         {
                             this.kilpailu.Yksipaivainen = false;
 
-                            this.kilpailu.MaksuTapa = "Etukäteen biljardi.org kautta";
-
-                            // TODO!!! Päivitä osallistumisoikeus teksti ja osmaksu kilpasarjan mukaan
-                            this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen jäsenillä";
-
-                            this.kilpailu.Pukeutuminen = "SBiL EB-taso";
-
-                            if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
+                            if (this.kilpailu.Laji == Laji.Kaisa)
                             {
-                                this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan24Pelaajaa;
-                            }
-                            else
-                            {
-                                this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan8Pelaajaa;
+                                this.kilpailu.MaksuTapa = "Etukäteen biljardi.org kautta";
+                                this.kilpailu.Ilmoittautuminen = "https://www.biljardi.org/ilmoittautuminen/";
+                                this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen jäsenillä";
+                                this.kilpailu.OsallistumisMaksu = "Aikuiset 50€ / junnut 25€";
+                                this.kilpailu.Pukeutuminen = "SBiL EB-taso";
+                                this.kilpailu.LisenssiVaatimus = string.Empty;
+
+                                if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
+                                {
+                                    if (kilpailu.KilpaSarja == KilpaSarja.Yleinen)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "60€ (MN21 30€)";
+                                        this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan24Pelaajaa;
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                    else if (kilpailu.KilpaSarja == KilpaSarja.NuoretMN21)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "20€";
+                                        this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen jäsenillä";
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi, kertalisenssi ja junnulisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                    else if (kilpailu.KilpaSarja == KilpaSarja.Naiset)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "40€ (MN21 20€)";
+                                        this.kilpailu.OsallistumisOikeus = "Vain SBiL:n jäsenseurojen naisjäsenillä";
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi ja kertalisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                    else if (kilpailu.KilpaSarja == KilpaSarja.MixedDoubles ||
+                                        kilpailu.KilpaSarja == KilpaSarja.Parikilpailu)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "50€ / pelaaja (MN21 25€)";
+                                        this.kilpailu.OsallistumisOikeus = "Vain SBiL:n jäsenseurojen jäsenillä. Jokainen pari muodostuu kahdesta SBIL:n " +
+                                                                            "alaisen seuran pelaajasta. Parien ei tarvitse välttämättä edustaa samaa seuraa.";
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi ja kertalisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                    else if (kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "150€ / joukkue";
+                                        this.kilpailu.OsallistumisOikeus = "Vain SBiL:n jäsenseurojen jäsenillä. Jokainen joukkue muodostuu kolmesta saman " +
+                                                                            "seuran pelaajasta. Joukkueet nimeävät pelaajien nimet ilmoittautumisen " + 
+                                                                            "yhteydessä. Mahdollisuus myös nimetä yksi ylimääräinen pelaaja varamieheksi, " +
+                                                                            "jota voi käyttää turnauksessa.";
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi ja kertalisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                    else if (kilpailu.KilpaSarja == KilpaSarja.SenioritMN60)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "50€";
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi ja kertalisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                }
+                                else if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu)
+                                {
+                                    if (kilpailu.KilpaSarja == KilpaSarja.Yleinen)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "50€ (MN21 pelaajat 25€)";
+                                        this.kilpailu.Sijoittaminen = Sijoittaminen.Sijoitetaan8Pelaajaa;
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi ja kertalisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                    else if (kilpailu.KilpaSarja == KilpaSarja.NuoretMN21)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "25€";
+                                    }
+                                    else if (kilpailu.KilpaSarja == KilpaSarja.SenioritMN60)
+                                    {
+                                        this.kilpailu.OsallistumisMaksu = "50€ (70v+ maksaa 25€)";
+                                        this.kilpailu.OsallistumisOikeus = "SBiL:n jäsenseurojen seniorijäsenillä jotka ovat täyttäneet 60 vuotta, sekä " +
+                                                                            "tapauskohtaisesti ulkomaalaisilla vähintään 60 vuotta täyttäneillä pelaajilla, jotka " +
+                                                                            "kaisan lajijaosto määrittelee tapauskohtaisesti";
+                                        this.kilpailu.LisenssiVaatimus = "Kausilisenssi ja kertalisenssi. (https://www.suomisport.fi/)";
+                                    }
+                                }
                             }
                         }
-
-                        this.kilpailu.OsallistumisMaksu = "Aikuiset 50€ / junnut 25€";
 
                         this.kilpailu.RankingOsakilpailu = null;
 
