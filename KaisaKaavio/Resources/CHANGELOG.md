@@ -2,11 +2,12 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.24		(työn alla)
+## Versio 1.0.0.24		(julkaistu 21.2.2025)
 
 * Lisätty 24 pelaajan sijoittaminen Kaisan SM kilpailuihin
+* Täydennetty kisojen kisakutsuinfoja kaisan ohjekirjan mukaisiksi
 
-## Versio 1.0.0.23		(julkaistu 20.02.2025)
+## Versio 1.0.0.23		(julkaistu 20.2.2025)
 
 * Varsinaisen pelisalin tiedot muokattaviksi 'Useamman pelipaikan kilpailu' välilehdelle
 * Ilmoittautuneiden haku biljardi.org sivulta - ominaisuuden teko aloitettu
