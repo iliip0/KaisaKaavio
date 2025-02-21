@@ -3952,6 +3952,51 @@ namespace KaisaKaavio
             {
                 teksti.RivinVaihto();
                 teksti.InfoRivi("Pelien keskimääräinen kesto", string.Format("{0} minuuttia", keskimaarainenPelinKesto / pelejaKeskimaaranLaskemiseksi));
+
+                if (this.kilpailu.Laji == Laji.Kara && this.kilpailu.KilpailuOnPaattynyt)
+                {
+                    Peli parasPeli = null;
+                    Pelaaja parasPelaaja = null;
+                    float parasKeskiarvo = 0.0f;
+
+                    foreach (var p in this.kilpailu.Pelit)
+                    {
+                        if (p.Keskiarvo1 > parasKeskiarvo)
+                        {
+                            parasKeskiarvo = p.Keskiarvo1;
+                            parasPeli = p;
+                            parasPelaaja = this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == p.Id1);
+                        }
+
+                        if (p.Keskiarvo2 > parasKeskiarvo)
+                        {
+                            parasKeskiarvo = p.Keskiarvo2;
+                            parasPeli = p;
+                            parasPelaaja = this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == p.Id2);
+                        }
+                    }
+
+                    if (parasPelaaja != null)
+                    {
+                        teksti.PaksuTeksti("Paras pelikohtainen pistekeskiarvo: ");
+
+                        teksti.NormaaliTeksti(string.Format("{0} ", parasPelaaja.Nimi));
+
+                        if (parasPelaaja.Id == parasPeli.Id1)
+                        {
+                            teksti.PieniVihreaTeksti(string.Format("[{0}]", parasPeli.KeskiarvoTeksti1));
+                            teksti.NormaaliTeksti(string.Format(" kierroksella {0} pelaajaa {1} vastaan", parasPeli.Kierros, parasPeli.PelaajanNimi2));
+                        }
+                        else
+                        {
+                            teksti.PieniVihreaTeksti(string.Format("[{0}]", parasPeli.KeskiarvoTeksti2));
+                            teksti.NormaaliTeksti(string.Format(" kierroksella {0} pelaajaa {1} vastaan", parasPeli.Kierros, parasPeli.PelaajanNimi1));
+                        }
+                    }
+
+                    teksti.RivinVaihto();
+                }
+
                 teksti.RivinVaihto();
                 teksti.OsionVaihto();
             }
