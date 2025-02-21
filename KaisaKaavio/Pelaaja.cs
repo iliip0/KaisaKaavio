@@ -113,7 +113,22 @@ namespace KaisaKaavio
                 {
                     this.tasoitus = value;
                     RaisePropertyChanged("Tasoitus");
+                    RaisePropertyChanged("TasoitusInt");
                 }
+            }
+        }
+
+        [XmlIgnore]
+        public int TasoitusInt
+        {
+            get
+            {
+                int t = 0;
+                if (!string.IsNullOrEmpty(this.tasoitus))
+                {
+                    Int32.TryParse(this.tasoitus, out t);
+                }
+                return t;
             }
         }
 

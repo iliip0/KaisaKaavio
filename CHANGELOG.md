@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.25		(työn alla)
 
 * Lisätty lyöntivuorojen määrän merkkaus Karakilpailuihin
+* Lisätty pistekeskiarvo Karakilpailuihin
 
 ## Versio 1.0.0.24		(julkaistu 21.2.2025)
 

@@ -604,28 +604,28 @@ namespace KaisaKaavio
 
             if (this.kilpailu.Laji == Laji.Pool)
             {
-                //this.peliAikaLabel.Visible = false;
-                //this.peliAikaLabel2.Visible = false;
-                //this.peliaikaNumericUpDown.Visible = false;
                 this.tavoitePistemaaraLabel.Text = "voittoon";
             }
             else
             {
-                //this.peliAikaLabel.Visible = true;
-                //this.peliAikaLabel2.Visible = true;
-                //this.peliaikaNumericUpDown.Visible = true;
                 this.tavoitePistemaaraLabel.Text = "pisteeseen";
             }
 
             if (this.kilpailu.Laji == Laji.Kara)
             {
+                this.KeskiarvoTeksti1.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                this.KeskiarvoTeksti1.HeaderCell.Style.Font = this.ohutPieniFontti;
+                this.KeskiarvoTeksti2.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                this.KeskiarvoTeksti2.HeaderCell.Style.Font = this.ohutPieniFontti;
+                this.LyontivuorojaColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                this.LyontivuorojaColumn.HeaderCell.Style.Font = this.ohutPieniFontti;
                 this.peliAikaLabel.Text = "Lyöntivuoroja:";
                 this.peliAikaLabel2.Text = string.Empty;
                 this.tavoitePistemaaraLabel.Text = "karaan";
                 this.Viiva.Visible = false;
                 this.LyontivuorojaColumn.Visible = true;
-                this.pisteet1DataGridViewTextBoxColumn.HeaderText = "p1";
-                this.pisteet2DataGridViewTextBoxColumn.HeaderText = "p2";
+                this.KeskiarvoTeksti1.Visible = true;
+                this.KeskiarvoTeksti2.Visible = true;
             }
             else
             {
@@ -633,8 +633,8 @@ namespace KaisaKaavio
                 this.peliAikaLabel2.Text = "minuuttia";
                 this.Viiva.Visible = true;
                 this.LyontivuorojaColumn.Visible = false;
-                this.pisteet1DataGridViewTextBoxColumn.HeaderText = string.Empty;
-                this.pisteet2DataGridViewTextBoxColumn.HeaderText = string.Empty;
+                this.KeskiarvoTeksti1.Visible = false;
+                this.KeskiarvoTeksti2.Visible = false;
             }
 
             this.yksipaivainenCheckBox.Visible = !this.kilpailu.KilpailuOnViikkokisa;

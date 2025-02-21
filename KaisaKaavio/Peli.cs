@@ -90,6 +90,10 @@ namespace KaisaKaavio
                     this.lyontivuoroja = value;
                     RaisePropertyChanged("Lyontivuoroja");
                     RaisePropertyChanged("LyontivuorojaInt");
+                    RaisePropertyChanged("Keskiarvo1");
+                    RaisePropertyChanged("KeskiarvoTeksti1");
+                    RaisePropertyChanged("Keskiarvo2");
+                    RaisePropertyChanged("KeskiarvoTeksti2");
                 }
             }
         }
@@ -115,6 +119,86 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlIgnore]
+        public float Keskiarvo1
+        {
+            get
+            {
+                int vuoroja = this.LyontivuorojaInt;
+                if (vuoroja <= 0)
+                {
+                    return 0.0f;
+                }
+
+                bool v = false, h = false;
+                int pisteita = Pisteet(this.Pisteet1, out v, out h);
+
+                int tasoitus = 0;
+                if (this.Kilpailu != null)
+                {
+                    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
+                    if (pelaaja != null)
+                    {
+                        tasoitus = pelaaja.TasoitusInt;
+                    }
+                }
+
+                pisteita -= tasoitus;
+                pisteita = Math.Max(0, pisteita);
+
+                return ((float)pisteita) / ((float)vuoroja);
+            }
+        }
+
+        [XmlIgnore]
+        public string KeskiarvoTeksti1
+        {
+            get
+            {
+                return this.Keskiarvo1.ToString("0.00");
+            }
+        }
+
+        [XmlIgnore]
+        public float Keskiarvo2
+        {
+            get
+            {
+                int vuoroja = this.LyontivuorojaInt;
+                if (vuoroja <= 0)
+                {
+                    return 0.0f;
+                }
+
+                bool v = false, h = false;
+                int pisteita = Pisteet(this.Pisteet2, out v, out h);
+
+                int tasoitus = 0;
+                if (this.Kilpailu != null)
+                {
+                    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
+                    if (pelaaja != null)
+                    {
+                        tasoitus = pelaaja.TasoitusInt;
+                    }
+                }
+
+                pisteita -= tasoitus;
+                pisteita = Math.Max(0, pisteita);
+
+                return ((float)pisteita) / ((float)vuoroja);
+            }
+        }
+
+        [XmlIgnore]
+        public string KeskiarvoTeksti2
+        {
+            get
+            {
+                return this.Keskiarvo2.ToString("0.00");
+            }
+        }
+
         private string pisteet1 = string.Empty;
 
         [XmlAttribute]
@@ -135,6 +219,12 @@ namespace KaisaKaavio
                     if (this.Tilanne == PelinTilanne.ValmiinaAlkamaan && !string.IsNullOrEmpty(this.pisteet1))
                     {
                         KaynnistaPeli(null, false);
+                    }
+
+                    if (this.Kilpailu != null && this.Kilpailu.Laji == Laji.Kara)
+                    {
+                        RaisePropertyChanged("Keskiarvo1");
+                        RaisePropertyChanged("KeskiarvoTeksti1");
                     }
                 }
             }
@@ -160,6 +250,12 @@ namespace KaisaKaavio
                     if (this.Tilanne == PelinTilanne.ValmiinaAlkamaan && !string.IsNullOrEmpty(this.pisteet2))
                     {
                         KaynnistaPeli(null, false);
+                    }
+
+                    if (this.Kilpailu != null && this.Kilpailu.Laji == Laji.Kara)
+                    {
+                        RaisePropertyChanged("Keskiarvo2");
+                        RaisePropertyChanged("KeskiarvoTeksti2");
                     }
                 }
             }

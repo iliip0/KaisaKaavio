@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.25		(työn alla)
+
+* Lisätty lyöntivuorojen määrän merkkaus Karakilpailuihin
+
 ## Versio 1.0.0.24		(julkaistu 21.2.2025)
 
 * Lisätty 24 pelaajan sijoittaminen Kaisan SM kilpailuihin
