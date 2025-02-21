@@ -383,6 +383,11 @@ namespace KaisaKaavio
         {
             get
             {
+                if (Id1 >= 0 && Id2 < 0)
+                {
+                    return string.Empty; // Walkover peli
+                }
+
                 StringBuilder s = new StringBuilder();
 
                 switch (this.Tilanne)
@@ -884,7 +889,7 @@ namespace KaisaKaavio
             return 0;
         }
 
-        private void PelaajaRtf(Pelaaja pelaaja, int tappiot, string pisteet, Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasuri)
+        private void PelaajaRtf(Pelaaja pelaaja, int tappiot, string pisteet, Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasuri, bool tulostaSijoitus)
         {
             if (pelaaja == null)
             {
@@ -893,14 +898,29 @@ namespace KaisaKaavio
 
             if (tappiot == 0)
             {
+                if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
+                {
+                    teksti.PaksuTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
+                }
+
                 teksti.PaksuTeksti(pelaaja.Nimi);
             }
             else if (tappiot == 1)
             {
+                if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
+                {
+                    teksti.NormaaliTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
+                }
+
                 teksti.NormaaliTeksti(pelaaja.Nimi);
             }
             else
             {
+                if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
+                {
+                    teksti.PunainenTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
+                }
+
                 teksti.PunainenTeksti(pelaaja.Nimi);
             }
 
@@ -927,7 +947,7 @@ namespace KaisaKaavio
             }
         }
 
-        private void Pelaaja1Rtf(Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus)
+        private void Pelaaja1Rtf(Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus, bool tulostaSijoitus)
         {
             if (this.Kilpailu == null || this.Id1 < 0)
             {
@@ -941,10 +961,10 @@ namespace KaisaKaavio
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id1, PeliNumero);
-            PelaajaRtf(pelaaja, tappiot, Pisteet1, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus);
+            PelaajaRtf(pelaaja, tappiot, Pisteet1, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus, tulostaSijoitus);
         }
 
-        private void Pelaaja2Rtf(Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus)
+        private void Pelaaja2Rtf(Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus, bool tulostaSijoitus)
         {
             if (this.Kilpailu == null || this.Id2 < 0)
             {
@@ -958,14 +978,14 @@ namespace KaisaKaavio
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id2, PeliNumero);
-            PelaajaRtf(pelaaja, tappiot, Pisteet2, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus);
+            PelaajaRtf(pelaaja, tappiot, Pisteet2, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus, tulostaSijoitus);
         }
 
         public void RichTextKuvausAlkaviinPeleihin(Tyypit.Teksti teksti, string poyta, string aika)
         {
-            Pelaaja1Rtf(teksti, false, true, false);
+            Pelaaja1Rtf(teksti, false, true, false, true);
             teksti.NormaaliTeksti(" - ");
-            Pelaaja2Rtf(teksti, false, true, false);
+            Pelaaja2Rtf(teksti, false, true, false, true);
 
             if (!string.IsNullOrEmpty(poyta))
             {
@@ -989,11 +1009,11 @@ namespace KaisaKaavio
                 teksti.NormaaliTeksti(" ");
             }
 
-            Pelaaja1Rtf(teksti, true, true, true);
+            Pelaaja1Rtf(teksti, true, true, true, Kierros < 4);
 
             teksti.NormaaliTeksti(" - ");
 
-            Pelaaja2Rtf(teksti, true, true, true);
+            Pelaaja2Rtf(teksti, true, true, true, Kierros < 4);
 
             // Striimi ja tulostaululinkit
             if (this.Tilanne == PelinTilanne.Kaynnissa)

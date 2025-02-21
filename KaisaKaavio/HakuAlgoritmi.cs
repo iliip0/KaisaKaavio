@@ -141,7 +141,8 @@ namespace KaisaKaavio
 
                 if (p.Pelaaja2 == null)
                 {
-                    throw new NullReferenceException(string.Format("Pelaajaa ei löytynyt id:lle {0} peliin {1}", peli.Id2, peli.Kuvaus()));
+                    // walkover peli - OK
+                    //throw new NullReferenceException(string.Format("Pelaajaa ei löytynyt id:lle {0} peliin {1}", peli.Id2, peli.Kuvaus()));
                 }
 #endif
 
@@ -222,7 +223,14 @@ namespace KaisaKaavio
 
                 foreach (var pp in Pelatut)
                 {
-                    DebugViesti("Pelattu {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
+                    if (pp.Pelaaja2 == null)
+                    {
+                        DebugViesti("Pelattu {0} {1} - w.o., {2}, {3}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Tilanne, pp.Tulos);
+                    }
+                    else
+                    {
+                        DebugViesti("Pelattu {0} {1} - {2}, {3}, {4}", pp.Kierros, pp.Pelaaja1.Nimi, pp.Pelaaja2.Nimi, pp.Tilanne, pp.Tulos);
+                    }
                 }
 
                 foreach (var pp in PelitKesken)

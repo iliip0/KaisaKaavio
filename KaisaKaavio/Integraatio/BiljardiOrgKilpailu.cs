@@ -17,7 +17,7 @@ namespace KaisaKaavio.Integraatio
             this.Nimi = string.Empty;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return this.Nimi;
         }

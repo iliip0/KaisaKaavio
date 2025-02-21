@@ -2294,23 +2294,32 @@ namespace KaisaKaavio
                     // Pelaajan 2 nimi
                     if (e.ColumnIndex == this.pelaaja2DataGridViewTextBoxColumn.Index)
                     {
-                        int tappiot2 = peli.TappiotPeliRivilla2();
-                        if (tappiot2 >= 2)
+                        if (peli.Id2 < 0)
                         {
-                            e.CellStyle.ForeColor = Color.Red;
-                        }
-                        else
-                        {
+                            e.Value = "w.o.";
+                            e.CellStyle.Font = this.ohutFontti;
                             e.CellStyle.ForeColor = Color.Black;
                         }
-
-                        if (tappiot2 == 1)
-                        {
-                            e.CellStyle.Font = this.ohutFontti;
-                        }
                         else
                         {
-                            e.CellStyle.Font = this.paksuFontti;
+                            int tappiot2 = peli.TappiotPeliRivilla2();
+                            if (tappiot2 >= 2)
+                            {
+                                e.CellStyle.ForeColor = Color.Red;
+                            }
+                            else
+                            {
+                                e.CellStyle.ForeColor = Color.Black;
+                            }
+
+                            if (tappiot2 == 1)
+                            {
+                                e.CellStyle.Font = this.ohutFontti;
+                            }
+                            else
+                            {
+                                e.CellStyle.Font = this.paksuFontti;
+                            }
                         }
                     }
 
@@ -3572,7 +3581,10 @@ namespace KaisaKaavio
 
             Dictionary<string, int> peliNumerot = new Dictionary<string,int>();
 
-            foreach (var peli in this.kilpailu.Pelit.Where(x => x.Kierros <= 2).ToArray())
+            foreach (var peli in this.kilpailu.Pelit
+                .Where(x => x.Id2 >= 0)
+                .Where(x => x.Kierros <= 2)
+                .ToArray())
             {
                 if (peli.Kierros != kierros ||
                     !string.Equals(peli.Paikka, pelipaikka))
@@ -3737,7 +3749,9 @@ namespace KaisaKaavio
             {
                 teksti.RivinVaihto();
 
-                foreach (var peli in this.kilpailu.Pelit.ToArray())
+                foreach (var peli in this.kilpailu.Pelit
+                    .Where(x => x.Id2 >= 0)
+                    .ToArray())
                 {
                     if (peli.Kierros != kierros || !string.Equals(peli.Paikka, pelipaikka))
                     {

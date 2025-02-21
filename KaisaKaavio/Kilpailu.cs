@@ -602,6 +602,129 @@ namespace KaisaKaavio
             return peli.Tilanne;
         }
 
+        private PelinTilanne LisaaWO(Pelaaja pelaaja, int kierros)
+        {
+            string paikka = string.Empty;
+
+            if (OnUseanPelipaikanKilpailu)
+            {
+                if (kierros < this.KaavioidenYhdistaminenKierroksestaInt)
+                {
+                    paikka = pelaaja.PeliPaikka;
+                }
+                else
+                {
+                    paikka = this.Sali != null ? this.Sali.LyhytNimi : string.Empty;
+                }
+            }
+
+            if (OnUseanPelipaikanKilpailu && kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
+            {
+                paikka = Salit().First().LyhytNimi;
+            }
+
+            Peli peli = new Peli()
+            {
+                Kierros = kierros,
+                KierrosPelaaja1 = kierros,
+                KierrosPelaaja2 = kierros,
+                Kilpailu = this,
+                Alkoi = string.Empty,
+                Paattyi = string.Empty,
+                PelaajaId1 = pelaaja == null ? string.Empty : pelaaja.Id.ToString(),
+                PelaajaId2 = string.Empty,
+                PeliNumero = Pelit.Count() + 1,
+                Pisteet1 = this.TavoitePistemaara.ToString(),
+                Pisteet2 = "0",
+                Poyta = string.Empty,
+                Tilanne = PelinTilanne.Pelattu,
+                Tulos = PelinTulos.Pelaaja1Voitti,
+                PaivitaRivinUlkoasu = true,
+                Paikka = paikka
+            };
+
+#if DEBUG
+            int peleja = Pelit.Count;
+#endif
+
+            // Lajitellaan pelit lennosta
+            if ((Pelit.Count == 0) || (Pelit.Last().LajitteluNumero <= peli.LajitteluNumero))
+            {
+                LisaaPeli(peli);
+            }
+            else
+            {
+                Loki.Kirjoita("Lajitellaan pelit", null, false);
+
+                List<Peli> lajittelemattomat = new List<Peli>();
+                lajittelemattomat.Add(peli);
+
+                while ((Pelit.Count > 0) && (Pelit.Last().LajitteluNumero > peli.LajitteluNumero))
+                {
+                    lajittelemattomat.Add(Pelit.Last());
+                    PoistaPeli(Pelit.Last(), false);
+                }
+
+                foreach (var lajiteltuPeli in lajittelemattomat.OrderBy(x => x.LajitteluNumero))
+                {
+                    lajiteltuPeli.PeliNumero = Pelit.Count + 1;
+                    LisaaPeli(lajiteltuPeli);
+                }
+            }
+
+#if DEBUG // Tarkista että pelit on lajiteltu oikein
+            if ((peleja + 1) != Pelit.Count)
+            {
+                Debug.WriteLine("# VIRHE: Pelien määrä ei täsmää!");
+            }
+
+            {
+                int numero = 1;
+                int lajittelu = -1000000;
+                foreach (var p in Pelit)
+                {
+                    if (p.Kilpailu != this)
+                    {
+                        Debug.WriteLine("# VIRHE: Väärä kilpailu pelissä!");
+                    }
+
+                    if (p.LajitteluNumero < lajittelu)
+                    {
+                        Debug.WriteLine("# VIRHE: Pelit järjestetty väärin!");
+                    }
+
+                    if (p.PeliNumero != numero)
+                    {
+                        Debug.WriteLine("# VIRHE: Pelinumerot väärin!");
+                    }
+
+                    lajittelu = p.LajitteluNumero;
+                    numero++;
+                }
+            }
+#endif
+            Loki.Kirjoita(string.Format("Lisättiin w.o. peli kierrokselle {0} pelaajalle {1}",
+                peli.Kierros,
+                pelaaja != null ? pelaaja.Nimi : string.Empty));
+
+            PelienTilannePaivitysTarvitaan = true;
+
+            return peli.Tilanne;
+        }
+
+        public PelinTilanne LisaaWO(Pelaaja pelaaja)
+        {
+#if PROFILE
+            using (new Testaus.Profileri("Kilpailu.LisaaWO"))
+#endif
+            {
+                int kierros = pelaaja == null ? 0 : Pelit.Count(x =>
+                    x.SisaltaaPelaajan(pelaaja.Id)) + 1;
+
+                return LisaaWO(pelaaja, kierros);
+            }
+        }
+
         public PelinTilanne LisaaPeli(Pelaaja pelaaja, Pelaaja vastustaja)
         {
 #if PROFILE
@@ -702,12 +825,12 @@ namespace KaisaKaavio
                 osallistuja.Pelit.Clear();
             }
 
-            foreach (var peli in Pelit.Where(x => x.Id1 >= 0 && x.Id2 >= 0))
+            foreach (var peli in Pelit.Where(x => x.Id1 >= 0))
             {
                 var osallistuja1 = this.OsallistujatJarjestyksessa.FirstOrDefault(x => x.Id == peli.Id1);
                 var osallistuja2 = this.OsallistujatJarjestyksessa.FirstOrDefault(x => x.Id == peli.Id2);
 
-                if (osallistuja1 != null && osallistuja2 != null)
+                if (osallistuja1 != null)
                 {
                     Pelaaja.PeliTietue p1 = new Pelaaja.PeliTietue()
                     {
@@ -720,21 +843,9 @@ namespace KaisaKaavio
                     };
 
                     osallistuja1.Pelit.Add(p1);
-
-                    Pelaaja.PeliTietue p2 = new Pelaaja.PeliTietue()
-                    {
-                        Vastustaja = peli.Id1,
-                        Pisteet = peli.Pisteet(peli.Id2),
-                        Pelattu = peli.Tilanne == PelinTilanne.Pelattu,
-                        Pudari = peli.OnPudotusPeli(),
-                        Tilanne = peli.Tilanne,
-                        Kierros = peli.Kierros
-                    };
-
-                    osallistuja2.Pelit.Add(p2);
-
                     osallistuja1.Sijoitus.Pisteet += p1.Pisteet;
-                    osallistuja2.Sijoitus.Pisteet += p2.Pisteet;
+
+                    this.MaxKierros = Math.Max(this.MaxKierros, osallistuja1.Pelit.Count);
 
                     if (peli.Tilanne == PelinTilanne.Pelattu)
                     {
@@ -751,7 +862,28 @@ namespace KaisaKaavio
                                 osallistuja1.Sijoitus.Pudotettu = true;
                             }
                         }
+                    }
+                }
 
+                if (osallistuja2 != null)
+                {
+                    Pelaaja.PeliTietue p2 = new Pelaaja.PeliTietue()
+                    {
+                        Vastustaja = peli.Id1,
+                        Pisteet = peli.Pisteet(peli.Id2),
+                        Pelattu = peli.Tilanne == PelinTilanne.Pelattu,
+                        Pudari = peli.OnPudotusPeli(),
+                        Tilanne = peli.Tilanne,
+                        Kierros = peli.Kierros
+                    };
+
+                    osallistuja2.Pelit.Add(p2);
+                    osallistuja2.Sijoitus.Pisteet += p2.Pisteet;
+
+                    this.MaxKierros = Math.Max(this.MaxKierros, osallistuja2.Pelit.Count);
+
+                    if (peli.Tilanne == PelinTilanne.Pelattu)
+                    {
                         if (!peli.Havisi(peli.Id2))
                         {
                             p2.Voitto = true;
@@ -767,9 +899,6 @@ namespace KaisaKaavio
                         }
                     }
                 }
-
-                this.MaxKierros = Math.Max(this.MaxKierros, osallistuja1.Pelit.Count);
-                this.MaxKierros = Math.Max(this.MaxKierros, osallistuja2.Pelit.Count);
             }
 
             var tulokset = Tulokset();
@@ -1031,11 +1160,11 @@ namespace KaisaKaavio
                 {
                     if (pelaaja.Sijoitettu.Contains('(') || pelaaja.Sijoitettu.Contains('['))
                     {
-                        nimi = pelaaja.Sijoitettu.Trim() + nimi;
+                        nimi = pelaaja.Sijoitettu.Trim() + " " + nimi;
                     }
                     else
                     {
-                        nimi = "[" + pelaaja.Sijoitettu.Trim() + "]" + nimi;
+                        nimi = "[" + pelaaja.Sijoitettu.Trim() + "] " + nimi;
                     }
                 }
             }
@@ -1150,11 +1279,25 @@ namespace KaisaKaavio
                 PoistaTyhjatOsallistujat();
                 PoistaTyhjatPelit(1);
 
+                int osallistujia = this.Osallistujat.Count(x => !string.IsNullOrEmpty(x.Nimi));
+                int sijoitettuja = this.Osallistujat.Count(x => !string.IsNullOrEmpty(x.Sijoitettu));
+
                 if (this.Sijoittaminen != KaisaKaavio.Sijoittaminen.EiSijoittamista &&
-                    this.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Sijoitettu)) &&
+                    sijoitettuja > 0 &&
                     !this.Osallistujat.Any(x => x.Id > 0))
                 {
-                    ArvoPelaajienIdtSijoituksilla();
+                    if (this.Sijoittaminen == KaisaKaavio.Sijoittaminen.Sijoitetaan8Pelaajaa)
+                    {
+                        ArvoPelaajienIdtSijoituksilla8();
+                    }
+                    else if (osallistujia >= 24 && this.Sijoittaminen == KaisaKaavio.Sijoittaminen.Sijoitetaan24Pelaajaa)
+                    {
+                        ArvoPelaajienIdtSijoituksilla24();
+                    }
+                    else
+                    {
+                        ArvoPelaajienIdt();
+                    }
                 }
                 else
                 {
@@ -1411,7 +1554,7 @@ namespace KaisaKaavio
             }
         }
 
-        private void ArvoPelaajienIdtSijoituksilla()
+        private void ArvoPelaajienIdtSijoituksilla8()
         {
             var osallistujat = this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
 
@@ -1502,6 +1645,82 @@ namespace KaisaKaavio
             foreach (var o in osallistujat.OrderBy(x => x.Id))
             {
                 o.Id = id++;
+            }
+        }
+
+        private void ArvoPelaajienIdtSijoituksilla24()
+        {
+            int[] paikat = new int[]{ 16, 1, 24, 9, 17, 8, 20, 4, 13, 12, 21, 5, 15, 2, 23, 10, 18, 7, 14, 3, 22, 11, 19, 6 };
+            List<int> paikkalista = new List<int>();
+            paikkalista.AddRange(paikat);
+
+            var osallistujat = this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
+            int osallistujia = osallistujat.Count();
+
+            List<int> vapaatIdt = new List<int>();
+            int i = 1;
+            foreach (var o in osallistujat)
+            {
+                vapaatIdt.Add(i);
+                i++;
+            }
+
+            var sijoitetut = osallistujat
+                .Where(x => !string.IsNullOrEmpty(x.Sijoitettu))
+                .OrderBy(x => x.Sijoitettu)
+                .Take(24);
+
+            int sijoitus = 1;
+            foreach (var sijoitettu in sijoitetut)
+            {
+                sijoitettu.Sijoitettu = sijoitus.ToString();
+
+                int paikka = paikkalista.IndexOf(sijoitus);
+                float d = (float)paikka / 23.0f;
+                int id = 1 + (int)Math.Floor(d * ((float)(osallistujia - 2)));
+
+                if (!vapaatIdt.Contains(id))
+                {
+#if DEBUG
+                    Debug.WriteLine(string.Format("Sijoitettu id {0} ei vapaa. Valitaan lähin", id));
+#endif
+                    id = vapaatIdt.OrderBy(x => Math.Abs(x - id)).FirstOrDefault();
+
+#if DEBUG
+                    Debug.WriteLine(string.Format("Valittu id {0}", id));
+#endif
+                }
+
+                sijoitettu.Id = id;
+                vapaatIdt.Remove(id);
+
+                sijoitus++;
+            }
+
+            Random r = new Random(DateTime.Now.Millisecond);
+
+            foreach (var pelaaja in osallistujat.Where(x => x.Id <= 0))
+            {
+                if (vapaatIdt.Count > 0)
+                {
+                    pelaaja.Id = vapaatIdt.ElementAt(r.Next(vapaatIdt.Count));
+                }
+                else
+                {
+                    pelaaja.Id = Osallistujat.Count + 1 + r.Next();
+                }
+
+                if (vapaatIdt.Contains(pelaaja.Id))
+                {
+                    vapaatIdt.Remove(pelaaja.Id);
+                }
+            }
+
+            // Varmistetaan vielä että id:issä ei ole "koloja"
+            int sid = 1;
+            foreach (var o in osallistujat.OrderBy(x => x.Id))
+            {
+                o.Id = sid++;
             }
         }
 
@@ -1659,6 +1878,24 @@ namespace KaisaKaavio
                     return false;
                 }
 #endif
+                bool pelaajiaSijoitettu = false;
+
+                if (this.Sijoittaminen == KaisaKaavio.Sijoittaminen.Sijoitetaan24Pelaajaa)
+                {
+                    Loki.Kirjoita("Laitetaan sijoitetuille pelaajille W.O. pelit");
+
+                    foreach (var sijoitettu in this.Osallistujat.Where(x => x.SijoitusNumero <= 12))
+                    {
+                        LisaaWO(sijoitettu);
+                        pelaajiaSijoitettu = true;
+                    }
+
+                    foreach (var sijoitettu in this.Osallistujat.Where(x => x.SijoitusNumero <= 24))
+                    {
+                        LisaaWO(sijoitettu);
+                        pelaajiaSijoitettu = true;
+                    }
+                }
 
                 Loki.Kirjoita("Haetaan pelit kierrokselle 1");
 
@@ -1695,24 +1932,27 @@ namespace KaisaKaavio
 
                 Loki.Kirjoita("Haetaan pelit kierrokselle 2");
 
-                bool parillinen = (this.Osallistujat.Count() % 2) == 0;
-                bool jaollinenNeljalla = (this.Osallistujat.Count() % 4) == 0;
-
-                // Jos pelaajia on parillinen, mutta ei neljällä jaollinen määrä niin tokan kierroksen lopussa tarvitaan "kieppi"
-                if (parillinen && !jaollinenNeljalla)
+                if (!pelaajiaSijoitettu)
                 {
-                    var a = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 5];
-                    var b = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 2];
-                    LisaaPeli(a, b);
+                    bool parillinen = (this.Osallistujat.Count() % 2) == 0;
+                    bool jaollinenNeljalla = (this.Osallistujat.Count() % 4) == 0;
 
-                    var c = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 3];
-                    var d = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 1];
-                    LisaaPeli(c, d);
+                    // Jos pelaajia on parillinen, mutta ei neljällä jaollinen määrä niin tokan kierroksen lopussa tarvitaan "kieppi"
+                    if (parillinen && !jaollinenNeljalla)
+                    {
+                        var a = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 5];
+                        var b = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 2];
+                        LisaaPeli(a, b);
+
+                        var c = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 3];
+                        var d = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 1];
+                        LisaaPeli(c, d);
+                    }
                 }
 
                 while (true)
                 {
-                    var mukana = this.Osallistujat.Where(x => x.Id >= 0 && Pelit.Count(y => y.SisaltaaPelaajan(x.Id)) < 2);
+                    var mukana = this.Osallistujat.Where(x => Pelit.Count(y => y.SisaltaaPelaajan(x.Id)) < 2);
 
                     var hakijat = mukana
                         .OrderBy(x => x.Id)
