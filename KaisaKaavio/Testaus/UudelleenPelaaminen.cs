@@ -91,6 +91,11 @@ namespace KaisaKaavio.Testaus
                         LisenssiMaksu = osallistuja.LisenssiMaksu,
                         OsMaksu = osallistuja.OsMaksu,
                         Veloitettu = osallistuja.Veloitettu,
+                        Joukkue = osallistuja.Joukkue,
+                        Pelaajan1Nimi = osallistuja.Pelaajan1Nimi,
+                        Pelaajan1Seura = osallistuja.Pelaajan1Seura,
+                        Pelaajan2Nimi = osallistuja.Pelaajan2Nimi,
+                        Pelaajan2Seura = osallistuja.Pelaajan2Seura
                     });
                 }
 

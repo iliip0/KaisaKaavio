@@ -132,6 +132,41 @@ namespace KaisaKaavio
             }
         }
 
+        /// <summary>
+        /// Pelaajan joukkue, mikäli pelataan joukkuekilpailua
+        /// </summary>
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Joukkue { get; set; }
+
+        /// <summary>
+        /// Peliparin 1. pelaajan nimi, mikäli pelataan parikilpailua
+        /// </summary>
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Pelaajan1Nimi { get; set; }
+
+        /// <summary>
+        /// Peliparin 1. pelaajan seura, mikäli pelataan parikilpailua
+        /// </summary>
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Pelaajan1Seura { get; set; }
+
+        /// <summary>
+        /// Peliparin 2. pelaajan nimi, mikäli pelataan parikilpailua
+        /// </summary>
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Pelaajan2Nimi { get; set; }
+
+        /// <summary>
+        /// Peliparin 2. pelaajan seura, mikäli pelataan parikilpailua
+        /// </summary>
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string Pelaajan2Seura { get; set; }
+        
         [XmlAttribute]
         [DefaultValue("")]
         public string KabikeMaksu { get; set; }
@@ -263,6 +298,13 @@ namespace KaisaKaavio
             SeuranJasenMaksu = string.Empty;
             Veloitettu = string.Empty;
             IlmoittautumisNumero = string.Empty;
+
+            Joukkue = string.Empty;
+            Pelaajan1Nimi = string.Empty;
+            Pelaajan1Seura = string.Empty;
+            Pelaajan2Nimi = string.Empty;
+            Pelaajan2Seura = string.Empty;
+
             Id = -1;
 
             this.Sijoitus = new TulosTietue() { Pelaaja = this };

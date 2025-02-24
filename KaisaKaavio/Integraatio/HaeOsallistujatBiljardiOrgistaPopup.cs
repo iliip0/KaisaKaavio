@@ -145,7 +145,11 @@ namespace KaisaKaavio.Integraatio
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            this.ilmoittautuneetSivu = Integraatio.BiljardiOrg.LataaIlmoittautuneetSivu(this.kilpailunNumeroTextBox.Text, this.loki);
+            this.ilmoittautuneetSivu = Integraatio.BiljardiOrg.LataaIlmoittautuneetSivu(
+                this.kilpailunNumeroTextBox.Text, 
+                this.kilpailu.Laji,
+                this.kilpailu.KilpaSarja,
+                this.loki);
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

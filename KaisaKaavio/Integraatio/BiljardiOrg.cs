@@ -9,9 +9,26 @@ namespace KaisaKaavio.Integraatio
 {
     public class BiljardiOrg
     {
-        public static string LataaIlmoittautuneetSivu(string kilpailunId, Loki loki)
+        public static string LataaIlmoittautuneetSivu(string kilpailunId, Laji laji, KilpaSarja sarja, Loki loki)
         {
-            string url = string.Format("https://www.biljardi.org/kaisa/{0}/ilmoittautuneet.php", kilpailunId);
+            string url = string.Empty;
+            string lajinimi = Enum.GetName(typeof(Laji), laji).ToLower();
+
+            switch (sarja)
+            { 
+                case KilpaSarja.Parikilpailu:
+                case KilpaSarja.MixedDoubles:
+                    url = string.Format("https://www.biljardi.org/{0}/parit/{1}/ilmoittautuneet.php", lajinimi, kilpailunId);
+                    break;
+
+                case KilpaSarja.Joukkuekilpailu:
+                    url = string.Format("https://www.biljardi.org/{0}/joukkueet/{1}/ilmoittautuneet.php", lajinimi, kilpailunId);
+                    break;
+
+                default:
+                    url = string.Format("https://www.biljardi.org/{0}/{1}/ilmoittautuneet.php", lajinimi, kilpailunId);
+                    break;
+            }
 
             try
             {

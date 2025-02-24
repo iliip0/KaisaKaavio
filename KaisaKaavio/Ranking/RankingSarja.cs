@@ -595,9 +595,13 @@ namespace KaisaKaavio.Ranking
                     summa));
             }
 
+            bool naytaSarjanKeskiarvo =
+                (DateTime.Today.Year == 2025 && DateTime.Today.Month > 2) ||
+                (DateTime.Today.Year > 2025);
+
             if (this.Laji == KaisaKaavio.Laji.Kara)
             {
-                if (DateTime.Today.Year >= 2025 && DateTime.Today.Month > 2) // Karan viikkokisojen oletuslyöntivuoromäärä oli 40 ennen tätä, bugi
+                if (naytaSarjanKeskiarvo) // Karan viikkokisojen oletuslyöntivuoromäärä oli 40 ennen tätä, bugi
                 {
                     teksti.PieniVihreaTeksti("[Pelaajan pistekeskiarvo koko rankingsarjan ajalta ilman tasoituksia]");
                     teksti.RivinVaihto();
@@ -612,7 +616,7 @@ namespace KaisaKaavio.Ranking
 
                 if (this.Laji == KaisaKaavio.Laji.Kara && p.Lyontivuoroja > 0)
                 {
-                    if (DateTime.Today.Year >= 2025 && DateTime.Today.Month > 2) // Karan viikkokisojen oletuslyöntivuoromäärä oli 40 ennen tätä, bugi
+                    if (naytaSarjanKeskiarvo) // Karan viikkokisojen oletuslyöntivuoromäärä oli 40 ennen tätä, bugi
                     {
                         teksti.NormaaliTeksti(" ");
 #if DEBUG

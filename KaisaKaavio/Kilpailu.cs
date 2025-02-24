@@ -3058,7 +3058,12 @@ namespace KaisaKaavio
                                 Id = pelaaja.Id,
                                 Nimi = pelaaja.Nimi,
                                 PeliPaikka = sali.LyhytNimi,
-                                Sijoitettu = pelaaja.Sijoitettu
+                                Sijoitettu = pelaaja.Sijoitettu,
+                                Joukkue = pelaaja.Joukkue,
+                                Pelaajan1Nimi = pelaaja.Pelaajan1Nimi,
+                                Pelaajan1Seura = pelaaja.Pelaajan1Seura,
+                                Pelaajan2Nimi = pelaaja.Pelaajan2Nimi,
+                                Pelaajan2Seura = pelaaja.Pelaajan2Seura
                             });
                         }
                     }
@@ -3071,7 +3076,12 @@ namespace KaisaKaavio
                                 Id = pelaaja.Id,
                                 Nimi = pelaaja.Nimi,
                                 PeliPaikka = pelaaja.PeliPaikka,
-                                Sijoitettu = pelaaja.Sijoitettu
+                                Sijoitettu = pelaaja.Sijoitettu,
+                                Joukkue = pelaaja.Joukkue,
+                                Pelaajan1Nimi = pelaaja.Pelaajan1Nimi,
+                                Pelaajan1Seura = pelaaja.Pelaajan1Seura,
+                                Pelaajan2Nimi = pelaaja.Pelaajan2Nimi,
+                                Pelaajan2Seura = pelaaja.Pelaajan2Seura
                             });
                         }
                     }

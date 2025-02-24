@@ -66,7 +66,12 @@ namespace KaisaKaavio.Testaus
                 this.TestattavaKilpailu.Osallistujat.Add(new Pelaaja() 
                 {
                     Nimi = osallistuja.Nimi,
-                    Id = osallistuja.Id
+                    Id = osallistuja.Id,
+                    Joukkue = osallistuja.Joukkue,
+                    Pelaajan1Nimi = osallistuja.Pelaajan1Nimi,
+                    Pelaajan1Seura = osallistuja.Pelaajan1Seura,
+                    Pelaajan2Nimi = osallistuja.Pelaajan2Nimi,
+                    Pelaajan2Seura = osallistuja.Pelaajan2Seura
                 });
             }
 
