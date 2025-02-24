@@ -29,8 +29,118 @@ namespace KaisaKaavio.Integraatio
             return string.Empty;
         }
 
-        public static List<BiljardiOrgKilpailu> LataaTulevatKisat(Loki loki)
+        private static HtmlElement s_EdellinenH3Elementti = null;
+
+        private static void ParsiKisalinkki(List<BiljardiOrgKilpailu> kisat, string nimi, string osoite, Loki loki, Laji laji, KilpaSarja sarja)
         {
+            if (laji == Laji.Kara)
+            {
+                return; // Kara pelataan lohkoissa. Ohjelma ei tue tätä
+            }
+
+            string lajinimi = Enum.GetName(typeof(Laji), laji).ToLower();
+
+            string uri = lajinimi;
+            List<string> kielletyt = new List<string>();
+
+            switch (sarja)
+            {
+                case KilpaSarja.Joukkuekilpailu:
+                    uri = string.Format("/{0}/joukkueet/", lajinimi);
+                    break;
+
+                case KilpaSarja.MixedDoubles:
+                case KilpaSarja.Parikilpailu:
+                    uri = string.Format("/{0}/parit/", lajinimi);
+                    break;
+
+                default:
+                    uri = string.Format("/{0}/", lajinimi);
+                    kielletyt.Add("parit");
+                    kielletyt.Add("joukkueet");
+                    break;
+            }
+
+            if (osoite.Contains(uri) &&
+                osoite.Contains("/ilmoittautuneet.php"))
+            {
+                try
+                {
+                    foreach (var k in kielletyt)
+                    {
+                        if (osoite.Contains(k))
+                        {
+                            return;
+                        }
+                    }
+
+                    int i = osoite.IndexOf(uri);
+                    var id = osoite.Substring(i + uri.Length);
+
+                    int j = id.IndexOf("/");
+                    id = id.Substring(0, j);
+
+                    if (!string.IsNullOrEmpty(nimi))
+                    {
+                        nimi = nimi.Trim();
+
+                        string lajiIso = Enum.GetName(typeof(Laji), laji);
+                        if (nimi.StartsWith(lajiIso))
+                        {
+                            nimi = nimi.Substring(lajiIso.Length).Trim();
+                        }
+
+                        kisat.Add(new BiljardiOrgKilpailu()
+                        {
+                            Nimi = nimi,
+                            Id = id
+                        });
+                    }
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private static void LataaTulevatKisat(List<BiljardiOrgKilpailu> kisat, HtmlElement e, Loki loki, Laji laji, KilpaSarja sarja)
+        {
+            if (string.Equals(e.TagName, "h3", StringComparison.OrdinalIgnoreCase))
+            {
+                s_EdellinenH3Elementti = e;
+            }
+            else if (string.Equals(e.TagName, "a", StringComparison.OrdinalIgnoreCase))
+            {
+                if (e.InnerText.Contains("Ilmoittautumislista"))
+                {
+                    string nimi = string.Empty;
+                    if (s_EdellinenH3Elementti != null)
+                    {
+                        nimi = s_EdellinenH3Elementti.InnerText;
+                    }
+
+                    string osoite = e.GetAttribute("href");
+
+                    ParsiKisalinkki(kisat, nimi, osoite, loki, laji, sarja);
+                }
+            }
+            else
+            {
+                foreach (var child in e.Children)
+                {
+                    HtmlElement c = (HtmlElement)child;
+                    if (c != null)
+                    {
+                        LataaTulevatKisat(kisat, c, loki, laji, sarja);
+                    }
+                }
+            }
+        }
+        
+        public static List<BiljardiOrgKilpailu> LataaTulevatKisat(Loki loki, Laji laji, KilpaSarja sarja)
+        {
+            s_EdellinenH3Elementti = null;
+
             List<BiljardiOrgKilpailu> kisat = new List<BiljardiOrgKilpailu>();
 
             string url = string.Format("https://www.biljardi.org");
@@ -38,49 +148,8 @@ namespace KaisaKaavio.Integraatio
             try
             {
                 string html = Integraatio.HtmlLukija.Lue(url, loki, false);
-                var rivit = html.Split('\n');
-                if (rivit != null && rivit.Any())
-                {
-                    string edellinenRivi = string.Empty;
-                    foreach (var rivi in rivit)
-                    {
-                        if (rivi.Contains("/kaisa/") &&
-                            rivi.Contains("/ilmoittautuneet.php") &&
-                            !rivi.Contains("/parit/") &&
-                            !rivi.Contains("/joukkueet/"))
-                        {
-                            try
-                            {
-                                int i = rivi.IndexOf("/kaisa/");
-                                var id = rivi.Substring(i + 7);
-
-                                int j = id.IndexOf("/");
-                                id = id.Substring(0, j);
-
-                                if (!string.IsNullOrEmpty(edellinenRivi))
-                                {
-                                    int k = edellinenRivi.IndexOf("</span>");
-                                    var nimi = edellinenRivi.Substring(k + 7).Trim();
-
-                                    int l = nimi.IndexOf("</h3>");
-                                    nimi = nimi.Substring(0, l);
-
-                                    kisat.Add(new BiljardiOrgKilpailu() 
-                                    {
-                                        Nimi = nimi,
-                                        Id = id
-                                    });
-                                }
-                            }
-                            catch
-                            { 
-                            }
-                        }
-
-                        edellinenRivi = rivi;
-                    }
-                }
-
+                var sivu = Integraatio.HtmlLukija.Dokumentti(html);
+                LataaTulevatKisat(kisat, sivu.Body, loki, laji, sarja);
             }
             catch (Exception ex)
             {
@@ -128,6 +197,8 @@ namespace KaisaKaavio.Integraatio
 
         private static void HaeIlmoittautuneet(HtmlElement e, List<Pelaaja> pelaajat, Loki loki)
         {
+            // TODO hae Parit ja Joukkueet eritavalla, sivu on vähän erilainen
+
             if (string.Equals(e.TagName, "table", StringComparison.OrdinalIgnoreCase))
             {
                 var rivit = e.GetElementsByTagName("TR");

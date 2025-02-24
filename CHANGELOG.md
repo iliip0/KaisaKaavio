@@ -2,6 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.26		(työn alla)
+
+* Lisätty paras pelikohtainen pistekeskiarvo karakilpailujen tulososioon
+* Parannuksia ilmoittautuneiden hakuun biljardi.org sivulta
+
 ## Versio 1.0.0.25		(julkaistu 21.2.2025)
 
 * Lisätty lyöntivuorojen määrän merkkaus Karakilpailuihin

@@ -34,7 +34,7 @@ namespace KaisaKaavio.Integraatio
 
             this.haeOsallistujatatButton.Enabled = !string.IsNullOrEmpty(this.kilpailunNumeroTextBox.Text);
 
-            var k = Integraatio.BiljardiOrg.LataaTulevatKisat(this.loki);
+            var k = Integraatio.BiljardiOrg.LataaTulevatKisat(this.loki, this.kilpailu.Laji, this.kilpailu.KilpaSarja);
             if (k.Any())
             {
                 this.kisat.Add(new BiljardiOrgKilpailu() { Nimi = "(valitse kilpailu)" });
