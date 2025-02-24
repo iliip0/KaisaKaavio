@@ -84,6 +84,17 @@ namespace KaisaKaavio.Integraatio
                     }
 
                     osallistuja.Seura = pelaaja.Seura;
+                    osallistuja.Joukkue = pelaaja.Joukkue;
+                    osallistuja.Pelaajan1Nimi = pelaaja.Pelaajan1Nimi;
+                    osallistuja.Pelaajan1Seura = pelaaja.Pelaajan1Seura;
+                    osallistuja.Pelaajan2Nimi = pelaaja.Pelaajan2Nimi;
+                    osallistuja.Pelaajan2Seura = pelaaja.Pelaajan2Seura;
+
+                    if (!string.IsNullOrEmpty(osallistuja.Pelaajan1Seura) &&
+                        !string.IsNullOrEmpty(osallistuja.Pelaajan2Seura))
+                    {
+                        osallistuja.Seura = string.Empty;
+                    }
 
                     if (this.kilpailu.Sijoittaminen == Sijoittaminen.Sijoitetaan8Pelaajaa && sija <= 8)
                     {
@@ -157,7 +168,68 @@ namespace KaisaKaavio.Integraatio
             var p = Integraatio.BiljardiOrg.ParsiIlmoittautuneetSivulta(this.ilmoittautuneetSivu, this.loki);
 
             this.pelaajat.Clear();
-            this.pelaajat.AddRange(p);
+
+            switch (this.kilpailu.KilpaSarja)
+            {
+                case KilpaSarja.Joukkuekilpailu:
+                    break;
+
+                case KilpaSarja.Parikilpailu:
+                case KilpaSarja.MixedDoubles:
+                    var g = p.GroupBy(x => x.IlmoittautumisNumero);
+                    int ilmoNumero = 1;
+                    foreach (var j in g)
+                    {
+                        if (j.Count() == 2)
+                        {
+                            string nimi1 = j.First().Nimi;
+                            string seura1 = j.First().Seura;
+                            string nimi2 = j.Last().Nimi;
+                            string seura2 = j.Last().Seura;
+
+                            string seura = seura1;
+                            if (!string.Equals(seura1, seura2))
+                            {
+                                if (string.IsNullOrEmpty(seura1))
+                                {
+                                    seura = seura2;
+                                }
+                                else if (string.IsNullOrEmpty(seura2))
+                                {
+                                    seura = seura1;
+                                }
+                                else
+                                {
+                                    seura = seura1 + "/" + seura2;
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(nimi1) &&
+                                !string.IsNullOrEmpty(nimi2))
+                            {
+                                this.pelaajat.Add(new Pelaaja()
+                                {
+                                    Nimi = Tyypit.Nimi.NimiParikisassa(nimi1) + " & " + Tyypit.Nimi.NimiParikisassa(nimi2),
+                                    Seura = seura,
+                                    Pelaajan1Nimi = nimi1,
+                                    Pelaajan1Seura = seura1,
+                                    Pelaajan2Nimi = nimi2,
+                                    Pelaajan2Seura = seura2,
+                                    IlmoittautumisNumero = ilmoNumero.ToString()
+                                });
+
+                                ilmoNumero++;
+                            }
+                        }
+                    }
+                    
+                    break;
+
+                default:
+                    this.pelaajat.AddRange(p);
+                    break;
+            }
+
 
             this.progressBar1.Visible = false;
             this.Enabled = true;

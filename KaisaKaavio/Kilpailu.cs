@@ -1201,17 +1201,28 @@ namespace KaisaKaavio
                 return idString;
             }
 
+            if (this.KilpaSarja == KaisaKaavio.KilpaSarja.MixedDoubles ||
+                this.KilpaSarja == KaisaKaavio.KilpaSarja.Parikilpailu)
+            {
+                if (!string.IsNullOrEmpty(pelaaja.Pelaajan1Nimi) &&
+                    !string.IsNullOrEmpty(pelaaja.Pelaajan2Nimi) &&
+                    !string.IsNullOrEmpty(pelaaja.Pelaajan1Seura) &&
+                    !string.IsNullOrEmpty(pelaaja.Pelaajan2Seura))
+                {
+                    return string.Format("{0} {1} & {2} {3}",
+                        pelaaja.Pelaajan1Nimi,
+                        pelaaja.Pelaajan1Seura,
+                        pelaaja.Pelaajan2Nimi,
+                        pelaaja.Pelaajan2Seura);
+                }
+            }
+
             string nimi = pelaaja.Nimi;
 
             if (!string.IsNullOrEmpty(pelaaja.Seura))
             {
                 nimi += " " + pelaaja.Seura.Trim();
             }
-
-            //if (!string.IsNullOrEmpty(pelaaja.Sijoitettu))
-            //{
-            //    nimi += " (" + pelaaja.Sijoitettu.Trim() + ")";
-            //}
 
             return nimi;
         }

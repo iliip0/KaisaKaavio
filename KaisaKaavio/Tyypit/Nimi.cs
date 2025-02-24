@@ -160,6 +160,30 @@ namespace KaisaKaavio.Tyypit
             return nimi;
         }
 
+        /// <summary>
+        /// Muuttaa "Sukunimi Etunimi" muotoon "Sukunimi E."
+        /// </summary>
+        public static string NimiParikisassa(string nimi)
+        {
+            if (string.IsNullOrEmpty(nimi))
+            {
+                return nimi;
+            }
+
+            var parts = nimi.Split(' ');
+            if (parts.Count() <= 1)
+            {
+                return nimi;
+            }
+
+            if (string.IsNullOrEmpty(parts[1]))
+            {
+                return parts[0].Trim();
+            }
+
+            return parts[0].Trim() + " " + parts[1][0] + ".";
+        }
+
         public static string KeksiNimi(Random random)
         {
             string[] etunimet = 

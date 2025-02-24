@@ -214,7 +214,8 @@ namespace KaisaKaavio.Integraatio
 
         private static void HaeIlmoittautuneet(HtmlElement e, List<Pelaaja> pelaajat, Loki loki)
         {
-            // TODO hae Parit ja Joukkueet eritavalla, sivu on vähän erilainen
+            int riveja = 0;
+            string joukkue = string.Empty;
 
             if (string.Equals(e.TagName, "table", StringComparison.OrdinalIgnoreCase))
             {
@@ -228,7 +229,15 @@ namespace KaisaKaavio.Integraatio
                         {
                             if (!otsikkorivi)
                             {
-                                ParsiPelaajaRivi((HtmlElement)rivi, pelaajat, loki);  
+                                if (riveja == 0)
+                                {
+                                    riveja = ParsiEnsimmainenPelaajaRivi((HtmlElement)rivi, pelaajat, loki, out joukkue);
+                                }
+                                else
+                                {
+                                    ParsiJoukkuePelaajaRivi((HtmlElement)rivi, pelaajat, loki, joukkue);
+                                    riveja--;
+                                }
                             }
                             otsikkorivi = false;
                         }
@@ -247,8 +256,47 @@ namespace KaisaKaavio.Integraatio
                 }
             }
         }
+        
+        private static int ParsiEnsimmainenPelaajaRivi(HtmlElement e, List<Pelaaja> pelaajat, Loki loki, out string joukkue)
+        {
+            joukkue = string.Empty;
 
-        private static void ParsiPelaajaRivi(HtmlElement e, List<Pelaaja> pelaajat, Loki loki)
+            var luokka = e.GetAttribute("class");
+            if (luokka != null && string.Equals(luokka, "sulkurivi"))
+            {
+                return 0;
+            }
+
+            var solut = e.GetElementsByTagName("TD");
+            if (solut != null && solut.Count > 2)
+            {
+                var rowspan = solut[0].GetAttribute("rowspan");
+                if (!string.IsNullOrEmpty(rowspan))
+                {
+                    int riveja = 0;
+                    Int32.TryParse(rowspan, out riveja);
+                    joukkue = solut[0].InnerText;
+                    string nimi = solut[1].InnerText;
+                    string seura = solut[2].InnerText;
+
+                    LisaaParsittuPelaaja(pelaajat, joukkue, nimi, seura);
+
+                    return Math.Max(0, riveja -1);
+                }
+                else
+                {
+                    joukkue = solut[0].InnerText.Replace(".", string.Empty).Trim();
+                    string nimi = solut[1].InnerText;
+                    string seura = solut[2].InnerText;
+
+                    LisaaParsittuPelaaja(pelaajat, joukkue, nimi, seura);
+                }
+            }
+
+            return 0;
+        }
+
+        private static void ParsiJoukkuePelaajaRivi(HtmlElement e, List<Pelaaja> pelaajat, Loki loki, string joukkue)
         {
             var luokka = e.GetAttribute("class");
             if (luokka != null && string.Equals(luokka, "sulkurivi"))
@@ -259,26 +307,28 @@ namespace KaisaKaavio.Integraatio
             var solut = e.GetElementsByTagName("TD");
             if (solut != null && solut.Count > 2)
             {
-                string sija = solut[0].InnerText.Replace(".", string.Empty).Trim();
-                string nimi = solut[1].InnerText;
-                string seura = solut[2].InnerText;
+                string nimi = solut[0].InnerText;
+                string seura = solut[1].InnerText;
 
-                if (sija.Equals("-") ||
-                    string.IsNullOrEmpty(nimi) ||
-                    nimi.Length < 5)
-                {
-                    return;
-                }
+                LisaaParsittuPelaaja(pelaajat, joukkue, nimi, seura);
+            }
+        }
 
-                if (!pelaajat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi)))
+        private static void LisaaParsittuPelaaja(List<Pelaaja> pelaajat, string sija, string nimi, string seura)
+        {
+            if (sija.Equals("-") ||
+                string.IsNullOrEmpty(nimi) ||
+                nimi.Length < 5)
+            {
+            }
+            else if (!pelaajat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi)))
+            {
+                pelaajat.Add(new Pelaaja()
                 {
-                    pelaajat.Add(new Pelaaja()
-                    {
-                        IlmoittautumisNumero = sija,
-                        Nimi = nimi,
-                        Seura = seura,
-                    });
-                }
+                    IlmoittautumisNumero = sija,
+                    Nimi = nimi,
+                    Seura = seura,
+                });
             }
         }
     }

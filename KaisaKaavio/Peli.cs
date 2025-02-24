@@ -487,6 +487,40 @@ namespace KaisaKaavio
         }
 
         [XmlIgnore]
+        public string PelaajanLyhytNimi1
+        {
+            get
+            {
+                if (this.Kilpailu != null &&
+                    (this.Kilpailu.KilpaSarja == KilpaSarja.Parikilpailu || this.Kilpailu.KilpaSarja == KilpaSarja.MixedDoubles))
+                {
+                    return PelaajanNimi1;
+                }
+                else
+                {
+                    return Tyypit.Nimi.LyhytNimi(PelaajanNimi1);
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public string PelaajanLyhytNimi2
+        {
+            get
+            {
+                if (this.Kilpailu != null &&
+                    (this.Kilpailu.KilpaSarja == KilpaSarja.Parikilpailu || this.Kilpailu.KilpaSarja == KilpaSarja.MixedDoubles))
+                {
+                    return PelaajanNimi2;
+                }
+                else
+                {
+                    return Tyypit.Nimi.LyhytNimi(PelaajanNimi2);
+                }
+            }
+        }
+
+        [XmlIgnore]
         public int Id1 
         {
             get 
@@ -569,37 +603,37 @@ namespace KaisaKaavio
                 }
                 else if (this.KierrosPelaaja1 < this.Kierros)
                 {
-                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.KierrosPelaaja1));
+                    s.Append(string.Format(" ({0} {1}. kierros)", PelaajanLyhytNimi1, this.KierrosPelaaja1));
                 }
                 else if (this.KierrosPelaaja2 < this.Kierros)
                 {
-                    s.Append(string.Format(" ({0} {1}. kierros)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.KierrosPelaaja2));
+                    s.Append(string.Format(" ({0} {1}. kierros)", PelaajanLyhytNimi2, this.KierrosPelaaja2));
                 }
 
                 if (!string.IsNullOrEmpty(this.PisinSarja1) && !string.IsNullOrEmpty(this.ToiseksiPisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.PisinSarja1, this.ToiseksiPisinSarja1));
+                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", PelaajanLyhytNimi1, this.PisinSarja1, this.ToiseksiPisinSarja1));
                 }
                 else if (!string.IsNullOrEmpty(this.PisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.PisinSarja1));
+                    s.Append(string.Format(" ({0} {1}p sarja)", PelaajanLyhytNimi1, this.PisinSarja1));
                 }
                 else if (!string.IsNullOrEmpty(this.ToiseksiPisinSarja1))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi1), this.ToiseksiPisinSarja1));
+                    s.Append(string.Format(" ({0} {1}p sarja)", PelaajanLyhytNimi1, this.ToiseksiPisinSarja1));
                 }
 
                 if (!string.IsNullOrEmpty(this.PisinSarja2) && !string.IsNullOrEmpty(this.ToiseksiPisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.PisinSarja2, this.ToiseksiPisinSarja2));
+                    s.Append(string.Format(" ({0} sarjat {1}p ja {2}p)", PelaajanLyhytNimi2, this.PisinSarja2, this.ToiseksiPisinSarja2));
                 }
                 else if (!string.IsNullOrEmpty(this.PisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.PisinSarja2));
+                    s.Append(string.Format(" ({0} {1}p sarja)", PelaajanLyhytNimi2, this.PisinSarja2));
                 }
                 else if (!string.IsNullOrEmpty(this.ToiseksiPisinSarja2))
                 {
-                    s.Append(string.Format(" ({0} {1}p sarja)", Tyypit.Nimi.LyhytNimi(this.PelaajanNimi2), this.ToiseksiPisinSarja2));
+                    s.Append(string.Format(" ({0} {1}p sarja)", PelaajanLyhytNimi2, this.ToiseksiPisinSarja2));
                 }
 
                 return s.ToString();
@@ -1244,14 +1278,14 @@ namespace KaisaKaavio
 
             if (nootit1.Any())
             {
-                string lyhytNimi1 = Tyypit.Nimi.LyhytNimi(Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi1));
+                string lyhytNimi1 = PelaajanLyhytNimi1;
                 teksti.NormaaliTeksti(" ");
                 teksti.PieniTeksti(string.Format(" ({0} {1})", lyhytNimi1, string.Join(", ", nootit1)));
             }
 
             if (nootit2.Any())
             {
-                string lyhytNimi2 = Tyypit.Nimi.LyhytNimi(Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(PelaajanNimi2));
+                string lyhytNimi2 = PelaajanLyhytNimi2;
                 teksti.NormaaliTeksti(" ");
                 teksti.PieniTeksti(string.Format(" ({0} {1})", lyhytNimi2, string.Join(", ", nootit2)));
             }
