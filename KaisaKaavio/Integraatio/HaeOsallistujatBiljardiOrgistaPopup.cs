@@ -109,6 +109,11 @@ namespace KaisaKaavio.Integraatio
                         osallistuja.Sijoitettu = string.Empty;
                     }
 
+                    if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
+                    {
+                        osallistuja.Joukkue = osallistuja.IlmoittautumisNumero;
+                    }
+
                     sija++;
                 }
 

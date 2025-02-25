@@ -6,7 +6,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 * Lisätty paras pelikohtainen pistekeskiarvo karakilpailujen tulososioon
 * Parannuksia ilmoittautuneiden hakuun biljardi.org sivulta
-* Pari- ja joukkuekilpailujen totetutus aloitettu
+* Kaisan SM Parikilpailujen totetutus lisätty
+* Kaisan joukkue SM kilpailujen toteutus aloitettu
  
 ## Versio 1.0.0.25		(julkaistu 21.2.2025)
 

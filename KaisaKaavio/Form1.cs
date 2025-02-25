@@ -3563,7 +3563,15 @@ namespace KaisaKaavio
                         teksti.NormaaliRivi("Varalla:");
                     }
 
-                    teksti.NormaaliRivi(string.Format("{0}. {1} {2}", i, osallistuja.Nimi, osallistuja.Seura));
+                    if (this.kilpailu.KilpaSarja == KilpaSarja.Parikilpailu ||
+                        this.kilpailu.KilpaSarja == KilpaSarja.MixedDoubles)
+                    {
+                        teksti.NormaaliRivi(string.Format("{0}. {1}", i, osallistuja.PitkaNimi));
+                    }
+                    else
+                    {
+                        teksti.NormaaliRivi(string.Format("{0}. {1} {2}", i, osallistuja.Nimi, osallistuja.Seura));
+                    }
                     i++;
                 }
             }

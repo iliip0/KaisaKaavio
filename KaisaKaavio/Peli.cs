@@ -1087,6 +1087,16 @@ namespace KaisaKaavio
                 return;
             }
 
+            string nimi = pelaaja.Nimi;
+
+            if (!tulostaPisteet &&
+                this.Kilpailu != null &&
+                (this.Kilpailu.KilpaSarja == KilpaSarja.MixedDoubles ||
+                this.Kilpailu.KilpaSarja == KilpaSarja.Parikilpailu))
+            {
+                nimi = pelaaja.PitkaNimi;
+            }
+
             if (tappiot == 0)
             {
                 if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
@@ -1094,7 +1104,7 @@ namespace KaisaKaavio
                     teksti.PaksuTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
                 }
 
-                teksti.PaksuTeksti(pelaaja.Nimi);
+                teksti.PaksuTeksti(nimi);
             }
             else if (tappiot == 1)
             {
@@ -1103,7 +1113,7 @@ namespace KaisaKaavio
                     teksti.NormaaliTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
                 }
 
-                teksti.NormaaliTeksti(pelaaja.Nimi);
+                teksti.NormaaliTeksti(nimi);
             }
             else
             {
@@ -1112,7 +1122,7 @@ namespace KaisaKaavio
                     teksti.PunainenTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
                 }
 
-                teksti.PunainenTeksti(pelaaja.Nimi);
+                teksti.PunainenTeksti(nimi);
             }
 
             if (tulostaSeura && !string.IsNullOrEmpty(pelaaja.Seura))

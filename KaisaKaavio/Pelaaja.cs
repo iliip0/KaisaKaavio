@@ -40,6 +40,27 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlIgnore]
+        public string PitkaNimi
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Pelaajan1Nimi) &&
+                    !string.IsNullOrEmpty(Pelaajan1Seura) &&
+                    !string.IsNullOrEmpty(Pelaajan2Nimi) &&
+                    !string.IsNullOrEmpty(Pelaajan2Seura))
+                {
+                    return string.Format("{0} {1} & {2} {3}",
+                        Pelaajan1Nimi,
+                        Pelaajan1Seura,
+                        Pelaajan2Nimi,
+                        Pelaajan2Seura);
+                }
+
+                return Nimi;
+            }
+        }
+
         private string seura = string.Empty;
 
         [XmlAttribute]

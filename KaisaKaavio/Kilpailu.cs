@@ -1133,7 +1133,33 @@ namespace KaisaKaavio
                 return idString;
             }
 
-            string nimi = detaljit ? pelaaja.Nimi : Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi);
+            string nimi = pelaaja.Nimi;
+ 
+            if (!detaljit &&
+                (this.KilpaSarja == KaisaKaavio.KilpaSarja.Parikilpailu ||
+                this.KilpaSarja == KaisaKaavio.KilpaSarja.MixedDoubles))
+            {
+                var osat = nimi.Split(' ');
+                List<string> nimiosat = new List<string>();
+
+                foreach (var o in osat)
+                {
+                    if ((o.Length == 1 && o[0] == '&') ||
+                        (o.Count(x => Char.IsLetter(x)) > 2))
+                    {
+                        nimiosat.Add(o.Trim());
+                    }
+                }
+
+                nimi = string.Join(" ", nimiosat);
+            }
+            else
+            {
+                if (!detaljit)
+                {
+                    nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi);
+                }
+            }
             
             if (detaljit && !string.IsNullOrEmpty(pelaaja.Seura))
             {
