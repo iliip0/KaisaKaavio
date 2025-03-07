@@ -1395,6 +1395,16 @@ namespace KaisaKaavio
                 {
                     foreach (var peli in algoritmi.UudetPelit)
                     {
+                        if (peli.Kierros == 3)
+                        {
+                            if (!this.kilpailu.Pelit.Any(x => 
+                                x.Kierros == 2 &&
+                                x.Tilanne == PelinTilanne.Pelattu))
+                            {
+                                continue; // Ei haeta kolmannen kierroksen pelejä jos tokaa kierrosta ei ole pelattu peliäkään
+                            }
+                        }
+
                         this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
                     }
 
@@ -4157,9 +4167,9 @@ namespace KaisaKaavio
                         teksti.PieniVihreaTeksti(string.Format("[{0}/{1}={2}]", 
                             osallistuja.Karoja,
                             osallistuja.Lyontivuoroja,
-                            (((float)osallistuja.Karoja) / ((float)osallistuja.Lyontivuoroja)).ToString("0.000")));
+                            (((float)osallistuja.Karoja) / ((float)osallistuja.Lyontivuoroja)).ToString("0.000").Replace(',', '.')));
 #else
-                        teksti.PieniVihreaTeksti(string.Format("[{0}]", (((float)osallistuja.Karoja) / ((float)osallistuja.Lyontivuoroja)).ToString("0.000")));
+                        teksti.PieniVihreaTeksti(string.Format("[{0}]", (((float)osallistuja.Karoja) / ((float)osallistuja.Lyontivuoroja)).ToString("0.000").Replace(',', '.')));
 #endif
 
                         teksti.NormaaliTeksti(string.Format(" - {0}/{1}",

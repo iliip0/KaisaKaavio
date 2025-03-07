@@ -623,9 +623,9 @@ namespace KaisaKaavio.Ranking
                         teksti.PieniVihreaTeksti(string.Format("[{0}/{1}={2}]", 
                             p.Karoja,
                             p.Lyontivuoroja,
-                            (((float)p.Karoja) / ((float)p.Lyontivuoroja)).ToString("0.000")));
+                            (((float)p.Karoja) / ((float)p.Lyontivuoroja)).ToString("0.000").Replace(',', '.')));
 #else
-                        teksti.PieniVihreaTeksti(string.Format("[{0}]", (((float)p.Karoja) / ((float)p.Lyontivuoroja)).ToString("0.000")));
+                        teksti.PieniVihreaTeksti(string.Format("[{0}]", (((float)p.Karoja) / ((float)p.Lyontivuoroja)).ToString("0.000").Replace(',', '.')));
 #endif
                         teksti.NormaaliTeksti(" ");
                     }

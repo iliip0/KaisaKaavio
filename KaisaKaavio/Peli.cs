@@ -155,7 +155,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Keskiarvo1.ToString("0.00");
+                return this.Keskiarvo1.ToString("0.00").Replace(',', '.');
             }
         }
 
@@ -195,7 +195,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Keskiarvo2.ToString("0.00");
+                return this.Keskiarvo2.ToString("0.00").Replace(',', '.');
             }
         }
 

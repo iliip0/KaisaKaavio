@@ -2,13 +2,14 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.26		(työn alla)
+## Versio 1.0.0.26		(julkaistu 7.3.2025)
 
 * Lisätty paras pelikohtainen pistekeskiarvo karakilpailujen tulososioon
 * Parannuksia ilmoittautuneiden hakuun biljardi.org sivulta
 * Kaisan SM Parikilpailujen totetutus lisätty
 * Kaisan joukkue SM kilpailujen toteutus aloitettu
 * Palautettu pelit alkamaan aina 0-0 tilanteesta, vaikka olisi tasoituksia. Aiheutti sekaannusta
+* Estetty kolmannen kierroksen pelien haku jos yhtään toisen kierroksen peliä ei ole pelattu
  
 ## Versio 1.0.0.25		(julkaistu 21.2.2025)
 

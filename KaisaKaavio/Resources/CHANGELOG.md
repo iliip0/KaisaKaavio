@@ -8,6 +8,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Parannuksia ilmoittautuneiden hakuun biljardi.org sivulta
 * Kaisan SM Parikilpailujen totetutus lisätty
 * Kaisan joukkue SM kilpailujen toteutus aloitettu
+* Palautettu pelit alkamaan aina 0-0 tilanteesta, vaikka olisi tasoituksia. Aiheutti sekaannusta
  
 ## Versio 1.0.0.25		(julkaistu 21.2.2025)
 
