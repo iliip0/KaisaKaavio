@@ -241,7 +241,12 @@ namespace KaisaKaavio
                         this.asetukset.ViimeisinKilpailu = this.kilpailu.Tiedosto;
                     }
 
-                    this.asetukset.TallennaPelaajat(this.kilpailu);
+                    if (this.kilpailu.KilpaSarja != KilpaSarja.Joukkuekilpailu &&
+                        this.kilpailu.KilpaSarja != KilpaSarja.Parikilpailu &&
+                        this.kilpailu.KilpaSarja != KilpaSarja.MixedDoubles)
+                    {
+                        this.asetukset.TallennaPelaajat(this.kilpailu);
+                    }
                 }
 
                 this.asetukset.Tallenna();
@@ -669,10 +674,10 @@ namespace KaisaKaavio
 
             if (this.kilpailu.KilpailuOnViikkokisa)
             {
-                if (this.tabControl1.Contains(this.kilpailuKutsuTabPage))
-                {
-                    this.tabControl1.Controls.Remove(this.kilpailuKutsuTabPage);
-                }
+                //if (this.tabControl1.Contains(this.kilpailuKutsuTabPage))
+                //{
+                //    this.tabControl1.Controls.Remove(this.kilpailuKutsuTabPage);
+                //}
 
                 if (this.tabControl1.Contains(this.pelipaikatTabPage))
                 {
@@ -686,10 +691,10 @@ namespace KaisaKaavio
             }
             else
             {
-                if (!this.tabControl1.Contains(this.kilpailuKutsuTabPage))
-                {
-                    this.tabControl1.Controls.Add(this.kilpailuKutsuTabPage);
-                }
+                //if (!this.tabControl1.Contains(this.kilpailuKutsuTabPage))
+                //{
+                //    this.tabControl1.Controls.Add(this.kilpailuKutsuTabPage);
+                //}
 
                 if (this.tabControl1.Contains(this.rankingTabPage))
                 {
@@ -3539,7 +3544,12 @@ namespace KaisaKaavio
 
             teksti.InfoRivi("Kilpailun nimi", this.kilpailu.Nimi);
             teksti.InfoRivi("Järjestäjä", this.kilpailu.JarjestavaSeura);
-            teksti.RivinVaihto();
+
+            if (this.kilpailu.KilpailunTyyppi != KilpailunTyyppi.Viikkokisa)
+            {
+                teksti.RivinVaihto();
+            }
+
             teksti.InfoRivi("Osallistumismaksu", this.kilpailu.OsallistumisMaksu);
             teksti.InfoRivi("Lisenssivaatimus", this.kilpailu.LisenssiVaatimus);
             teksti.InfoRivi("Maksutapa", this.kilpailu.MaksuTapa);
@@ -3548,37 +3558,44 @@ namespace KaisaKaavio
             teksti.InfoRivi("Palkinnot", this.kilpailu.Palkinnot);
             teksti.InfoRivi("Ilmoittautuminen", this.kilpailu.Ilmoittautuminen);
             teksti.InfoRivi("Alkamisaika", this.kilpailu.AlkamisAikaString());
-            teksti.InfoRivi("Kesto", this.kilpailu.Yksipaivainen ? "Kilpailu on yksipäiväinen" : "Kilpailu on kaksipäiväinen");
-            teksti.RivinVaihto();
 
-            List<Sali> salit = new List<Sali>();
-
-            salit.Add(this.asetukset.Sali);
-
-            foreach (var s in this.kilpailu.PeliPaikat)
+            if (this.kilpailu.KilpailunTyyppi != KilpailunTyyppi.Viikkokisa)
             {
-                if (s.Kaytossa || !kilpailu.KaavioArvottu)
+                teksti.InfoRivi("Kesto", this.kilpailu.Yksipaivainen ? "Kilpailu on yksipäiväinen" : "Kilpailu on kaksipäiväinen");
+                teksti.RivinVaihto();
+            }
+
+            if (this.kilpailu.KilpailunTyyppi != KilpailunTyyppi.Viikkokisa)
+            {
+                List<Sali> salit = new List<Sali>();
+
+                salit.Add(this.asetukset.Sali);
+
+                foreach (var s in this.kilpailu.PeliPaikat)
                 {
-                    salit.Add(s);
+                    if (s.Kaytossa || !kilpailu.KaavioArvottu)
+                    {
+                        salit.Add(s);
+                    }
                 }
+
+                bool ekasali = true;
+
+                foreach (var sali in salit)
+                {
+                    KirjoitaPelipaikanTiedot(teksti, sali, ekasali);
+                    ekasali = false;
+                }
+
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
+                teksti.RivinVaihto();
+                teksti.InfoRivi("Kilpailunjohtaja", this.kilpailu.KilpailunJohtaja);
+                teksti.InfoRivi("Puhelinnumero", this.kilpailu.PuhelinNumero);
+                teksti.RivinVaihto();
+
+                teksti.InfoRivi("Lisätietoa", this.kilpailu.LisaTietoa);
             }
-
-            bool ekasali = true;
-
-            foreach (var sali in salit)
-            {
-                KirjoitaPelipaikanTiedot(teksti, sali, ekasali);
-                ekasali = false;
-            }
-
-            teksti.RivinVaihto();
-            teksti.OsionVaihto();
-            teksti.RivinVaihto();
-            teksti.InfoRivi("Kilpailunjohtaja", this.kilpailu.KilpailunJohtaja);
-            teksti.InfoRivi("Puhelinnumero", this.kilpailu.PuhelinNumero);
-            teksti.RivinVaihto();
-
-            teksti.InfoRivi("Lisätietoa", this.kilpailu.LisaTietoa);
 
             var osallistujat = this.kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
             if (osallistujat.Count() > 0)
