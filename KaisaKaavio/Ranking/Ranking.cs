@@ -376,7 +376,10 @@ namespace KaisaKaavio.Ranking
             }
             catch (Exception e)
             {
-                this.Loki.Kirjoita("Valitun rankingosakilpailun päivitys epäonnistui", e, false);
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita("Valitun rankingosakilpailun päivitys epäonnistui", e, false);
+                }
                 this.ValittuOsakilpailu = null;
             }
         }

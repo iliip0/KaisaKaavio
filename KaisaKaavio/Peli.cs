@@ -329,28 +329,28 @@ namespace KaisaKaavio
                         {
                             this.Pisteet1 = "0";
 
-                            if (this.Kilpailu != null)
-                            {
-                                var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
-                                if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
-                                {
-                                    this.Pisteet1 = pelaaja.Tasoitus;
-                                }
-                            }
+                            //if (this.Kilpailu != null)
+                            //{
+                            //    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
+                            //    if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
+                            //    {
+                            //        this.Pisteet1 = pelaaja.Tasoitus;
+                            //    }
+                            //}
                         }
 
                         if (string.IsNullOrEmpty(this.pisteet2))
                         {
                             this.Pisteet2 = "0";
 
-                            if (this.Kilpailu != null)
-                            {
-                                var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
-                                if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
-                                {
-                                    this.Pisteet2 = pelaaja.Tasoitus;
-                                }
-                            }
+                            //if (this.Kilpailu != null)
+                            //{
+                            //    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
+                            //    if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
+                            //    {
+                            //        this.Pisteet2 = pelaaja.Tasoitus;
+                            //    }
+                            //}
                         }
 
                         if (string.IsNullOrEmpty(this.Alkoi))
@@ -517,6 +517,40 @@ namespace KaisaKaavio
                 {
                     return Tyypit.Nimi.LyhytNimi(PelaajanNimi2);
                 }
+            }
+        }
+
+        [XmlIgnore]
+        public string Joukkue1
+        {
+            get
+            {
+                if (this.Kilpailu != null)
+                {
+                    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
+                    if (pelaaja != null)
+                    {
+                        return pelaaja.Joukkue;
+                    }
+                }
+                return string.Empty;
+            }
+        }
+
+        [XmlIgnore]
+        public string Joukkue2
+        {
+            get
+            {
+                if (this.Kilpailu != null)
+                {
+                    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
+                    if (pelaaja != null)
+                    {
+                        return pelaaja.Joukkue;
+                    }
+                }
+                return string.Empty;
             }
         }
 

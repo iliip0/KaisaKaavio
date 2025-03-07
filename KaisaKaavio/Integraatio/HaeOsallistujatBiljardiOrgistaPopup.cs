@@ -109,11 +109,6 @@ namespace KaisaKaavio.Integraatio
                         osallistuja.Sijoitettu = string.Empty;
                     }
 
-                    if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
-                    {
-                        osallistuja.Joukkue = osallistuja.IlmoittautumisNumero;
-                    }
-
                     sija++;
                 }
 
@@ -177,57 +172,79 @@ namespace KaisaKaavio.Integraatio
             switch (this.kilpailu.KilpaSarja)
             {
                 case KilpaSarja.Joukkuekilpailu:
+                    {
+                        var g = p.GroupBy(x => x.Seura);
+                        int ilmoNumero = 1;
+                        foreach (var j in g)
+                        {
+                            if (j.Count() > 1)
+                            {
+                                foreach (var pelaaja in j)
+                                {
+                                    this.pelaajat.Add(new Pelaaja()
+                                    {
+                                        Nimi = pelaaja.Nimi,
+                                        Seura = pelaaja.Seura,
+                                        Joukkue = pelaaja.Seura,
+                                        IlmoittautumisNumero = ilmoNumero.ToString()
+                                    });
+                                }
+                            }
+                            ilmoNumero++;
+                        }
+                    }
                     break;
 
                 case KilpaSarja.Parikilpailu:
                 case KilpaSarja.MixedDoubles:
-                    var g = p.GroupBy(x => x.IlmoittautumisNumero);
-                    int ilmoNumero = 1;
-                    foreach (var j in g)
                     {
-                        if (j.Count() == 2)
+                        var g = p.GroupBy(x => x.IlmoittautumisNumero);
+                        int ilmoNumero = 1;
+                        foreach (var j in g)
                         {
-                            string nimi1 = j.First().Nimi;
-                            string seura1 = j.First().Seura;
-                            string nimi2 = j.Last().Nimi;
-                            string seura2 = j.Last().Seura;
-
-                            string seura = seura1;
-                            if (!string.Equals(seura1, seura2))
+                            if (j.Count() == 2)
                             {
-                                if (string.IsNullOrEmpty(seura1))
-                                {
-                                    seura = seura2;
-                                }
-                                else if (string.IsNullOrEmpty(seura2))
-                                {
-                                    seura = seura1;
-                                }
-                                else
-                                {
-                                    seura = seura1 + "/" + seura2;
-                                }
-                            }
+                                string nimi1 = j.First().Nimi;
+                                string seura1 = j.First().Seura;
+                                string nimi2 = j.Last().Nimi;
+                                string seura2 = j.Last().Seura;
 
-                            if (!string.IsNullOrEmpty(nimi1) &&
-                                !string.IsNullOrEmpty(nimi2))
-                            {
-                                this.pelaajat.Add(new Pelaaja()
+                                string seura = seura1;
+                                if (!string.Equals(seura1, seura2))
                                 {
-                                    Nimi = Tyypit.Nimi.NimiParikisassa(nimi1) + " & " + Tyypit.Nimi.NimiParikisassa(nimi2),
-                                    Seura = seura,
-                                    Pelaajan1Nimi = nimi1,
-                                    Pelaajan1Seura = seura1,
-                                    Pelaajan2Nimi = nimi2,
-                                    Pelaajan2Seura = seura2,
-                                    IlmoittautumisNumero = ilmoNumero.ToString()
-                                });
+                                    if (string.IsNullOrEmpty(seura1))
+                                    {
+                                        seura = seura2;
+                                    }
+                                    else if (string.IsNullOrEmpty(seura2))
+                                    {
+                                        seura = seura1;
+                                    }
+                                    else
+                                    {
+                                        seura = seura1 + "/" + seura2;
+                                    }
+                                }
 
-                                ilmoNumero++;
+                                if (!string.IsNullOrEmpty(nimi1) &&
+                                    !string.IsNullOrEmpty(nimi2))
+                                {
+                                    this.pelaajat.Add(new Pelaaja()
+                                    {
+                                        Nimi = Tyypit.Nimi.NimiParikisassa(nimi1) + " & " + Tyypit.Nimi.NimiParikisassa(nimi2),
+                                        Seura = seura,
+                                        Pelaajan1Nimi = nimi1,
+                                        Pelaajan1Seura = seura1,
+                                        Pelaajan2Nimi = nimi2,
+                                        Pelaajan2Seura = seura2,
+                                        IlmoittautumisNumero = ilmoNumero.ToString()
+                                    });
+
+                                    ilmoNumero++;
+                                }
                             }
                         }
                     }
-                    
                     break;
 
                 default:

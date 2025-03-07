@@ -637,6 +637,9 @@ namespace KaisaKaavio
                 this.KeskiarvoTeksti2.Visible = false;
             }
 
+            this.seuraDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpaSarja != KilpaSarja.Joukkuekilpailu;
+            this.JoukkueColumn.Visible = this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu;
+            
             this.yksipaivainenCheckBox.Visible = !this.kilpailu.KilpailuOnViikkokisa;
 
             this.rankingJaKilpailuKutsuSplitContainer.Panel1Collapsed = !this.kilpailu.KilpailuOnViikkokisa;
@@ -1013,6 +1016,7 @@ namespace KaisaKaavio
                     PaivitaPelaajienRankingPisteetOsallistujalistaan();
                     PaivitaSijoitusSarakkeenNakyvyys();
                     PaivitaPelipaikkaSarakkeenNakyvyys();
+                    PaivitaJoukkueSarake();
 
                     this.kilpailuBindingSource.ResetBindings(false);
                     this.pelaajaBindingSource.ResetBindings(false);
@@ -1169,6 +1173,11 @@ namespace KaisaKaavio
             this.sijoitettuDataGridViewTextBoxColumn.ReadOnly =
                 this.kilpailu.Sijoittaminen != Sijoittaminen.EiSijoittamista &&
                 this.kilpailu.KaavioArvottu;
+        }
+
+        private void PaivitaJoukkueSarake()
+        {
+            this.JoukkueColumn.ReadOnly = this.kilpailu.KaavioArvottu;
         }
 
         private void PaivitaPelipaikkaSarakkeenNakyvyys()
@@ -1548,6 +1557,20 @@ namespace KaisaKaavio
                             {
                                 o.IlmoittautumisNumero = i.ToString();
                                 i++;
+
+                                if (this.kilpailu.KilpaSarja != KilpaSarja.Joukkuekilpailu &&
+                                    this.kilpailu.KilpaSarja != KilpaSarja.Parikilpailu &&
+                                    this.kilpailu.KilpaSarja != KilpaSarja.MixedDoubles)
+                                {
+                                    if (string.IsNullOrEmpty(o.OsMaksu))
+                                    {
+                                        int maksu = 0;
+                                        if (Tyypit.Luku.ParsiKokonaisluku(kilpailu.OsallistumisMaksu, out maksu) && maksu > 0)
+                                        {
+                                            o.OsMaksu = maksu.ToString();
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
