@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.28		(julkaistu 31.3.2025)
+
+* Lisätty pelipöytäkirjojen tulostusmahdollisuus
+
 ## Versio 1.0.0.27		(julkaistu 7.3.2025)
 
 * Kisakutsu välilehti näkyviin myös viikkokisamoodissa

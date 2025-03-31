@@ -72,6 +72,10 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlAttribute]
+        [DefaultValue(false)]
+        public bool PoytakirjaTulostettu { get; set; }
+
         private string lyontivuoroja = string.Empty;
 
         [XmlAttribute]
@@ -328,29 +332,11 @@ namespace KaisaKaavio
                         if (string.IsNullOrEmpty(this.pisteet1))
                         {
                             this.Pisteet1 = "0";
-
-                            //if (this.Kilpailu != null)
-                            //{
-                            //    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id1);
-                            //    if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
-                            //    {
-                            //        this.Pisteet1 = pelaaja.Tasoitus;
-                            //    }
-                            //}
                         }
 
                         if (string.IsNullOrEmpty(this.pisteet2))
                         {
                             this.Pisteet2 = "0";
-
-                            //if (this.Kilpailu != null)
-                            //{
-                            //    var pelaaja = this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == Id2);
-                            //    if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Tasoitus))
-                            //    {
-                            //        this.Pisteet2 = pelaaja.Tasoitus;
-                            //    }
-                            //}
                         }
 
                         if (string.IsNullOrEmpty(this.Alkoi))
@@ -465,6 +451,46 @@ namespace KaisaKaavio
             get
             {
                 return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, true, this.Kierros);
+            }
+        }
+
+        [XmlIgnore]
+        public string Seura1
+        {
+            get
+            {
+                if (this.Kilpailu != null)
+                {
+                    try
+                    {
+                        return this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == this.Id1).Seura;
+                    }
+                    catch
+                    { 
+                    }
+                }
+
+                return string.Empty;
+            }
+        }
+
+        [XmlIgnore]
+        public string Seura2
+        {
+            get
+            {
+                if (this.Kilpailu != null)
+                {
+                    try
+                    {
+                        return this.Kilpailu.Osallistujat.FirstOrDefault(x => x.Id == this.Id2).Seura;
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                return string.Empty;
             }
         }
 
@@ -691,6 +717,7 @@ namespace KaisaKaavio
             PisinSarja2 = string.Empty;
             ToiseksiPisinSarja2 = string.Empty;
             Paikka = string.Empty;
+            PoytakirjaTulostettu = false;
         }
 
         /// <summary>

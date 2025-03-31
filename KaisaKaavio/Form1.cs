@@ -4478,7 +4478,17 @@ namespace KaisaKaavio
 
         private void ottelupoytakirjalappujaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Ottelupöytäkirjojen tulostusominaisuus ei ole vielä valmis", "Työn alla", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                using (var popup = new Tulostus.TulostaPoytakirjojaPopup(this.kilpailu, this.loki))
+                {
+                    popup.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Pöytäkirjalappujen tulostus epäonnistui", ex);
+            }
         }
 
         private void kuittejaPelaajilleToolStripMenuItem_Click(object sender, EventArgs e)
