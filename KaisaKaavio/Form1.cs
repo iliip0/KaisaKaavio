@@ -162,6 +162,9 @@ namespace KaisaKaavio
             this.testaaToolStripMenuItem.Visible = false;
 #endif
 
+            this.kuittejaPelaajilleToolStripMenuItem.Visible = false;
+            this.kilpailuraporttiToolStripMenuItem.Visible = false;
+
             Kayttoliittyma.Mukauttaja.Mukauta(this);
 
             this.loki.Kirjoita("KaisaKaavio käynnistetty onnistuneesti", null, false);

@@ -339,7 +339,7 @@ namespace KaisaKaavio.Tulostus
                     DataGridViewRow row = (DataGridViewRow)r;
                     DataGridViewCheckBoxCell cell = (DataGridViewCheckBoxCell)row.Cells[TulostaColumn.Index];
                     Peli peli = (Peli)row.DataBoundItem;
-                    cell.Value = peli.Tilanne != PelinTilanne.Kaynnissa && !peli.PoytakirjaTulostettu;
+                    cell.Value = peli.Tilanne != PelinTilanne.Kaynnissa;
                 }
                 catch
                 {

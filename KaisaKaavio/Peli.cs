@@ -72,10 +72,6 @@ namespace KaisaKaavio
             }
         }
 
-        [XmlAttribute]
-        [DefaultValue(false)]
-        public bool PoytakirjaTulostettu { get; set; }
-
         private string lyontivuoroja = string.Empty;
 
         [XmlAttribute]
@@ -717,7 +713,6 @@ namespace KaisaKaavio
             PisinSarja2 = string.Empty;
             ToiseksiPisinSarja2 = string.Empty;
             Paikka = string.Empty;
-            PoytakirjaTulostettu = false;
         }
 
         /// <summary>

@@ -161,6 +161,13 @@ namespace KaisaKaavio
         public string Joukkue { get; set; }
 
         /// <summary>
+        /// Pelaajan joukkueen id, mikäli pelataan joukkuekilpailua
+        /// </summary>
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string JoukkueId { get; set; }
+
+        /// <summary>
         /// Peliparin 1. pelaajan nimi, mikäli pelataan parikilpailua
         /// </summary>
         [XmlAttribute]
@@ -321,6 +328,8 @@ namespace KaisaKaavio
             IlmoittautumisNumero = string.Empty;
 
             Joukkue = string.Empty;
+            JoukkueId = string.Empty;
+
             Pelaajan1Nimi = string.Empty;
             Pelaajan1Seura = string.Empty;
             Pelaajan2Nimi = string.Empty;
