@@ -59,9 +59,9 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.kansioTextBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.kansioLabel = new System.Windows.Forms.Label();
             this.kansioButton = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.kansioPictureBox = new System.Windows.Forms.PictureBox();
             this.uusiKilpailuButton = new System.Windows.Forms.Button();
             this.virheLabel = new System.Windows.Forms.Label();
             this.peruutaButton = new System.Windows.Forms.Button();
@@ -92,7 +92,7 @@
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kansioPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -488,9 +488,9 @@
             // splitContainer4.Panel1
             // 
             this.splitContainer4.Panel1.Controls.Add(this.kansioTextBox);
-            this.splitContainer4.Panel1.Controls.Add(this.label7);
+            this.splitContainer4.Panel1.Controls.Add(this.kansioLabel);
             this.splitContainer4.Panel1.Controls.Add(this.kansioButton);
-            this.splitContainer4.Panel1.Controls.Add(this.pictureBox1);
+            this.splitContainer4.Panel1.Controls.Add(this.kansioPictureBox);
             // 
             // splitContainer4.Panel2
             // 
@@ -513,15 +513,15 @@
             this.kansioTextBox.Text = "polku";
             this.kansioTextBox.TextChanged += new System.EventHandler(this.kansioTextBox_TextChanged);
             // 
-            // label7
+            // kansioLabel
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(61, 16);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(231, 24);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Tallenna kilpailu kansioon:";
+            this.kansioLabel.AutoSize = true;
+            this.kansioLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kansioLabel.Location = new System.Drawing.Point(61, 16);
+            this.kansioLabel.Name = "kansioLabel";
+            this.kansioLabel.Size = new System.Drawing.Size(231, 24);
+            this.kansioLabel.TabIndex = 2;
+            this.kansioLabel.Text = "Tallenna kilpailu kansioon:";
             // 
             // kansioButton
             // 
@@ -535,14 +535,14 @@
             this.kansioButton.UseVisualStyleBackColor = true;
             this.kansioButton.Click += new System.EventHandler(this.kansioButton_Click);
             // 
-            // pictureBox1
+            // kansioPictureBox
             // 
-            this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.Kansio;
-            this.pictureBox1.Location = new System.Drawing.Point(14, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(41, 37);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.kansioPictureBox.Image = global::KaisaKaavio.Properties.Resources.Kansio;
+            this.kansioPictureBox.Location = new System.Drawing.Point(14, 12);
+            this.kansioPictureBox.Name = "kansioPictureBox";
+            this.kansioPictureBox.Size = new System.Drawing.Size(41, 37);
+            this.kansioPictureBox.TabIndex = 0;
+            this.kansioPictureBox.TabStop = false;
             // 
             // uusiKilpailuButton
             // 
@@ -642,7 +642,7 @@
             this.splitContainer4.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kansioPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -681,8 +681,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label virheLabel;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox kansioPictureBox;
+        private System.Windows.Forms.Label kansioLabel;
         private System.Windows.Forms.Button kansioButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.TextBox kansioTextBox;

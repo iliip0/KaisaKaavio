@@ -218,6 +218,11 @@ namespace KaisaKaavio
                     this.Text = "Luo uusi kilpailu";
                 }
 
+                this.kansioTextBox.Visible = !luoTestiKilpailu;
+                this.kansioButton.Visible = !luoTestiKilpailu;
+                this.kansioPictureBox.Visible = !luoTestiKilpailu;
+                this.kansioLabel.Visible = !luoTestiKilpailu;
+
                 this.asetukset = asetukset;
 
                 this.LuoTestikilpailu = luoTestiKilpailu;
