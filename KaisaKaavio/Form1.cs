@@ -4465,7 +4465,7 @@ namespace KaisaKaavio
 
         private void AlustaRahanjako()
         {
-            this.rahanjako.AlustaRahanjako(this.kilpailu, this.loki);
+            this.rahanjako.AlustaRahanjako(this.kilpailu.KilpailuKaavioon, this.loki);
 
             this.sbilJakoTyyppiComboBox.SelectedIndex = this.rahanjako.SbilOsuusOnProsentteja ? 0 : 1;
             this.jarjestajaJakotyyppiComboBox.SelectedIndex = this.rahanjako.SeuranOsuusOnProsentteja ? 0 : 1;

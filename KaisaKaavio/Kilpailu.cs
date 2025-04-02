@@ -3527,7 +3527,8 @@ namespace KaisaKaavio
                     joukkue = new Pelaaja()
                     {
                         Nimi = o.Joukkue,
-                        Id = id
+                        Id = id,
+                        OsMaksu = this.OsallistumisMaksu,
                     };
 
                     JoukkueKilpailu.Osallistujat.Add(joukkue);
