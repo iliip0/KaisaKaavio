@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.29		(työn alla)
+
+* Lisätty mahdollisuus vetää Kaisan joukkue SM-kisoja
+
 ## Versio 1.0.0.28		(julkaistu 31.3.2025)
 
 * Lisätty pelipöytäkirjojen tulostusmahdollisuus

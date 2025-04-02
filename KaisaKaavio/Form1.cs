@@ -415,6 +415,17 @@ namespace KaisaKaavio
                     Directory.CreateDirectory(Path.Combine(this.kansio, "TestiKilpailut"));
                     tiedosto = Path.Combine(this.kansio, "TestiKilpailut", ToValidFileName(nimi) + ".xml");
                 }
+                else if (!string.IsNullOrEmpty(popup.Kansio) && Path.IsPathRooted(popup.Kansio))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(popup.Kansio);
+                        tiedosto = Path.Combine(popup.Kansio, ToValidFileName(nimi) + ".xml");
+                    }
+                    catch
+                    { 
+                    }
+                }
 
                 if (kysyKilpailunPaalleKirjoitus(tiedosto))
                 {
@@ -780,6 +791,8 @@ namespace KaisaKaavio
         {
             try
             {
+                string vanhaTiedosto = this.kilpailu.Tiedosto;
+
                 string fileName = ToValidFileName(this.kilpailu.Nimi);
                 if (string.IsNullOrEmpty(fileName))
                 {
@@ -791,6 +804,8 @@ namespace KaisaKaavio
                 {
                     this.kilpailu.TallennaNimella(this.openFileDialog1.FileName, true);
                     this.asetukset.ViimeisinKilpailu = this.kilpailu.Tiedosto;
+
+                    this.asetukset.PoistaViimeisimmistaKilpailuista(vanhaTiedosto);
                 }
             }
             catch (Exception ex)

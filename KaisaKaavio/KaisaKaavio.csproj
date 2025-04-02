@@ -369,6 +369,7 @@
     <None Include="Resources\PyramidiMV.png" />
     <None Include="Resources\SnookerMV.png" />
     <None Include="Resources\Tulosta.png" />
+    <None Include="Resources\Kansio.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

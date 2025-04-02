@@ -5,6 +5,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.29		(työn alla)
 
 * Lisätty mahdollisuus vetää Kaisan joukkue SM-kisoja
+* Lisätty mahdollisuus valita kilpailun kansio kilpailua luotaessa
+* Laitettu kilpailut tallentumaan oletusarvoisesti laji- ja kilpailun tyyppikohtaisiin omiin kansioihinsa
 
 ## Versio 1.0.0.28		(julkaistu 31.3.2025)
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,9 @@ namespace KaisaKaavio
             this.rankingComboBox.Visible = false;
 
             this.alkamisAikaDateTimePicker.Value = DateTime.Today;
+
+            this.virheLabel.Text = string.Empty;
+            this.virheLabel.Visible = false;
 
             this.LuoTestikilpailu = false;
 
@@ -166,6 +170,39 @@ namespace KaisaKaavio
             this.lajiSplitContainer.Panel2Collapsed = this.alaLajiComboBox.DataSource == null;
             this.peliAikaNumericUpDown.Visible = this.peliAikaCheckBox.Checked;
             this.peliaikaLabel.Visible = this.peliAikaCheckBox.Checked;
+
+            PaivitaOletusKansio(laji);
+        }
+
+        private void PaivitaOletusKansio(Laji laji)
+        {
+            switch (this.KilpailunTyyppi)
+            {
+                case KaisaKaavio.KilpailunTyyppi.Viikkokisa:
+                    this.kansioTextBox.Text = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        string.Format("Viikkokisat {0} {1}", laji, DateTime.Now.Year));
+                    break;
+
+                case KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu:
+                case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu:
+                    this.kansioTextBox.Text = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        string.Format("SBiL kilpailut {0}", DateTime.Now.Year));
+                    break;
+
+                case KaisaKaavio.KilpailunTyyppi.AvoinKilpailu:
+                    this.kansioTextBox.Text = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        string.Format("Avoimet kilpailut {0}", DateTime.Now.Year));
+                    break;
+
+                default:
+                    this.kansioTextBox.Text = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        string.Format("Muut kilpailut {0}", DateTime.Now.Year));
+                    break;
+            }
         }
 
         public void AsetaOletusarvot(Asetukset.KisaOletusasetukset asetukset, Laji laji, KilpailunTyyppi kilpailunTyyppi, bool salliVaihtaa, bool luoTestiKilpailu)
@@ -182,6 +219,7 @@ namespace KaisaKaavio
                 }
 
                 this.asetukset = asetukset;
+
                 this.LuoTestikilpailu = luoTestiKilpailu;
 
                 this.uusiKilpailuLajiComboBox.SelectedItem = laji;
@@ -296,6 +334,11 @@ namespace KaisaKaavio
             }
         }
 
+        public string Kansio
+        {
+            get { return this.kansioTextBox.Text; }
+        }
+
         public bool RankingKisa { get { return this.rankingCheckBox.Checked; } }
         public string Aika { get { return Tyypit.Aika.DateTimeToString(this.alkamisAikaDateTimePicker.Value); } }
         public decimal Tavoite { get { return this.tavoiteNumericUpDown.Value; } }
@@ -387,6 +430,7 @@ namespace KaisaKaavio
             }
 
             PaivitaKilpailunOletusNimi();
+            PaivitaOletusKansio(this.Laji);
         }
 
         private void rankingCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -473,6 +517,35 @@ namespace KaisaKaavio
         {
             this.peliAikaNumericUpDown.Visible = this.peliAikaCheckBox.Checked;
             this.peliaikaLabel.Visible = this.peliAikaCheckBox.Checked;
+        }
+
+        private void kansioTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kansioButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Directory.CreateDirectory(this.kansioTextBox.Text);
+                this.folderBrowserDialog1.SelectedPath = this.kansioTextBox.Text;
+            }
+            catch
+            {
+                this.folderBrowserDialog1.SelectedPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaaviot");
+            }
+
+            var valinta = this.folderBrowserDialog1.ShowDialog();
+            if (valinta == System.Windows.Forms.DialogResult.OK)
+            {
+                this.kansioTextBox.Text = this.folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void uusiKilpailuLajiComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PaivitaOletusKansio(this.Laji);
         }
     }
 }

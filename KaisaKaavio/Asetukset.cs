@@ -104,6 +104,10 @@ namespace KaisaKaavio
             [XmlAttribute]
             public KaavioTyyppi KaavioTyyppi { get; set; }
 
+            //[XmlAttribute]
+            //[DefaultValue("")]
+            //public string Kansio { get; set; }
+ 
             public KisaOletusasetukset()
             {
                 this.Tavoite = 0;
@@ -113,6 +117,7 @@ namespace KaisaKaavio
                 this.RankingSarja = false;
                 this.RankingSarjanTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
                 this.KaavioTyyppi = KaisaKaavio.KaavioTyyppi.Pudari3Kierros;
+                //this.Kansio = string.Empty;
             }
         }
 
@@ -313,6 +318,22 @@ namespace KaisaKaavio
             }
             catch
             { 
+            }
+        }
+
+        public void PoistaViimeisimmistaKilpailuista(string tiedosto)
+        { 
+            while (true)
+            {
+                var kilpa = this.ViimeisimmatKilpailut.FirstOrDefault(x => string.Equals(x.Polku, tiedosto, StringComparison.OrdinalIgnoreCase));
+                if (kilpa != null)
+                {
+                    this.ViimeisimmatKilpailut.Remove(kilpa);
+                }
+                else
+                {
+                    return;
+                }
             }
         }
 
