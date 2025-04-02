@@ -282,6 +282,7 @@ namespace KaisaKaavio
             public int Voitot = 0;
             public int Tappiot = 0;
             public int Pisteet = 0;
+            public int JoukkuePisteet = 0; // Tehtyjen pisteiden määrä Kaisan joukkuekilpailussa
             public bool Pudotettu = false;
             public int Sijoitus = 0;
             public int SijoitusPisteet = 0;

@@ -87,6 +87,15 @@ namespace KaisaKaavio
         private Kilpailu JoukkueKilpailunVarsinainenKilpailu = null;
 
         [XmlIgnore]
+        public bool OnJoukkuekilpailunJoukkueKilpailu
+        {
+            get
+            {
+                return this.JoukkueKilpailunVarsinainenKilpailu != null;
+            }
+        }
+
+        [XmlIgnore]
         public Ranking.RankingOsakilpailuTietue RankingOsakilpailu { get; set; }
 
         [XmlIgnore]
@@ -210,6 +219,38 @@ namespace KaisaKaavio
         
         [XmlIgnore]
         public BindingList<Pelaaja> OsallistujatJarjestyksessa { get; set; }
+
+        [XmlIgnore]
+        public BindingList<Pelaaja> OsallistujatJarjestyksessaKaavioon 
+        {
+            get 
+            {
+                if (this.JoukkueKilpailu != null)
+                {
+                    return this.JoukkueKilpailu.OsallistujatJarjestyksessa;
+                }
+                else
+                {
+                    return this.OsallistujatJarjestyksessa;
+                }
+            } 
+        }
+
+        [XmlIgnore]
+        public Kilpailu KilpailuKaavioon
+        {
+            get 
+            {
+                if (this.JoukkueKilpailu != null)
+                {
+                    return this.JoukkueKilpailu;
+                }
+                else
+                {
+                    return this;
+                }
+            }
+        }
 
         [XmlIgnore]
         public string Tiedosto { get; set; }
@@ -347,6 +388,27 @@ namespace KaisaKaavio
             RaisePropertyChanged("KilpailuAlkanut");
         }
 
+        public void PaivitaKilpailuUi()
+        {
+            try
+            {
+                RaisePropertyChanged("PelienTilanneTeksti");
+
+                if (this.JoukkueKilpailu != null)
+                {
+                    this.JoukkueKilpailu.RaisePropertyChanged("PelienTilanneTeksti");
+                }
+
+                if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+                {
+                    this.JoukkueKilpailunVarsinainenKilpailu.RaisePropertyChanged("PelienTilanneTeksti");
+                }
+            }
+            catch
+            { 
+            }
+        }
+
         private void Kilpailu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Pyydetään uusi haku aina kun jonkun pelin tulos muuttuu
@@ -363,6 +425,12 @@ namespace KaisaKaavio
                         {
                             this.KilpailuPaattyiJuuri = true;
                         }
+                    }
+
+                    if (this.JoukkueKilpailu != null)
+                    {
+                        PaivitaPelitJoukkueKisaan();
+                        PaivitaKilpailuUi();
                     }
                 }
                 else if (string.Equals(e.PropertyName, "Tilanne"))
@@ -726,7 +794,10 @@ namespace KaisaKaavio
                 }
                 else
                 {
-                    int iiii = 0;
+                    if (this.Loki != null)
+                    {
+                        this.Loki.Kirjoita("Bugi!, tuntematon peli lisätty joukkuekisaan", null, true);
+                    }
                 }
             }
 
@@ -905,6 +976,11 @@ namespace KaisaKaavio
             }
 
             var tulokset = Tulokset();
+
+            if (this.JoukkueKilpailu != null)
+            {
+                this.JoukkueKilpailu.PaivitaKaavioData();
+            }
         }
 
         void Osallistujat_ListChanged(object sender, ListChangedEventArgs e)
@@ -1254,11 +1330,23 @@ namespace KaisaKaavio
                 }
             }
 
+
             string nimi = pelaaja.Nimi;
 
-            if (!string.IsNullOrEmpty(pelaaja.Seura))
+            if (this.JoukkueKilpailunVarsinainenKilpailu != null)
             {
-                nimi += " " + pelaaja.Seura.Trim();
+                var pelaajat = this.JoukkueKilpailunVarsinainenKilpailu.Osallistujat.Where(x => string.Equals(x.Joukkue, pelaaja.Nimi));
+                if (pelaajat != null && pelaajat.Any())
+                {
+                    nimi += " (" + string.Join(", ", pelaajat.Select(x => x.Nimi)) + ")";
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(pelaaja.Seura))
+                {
+                    nimi += " " + pelaaja.Seura.Trim();
+                }
             }
 
             return nimi;
@@ -1910,6 +1998,25 @@ namespace KaisaKaavio
             foreach (var peli in Pelit.Where(x => x.Tilanne == PelinTilanne.Pelattu && x.SisaltaaPelaajan(pelaaja)))
             {
                 pisteet += peli.Pisteet(pelaaja);
+            }
+
+            return pisteet;
+        }
+
+        public int LaskeJoukkuePisteet(int pelaaja, int kierros)
+        {
+            int pisteet = 0;
+
+            if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+            {
+                Pelaaja joukkue = this.Osallistujat.FirstOrDefault(x => x.Id == pelaaja);
+
+                var pelaajat = this.JoukkueKilpailunVarsinainenKilpailu.Osallistujat.Where(x => string.Equals(x.Joukkue, joukkue.Nimi));
+
+                foreach (var p in pelaajat)
+                {
+                    pisteet += this.JoukkueKilpailunVarsinainenKilpailu.LaskePisteet(p.Id, kierros);
+                }
             }
 
             return pisteet;
@@ -2648,6 +2755,22 @@ namespace KaisaKaavio
             return null;
         }
 
+        [XmlIgnore]
+        public Pelaaja KilpailunVoittaja
+        {
+            get
+            {
+                if (this.JoukkueKilpailu != null)
+                {
+                    return this.JoukkueKilpailu.Voittaja();
+                }
+                else
+                {
+                    return this.Voittaja();
+                }
+            }
+        }
+
         public IEnumerable<string> Poydat(Sali sali)
         {
             List<string> poydat = new List<string>();
@@ -2740,6 +2863,7 @@ namespace KaisaKaavio
                 o.Sijoitus.Pisteet = LaskePisteet(o.Id, 999);
                 o.Sijoitus.Voitot = LaskeVoitot(o.Id, 999);
                 o.Sijoitus.Tappiot = LaskeTappiot(o.Id, 999);
+                o.Sijoitus.JoukkuePisteet = LaskeJoukkuePisteet(o.Id, 999);
                 o.Sijoitus.Pudotettu = !Mukana(o);
                 o.Sijoitus.SijoitusOnVarma = true;
 
@@ -2753,9 +2877,19 @@ namespace KaisaKaavio
                 }
 
                 // Sijoituspisteet määräävät pelaajien sijoituksen kisan päätyttyä.
-                o.Sijoitus.SijoitusPisteet = o.Sijoitus.Pudotettu ? 0 : 1000000000; // Laittaa voittajan ykköseksi ja mukana olevat listan kärkeen
-                o.Sijoitus.SijoitusPisteet += o.Sijoitus.Voitot * 100000;
-                o.Sijoitus.SijoitusPisteet += o.Sijoitus.Pisteet;
+                if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+                {
+                    o.Sijoitus.SijoitusPisteet = o.Sijoitus.Pudotettu ? 0 : 1000000000; // Laittaa voittajan ykköseksi ja mukana olevat listan kärkeen
+                    o.Sijoitus.SijoitusPisteet += o.Sijoitus.Voitot * 1000000;
+                    o.Sijoitus.SijoitusPisteet += o.Sijoitus.Pisteet * 4000;
+                    o.Sijoitus.SijoitusPisteet += o.Sijoitus.JoukkuePisteet;
+                }
+                else 
+                {
+                    o.Sijoitus.SijoitusPisteet = o.Sijoitus.Pudotettu ? 0 : 1000000000; // Laittaa voittajan ykköseksi ja mukana olevat listan kärkeen
+                    o.Sijoitus.SijoitusPisteet += o.Sijoitus.Voitot * 100000;
+                    o.Sijoitus.SijoitusPisteet += o.Sijoitus.Pisteet;
+                }
 
                 tulostietueet.Add(o.Sijoitus);
             }
@@ -3368,7 +3502,7 @@ namespace KaisaKaavio
             JoukkueKilpailu.RankkareidenMaara = this.RankkareidenMaara;
             JoukkueKilpailu.Sijoittaminen = KaisaKaavio.Sijoittaminen.EiSijoittamista;
             JoukkueKilpailu.SijoitustenMaaraytyminen = this.SijoitustenMaaraytyminen;
-            JoukkueKilpailu.TavoitePistemaara = 2;
+            JoukkueKilpailu.TavoitePistemaara = 3; // Oikeasti 2 riittää, mutta tämä estää pelin "päättymisen" 2-0 tilanteessa, sekä pistemäärän rajoittamisen kahteen
             JoukkueKilpailu.Yksipaivainen = this.Yksipaivainen;
             JoukkueKilpailu.Loki = this.Loki;
 
@@ -3405,7 +3539,15 @@ namespace KaisaKaavio
                 }
             }
 
-            JoukkueKilpailu.Pelit.Clear();
+            if (JoukkueKilpailu.Pelit.Any())
+            {
+                foreach (var joukkuePeli in JoukkueKilpailu.Pelit)
+                {
+                    joukkuePeli.PropertyChanged -= joukkuePeli_PropertyChanged;
+                }
+
+                JoukkueKilpailu.Pelit.Clear();
+            }
 
             foreach (var peli in this.Pelit)
             {
@@ -3419,7 +3561,7 @@ namespace KaisaKaavio
 
                 if (p == null)
                 {
-                    JoukkueKilpailu.Pelit.Add(new Peli() 
+                    Peli joukkuePeli = new Peli() 
                     {
                         Kilpailu = JoukkueKilpailu,
                         Paikka = peli.Paikka,
@@ -3429,11 +3571,28 @@ namespace KaisaKaavio
                         KierrosPelaaja1 = peli.KierrosPelaaja1,
                         KierrosPelaaja2 = peli.KierrosPelaaja2,
                         Kierros = peli.Kierros,
-                    });
+                    };
+
+                    joukkuePeli.PropertyChanged += joukkuePeli_PropertyChanged;
+                    this.JoukkueKilpailu.Pelit.Add(joukkuePeli);
                 }
             }
 
             PaivitaPelitJoukkueKisaan();
+        }
+
+        private void joukkuePeli_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (string.Equals(e.PropertyName, "Tulos"))
+            {
+                if (this.JoukkueKilpailu != null)
+                {
+                    if (this.JoukkueKilpailu.Voittaja() != null)
+                    {
+                        this.KilpailuPaattyiJuuri = true;
+                    }
+                }
+            }
         }
 
         public void PaivitaPelitJoukkueKisaan()
@@ -3508,48 +3667,58 @@ namespace KaisaKaavio
                         }
                     }
 
+                    string pisteet1 = p1.ToString();
+                    string pisteet2 = p2.ToString();
+                    PelinTilanne tilanne = PelinTilanne.Tyhja;
+                    //string alkoi = string.Empty;
+                    //string paattyi = string.Empty;
+
                     if (paattunut)
                     {
-                        p.Pisteet1 = p1.ToString();
-                        p.Pisteet2 = p2.ToString();
+                        pisteet1 = p1.ToString();
+                        pisteet2 = p2.ToString();
 
                         if (p1 > p2)
                         {
-                            p.Pisteet1 += "v";
+                            pisteet1 += "v";
                         }
                         else if (p2 > p1)
                         {
-                            p.Pisteet2 += "v";
+                            pisteet2 += "v";
                         }
 
-                        p.Tilanne = PelinTilanne.Pelattu;
+                        tilanne = PelinTilanne.Pelattu;
                         p.Alkoi = alkoi;
                         p.Paattyi = paattyi;
                     }
                     else if (kaynnissa)
                     {
-                        p.Pisteet1 = p1.ToString();
-                        p.Pisteet2 = p2.ToString();
-                        p.Tilanne = PelinTilanne.Kaynnissa;
+                        pisteet1 = p1.ToString();
+                        pisteet2 = p2.ToString();
+                        tilanne = PelinTilanne.Kaynnissa;
                         p.Alkoi = alkoi;
                         p.Paattyi = string.Empty;
                     }
                     else if (valmiinaAlkamaan)
                     {
-                        p.Pisteet1 = string.Empty;
-                        p.Pisteet2 = string.Empty;
-                        p.Tilanne = PelinTilanne.ValmiinaAlkamaan;
+                        pisteet1 = string.Empty;
+                        pisteet2 = string.Empty;
+                        tilanne = PelinTilanne.ValmiinaAlkamaan;
                         p.Alkoi = string.Empty;
                         p.Paattyi = string.Empty;
                     }
                     else
                     {
-                        p.Pisteet1 = string.Empty;
-                        p.Pisteet2 = string.Empty;
-                        p.Tilanne = PelinTilanne.Tyhja;
+                        pisteet1 = string.Empty;
+                        pisteet2 = string.Empty;
+                        tilanne = PelinTilanne.Tyhja;
                         p.Alkoi = string.Empty;
                         p.Paattyi = string.Empty;
                     }
+
+                    p.Tilanne = tilanne;
+                    p.Pisteet1 = pisteet1;
+                    p.Pisteet2 = pisteet2;
                 }
             }
         }
@@ -3608,11 +3777,42 @@ namespace KaisaKaavio
                     }
                 }
             }
+        }
 
-            if (JoukkueKilpailu.KilpailuPaattyiJuuri)
+        public int TappiotPelaajalleEnnenPelia(int id, Peli p)
+        {
+            if (this.JoukkueKilpailu != null)
             {
-                this.KilpailuPaattyiJuuri = true;
+                var pelaaja = this.Osallistujat.FirstOrDefault(x => x.Id == id);
+                if (pelaaja != null && !string.IsNullOrEmpty(pelaaja.Joukkue))
+                {
+                    var joukkue = this.JoukkueKilpailu.Osallistujat.FirstOrDefault(x => string.Equals(x.Nimi, pelaaja.Joukkue));
+                    if (joukkue != null)
+                    {
+                        var p1 = this.Osallistujat.FirstOrDefault(x => x.Id == p.Id1);
+                        var p2 = this.Osallistujat.FirstOrDefault(x => x.Id == p.Id2);
+                        var joukkuePeli = this.JoukkueKilpailu.Pelit.FirstOrDefault(x => 
+                            x.KierrosPelaaja1 == p.KierrosPelaaja1 &&
+                            x.KierrosPelaaja2 == p.KierrosPelaaja2 &&
+                            string.Equals(x.Pelaaja1, p1.Joukkue) &&
+                            string.Equals(x.Pelaaja2, p2.Joukkue));
+
+                        if (joukkuePeli != null)
+                        {
+                            return this.JoukkueKilpailu.TappiotPelaajalleEnnenPelia(joukkue.Id, joukkuePeli);
+                        }
+                    }
+                }
             }
+
+            int tappiot = 0;
+
+            foreach (var peli in this.Pelit.Where(x => x.PeliNumero <= p.PeliNumero))
+            {
+                tappiot += peli.Tappiot(id);
+            }
+
+            return tappiot;
         }
     }
 }

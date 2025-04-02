@@ -417,6 +417,11 @@ namespace KaisaKaavio
                     }
 
                     RaisePropertyChanged("Tulos");
+
+                    if (this.Kilpailu != null)
+                    {
+                        this.Kilpailu.PaivitaKilpailuUi();
+                    }
                 }
             }
         }
@@ -1108,13 +1113,7 @@ namespace KaisaKaavio
         {
             if (this.Kilpailu != null)
             {
-                int tappiot = 0;
-                
-                foreach (var peli in Kilpailu.Pelit.Where(x => x.PeliNumero <= this.PeliNumero))
-                {
-                    tappiot += peli.Tappiot(Id1);
-                }
-
+                int tappiot = this.Kilpailu.TappiotPelaajalleEnnenPelia(Id1, this);
                 return Math.Min(2, tappiot);
             }
             return 0;
@@ -1124,13 +1123,7 @@ namespace KaisaKaavio
         {
             if (this.Kilpailu != null)
             {
-                int tappiot = 0;
-
-                foreach (var peli in Kilpailu.Pelit.Where(x => x.PeliNumero <= this.PeliNumero))
-                {
-                    tappiot += peli.Tappiot(Id2);
-                }
-
+                int tappiot = this.Kilpailu.TappiotPelaajalleEnnenPelia(Id2, this);
                 return Math.Min(2, tappiot);
             }
             return 0;
@@ -1153,37 +1146,45 @@ namespace KaisaKaavio
                 nimi = pelaaja.PitkaNimi;
             }
 
-            if (tappiot == 0)
+            // Joukkuekilpailussa joukkueiden nimet menee paksuksi/punaseksi jne..., mutta pelaajat on normaalilla tekstillä
+            if (this.Kilpailu != null && this.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
             {
-                if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
-                {
-                    teksti.PaksuTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
-                }
-
-                teksti.PaksuTeksti(nimi);
-            }
-            else if (tappiot == 1)
-            {
-                if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
-                {
-                    teksti.NormaaliTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
-                }
-
                 teksti.NormaaliTeksti(nimi);
             }
             else
             {
-                if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
+                if (tappiot == 0)
                 {
-                    teksti.PunainenTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
+                    if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
+                    {
+                        teksti.PaksuTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
+                    }
+
+                    teksti.PaksuTeksti(nimi);
+                }
+                else if (tappiot == 1)
+                {
+                    if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
+                    {
+                        teksti.NormaaliTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
+                    }
+
+                    teksti.NormaaliTeksti(nimi);
+                }
+                else
+                {
+                    if (tulostaSijoitus && pelaaja.SijoitusNumero <= 24)
+                    {
+                        teksti.PunainenTeksti(string.Format("[{0}] ", pelaaja.SijoitusNumero));
+                    }
+
+                    teksti.PunainenTeksti(nimi);
                 }
 
-                teksti.PunainenTeksti(nimi);
-            }
-
-            if (tulostaSeura && !string.IsNullOrEmpty(pelaaja.Seura))
-            {
-                teksti.NormaaliTeksti(" " + pelaaja.Seura);
+                if (tulostaSeura && !string.IsNullOrEmpty(pelaaja.Seura))
+                {
+                    teksti.NormaaliTeksti(" " + pelaaja.Seura);
+                }
             }
 
             if (tulostaTasuri && !string.IsNullOrEmpty(pelaaja.Tasoitus))
@@ -1314,14 +1315,21 @@ namespace KaisaKaavio
             List<string> nootit1 = new List<string>();
             List<string> nootit2 = new List<string>();
 
-            if (KierrosPelaaja1 < Kierros)
+            if (this.Kilpailu != null && this.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
             {
-                nootit1.Add(string.Format("{0}. kierros", KierrosPelaaja1));
+                // Joukkuekisassa pelaajan kierrosilmoitus on joukkueen kohdalla, ei yksittäisissä peleissä
             }
-            
-            if (KierrosPelaaja2 < Kierros)
+            else
             {
-                nootit2.Add(string.Format("{0}. kierros", KierrosPelaaja2));
+                if (KierrosPelaaja1 < Kierros)
+                {
+                    nootit1.Add(string.Format("{0}. kierros", KierrosPelaaja1));
+                }
+
+                if (KierrosPelaaja2 < Kierros)
+                {
+                    nootit2.Add(string.Format("{0}. kierros", KierrosPelaaja2));
+                }
             }
 
             if (!string.IsNullOrEmpty(PisinSarja1) && !string.IsNullOrEmpty(ToiseksiPisinSarja1))
@@ -1356,24 +1364,31 @@ namespace KaisaKaavio
                 teksti.PieniTeksti(string.Format(" ({0} {1})", lyhytNimi2, string.Join(", ", nootit2)));
             }
 
-            if (this.Tilanne == PelinTilanne.Kaynnissa)
+            if (this.Kilpailu != null && this.Kilpailu.OnJoukkuekilpailunJoukkueKilpailu)
             {
-                if (!string.IsNullOrEmpty(this.Alkoi))
-                {
-                    teksti.NormaaliTeksti(" ");
-                    teksti.PieniTeksti(string.Format(" (alkoi {0})", this.Alkoi));
-                }
-
+                // Joukkuepelin kestoa ei ilmoiteta, vain yksittäisten pelien
             }
-            else if (this.Tilanne == PelinTilanne.Pelattu)
+            else
             {
-                if (!string.IsNullOrEmpty(this.Alkoi) && !string.IsNullOrEmpty(this.Paattyi))
+                if (this.Tilanne == PelinTilanne.Kaynnissa)
                 {
-                    int aikaero = 0;
-                    if (Tyypit.Aika.AikaeroMinuutteina(this.Alkoi, this.Paattyi, out aikaero) && aikaero > 0)
+                    if (!string.IsNullOrEmpty(this.Alkoi))
                     {
                         teksti.NormaaliTeksti(" ");
-                        teksti.PieniTeksti(string.Format(" ({0}min)", aikaero));
+                        teksti.PieniTeksti(string.Format(" (alkoi {0})", this.Alkoi));
+                    }
+
+                }
+                else if (this.Tilanne == PelinTilanne.Pelattu)
+                {
+                    if (!string.IsNullOrEmpty(this.Alkoi) && !string.IsNullOrEmpty(this.Paattyi))
+                    {
+                        int aikaero = 0;
+                        if (Tyypit.Aika.AikaeroMinuutteina(this.Alkoi, this.Paattyi, out aikaero) && aikaero > 0)
+                        {
+                            teksti.NormaaliTeksti(" ");
+                            teksti.PieniTeksti(string.Format(" ({0}min)", aikaero));
+                        }
                     }
                 }
             }
@@ -1522,6 +1537,20 @@ namespace KaisaKaavio
             }
 
             return p;
+        }
+
+        [XmlIgnore]
+        public int Kesto
+        {
+            get
+            {
+                int kesto = 0;
+                if (!string.IsNullOrEmpty(this.Alkoi) && !string.IsNullOrEmpty(this.Paattyi))
+                {
+                    Tyypit.Aika.AikaeroMinuutteina(this.Alkoi, this.Paattyi, out kesto);
+                }
+                return kesto;
+            }
         }
 
         public void PaivitaTulos()
