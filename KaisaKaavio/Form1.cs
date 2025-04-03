@@ -4830,7 +4830,27 @@ namespace KaisaKaavio
 
             for (int i = 0; i < n; ++i)
             {
-                this.kilpailu.LisaaPelaaja(Tyypit.Nimi.KeksiNimi(random));
+                if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
+                {
+                    this.kilpailu.LisaaJoukkue(
+                        Tyypit.Nimi.KeksiNimi(random),
+                        Tyypit.Nimi.KeksiNimi(random),
+                        Tyypit.Nimi.KeksiNimi(random),
+                        Tyypit.Nimi.ArvoSeura(random));
+                }
+                else if (this.kilpailu.KilpaSarja == KilpaSarja.Parikilpailu ||
+                        this.kilpailu.KilpaSarja == KilpaSarja.MixedDoubles)
+                {
+                    this.kilpailu.LisaaPari(
+                        Tyypit.Nimi.KeksiNimi(random),
+                        Tyypit.Nimi.KeksiNimi(random),
+                        Tyypit.Nimi.ArvoSeura(random));
+
+                }
+                else
+                {
+                    this.kilpailu.LisaaPelaaja(Tyypit.Nimi.KeksiNimi(random));
+                }
             }
 
             this.osallistujatDataGridView.ResumeLayout();

@@ -208,22 +208,40 @@ namespace KaisaKaavio
             }
             else if (this.muokattuTulos != this.tulos)
             {
-                this.tallennaButton.Enabled = true;
-                AsetaInfonVarit(Color.LightYellow, Color.Black);
-                this.infoRichTextBox.Text =
-                    "VAROITUS!\nMuokkasit pisteitä siten, että ottelun tulos muuttuu. Mikäli tallennat muutoksen pelin tilanteeseen, " +
-                    "ohjelma joutuu mahdollisesti mitätöimään yhden tai useampia tämän ottelun jälkeen alkaneet/pelatuista peleistä, joissa on mukana jompi kumpi tai molemmat tämän ottelun pelaajista!";
+                if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
+                {
+                    this.tallennaButton.Enabled = false;
+                    AsetaInfonVarit(Color.LightPink, Color.Red);
+                    this.infoRichTextBox.Text = "VIRHE!\nJoukkuekilpailussa ei tällä ohjelman versiolla pysty muuttamaan jo pelattujen pelien lopputulosta";
+                }
+                else
+                {
+                    this.tallennaButton.Enabled = true;
+                    AsetaInfonVarit(Color.LightYellow, Color.Black);
+                    this.infoRichTextBox.Text =
+                        "VAROITUS!\nMuokkasit pisteitä siten, että ottelun tulos muuttuu. Mikäli tallennat muutoksen pelin tilanteeseen, " +
+                        "ohjelma joutuu mahdollisesti mitätöimään yhden tai useampia tämän ottelun jälkeen alkaneet/pelatuista peleistä, joissa on mukana jompi kumpi tai molemmat tämän ottelun pelaajista!";
+                }
             }
             else if (this.muokattuTilanne != this.tilanne)
             {
                 if ((this.tilanne == PelinTilanne.Pelattu || this.tilanne == PelinTilanne.Kaynnissa) &&
                     this.muokattuTilanne == PelinTilanne.Tyhja)
                 {
-                    this.tallennaButton.Enabled = true;
-                    AsetaInfonVarit(Color.LightYellow, Color.Black);
-                    this.infoRichTextBox.Text =
-                        "VAROITUS!\nMuokkasit pisteitä siten, että pelattu ottelu mitätöidään.\nMikäli tallennat muutoksen, " +
-                        "ohjelma joutuu mahdollisesti mitätöimään yhden tai useampia tämän ottelun jälkeisistä peleistä, joissa on mukana jompi kumpi tai molemmat tämän ottelun pelaajista!";
+                    if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
+                    {
+                        this.tallennaButton.Enabled = false;
+                        AsetaInfonVarit(Color.LightPink, Color.Red);
+                        this.infoRichTextBox.Text = "VIRHE!\nJoukkuekilpailussa ei tällä ohjelman versiolla pysty mitätöimään jo käynnistettyä peliä";
+                    }
+                    else
+                    {
+                        this.tallennaButton.Enabled = true;
+                        AsetaInfonVarit(Color.LightYellow, Color.Black);
+                        this.infoRichTextBox.Text =
+                            "VAROITUS!\nMuokkasit pisteitä siten, että pelattu ottelu mitätöidään.\nMikäli tallennat muutoksen, " +
+                            "ohjelma joutuu mahdollisesti mitätöimään yhden tai useampia tämän ottelun jälkeisistä peleistä, joissa on mukana jompi kumpi tai molemmat tämän ottelun pelaajista!";
+                    }
                 }
                 else
                 {

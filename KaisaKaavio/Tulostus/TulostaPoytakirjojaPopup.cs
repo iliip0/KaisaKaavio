@@ -194,11 +194,25 @@ namespace KaisaKaavio.Tulostus
 
             if (peli != null)
             {
-                PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, peli.PelaajanNimi1, x - 6, riviY, nimi, riviH, HorizontalAlignment.Right);
-                PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, peli.Seura1, x - 3, riviY + 20, nimi, riviH, HorizontalAlignment.Right);
+                if (this.kilpailu.KilpaSarja == KilpaSarja.MixedDoubles || this.kilpailu.KilpaSarja == KilpaSarja.Parikilpailu)
+                {
+                    var pelaaja1 = this.kilpailu.Osallistujat.FirstOrDefault(k => k.Id == peli.Id1);
+                    var pelaaja2 = this.kilpailu.Osallistujat.FirstOrDefault(k => k.Id == peli.Id2);
 
-                PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, peli.PelaajanNimi2, x + nimi + vs + tulos + tulos + 2, riviY, nimi, riviH, HorizontalAlignment.Left);
-                PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, peli.Seura2, x + nimi + vs + tulos + tulos + 2, riviY + 20, nimi, riviH, HorizontalAlignment.Left);
+                    PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, pelaaja1.Pelaajan1Nimi, x - 6, riviY - 2, nimi, riviH, HorizontalAlignment.Right);
+                    PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, pelaaja1.Pelaajan2Nimi, x - 6, riviY + 18, nimi, riviH, HorizontalAlignment.Right);
+
+                    PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, pelaaja2.Pelaajan1Nimi, x + nimi + vs + tulos + tulos + 2, riviY - 2, nimi, riviH, HorizontalAlignment.Left);
+                    PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, pelaaja2.Pelaajan2Nimi, x + nimi + vs + tulos + tulos + 2, riviY + 18, nimi, riviH, HorizontalAlignment.Left);
+                }
+                else
+                {
+                    PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, peli.PelaajanNimi1, x - 6, riviY, nimi, riviH, HorizontalAlignment.Right);
+                    PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, peli.Seura1, x - 3, riviY + 20, nimi, riviH, HorizontalAlignment.Right);
+
+                    PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, peli.PelaajanNimi2, x + nimi + vs + tulos + tulos + 2, riviY, nimi, riviH, HorizontalAlignment.Left);
+                    PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, peli.Seura2, x + nimi + vs + tulos + tulos + 2, riviY + 20, nimi, riviH, HorizontalAlignment.Left);
+                }
             }
             PiirraTeksti(e, this.isoOhutFontti, this.mustaHarja, "-", x + nimi + tulos, riviY, vs, riviH, HorizontalAlignment.Center);
 

@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.30		(työn alla)
+
+* Lisätty tarkistuksia uutta kilpailua luotaessa, jotta käyttäjä ei pysty luomaan kilpailuja ei-tuetulla formaatilla
+
 ## Versio 1.0.0.29		(julkaistu 2.4.2025)
 
 * Lisätty mahdollisuus vetää Kaisan joukkue SM-kisoja

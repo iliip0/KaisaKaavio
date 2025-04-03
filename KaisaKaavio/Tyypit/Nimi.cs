@@ -184,32 +184,38 @@ namespace KaisaKaavio.Tyypit
             return parts[0].Trim() + " " + parts[1][0] + ".";
         }
 
+        public static string ArvoSeura(Random random)
+        {
+            string[] seurat = { "Ritz", "PVK", "HyvBK", "HBS", "247", "EBK" };
+            return seurat[random.Next(0, seurat.Count() - 1)];
+        }
+
         public static string KeksiNimi(Random random)
         {
             string[] etunimet = 
             { 
-                "Antti", "Anna", "Aino", "Arto", "Arhi", "Aku", "Alli", "Asku", "Asko", "Bert", "Dave", "Daalia", 
-                "Eero", "Eki", "Ensiö", "Emilia", "Elli", "Essi", "Esko", "Eerik", "Ella", "Eetu", "Fred", "Gabriel", "Heikki", 
+                "Amelie", "Antti", "Ana", "Anna", "Anni", "Aino", "Arto", "Arhi", "Aku", "Alli", "Asku", "Asko", "Bert", "Dave", "Daalia", 
+                "Eero", "Eki", "Elsa", "Ensiö", "Emilia", "Elli", "Essi", "Esko", "Eerik", "Ella", "Eetu", "Fred", "Gabriel", "Heikki", 
                 "Hiski", "Hanna", "Hilkka", "Hilma", "Hannele", "Helvi", "Hannu", "Ilpo", "Ile", "Ilona", "Iivo", "Iiro", "Iiris", "Jaakko", "Jokke",
                 "Jaana", "Johanna", "Juha", "Juho", "Jens", "Klaus", "Kalle", "Kim", "Kiira", "Kaisa", "Kaija", "Keke", "Laija", "Linda",
-                "Laila",
+                "Laila", "Lilja", "Laune", "Lyydia", "Lempi", "Laura",
                 "Lauri", "Late", "Mauno", "Meri", "Maarit", "Mari", "Marjut", "Mauri", "Niilo", "Niko", "Nea", "Nelli", "Olavi", "Outi", "Oula",
                 "Pete", "Paula", "Pauli", "Pieta", "Ripa", "Raija", "Risto", "Reija", "Raakel", "Sven", "Sakari", "Sulevi", "Seija", "Sanna",
-                "Taru", "Tuija", "Tero", "Timo", "Tauri", "Ulla", "Urho", "Ville", "Vili", "Veera", "Ylermi"
+                "Taru", "Tuija", "Tero", "Timo", "Tauri", "Ulla", "Urho", "Ville", "Vili", "Veera", "Ylermi", "Ynsiö"
             };
 
             string[] sukunimet = 
             {
                 "Alinen", "Autti", "Alajärvi", "Autio", "Brunhilde", "Brecht", "Croft", "Erämies", "Eskelinen", "Fränti", "Giers", 
                 "Hannula", "Hietamies", "Hämäläinen", "Hilla", "Hanski", "Hietanen", "Hietala", "Hakala", "Hautala", "Hummais", 
-                "Ilonen", "Ilola", "Jukola", "Jäntti", "Jukola", "Jukarainen", "Jämerä", "Jantunen", "Jouppi", 
-                "Janatuinen", "Joukainen", "Kivi", "Kokko", "Kekäle", "Korpi", "Korpela", "Korpinen", "Källström", 
-                "Karalahti", "Kanerva", "Kuutamo", "Kolehmainen", "Karakorpi", "Kallio", "Kilpi", "Klemetti",
+                "Ilonen", "Ilola", "Jukola", "Jäntti", "Jukola", "Jukarainen", "Jämerä", "Jantunen", "Jouppi", "Jäämies", "Juippinen",
+                "Janatuinen", "Joukainen", "Kivi", "Kokko", "Kekäle", "Korpi", "Korpela", "Korpinen", "Källström", "Kokko", "Keto",
+                "Karalahti", "Kanerva", "Kuutamo", "Kolehmainen", "Karakorpi", "Kallio", "Kilpi", "Klemetti", "Kulmala", "Kekkonen",
                 "Kokkonen", "Kerminen", "Kurvinen", "Kielo", "Lemi", "Lemmetyinen", "Lahtela", "Lemmetyinen", "Liehu", "Lahti", "Lahtinen", "Lehterä",
-                "Liimatainen", "Manninen", "Mannila", "Mononen", "Montonen", "Niemi", "Nieminen", "Niemelä", "Naumann", 
+                "Liimatainen", "Manninen", "Mannila", "Mononen", "Montonen", "Niemi", "Nieminen", "Niemelä", "Naumann", "Napander",
                 "Nuotio", "Orpo", "Olli", "Ovaskainen", "Pollari", "Pajari", "Piippo", "Pusa", "Poikolainen", "Piri", "Puujärvi",
                 "Ryti", "Rantunen", "Räihä", "Räsänen", "Sukari", "Sahamies", "Säynävä", "Sieviö", "Sauri", "Tuomi",
-                "Tapani", "Tiitinen", "Uski", "Uotila", "Uotinen", "Vähäsarja", "Viertiö", "Vanhanen", "Vahanen",
+                "Tapani", "Tiitinen", "Uski", "Uotila", "Uotinen", "Vähäsarja", "Viertiö", "Vanhanen", "Vahanen", "Vehmas", "Villa",
                 "Virta", "Virtanen", "Väyrynen"
             };
 

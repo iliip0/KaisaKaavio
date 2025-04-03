@@ -849,6 +849,89 @@ namespace KaisaKaavio
             return true;
         }
 
+        // Vain testikilpailussa
+        public bool LisaaPari(string nimi1, string nimi2, string seura)
+        {
+            while (this.Osallistujat.Any(x => 
+                Tyypit.Nimi.Equals(x.Pelaajan1Nimi, nimi1) ||
+                Tyypit.Nimi.Equals(x.Pelaajan2Nimi, nimi1)))
+            {
+                nimi1 += "a";
+            }
+
+            while (this.Osallistujat.Any(x =>
+                Tyypit.Nimi.Equals(x.Pelaajan1Nimi, nimi2) ||
+                Tyypit.Nimi.Equals(x.Pelaajan2Nimi, nimi2)))
+            {
+                nimi2 += "a";
+            }
+
+            Pelaaja pelaaja = new Pelaaja()
+            {
+                Nimi = Tyypit.Nimi.NimiParikisassa(nimi1) + " & " + Tyypit.Nimi.NimiParikisassa(nimi2),
+                Seura = seura,
+                Pelaajan1Nimi = nimi1,
+                Pelaajan1Seura = seura,
+                Pelaajan2Nimi = nimi2,
+                Pelaajan2Seura = seura,
+            };
+
+            this.Osallistujat.Add(pelaaja);
+
+            return true;
+        }
+
+        // Vain testikilpailussa
+        public bool LisaaJoukkue(string nimi1, string nimi2, string nimi3, string seura)
+        {
+            while (this.Osallistujat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi1)))
+            {
+                nimi1 += "a";
+            }
+
+            while (this.Osallistujat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi2)))
+            {
+                nimi2 += "a";
+            }
+
+            while (this.Osallistujat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi3)))
+            {
+                nimi3 += "a";
+            }
+
+            int i = 1;
+
+            while (this.Osallistujat.Any(x => string.Equals(x.Joukkue, seura + " " + i)))
+            { 
+                i++;
+            }
+
+            string joukkue = seura + " " + i;
+
+            this.Osallistujat.Add(new Pelaaja() 
+            {
+                Nimi = nimi1,
+                Seura = seura,
+                Joukkue = joukkue
+            });
+
+            this.Osallistujat.Add(new Pelaaja()
+            {
+                Nimi = nimi2,
+                Seura = seura,
+                Joukkue = joukkue
+            });
+
+            this.Osallistujat.Add(new Pelaaja()
+            {
+                Nimi = nimi3,
+                Seura = seura,
+                Joukkue = joukkue
+            });
+            
+            return true;
+        }
+
         public void PoistaEiMukanaOlevatPelaajat()
         {
             while (true)
