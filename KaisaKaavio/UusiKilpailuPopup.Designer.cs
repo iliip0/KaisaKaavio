@@ -63,10 +63,10 @@
             this.kansioButton = new System.Windows.Forms.Button();
             this.kansioPictureBox = new System.Windows.Forms.PictureBox();
             this.uusiKilpailuButton = new System.Windows.Forms.Button();
-            this.virheLabel = new System.Windows.Forms.Label();
             this.peruutaButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.virheLabel = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -299,6 +299,7 @@
             this.kaavioComboBox.Name = "kaavioComboBox";
             this.kaavioComboBox.Size = new System.Drawing.Size(479, 32);
             this.kaavioComboBox.TabIndex = 21;
+            this.kaavioComboBox.SelectedIndexChanged += new System.EventHandler(this.kaavioComboBox_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -494,8 +495,8 @@
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.uusiKilpailuButton);
             this.splitContainer4.Panel2.Controls.Add(this.virheLabel);
+            this.splitContainer4.Panel2.Controls.Add(this.uusiKilpailuButton);
             this.splitContainer4.Panel2.Controls.Add(this.peruutaButton);
             this.splitContainer4.Size = new System.Drawing.Size(962, 151);
             this.splitContainer4.SplitterDistance = 56;
@@ -558,16 +559,6 @@
             this.uusiKilpailuButton.UseVisualStyleBackColor = true;
             this.uusiKilpailuButton.Click += new System.EventHandler(this.uusiKilpailuButton_Click);
             // 
-            // virheLabel
-            // 
-            this.virheLabel.AutoSize = true;
-            this.virheLabel.ForeColor = System.Drawing.Color.Red;
-            this.virheLabel.Location = new System.Drawing.Point(197, 27);
-            this.virheLabel.Name = "virheLabel";
-            this.virheLabel.Size = new System.Drawing.Size(59, 25);
-            this.virheLabel.TabIndex = 2;
-            this.virheLabel.Text = "virhe";
-            // 
             // peruutaButton
             // 
             this.peruutaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -590,6 +581,21 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // virheLabel
+            // 
+            this.virheLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.virheLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.virheLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.virheLabel.ForeColor = System.Drawing.Color.Red;
+            this.virheLabel.Location = new System.Drawing.Point(197, 6);
+            this.virheLabel.Name = "virheLabel";
+            this.virheLabel.ReadOnly = true;
+            this.virheLabel.Size = new System.Drawing.Size(487, 74);
+            this.virheLabel.TabIndex = 2;
+            this.virheLabel.Text = "Virhe";
             // 
             // UusiKilpailuPopup
             // 
@@ -639,7 +645,6 @@
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel1.PerformLayout();
             this.splitContainer4.Panel2.ResumeLayout(false);
-            this.splitContainer4.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kansioPictureBox)).EndInit();
@@ -679,7 +684,6 @@
         private System.Windows.Forms.NumericUpDown peliAikaNumericUpDown;
         private System.Windows.Forms.ComboBox kaavioComboBox;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label virheLabel;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.PictureBox kansioPictureBox;
         private System.Windows.Forms.Label kansioLabel;
@@ -687,5 +691,6 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.TextBox kansioTextBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.RichTextBox virheLabel;
     }
 }

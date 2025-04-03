@@ -436,6 +436,7 @@ namespace KaisaKaavio
 
             PaivitaKilpailunOletusNimi();
             PaivitaOletusKansio(this.Laji);
+            TarkistaTiedot();
         }
 
         private void rankingCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -503,6 +504,7 @@ namespace KaisaKaavio
         private void kilpaSarjaComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PaivitaKilpailunOletusNimi();
+            TarkistaTiedot();
         }
 
         private void UusiKilpailuPopup_Shown(object sender, EventArgs e)
@@ -516,6 +518,7 @@ namespace KaisaKaavio
         {
             PaivitaUiLajille((Laji)this.uusiKilpailuLajiComboBox.SelectedItem, true);
             PaivitaKilpailunOletusNimi();
+            TarkistaTiedot();
         }
 
         private void peliAikaCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -551,6 +554,85 @@ namespace KaisaKaavio
         private void uusiKilpailuLajiComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PaivitaOletusKansio(this.Laji);
+            TarkistaTiedot();
+        }
+
+        private bool NaytaVirhe(string teksti)
+        {
+            this.uusiKilpailuButton.Enabled = false;
+            this.virheLabel.Text = teksti;
+            this.virheLabel.Visible = true;
+            return false;
+        }
+
+        private bool TarkistaTiedot()
+        {
+            this.uusiKilpailuButton.Enabled = true;
+            this.virheLabel.Visible = false;
+
+            switch (this.KilpaSarja)
+            {
+                case KilpaSarja.Joukkuekilpailu:
+                    if (this.Laji != KaisaKaavio.Laji.Kaisa ||
+                        this.KilpailunTyyppi != KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
+                    {
+                        return NaytaVirhe("Joukkuekilpailuominaisuus toimii ainoastaan Kaisan Joukkue SM-kilpailussa!");
+                    }
+                    break;
+
+                case KaisaKaavio.KilpaSarja.MixedDoubles:
+                case KaisaKaavio.KilpaSarja.Parikilpailu:
+                    if (this.Laji != KaisaKaavio.Laji.Kaisa ||
+                        this.KilpailunTyyppi != KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
+                    {
+                        return NaytaVirhe("Parikilpailuominaisuus toimii ainoastaan Kaisan Pari- ja Mixed Doubles SM-kilpailuissa!");
+                    }
+                    break;
+            }
+
+            switch (this.KilpailunTyyppi)
+            {
+                case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu:
+                    if (this.Laji != KaisaKaavio.Laji.Kaisa)
+                    {
+                        return NaytaVirhe("SBiL SM-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
+                    }
+                    break;
+
+                case KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu:
+                    if (this.Laji != KaisaKaavio.Laji.Kaisa)
+                    {
+                        return NaytaVirhe("SBiL RG-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
+                    }
+                    break;
+            }
+
+            switch (this.KaavioTyyppi)
+            {
+                case KaisaKaavio.KaavioTyyppi.TuplaKaavio:
+                    break;
+
+                case KaisaKaavio.KaavioTyyppi.Pudari3Kierros:
+                case KaisaKaavio.KaavioTyyppi.Pudari2Kierros:
+                default:
+                    if (this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu)
+                    {
+                        return NaytaVirhe("Kaisan RG-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
+                    }
+
+                    if (this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
+                    {
+                        return NaytaVirhe("Kaisan SM-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
+                    }
+                    break;
+            }
+
+            return true;
+        }
+
+        private void kaavioComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TarkistaTiedot();
         }
     }
 }
