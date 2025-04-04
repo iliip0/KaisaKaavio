@@ -181,6 +181,7 @@ namespace KaisaKaavio
                 case KaisaKaavio.KilpailunTyyppi.Viikkokisa:
                     this.kansioTextBox.Text = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        "KaisaKaaviot",
                         string.Format("Viikkokisat {0} {1}", laji, DateTime.Now.Year));
                     break;
 
@@ -188,18 +189,21 @@ namespace KaisaKaavio
                 case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu:
                     this.kansioTextBox.Text = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        "KaisaKaaviot",
                         string.Format("SBiL kilpailut {0}", DateTime.Now.Year));
                     break;
 
                 case KaisaKaavio.KilpailunTyyppi.AvoinKilpailu:
                     this.kansioTextBox.Text = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        "KaisaKaaviot",
                         string.Format("Avoimet kilpailut {0}", DateTime.Now.Year));
                     break;
 
                 default:
                     this.kansioTextBox.Text = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        "KaisaKaaviot",
                         string.Format("Muut kilpailut {0}", DateTime.Now.Year));
                     break;
             }

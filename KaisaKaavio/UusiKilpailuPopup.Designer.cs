@@ -62,11 +62,11 @@
             this.kansioLabel = new System.Windows.Forms.Label();
             this.kansioButton = new System.Windows.Forms.Button();
             this.kansioPictureBox = new System.Windows.Forms.PictureBox();
+            this.virheLabel = new System.Windows.Forms.RichTextBox();
             this.uusiKilpailuButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.virheLabel = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -545,6 +545,21 @@
             this.kansioPictureBox.TabIndex = 0;
             this.kansioPictureBox.TabStop = false;
             // 
+            // virheLabel
+            // 
+            this.virheLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.virheLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.virheLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.virheLabel.ForeColor = System.Drawing.Color.Red;
+            this.virheLabel.Location = new System.Drawing.Point(197, 6);
+            this.virheLabel.Name = "virheLabel";
+            this.virheLabel.ReadOnly = true;
+            this.virheLabel.Size = new System.Drawing.Size(487, 74);
+            this.virheLabel.TabIndex = 2;
+            this.virheLabel.Text = "Virhe";
+            // 
             // uusiKilpailuButton
             // 
             this.uusiKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -581,21 +596,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // virheLabel
-            // 
-            this.virheLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.virheLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.virheLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.virheLabel.ForeColor = System.Drawing.Color.Red;
-            this.virheLabel.Location = new System.Drawing.Point(197, 6);
-            this.virheLabel.Name = "virheLabel";
-            this.virheLabel.ReadOnly = true;
-            this.virheLabel.Size = new System.Drawing.Size(487, 74);
-            this.virheLabel.TabIndex = 2;
-            this.virheLabel.Text = "Virhe";
             // 
             // UusiKilpailuPopup
             // 

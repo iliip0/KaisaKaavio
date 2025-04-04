@@ -2,10 +2,12 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.30		(työn alla)
+## Versio 1.0.0.30		(julkaistu 4.4.2025)
 
 * Lisätty tarkistuksia uutta kilpailua luotaessa, jotta käyttäjä ei pysty luomaan kilpailuja ei-tuetulla formaatilla
 * Korjattu tulostettavien pelipöytäkirjojen muotoilu parikisassa
+* Korjauksia joukkuekilpailun ajoon
+* Muutettu kisojen oletuskansiot menemään "Documents/KaisaKaaviot/" kansion alle kaikki
 
 ## Versio 1.0.0.29		(julkaistu 2.4.2025)
 
