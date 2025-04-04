@@ -6,6 +6,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 * Lisätty tarkistuksia uutta kilpailua luotaessa, jotta käyttäjä ei pysty luomaan kilpailuja ei-tuetulla formaatilla
 * Korjattu tulostettavien pelipöytäkirjojen muotoilu parikisassa
+* Korjauksia joukkuekilpailun ajoon
 
 ## Versio 1.0.0.29		(julkaistu 2.4.2025)
 

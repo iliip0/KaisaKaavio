@@ -344,6 +344,11 @@ namespace KaisaKaavio
             peli.Kilpailu = this;
             peli.PaivitaRivinUlkoasu = true;
 
+            if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+            {
+                peli.PropertyChanged += joukkuePeli_PropertyChanged;
+            }
+
             Pelit.Add(peli);
         }
 
@@ -352,6 +357,11 @@ namespace KaisaKaavio
             Pelit.Remove(peli);
 
             peli.PropertyChanged -= Kilpailu_PropertyChanged;
+
+            if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+            {
+                peli.PropertyChanged -= joukkuePeli_PropertyChanged;
+            }
 
             if (nollaaKilpailu)
             {
@@ -489,6 +499,40 @@ namespace KaisaKaavio
 
         public void PoistaTyhjatPelitAlkaenNumerosta(int numerostaAlkaen)
         {
+            // Joukkuekilpailussa poistetaan tyhjät joukkuepelit, ei yksittäisiä osaotteluita
+            if (this.KilpaSarja == KaisaKaavio.KilpaSarja.Joukkuekilpailu &&
+                this.JoukkueKilpailu != null)
+            {
+                var peli = Pelit.FirstOrDefault(x => 
+                    x.Kierros > 2 && 
+                    x.PeliNumero >= numerostaAlkaen);
+
+                if (peli != null && peli.JoukkuePeliNumero > 0)
+                {
+                    this.JoukkueKilpailu.PoistaTyhjatPelitAlkaenNumerosta(peli.JoukkuePeliNumero);
+
+                    PaivitaPelinumerot();
+
+                    // Poistetaan pelit, joiden joukkuepeli on poistettu
+                    while (true)
+                    {
+                        var tyhjaPeli = this.Pelit.FirstOrDefault(x => x.JoukkuePeliNumero == 0);
+                        if (tyhjaPeli != null)
+                        {
+                            PoistaPeli(tyhjaPeli, true);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    PaivitaPelinumerot();
+                }
+
+                return;
+            }
+
             bool poistettiinJotain = false;
 
             while (true)
@@ -1108,6 +1152,19 @@ namespace KaisaKaavio
                 }
                 else
                 {
+                    // Joukkuekisassa tuloksen muokkaaminen mahdollista vain jos seuraavaa joukkuepeliä ei ole aloitettu
+                    if (this.KilpaSarja == KaisaKaavio.KilpaSarja.Joukkuekilpailu && this.JoukkueKilpailu != null)
+                    {
+                        if (this.Pelit.Any(x =>
+                            (x.PeliNumero > peli.PeliNumero) &&
+                            (x.JoukkuePeliNumero > peli.JoukkuePeliNumero) &&
+                            (x.Tilanne == PelinTilanne.Kaynnissa || x.Tilanne == PelinTilanne.Pelattu) &&
+                            x.SisaltaaJommanKummanJoukkueen(peli.Joukkue1, peli.Joukkue2)))
+                        {
+                            return false;
+                        }
+                    }
+
                     return true;
                 }
             }
@@ -1330,10 +1387,20 @@ namespace KaisaKaavio
                     nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi);
                 }
             }
-            
-            if (detaljit && !string.IsNullOrEmpty(pelaaja.Seura))
+
+            if (this.KilpaSarja == KaisaKaavio.KilpaSarja.Joukkuekilpailu)
             {
-                nimi += " " + pelaaja.Seura.Trim();
+                if (detaljit && !string.IsNullOrEmpty(pelaaja.Joukkue))
+                {
+                    nimi += " " + pelaaja.Joukkue.Trim();
+                }
+            }
+            else
+            {
+                if (detaljit && !string.IsNullOrEmpty(pelaaja.Seura))
+                {
+                    nimi += " " + pelaaja.Seura.Trim();
+                }
             }
 
             if (this.KilpailuOnViikkokisa)
@@ -2629,6 +2696,25 @@ namespace KaisaKaavio
             foreach (var p in Pelit)
             {
                 p.PeliNumero = numero++;
+                p.JoukkuePeliNumero = 0; // < Varmistaa, että jos joukkuepeli on poistettu, joukkuepelinumero on 0
+            }
+
+            if (this.KilpaSarja == KaisaKaavio.KilpaSarja.Joukkuekilpailu &&
+                this.JoukkueKilpailu != null)
+            {
+                this.JoukkueKilpailu.PaivitaPelinumerot();
+
+                foreach (var joukkuePeli in this.JoukkueKilpailu.Pelit)
+                {
+                    foreach (var peli in this.Pelit.Where(x => 
+                        x.KierrosPelaaja1 == joukkuePeli.KierrosPelaaja1 &&
+                        x.KierrosPelaaja2 == joukkuePeli.KierrosPelaaja2 &&
+                        string.Equals(x.Joukkue1, joukkuePeli.Pelaaja1) &&
+                        string.Equals(x.Joukkue2, joukkuePeli.Pelaaja2)))
+                    {
+                        peli.JoukkuePeliNumero = joukkuePeli.PeliNumero;
+                    }
+                }
             }
         }
 
@@ -3669,13 +3755,49 @@ namespace KaisaKaavio
         {
             if (string.Equals(e.PropertyName, "Tulos"))
             {
+                //this.TallennusTarvitaan = true;
+                //this.PelienTilannePaivitysTarvitaan = true;
+
+                //if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+                //{
+                 //   this.JoukkueKilpailunVarsinainenKilpailu.TallennusTarvitaan = true;
+                  //  this.JoukkueKilpailunVarsinainenKilpailu.PelienTilannePaivitysTarvitaan = true;
+                //}
+
+                if (this.Voittaja() != null)
+                {
+                    this.KilpailuPaattyiJuuri = true;
+
+                    //if (this.JoukkueKilpailu != null)
+                    //{
+                    //    this.JoukkueKilpailu.KilpailuPaattyiJuuri = true;
+                    //}
+
+                    if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+                    {
+                        this.JoukkueKilpailunVarsinainenKilpailu.KilpailuPaattyiJuuri = true;
+                    }
+                }
+
+                /*
                 if (this.JoukkueKilpailu != null)
                 {
                     if (this.JoukkueKilpailu.Voittaja() != null)
                     {
                         this.KilpailuPaattyiJuuri = true;
+                        this.JoukkueKilpailu.KilpailuPaattyiJuuri = true;
                     }
                 }
+
+                if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+                {
+                    if (this.JoukkueKilpailunVarsinainenKilpailu.Voittaja() != null)
+                    {
+                        this.KilpailuPaattyiJuuri = true;
+                        this.JoukkueKilpailunVarsinainenKilpailu.KilpailuPaattyiJuuri = true;
+                    }
+                }
+                 */
             }
         }
 
@@ -3809,6 +3931,8 @@ namespace KaisaKaavio
 
         public void PaivitaPelitJoukkueKisasta()
         {
+            bool lisattiinPeli = false;
+
             Random r = new Random(DateTime.Now.Millisecond);
 
             foreach (var p in JoukkueKilpailu.Pelit)
@@ -3858,8 +3982,15 @@ namespace KaisaKaavio
                         };
 
                         LisaaPeli(osaottelu);
+
+                        lisattiinPeli = true;
                     }
                 }
+            }
+
+            if (lisattiinPeli)
+            {
+                PaivitaPelinumerot();
             }
         }
 

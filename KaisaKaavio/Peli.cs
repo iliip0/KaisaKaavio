@@ -36,6 +36,9 @@ namespace KaisaKaavio
         [XmlIgnore]
         public int PeliNumero { get; set; }
 
+        [XmlIgnore]
+        public int JoukkuePeliNumero { get; set; }
+
         private string pelaajaId1 = string.Empty;
 
         [XmlAttribute]
@@ -708,6 +711,7 @@ namespace KaisaKaavio
         {
             Kierros = 0;
             PeliNumero = 0;
+            JoukkuePeliNumero = 0;
             Alkoi = string.Empty;
             Paattyi = string.Empty;
             Kilpailu = null;
@@ -768,6 +772,16 @@ namespace KaisaKaavio
         public bool SisaltaaJommanKummanPelaajan(int id1, int id2)
         {
             return SisaltaaPelaajan(id1) || SisaltaaPelaajan(id2);
+        }
+
+        public bool SisaltaaJoukkueen(string joukkue)
+        {
+            return string.Equals(Joukkue1, joukkue) || string.Equals(Joukkue2, joukkue);
+        }
+
+        public bool SisaltaaJommanKummanJoukkueen(string joukkue1, string joukkue2)
+        {
+            return SisaltaaJoukkueen(joukkue1) || SisaltaaJoukkueen(joukkue2);
         }
 
         public bool Tyhja()
@@ -1576,6 +1590,7 @@ namespace KaisaKaavio
 
             else if (havisi1 && havisi2)
             {
+                this.Tilanne = PelinTilanne.Pelattu;
                 this.Tulos = PelinTulos.MolemmatHavisi;
             }
 
@@ -1593,12 +1608,14 @@ namespace KaisaKaavio
 
             else if (voitti1 || havisi2)
             {
+                this.Tilanne = PelinTilanne.Pelattu;
                 this.Tulos = PelinTulos.Pelaaja1Voitti;
                 this.VirheTuloksessa = string.Empty;
             }
 
             else if (voitti2 || havisi1)
             {
+                this.Tilanne = PelinTilanne.Pelattu;
                 this.Tulos = PelinTulos.Pelaaja2Voitti;
                 this.VirheTuloksessa = string.Empty;
             }
@@ -1619,12 +1636,14 @@ namespace KaisaKaavio
 
             else if (p1 >= tavoite)
             {
+                this.Tilanne = PelinTilanne.Pelattu;
                 this.Tulos = PelinTulos.Pelaaja1Voitti;
                 this.VirheTuloksessa = string.Empty;
             }
 
             else if (p2 >= tavoite)
             {
+                this.Tilanne = PelinTilanne.Pelattu;
                 this.Tulos = PelinTulos.Pelaaja2Voitti;
                 this.VirheTuloksessa = string.Empty;
             }

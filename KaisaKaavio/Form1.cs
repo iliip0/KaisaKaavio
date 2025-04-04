@@ -761,6 +761,14 @@ namespace KaisaKaavio
                 AvaaKilpailu(tiedosto);
 
                 ResumeAllDataBinding();
+
+                try
+                {
+                    this.BringToFront();
+                }
+                catch
+                { 
+                }
             }
         }
 
@@ -4133,43 +4141,7 @@ namespace KaisaKaavio
             // Parhaiten suoriutuneet pelaajat joukkuekisassa
             if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
             {
-                var pelaajaTulokset = this.kilpailu.Tulokset();
-                if (pelaajaTulokset.Any())
-                {
-                    var sijat = pelaajaTulokset.GroupBy(x => x.SijoitusPisteet);
-                    if (sijat.Any())
-                    {
-                        teksti.RivinVaihto();
-                        teksti.Otsikko("Parhaiten suoriutuneet pelaajat");
-                        teksti.RivinVaihto();
-
-                        int sijaNumero = 1;
-                        int sijoja = 1;
-
-                        foreach (var sija in sijat.Take(3))
-                        {
-                            //if (sijoja < 3)
-                            {
-                                foreach (var pelaaja in sija)
-                                {
-                                    teksti.NormaaliRivi(string.Format("{0}. {1} ({4}) - {2}/{3}",
-                                        sijaNumero,
-                                        pelaaja.Pelaaja.Nimi,
-                                        pelaaja.Voitot,
-                                        pelaaja.Pisteet,
-                                        pelaaja.Pelaaja.Joukkue));
-
-                                    sijoja++;
-                                }
-                            }
-
-                            sijaNumero++;
-                        }
-
-                        teksti.RivinVaihto();
-                        teksti.OsionVaihto();
-                    }
-                }
+                TulostaParhaitenSuoriutuneetPelaajat(teksti);
             }
 
             if (this.kilpailu.KilpailuOnPaattynyt &&
@@ -4191,6 +4163,54 @@ namespace KaisaKaavio
 
             this.pelitRichTextBox.Rtf = teksti.Rtf;
             this.pelitRichTextBox.Tag = teksti.Sbil;
+        }
+
+        private void TulostaParhaitenSuoriutuneetPelaajat(Tyypit.Teksti teksti)
+        {
+            var pelaajaTulokset = this.kilpailu.Tulokset();
+            if (pelaajaTulokset.Any())
+            {
+                var sijat = pelaajaTulokset.GroupBy(x => x.SijoitusPisteet);
+                if (sijat.Any())
+                {
+                    if (sijat.First().Count() <= 3)
+                    {
+                        teksti.RivinVaihto();
+                        teksti.Otsikko("Parhaiten suoriutuneet pelaajat");
+                        teksti.RivinVaihto();
+
+                        int sijaNumero = 1;
+                        int sijoja = 1;
+
+                        foreach (var sija in sijat.Take(3))
+                        {
+                            if (sija.Count() <= 3)
+                            {
+                                foreach (var pelaaja in sija)
+                                {
+                                    teksti.NormaaliRivi(string.Format("{0}. {1} ({4}) - {2}/{3}",
+                                        sijaNumero,
+                                        pelaaja.Pelaaja.Nimi,
+                                        pelaaja.Voitot,
+                                        pelaaja.Pisteet,
+                                        pelaaja.Pelaaja.Joukkue));
+
+                                    sijoja++;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                            sijaNumero++;
+                        }
+
+                        teksti.RivinVaihto();
+                        teksti.OsionVaihto();
+                    }
+                }
+            }
         }
 
         private void KirjoitaTuloksetTeksti(Tyypit.Teksti teksti)

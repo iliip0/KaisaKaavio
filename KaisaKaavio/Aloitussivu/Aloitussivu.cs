@@ -121,6 +121,15 @@ namespace KaisaKaavio.Aloitussivu
             {
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
+
+                try
+                {
+                    this.ikkuna.BringToFront();
+                }
+                catch
+                { 
+                }
+
                 return;
             }
             else
