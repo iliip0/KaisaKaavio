@@ -235,6 +235,7 @@ namespace KaisaKaavio.Ranking
 
         public bool TallennaOsakilpailu(Loki loki)
         {
+#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
             try
             {
                 if (this.Kilpailu != null && !string.IsNullOrEmpty(this.Kilpailu.Id))
@@ -266,7 +267,7 @@ namespace KaisaKaavio.Ranking
                 }
                 return false;
             }
-
+#endif
             return true;
         }
     }

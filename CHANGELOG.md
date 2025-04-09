@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.31		(työn alla)
+
+* Lisätty KaisaKaavioMulti.exe, jolla pystyy pelaamaan useita kaavioita samalla koneella samanaikaisesti
+
 ## Versio 1.0.0.30		(julkaistu 4.4.2025)
 
 * Lisätty tarkistuksia uutta kilpailua luotaessa, jotta käyttäjä ei pysty luomaan kilpailuja ei-tuetulla formaatilla

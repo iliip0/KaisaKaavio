@@ -52,6 +52,7 @@ namespace KaisaKaavio
         static void Main()
         {
 #if !DEBUG
+#if !ALLOW_MULTIPLE_INSTANCES
             string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             // Puretaan GNU GPL v3 lisenssi exen viereen jos se ei jo löydy sieltä
@@ -64,7 +65,9 @@ namespace KaisaKaavio
             PuraResurssi("KaisaKaavio.Resources.CHANGELOG.md", Path.Combine(kansio, "Versiohistoria.txt"), null);
             PuraResurssi("KaisaKaavio.Resources.KaisaKaavioOhje.pdf", Path.Combine(kansio, "Ohje.pdf"), null);
 #endif
+#endif
 
+#if !ALLOW_MULTIPLE_INSTANCES
             using (Mutex kaisaKaavioRunning = new Mutex(false, "Global\\KaisaKaavioRunning"))
             {
                 if (!kaisaKaavioRunning.WaitOne(0, false))
@@ -77,11 +80,14 @@ namespace KaisaKaavio
 
                     return;
                 }
+#endif
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
+#if !ALLOW_MULTIPLE_INSTANCES
             }
+#endif
         }
     }
 }

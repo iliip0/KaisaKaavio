@@ -386,6 +386,7 @@ namespace KaisaKaavio.Ranking
 
         public void TallennaAvatutSarjat()
         {
+#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
             foreach (var kuukausi in this.kuukaudet)
             {
                 try
@@ -400,6 +401,7 @@ namespace KaisaKaavio.Ranking
                     }
                 }
             }
+#endif
         }
 
         public void TyhjennaSarjatMuistista()

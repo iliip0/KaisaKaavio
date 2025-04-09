@@ -73,7 +73,9 @@ namespace KaisaKaavio
             this.varmuuskopioKansio = Path.Combine(this.kansio, "Varmuuskopiot");
             Directory.CreateDirectory(this.varmuuskopioKansio);
 
+#if !ALLOW_MULTIPLE_INSTANCES
             Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.varmuuskopioKansio, 50);
+#endif
 
             this.loki = new Loki(this.kansio);
             this.kilpailu.Loki = this.loki;
@@ -162,6 +164,13 @@ namespace KaisaKaavio
             this.testaaToolStripMenuItem.Visible = false;
 #endif
 
+#if ALLOW_MULTIPLE_INSTANCES
+            this.kayttoopasToolStripMenuItem.Visible = false;
+            this.kaisaKaavioOhjelmanTiedotToolStripMenuItem.Visible = false;
+            this.versiohistoriaToolStripMenuItem.Visible = false;
+            this.paivityksetToolStripMenuItem.Visible = false;
+#endif
+
             this.kuittejaPelaajilleToolStripMenuItem.Visible = false;
             this.kilpailuraporttiToolStripMenuItem.Visible = false;
 
@@ -214,6 +223,7 @@ namespace KaisaKaavio
 
         private void Tallenna()
         {
+#if !ALLOW_MULTIPLE_INSTANCES
             try
             {
                 this.ranking.TallennaAvatutSarjat();
@@ -222,6 +232,7 @@ namespace KaisaKaavio
             {
                 this.loki.Kirjoita("Rankingsarjojen tallennus epäonnistui", ex, false);
             }
+#endif
 
             try
             {
@@ -580,6 +591,17 @@ namespace KaisaKaavio
                     this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
                     this.kilpailu.RankingKisaLaji = popup.Laji;
 
+#if ALLOW_MULTIPLE_INSTANCES
+                    if (popup.RankingKisa)
+                    {
+                        MessageBox.Show(
+                            string.Format("Ranking pisteitä ja taulukoita ei voida tallenneta KaisaKaavioMulti.exe ohjelman kautta.\nVoit avata kisan myöhemmin KaisaKaavio.exe ohjelmalla tallentaaksesi rankingpisteet"), 
+                            "Varoitus",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+#endif
+
                     PaivitaKilpailuTyyppi();
                     ResumeAllDataBinding();
 
@@ -869,6 +891,7 @@ namespace KaisaKaavio
             Tallenna();
 
 #if !DEBUG // Päivitetään ohjelma uusimpaan versioon suljettaessa
+#if !ALLOW_MULTIPLE_INSTANCES
             try
             {
                 if (!System.Diagnostics.Debugger.IsAttached)
@@ -897,6 +920,7 @@ namespace KaisaKaavio
             {
                 this.loki.Kirjoita("Ohjelman päivitys epäonnistui", ee, false);
             }
+#endif
 #endif
         }
 
@@ -4586,6 +4610,7 @@ namespace KaisaKaavio
 
         private void AvaaTiedosto(string tiedosto)
         {
+#if !ALLOW_MULTIPLE_INSTANCES
             try
             {
                 string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -4597,6 +4622,7 @@ namespace KaisaKaavio
             {
                 this.loki.Kirjoita(string.Format("Tiedoston {0} avaaminen epäonnistui!", tiedosto), e, true);
             }
+#endif
         }
 
         private void kaisaKaavioOhjelmanTiedotToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4619,7 +4645,7 @@ namespace KaisaKaavio
                 "Ohjelman suunnittelu ja toteutus: Ilari Nieminen{1}{1}" +
                 "Ympyräkaavioiden asiantuntija: Jarmo Tainio{1}{1}" +
                 "Testaus: Ilari Nieminen ja Jarmo Tainio{1}{1}" +
-                "Grafiikka: Ilari Nieminen (valokuvat) sekä https://www.iconarchive.com (kuvakkeet){1}{1}" +
+                "Grafiikka: Ilari Nieminen (valokuvat ja logot) sekä https://www.iconarchive.com (kuvakkeet){1}{1}" +
                 "Ohjelman käyttöopas löytyy samasta kansiosta ohjelman kanssa, sekä 'tietoa' valikon kautta",
                 Assembly.GetEntryAssembly().GetName().Version,
                 Environment.NewLine);

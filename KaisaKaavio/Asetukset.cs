@@ -104,10 +104,6 @@ namespace KaisaKaavio
             [XmlAttribute]
             public KaavioTyyppi KaavioTyyppi { get; set; }
 
-            //[XmlAttribute]
-            //[DefaultValue("")]
-            //public string Kansio { get; set; }
- 
             public KisaOletusasetukset()
             {
                 this.Tavoite = 0;
@@ -117,7 +113,6 @@ namespace KaisaKaavio
                 this.RankingSarja = false;
                 this.RankingSarjanTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
                 this.KaavioTyyppi = KaisaKaavio.KaavioTyyppi.Pudari3Kierros;
-                //this.Kansio = string.Empty;
             }
         }
 
@@ -193,6 +188,7 @@ namespace KaisaKaavio
 
         public void Tallenna()
         {
+#if !ALLOW_MULTIPLE_INSTANCES // Asetuksia ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
             XmlSerializer serializer = new XmlSerializer(typeof(Asetukset));
 
             using (TextWriter writer = new StreamWriter(this.tiedosto))
@@ -200,6 +196,7 @@ namespace KaisaKaavio
                 serializer.Serialize(writer, this);
                 writer.Close();
             }
+#endif
         }
 
         public void Lataa()
@@ -282,6 +279,7 @@ namespace KaisaKaavio
 
         public void LisaaViimeisimpiinKilpailuihin(Kilpailu kilpailu)
         {
+#if !ALLOW_MULTIPLE_INSTANCES
             if (kilpailu.TestiKilpailu)
             {
                 return; // Ei tallenneta höpöhöpödataa
@@ -319,10 +317,12 @@ namespace KaisaKaavio
             catch
             { 
             }
+#endif
         }
 
         public void PoistaViimeisimmistaKilpailuista(string tiedosto)
         { 
+#if !ALLOW_MULTIPLE_INSTANCES // Asetuksia ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
             while (true)
             {
                 var kilpa = this.ViimeisimmatKilpailut.FirstOrDefault(x => string.Equals(x.Polku, tiedosto, StringComparison.OrdinalIgnoreCase));
@@ -335,6 +335,7 @@ namespace KaisaKaavio
                     return;
                 }
             }
+#endif
         }
 
         private static void LataaKisaAsetukset(KisaOletusasetukset omatAsetukset, KisaOletusasetukset ladatutAsetukset)
@@ -360,6 +361,7 @@ namespace KaisaKaavio
 
         public void TallennaPelaajat(Kilpailu kilpailu)
         {
+#if !ALLOW_MULTIPLE_INSTANCES // Asetuksia ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
             if (kilpailu.TestiKilpailu)
             {
                 return; // Ei tallenneta höpöhöpödataa
@@ -428,6 +430,7 @@ namespace KaisaKaavio
             {
                 this.Pelaajat.Add(p);
             }
+#endif
         }
 
         public Ranking.RankingAsetukset RankingPisteytys(Laji laji)

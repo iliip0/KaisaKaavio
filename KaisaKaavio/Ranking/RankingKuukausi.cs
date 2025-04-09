@@ -70,11 +70,13 @@ namespace KaisaKaavio.Ranking
 
         public bool TallennaTarvittaessa(Loki loki)
         {
+#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
+
             if (this.TallennusTarvitaan || Osakilpailut.Any(x => x.TallennusTarvitaan))
             {
                 return Tallenna(loki);
             }
-
+#endif
             return true;
         }
 
@@ -96,6 +98,7 @@ namespace KaisaKaavio.Ranking
 
         public bool Tallenna(Loki loki)
         {
+#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
             try
             {
                 Directory.CreateDirectory(this.Kansio);
@@ -143,6 +146,9 @@ namespace KaisaKaavio.Ranking
             }
 
             return false;
+#else
+            return true;
+#endif
         }
 
         public bool Avaa(Loki loki)

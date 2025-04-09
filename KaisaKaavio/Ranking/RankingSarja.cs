@@ -284,6 +284,7 @@ namespace KaisaKaavio.Ranking
 
         public void Tallenna(Loki loki, bool tallennaVaikkaEiOlisiMuokattu)
         {
+#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
             try
             {
                 if (!muokattu && !tallennaVaikkaEiOlisiMuokattu)
@@ -341,6 +342,7 @@ namespace KaisaKaavio.Ranking
                     loki.Kirjoita(string.Format("Rankingsarjan {0} tallennus epäonnistui!", this.Nimi), e, false);
                 }
             }
+#endif
         }
 
         public void Luo(Ranking ranking, Loki loki)
