@@ -8,4 +8,4 @@ kilpailun vetäjän tarvitsee vain syöttää päättyneiden pelien tulokset sek
 
 ## Ohjelman käyttöohjeen löydät [täältä](https://github.com/iliip0/KaisaKaavio/blob/main/Dokumentaatio/KaisaKaavioOhje.pdf)
 
-## Usean kaavion pelaaminen samanaikaisesti yhdellä tietokoneella onnistuu [KaisaKaavioMulti.exe](https://github.com/iliip0/KaisaKaavio/raw/refs/heads/main/KaisaKaavio.exe) -ohjelmaversiolla
+## Usean kaavion pelaaminen samanaikaisesti yhdellä tietokoneella onnistuu [KaisaKaavioMulti.exe](https://github.com/iliip0/KaisaKaavio/raw/refs/heads/main/KaisaKaavioMulti.exe) -ohjelmaversiolla
