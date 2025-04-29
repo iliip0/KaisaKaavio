@@ -55,6 +55,11 @@ namespace KaisaKaavio
             this.paattymisAikaTextBox.Text = this.peli.Paattyi;
             this.pelinKuvausLabel.Text = string.Format("{0}. kierroksen peli:", peli.Kierros);
             this.pelinNumeroLabel.Text = string.Format("#{0}", peli.PeliNumero);
+            this.poytaTextBox.Text = this.peli.Poyta;
+           
+            this.lyontivuorojaTextBox.Text = this.peli.Lyontivuoroja;
+            this.lyontivuorojaTextBox.Visible = this.kilpailu.Laji == Laji.Kara;
+            this.lyontivuorojaLabel.Visible = this.kilpailu.Laji == Laji.Kara;
 
             this.pelidetaljiPelaaja1Sarja1textBox.Text = peli.PisinSarja1;
             this.pelidetaljiPelaaja1Sarja2textBox.Text = peli.ToiseksiPisinSarja1;
@@ -64,6 +69,9 @@ namespace KaisaKaavio
 
             this.pelidetaljiPelaaja1Sarja2textBox.Enabled = !string.IsNullOrEmpty(this.pelidetaljiPelaaja1Sarja1textBox.Text);
             this.pelidetaljiPelaaja2Sarja2textBox.Enabled = !string.IsNullOrEmpty(this.pelidetaljiPelaaja2Sarja1textBox.Text);
+
+            this.luovutusTextBox1.Text = peli.LuovutusPelaaja1;
+            this.luovutusTextBox2.Text = peli.LuovutusPelaaja2;
 
             this.pelidetaljiPelaaja1Sarja1textBox.Focus();
         }
@@ -80,6 +88,10 @@ namespace KaisaKaavio
                 this.peli.Poyta = this.poytaTextBox.Text;
                 this.peli.Alkoi = this.alkamisAikaTextBox.Text;
                 this.peli.Paattyi = this.paattymisAikaTextBox.Text;
+                this.peli.Lyontivuoroja = this.lyontivuorojaTextBox.Text;
+
+                this.peli.LuovutusPelaaja1 = this.luovutusTextBox1.Text;
+                this.peli.LuovutusPelaaja2 = this.luovutusTextBox2.Text;
 
                 if (this.loki != null)
                 {
@@ -160,6 +172,16 @@ namespace KaisaKaavio
         }
 
         private void pisteet2TextBox_TextChanged(object sender, EventArgs e)
+        {
+            PaivitaTilanne();
+        }
+
+        private void luovutusTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            PaivitaTilanne();
+        }
+
+        private void luovutusTextBox2_TextChanged(object sender, EventArgs e)
         {
             PaivitaTilanne();
         }
@@ -255,9 +277,26 @@ namespace KaisaKaavio
             }
             else
             {
-                this.tallennaButton.Enabled = true;
-                AsetaInfonVarit(Color.White, Color.Black);
-                this.infoRichTextBox.Text = string.Empty;
+                if (!string.IsNullOrEmpty(this.luovutusTextBox1.Text) && muokattuTulos == PelinTulos.Pelaaja1Voitti)
+                {
+                    this.tallennaButton.Enabled = false;
+                    AsetaInfonVarit(Color.LightPink, Color.Red);
+                    this.infoRichTextBox.Text = string.Format(
+                        "VIRHE!\nPelin voittanut pelaaja on luovuttanut ottelun. Muuta pelin tulos tai luovutusstatus.");
+                }
+                else if (!string.IsNullOrEmpty(this.luovutusTextBox2.Text) && muokattuTulos == PelinTulos.Pelaaja2Voitti)
+                {
+                    this.tallennaButton.Enabled = false;
+                    AsetaInfonVarit(Color.LightPink, Color.Red);
+                    this.infoRichTextBox.Text = string.Format(
+                        "VIRHE!\nPelin voittanut pelaaja on luovuttanut ottelun. Muuta pelin tulos tai luovutusstatus.");
+                }
+                else
+                {
+                    this.tallennaButton.Enabled = true;
+                    AsetaInfonVarit(Color.White, Color.Black);
+                    this.infoRichTextBox.Text = string.Empty;
+                }
             }
         }
     }

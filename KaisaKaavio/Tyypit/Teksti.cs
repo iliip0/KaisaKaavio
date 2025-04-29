@@ -52,29 +52,28 @@ namespace KaisaKaavio.Tyypit
                 NormaaliTeksti(" : ");
             }
 
-            if (!string.IsNullOrEmpty(sisalto))
+            if (string.IsNullOrEmpty(osoite))
+            {
+                NormaaliTeksti("-");
+            }
+            else
             {
                 this.rtf.Append(@"\cf3");
-                if (sisalto.Length > 32)
-                {
-                    this.rtf.Append(sisalto.Substring(0, 15) + "..." + sisalto.Substring(sisalto.Length - 15));
-                }
-                else
+                
+                if (!string.IsNullOrEmpty(sisalto))
                 {
                     this.rtf.Append(sisalto);
-                }
-                this.rtf.Append(@"\cf1");
-
-                if (!string.IsNullOrEmpty(otsikko))
-                {
                     this.sbil.Append(string.Format("[url={0}]{1}[/url]", osoite, sisalto));
+                    this.plain.Append(sisalto);
                 }
                 else
                 {
-                    this.sbil.Append("[url]" + sisalto + "[/url]");
+                    this.rtf.Append(osoite);
+                    this.sbil.Append("[url]" + osoite + "[/url]");
+                    this.plain.Append(osoite);
                 }
 
-                this.plain.Append(sisalto);
+                this.rtf.Append(@"\cf1");
             }
 
             return this;

@@ -2,6 +2,13 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.32		(työn alla)
+
+* Striimilinkit korjattu "Tulokset" osioon
+* Korjattu bugi jossa pelin pöytä muuttuu kun pelin pisimpiä sarjoja syötetään
+* Lyöntivuorojen määrän editointi lisätty "Pelin tiedot" popuppiin
+* Mahdollisuus lisätä (DNS) pelaajalle "Pelin tiedot" popupissa
+
 ## Versio 1.0.0.31		(julkaistu 9.4.2025)
 
 * Lisätty KaisaKaavioMulti.exe, jolla pystyy pelaamaan useita kaavioita samalla koneella samanaikaisesti

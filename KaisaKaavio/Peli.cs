@@ -33,6 +33,14 @@ namespace KaisaKaavio
         [XmlAttribute]
         public int KierrosPelaaja2 { get; set; }
 
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string LuovutusPelaaja1 { get; set; }
+
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string LuovutusPelaaja2 { get; set; }
+
         [XmlIgnore]
         public int PeliNumero { get; set; }
 

@@ -61,6 +61,11 @@
             this.tallennaButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.lyontivuorojaLabel = new System.Windows.Forms.Label();
+            this.lyontivuorojaTextBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.luovutusTextBox1 = new System.Windows.Forms.TextBox();
+            this.luovutusTextBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -116,7 +121,7 @@
             this.groupBox1.Controls.Add(this.pelidetaljiNimi1textBox);
             this.groupBox1.Location = new System.Drawing.Point(3, 28);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(410, 55);
+            this.groupBox1.Size = new System.Drawing.Size(406, 55);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             // 
@@ -124,7 +129,7 @@
             // 
             this.pisteet1TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pisteet1TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pisteet1TextBox.Location = new System.Drawing.Point(331, 18);
+            this.pisteet1TextBox.Location = new System.Drawing.Point(327, 18);
             this.pisteet1TextBox.Name = "pisteet1TextBox";
             this.pisteet1TextBox.Size = new System.Drawing.Size(72, 29);
             this.pisteet1TextBox.TabIndex = 7;
@@ -143,7 +148,7 @@
             this.pelidetaljiNimi1textBox.Location = new System.Drawing.Point(7, 21);
             this.pelidetaljiNimi1textBox.Name = "pelidetaljiNimi1textBox";
             this.pelidetaljiNimi1textBox.ReadOnly = true;
-            this.pelidetaljiNimi1textBox.Size = new System.Drawing.Size(316, 22);
+            this.pelidetaljiNimi1textBox.Size = new System.Drawing.Size(312, 22);
             this.pelidetaljiNimi1textBox.TabIndex = 5;
             this.pelidetaljiNimi1textBox.Text = "Matti Meikäläinen";
             this.pelidetaljiNimi1textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -219,7 +224,7 @@
             this.pelidetaljiPelaaja2Sarja1textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pelidetaljiPelaaja2Sarja1textBox.Location = new System.Drawing.Point(13, 9);
             this.pelidetaljiPelaaja2Sarja1textBox.Name = "pelidetaljiPelaaja2Sarja1textBox";
-            this.pelidetaljiPelaaja2Sarja1textBox.Size = new System.Drawing.Size(72, 24);
+            this.pelidetaljiPelaaja2Sarja1textBox.Size = new System.Drawing.Size(74, 24);
             this.pelidetaljiPelaaja2Sarja1textBox.TabIndex = 8;
             this.pelidetaljiPelaaja2Sarja1textBox.Tag = "";
             this.pelidetaljiPelaaja2Sarja1textBox.Text = "32";
@@ -248,7 +253,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(839, 405);
+            this.splitContainer1.Size = new System.Drawing.Size(839, 464);
             this.splitContainer1.SplitterDistance = 91;
             this.splitContainer1.TabIndex = 10;
             // 
@@ -301,8 +306,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer5);
-            this.splitContainer2.Size = new System.Drawing.Size(839, 310);
-            this.splitContainer2.SplitterDistance = 75;
+            this.splitContainer2.Size = new System.Drawing.Size(839, 369);
+            this.splitContainer2.SplitterDistance = 104;
             this.splitContainer2.TabIndex = 0;
             // 
             // splitContainer3
@@ -314,6 +319,8 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.luovutusTextBox1);
+            this.splitContainer3.Panel1.Controls.Add(this.label3);
             this.splitContainer3.Panel1.Controls.Add(this.label5);
             this.splitContainer3.Panel1.Controls.Add(this.pelidetaljiPelaaja1Sarja1textBox);
             this.splitContainer3.Panel1.Controls.Add(this.label6);
@@ -321,9 +328,10 @@
             // 
             // splitContainer3.Panel2
             // 
+            this.splitContainer3.Panel2.Controls.Add(this.luovutusTextBox2);
             this.splitContainer3.Panel2.Controls.Add(this.pelidetaljiPelaaja2Sarja2textBox);
             this.splitContainer3.Panel2.Controls.Add(this.pelidetaljiPelaaja2Sarja1textBox);
-            this.splitContainer3.Size = new System.Drawing.Size(839, 75);
+            this.splitContainer3.Size = new System.Drawing.Size(839, 104);
             this.splitContainer3.SplitterDistance = 421;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -345,8 +353,8 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.tallennaButton);
             this.splitContainer5.Panel2.Controls.Add(this.peruutaButton);
-            this.splitContainer5.Size = new System.Drawing.Size(839, 231);
-            this.splitContainer5.SplitterDistance = 161;
+            this.splitContainer5.Size = new System.Drawing.Size(839, 261);
+            this.splitContainer5.SplitterDistance = 191;
             this.splitContainer5.TabIndex = 21;
             // 
             // splitContainer4
@@ -360,6 +368,8 @@
             // 
             // splitContainer4.Panel1
             // 
+            this.splitContainer4.Panel1.Controls.Add(this.lyontivuorojaTextBox);
+            this.splitContainer4.Panel1.Controls.Add(this.lyontivuorojaLabel);
             this.splitContainer4.Panel1.Controls.Add(this.label2);
             this.splitContainer4.Panel1.Controls.Add(this.alkamisAikaTextBox);
             this.splitContainer4.Panel1.Controls.Add(this.mitatoiOtteluButton);
@@ -373,7 +383,7 @@
             this.splitContainer4.Panel2.BackColor = System.Drawing.Color.Lavender;
             this.splitContainer4.Panel2.Controls.Add(this.infoRichTextBox);
             this.splitContainer4.Panel2.Padding = new System.Windows.Forms.Padding(8);
-            this.splitContainer4.Size = new System.Drawing.Size(839, 161);
+            this.splitContainer4.Size = new System.Drawing.Size(839, 191);
             this.splitContainer4.SplitterDistance = 200;
             this.splitContainer4.TabIndex = 20;
             // 
@@ -398,11 +408,13 @@
             // 
             // mitatoiOtteluButton
             // 
+            this.mitatoiOtteluButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mitatoiOtteluButton.BackColor = System.Drawing.Color.Bisque;
             this.mitatoiOtteluButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.mitatoiOtteluButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mitatoiOtteluButton.Image = global::KaisaKaavio.Properties.Resources.Poista;
-            this.mitatoiOtteluButton.Location = new System.Drawing.Point(3, 99);
+            this.mitatoiOtteluButton.Location = new System.Drawing.Point(4, 130);
             this.mitatoiOtteluButton.Name = "mitatoiOtteluButton";
             this.mitatoiOtteluButton.Size = new System.Drawing.Size(190, 54);
             this.mitatoiOtteluButton.TabIndex = 19;
@@ -460,7 +472,7 @@
             this.infoRichTextBox.Location = new System.Drawing.Point(8, 8);
             this.infoRichTextBox.Name = "infoRichTextBox";
             this.infoRichTextBox.ReadOnly = true;
-            this.infoRichTextBox.Size = new System.Drawing.Size(615, 141);
+            this.infoRichTextBox.Size = new System.Drawing.Size(615, 171);
             this.infoRichTextBox.TabIndex = 18;
             this.infoRichTextBox.Text = resources.GetString("infoRichTextBox.Text");
             // 
@@ -503,22 +515,66 @@
             // 
             this.toolTip1.ShowAlways = true;
             // 
+            // lyontivuorojaLabel
+            // 
+            this.lyontivuorojaLabel.AutoSize = true;
+            this.lyontivuorojaLabel.Location = new System.Drawing.Point(3, 102);
+            this.lyontivuorojaLabel.Name = "lyontivuorojaLabel";
+            this.lyontivuorojaLabel.Size = new System.Drawing.Size(100, 18);
+            this.lyontivuorojaLabel.TabIndex = 20;
+            this.lyontivuorojaLabel.Text = "Lyöntivuoroja:";
+            // 
+            // lyontivuorojaTextBox
+            // 
+            this.lyontivuorojaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lyontivuorojaTextBox.Location = new System.Drawing.Point(146, 99);
+            this.lyontivuorojaTextBox.Name = "lyontivuorojaTextBox";
+            this.lyontivuorojaTextBox.Size = new System.Drawing.Size(47, 24);
+            this.lyontivuorojaTextBox.TabIndex = 21;
+            this.lyontivuorojaTextBox.Text = "20";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(142, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(185, 18);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Pelin luovutus (esim DNS):";
+            // 
+            // luovutusTextBox1
+            // 
+            this.luovutusTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.luovutusTextBox1.Location = new System.Drawing.Point(334, 69);
+            this.luovutusTextBox1.Name = "luovutusTextBox1";
+            this.luovutusTextBox1.Size = new System.Drawing.Size(72, 24);
+            this.luovutusTextBox1.TabIndex = 6;
+            this.luovutusTextBox1.TextChanged += new System.EventHandler(this.luovutusTextBox1_TextChanged);
+            // 
+            // luovutusTextBox2
+            // 
+            this.luovutusTextBox2.Location = new System.Drawing.Point(13, 69);
+            this.luovutusTextBox2.Name = "luovutusTextBox2";
+            this.luovutusTextBox2.Size = new System.Drawing.Size(74, 24);
+            this.luovutusTextBox2.TabIndex = 7;
+            this.luovutusTextBox2.TextChanged += new System.EventHandler(this.luovutusTextBox2_TextChanged);
+            // 
             // PelinTiedotPopup
             // 
             this.AcceptButton = this.tallennaButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.peruutaButton;
-            this.ClientSize = new System.Drawing.Size(839, 405);
+            this.ClientSize = new System.Drawing.Size(839, 464);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(859, 448);
+            this.MaximumSize = new System.Drawing.Size(859, 507);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(859, 448);
+            this.MinimumSize = new System.Drawing.Size(859, 507);
             this.Name = "PelinTiedotPopup";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -588,5 +644,10 @@
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label pelinNumeroLabel;
+        private System.Windows.Forms.TextBox lyontivuorojaTextBox;
+        private System.Windows.Forms.Label lyontivuorojaLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox luovutusTextBox1;
+        private System.Windows.Forms.TextBox luovutusTextBox2;
     }
 }

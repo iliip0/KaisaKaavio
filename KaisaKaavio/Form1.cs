@@ -3753,7 +3753,7 @@ namespace KaisaKaavio
 
                 foreach (var linkki in sali.Linkit)
                 {
-                    teksti.Linkki(linkki.Teksti, linkki.Osoite, null);
+                    teksti.Linkki(linkki.Teksti, null, linkki.Osoite);
                 }
             }
 
@@ -3904,7 +3904,7 @@ namespace KaisaKaavio
                         foreach (var linkki in this.asetukset.Sali.Linkit)
                         {
                             teksti.NormaaliTeksti(string.Format("{0} : ", linkki.Teksti));
-                            teksti.Linkki(null, linkki.Osoite, null);
+                            teksti.Linkki(null, null, linkki.Osoite);
                         }
 
                         teksti.RivinVaihto();
