@@ -73,6 +73,12 @@ namespace KaisaKaavio.Tulostus
             InitializeComponent();
 
             this.printDocument1.PrintPage += printDocument1_PrintPage;
+
+            this.printDocument1.DefaultPageSettings.Landscape = true;
+            this.printDocument1.DefaultPageSettings.Margins.Bottom = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Top = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Left = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Right = 0;
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -83,8 +89,8 @@ namespace KaisaKaavio.Tulostus
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-            int w = e.PageBounds.Width;
-            int h = e.PageBounds.Height;
+            int w = e.MarginBounds.Width;
+            int h = e.MarginBounds.Height;
 
             int lappujaX = 2;
             int lappujaY = 5;
@@ -133,13 +139,6 @@ namespace KaisaKaavio.Tulostus
             {
                 align = HorizontalAlignment.Left;
             }
-            /*
-            if (koko.Width > w)
-            {
-                font = this.ohutPieniFontti;
-                koko = e.Graphics.MeasureString(teksti, font);
-            }
-             */
 
             switch (align)
             {
@@ -230,9 +229,9 @@ namespace KaisaKaavio.Tulostus
             PiirraTeksti(e, this.isoPaksuFontti, this.mustaHarja, peli != null ? peli.Kierros.ToString() : "__", x, riviY, w, riviH, HorizontalAlignment.Right);
 
             // Pöytä numero
-            int r = 26;
-            e.Graphics.DrawEllipse(this.mustaOhutKyna, new Rectangle(x + w / 2 - r, y + h - r * 2, 2 * r, 2 * r));
-            PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, "Pöytä", x + w / 2 - r, y + h - r + 2, 2 * r, 2 * r, HorizontalAlignment.Center);
+            int r = 20;
+            e.Graphics.DrawEllipse(this.mustaOhutKyna, new Rectangle(x + w / 2 + 2 * r, y + h - r * 2, 2 * r, 2 * r));
+            PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, "Pöytä", x + w / 2, riviY, 2 * r, riviH, HorizontalAlignment.Center);
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -270,6 +269,10 @@ namespace KaisaKaavio.Tulostus
             this.printPreviewDialog1.Document.DefaultPageSettings.Landscape = true;
             this.printPreviewDialog1.UseAntiAlias = true;
             this.printPreviewDialog1.TopLevel = true;
+            this.printPreviewDialog1.Document.DefaultPageSettings.Margins.Bottom = 0;
+            this.printPreviewDialog1.Document.DefaultPageSettings.Margins.Top = 0;
+            this.printPreviewDialog1.Document.DefaultPageSettings.Margins.Left = 0;
+            this.printPreviewDialog1.Document.DefaultPageSettings.Margins.Right = 0;
 
 #if DEBUG
             var result = printPreviewDialog1.ShowDialog();

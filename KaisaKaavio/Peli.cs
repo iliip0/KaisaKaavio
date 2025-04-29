@@ -272,6 +272,46 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlIgnore]
+        public string Pisteet1Tuloksissa
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Pisteet1) && !string.IsNullOrEmpty(this.LuovutusPelaaja1))
+                {
+                    return string.Format("{0} ({1})", this.Pisteet1, this.LuovutusPelaaja1);
+                }
+                else if (!string.IsNullOrEmpty(this.LuovutusPelaaja1))
+                {
+                    return this.LuovutusPelaaja1;
+                }
+                else
+                {
+                    return this.Pisteet1;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public string Pisteet2Tuloksissa
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Pisteet2) && !string.IsNullOrEmpty(this.LuovutusPelaaja2))
+                {
+                    return string.Format("{0} ({1})", this.Pisteet2, this.LuovutusPelaaja2);
+                }
+                else if (!string.IsNullOrEmpty(this.LuovutusPelaaja2))
+                {
+                    return this.LuovutusPelaaja2;
+                }
+                else
+                {
+                    return this.Pisteet2;
+                }
+            }
+        }
+
         private string poyta = string.Empty;
 
         [XmlAttribute]
@@ -1258,7 +1298,7 @@ namespace KaisaKaavio
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id1, PeliNumero);
-            PelaajaRtf(pelaaja, tappiot, Pisteet1, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus, tulostaSijoitus);
+            PelaajaRtf(pelaaja, tappiot, Pisteet1Tuloksissa, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus, tulostaSijoitus);
         }
 
         private void Pelaaja2Rtf(Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus, bool tulostaSijoitus)
@@ -1275,7 +1315,7 @@ namespace KaisaKaavio
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id2, PeliNumero);
-            PelaajaRtf(pelaaja, tappiot, Pisteet2, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus, tulostaSijoitus);
+            PelaajaRtf(pelaaja, tappiot, Pisteet2Tuloksissa, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus, tulostaSijoitus);
         }
 
         public void RichTextKuvausAlkaviinPeleihin(Tyypit.Teksti teksti, string poyta, string aika)
