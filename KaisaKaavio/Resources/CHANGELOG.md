@@ -8,6 +8,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 * Korjattu bugi jossa pelin pöytä muuttuu kun pelin pisimpiä sarjoja syötetään
 * Lyöntivuorojen määrän editointi lisätty "Pelin tiedot" popuppiin
 * Mahdollisuus lisätä (DNS) pelaajalle "Pelin tiedot" popupissa
+* Ottelupöytäkirjojen tulostus korjattu niin että pöytäkirjat tulostuvat kokonaisina
 
 ## Versio 1.0.0.31		(julkaistu 9.4.2025)
 

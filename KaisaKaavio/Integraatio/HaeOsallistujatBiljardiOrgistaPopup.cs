@@ -146,12 +146,16 @@ namespace KaisaKaavio.Integraatio
 
         private void haeOsallistujatatButton_Click(object sender, EventArgs e)
         {
+            HaeOsallistujia();
+        }
+
+        private void HaeOsallistujia()
+        {
             this.progressBar1.Visible = true;
             this.Enabled = false;
             this.richTextBox2.Text = "Haetaan ilmoittautuneita biljardi.org sivustolta....";
 
             this.backgroundWorker1.RunWorkerAsync();
-
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -277,6 +281,19 @@ namespace KaisaKaavio.Integraatio
                 BiljardiOrgKilpailu kisa = (BiljardiOrgKilpailu)this.kisatComboBox.SelectedItem;
                 this.kilpailu.BiljardiOrgId = kisa.Id;
                 this.kilpailunNumeroTextBox.Text = kisa.Id;
+
+                try
+                {
+                    HaeOsallistujia();
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                this.pelaajat.Clear();
+                this.richTextBox2.Text = string.Empty;
             }
         }
     }
