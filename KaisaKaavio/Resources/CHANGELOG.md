@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.32		(työn alla)
+## Versio 1.0.0.32		(julkaistu 29.4.2025)
 
 * Striimilinkit korjattu "Tulokset" osioon
 * Korjattu bugi jossa pelin pöytä muuttuu kun pelin pisimpiä sarjoja syötetään
