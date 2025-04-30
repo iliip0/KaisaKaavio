@@ -1948,7 +1948,7 @@ namespace KaisaKaavio
 
             var sijoitetut = osallistujat
                 .Where(x => !string.IsNullOrEmpty(x.Sijoitettu))
-                .OrderBy(x => x.Sijoitettu)
+                .OrderBy(x => x.SijoitusNumero)
                 .Take(8);
 
             int sijoitus = 0;
@@ -2047,7 +2047,7 @@ namespace KaisaKaavio
 
             var sijoitetut = osallistujat
                 .Where(x => !string.IsNullOrEmpty(x.Sijoitettu))
-                .OrderBy(x => x.Sijoitettu)
+                .OrderBy(x => x.SijoitusNumero)
                 .Take(24);
 
             int sijoitus = 1;
