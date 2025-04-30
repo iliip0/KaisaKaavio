@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.33		(työn alla)
 
 * Korjattu bugi jossa usean pelipaikan kisassa pystyi alkukierroksilla hakemaan manuaalisesti pelin eri pelipaikkojen pelaajien välillä 
+* Näppäimillä navigointi "lyöntivuoroja" sarakkeeseen mahdolliseksi karakisoissa
 
 ## Versio 1.0.0.32		(julkaistu 29.4.2025)
 

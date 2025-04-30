@@ -2650,7 +2650,8 @@ namespace KaisaKaavio
                         bool editoitavaSarake = 
                             cell.ColumnIndex == this.poytaDataGridViewTextBoxColumn.Index ||
                             cell.ColumnIndex == this.pisteet1DataGridViewTextBoxColumn.Index ||
-                            cell.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index;
+                            cell.ColumnIndex == this.pisteet2DataGridViewTextBoxColumn.Index ||
+                            cell.ColumnIndex == this.LyontivuorojaColumn.Index;
 
                         // Siirry lähimpään editoitavaan peliin valitun solun yläpuolelle
                         if (e.KeyCode == Keys.Up)
@@ -2733,6 +2734,31 @@ namespace KaisaKaavio
                         }
                         else if (e.KeyCode == Keys.Right)
                         {
+                            if (this.kilpailu.Laji == Laji.Kara)
+                            {
+                                cell.OwningRow.Cells[this.LyontivuorojaColumn.Index].Selected = true;
+                            }
+                            else
+                            {
+                                cell.OwningRow.Cells[this.pisteet2DataGridViewTextBoxColumn.Index].Selected = true;
+                            }
+                            e.SuppressKeyPress = false;
+                            e.Handled = true;
+                            return;
+                        }
+                    }
+
+                    else if (cell.ColumnIndex == this.LyontivuorojaColumn.Index)
+                    {
+                        if (e.KeyCode == Keys.Left)
+                        {
+                            cell.OwningRow.Cells[this.pisteet1DataGridViewTextBoxColumn.Index].Selected = true;
+                            e.SuppressKeyPress = false;
+                            e.Handled = true;
+                            return;
+                        }
+                        else if (e.KeyCode == Keys.Right)
+                        {
                             cell.OwningRow.Cells[this.pisteet2DataGridViewTextBoxColumn.Index].Selected = true;
                             e.SuppressKeyPress = false;
                             e.Handled = true;
@@ -2744,7 +2770,14 @@ namespace KaisaKaavio
                     {
                         if (e.KeyCode == Keys.Left)
                         {
-                            cell.OwningRow.Cells[this.pisteet1DataGridViewTextBoxColumn.Index].Selected = true;
+                            if (this.kilpailu.Laji == Laji.Kara)
+                            {
+                                cell.OwningRow.Cells[this.LyontivuorojaColumn.Index].Selected = true;
+                            }
+                            else
+                            {
+                                cell.OwningRow.Cells[this.pisteet1DataGridViewTextBoxColumn.Index].Selected = true;
+                            }
                             e.SuppressKeyPress = false;
                             e.Handled = true;
                             return;
