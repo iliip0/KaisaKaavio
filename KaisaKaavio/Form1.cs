@@ -3424,7 +3424,7 @@ namespace KaisaKaavio
                                     if (Int32.TryParse(value, out id))
                                     {
                                         string virhe = string.Empty;
-                                        if (VoiHakeaPelinKaavioonManuaalisesti(pelaaja, id, out virhe))
+                                        if (VoiHakeaPelinKaavioonManuaalisesti(pelaaja, id, pelinNumero, out virhe))
                                         {
                                             LisaaPeliKaavioon(pelaaja.Id, id);
                                         }
@@ -3499,7 +3499,7 @@ namespace KaisaKaavio
             return false;
         }
 
-        private bool VoiHakeaPelinKaavioonManuaalisesti(Pelaaja pelaaja, int vastustajaId, out string virhe)
+        private bool VoiHakeaPelinKaavioonManuaalisesti(Pelaaja pelaaja, int vastustajaId, int peliNumero, out string virhe)
         {
             virhe = string.Empty;
 
@@ -3519,6 +3519,21 @@ namespace KaisaKaavio
             {
                 virhe = string.Format("Kaaviosta ei löydy pelaajaa numerolla {0}!", vastustajaId);
                 return false;
+            }
+
+            if (this.kilpailu.OnUseanPelipaikanKilpailu && peliNumero < this.kilpailu.KaavioidenYhdistaminenKierroksestaInt - 1)
+            {
+                if (string.IsNullOrEmpty(pelaaja.PeliPaikka) && string.IsNullOrEmpty(vastustaja.PeliPaikka))
+                {
+                }
+                else
+                {
+                    if (!string.Equals(pelaaja.PeliPaikka, vastustaja.PeliPaikka, StringComparison.OrdinalIgnoreCase))
+                    {
+                        virhe = string.Format("Ei voi hakea peliä pelaajille jotka ovat eri pelipaikoissa ennen kierrosta {0}!", this.kilpailu.KaavioidenYhdistaminenKierroksestaInt);
+                        return false;
+                    }
+                }
             }
 
             if (vastustaja.Sijoitus.Pudotettu ||
