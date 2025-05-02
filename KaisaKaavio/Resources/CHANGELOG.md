@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.34		(työn alla)
+## Versio 1.0.0.34		(julkaistu 2.5.2025)
 
 * Mahdollistettu "kaavioiden yhdistäminen kierroksesta X alkaen" valinnan muuttaminen ensimmäisen ja toisen kierroksen aikana
 * Lisätty mahdollisuus arpoa kaavio uudelleen valikon kautta
