@@ -6,6 +6,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 * Mahdollistettu "kaavioiden yhdistäminen kierroksesta X alkaen" valinnan muuttaminen ensimmäisen ja toisen kierroksen aikana
 * Lisätty mahdollisuus arpoa kaavio uudelleen valikon kautta
+* Lisätty mahdollisuus vaihtaa kaaviotyyppi kisan aikana valikon kautta
 
 ## Versio 1.0.0.33		(julkaistu 30.04.2025)
 

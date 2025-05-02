@@ -644,6 +644,7 @@ namespace KaisaKaavio
             this.kisaDetaljitGroupBox.Enabled = !this.kilpailu.Tyhja;
             this.osMaksuYlaTextBox.Enabled = !this.kilpailu.Tyhja;
 
+            this.lisaaPelaajaKaavioonToolStripMenuItem.Visible = false; // Ei toteutettu vielä. En tiedä kannattaako toteuttaakaan
             this.lisaaPelaajaKaavioonToolStripMenuItem.Enabled = 
                 this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa ||
                 this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
@@ -5752,6 +5753,7 @@ namespace KaisaKaavio
                 }
 
                 this.tabControl1.SelectedTab = this.arvontaTabPage;
+                this.loki.Kirjoita("Kaavion uudelleen arpominen pyydetty");
             }
             catch (Exception ex)
             {
@@ -5761,10 +5763,62 @@ namespace KaisaKaavio
 
         private void tuplakaavioLoppuunAstiToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            VaihdaKaaviotyyppi(KaavioTyyppi.TuplaKaavio);
         }
 
         private void pudotuspelit3kierroksestaAlkaenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            VaihdaKaaviotyyppi(KaavioTyyppi.Pudari3Kierros);
+        }
+
+        private void VaihdaKaaviotyyppi(KaavioTyyppi tyyppi)
+        {
+            try
+            {
+                if (!this.kilpailu.ToinenKierrosAlkanut)
+                {
+                }
+                else if (this.kilpailu.KaavioTyyppi != tyyppi)
+                {
+                    this.KeskeytaHaku();
+
+                    if (this.kilpailu.Pelit.Any(x => x.Kierros >= 3 && x.Tilanne == PelinTilanne.Pelattu))
+                    {
+                        if (MessageBox.Show(
+                            "Kolmannen kierroksen pelejä on jo pelattu.\n" +
+                            "Kaaviotyypin muuttaminen saattaa aiheuttaa virheitä tai epätavallisia hakuja kaaviossa.\n" +
+                            "Haluatko varmasti muuttaa kaaviotyypin?",
+                            "Kaaviotyypin muuttaminen",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            this.kilpailu.PoistaTyhjatPelitAlkaenNumerosta(0);
+                            this.kilpailu.Pelit.ResetBindings();
+                        }
+                    }
+                    else if (MessageBox.Show(
+                        "Toinen kierros on jo alkanut. Haluatko varmasti muuttaa kaaviotyypin?",
+                        "Kaaviotyypin muuttaminen",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+                    {
+                        return;
+                    }
+                }
+
+                this.kilpailu.KaavioTyyppi = tyyppi;
+                this.kilpailu.HakuTarvitaan = true;
+                //this.KaynnistaHaku();
+                this.loki.Kirjoita(string.Format("Kaaviotyyppi vaihdettu kesken kisan {0}", this.kilpailu.KaavioTyyppi));
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Kaaviotyypin vaihtaminen kesken kisan epäonnistui", ex);
+            }
         }
 
         private void kaavioidenYhdistaminen3_Click(object sender, EventArgs e)
