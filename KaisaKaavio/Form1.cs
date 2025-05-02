@@ -5894,6 +5894,62 @@ namespace KaisaKaavio
             }
         }
 
+        private void muutakorjaaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void muutakorjaaToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu ||
+                    this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
+                {
+                    this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled = this.kilpailu.KaavioTyyppi != KaavioTyyppi.TuplaKaavio;
+                    this.arvoKaavioUudelleenToolStripMenuItem.Enabled = 
+                        this.kilpailu.KaavioArvottu &&
+                        !this.kilpailu.KilpailuAlkanut;
+                }
+                else
+                {
+                    this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled = true;
+                    this.arvoKaavioUudelleenToolStripMenuItem.Enabled = this.kilpailu.KaavioArvottu;
+                }
+
+                this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem.Visible = this.kilpailu.OnUseanPelipaikanKilpailu;
+                this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem.Enabled = this.kilpailu.OnUseanPelipaikanKilpailu;
+            }
+            catch
+            {
+            }
+        }
+
+        private void kaavioidenYhdistaminenKierroksestaToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            try
+            {
+                this.alkaenToolStripMenuItem.Checked = this.kilpailu.KaavioidenYhdistaminenKierroksestaInt == 3;
+                this.alkaenToolStripMenuItem1.Checked = this.kilpailu.KaavioidenYhdistaminenKierroksestaInt == 4;
+                this.kierroksesta5AlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioidenYhdistaminenKierroksestaInt == 5;
+                this.kierroksesta6AlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioidenYhdistaminenKierroksestaInt == 6;
+            }
+            catch
+            { 
+            }
+        }
+
+        private void vaihdaKaaviotyyppiToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            try
+            {
+                this.tuplakaavioLoppuunAstiToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.TuplaKaavio;
+                this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari3Kierros;
+            }
+            catch
+            {
+            }
+        }
+
         #endregion
     }
 }
