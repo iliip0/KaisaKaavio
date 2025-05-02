@@ -103,6 +103,17 @@
             this.paivityksetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paivitaOhjelmaAutomaattisestiSuljettaessaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.haePaivityksiaOhjelmanSulkeuduttuaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.muutakorjaaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lisaaPelaajaKaavioonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vaihdaKaaviotyyppiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tuplakaavioLoppuunAstiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alkaenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alkaenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.kierroksesta5AlkaenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kierroksesta6AlkaenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.arvoKaavioUudelleenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.arvontaTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -772,7 +783,8 @@
             this.tietoaToolStripMenuItem,
             this.tulostaToolStripMenuItem,
             this.testaaToolStripMenuItem,
-            this.paivityksetToolStripMenuItem});
+            this.paivityksetToolStripMenuItem,
+            this.muutakorjaaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(788, 29);
@@ -996,6 +1008,93 @@
             this.haePaivityksiaOhjelmanSulkeuduttuaToolStripMenuItem.Text = "Hae päivityksiä ohjelman sulkeuduttua";
             this.haePaivityksiaOhjelmanSulkeuduttuaToolStripMenuItem.ToolTipText = "Jos tämä on täpättynä, KaisaKaavio hakee ohjelmapäivityksiä kun ikkuna suljetaan." +
     " Mahdolliset päivitykset ovat käytössä kun ohjelma seuraavan kerran avataan.";
+            // 
+            // muutakorjaaToolStripMenuItem
+            // 
+            this.muutakorjaaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lisaaPelaajaKaavioonToolStripMenuItem,
+            this.vaihdaKaaviotyyppiToolStripMenuItem,
+            this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem,
+            this.arvoKaavioUudelleenToolStripMenuItem});
+            this.muutakorjaaToolStripMenuItem.Name = "muutakorjaaToolStripMenuItem";
+            this.muutakorjaaToolStripMenuItem.Size = new System.Drawing.Size(116, 25);
+            this.muutakorjaaToolStripMenuItem.Text = "Muuta/korjaa";
+            // 
+            // lisaaPelaajaKaavioonToolStripMenuItem
+            // 
+            this.lisaaPelaajaKaavioonToolStripMenuItem.Name = "lisaaPelaajaKaavioonToolStripMenuItem";
+            this.lisaaPelaajaKaavioonToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.lisaaPelaajaKaavioonToolStripMenuItem.Text = "Lisää pelaaja kaavioon...";
+            this.lisaaPelaajaKaavioonToolStripMenuItem.Click += new System.EventHandler(this.lisaaPelaajaKaavioonToolStripMenuItem_Click);
+            // 
+            // vaihdaKaaviotyyppiToolStripMenuItem
+            // 
+            this.vaihdaKaaviotyyppiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tuplakaavioLoppuunAstiToolStripMenuItem,
+            this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem});
+            this.vaihdaKaaviotyyppiToolStripMenuItem.Name = "vaihdaKaaviotyyppiToolStripMenuItem";
+            this.vaihdaKaaviotyyppiToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.vaihdaKaaviotyyppiToolStripMenuItem.Text = "Vaihda kaaviotyyppi";
+            // 
+            // tuplakaavioLoppuunAstiToolStripMenuItem
+            // 
+            this.tuplakaavioLoppuunAstiToolStripMenuItem.Name = "tuplakaavioLoppuunAstiToolStripMenuItem";
+            this.tuplakaavioLoppuunAstiToolStripMenuItem.Size = new System.Drawing.Size(316, 26);
+            this.tuplakaavioLoppuunAstiToolStripMenuItem.Text = "Tuplakaavio loppuun asti";
+            this.tuplakaavioLoppuunAstiToolStripMenuItem.Click += new System.EventHandler(this.tuplakaavioLoppuunAstiToolStripMenuItem_Click);
+            // 
+            // pudotuspelit3kierroksestaAlkaenToolStripMenuItem
+            // 
+            this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem.Name = "pudotuspelit3kierroksestaAlkaenToolStripMenuItem";
+            this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem.Size = new System.Drawing.Size(316, 26);
+            this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem.Text = "Pudotuspelit 3.kierroksesta alkaen";
+            this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem.Click += new System.EventHandler(this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem_Click);
+            // 
+            // kaavioidenYhdistaminenKierroksestaToolStripMenuItem
+            // 
+            this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.alkaenToolStripMenuItem,
+            this.alkaenToolStripMenuItem1,
+            this.kierroksesta5AlkaenToolStripMenuItem,
+            this.kierroksesta6AlkaenToolStripMenuItem});
+            this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem.Name = "kaavioidenYhdistaminenKierroksestaToolStripMenuItem";
+            this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem.Text = "Kaavioiden yhdistäminen";
+            // 
+            // alkaenToolStripMenuItem
+            // 
+            this.alkaenToolStripMenuItem.Name = "alkaenToolStripMenuItem";
+            this.alkaenToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
+            this.alkaenToolStripMenuItem.Text = "kierroksesta 3 alkaen";
+            this.alkaenToolStripMenuItem.Click += new System.EventHandler(this.kaavioidenYhdistaminen3_Click);
+            // 
+            // alkaenToolStripMenuItem1
+            // 
+            this.alkaenToolStripMenuItem1.Name = "alkaenToolStripMenuItem1";
+            this.alkaenToolStripMenuItem1.Size = new System.Drawing.Size(226, 26);
+            this.alkaenToolStripMenuItem1.Text = "kierroksesta 4 alkaen";
+            this.alkaenToolStripMenuItem1.Click += new System.EventHandler(this.kaavioidenYhdistaminen4_Click);
+            // 
+            // kierroksesta5AlkaenToolStripMenuItem
+            // 
+            this.kierroksesta5AlkaenToolStripMenuItem.Name = "kierroksesta5AlkaenToolStripMenuItem";
+            this.kierroksesta5AlkaenToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
+            this.kierroksesta5AlkaenToolStripMenuItem.Text = "kierroksesta 5 alkaen";
+            this.kierroksesta5AlkaenToolStripMenuItem.Click += new System.EventHandler(this.kaavioidenYhdistaminen5_Click);
+            // 
+            // kierroksesta6AlkaenToolStripMenuItem
+            // 
+            this.kierroksesta6AlkaenToolStripMenuItem.Name = "kierroksesta6AlkaenToolStripMenuItem";
+            this.kierroksesta6AlkaenToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
+            this.kierroksesta6AlkaenToolStripMenuItem.Text = "kierroksesta 6 alkaen";
+            this.kierroksesta6AlkaenToolStripMenuItem.Click += new System.EventHandler(this.kaavioidenYhdistaminen6_Click);
+            // 
+            // arvoKaavioUudelleenToolStripMenuItem
+            // 
+            this.arvoKaavioUudelleenToolStripMenuItem.Name = "arvoKaavioUudelleenToolStripMenuItem";
+            this.arvoKaavioUudelleenToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.arvoKaavioUudelleenToolStripMenuItem.Text = "Arvo kaavio uudelleen";
+            this.arvoKaavioUudelleenToolStripMenuItem.Click += new System.EventHandler(this.arvoKaavioUudelleenToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -2360,7 +2459,6 @@
             this.splitContainer12.Size = new System.Drawing.Size(772, 530);
             this.splitContainer12.SplitterDistance = 61;
             this.splitContainer12.TabIndex = 61;
-            this.splitContainer12.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer12_SplitterMoved);
             // 
             // osMaksuYlalabel2
             // 
@@ -3021,7 +3119,6 @@
             this.label25.Size = new System.Drawing.Size(68, 20);
             this.label25.TabIndex = 6;
             this.label25.Text = "Puh.nro:";
-            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // textBox20
             // 
@@ -7490,6 +7587,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn seuranJasenMaksuDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn veloitettuDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn arvontaIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripMenuItem muutakorjaaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lisaaPelaajaKaavioonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vaihdaKaaviotyyppiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tuplakaavioLoppuunAstiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pudotuspelit3kierroksestaAlkaenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kaavioidenYhdistaminenKierroksestaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem alkaenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem alkaenToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem kierroksesta5AlkaenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kierroksesta6AlkaenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem arvoKaavioUudelleenToolStripMenuItem;
     }
 }
 

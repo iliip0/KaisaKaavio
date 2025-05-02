@@ -451,7 +451,10 @@ namespace KaisaKaavio
 
                     this.kilpailu.Osallistujat.Clear();
                     this.kilpailu.OsallistujatJarjestyksessa.Clear();
+                    //this.osallistujatDataGridView.Rows.Clear();
+
                     this.kilpailu.PoistaKaikkiPelit();
+                    //this.pelitDataGridView.Rows.Clear();
 
                     this.kilpailu.Nimi = popup.Nimi;
                     this.kilpailu.Laji = popup.Laji;
@@ -640,6 +643,14 @@ namespace KaisaKaavio
             this.rankingGroupBox.Enabled = !this.kilpailu.Tyhja;
             this.kisaDetaljitGroupBox.Enabled = !this.kilpailu.Tyhja;
             this.osMaksuYlaTextBox.Enabled = !this.kilpailu.Tyhja;
+
+            this.lisaaPelaajaKaavioonToolStripMenuItem.Enabled = 
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa ||
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
+
+            this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled =
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa ||
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
 
             PaivitaSijoitettuSarake();
 
@@ -1104,32 +1115,35 @@ namespace KaisaKaavio
                 }
                 else if (this.tabControl1.SelectedTab == this.pelitTabPage)
                 {
-                    lock (this.kilpailu)
+                    if (this.kilpailu.KaavioArvottu)
                     {
-                        this.kilpailu.HakuTarvitaan = false;
-
-                        this.pelitDataGridView.SuspendLayout();
-
-                        this.PelinPaikkaColumn.Visible = this.kilpailu.OnUseanPelipaikanKilpailu;
-
-                        this.kilpailu.PaivitaPelienTulokset();
-
-                        var algoritmi = this.kilpailu.Haku(this);
-                        if (algoritmi != null)
+                        lock (this.kilpailu)
                         {
-                            algoritmi.Hae();
-                            PaivitaHaku(algoritmi);
-                        }
+                            this.kilpailu.HakuTarvitaan = false;
 
-                        this.pelitDataGridView.ResumeLayout();
+                            this.pelitDataGridView.SuspendLayout();
 
-                        ScrollaaPelitListanLoppuun();
+                            this.PelinPaikkaColumn.Visible = this.kilpailu.OnUseanPelipaikanKilpailu;
 
-                        if (this.piilotaToinenKierrosCheckBox.Visible)
-                        {
-                            if (this.kilpailu.ToinenKierrosAlkanut)
+                            this.kilpailu.PaivitaPelienTulokset();
+
+                            var algoritmi = this.kilpailu.Haku(this);
+                            if (algoritmi != null)
                             {
-                                this.piilotaToinenKierrosCheckBox.Visible = false;
+                                algoritmi.Hae();
+                                PaivitaHaku(algoritmi);
+                            }
+
+                            this.pelitDataGridView.ResumeLayout();
+
+                            ScrollaaPelitListanLoppuun();
+
+                            if (this.piilotaToinenKierrosCheckBox.Visible)
+                            {
+                                if (this.kilpailu.ToinenKierrosAlkanut)
+                                {
+                                    this.piilotaToinenKierrosCheckBox.Visible = false;
+                                }
                             }
                         }
                     }
@@ -1883,6 +1897,7 @@ namespace KaisaKaavio
                     else
                     {
                         this.kilpailu.PeruutaArvonta();
+                        //this.pelitDataGridView.Rows.Clear();
 
                         MessageBox.Show(
                             string.Format("Kaavion arpominen ei onnistunut: {0}", virhe),
@@ -5675,7 +5690,7 @@ namespace KaisaKaavio
 
         #endregion
 
-        // ========={( Integraatio muiden palveluiden kanssa )}============================================================ //
+        // ========={( Integraatio muiden palveluiden kanssa )}================================================ //
         #region Integraatio
 
         private void haeBiljardOrgSivultaButton_Click(object sender, EventArgs e)
@@ -5697,14 +5712,77 @@ namespace KaisaKaavio
 
         #endregion
 
-        private void splitContainer12_SplitterMoved(object sender, SplitterEventArgs e)
-        {
+        // ========={( Kaavion muokkaaminen ja korjaaminen kilpailun aikana )}================================= //
+        #region MuokkaaKorjaa
 
+        private void lisaaPelaajaKaavioonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.kilpailu.KolmasKierrosAlkanut)
+            {
+                //MessageBox.Show("");
+            }
+            else
+            { 
+            }
         }
 
-        private void label25_Click(object sender, EventArgs e)
+        private void arvoKaavioUudelleenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (this.kilpailu.KaavioArvottu)
+                {
+                    if (this.kilpailu.Pelit.Any(x => x.Tilanne == PelinTilanne.Kaynnissa || x.Tilanne == PelinTilanne.Pelattu))
+                    {
+                        if (MessageBox.Show(
+                            "Pelejä on jo käynnissä/pelattu. Haluatko varmasti arpoa kaavion uudelleen?",
+                            "Kaavion uudelleen arpominen",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+                        {
+                            return;
+                        }
+                    }
 
+                    KeskeytaHaku();
+
+                    this.kilpailu.PoistaKaikkiPelit();
+                    this.kilpailu.Pelit.ResetBindings();
+                    //this.pelitDataGridView.Rows.Clear();
+                }
+
+                this.tabControl1.SelectedTab = this.arvontaTabPage;
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Kaavion uudelleen arpominen epäonnistui", ex);
+            }
         }
+
+        private void tuplakaavioLoppuunAstiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void pudotuspelit3kierroksestaAlkaenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void kaavioidenYhdistaminen3_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void kaavioidenYhdistaminen4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void kaavioidenYhdistaminen5_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void kaavioidenYhdistaminen6_Click(object sender, EventArgs e)
+        {
+        }
+
+        #endregion
     }
 }

@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.34		(työn alla)
 
 * Mahdollistettu "kaavioiden yhdistäminen kierroksesta X alkaen" valinnan muuttaminen ensimmäisen ja toisen kierroksen aikana
+* Lisätty mahdollisuus arpoa kaavio uudelleen valikon kautta
 
 ## Versio 1.0.0.33		(julkaistu 30.04.2025)
 

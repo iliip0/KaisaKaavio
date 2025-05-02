@@ -1528,7 +1528,7 @@ namespace KaisaKaavio
 
         public void PeruutaArvonta()
         {
-            this.Pelit.Clear();
+            this.PoistaKaikkiPelit();
 
             foreach (var o in this.Osallistujat)
             {
