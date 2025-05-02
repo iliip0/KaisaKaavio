@@ -5575,7 +5575,7 @@ namespace KaisaKaavio
 
         private void PaivitaPelipaikatUI()
         {
-            this.kaavioidenYhdistaminenComboBox.Enabled = !this.kilpailu.KaavioArvottu;
+            this.kaavioidenYhdistaminenComboBox.Enabled = !this.kilpailu.KolmasKierrosAlkanut;
 
             if (this.kilpailu.PeliPaikat.Any(x => !x.Tyhja))
             {

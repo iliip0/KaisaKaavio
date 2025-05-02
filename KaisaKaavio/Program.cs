@@ -51,7 +51,6 @@ namespace KaisaKaavio
         [STAThread]
         static void Main()
         {
-#if !DEBUG
 #if !ALLOW_MULTIPLE_INSTANCES
             string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -64,7 +63,6 @@ namespace KaisaKaavio
 
             PuraResurssi("KaisaKaavio.Resources.CHANGELOG.md", Path.Combine(kansio, "Versiohistoria.txt"), null);
             PuraResurssi("KaisaKaavio.Resources.KaisaKaavioOhje.pdf", Path.Combine(kansio, "Ohje.pdf"), null);
-#endif
 #endif
 
 #if !ALLOW_MULTIPLE_INSTANCES

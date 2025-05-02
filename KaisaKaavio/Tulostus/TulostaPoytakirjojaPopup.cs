@@ -229,8 +229,8 @@ namespace KaisaKaavio.Tulostus
             PiirraTeksti(e, this.isoPaksuFontti, this.mustaHarja, peli != null ? peli.Kierros.ToString() : "__", x, riviY, w, riviH, HorizontalAlignment.Right);
 
             // Pöytä numero
-            int r = 20;
-            e.Graphics.DrawEllipse(this.mustaOhutKyna, new Rectangle(x + w / 2 + 2 * r, y + h - r * 2, 2 * r, 2 * r));
+            int r = 23;
+            e.Graphics.DrawEllipse(this.mustaOhutKyna, new Rectangle(x + w / 2 + 2 * r, y + h - r * 2 - 2, 2 * r, 2 * r));
             PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, "Pöytä", x + w / 2, riviY, 2 * r, riviH, HorizontalAlignment.Center);
         }
 

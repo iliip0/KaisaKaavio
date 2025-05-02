@@ -3218,6 +3218,17 @@ namespace KaisaKaavio
         }
 
         [XmlIgnore]
+        public bool KolmasKierrosAlkanut
+        {
+            get
+            {
+                return this.Pelit.Any(x =>
+                        (x.Kierros > 2) &&
+                        (x.Tilanne == PelinTilanne.Pelattu || x.Tilanne == PelinTilanne.Kaynnissa));
+            }
+        }
+
+        [XmlIgnore]
         public string ArvonnanTilanneTeksti
         {
             get
