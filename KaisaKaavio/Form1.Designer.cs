@@ -4636,9 +4636,10 @@
             this.kaavioidenYhdistaminenComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kaavioidenYhdistaminenComboBox.FormattingEnabled = true;
             this.kaavioidenYhdistaminenComboBox.Items.AddRange(new object[] {
-            "3 ensimmäistä kierrosta eri saleilla, kaaviot yhdistetään 4:n kierroksen alussa",
-            "4 ensimmäistä kierrosta eri saleilla, kaaviot yhdistetään 5:n kierroksen alussa",
-            "5 ensimmäistä kierrosta eri saleilla, kaaviot yhdistetään 6:n kierroksen alussa"});
+            "Kaaviot yhdistetään 3:n kierroksen alussa",
+            "Kaaviot yhdistetään 4:n kierroksen alussa",
+            "Kaaviot yhdistetään 5:n kierroksen alussa",
+            "Kaaviot yhdistetään 6:n kierroksen alussa"});
             this.kaavioidenYhdistaminenComboBox.Location = new System.Drawing.Point(7, 32);
             this.kaavioidenYhdistaminenComboBox.Name = "kaavioidenYhdistaminenComboBox";
             this.kaavioidenYhdistaminenComboBox.Size = new System.Drawing.Size(753, 28);

@@ -128,7 +128,7 @@ namespace KaisaKaavio
             this.rankingSarjanLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
             this.rankingHakuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
 
-            this.kaavioidenYhdistaminenComboBox.SelectedIndex = 1;
+            //this.kaavioidenYhdistaminenComboBox.SelectedIndex = 2;
 
             this.haeBiljardOrgSivultaButton.BackColor = this.biljardiOrgVari;
 
@@ -1187,6 +1187,7 @@ namespace KaisaKaavio
                 }
                 else if (this.tabControl1.SelectedTab == this.pelipaikatTabPage)
                 {
+                    AlustaPelipaikatUI();
                     PaivitaPelipaikatUI();
                 }
 
@@ -5589,6 +5590,18 @@ namespace KaisaKaavio
         // ========={( Pelipaikat sivun päivitys )}============================================================ //
         #region Pelipaikat
 
+        private void AlustaPelipaikatUI()
+        {
+            try
+            {
+                this.kaavioidenYhdistaminenComboBox.SelectedIndex = this.kilpailu.KaavioidenYhdistaminenKierroksestaInt - 3;
+            }
+            catch
+            {
+                this.kaavioidenYhdistaminenComboBox.SelectedIndex = 2;
+            }
+        }
+
         private void PaivitaPelipaikatUI()
         {
             this.kaavioidenYhdistaminenComboBox.Enabled = !this.kilpailu.KolmasKierrosAlkanut;
@@ -5597,7 +5610,7 @@ namespace KaisaKaavio
             {
                 this.useanPaikanKisaLabel.Text = "Valitse, missä vaiheessa kilpailua siirrytään pelaamaan yhdellä pelipaikalla:";
                 this.kaavioidenYhdistaminenComboBox.Visible = true;
-                this.kilpailu.KaavioidenYhdistaminenKierroksesta = (this.kaavioidenYhdistaminenComboBox.SelectedIndex + 4).ToString();
+                //this.kilpailu.KaavioidenYhdistaminenKierroksesta = (this.kaavioidenYhdistaminenComboBox.SelectedIndex + 3).ToString();
 
 #if DEBUG
                 Debug.WriteLine(string.Format("## Kaaviot yhdistetään kierroksesta {0}", this.kilpailu.KaavioidenYhdistaminenKierroksesta));
@@ -5607,7 +5620,7 @@ namespace KaisaKaavio
             {
                 this.useanPaikanKisaLabel.Text = "Lisää yksi tai useampia varasaleja alla olevalle listalle:";
                 this.kaavioidenYhdistaminenComboBox.Visible = false;
-                this.kilpailu.KaavioidenYhdistaminenKierroksesta = string.Empty;
+                //this.kilpailu.KaavioidenYhdistaminenKierroksesta = string.Empty;
             }
         }
 
@@ -5686,7 +5699,8 @@ namespace KaisaKaavio
 
         private void kaavioidenYhdistaminenComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PaivitaPelipaikatUI();
+            this.kilpailu.KaavioidenYhdistaminenKierroksesta = (this.kaavioidenYhdistaminenComboBox.SelectedIndex + 3).ToString();
+            //PaivitaPelipaikatUI();
         }
 
         #endregion
@@ -5823,18 +5837,61 @@ namespace KaisaKaavio
 
         private void kaavioidenYhdistaminen3_Click(object sender, EventArgs e)
         {
+            VaihdaKaavioidenYhdistamiskierros(3);
         }
 
         private void kaavioidenYhdistaminen4_Click(object sender, EventArgs e)
         {
+            VaihdaKaavioidenYhdistamiskierros(4);
         }
 
         private void kaavioidenYhdistaminen5_Click(object sender, EventArgs e)
         {
+            VaihdaKaavioidenYhdistamiskierros(5);
         }
 
         private void kaavioidenYhdistaminen6_Click(object sender, EventArgs e)
         {
+            VaihdaKaavioidenYhdistamiskierros(6);
+        }
+
+        private void VaihdaKaavioidenYhdistamiskierros(int kierros)
+        {
+            try
+            {
+                if (this.kilpailu.KaavioidenYhdistaminenKierroksestaInt != kierros)
+                {
+                    if (this.kilpailu.Pelit.Any(x =>
+                        x.Kierros >= kierros &&
+                        (x.Tilanne == PelinTilanne.Kaynnissa ||
+                        x.Tilanne == PelinTilanne.Pelattu)))
+                    {
+                        MessageBox.Show(
+                            string.Format("Kaavioiden yhdistämistä ei voida asettaa kierrokselle {0} koska kierroksen pelejä on jo käynnissä/pelattu", kierros),
+                            "Kaavioiden yhdistäminen",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (this.kilpailu.OnUseanPelipaikanKilpailu)
+                    {
+                        KeskeytaHaku();
+
+                        this.kilpailu.KaavioidenYhdistaminenKierroksesta = kierros.ToString();
+                        this.kilpailu.PoistaTyhjatPelitAlkaenNumerosta(0);
+                        this.kilpailu.HakuTarvitaan = true;
+
+                        AlustaPelipaikatUI();
+
+                        this.loki.Kirjoita(string.Format("Kaavioiden yhdistämiskierros vaihdettu {0}", kierros));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Kaavioiden yhdistämiskierroksen vaihtaminen epäonnistui", ex);
+            }
         }
 
         #endregion

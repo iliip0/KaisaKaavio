@@ -436,6 +436,8 @@ namespace KaisaKaavio
 
                 this.kilpasarjaLabel.Visible = true;
                 this.kilpaSarjaComboBox.Visible = true;
+
+                this.kaavioComboBox.SelectedIndex = 0;
             }
 
             PaivitaKilpailunOletusNimi();
