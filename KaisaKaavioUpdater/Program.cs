@@ -73,7 +73,7 @@ namespace KaisaKaavioUpdater
                 // Jostain syystä exe on deletoitu. Kopioidaan uusin tilalle
                 if (!File.Exists(kaisaKaavioExe))
                 {
-                    Loki("KaisaKaavio.exe puuttuu. Kopioidaan uusin versio tilalle...");
+                    Loki("KaisaKaavio.exe puuttuu. Kopioidaan uusin versio tilalle.");
 
                     File.Copy(downloadPath, kaisaKaavioExe);
 
@@ -93,7 +93,7 @@ namespace KaisaKaavioUpdater
 
                     if (nyky < uusin)
                     {
-                        Loki("Päivitetään KaisaKaavio.exe versiosta {0} versioon {1}...", nyky, uusin);
+                        Loki("Päivitetään KaisaKaavio.exe versiosta {0} versioon {1}.", nyky, uusin);
 
                         File.Delete(kaisaKaavioExe);
                         File.Copy(downloadPath, kaisaKaavioExe);
@@ -104,14 +104,14 @@ namespace KaisaKaavioUpdater
                     }
                     else
                     {
-                        Loki("KaisaKaavio.exe on uusimmassa versiossa {0}. Ei tarvetta päivittää...", nyky);
+                        Loki("KaisaKaavio.exe on uusimmassa versiossa {0}. Ei tarvetta päivittää.", nyky);
 
                         return 0;
                     }
                 }
                 else
                 {
-                    Loki("KaisaKaavion päivitysten nouto palvelimelta epäonnistui...");
+                    Loki("KaisaKaavion päivitysten nouto palvelimelta epäonnistui.");
 
                     return -4;
                 }

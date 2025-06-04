@@ -60,7 +60,7 @@ namespace KaisaKaavio
 
         private IHakuAlgoritmi haku = null;
 
-        private bool kilpailunLatausKaynnissa = false; // 
+        private bool kilpailunLatausKaynnissa = false;
         private bool arvontaKaynnissa = false;
 
         private bool suljeOhjelmaHeti = false;
@@ -127,8 +127,6 @@ namespace KaisaKaavio
             this.rankingOsakilpailuComboBox.DataSource = this.ranking.KilpailutBindingSource;
             this.rankingSarjanLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
             this.rankingHakuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
-
-            //this.kaavioidenYhdistaminenComboBox.SelectedIndex = 2;
 
             this.haeBiljardOrgSivultaButton.BackColor = this.biljardiOrgVari;
 
@@ -5732,9 +5730,9 @@ namespace KaisaKaavio
 
         private void lisaaPelaajaKaavioonToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Pelaajan lisääminen kaavioon kesken kisan ei ole vielä mahdollista.");
             if (this.kilpailu.KolmasKierrosAlkanut)
             {
-                //MessageBox.Show("");
             }
             else
             { 
@@ -5763,7 +5761,6 @@ namespace KaisaKaavio
 
                     this.kilpailu.PoistaKaikkiPelit();
                     this.kilpailu.Pelit.ResetBindings();
-                    //this.pelitDataGridView.Rows.Clear();
                 }
 
                 this.tabControl1.SelectedTab = this.arvontaTabPage;
@@ -5826,7 +5823,7 @@ namespace KaisaKaavio
 
                 this.kilpailu.KaavioTyyppi = tyyppi;
                 this.kilpailu.HakuTarvitaan = true;
-                //this.KaynnistaHaku();
+
                 this.loki.Kirjoita(string.Format("Kaaviotyyppi vaihdettu kesken kisan {0}", this.kilpailu.KaavioTyyppi));
             }
             catch (Exception ex)
