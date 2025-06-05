@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.35		(työn alla)
+## Versio 1.0.0.35		(julkaistu 5.6.2025)
 
 * Korjaus hakualgoritmiin. Algoritmi jätti joitain "varmoja" hakuja hakematta kun ei osannut huomioida pelejä joissa toinen pelaaja putoaa väkisin
 
