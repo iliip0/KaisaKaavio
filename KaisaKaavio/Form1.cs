@@ -162,7 +162,7 @@ namespace KaisaKaavio
             this.testaaToolStripMenuItem.Visible = false;
 #endif
 
-#if ALLOW_MULTIPLE_INSTANCES
+#if LITE_VERSION
             this.kayttoopasToolStripMenuItem.Visible = false;
             this.kaisaKaavioOhjelmanTiedotToolStripMenuItem.Visible = false;
             this.versiohistoriaToolStripMenuItem.Visible = false;
@@ -901,7 +901,7 @@ namespace KaisaKaavio
             Tallenna();
 
 #if !DEBUG // Päivitetään ohjelma uusimpaan versioon suljettaessa
-#if !ALLOW_MULTIPLE_INSTANCES
+#if !LITE_VERSION
             try
             {
                 if (!System.Diagnostics.Debugger.IsAttached)
@@ -4673,7 +4673,7 @@ namespace KaisaKaavio
 
         private void AvaaTiedosto(string tiedosto)
         {
-#if !ALLOW_MULTIPLE_INSTANCES
+#if !LITE_VERSION
             try
             {
                 string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -4780,6 +4780,7 @@ namespace KaisaKaavio
             }
             else
             {
+#if !LITE_VERSION // Ei käynnistetä ulkoisia prosesseja LITE versiossa
                 try
                 {
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
@@ -4792,7 +4793,7 @@ namespace KaisaKaavio
                 catch
                 {
                 }
-
+#endif
                 MessageBox.Show(
                     string.Format("Testi epäonnistui: {0} kaaviota pelattu virheellisesti", testi.EpaonnistuneitaTesteja),
                     "Testi valmis",

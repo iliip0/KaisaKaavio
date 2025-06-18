@@ -51,7 +51,7 @@ namespace KaisaKaavio
         [STAThread]
         static void Main()
         {
-#if !ALLOW_MULTIPLE_INSTANCES
+#if !LITE_VERSION
             string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             // Puretaan GNU GPL v3 lisenssi exen viereen jos se ei jo löydy sieltä
