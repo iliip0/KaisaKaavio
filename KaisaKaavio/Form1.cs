@@ -162,10 +162,11 @@ namespace KaisaKaavio
             this.testaaToolStripMenuItem.Visible = false;
 #endif
 
+
 #if LITE_VERSION
-            this.kayttoopasToolStripMenuItem.Visible = false;
-            this.kaisaKaavioOhjelmanTiedotToolStripMenuItem.Visible = false;
+            //this.kaisaKaavioOhjelmanTiedotToolStripMenuItem.Visible = false;
             this.versiohistoriaToolStripMenuItem.Visible = false;
+            this.kayttoopasToolStripMenuItem.Visible = false;
             this.paivityksetToolStripMenuItem.Visible = false;
 #endif
 
@@ -1477,7 +1478,22 @@ namespace KaisaKaavio
                             }
                         }
 
-                        this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
+                        var uusiPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
+                        if (uusiPeli != null)
+                        {
+                            if (peli.Hypyt != null && peli.Hypyt.Any())
+                            {
+                                uusiPeli.HakuKommentti = string.Empty;
+                                foreach (var hyppy in peli.Hypyt)
+                                {
+                                    if (uusiPeli.HakuKommentti.Length > 0)
+                                    {
+                                        uusiPeli.HakuKommentti += "#";
+                                    }
+                                    uusiPeli.HakuKommentti += string.Format("{0} hypätty yli - {1}", hyppy.Pelaaja.Id, hyppy.Syy);
+                                }
+                            }
+                        }
                     }
 
                     if (algoritmi.UusiHakuTarvitaan)
@@ -3647,11 +3663,10 @@ namespace KaisaKaavio
             {
                 var kilpa = this.kilpailu.KilpailuKaavioon;
 
-                kilpa.LisaaPeli(
+                var peli = kilpa.LisaaPeli(
                     kilpa.Osallistujat.FirstOrDefault(x => x.Id == pelaaja),
                     kilpa.Osallistujat.FirstOrDefault(x => x.Id == vastustaja));
 
-                var peli = kilpa.Pelit.LastOrDefault(x => x.SisaltaaPelaajat(pelaaja, vastustaja));
                 if (peli != null)
                 {
                     this.loki.Kirjoita(string.Format("Lisättiin peli {0} kaavioon manuaalisesti", peli.Kuvaus()));
@@ -4015,6 +4030,8 @@ namespace KaisaKaavio
                 teksti.OsionVaihto();
             }
 
+            List<string> hakuKommentit = new List<string>();
+
             int kierros = 0;
             string pelipaikka = string.Empty;
 
@@ -4117,7 +4134,22 @@ namespace KaisaKaavio
                         }
                     }
 
-                    peli.RichTextKuvaus(sali, teksti);
+                    if (!string.IsNullOrEmpty(peli.HakuKommentti))
+                    {
+                        hakuKommentit.Add(peli.HakuKommentti);
+
+                        peli.RichTextKuvaus(
+                            sali,
+                            teksti,
+                            hakuKommentit.Count);
+                    }
+                    else
+                    {
+                        peli.RichTextKuvaus(
+                            sali,
+                            teksti,
+                            0);
+                    }
 
                     if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
                     {
@@ -4130,10 +4162,10 @@ namespace KaisaKaavio
                             string.Equals(x.Joukkue2, peli.Pelaaja2)))
                         {
                             teksti.NormaaliTeksti("  ");
-                            osapeli.RichTextKuvaus(sali, teksti);
+                            osapeli.RichTextKuvaus(sali, teksti, 0);
 
                             int kesto = osapeli.Kesto;
-                            if (kesto > 0)
+                            if (kesto > 5)
                             {
                                 keskimaarainenPelinKesto += kesto;
                                 pelejaKeskimaaranLaskemiseksi++;
@@ -4151,7 +4183,7 @@ namespace KaisaKaavio
                     else
                     {
                         int kesto = peli.Kesto;
-                        if (kesto > 0)
+                        if (kesto > 5)
                         {
                             keskimaarainenPelinKesto += kesto;
                             pelejaKeskimaaranLaskemiseksi++;
@@ -4244,6 +4276,38 @@ namespace KaisaKaavio
                     teksti.RivinVaihto();
                     teksti.OsionVaihto();
                 }
+            }
+
+            // Loppuun selvennykset erikoisista hauista
+            if (hakuKommentit.Any())
+            {
+                teksti.RivinVaihto();
+                teksti.Otsikko("Poikkeavat haut:");
+                teksti.RivinVaihto();
+
+                int i = 1;
+                foreach (var kommentit in hakuKommentit)
+                {
+                    var rivit = kommentit.Split('#');
+                    foreach (var kommentti in rivit.Where(x => !string.IsNullOrEmpty(x)))
+                    {
+                        teksti.PieniVihreaTeksti(string.Format("[haku {0}] : ", i));
+
+                        string muokattuKommentti = kommentti;
+                        foreach (var pelaaja in this.kilpailu.Osallistujat.OrderByDescending(x => x.Id))
+                        {
+                            muokattuKommentti = muokattuKommentti.Replace(pelaaja.Id.ToString() + "v", "[b]" + pelaaja.Id.ToString() + "[/b]");
+                            muokattuKommentti = muokattuKommentti.Replace(pelaaja.Id.ToString(), pelaaja.KeskipitkaNimi(this.kilpailu));
+                        }
+
+                        teksti.HakukommenttiTeksti(muokattuKommentti);
+                        teksti.RivinVaihto();
+                    }
+
+                    i++;
+                }
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
             }
 
             teksti.LoppuMainos();
@@ -4804,7 +4868,7 @@ namespace KaisaKaavio
 
         private void pelaaTestikaaviotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if DEBUG
+//#if DEBUG // TODO!!!
             using (var popup = new Testaus.TestiPopup())
             {
                 if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -4863,7 +4927,7 @@ namespace KaisaKaavio
                     }
                 }
             }
-#endif
+//#endif
         }
 
         private void pelaaKaavioUudelleenToolStripMenuItem_Click(object sender, EventArgs e)

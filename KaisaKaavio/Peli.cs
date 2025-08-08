@@ -403,11 +403,20 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlAttribute]
+        [DefaultValue("")]
+        /// <summary>
+        /// Kommentit liittyeen tämän pelin hakuun kaaviossa. Näissä on selitettyna syy, mikäli haussa jouduttiin hyppäämään
+        /// yhden tai useamman pelaajan yli.
+        /// </summary>
+        public string HakuKommentti { get; set; }
+
         private void PaivitaPelinAlkamisAika()
         {
             this.Alkoi = DateTime.Now.ToShortTimeString();
 
             // Jos peli on kilpailun ekoja pelejä, laita alkamisajaksi kilpailun alkamisaika
+            /*
             try
             {
                 if (this.Kilpailu != null &&
@@ -432,6 +441,7 @@ namespace KaisaKaavio
             catch
             { 
             }
+            */
         }
 
         private PelinTulos tulos = PelinTulos.EiTiedossa;
@@ -748,6 +758,11 @@ namespace KaisaKaavio
                     s.Append(string.Format(" ({0} {1}p sarja)", PelaajanLyhytNimi2, this.ToiseksiPisinSarja2));
                 }
 
+                if (!string.IsNullOrEmpty(this.HakuKommentti))
+                {
+                    s.Append(" [poikkeava haku, lisätietoa 'Tulokset' osiossa]");
+                }
+
                 return s.ToString();
             }
         }
@@ -770,6 +785,7 @@ namespace KaisaKaavio
             PisinSarja2 = string.Empty;
             ToiseksiPisinSarja2 = string.Empty;
             Paikka = string.Empty;
+            HakuKommentti = string.Empty;
         }
 
         /// <summary>
@@ -1333,7 +1349,7 @@ namespace KaisaKaavio
             teksti.RivinVaihto();
         }
 
-        public void RichTextKuvaus(Sali sali, Tyypit.Teksti teksti)
+        public void RichTextKuvaus(Sali sali, Tyypit.Teksti teksti, int hakuKommenttiViite)
         {
             if (this.Kilpailu == null)
             {
@@ -1446,13 +1462,18 @@ namespace KaisaKaavio
                     if (!string.IsNullOrEmpty(this.Alkoi) && !string.IsNullOrEmpty(this.Paattyi))
                     {
                         int aikaero = 0;
-                        if (Tyypit.Aika.AikaeroMinuutteina(this.Alkoi, this.Paattyi, out aikaero) && aikaero > 0)
+                        if (Tyypit.Aika.AikaeroMinuutteina(this.Alkoi, this.Paattyi, out aikaero) && aikaero > 5)
                         {
                             teksti.NormaaliTeksti(" ");
                             teksti.PieniTeksti(string.Format(" ({0}min)", aikaero));
                         }
                     }
                 }
+            }
+
+            if (hakuKommenttiViite > 0)
+            {
+                teksti.PieniVihreaTeksti(string.Format("   [haku {0}]", hakuKommenttiViite));
             }
 
             teksti.RivinVaihto();

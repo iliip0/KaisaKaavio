@@ -234,6 +234,7 @@
       <DependentUpon>TulostaPoytakirjojaPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="Tyypit\Aika.cs" />
+    <Compile Include="Tyypit\EvaluointiTietokanta.cs" />
     <Compile Include="Tyypit\Luku.cs" />
     <Compile Include="Tyypit\Nimi.cs" />
     <Compile Include="Tyypit\Teksti.cs" />

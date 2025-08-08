@@ -22,6 +22,12 @@ namespace KaisaKaavio
         public static int PelaajiaVahintaanKaaviossa = 4;
 
         /// <summary>
+        /// Tämä asetus määrää, missä vaiheessa kisaa ruvetaan hakemaan pelejä paremmalla, mutta hitaammalla
+        /// algoritmilla hakuvirheiden minimoimiseksi
+        /// </summary>
+        public static int HuolellisenHaunPelaajamaara = 6;
+
+        /// <summary>
         /// Tämä asetus määrää kuinka usein automaattinen tallennus tapahtuu (sekunteja)
         /// </summary>
         public static int AutomaattisenTallennuksenTaajuus = 5 * 60;

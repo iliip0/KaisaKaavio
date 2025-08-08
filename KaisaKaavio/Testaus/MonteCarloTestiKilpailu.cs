@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,14 @@ namespace KaisaKaavio.Testaus
 
         private Loki loki = null;
 
+        public int UusintaHakuvirheita { get; private set; }    // < Hakuvirheitä, joissa tulee sama pelipari uudestaan ennen finaalia
+        public int EdellaHakuvirheita { get; private set; }     // < Hakuvirheitä, joissa toinen pelaaja on yli kierroksen vastustajaa edellä kaaviossa
+
         public MonteCarloTestiKilpailu(string nimi, int poytienMaara, bool satunnainenPelienJarjestys, int pelaajia, Loki loki)
         {
+            this.UusintaHakuvirheita = 0;
+            this.EdellaHakuvirheita = 0;
+
             this.PoytienMaara = Math.Max(1, poytienMaara);
             this.Pelaajia = Math.Max(4, pelaajia);
             this.SatunnainenPelienJarjestys = satunnainenPelienJarjestys;
@@ -56,9 +63,6 @@ namespace KaisaKaavio.Testaus
             TarkistaPelit();
         }
 
-        /// <summary>
-        /// Kopioi osallistujalistan oikeasta kilpailusta ja tarkistaa että arvotut 1. ja 2. kierros ovat identtiset
-        /// </summary>
         private void ArvoKaavio()
         {
             string virhe = string.Empty;
@@ -67,32 +71,12 @@ namespace KaisaKaavio.Testaus
                 throw new Exception(string.Format("Kaavion arpominen epäonnistui: {0}", virhe));
             }
 
-            // Tarkistetaan että 1. ja 2. kierroksen pelit on samat
-            /*
-            var testattavatAlkupelit = this.TestattavaKilpailu.Pelit.Where(x => x.Kierros < 3);
-            var oikeatAlkupelit = this.OikeaKilpailu.Pelit.Where(x => x.Kierros < 3);
-
-            if (testattavatAlkupelit.Count() != oikeatAlkupelit.Count())
+            double i = 1.0;
+            foreach (var p in this.TestattavaKilpailu.Osallistujat.ToArray().OrderBy(x => x.Nimi))
             {
-                throw new Exception(string.Format("Väärä määrä alkupelejä. Pitäisi olla {0}, oli {1}", 
-                    oikeatAlkupelit.Count(), 
-                    testattavatAlkupelit.Count()));
+                p.Taso = (float)Math.Max(0.1, Math.Pow(0.8, i)) + (float)(this.Arpa.NextDouble() * 0.2);
+                i += 1.0;
             }
-
-            foreach (var peli in oikeatAlkupelit)
-            {
-                if (!testattavatAlkupelit.Any(x => 
-                    x.Kierros == peli.Kierros && 
-                    x.Id1 == peli.Id1 &&
-                    x.Id2 == peli.Id2))
-                {
-                    throw new Exception(string.Format("Väärä haku alkukierroksille. {0} kierroksen peliä {1} - {2} ei löydy",
-                        peli.Kierros,
-                        peli.Pelaaja1,
-                        peli.Pelaaja2));
-                }
-            }
-             */
         }
 
         private void PelaaKaavio()
@@ -115,10 +99,13 @@ namespace KaisaKaavio.Testaus
                                 x.PeliNumero < uusiPeli.PeliNumero &&
                                 x.SisaltaaPelaajat(uusiPeli.Id1, uusiPeli.Id2)))
                             {
-                                throw new Exception(string.Format("Hakuvirhe! Pelaajat {0} ja {1} pelaavat uudestaan vastakkain ennen finaalia", 
-                                    uusiPeli.PelaajanNimi1,
-                                    uusiPeli.PelaajanNimi2));
+                                this.UusintaHakuvirheita++;
                             }
+                        }
+
+                        if (Math.Abs(uusiPeli.KierrosPelaaja1 - uusiPeli.KierrosPelaaja2) > 1)
+                        {
+                            this.EdellaHakuvirheita++;
                         }
                     }
                 }
@@ -194,7 +181,13 @@ namespace KaisaKaavio.Testaus
                 }
             }
 
-            if (this.Arpa.Next(100) < 50)
+            Pelaaja p1 = this.TestattavaKilpailu.Osallistujat.FirstOrDefault(x => x.Id == peli.Id1);
+            Pelaaja p2 = this.TestattavaKilpailu.Osallistujat.FirstOrDefault(x => x.Id == peli.Id2);
+
+            double pisteet1 = this.Arpa.NextDouble() * p1.Taso;
+            double pisteet2 = this.Arpa.NextDouble() * p2.Taso;
+
+            if (pisteet1 > pisteet2)
             {
                 peli.Pisteet1 = "60";
                 peli.Pisteet2 = this.Arpa.Next(0, 59).ToString();
@@ -220,7 +213,15 @@ namespace KaisaKaavio.Testaus
         }
 
         public void TarkistaPelit()
-        { 
+        {
+            var voittaja = TestattavaKilpailu.Voittaja();
+
+            if (voittaja == null)
+            {
+                throw new Exception("Testikilpailua ei pelattu loppuun asti!!! Voittaja ei ole selvillä");
+            }
+
+            Debug.WriteLine(string.Format("#### Kilpailun voitti {0}, taso {1}", voittaja.Nimi, voittaja.Taso));
         }
     }
 }

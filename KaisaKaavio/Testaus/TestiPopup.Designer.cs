@@ -36,22 +36,22 @@
             this.testaaButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.mcCheckBox = new System.Windows.Forms.CheckBox();
             this.mcAsetuksetGroupBox = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.mcKisojaNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.mcMinPelaajiaNnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.mcMaxPelaajiaNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mcMinPelaajiaNnumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mcKisojaNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.mcCheckBox = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.mcAsetuksetGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mcKisojaNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mcMinPelaajiaNnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mcMaxPelaajiaNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcMinPelaajiaNnumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcKisojaNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // numericUpDown1
@@ -146,28 +146,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Monte Carlo testaus:";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(245, 52);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Mikäli käytössä, testiajossa luodaan X satunnaista \r\nkilpailua ja pelataan ne läp" +
-    "i satunnaisesti. \r\nLopussa katsotaan monessako kilpailussa \r\ntuli uusintaottelu " +
-    "ennen finaalia";
-            // 
-            // mcCheckBox
-            // 
-            this.mcCheckBox.AutoSize = true;
-            this.mcCheckBox.Location = new System.Drawing.Point(20, 93);
-            this.mcCheckBox.Name = "mcCheckBox";
-            this.mcCheckBox.Size = new System.Drawing.Size(129, 17);
-            this.mcCheckBox.TabIndex = 1;
-            this.mcCheckBox.Text = "Aja Monte Carlo testi?";
-            this.mcCheckBox.UseVisualStyleBackColor = true;
-            this.mcCheckBox.CheckedChanged += new System.EventHandler(this.mcCheckBox_CheckedChanged);
-            // 
             // mcAsetuksetGroupBox
             // 
             this.mcAsetuksetGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -187,32 +165,53 @@
             this.mcAsetuksetGroupBox.Text = "Asetukset:";
             this.mcAsetuksetGroupBox.Visible = false;
             // 
-            // label3
+            // mcMaxPelaajiaNumericUpDown
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 31);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(137, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Testattavien kisojen määrä:";
+            this.mcMaxPelaajiaNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcMaxPelaajiaNumericUpDown.Location = new System.Drawing.Point(156, 81);
+            this.mcMaxPelaajiaNumericUpDown.Maximum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+            this.mcMaxPelaajiaNumericUpDown.Minimum = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.mcMaxPelaajiaNumericUpDown.Name = "mcMaxPelaajiaNumericUpDown";
+            this.mcMaxPelaajiaNumericUpDown.Size = new System.Drawing.Size(86, 20);
+            this.mcMaxPelaajiaNumericUpDown.TabIndex = 5;
+            this.mcMaxPelaajiaNumericUpDown.Value = new decimal(new int[] {
+            17,
+            0,
+            0,
+            0});
             // 
-            // label4
+            // mcMinPelaajiaNnumericUpDown
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 57);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(127, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Pelaajia vähintään / kisa:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 83);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(121, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Pelaajia enintään / kisa:";
+            this.mcMinPelaajiaNnumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcMinPelaajiaNnumericUpDown.Location = new System.Drawing.Point(156, 55);
+            this.mcMinPelaajiaNnumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.mcMinPelaajiaNnumericUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.mcMinPelaajiaNnumericUpDown.Name = "mcMinPelaajiaNnumericUpDown";
+            this.mcMinPelaajiaNnumericUpDown.Size = new System.Drawing.Size(86, 20);
+            this.mcMinPelaajiaNnumericUpDown.TabIndex = 4;
+            this.mcMinPelaajiaNnumericUpDown.Value = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
             // 
             // mcKisojaNumericUpDown
             // 
@@ -233,53 +232,54 @@
             0,
             0});
             // 
-            // mcMinPelaajiaNnumericUpDown
+            // label5
             // 
-            this.mcMinPelaajiaNnumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mcMinPelaajiaNnumericUpDown.Location = new System.Drawing.Point(156, 55);
-            this.mcMinPelaajiaNnumericUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.mcMinPelaajiaNnumericUpDown.Minimum = new decimal(new int[] {
-            16,
-            0,
-            0,
-            0});
-            this.mcMinPelaajiaNnumericUpDown.Name = "mcMinPelaajiaNnumericUpDown";
-            this.mcMinPelaajiaNnumericUpDown.Size = new System.Drawing.Size(86, 20);
-            this.mcMinPelaajiaNnumericUpDown.TabIndex = 4;
-            this.mcMinPelaajiaNnumericUpDown.Value = new decimal(new int[] {
-            24,
-            0,
-            0,
-            0});
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 83);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(121, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Pelaajia enintään / kisa:";
             // 
-            // mcMaxPelaajiaNumericUpDown
+            // label4
             // 
-            this.mcMaxPelaajiaNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mcMaxPelaajiaNumericUpDown.Location = new System.Drawing.Point(156, 81);
-            this.mcMaxPelaajiaNumericUpDown.Maximum = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
-            this.mcMaxPelaajiaNumericUpDown.Minimum = new decimal(new int[] {
-            17,
-            0,
-            0,
-            0});
-            this.mcMaxPelaajiaNumericUpDown.Name = "mcMaxPelaajiaNumericUpDown";
-            this.mcMaxPelaajiaNumericUpDown.Size = new System.Drawing.Size(86, 20);
-            this.mcMaxPelaajiaNumericUpDown.TabIndex = 5;
-            this.mcMaxPelaajiaNumericUpDown.Value = new decimal(new int[] {
-            256,
-            0,
-            0,
-            0});
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 57);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(127, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Pelaajia vähintään / kisa:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(137, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Testattavien kisojen määrä:";
+            // 
+            // mcCheckBox
+            // 
+            this.mcCheckBox.AutoSize = true;
+            this.mcCheckBox.Location = new System.Drawing.Point(20, 93);
+            this.mcCheckBox.Name = "mcCheckBox";
+            this.mcCheckBox.Size = new System.Drawing.Size(129, 17);
+            this.mcCheckBox.TabIndex = 1;
+            this.mcCheckBox.Text = "Aja Monte Carlo testi?";
+            this.mcCheckBox.UseVisualStyleBackColor = true;
+            this.mcCheckBox.CheckedChanged += new System.EventHandler(this.mcCheckBox_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(245, 52);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Mikäli käytössä, testiajossa luodaan X satunnaista \r\nkilpailua ja pelataan ne läp" +
+    "i satunnaisesti. \r\nLopussa katsotaan monessako kilpailussa \r\ntuli uusintaottelu " +
+    "ennen finaalia";
             // 
             // TestiPopup
             // 
@@ -308,9 +308,9 @@
             this.groupBox2.PerformLayout();
             this.mcAsetuksetGroupBox.ResumeLayout(false);
             this.mcAsetuksetGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mcKisojaNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mcMinPelaajiaNnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mcMaxPelaajiaNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcMinPelaajiaNnumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mcKisojaNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }

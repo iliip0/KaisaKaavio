@@ -192,6 +192,21 @@ namespace KaisaKaavio.Tyypit
             return this;
         }
 
+        public Teksti HakukommenttiTeksti(string teksti)
+        {
+            if (!string.IsNullOrEmpty(teksti))
+            {
+                this.rtf.Append(@"\fs17\cf4");
+                this.rtf.Append(teksti.Replace("[b]", @"\b ").Replace("[/b]",  @"\b0"));
+                this.rtf.Append(@" \fs20\cf1");
+
+                this.sbil.Append(string.Format("[size=85][color=#115099]{0}[/color][/size]", teksti));
+                this.plain.Append(teksti).Replace("[b]", string.Empty).Replace("[/b]", string.Empty);
+            }
+
+            return this;
+        }
+
         public Teksti PieniVihreaTeksti(string teksti)
         {
             if (!string.IsNullOrEmpty(teksti))

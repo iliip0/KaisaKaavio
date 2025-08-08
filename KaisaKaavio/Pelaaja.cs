@@ -40,6 +40,21 @@ namespace KaisaKaavio
             }
         }
 
+        public string KeskipitkaNimi(Kilpailu kilpailu)
+        {
+            string lyhytNimi = LyhytNimi;
+
+            if (kilpailu != null)
+            {
+                if (kilpailu.Osallistujat.Any(x => x != this && string.Equals(x.LyhytNimi, lyhytNimi)))
+                {
+                    return Tyypit.Nimi.NimiParikisassa(this.Nimi);
+                }
+            }
+
+            return lyhytNimi;
+        }
+
         [XmlIgnore]
         public string PitkaNimi
         {
@@ -315,6 +330,12 @@ namespace KaisaKaavio
         [XmlIgnore]
         public List<PeliTietue> Pelit = new List<PeliTietue>();
 
+        /// <summary>
+        /// Pelaajan taso. Käytössä ainoastaan ohjelman testauksessa
+        /// </summary>
+        [XmlIgnore]
+        public float Taso { get; set; }
+
         public Pelaaja()
         {
             Nimi = string.Empty;
@@ -327,6 +348,8 @@ namespace KaisaKaavio
             SeuranJasenMaksu = string.Empty;
             Veloitettu = string.Empty;
             IlmoittautumisNumero = string.Empty;
+
+            Taso = 1.0f;
 
             Joukkue = string.Empty;
             JoukkueId = string.Empty;

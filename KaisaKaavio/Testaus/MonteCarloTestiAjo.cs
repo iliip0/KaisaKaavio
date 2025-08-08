@@ -20,8 +20,18 @@ namespace KaisaKaavio.Testaus
 
         private IStatusRivi status = null;
 
+        private int UusintaHakuvirheita = 0;
+        private int EdellaHakuvirheita = 0;
+        private int VirheellisiaKisoja = 0;
+
+        private int Peleja = 0;
+        private DateTime aloitusAika;
+        private DateTime lopetusAika;
+
         public MonteCarloTestiAjo(int poytienMaara, bool satunnainenPelienJarjestys, int kisoja, int minPelaajia, int maxPelaajia, IStatusRivi status)
         {
+            this.aloitusAika = DateTime.Now;
+
             this.PoytienMaara = poytienMaara;
             this.SatunnainenPelienJarjestys = satunnainenPelienJarjestys;
             this.Kisoja = kisoja;
@@ -71,14 +81,28 @@ namespace KaisaKaavio.Testaus
                 try
                 {
                     testiKilpailu.PelaaKilpailu(this.status, i * 3, this.Kisoja * 3);
+
+                    this.UusintaHakuvirheita += testiKilpailu.UusintaHakuvirheita;
+                    this.EdellaHakuvirheita += testiKilpailu.EdellaHakuvirheita;
+                    this.Peleja += testiKilpailu.TestattavaKilpailu.Pelit.Count();
+
                     this.OnnistuneitaTesteja++;
 
                     try
                     {
-                        Directory.Delete(kansio, true);
+                        if (testiKilpailu.UusintaHakuvirheita > 0 ||
+                            testiKilpailu.EdellaHakuvirheita > 0)
+                        {
+                            this.VirheellisiaKisoja++;
+                            testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_HAKUVIRHE.xml"), false);
+                        }
+                        else
+                        {
+                            Directory.Delete(kansio, true);
+                        }
                     }
                     catch
-                    { 
+                    {
                     }
                 }
                 catch (Exception ee)
@@ -105,6 +129,57 @@ namespace KaisaKaavio.Testaus
             else
             {
                 this.status.PaivitaStatusRivi(string.Format("Testi epäonnistui. {0} kisaa pelattu virheellisesti", this.EpaonnistuneitaTesteja), true, 100, 100);
+            }
+
+            // Tallenna tulokset
+            try
+            {
+                this.lopetusAika = DateTime.Now;
+
+                string kansio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaavioTestitulokset");
+                Directory.CreateDirectory(kansio);
+
+                string tiedosto = Path.Combine(kansio, "MonteCarlo.txt");
+
+                StringBuilder raportti = new StringBuilder();
+
+                raportti.AppendLine(string.Format("======((   Ajo {0}, kisoja {1}, pelaajia {2}-{3}, pöytiä {4}:   ))======", 
+                    DateTime.Now.ToShortTimeString(), 
+                    this.Kisoja,
+                    this.MinPelaajia,
+                    this.MaxPelaajia,
+                    this.PoytienMaara));
+
+                if (this.Peleja > 0)
+                {
+                    raportti.AppendLine(string.Format("Pelejä: {0}", this.Peleja));
+                    raportti.AppendLine(string.Format("Kesto: {0} sekuntia ({1}s per peli)",
+                        (this.lopetusAika - this.aloitusAika).TotalSeconds,
+                        ((this.lopetusAika - this.aloitusAika).TotalMilliseconds / this.Peleja) / 1000.0f));
+
+                    raportti.AppendLine(string.Format("Uusintaotteluvirheitä: {0} ({1}%)",
+                        this.UusintaHakuvirheita,
+                        (int)((this.UusintaHakuvirheita / ((float)this.Kisoja)) * 100)));
+
+                    raportti.AppendLine(string.Format("Kierrosvirheitä: {0} ({1}%)",
+                        this.EdellaHakuvirheita,
+                        (int)((this.EdellaHakuvirheita / ((float)this.Kisoja)) * 100)));
+                }
+
+                if (this.Kisoja > 0)
+                {
+                    raportti.AppendLine(string.Format("Väärin haettuja kisoja: {0} ({1}%)",
+                        this.VirheellisiaKisoja,
+                        (int)((this.VirheellisiaKisoja / ((float)this.Kisoja)) * 100)));
+                }
+
+                using (var writer = File.AppendText(tiedosto))
+                {
+                    writer.WriteLine(raportti.ToString());
+                }
+            }
+            catch
+            { 
             }
 
             return this.EpaonnistuneitaTesteja == 0;

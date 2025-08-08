@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.37		(työn alla)
+
+* Parannettu hakua, kun jäljellä on 5 tai vähemmän pelaajia
+
 ## Versio 1.0.0.36		(julkaistu 18.6.2025)
 
 * Lisätty KaisaKaavioLite.exe versio ohjelmasta, joka on virustorjunta-ystävällisempi. Tämä versio ei päivity automaattisesti uusimpaan versioon

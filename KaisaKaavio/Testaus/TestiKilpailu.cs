@@ -140,10 +140,11 @@ namespace KaisaKaavio.Testaus
 
                 if (oikeaPeli == null)
                 {
-                    throw new Exception(string.Format("Hakuvirhe: {0}. kierroksen peliä {1} - {2} ei löytynyt oikeasta kaaviosta",
+                    throw new Exception(string.Format("Hakuvirhe kaaviossa {3}: {0}. kierroksen peliä {1} - {2} ei löytynyt oikeasta kaaviosta",
                         peli.Kierros,
                         peli.Pelaaja1,
-                        peli.Pelaaja2));
+                        peli.Pelaaja2,
+                        TestattavaKilpailu.Nimi));
                 }
 
                 int tappiot1 = 0;
