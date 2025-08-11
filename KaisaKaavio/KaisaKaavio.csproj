@@ -340,7 +340,7 @@
     <EmbeddedResource Include="Resources\Dice.png" />
     <EmbeddedResource Include="Resources\KaisaKaavioUpdater.exe" />
     <EmbeddedResource Include="Resources\CHANGELOG.md" />
-    <EmbeddedResource Include="Resources\KaisaKaavioOhje.pdf" />
+    <None Include="Resources\KaisaKaavioOhje.pdf" />
     <None Include="Resources\Vasemmalle.png" />
     <None Include="Resources\Ok.png" />
     <None Include="Resources\Peruuta.png" />

@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.37		(työn alla)
+## Versio 1.0.0.37		(julkaistu 11.8.2025)
 
 * Parannettu hakua, kun jäljellä on 5 tai vähemmän pelaajia
 * Laitettu lisenssi ja versiohistoria avautumaan ohjelman sisäiseen ikkunaan
