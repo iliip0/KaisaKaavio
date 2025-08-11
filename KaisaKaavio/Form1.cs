@@ -27,6 +27,7 @@ namespace KaisaKaavio
 #endif
 
         private string kansio = string.Empty;
+        private string exeKansio = string.Empty;
         private string varmuuskopioKansio = string.Empty;
 
         private Font isoPaksuFontti = new Font(FontFamily.GenericSansSerif, 14.0f, FontStyle.Bold);
@@ -67,6 +68,8 @@ namespace KaisaKaavio
         {
             this.kansio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaaviot");
             Directory.CreateDirectory(this.kansio);
+
+            this.exeKansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             this.varmuuskopioKansio = Path.Combine(this.kansio, "Varmuuskopiot");
             Directory.CreateDirectory(this.varmuuskopioKansio);
@@ -160,11 +163,9 @@ namespace KaisaKaavio
             this.testaaToolStripMenuItem.Visible = false;
 #endif
 
+            this.kayttoopasToolStripMenuItem.Visible = false; // Käyttöopas on vanhentunut eikä kukaan lue sitä muutenkaan
 
 #if LITE_VERSION
-            //this.kaisaKaavioOhjelmanTiedotToolStripMenuItem.Visible = false;
-            this.versiohistoriaToolStripMenuItem.Visible = false;
-            this.kayttoopasToolStripMenuItem.Visible = false;
             this.paivityksetToolStripMenuItem.Visible = false;
 #endif
 
@@ -4733,6 +4734,7 @@ namespace KaisaKaavio
         // ========={( Ylävalikon painikkeet )}================================================================ //
         #region Valikko
 
+        /*
         private void AvaaTiedosto(string tiedosto)
         {
 #if !LITE_VERSION
@@ -4749,19 +4751,16 @@ namespace KaisaKaavio
             }
 #endif
         }
+        */
 
         private void kaisaKaavioOhjelmanTiedotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string teksti = string.Format("KaisaKaavio v.{0}{1}Copyright © Ilari Nieminen 2024{1}{1}" +
-                "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.{1}{1}" +
-                "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.{1}{1}" +
-                "You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/",
-                Assembly.GetEntryAssembly().GetName().Version,
-                Environment.NewLine);
-
-            MessageBox.Show(teksti, "Tietoa ohjelmasta", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            AvaaTiedosto("LICENSE.txt");
+            Kayttoliittyma.TekstiIkkuna.NaytaTekstiTiedostoMuistista(
+                "KaisaKaavio.Resources.LICENSE", 
+                string.Format("KaisaKaavio v.{0}{1}Copyright © Ilari Nieminen 2024", 
+                    Assembly.GetEntryAssembly().GetName().Version,
+                    Environment.NewLine),
+                this.loki);
         }
 
         private void tietoaOhjelmastaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4770,8 +4769,7 @@ namespace KaisaKaavio
                 "Ohjelman suunnittelu ja toteutus: Ilari Nieminen{1}{1}" +
                 "Ympyräkaavioiden asiantuntija: Jarmo Tainio{1}{1}" +
                 "Testaus: Ilari Nieminen ja Jarmo Tainio{1}{1}" +
-                "Grafiikka: Ilari Nieminen (valokuvat ja logot) sekä https://www.iconarchive.com (kuvakkeet){1}{1}" +
-                "Ohjelman käyttöopas löytyy samasta kansiosta ohjelman kanssa, sekä 'tietoa' valikon kautta",
+                "Grafiikka: Ilari Nieminen (valokuvat ja logot) sekä https://www.iconarchive.com (kuvakkeet)" +
                 Assembly.GetEntryAssembly().GetName().Version,
                 Environment.NewLine);
 
@@ -4780,12 +4778,17 @@ namespace KaisaKaavio
 
         private void kayttoopasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AvaaTiedosto("Ohje.pdf");
+            //AvaaTiedosto("Ohje.pdf");
         }
 
         private void versiohistoriaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AvaaTiedosto("Versiohistoria.txt");
+            Kayttoliittyma.TekstiIkkuna.NaytaTekstiTiedostoMuistista(
+                            "KaisaKaavio.Resources.CHANGELOG.md",
+                            string.Format("KaisaKaavio v.{0}{1}Versiohistoria",
+                                Assembly.GetEntryAssembly().GetName().Version,
+                                Environment.NewLine),
+                            this.loki);
         }
 
         private void ottelupoytakirjalappujaToolStripMenuItem_Click(object sender, EventArgs e)

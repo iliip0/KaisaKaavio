@@ -156,6 +156,12 @@
     <Compile Include="IStatusRivi.cs" />
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kayttoliittyma\Mukauttaja.cs" />
+    <Compile Include="Kayttoliittyma\TekstiIkkuna.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kayttoliittyma\TekstiIkkuna.Designer.cs">
+      <DependentUpon>TekstiIkkuna.cs</DependentUpon>
+    </Compile>
     <Compile Include="Kilpailu.cs" />
     <Compile Include="KilpailunTilanne.cs" />
     <Compile Include="KilpailunTyyppi.cs" />
@@ -257,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Integraatio\HaeOsallistujatBiljardiOrgistaPopup.resx">
       <DependentUpon>HaeOsallistujatBiljardiOrgistaPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Kayttoliittyma\TekstiIkkuna.resx">
+      <DependentUpon>TekstiIkkuna.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PelinTiedotPopup.resx">
       <DependentUpon>PelinTiedotPopup.cs</DependentUpon>

@@ -8,6 +8,7 @@ namespace KaisaKaavio
 {
     static class Program
     {
+#if !LITE_VERSION
         /// <summary>
         /// Purkaa exen sisälle resurssiksi leivotun tiedoston levylle
         /// </summary>
@@ -41,6 +42,7 @@ namespace KaisaKaavio
                 return false;
             }
         }
+#endif
 
         /// <summary>
         /// The main entry point for the application.
@@ -58,8 +60,7 @@ namespace KaisaKaavio
                 PuraResurssi("KaisaKaavio.Resources.LICENSE", lisenssi, null);
             }
 
-            PuraResurssi("KaisaKaavio.Resources.CHANGELOG.md", Path.Combine(kansio, "Versiohistoria.txt"), null);
-            PuraResurssi("KaisaKaavio.Resources.KaisaKaavioOhje.pdf", Path.Combine(kansio, "Ohje.pdf"), null);
+            //PuraResurssi("KaisaKaavio.Resources.KaisaKaavioOhje.pdf", Path.Combine(kansio, "Ohje.pdf"), null);
 #endif
 
 #if !ALLOW_MULTIPLE_INSTANCES
