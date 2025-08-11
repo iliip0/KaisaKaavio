@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KaisaKaavio.Tulostus
@@ -89,8 +87,10 @@ namespace KaisaKaavio.Tulostus
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-            int w = e.MarginBounds.Width;
-            int h = e.MarginBounds.Height;
+            int margin = 64;
+
+            int w = e.MarginBounds.Width - 2 * margin;
+            int h = e.MarginBounds.Height - 2 * margin;
 
             int lappujaX = 2;
             int lappujaY = 5;
@@ -229,9 +229,9 @@ namespace KaisaKaavio.Tulostus
             PiirraTeksti(e, this.isoPaksuFontti, this.mustaHarja, peli != null ? peli.Kierros.ToString() : "__", x, riviY, w, riviH, HorizontalAlignment.Right);
 
             // Pöytä numero
-            int r = 23;
-            e.Graphics.DrawEllipse(this.mustaOhutKyna, new Rectangle(x + w / 2 + 2 * r, y + h - r * 2 - 2, 2 * r, 2 * r));
-            PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, "Pöytä", x + w / 2, riviY, 2 * r, riviH, HorizontalAlignment.Center);
+            int r = 14;
+            e.Graphics.DrawEllipse(this.mustaOhutKyna, new Rectangle(x + w / 2 + 3 * r, y + h - r * 2, 2 * r, 2 * r));
+            PiirraTeksti(e, this.ohutPieniFontti, this.mustaHarja, "Pöytä", x + w / 2, riviY, 3 * r, riviH, HorizontalAlignment.Center);
         }
 
         private void label3_Click(object sender, EventArgs e)

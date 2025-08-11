@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.37		(työn alla)
 
 * Parannettu hakua, kun jäljellä on 5 tai vähemmän pelaajia
+* Laitettu lisenssi ja versiohistoria avautumaan ohjelman sisäiseen ikkunaan
 
 ## Versio 1.0.0.36		(julkaistu 18.6.2025)
 

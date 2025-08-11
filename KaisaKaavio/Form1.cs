@@ -4869,7 +4869,7 @@ namespace KaisaKaavio
 
         private void pelaaTestikaaviotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-//#if DEBUG // TODO!!!
+#if DEBUG
             using (var popup = new Testaus.TestiPopup())
             {
                 if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -4928,7 +4928,7 @@ namespace KaisaKaavio
                     }
                 }
             }
-//#endif
+#endif
         }
 
         private void pelaaKaavioUudelleenToolStripMenuItem_Click(object sender, EventArgs e)
