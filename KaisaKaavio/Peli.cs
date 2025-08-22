@@ -21,7 +21,7 @@ namespace KaisaKaavio
         { 
             get 
             {
-                return OnPudotusPeli() ? string.Format("{0} (CUP)", Kierros) : Kierros.ToString();
+                return OnPudotusPeliJommalleKummallePelaajalle() ? string.Format("{0} (CUP)", Kierros) : Kierros.ToString();
             }    
         }
 
@@ -679,9 +679,7 @@ namespace KaisaKaavio
                 switch (this.tilanne)
                 {
                     case PelinTilanne.Tyhja: return string.Empty;
-                    case PelinTilanne.EiVastustajaa: return string.Empty;
                     case PelinTilanne.ValmiinaAlkamaan: return "Käynnistä peli";
-                    case PelinTilanne.AiempiPeliMenossa: return string.Empty;
                     case PelinTilanne.Kaynnissa: return string.IsNullOrEmpty(this.Poyta) ? "Käynnissä" : string.Format("Pöytä {0}", this.Poyta);
                     case PelinTilanne.Pelattu: return "Pelattu";
                     default: return string.Empty;
@@ -901,7 +899,7 @@ namespace KaisaKaavio
         {
             if (this.tilanne == PelinTilanne.Pelattu && SisaltaaPelaajan(id))
             {
-                int tappioPisteet = OnPudotusPeli() ? 2 : 1;
+                int tappioPisteet = OnPudotusPeli(id) ? 2 : 1;
 
                 bool voitti1 = false;
                 bool voitti2 = false;
@@ -1477,7 +1475,7 @@ namespace KaisaKaavio
             teksti.RivinVaihto();
         }
 
-        public bool OnPudotusPeli()
+        public bool OnPudotusPeliJommalleKummallePelaajalle()
         {
             if (this.Kilpailu != null)
             {
@@ -1486,6 +1484,33 @@ namespace KaisaKaavio
                     case KaavioTyyppi.Pudari2Kierros: return this.Kierros >= 2;
                     case KaavioTyyppi.Pudari3Kierros: return this.Kierros >= 3;
                     default: return false;
+                }
+            }
+
+            return false;
+        }
+
+        public bool OnPudotusPeli(int id)
+        {
+            if (this.Kilpailu != null)
+            {
+                if (id == this.Id1)
+                {
+                    switch (this.Kilpailu.KaavioTyyppi)
+                    {
+                        case KaavioTyyppi.Pudari2Kierros: return this.KierrosPelaaja1 >= 2;
+                        case KaavioTyyppi.Pudari3Kierros: return this.KierrosPelaaja1 >= 3;
+                        default: return false;
+                    }
+                }
+                else if (id == this.Id2)
+                {
+                    switch (this.Kilpailu.KaavioTyyppi)
+                    {
+                        case KaavioTyyppi.Pudari2Kierros: return this.KierrosPelaaja2 >= 2;
+                        case KaavioTyyppi.Pudari3Kierros: return this.KierrosPelaaja2 >= 3;
+                        default: return false;
+                    }
                 }
             }
 

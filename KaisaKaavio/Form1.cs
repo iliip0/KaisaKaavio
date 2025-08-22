@@ -2317,7 +2317,7 @@ namespace KaisaKaavio
                     switch (tilanne)
                     {
                         case PelinTilanne.ValmiinaAlkamaan: e.Value = this.imageList1.Images[0]; break;
-                        case PelinTilanne.AiempiPeliMenossa: e.Value = this.imageList1.Images[3]; break;
+                        case PelinTilanne.Tyhja: e.Value = this.imageList1.Images[3]; break;
                         case PelinTilanne.Kaynnissa: e.Value = this.imageList1.Images[1]; break;
                         case PelinTilanne.Pelattu: e.Value = this.imageList1.Images[2]; break;
                         default: e.Value = this.imageList1.Images[4]; break;
@@ -3898,7 +3898,7 @@ namespace KaisaKaavio
                         teksti.PaksuTeksti(string.Format("{0}. kierros", kierros));
                     }
 
-                    if (peli.OnPudotusPeli())
+                    if (peli.OnPudotusPeliJommalleKummallePelaajalle())
                     {
                         teksti.NormaaliTeksti(" (pudotuspeli)");
                     }
@@ -4070,7 +4070,7 @@ namespace KaisaKaavio
                         {
                             teksti.NormaaliTeksti(" (finaali)");
                         }
-                        else if (peli.OnPudotusPeli())
+                        else if (peli.OnPudotusPeliJommalleKummallePelaajalle())
                         {
                             teksti.NormaaliTeksti(" (pudari)");
                         }

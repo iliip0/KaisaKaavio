@@ -156,7 +156,7 @@ namespace KaisaKaavio.Testaus
                 {
                     if (aiempiPeli.Havisi(peli.Id1))
                     {
-                        if (aiempiPeli.OnPudotusPeli())
+                        if (aiempiPeli.OnPudotusPeli(peli.Id1))
                         {
                             throw new Exception(string.Format("{0}. kierroksen peli {1} - {2} haettu vaikka pelaaja1 on pudonnut aiemmalla kierroksella", peli.Kierros, peli.Pelaaja1, peli.Pelaaja2));
                         }
@@ -170,7 +170,7 @@ namespace KaisaKaavio.Testaus
 
                     if (aiempiPeli.Havisi(peli.Id2))
                     {
-                        if (aiempiPeli.OnPudotusPeli())
+                        if (aiempiPeli.OnPudotusPeli(peli.Id2))
                         {
                             throw new Exception(string.Format("{0}. kierroksen peli {1} - {2} haettu vaikka pelaaja2 on pudonnut aiemmalla kierroksella", peli.Kierros, peli.Pelaaja1, peli.Pelaaja2));
                         }
@@ -186,7 +186,7 @@ namespace KaisaKaavio.Testaus
                     {
                         if (aiempiPeli.SisaltaaPelaajan(peli.Id1))
                         {
-                            if (aiempiPeli.OnPudotusPeli())
+                            if (aiempiPeli.OnPudotusPeli(peli.Id1))
                             {
                                 throw new Exception(string.Format("{0}. kierroksen peli {1} - {2} haettu vaikka pelaajalla 1 on pudaripeli kesken aiemmalla kierroksella", peli.Kierros, peli.Pelaaja1, peli.Pelaaja2));
                             }
@@ -200,7 +200,7 @@ namespace KaisaKaavio.Testaus
 
                         if (aiempiPeli.SisaltaaPelaajan(peli.Id2))
                         {
-                            if (aiempiPeli.OnPudotusPeli())
+                            if (aiempiPeli.OnPudotusPeli(peli.Id2))
                             {
                                 throw new Exception(string.Format("{0}. kierroksen peli {1} - {2} haettu vaikka pelaajalla 2 on pudaripeli kesken aiemmalla kierroksella", peli.Kierros, peli.Pelaaja1, peli.Pelaaja2));
                             }

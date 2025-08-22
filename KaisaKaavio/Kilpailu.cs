@@ -1043,7 +1043,7 @@ namespace KaisaKaavio
                         Vastustaja = peli.Id2,
                         Pisteet = peli.Pisteet(peli.Id1),
                         Pelattu = peli.Tilanne == PelinTilanne.Pelattu,
-                        Pudari = peli.OnPudotusPeli(),
+                        Pudari = peli.OnPudotusPeli(peli.Id1),
                         Tilanne = peli.Tilanne,
                         Kierros = peli.Kierros
                     };
@@ -1063,7 +1063,7 @@ namespace KaisaKaavio
                         else
                         {
                             osallistuja1.Sijoitus.Tappiot++;
-                            if (osallistuja1.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli())
+                            if (osallistuja1.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli(peli.Id1))
                             {
                                 osallistuja1.Sijoitus.Pudotettu = true;
                             }
@@ -1078,7 +1078,7 @@ namespace KaisaKaavio
                         Vastustaja = peli.Id1,
                         Pisteet = peli.Pisteet(peli.Id2),
                         Pelattu = peli.Tilanne == PelinTilanne.Pelattu,
-                        Pudari = peli.OnPudotusPeli(),
+                        Pudari = peli.OnPudotusPeli(peli.Id2),
                         Tilanne = peli.Tilanne,
                         Kierros = peli.Kierros
                     };
@@ -1098,7 +1098,7 @@ namespace KaisaKaavio
                         else
                         {
                             osallistuja2.Sijoitus.Tappiot++;
-                            if (osallistuja2.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli())
+                            if (osallistuja2.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli(peli.Id2))
                             {
                                 osallistuja2.Sijoitus.Pudotettu = true;
                             }
@@ -1139,6 +1139,20 @@ namespace KaisaKaavio
             if (this.Pelit.Any(x => x.PeliNumero != peli.PeliNumero && x.Tulos == PelinTulos.Virheellinen))
             {
                 return false; // Ei saa muokata jos peleissä on virheellisiä tuloksia (voittaja ei selvillä)
+            }
+
+            if (this.KaavioTyyppi == KaavioTyyppi.Pudari2Kierros && peli.Tilanne == PelinTilanne.ValmiinaAlkamaan)
+            {
+                if (peli.Kierros == 2)
+                {
+                    if (this.Pelit.Any(x =>                    
+                        x.PeliNumero < peli.PeliNumero &&
+                        x.Tilanne != PelinTilanne.Pelattu &&
+                        x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
+                    {
+                        return false;
+                    }
+                }
             }
 
             if (peli.Tilanne == PelinTilanne.ValmiinaAlkamaan || peli.Tilanne == PelinTilanne.Kaynnissa)
@@ -2129,7 +2143,7 @@ namespace KaisaKaavio
                     x.Tilanne == PelinTilanne.Pelattu &&
                     x.SisaltaaPelaajan(pelaaja) &&
                     x.Havisi(pelaaja) &&
-                    x.OnPudotusPeli()))
+                    x.OnPudotusPeli(pelaaja)))
                 {
                     tappiot = 2;
                 }
@@ -2652,6 +2666,18 @@ namespace KaisaKaavio
                                 // Jos kaaviossa on virhe, niin uusia pelejä ei voida aloittaa
                                 peli.Tilanne = PelinTilanne.Tyhja;
                             }
+
+                            else if (this.KaavioTyyppi == KaavioTyyppi.Pudari2Kierros &&
+                                peli.Kierros == 2 && 
+                                this.Pelit.Any(x => 
+                                    x.PeliNumero < peli.PeliNumero && 
+                                    x.Tilanne != PelinTilanne.Pelattu &&
+                                    x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
+                            {
+                                // Jos kaavio on pudari 2.kierroksesta alkaen, on 1. kierros pelattava ennen tokaa
+                                peli.Tilanne = PelinTilanne.Tyhja;
+                            }
+
                             else
                             {
                                 peli.Tilanne = PelinTilanne.ValmiinaAlkamaan;
@@ -2681,7 +2707,7 @@ namespace KaisaKaavio
                     x.SisaltaaPelaajan(pelaaja) && 
                     x.Havisi(pelaaja) &&
                     (x.PeliNumero <= peliNumero &&
-                    x.OnPudotusPeli())))
+                    x.OnPudotusPeli(pelaaja))))
                 {
                     tappiot = 2;
                 }
@@ -2751,7 +2777,7 @@ namespace KaisaKaavio
                 return false;
             }
 
-            if (Pelit.Any(x => x.SisaltaaPelaajan(pelaaja.Id) && x.Havisi(pelaaja.Id) && x.OnPudotusPeli()))
+            if (Pelit.Any(x => x.SisaltaaPelaajan(pelaaja.Id) && x.Havisi(pelaaja.Id) && x.OnPudotusPeli(pelaaja.Id)))
             {
                 return false;
             }
@@ -2775,7 +2801,7 @@ namespace KaisaKaavio
                 (x.PeliNumero < peli.PeliNumero) && 
                 x.SisaltaaPelaajan(pelaaja.Id) && 
                 x.Havisi(pelaaja.Id) && 
-                x.OnPudotusPeli()))
+                x.OnPudotusPeli(pelaaja.Id)))
             {
                 return false;
             }
