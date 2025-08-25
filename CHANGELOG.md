@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.39		(työn alla)
+
+* Lisätty erikoistapaus hakuun kun on enää kolme pelaajaa jäljellä. Tällöin voidaan hypätä tarvittaessa hakuvuorossa olevan yli
+
 ## Versio 1.0.0.38		(julkaistu 22.8.2025)
 
 * Bugikorjauksia kun kaavio on "pudarit 2.kierroksesta alkaen"

@@ -550,6 +550,30 @@ namespace KaisaKaavio
                 return null;
             }
 
+            // Erikoistapaus kun on kolme pelaajaa jäljellä. Saatetaan joutua "hyppäämään hakijan yli"
+            if (hakijat.Count() == 3)
+            {
+                var eka = hakijat.ElementAt(0);
+                var toka = hakijat.ElementAt(1);
+                var kolmas = hakijat.ElementAt(2);
+
+                if (LaskeKeskenaisetPelit(kaikkiPelit, eka.Id, toka.Id) > 0 &&
+                    LaskeKeskenaisetPelit(kaikkiPelit, eka.Id, kolmas.Id) > 0 &&
+                    LaskeKeskenaisetPelit(kaikkiPelit, toka.Id, kolmas.Id) == 0)
+                {
+                    if (LaskePelit(kaikkiPelit, toka.Id) <= LaskePelit(kaikkiPelit, eka.Id) &&
+                        LaskePelit(kaikkiPelit, kolmas.Id) <= LaskePelit(kaikkiPelit, eka.Id))
+                    {
+                        var peli = LisaaPeli(kaikkiPelit, pelatutPelit, arvotutPelit, toka, kolmas);
+
+                        peli.Hypyt = new List<Hyppy>();
+                        peli.Hypyt.Add(new Hyppy() { Pelaaja = eka, Syy = "On pelannut jo kaikkia muita vastaan" });
+
+                        return peli;
+                    }
+                }
+            }
+
             var hakija = hakijat.First();
 
             if (!VarmastiMukana(pelatutPelit, arvotutPelit, hakija.Id, this.Kierros))
