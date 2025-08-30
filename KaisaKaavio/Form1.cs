@@ -3608,13 +3608,13 @@ namespace KaisaKaavio
 
             if (vastustaja.Pelit.Any(x => !x.Pelattu && x.Pudari))
             {
-                virhe = string.Format("Ei voi hakea! Vastustajalla on haettuja pelejä pelaamatta", vastustajaId);
+                virhe = string.Format("Ei voi hakea! Vastustajalla {0} on haettuja pelejä pelaamatta", vastustajaId);
                 return false;
             }
 
             if ((pelaaja.Pelit.Count(x => !x.Pelattu) + pelaaja.Sijoitus.Tappiot) > 1)
             {
-                virhe = string.Format("Ei voi hakea! Vastustajalla on haettuja pelejä pelaamatta", vastustajaId);
+                virhe = string.Format("Ei voi hakea! Vastustajalla {0} on haettuja pelejä pelaamatta", vastustajaId);
                 return false;
             }
 
@@ -4769,7 +4769,7 @@ namespace KaisaKaavio
                 "Ohjelman suunnittelu ja toteutus: Ilari Nieminen{1}{1}" +
                 "Ympyräkaavioiden asiantuntija: Jarmo Tainio{1}{1}" +
                 "Testaus: Ilari Nieminen ja Jarmo Tainio{1}{1}" +
-                "Grafiikka: Ilari Nieminen (valokuvat ja logot) sekä https://www.iconarchive.com (kuvakkeet)" +
+                "Grafiikka: Ilari Nieminen (valokuvat ja logot) sekä https://www.iconarchive.com (kuvakkeet)",
                 Assembly.GetEntryAssembly().GetName().Version,
                 Environment.NewLine);
 

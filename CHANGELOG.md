@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.39		(työn alla)
 
 * Lisätty erikoistapaus hakuun kun on enää kolme pelaajaa jäljellä. Tällöin voidaan hypätä tarvittaessa hakuvuorossa olevan yli
+* Bugikorjaus, kaatui klikattaessa "Ohjelman tiedot" painiketta (regressiobugi noin versiosta 1.0.0.37)
 
 ## Versio 1.0.0.38		(julkaistu 22.8.2025)
 

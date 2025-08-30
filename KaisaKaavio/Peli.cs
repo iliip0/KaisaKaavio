@@ -337,6 +337,10 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string Paikka { get; set; }
 
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string ArvioituAlkamisAika { get; set; }
+
         [XmlIgnore]
         public string PaikkaTeksti 
         {
@@ -412,34 +416,6 @@ namespace KaisaKaavio
         private void PaivitaPelinAlkamisAika()
         {
             this.Alkoi = DateTime.Now.ToShortTimeString();
-
-            // Jos peli on kilpailun ekoja pelejä, laita alkamisajaksi kilpailun alkamisaika
-            /*
-            try
-            {
-                if (this.Kilpailu != null &&
-                    !string.IsNullOrEmpty(this.Kilpailu.KellonAika) &&
-                    !string.IsNullOrEmpty(this.poyta))
-                {
-                    bool ekapeliPoydalla = this.Kilpailu.Pelit.Count(x => string.Equals(x.Poyta, this.Poyta)) <= 1;
-
-                    if (ekapeliPoydalla)
-                    {
-                        int aikaero = 0;
-                        if (Tyypit.Aika.AikaeroMinuutteina(this.Kilpailu.KellonAika, this.Alkoi, out aikaero))
-                        {
-                            if (aikaero < -75 || aikaero > 75)
-                            {
-                                this.Alkoi = this.Kilpailu.KellonAika;
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            { 
-            }
-            */
         }
 
         private PelinTulos tulos = PelinTulos.EiTiedossa;
@@ -782,6 +758,7 @@ namespace KaisaKaavio
             ToiseksiPisinSarja2 = string.Empty;
             Paikka = string.Empty;
             HakuKommentti = string.Empty;
+            ArvioituAlkamisAika = string.Empty;
         }
 
         /// <summary>
