@@ -12,5 +12,8 @@ namespace KaisaKaavio
 
         [Description("Pudotuspelit 3.kierroksesta alkaen")]
         Pudari3Kierros,
+
+        [Description("Pudotuspelit 4.kierroksesta alkaen")]
+        Pudari4Kierros,
     }
 }

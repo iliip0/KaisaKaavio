@@ -611,6 +611,7 @@ namespace KaisaKaavio
                 case KaisaKaavio.KaavioTyyppi.TuplaKaavio:
                     break;
 
+                case KaisaKaavio.KaavioTyyppi.Pudari4Kierros:
                 case KaisaKaavio.KaavioTyyppi.Pudari3Kierros:
                 case KaisaKaavio.KaavioTyyppi.Pudari2Kierros:
                 default:

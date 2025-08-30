@@ -1460,6 +1460,7 @@ namespace KaisaKaavio
                 {
                     case KaavioTyyppi.Pudari2Kierros: return this.Kierros >= 2;
                     case KaavioTyyppi.Pudari3Kierros: return this.Kierros >= 3;
+                    case KaavioTyyppi.Pudari4Kierros: return this.Kierros >= 4;
                     default: return false;
                 }
             }
@@ -1477,6 +1478,7 @@ namespace KaisaKaavio
                     {
                         case KaavioTyyppi.Pudari2Kierros: return this.KierrosPelaaja1 >= 2;
                         case KaavioTyyppi.Pudari3Kierros: return this.KierrosPelaaja1 >= 3;
+                        case KaavioTyyppi.Pudari4Kierros: return this.KierrosPelaaja1 >= 4;
                         default: return false;
                     }
                 }
@@ -1486,6 +1488,7 @@ namespace KaisaKaavio
                     {
                         case KaavioTyyppi.Pudari2Kierros: return this.KierrosPelaaja2 >= 2;
                         case KaavioTyyppi.Pudari3Kierros: return this.KierrosPelaaja2 >= 3;
+                        case KaavioTyyppi.Pudari4Kierros: return this.KierrosPelaaja2 >= 4;
                         default: return false;
                     }
                 }

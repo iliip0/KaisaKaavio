@@ -5849,7 +5849,17 @@ namespace KaisaKaavio
 
         private void pudotuspelit3kierroksestaAlkaenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            VaihdaKaaviotyyppi(KaavioTyyppi.Pudari2Kierros);
+        }
+
+        private void pudotuspelit3KierroksestaAlkaenToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
             VaihdaKaaviotyyppi(KaavioTyyppi.Pudari3Kierros);
+        }
+
+        private void pudotuspelit4KierroksestaAlkaenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VaihdaKaaviotyyppi(KaavioTyyppi.Pudari4Kierros);
         }
 
         private void VaihdaKaaviotyyppi(KaavioTyyppi tyyppi)
@@ -5863,22 +5873,26 @@ namespace KaisaKaavio
                 {
                     this.KeskeytaHaku();
 
-                    if (this.kilpailu.Pelit.Any(x => x.Kierros >= 3 && x.Tilanne == PelinTilanne.Pelattu))
+                    int ekaPudari = 9999;
+                    switch (tyyppi)
+                    {
+                        case KaavioTyyppi.Pudari2Kierros: ekaPudari = 2; break;
+                        case KaavioTyyppi.Pudari3Kierros: ekaPudari = 3; break;
+                        case KaavioTyyppi.Pudari4Kierros: ekaPudari = 4; break;
+                    }
+
+                    if (this.kilpailu.Pelit.Any(x => x.Kierros >= ekaPudari && x.Tilanne == PelinTilanne.Pelattu))
                     {
                         if (MessageBox.Show(
-                            "Kolmannen kierroksen pelejä on jo pelattu.\n" +
-                            "Kaaviotyypin muuttaminen saattaa aiheuttaa virheitä tai epätavallisia hakuja kaaviossa.\n" +
-                            "Haluatko varmasti muuttaa kaaviotyypin?",
+                            string.Format(
+                                "{0}. kierroksen pelejä on jo pelattu.\n" +
+                                "Kaaviotyypin muuttaminen saattaa aiheuttaa virheitä tai epätavallisia hakuja kaaviossa.\n" +
+                                "Haluatko varmasti muuttaa kaaviotyypin?", ekaPudari),
                             "Kaaviotyypin muuttaminen",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
                         {
                             return;
-                        }
-                        else
-                        {
-                            this.kilpailu.PoistaTyhjatPelitAlkaenNumerosta(0);
-                            this.kilpailu.Pelit.ResetBindings();
                         }
                     }
                     else if (MessageBox.Show(
@@ -5891,8 +5905,13 @@ namespace KaisaKaavio
                     }
                 }
 
+                this.kilpailu.PoistaTyhjatPelitAlkaenNumerosta(0);
+                this.kilpailu.Pelit.ResetBindings();
+
                 this.kilpailu.KaavioTyyppi = tyyppi;
                 this.kilpailu.HakuTarvitaan = true;
+
+                this.kilpailu.PaivitaPelitValmiinaAlkamaan();
 
                 this.loki.Kirjoita(string.Format("Kaaviotyyppi vaihdettu kesken kisan {0}", this.kilpailu.KaavioTyyppi));
             }
@@ -6010,7 +6029,9 @@ namespace KaisaKaavio
             try
             {
                 this.tuplakaavioLoppuunAstiToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.TuplaKaavio;
-                this.pudotuspelit3kierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari3Kierros;
+                this.pudotuspelit2kierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari2Kierros;
+                this.pudotuspelit3KierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari3Kierros;
+                this.pudotuspelit4KierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari4Kierros;
             }
             catch
             {

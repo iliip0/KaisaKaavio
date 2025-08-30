@@ -294,7 +294,8 @@
             this.kaavioComboBox.Items.AddRange(new object[] {
             "Tuplakaavio loppuun asti",
             "Pudotuspelit 2. kierroksesta alkaen",
-            "Pudotuspelit 3. kierroksesta alkaen"});
+            "Pudotuspelit 3. kierroksesta alkaen",
+            "Pudotuspelit 4. kierroksesta alkaen"});
             this.kaavioComboBox.Location = new System.Drawing.Point(476, 83);
             this.kaavioComboBox.Name = "kaavioComboBox";
             this.kaavioComboBox.Size = new System.Drawing.Size(479, 32);
