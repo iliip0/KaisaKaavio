@@ -1463,6 +1463,8 @@ namespace KaisaKaavio
 
                 this.kilpailu.Pelit.RaiseListChangedEvents = false;
 
+                bool bLisattiinPeleja = false;
+
                 lock (this.kilpailu)
                 {
                     foreach (var peli in algoritmi.UudetPelit)
@@ -1480,6 +1482,8 @@ namespace KaisaKaavio
                         var uusiPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
                         if (uusiPeli != null)
                         {
+                            bLisattiinPeleja = true;
+
                             if (peli.Hypyt != null && peli.Hypyt.Any())
                             {
                                 uusiPeli.HakuKommentti = string.Empty;
@@ -1495,7 +1499,7 @@ namespace KaisaKaavio
                         }
                     }
 
-                    if (algoritmi.UusiHakuTarvitaan)
+                    if (algoritmi.UusiHakuTarvitaan && bLisattiinPeleja)
                     {
                         this.kilpailu.HakuTarvitaan = true;
                     }
