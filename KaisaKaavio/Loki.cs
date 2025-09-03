@@ -21,17 +21,14 @@ namespace KaisaKaavio
             this.kansio = Path.Combine(this.kansio, "Loki");
             Directory.CreateDirectory(this.kansio);
 
-#if ALLOW_MULTIPLE_INSTANCES
             this.tiedosto = Path.Combine(this.kansio, string.Format("loki_{0}_{1}.txt", 
                 Process.GetCurrentProcess().Id, 
                 DateTime.Today.ToShortDateString()));
-#else
-            this.tiedosto = Path.Combine(this.kansio, string.Format("loki_{0}.txt", DateTime.Today.ToShortDateString()));
-#endif
 
-#if !ALLOW_MULTIPLE_INSTANCES
-            Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.kansio, 40);
-#endif
+            if (!Program.UseampiKaisaKaavioAvoinna)
+            {
+                Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.kansio, 40);
+            }
         }
 
         /// <summary>

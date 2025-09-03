@@ -1,10 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavio", "KaisaKaavio.csproj", "{EA3A78F0-876A-4ECB-9607-290F750997A8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68} = {C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavioUpdater", "..\KaisaKaavioUpdater\KaisaKaavioUpdater.csproj", "{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}"
 EndProject
@@ -13,8 +12,6 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Profile|Any CPU = Profile|Any CPU
 		Release|Any CPU = Release|Any CPU
-		ReleaseLite|Any CPU = ReleaseLite|Any CPU
-		ReleaseMulti|Any CPU = ReleaseMulti|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -23,20 +20,14 @@ Global
 		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Profile|Any CPU.Build.0 = Profile|Any CPU
 		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA3A78F0-876A-4ECB-9607-290F750997A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleaseLite|Any CPU.ActiveCfg = ReleaseLite|Any CPU
-		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleaseLite|Any CPU.Build.0 = ReleaseLite|Any CPU
-		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleaseMulti|Any CPU.ActiveCfg = ReleaseMulti|Any CPU
-		{EA3A78F0-876A-4ECB-9607-290F750997A8}.ReleaseMulti|Any CPU.Build.0 = ReleaseMulti|Any CPU
 		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Profile|Any CPU.ActiveCfg = Profile|Any CPU
-		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Profile|Any CPU.Build.0 = Profile|Any CPU
 		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.ReleaseLite|Any CPU.ActiveCfg = Release|Any CPU
-		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.ReleaseMulti|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E2B9076-AB54-4F84-B3E6-D3D6FAAC8063}
 	EndGlobalSection
 EndGlobal

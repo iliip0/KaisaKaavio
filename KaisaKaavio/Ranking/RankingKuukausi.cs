@@ -70,13 +70,13 @@ namespace KaisaKaavio.Ranking
 
         public bool TallennaTarvittaessa(Loki loki)
         {
-#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-
-            if (this.TallennusTarvitaan || Osakilpailut.Any(x => x.TallennusTarvitaan))
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                return Tallenna(loki);
+                if (this.TallennusTarvitaan || Osakilpailut.Any(x => x.TallennusTarvitaan))
+                {
+                    return Tallenna(loki);
+                }
             }
-#endif
             return true;
         }
 
@@ -98,57 +98,60 @@ namespace KaisaKaavio.Ranking
 
         public bool Tallenna(Loki loki)
         {
-#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-            try
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                Directory.CreateDirectory(this.Kansio);
-
-                if (loki != null)
+                try
                 {
-                    loki.Kirjoita(string.Format("Tallennetaan ranking dataa tiedostoon {0}", this.TiedostonNimi));
-                }
+                    Directory.CreateDirectory(this.Kansio);
 
-                bool osakilpailujenTallennusOnnistui = true;
-
-                foreach (var o in this.Osakilpailut)
-                {
-                    if (!o.TallennaOsakilpailu(loki))
+                    if (loki != null)
                     {
-                        osakilpailujenTallennusOnnistui = false;
+                        loki.Kirjoita(string.Format("Tallennetaan ranking dataa tiedostoon {0}", this.TiedostonNimi));
                     }
 
-                    o.TallennusTarvitaan = false;
+                    bool osakilpailujenTallennusOnnistui = true;
+
+                    foreach (var o in this.Osakilpailut)
+                    {
+                        if (!o.TallennaOsakilpailu(loki))
+                        {
+                            osakilpailujenTallennusOnnistui = false;
+                        }
+
+                        o.TallennusTarvitaan = false;
+                    }
+
+                    XmlSerializer serializer = new XmlSerializer(typeof(RankingKuukausi));
+
+                    string nimiTmp = Path.GetTempFileName();
+
+                    using (TextWriter writer = new StreamWriter(nimiTmp))
+                    {
+                        serializer.Serialize(writer, this);
+                        writer.Close();
+                    }
+
+                    File.Copy(nimiTmp, this.TiedostonNimi, true);
+                    File.Delete(nimiTmp);
+
+                    this.TallennusTarvitaan = false;
+
+                    return osakilpailujenTallennusOnnistui;
                 }
-
-                XmlSerializer serializer = new XmlSerializer(typeof(RankingKuukausi));
-
-                string nimiTmp = Path.GetTempFileName();
-
-                using (TextWriter writer = new StreamWriter(nimiTmp))
+                catch (Exception e)
                 {
-                    serializer.Serialize(writer, this);
-                    writer.Close();
+                    if (loki != null)
+                    {
+                        loki.Kirjoita(string.Format("Ranking datan tallentaminen tiedostoon {0} epäonnistui!", this.TiedostonNimi), e, false);
+                    }
                 }
 
-                File.Copy(nimiTmp, this.TiedostonNimi, true);
-                File.Delete(nimiTmp);
-
-                this.TallennusTarvitaan = false;
-
-                return osakilpailujenTallennusOnnistui;
+                return false;
             }
-            catch (Exception e)
+            else
             {
-                if (loki != null)
-                {
-                    loki.Kirjoita(string.Format("Ranking datan tallentaminen tiedostoon {0} epäonnistui!", this.TiedostonNimi), e, false);
-                }
+                return true;
             }
-
-            return false;
-#else
-            return true;
-#endif
         }
 
         public bool Avaa(Loki loki)

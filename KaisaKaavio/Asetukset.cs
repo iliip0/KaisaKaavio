@@ -11,28 +11,28 @@ namespace KaisaKaavio
         /// <summary>
         /// Tämä asetus määrää milloin automaattinen haku käynnistyy
         /// </summary>
-        public static int PelejaEnintaanKeskenHaettaessa = 8;
+        public static readonly int PelejaEnintaanKeskenHaettaessa = 8;
 
         /// <summary>
         /// Tämä asetus määrää minimimäärän pelaajia joille kaavio voidaan arpoa
         /// </summary>
-        public static int PelaajiaVahintaanKaaviossa = 4;
+        public static readonly int PelaajiaVahintaanKaaviossa = 4;
 
         /// <summary>
         /// Tämä asetus määrää, missä vaiheessa kisaa ruvetaan hakemaan pelejä paremmalla, mutta hitaammalla
         /// algoritmilla hakuvirheiden minimoimiseksi
         /// </summary>
-        public static int HuolellisenHaunPelaajamaara = 6;
+        public static readonly int HuolellisenHaunPelaajamaara = 6;
 
         /// <summary>
         /// Tämä asetus määrää kuinka usein automaattinen tallennus tapahtuu (sekunteja)
         /// </summary>
-        public static int AutomaattisenTallennuksenTaajuus = 5 * 60;
+        public static readonly int AutomaattisenTallennuksenTaajuus = 5 * 60;
 
         /// <summary>
         /// Tämä asetus määrää montako viimeksi avattua kilpailua listataan 'Viimeisimmät kilpailut' valikossa
         /// </summary>
-        public static int ViimeisimpiaKilpailuja = 15;
+        public static readonly int ViimeisimpiaKilpailuja = 15;
 
         /// <summary>
         /// Viimeisimmän kilpailutiedoston nimi
@@ -191,15 +191,17 @@ namespace KaisaKaavio
 
         public void Tallenna()
         {
-#if !ALLOW_MULTIPLE_INSTANCES // Asetuksia ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-            XmlSerializer serializer = new XmlSerializer(typeof(Asetukset));
-
-            using (TextWriter writer = new StreamWriter(this.tiedosto))
+            // Asetuksia ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                serializer.Serialize(writer, this);
-                writer.Close();
+                XmlSerializer serializer = new XmlSerializer(typeof(Asetukset));
+
+                using (TextWriter writer = new StreamWriter(this.tiedosto))
+                {
+                    serializer.Serialize(writer, this);
+                    writer.Close();
+                }
             }
-#endif
         }
 
         public void Lataa()
@@ -282,63 +284,65 @@ namespace KaisaKaavio
 
         public void LisaaViimeisimpiinKilpailuihin(Kilpailu kilpailu)
         {
-#if !ALLOW_MULTIPLE_INSTANCES
-            if (kilpailu.TestiKilpailu)
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                return; // Ei tallenneta höpöhöpödataa
-            }
-
-            try
-            {
-                if (kilpailu != null &&
-                    !string.IsNullOrEmpty(kilpailu.Nimi) &&
-                    !string.IsNullOrEmpty(kilpailu.Tiedosto))
+                if (kilpailu.TestiKilpailu)
                 {
-                    var vanha = this.ViimeisimmatKilpailut.FirstOrDefault(x => string.Equals(x.Polku, kilpailu.Tiedosto, StringComparison.OrdinalIgnoreCase));
-                    if (vanha != null)
-                    {
-                        this.ViimeisimmatKilpailut.Remove(vanha);
-                    }
+                    return; // Ei tallenneta höpöhöpödataa
+                }
 
-                    Tyypit.Tiedosto tiedosto = new Tyypit.Tiedosto() { Nimi = kilpailu.Nimi, Polku = kilpailu.Tiedosto };
+                try
+                {
+                    if (kilpailu != null &&
+                        !string.IsNullOrEmpty(kilpailu.Nimi) &&
+                        !string.IsNullOrEmpty(kilpailu.Tiedosto))
+                    {
+                        var vanha = this.ViimeisimmatKilpailut.FirstOrDefault(x => string.Equals(x.Polku, kilpailu.Tiedosto, StringComparison.OrdinalIgnoreCase));
+                        if (vanha != null)
+                        {
+                            this.ViimeisimmatKilpailut.Remove(vanha);
+                        }
 
-                    if (this.ViimeisimmatKilpailut.Count == 0)
-                    {
-                        this.ViimeisimmatKilpailut.Add(tiedosto);
-                    }
-                    else
-                    {
-                        this.ViimeisimmatKilpailut.Insert(0, tiedosto);
-                    }
+                        Tyypit.Tiedosto tiedosto = new Tyypit.Tiedosto() { Nimi = kilpailu.Nimi, Polku = kilpailu.Tiedosto };
 
-                    while (this.ViimeisimmatKilpailut.Count > ViimeisimpiaKilpailuja)
-                    {
-                        this.ViimeisimmatKilpailut.Remove(this.ViimeisimmatKilpailut.Last());
+                        if (this.ViimeisimmatKilpailut.Count == 0)
+                        {
+                            this.ViimeisimmatKilpailut.Add(tiedosto);
+                        }
+                        else
+                        {
+                            this.ViimeisimmatKilpailut.Insert(0, tiedosto);
+                        }
+
+                        while (this.ViimeisimmatKilpailut.Count > ViimeisimpiaKilpailuja)
+                        {
+                            this.ViimeisimmatKilpailut.Remove(this.ViimeisimmatKilpailut.Last());
+                        }
                     }
                 }
+                catch
+                { 
+                }
             }
-            catch
-            { 
-            }
-#endif
         }
 
         public void PoistaViimeisimmistaKilpailuista(string tiedosto)
-        { 
-#if !ALLOW_MULTIPLE_INSTANCES // Asetuksia ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-            while (true)
+        {
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                var kilpa = this.ViimeisimmatKilpailut.FirstOrDefault(x => string.Equals(x.Polku, tiedosto, StringComparison.OrdinalIgnoreCase));
-                if (kilpa != null)
+                while (true)
                 {
-                    this.ViimeisimmatKilpailut.Remove(kilpa);
-                }
-                else
-                {
-                    return;
+                    var kilpa = this.ViimeisimmatKilpailut.FirstOrDefault(x => string.Equals(x.Polku, tiedosto, StringComparison.OrdinalIgnoreCase));
+                    if (kilpa != null)
+                    {
+                        this.ViimeisimmatKilpailut.Remove(kilpa);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
-#endif
         }
 
         private static void LataaKisaAsetukset(KisaOletusasetukset omatAsetukset, KisaOletusasetukset ladatutAsetukset)
@@ -364,76 +368,77 @@ namespace KaisaKaavio
 
         public void TallennaPelaajat(Kilpailu kilpailu)
         {
-#if !ALLOW_MULTIPLE_INSTANCES // Asetuksia ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-            if (kilpailu.TestiKilpailu)
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                return; // Ei tallenneta höpöhöpödataa
-            }
-
-            foreach (var osallistuja in kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
-            {
-                string nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(osallistuja.Nimi);
-
-                // Tallenna vain pelaajat joilla on vähintään kaksi nimeä (etu & suku)
-                if (nimi.Split(' ').Count() > 1 &&
-                    nimi.Split(' ').Count() <= 3 &&
-                    !nimi.Contains("&") &&
-                    !nimi.Contains(" ja "))
+                if (kilpailu.TestiKilpailu)
                 {
-                    string muotoiltuNimi = Tyypit.Nimi.MuotoileNimi(osallistuja.Nimi);
+                    return; // Ei tallenneta höpöhöpödataa
+                }
 
-                    PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, muotoiltuNimi));
-                    if (vanhaPelaaja != null)
+                foreach (var osallistuja in kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)))
+                {
+                    string nimi = Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(osallistuja.Nimi);
+
+                    // Tallenna vain pelaajat joilla on vähintään kaksi nimeä (etu & suku)
+                    if (nimi.Split(' ').Count() > 1 &&
+                        nimi.Split(' ').Count() <= 3 &&
+                        !nimi.Contains("&") &&
+                        !nimi.Contains(" ja "))
                     {
-                        vanhaPelaaja.Seura = osallistuja.Seura;
+                        string muotoiltuNimi = Tyypit.Nimi.MuotoileNimi(osallistuja.Nimi);
 
-                        if (kilpailu.KilpailuOnViikkokisa)
+                        PelaajaTietue vanhaPelaaja = this.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, muotoiltuNimi));
+                        if (vanhaPelaaja != null)
                         {
-                            switch (kilpailu.Laji)
+                            vanhaPelaaja.Seura = osallistuja.Seura;
+
+                            if (kilpailu.KilpailuOnViikkokisa)
                             {
-                                case Laji.Heyball: vanhaPelaaja.TasoitusHeyball = osallistuja.Tasoitus; break;
-                                case Laji.Kaisa: vanhaPelaaja.TasoitusKaisa = osallistuja.Tasoitus; break;
-                                case Laji.Pool: vanhaPelaaja.TasoitusPool = osallistuja.Tasoitus; break;
-                                case Laji.Snooker: vanhaPelaaja.TasoitusSnooker = osallistuja.Tasoitus; break;
-                                case Laji.Kara: vanhaPelaaja.TasoitusKara = osallistuja.Tasoitus; break;
-                                case Laji.Pyramidi: vanhaPelaaja.TasoitusPyramidi = osallistuja.Tasoitus; break;
+                                switch (kilpailu.Laji)
+                                {
+                                    case Laji.Heyball: vanhaPelaaja.TasoitusHeyball = osallistuja.Tasoitus; break;
+                                    case Laji.Kaisa: vanhaPelaaja.TasoitusKaisa = osallistuja.Tasoitus; break;
+                                    case Laji.Pool: vanhaPelaaja.TasoitusPool = osallistuja.Tasoitus; break;
+                                    case Laji.Snooker: vanhaPelaaja.TasoitusSnooker = osallistuja.Tasoitus; break;
+                                    case Laji.Kara: vanhaPelaaja.TasoitusKara = osallistuja.Tasoitus; break;
+                                    case Laji.Pyramidi: vanhaPelaaja.TasoitusPyramidi = osallistuja.Tasoitus; break;
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        PelaajaTietue p =
-                        new PelaajaTietue()
+                        else
                         {
-                            Nimi = muotoiltuNimi,
-                            Seura = osallistuja.Seura
-                        };
-
-                        if (kilpailu.KilpailuOnViikkokisa)
-                        {
-                            switch (kilpailu.Laji)
+                            PelaajaTietue p =
+                            new PelaajaTietue()
                             {
-                                case Laji.Heyball: p.TasoitusHeyball = osallistuja.Tasoitus; break;
-                                case Laji.Kaisa: p.TasoitusKaisa = osallistuja.Tasoitus; break;
-                                case Laji.Pool: p.TasoitusPool = osallistuja.Tasoitus; break;
-                                case Laji.Snooker: p.TasoitusSnooker = osallistuja.Tasoitus; break;
-                                case Laji.Kara: p.TasoitusKara = osallistuja.Tasoitus; break;
-                                case Laji.Pyramidi: p.TasoitusPyramidi = osallistuja.Tasoitus; break;
-                            }
-                        }
+                                Nimi = muotoiltuNimi,
+                                Seura = osallistuja.Seura
+                            };
 
-                        Pelaajat.Add(p);
+                            if (kilpailu.KilpailuOnViikkokisa)
+                            {
+                                switch (kilpailu.Laji)
+                                {
+                                    case Laji.Heyball: p.TasoitusHeyball = osallistuja.Tasoitus; break;
+                                    case Laji.Kaisa: p.TasoitusKaisa = osallistuja.Tasoitus; break;
+                                    case Laji.Pool: p.TasoitusPool = osallistuja.Tasoitus; break;
+                                    case Laji.Snooker: p.TasoitusSnooker = osallistuja.Tasoitus; break;
+                                    case Laji.Kara: p.TasoitusKara = osallistuja.Tasoitus; break;
+                                    case Laji.Pyramidi: p.TasoitusPyramidi = osallistuja.Tasoitus; break;
+                                }
+                            }
+
+                            Pelaajat.Add(p);
+                        }
                     }
                 }
-            }
 
-            var pelaajatJarjestyksessa = this.Pelaajat.OrderBy(x => x.Nimi).ToArray();
-            this.Pelaajat.Clear();
-            foreach (var p in pelaajatJarjestyksessa)
-            {
-                this.Pelaajat.Add(p);
+                var pelaajatJarjestyksessa = this.Pelaajat.OrderBy(x => x.Nimi).ToArray();
+                this.Pelaajat.Clear();
+                foreach (var p in pelaajatJarjestyksessa)
+                {
+                    this.Pelaajat.Add(p);
+                }
             }
-#endif
         }
 
         public Ranking.RankingAsetukset RankingPisteytys(Laji laji)

@@ -386,22 +386,23 @@ namespace KaisaKaavio.Ranking
 
         public void TallennaAvatutSarjat()
         {
-#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-            foreach (var kuukausi in this.kuukaudet)
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                try
+                foreach (var kuukausi in this.kuukaudet)
                 {
-                    kuukausi.TallennaTarvittaessa(this.Loki);
-                }
-                catch (Exception e)
-                {
-                    if (this.Loki != null)
+                    try
                     {
-                        this.Loki.Kirjoita(string.Format("Ranking datan {0} tallennus epäonnistui!", kuukausi.TiedostonNimi), e, false);
+                        kuukausi.TallennaTarvittaessa(this.Loki);
+                    }
+                    catch (Exception e)
+                    {
+                        if (this.Loki != null)
+                        {
+                            this.Loki.Kirjoita(string.Format("Ranking datan {0} tallennus epäonnistui!", kuukausi.TiedostonNimi), e, false);
+                        }
                     }
                 }
             }
-#endif
         }
 
         public void TyhjennaSarjatMuistista()

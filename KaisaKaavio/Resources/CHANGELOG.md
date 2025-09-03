@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.40		(työn alla)
+
+* Lisätty kaaviotyyppi "pudotuspelit 4. kierroksesta alkaen"
+
 ## Versio 1.0.0.39		(julkaistu 30.8.2025)
 
 * Lisätty erikoistapaus hakuun kun on enää kolme pelaajaa jäljellä. Tällöin voidaan hypätä tarvittaessa hakuvuorossa olevan yli

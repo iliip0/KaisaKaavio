@@ -6,8 +6,14 @@ using System.Windows.Forms;
 
 namespace KaisaKaavio
 {
-    static class Program
+    public static class Program
     {
+        /// <summary>
+        /// Tämä muuttuja kertoo, onko tämä ohjelmainstanssi ainoa/ensimmäinen aktiivinen KaisaKaavio ohjelma tietokoneella.
+        /// Ainoastaan ensimmäinen ohjelma tallentaa käyttäjän asetukset ja Ranking tietueet
+        /// </summary>
+        public static bool UseampiKaisaKaavioAvoinna = false;
+
 #if !LITE_VERSION
         /// <summary>
         /// Purkaa exen sisälle resurssiksi leivotun tiedoston levylle
@@ -63,27 +69,17 @@ namespace KaisaKaavio
             //PuraResurssi("KaisaKaavio.Resources.KaisaKaavioOhje.pdf", Path.Combine(kansio, "Ohje.pdf"), null);
 #endif
 
-#if !ALLOW_MULTIPLE_INSTANCES
             using (Mutex kaisaKaavioRunning = new Mutex(false, "Global\\KaisaKaavioRunning"))
             {
                 if (!kaisaKaavioRunning.WaitOne(0, false))
                 {
-                    MessageBox.Show(
-                        "KaisaKaavio ohjelma on jo avattuna. Vain yksi kaavio voi olla kerrallaan auki.",
-                        "KaisaKaavio",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
+                    UseampiKaisaKaavioAvoinna = true;
                 }
-#endif
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
-#if !ALLOW_MULTIPLE_INSTANCES
             }
-#endif
         }
     }
 }

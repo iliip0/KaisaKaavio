@@ -74,9 +74,10 @@ namespace KaisaKaavio
             this.varmuuskopioKansio = Path.Combine(this.kansio, "Varmuuskopiot");
             Directory.CreateDirectory(this.varmuuskopioKansio);
 
-#if !ALLOW_MULTIPLE_INSTANCES
-            Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.varmuuskopioKansio, 50);
-#endif
+            if (!Program.UseampiKaisaKaavioAvoinna)
+            {
+                Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.varmuuskopioKansio, 50);
+            }
 
             this.loki = new Loki(this.kansio);
             this.kilpailu.Loki = this.loki;
@@ -221,16 +222,17 @@ namespace KaisaKaavio
 
         private void Tallenna()
         {
-#if !ALLOW_MULTIPLE_INSTANCES
-            try
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                this.ranking.TallennaAvatutSarjat();
+                try
+                {
+                    this.ranking.TallennaAvatutSarjat();
+                }
+                catch (Exception ex)
+                {
+                    this.loki.Kirjoita("Rankingsarjojen tallennus epäonnistui", ex, false);
+                }
             }
-            catch (Exception ex)
-            {
-                this.loki.Kirjoita("Rankingsarjojen tallennus epäonnistui", ex, false);
-            }
-#endif
 
             try
             {
@@ -592,16 +594,17 @@ namespace KaisaKaavio
                     this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
                     this.kilpailu.RankingKisaLaji = popup.Laji;
 
-#if ALLOW_MULTIPLE_INSTANCES
-                    if (popup.RankingKisa)
+                    if (Program.UseampiKaisaKaavioAvoinna)
                     {
-                        MessageBox.Show(
-                            string.Format("Ranking pisteitä ja taulukoita ei voida tallenneta KaisaKaavioMulti.exe ohjelman kautta.\nVoit avata kisan myöhemmin KaisaKaavio.exe ohjelmalla tallentaaksesi rankingpisteet"), 
-                            "Varoitus",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
+                        if (popup.RankingKisa)
+                        {
+                            MessageBox.Show(
+                                string.Format("Ranking pisteitä ja taulukoita ei voida tallenneta KaisaKaavioMulti.exe ohjelman kautta.\nVoit avata kisan myöhemmin KaisaKaavio.exe ohjelmalla tallentaaksesi rankingpisteet"),
+                                "Varoitus",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                        }
                     }
-#endif
 
                     PaivitaKilpailuTyyppi();
                     ResumeAllDataBinding();

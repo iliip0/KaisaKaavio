@@ -235,39 +235,41 @@ namespace KaisaKaavio.Ranking
 
         public bool TallennaOsakilpailu(Loki loki)
         {
-#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-            try
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                if (this.Kilpailu != null && !string.IsNullOrEmpty(this.Kilpailu.Id))
+                try
                 {
-                    this.Pvm = this.Kilpailu.AlkamisAika;
-                    this.Nimi = this.Kilpailu.Nimi;
-
-                    string tiedosto = KilpailuTiedostonNimi();
-
-                    if (this.OnRankingOsakilpailu)
+                    if (this.Kilpailu != null && !string.IsNullOrEmpty(this.Kilpailu.Id))
                     {
-                        this.Kilpailu.TallennaNimella(tiedosto, false);
-                        this.KilpailunTarkistusSumma = Guid.NewGuid().GetHashCode().ToString("X");
-                    }
-                    else 
-                    {
-                        if (File.Exists(tiedosto))
+                        this.Pvm = this.Kilpailu.AlkamisAika;
+                        this.Nimi = this.Kilpailu.Nimi;
+
+                        string tiedosto = KilpailuTiedostonNimi();
+
+                        if (this.OnRankingOsakilpailu)
                         {
-                            File.Delete(tiedosto);
+                            this.Kilpailu.TallennaNimella(tiedosto, false);
+                            this.KilpailunTarkistusSumma = Guid.NewGuid().GetHashCode().ToString("X");
+                        }
+                        else
+                        {
+                            if (File.Exists(tiedosto))
+                            {
+                                File.Delete(tiedosto);
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                if (loki != null)
+                catch (Exception e)
                 {
-                    loki.Kirjoita(string.Format("RankingOsakilpailuTietueen {0} tallennus epäonnistui", Id), e, false); 
+                    if (loki != null)
+                    {
+                        loki.Kirjoita(string.Format("RankingOsakilpailuTietueen {0} tallennus epäonnistui", Id), e, false);
+                    }
+                    return false;
                 }
-                return false;
             }
-#endif
+
             return true;
         }
     }

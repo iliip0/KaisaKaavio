@@ -284,65 +284,66 @@ namespace KaisaKaavio.Ranking
 
         public void Tallenna(Loki loki, bool tallennaVaikkaEiOlisiMuokattu)
         {
-#if !ALLOW_MULTIPLE_INSTANCES // Rankingeja ei tallenneta kun useita KaisaKaavioita voi olla auki samanaikaisesti
-            try
+            if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                if (!muokattu && !tallennaVaikkaEiOlisiMuokattu)
+                try
                 {
-                    if (loki != null)
-                    {
-                        loki.Kirjoita(string.Format("Rankingsarja {0} ei sisällä muutoksia. Ei tallenneta", this.Nimi));
-                    }
-
-                    return;
-                }
-
-                string tiedosto = this.Tiedosto;
-
-                if (this.Osakilpailut.Count == 0 &&
-                    this.Osallistujat.Count == 0)
-                {
-                    if (File.Exists(tiedosto))
+                    if (!muokattu && !tallennaVaikkaEiOlisiMuokattu)
                     {
                         if (loki != null)
                         {
-                            loki.Kirjoita(string.Format("Rankingsarja {0} ei sisällä osakilpailuja eikä osallistujia. Poistetaan tiedosto {0}", this.Nimi, tiedosto));
+                            loki.Kirjoita(string.Format("Rankingsarja {0} ei sisällä muutoksia. Ei tallenneta", this.Nimi));
                         }
 
-                        File.Delete(tiedosto);
+                        return;
                     }
 
-                    return;
+                    string tiedosto = this.Tiedosto;
+
+                    if (this.Osakilpailut.Count == 0 &&
+                        this.Osallistujat.Count == 0)
+                    {
+                        if (File.Exists(tiedosto))
+                        {
+                            if (loki != null)
+                            {
+                                loki.Kirjoita(string.Format("Rankingsarja {0} ei sisällä osakilpailuja eikä osallistujia. Poistetaan tiedosto {0}", this.Nimi, tiedosto));
+                            }
+
+                            File.Delete(tiedosto);
+                        }
+
+                        return;
+                    }
+
+                    Directory.CreateDirectory(this.Kansio);
+
+                    if (loki != null)
+                    {
+                        loki.Kirjoita(string.Format("Tallennetaan rankingsarja {0} tiedostoon {1}", this.Nimi, tiedosto));
+                    }
+
+                    XmlSerializer serializer = new XmlSerializer(typeof(RankingSarja));
+
+                    string nimiTmp = Path.GetTempFileName();
+
+                    using (TextWriter writer = new StreamWriter(nimiTmp))
+                    {
+                        serializer.Serialize(writer, this);
+                        writer.Close();
+                    }
+
+                    File.Copy(nimiTmp, this.Tiedosto, true);
+                    File.Delete(nimiTmp);
                 }
-
-                Directory.CreateDirectory(this.Kansio);
-
-                if (loki != null)
+                catch (Exception e)
                 {
-                    loki.Kirjoita(string.Format("Tallennetaan rankingsarja {0} tiedostoon {1}", this.Nimi, tiedosto));
+                    if (loki != null)
+                    {
+                        loki.Kirjoita(string.Format("Rankingsarjan {0} tallennus epäonnistui!", this.Nimi), e, false);
+                    }
                 }
-
-                XmlSerializer serializer = new XmlSerializer(typeof(RankingSarja));
-
-                string nimiTmp = Path.GetTempFileName();
-
-                using (TextWriter writer = new StreamWriter(nimiTmp))
-                {
-                    serializer.Serialize(writer, this);
-                    writer.Close();
-                }
-
-                File.Copy(nimiTmp, this.Tiedosto, true);
-                File.Delete(nimiTmp);
             }
-            catch (Exception e)
-            {
-                if (loki != null)
-                {
-                    loki.Kirjoita(string.Format("Rankingsarjan {0} tallennus epäonnistui!", this.Nimi), e, false);
-                }
-            }
-#endif
         }
 
         public void Luo(Ranking ranking, Loki loki)
