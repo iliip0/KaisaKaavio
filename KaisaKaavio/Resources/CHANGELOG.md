@@ -5,6 +5,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.40		(työn alla)
 
 * Lisätty kaaviotyyppi "pudotuspelit 4. kierroksesta alkaen"
+* Yhdistetty kaikki ohjelmaversiot (KaisaKaavio, KaisaKaavioLite ja KaisaKaavioMulti) yhdeksi ohjelmaksi (KaisaKaavio.exe).
+  Tämä on virustorjuntaystävällinen, ja sallii avata useita kilpailuja samalla koneella.
 
 ## Versio 1.0.0.39		(julkaistu 30.8.2025)
 

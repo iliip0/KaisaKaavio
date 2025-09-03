@@ -338,9 +338,7 @@
     <EmbeddedResource Include="Resources\Kopioi.png" />
     <EmbeddedResource Include="Resources\Tiedoksi.png" />
     <EmbeddedResource Include="Resources\Dice.png" />
-    <EmbeddedResource Include="Resources\KaisaKaavioUpdater.exe" />
     <EmbeddedResource Include="Resources\CHANGELOG.md" />
-    <None Include="Resources\KaisaKaavioOhje.pdf" />
     <None Include="Resources\Vasemmalle.png" />
     <None Include="Resources\Ok.png" />
     <None Include="Resources\Peruuta.png" />
@@ -442,15 +440,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>xcopy $(SolutionDir)..\KaisaKaavioUpdater\bin\Release\KaisaKaavioUpdater.exe $(SolutionDir)Resources\ /c /r /y /d /i /q
-xcopy $(SolutionDir)..\LICENSE $(SolutionDir)Resources\ /c /r /y /d /i /q
-xcopy $(SolutionDir)..\CHANGELOG.md $(SolutionDir)Resources\ /c /r /y /d /i /q
-xcopy $(SolutionDir)..\Dokumentaatio\KaisaKaavioOhje.pdf $(SolutionDir)Resources\ /c /r /y /d /i /q</PreBuildEvent>
+    <PreBuildEvent>xcopy $(SolutionDir)..\LICENSE $(SolutionDir)Resources\ /c /r /y /d /i /q
+xcopy $(SolutionDir)..\CHANGELOG.md $(SolutionDir)Resources\ /c /r /y /d /i /q</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(TargetPath) $(SolutionDir)..\ /c /r /y /d /i /q
-copy $(SolutionDir)bin\ReleaseMulti\KaisaKaavio.exe $(SolutionDir)..\KaisaKaavioMulti.exe /y
-copy $(SolutionDir)bin\ReleaseLite\KaisaKaavio.exe $(SolutionDir)..\KaisaKaavioLite.exe /y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(TargetPath) $(SolutionDir)..\ /c /r /y /d /i /q</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
