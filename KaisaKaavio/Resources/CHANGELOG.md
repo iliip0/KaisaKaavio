@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.41		(työn alla)
+
+* Korjattu hakuvirheet, jotka johtuivat bugista versioissa 1.0.0.37-1.0.0.40
+
 ## Versio 1.0.0.40		(julkaistu 03.09.2025)
 
 * Lisätty kaaviotyyppi "pudotuspelit 4. kierroksesta alkaen"

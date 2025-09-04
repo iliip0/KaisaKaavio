@@ -1159,6 +1159,18 @@ namespace KaisaKaavio
                 return true;
             }
 
+            int hakijanKierros = LaskePelit(kaikkiPelit, hakija.Id, this.Kierros);
+            int vastustajanKierros = LaskePelit(kaikkiPelit, vastustaja.Id, this.Kierros);
+
+            if (Math.Abs(hakijanKierros - vastustajanKierros) > 1)
+            {
+#if DEBUG
+                DebugViesti(" - !Virhe! - {0} ---- Toinen pelaaja on 2 kierrosta edellä {1} - {2}", polku, hakija.Nimi, vastustaja.Nimi);
+                DebugSisenna(-1);
+#endif
+                return false;
+            }
+
             var hakijat = mukana
                 .OrderBy(x => x.Id)
                 .OrderBy(x => LaskePelit(kaikkiPelit, x.Id, this.Kierros));
@@ -1185,8 +1197,6 @@ namespace KaisaKaavio
                 }
             }
 
-            int hakijanKierros = LaskePelit(kaikkiPelit, hakija.Id, this.Kierros);
-            int vastustajanKierros = LaskePelit(kaikkiPelit, vastustaja.Id, this.Kierros);
             int kierros = Math.Max(hakijanKierros, vastustajanKierros);
             foreach (var pelaaja in mukana)
             {
