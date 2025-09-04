@@ -21,6 +21,7 @@ namespace KaisaKaavio.Testaus
         private IStatusRivi status = null;
 
         private int UusintaHakuvirheita = 0;
+        private Dictionary<int, int> UusintaHakuVirheitaPelaajaMaaranMukaan = new Dictionary<int, int>();
         private int EdellaHakuvirheita = 0;
         private int VirheellisiaKisoja = 0;
 
@@ -83,10 +84,25 @@ namespace KaisaKaavio.Testaus
                     testiKilpailu.PelaaKilpailu(this.status, i * 3, this.Kisoja * 3);
 
                     this.UusintaHakuvirheita += testiKilpailu.UusintaHakuvirheita;
+
+                    foreach (var u in testiKilpailu.UusintaHakuvirheitaPelaajaMaaranMukaan)
+                    {
+                        if (this.UusintaHakuVirheitaPelaajaMaaranMukaan.ContainsKey(u.Key))
+                        {
+                            this.UusintaHakuVirheitaPelaajaMaaranMukaan[u.Key] += u.Value;
+                        }
+                        else
+                        {
+                            this.UusintaHakuVirheitaPelaajaMaaranMukaan.Add(u.Key, u.Value);
+                        }
+                    }
+
                     this.EdellaHakuvirheita += testiKilpailu.EdellaHakuvirheita;
                     this.Peleja += testiKilpailu.TestattavaKilpailu.Pelit.Count();
 
                     this.OnnistuneitaTesteja++;
+
+                    testiKilpailu.TestattavaKilpailu.VapautaTarpeetonMuisti();
 
                     try
                     {
@@ -157,9 +173,10 @@ namespace KaisaKaavio.Testaus
                         (this.lopetusAika - this.aloitusAika).TotalSeconds,
                         ((this.lopetusAika - this.aloitusAika).TotalMilliseconds / this.Peleja) / 1000.0f));
 
-                    raportti.AppendLine(string.Format("Uusintaotteluvirheitä: {0} ({1}%)",
+                    raportti.AppendLine(string.Format("Uusintaotteluvirheitä: {0} ({1}%)  -- ({2})",
                         this.UusintaHakuvirheita,
-                        (int)((this.UusintaHakuvirheita / ((float)this.Kisoja)) * 100)));
+                        (int)((this.UusintaHakuvirheita / ((float)this.Kisoja)) * 100),
+                        string.Join(",", this.UusintaHakuVirheitaPelaajaMaaranMukaan.Select(x => string.Format("[{0}]:{1}", x.Key, x.Value)))));
 
                     raportti.AppendLine(string.Format("Kierrosvirheitä: {0} ({1}%)",
                         this.EdellaHakuvirheita,

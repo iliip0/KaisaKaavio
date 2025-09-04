@@ -66,5 +66,10 @@ namespace KaisaKaavio.Tyypit
                 this.Osumia));
 #endif
         }
+
+        public void Tyhjenna()
+        {
+            this.evaluoinnit.Clear();
+        }
     }
 }

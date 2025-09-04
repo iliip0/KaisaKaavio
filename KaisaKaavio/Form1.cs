@@ -4852,7 +4852,7 @@ namespace KaisaKaavio
             }
             else
             {
-#if !LITE_VERSION // Ei käynnistetä ulkoisia prosesseja LITE versiossa
+#if DEBUG
                 try
                 {
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()

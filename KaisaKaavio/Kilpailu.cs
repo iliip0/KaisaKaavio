@@ -4075,5 +4075,17 @@ namespace KaisaKaavio
 
             return tappiot;
         }
+
+        /// <summary>
+        /// Vapauttaa kaiken muistin mitä ei tarvita testiajojen muistijalanjäljen pienentämiseksi
+        /// </summary>
+        public void VapautaTarpeetonMuisti()
+        {
+            if (this.EvaluointiTietokanta != null)
+            {
+                this.EvaluointiTietokanta.Tyhjenna();
+                this.EvaluointiTietokanta = null;
+            }
+        }
     }
 }

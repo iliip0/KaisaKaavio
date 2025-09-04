@@ -71,7 +71,14 @@ namespace KaisaKaavio
 
             using (Mutex kaisaKaavioRunning = new Mutex(false, "Global\\KaisaKaavioRunning"))
             {
-                if (!kaisaKaavioRunning.WaitOne(0, false))
+                try
+                {
+                    if (!kaisaKaavioRunning.WaitOne(0, false))
+                    {
+                        UseampiKaisaKaavioAvoinna = true;
+                    }
+                }
+                catch
                 {
                     UseampiKaisaKaavioAvoinna = true;
                 }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KaisaKaavio.Testaus
 {
@@ -18,11 +16,13 @@ namespace KaisaKaavio.Testaus
         private Loki loki = null;
 
         public int UusintaHakuvirheita { get; private set; }    // < Hakuvirheitä, joissa tulee sama pelipari uudestaan ennen finaalia
+        public Dictionary<int, int> UusintaHakuvirheitaPelaajaMaaranMukaan { get; private set; }
         public int EdellaHakuvirheita { get; private set; }     // < Hakuvirheitä, joissa toinen pelaaja on yli kierroksen vastustajaa edellä kaaviossa
 
         public MonteCarloTestiKilpailu(string nimi, int poytienMaara, bool satunnainenPelienJarjestys, int pelaajia, Loki loki)
         {
             this.UusintaHakuvirheita = 0;
+            this.UusintaHakuvirheitaPelaajaMaaranMukaan = new Dictionary<int, int>();
             this.EdellaHakuvirheita = 0;
 
             this.PoytienMaara = Math.Max(1, poytienMaara);
@@ -99,6 +99,17 @@ namespace KaisaKaavio.Testaus
                                 x.PeliNumero < uusiPeli.PeliNumero &&
                                 x.SisaltaaPelaajat(uusiPeli.Id1, uusiPeli.Id2)))
                             {
+                                int mukana = this.TestattavaKilpailu.MukanaOlevatPelaajatEnnenPelia(uusiPeli).Count();
+
+                                if (this.UusintaHakuvirheitaPelaajaMaaranMukaan.ContainsKey(mukana))
+                                {
+                                    this.UusintaHakuvirheitaPelaajaMaaranMukaan[mukana]++;
+                                }
+                                else 
+                                {
+                                    this.UusintaHakuvirheitaPelaajaMaaranMukaan.Add(mukana, 1);
+                                }
+
                                 this.UusintaHakuvirheita++;
                             }
                         }
