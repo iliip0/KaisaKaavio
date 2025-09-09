@@ -109,6 +109,9 @@ namespace KaisaKaavio
         int EkaPudariKierros = 0;
         bool HakuKesken = true;
 
+        // Tällä estetään hakeminen "Kaavioiden yhdistäminen"-kierroksen yli kun pelataan usealla pelipaikalla
+        public int MaxKierros { get; set; }
+
         public HakuAlgoritmi(Kilpailu kilpailu, Loki loki, IStatusRivi status)
         {
             this.status = status;
@@ -118,6 +121,7 @@ namespace KaisaKaavio
             this.UudetPelit = new List<Pelaajat>();
             this.UusiHakuTarvitaan = false;
             this.AutomaattinenTestausMenossa = false;
+            this.MaxKierros = Int32.MaxValue;
 
             switch (this.Kilpailu.KaavioTyyppi)
             {
@@ -650,6 +654,13 @@ namespace KaisaKaavio
                 .OrderBy(x => LaskePelit(pelatutPelit, arvotutPelit, x.Id, 99999))
                 .Where(x => x != hakija);
 
+            // Usean pelipaikan kilpailussa estettävä hakemasta "pelipaikkojen yhdistäminen" kierroksen yli
+            if ((this.MaxKierros < Int32.MaxValue) &&
+                (LaskePelit(kaikkiPelit, hakija.Id) < this.MaxKierros))
+            {
+                vastustajat = vastustajat.Where(x => LaskePelit(kaikkiPelit, x.Id) < this.MaxKierros);
+            }
+
             if (!vastustajat.Any())
             {
 #if DEBUG
@@ -672,12 +683,15 @@ namespace KaisaKaavio
             Pelaaja vastustaja = null;
             List<Hyppy> hypyt = new List<Hyppy>();
 
+            bool haeHuolellisesti = 
+                (kierros >= 4) &&
+                (mukana.Count() < Asetukset.HuolellisenHaunPelaajamaara);
+
             if (vastustajat.Count() == 1)
             {
                 vastustaja = vastustajat.First();
             }
-            else if ((kierros >= 4) &&
-                (mukana.Count() < Asetukset.HuolellisenHaunPelaajamaara))
+            else if (haeHuolellisesti)
             {
                 if (this.Kilpailu.EvaluointiTietokanta == null)
                 {
@@ -785,6 +799,15 @@ namespace KaisaKaavio
             }
 
             var uusiPeli = LisaaPeli(kaikkiPelit, pelatutPelit, arvotutPelit, hakija, vastustaja);
+
+            if (uusiPeli.Kierros > this.MaxKierros)
+            {
+#if DEBUG
+                DebugViesti("Algoritmi haki pelin {0} - {1} jossa toinen pelaaja liian pitkällä (MaxKierros). Hylätään tämä haku", hakija.Nimi, vastustaja.Nimi);
+                DebugSisenna(-1);
+#endif
+                return null;
+            }
 
             if (Math.Abs(uusiPeli.KierrosPelaaja1 - uusiPeli.KierrosPelaaja2) > 1)
             {

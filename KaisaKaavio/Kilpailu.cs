@@ -2448,46 +2448,28 @@ namespace KaisaKaavio
 
             if (this.OnUseanPelipaikanKilpailu)
             {
-                var pelaamattomatPelit = this.Pelit.Where(x => x.Tilanne != PelinTilanne.Pelattu);
-                if (pelaamattomatPelit.Any())
-                {
-                    int kierros = pelaamattomatPelit
-                        .Select(x => x.Kierros)
-                        .Min();
+                int kierros = PieninKaynnissaOlevaKierros();
 
-                    if (kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
-                    {
-                        return YhdenPelipaikanHaku(status);
-                    }
+                if (!this.Pelit.Any(x => x.Tilanne != PelinTilanne.Pelattu))
+                {
+                    kierros++; // Yhdistetyn kaavion arvonta kun kaikki "alkupelit" on pelattu
                 }
-                else 
-                {
-                    var pelatutPelit = this.Pelit.Where(x => x.Tilanne == PelinTilanne.Pelattu);
-                    if (pelatutPelit.Any())
-                    {
-                        int kierros = pelatutPelit
-                            .Select(x => x.Kierros)
-                            .Max();
 
-                        if (kierros >= this.KaavioidenYhdistaminenKierroksestaInt - 1)
-                        {
-                            return YhdenPelipaikanHaku(status);
-                        }
-                    }
+                if (kierros >= this.KaavioidenYhdistaminenKierroksestaInt)
+                {
+                    return YhdenPelipaikanHaku(status);
                 }
 
                 int minKierros = 0;
-
                 var haku = UseanPelipaikanHaku(status, out minKierros);
-
                 if (haku != null)
                 {
                     return haku;
                 }
-                else
-                {
-                    return null;
-                }
+
+                // Tähän päätyminen tarkoittaa että alkukisojen pelipaikoilla on enää yksittäisiä huilaajia odottamassa
+                // kaavioiden yhdistämistä
+                return YhdenPelipaikanHaku(status);
             }
             else 
             {
@@ -2508,6 +2490,26 @@ namespace KaisaKaavio
                 int kierros = kilpailu.PieninKaynnissaOlevaKierros();
                 if (kierros <= this.KaavioidenYhdistaminenKierroksestaInt - 1)
                 {
+                    // Jos pelipaikalla on vain yksi pelaaja "huilaamassa", ei haeta
+                    if (kierros == this.KaavioidenYhdistaminenKierroksestaInt - 2)
+                    {
+                        if (kilpailu.Osallistujat.Count(x => 
+                            (x.Id >= 0) &&
+                            kilpailu.Mukana(x) && 
+                            (kilpailu.LaskePelit(x.Id) == kierros)) == 1)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (kierros == this.KaavioidenYhdistaminenKierroksestaInt - 1)
+                    {
+                        if (!kilpailu.Pelit.Any(x => x.Tilanne != PelinTilanne.Pelattu))
+                        {
+                            continue; // Pelipaikan alkupelit on pelattu
+                        }
+                    }
+
                     var haku = kilpailu.Haku(status);
                     if (haku != null)
                     {
@@ -2519,6 +2521,8 @@ namespace KaisaKaavio
                         {
                             minKierros = Math.Min(minKierros, kierros);
                         }
+
+                        haut.Add(haku);
                     }
                 }
             }
