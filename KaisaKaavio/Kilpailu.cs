@@ -2123,9 +2123,9 @@ namespace KaisaKaavio
             }
         }
 
-        public int LaskePelit(int pelaaja, int kierros)
+        public int LaskePelit(int pelaaja)
         {
-            return Pelit.Count(x => x.Kierros < kierros && x.SisaltaaPelaajan(pelaaja));
+            return Pelit.Count(x => x.SisaltaaPelaajan(pelaaja));
         }
 
         public int LaskeTappiot(int pelaaja, int kierros)
@@ -2505,21 +2505,20 @@ namespace KaisaKaavio
 
             foreach (var kilpailu in osakilpailut)
             {
-                var haku = kilpailu.Haku(status);
-                if (haku != null)
+                int kierros = kilpailu.PieninKaynnissaOlevaKierros();
+                if (kierros <= this.KaavioidenYhdistaminenKierroksestaInt - 1)
                 {
-                    if (haku.Kierros <= this.KaavioidenYhdistaminenKierroksestaInt - 1)
+                    var haku = kilpailu.Haku(status);
+                    if (haku != null)
                     {
-                        haut.Add(haku);
-                    }
-
-                    if (minKierros == 0)
-                    {
-                        minKierros = haku.Kierros;
-                    }
-                    else
-                    {
-                        minKierros = Math.Min(minKierros, haku.Kierros);
+                        if (minKierros == 0)
+                        {
+                            minKierros = kierros;
+                        }
+                        else
+                        {
+                            minKierros = Math.Min(minKierros, kierros);
+                        }
                     }
                 }
             }
@@ -2718,7 +2717,7 @@ namespace KaisaKaavio
 
         private IHakuAlgoritmi Haku(int kierros, IStatusRivi status)
         {
-            return new HakuAlgoritmi(this, Loki, kierros, status);
+            return new HakuAlgoritmi(this, Loki, status);
         }
 
         private void PaivitaPelinumerot()
@@ -4086,6 +4085,14 @@ namespace KaisaKaavio
                 this.EvaluointiTietokanta.Tyhjenna();
                 this.EvaluointiTietokanta = null;
             }
+        }
+
+        public int PieninKaynnissaOlevaKierros()
+        {
+            return this.Osallistujat
+                .Where(x => x.Id >= 0 && Mukana(x))
+                .Select(x => LaskePelit(x.Id))
+                .Min();
         }
     }
 }

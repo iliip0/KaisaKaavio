@@ -184,7 +184,7 @@
             this.mcMaxPelaajiaNumericUpDown.Size = new System.Drawing.Size(86, 20);
             this.mcMaxPelaajiaNumericUpDown.TabIndex = 5;
             this.mcMaxPelaajiaNumericUpDown.Value = new decimal(new int[] {
-            17,
+            15,
             0,
             0,
             0});
@@ -208,7 +208,7 @@
             this.mcMinPelaajiaNnumericUpDown.Size = new System.Drawing.Size(86, 20);
             this.mcMinPelaajiaNnumericUpDown.TabIndex = 4;
             this.mcMinPelaajiaNnumericUpDown.Value = new decimal(new int[] {
-            16,
+            8,
             0,
             0,
             0});

@@ -1490,13 +1490,16 @@ namespace KaisaKaavio
                             if (peli.Hypyt != null && peli.Hypyt.Any())
                             {
                                 uusiPeli.HakuKommentti = string.Empty;
-                                foreach (var hyppy in peli.Hypyt)
+                                if (uusiPeli.Kierros > 3)
                                 {
-                                    if (uusiPeli.HakuKommentti.Length > 0)
+                                    foreach (var hyppy in peli.Hypyt)
                                     {
-                                        uusiPeli.HakuKommentti += "#";
+                                        if (uusiPeli.HakuKommentti.Length > 0)
+                                        {
+                                            uusiPeli.HakuKommentti += "#";
+                                        }
+                                        uusiPeli.HakuKommentti += string.Format("{0} hypätty yli - {1}", hyppy.Pelaaja.Id, hyppy.Syy);
                                     }
-                                    uusiPeli.HakuKommentti += string.Format("{0} hypätty yli - {1}", hyppy.Pelaaja.Id, hyppy.Syy);
                                 }
                             }
                         }

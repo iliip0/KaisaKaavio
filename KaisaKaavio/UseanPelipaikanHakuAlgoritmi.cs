@@ -18,7 +18,7 @@ namespace KaisaKaavio
 
             foreach (var kilpailu in kilpailut)
             {
-                this.haut.Add(new HakuAlgoritmi(kilpailu, loki, kierros, status));
+                this.haut.Add(new HakuAlgoritmi(kilpailu, loki, status));
             }
         }
 
@@ -48,18 +48,18 @@ namespace KaisaKaavio
             }
         }
 
-        public int Kierros
-        {
-            get
-            {
-                if (this.haut.Any())
-                {
-                    return this.haut.Select(x => x.Kierros).Max();
-                }
+        //public int Kierros
+        //{
+         //   get
+          //  {
+           //     if (this.haut.Any())
+            //    {
+             //       return this.haut.Select(x => x.Kierros).Max();
+              //  }
 
-                return 1;
-            }
-        }
+               // return 1;
+           // }
+       // }
 
         public bool PeruutaHaku
         {
