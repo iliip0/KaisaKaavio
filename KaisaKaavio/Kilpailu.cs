@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace KaisaKaavio
@@ -25,6 +26,9 @@ namespace KaisaKaavio
 
         [DefaultValue("")]
         public string JarjestavaSeura { get; set; }
+
+        [DefaultValue("")]
+        public string Paikka { get; set; }
 
         [DefaultValue("")]
         public string PuhelinNumero { get; set; }
@@ -62,6 +66,9 @@ namespace KaisaKaavio
 
         [DefaultValue("")]
         public string EdellisenBiljardiOrgHaunPvm { get; set; }
+
+        [XmlAttribute]
+        public string OhjelmaVersio { get; set; }
 
         [XmlIgnore]
         public int KaavioidenYhdistaminenKierroksestaInt 
@@ -189,6 +196,8 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool KilpailuOnViikkokisa { get { return this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa; } }
 
+        public Nakyvyys Nakyvyys { get; set; }
+
        // [DefaultValue(true)]
         //public bool HaeLoppupelitHuolellisesti { get; set; }
 
@@ -267,6 +276,9 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool TallennusTarvitaan = false;
 
+        [DefaultValue(false)]
+        public bool SivustonPaivitysTarvitaan { get; set; } = false;
+
         [XmlIgnore]
         public bool PelienTilannePaivitysTarvitaan = false;
 
@@ -284,6 +296,9 @@ namespace KaisaKaavio
 
         public Kilpailu()
         {
+            OhjelmaVersio = Assembly.GetEntryAssembly().GetName().Version.ToString();
+            Nakyvyys = Nakyvyys.Kaikille;
+
             Osallistujat = new BindingList<Pelaaja>();
             Osallistujat.ListChanged += Osallistujat_ListChanged;
 
@@ -393,6 +408,11 @@ namespace KaisaKaavio
         void Pelit_ListChanged(object sender, ListChangedEventArgs e)
         {
             this.TallennusTarvitaan = true;
+            if (this.Nakyvyys != Nakyvyys.Offline)
+            {
+                this.SivustonPaivitysTarvitaan = true;
+            }
+
             this.PelienTilannePaivitysTarvitaan = true;
 
             RaisePropertyChanged("ArvonnanTilanneTeksti");
@@ -468,8 +488,6 @@ namespace KaisaKaavio
                     }
                 }
             }
-
-            this.TallennusTarvitaan = true;
         }
 
         private void PoistaTyhjatPelit(int kierroksestaAlkaen)
@@ -1124,6 +1142,10 @@ namespace KaisaKaavio
             RaisePropertyChanged("VoiPoistaaPelaajia");
 
             TallennusTarvitaan = true;
+            if (this.Nakyvyys != Nakyvyys.Offline)
+            {
+                this.SivustonPaivitysTarvitaan = true;
+            }
         }
 
         /// <summary>
@@ -1217,6 +1239,10 @@ namespace KaisaKaavio
 
                 this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
                 this.TallennusTarvitaan = false;
+                if (this.Nakyvyys != Nakyvyys.Offline)
+                {
+                    this.SivustonPaivitysTarvitaan = true;
+                }
             }
         }
 
@@ -1300,6 +1326,10 @@ namespace KaisaKaavio
                 this.KaavioidenYhdistaminenKierroksesta = kilpailu.KaavioidenYhdistaminenKierroksesta;
                 this.BiljardiOrgId = kilpailu.BiljardiOrgId;
                 this.EdellisenBiljardiOrgHaunPvm = kilpailu.EdellisenBiljardiOrgHaunPvm;
+                this.SivustonPaivitysTarvitaan = kilpailu.SivustonPaivitysTarvitaan;
+                this.OhjelmaVersio = kilpailu.OhjelmaVersio;
+                this.Nakyvyys = kilpailu.Nakyvyys;
+                this.Paikka = kilpailu.Paikka;
 
                 this.RankingOsakilpailu = null;
 

@@ -112,6 +112,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -153,6 +154,7 @@
       <DependentUpon>HaeOsallistujatBiljardiOrgistaPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="Integraatio\HtmlLukija.cs" />
+    <Compile Include="Integraatio\KaisaKaavioFi.cs" />
     <Compile Include="IStatusRivi.cs" />
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kayttoliittyma\Mukauttaja.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="Laji.cs" />
     <Compile Include="Linkki.cs" />
     <Compile Include="Loki.cs" />
+    <Compile Include="Nakyvyys.cs" />
     <Compile Include="NotifyPropertyChanged,.cs" />
     <Compile Include="Pelaaja.cs" />
     <Compile Include="PelaajaTietue.cs" />

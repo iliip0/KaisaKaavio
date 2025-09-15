@@ -34,6 +34,12 @@ namespace KaisaKaavio
         /// </summary>
         public static readonly int ViimeisimpiaKilpailuja = 15;
 
+#if DEBUG
+        public static readonly string KaisaKaavioServeri = "https://localhost:7071";
+#else
+        public static readonly string KaisaKaavioServeri = "https://kaisakaavio.fi";
+#endif
+
         /// <summary>
         /// Viimeisimmän kilpailutiedoston nimi
         /// </summary>
@@ -206,79 +212,87 @@ namespace KaisaKaavio
 
         public void Lataa()
         {
-            if (File.Exists(tiedosto))
+            try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Asetukset));
-
-                Asetukset asetukset = null;
-
-                using (TextReader reader = new StreamReader(tiedosto))
+                if (File.Exists(tiedosto))
                 {
-                    asetukset = (Asetukset)serializer.Deserialize(reader);
-                    reader.Close();
-                }
+                    XmlSerializer serializer = new XmlSerializer(typeof(Asetukset));
 
-                if (asetukset != null)
-                {
-                    this.ViimeisinKilpailu = asetukset.ViimeisinKilpailu;
-                    this.ViimeisimmanPaivityksenPaiva = asetukset.ViimeisimmanPaivityksenPaiva;
-                    this.PaivitaAutomaattisesti = asetukset.PaivitaAutomaattisesti;
+                    Asetukset asetukset = null;
 
-                    this.Sali.KopioiSalista(asetukset.Sali);
-
-                    this.Pelaajat.Clear();
-                    foreach (var pelaaja in asetukset.Pelaajat)
+                    using (TextReader reader = new StreamReader(tiedosto))
                     {
-                        if (!string.IsNullOrEmpty(pelaaja.Nimi) &&
-                            !pelaaja.Nimi.Contains("&") &&
-                            !pelaaja.Nimi.Contains(" ja "))
-                        {
-                            string nimi = 
-                                Tyypit.Nimi.MuotoileNimi(
-                                Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi));
+                        asetukset = (Asetukset)serializer.Deserialize(reader);
+                        reader.Close();
+                    }
 
-                            if (!this.Pelaajat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi)))
+                    if (asetukset != null)
+                    {
+                        this.ViimeisinKilpailu = asetukset.ViimeisinKilpailu;
+                        this.ViimeisimmanPaivityksenPaiva = asetukset.ViimeisimmanPaivityksenPaiva;
+                        this.PaivitaAutomaattisesti = asetukset.PaivitaAutomaattisesti;
+
+                        this.Sali.KopioiSalista(asetukset.Sali);
+
+                        this.Pelaajat.Clear();
+                        foreach (var pelaaja in asetukset.Pelaajat)
+                        {
+                            if (!string.IsNullOrEmpty(pelaaja.Nimi) &&
+                                !pelaaja.Nimi.Contains("&") &&
+                                !pelaaja.Nimi.Contains(" ja "))
                             {
-                                this.Pelaajat.Add(new PelaajaTietue() 
+                                string nimi =
+                                    Tyypit.Nimi.MuotoileNimi(
+                                    Tyypit.Nimi.PoistaTasuritJaSijoituksetNimesta(pelaaja.Nimi));
+
+                                if (!this.Pelaajat.Any(x => Tyypit.Nimi.Equals(x.Nimi, nimi)))
                                 {
-                                    Nimi = nimi,
-                                    Seura = pelaaja.Seura,
-                                    TasoitusHeyball = pelaaja.TasoitusHeyball,
-                                    TasoitusKaisa = pelaaja.TasoitusKaisa,
-                                    TasoitusKara = pelaaja.TasoitusKara,
-                                    TasoitusPool = pelaaja.TasoitusPool,
-                                    TasoitusPyramidi = pelaaja.TasoitusPyramidi,
-                                    TasoitusSnooker = pelaaja.TasoitusSnooker
-                                });
+                                    this.Pelaajat.Add(new PelaajaTietue()
+                                    {
+                                        Nimi = nimi,
+                                        Seura = pelaaja.Seura,
+                                        TasoitusHeyball = pelaaja.TasoitusHeyball,
+                                        TasoitusKaisa = pelaaja.TasoitusKaisa,
+                                        TasoitusKara = pelaaja.TasoitusKara,
+                                        TasoitusPool = pelaaja.TasoitusPool,
+                                        TasoitusPyramidi = pelaaja.TasoitusPyramidi,
+                                        TasoitusSnooker = pelaaja.TasoitusSnooker
+                                    });
+                                }
                             }
                         }
-                    }
 
-                    this.ViimeisimmatKilpailut.Clear();
-                    foreach (var v in asetukset.ViimeisimmatKilpailut)
-                    {
-                        if (!string.IsNullOrEmpty(v.Nimi) && 
-                            !string.IsNullOrEmpty(v.Polku) &&
-                            File.Exists(v.Polku))
+                        this.ViimeisimmatKilpailut.Clear();
+                        foreach (var v in asetukset.ViimeisimmatKilpailut)
                         {
-                            this.ViimeisimmatKilpailut.Add(v);
+                            if (!string.IsNullOrEmpty(v.Nimi) &&
+                                !string.IsNullOrEmpty(v.Polku) &&
+                                File.Exists(v.Polku))
+                            {
+                                this.ViimeisimmatKilpailut.Add(v);
+                            }
                         }
+
+                        LataaRankingAsetukset(this.RankingAsetuksetKaisa, asetukset.RankingAsetuksetKaisa, Laji.Kaisa);
+                        LataaRankingAsetukset(this.RankingAsetuksetPool, asetukset.RankingAsetuksetPool, Laji.Pool);
+                        LataaRankingAsetukset(this.RankingAsetuksetKara, asetukset.RankingAsetuksetKara, Laji.Kara);
+                        LataaRankingAsetukset(this.RankingAsetuksetSnooker, asetukset.RankingAsetuksetSnooker, Laji.Snooker);
+                        LataaRankingAsetukset(this.RankingAsetuksetPyramidi, asetukset.RankingAsetuksetPyramidi, Laji.Pyramidi);
+                        LataaRankingAsetukset(this.RankingAsetuksetHeyball, asetukset.RankingAsetuksetHeyball, Laji.Heyball);
+
+                        LataaKisaAsetukset(this.OletusAsetuksetKaisa, asetukset.OletusAsetuksetKaisa);
+                        LataaKisaAsetukset(this.OletusAsetuksetKara, asetukset.OletusAsetuksetKara);
+                        LataaKisaAsetukset(this.OletusAsetuksetPyramidi, asetukset.OletusAsetuksetPyramidi);
+                        LataaKisaAsetukset(this.OletusAsetuksetPool, asetukset.OletusAsetuksetPool);
+                        LataaKisaAsetukset(this.OletusAsetuksetHeyball, asetukset.OletusAsetuksetHeyball);
+                        LataaKisaAsetukset(this.OletusAsetuksetSnooker, asetukset.OletusAsetuksetSnooker);
                     }
-
-                    LataaRankingAsetukset(this.RankingAsetuksetKaisa, asetukset.RankingAsetuksetKaisa, Laji.Kaisa);
-                    LataaRankingAsetukset(this.RankingAsetuksetPool, asetukset.RankingAsetuksetPool, Laji.Pool);
-                    LataaRankingAsetukset(this.RankingAsetuksetKara, asetukset.RankingAsetuksetKara, Laji.Kara);
-                    LataaRankingAsetukset(this.RankingAsetuksetSnooker, asetukset.RankingAsetuksetSnooker, Laji.Snooker);
-                    LataaRankingAsetukset(this.RankingAsetuksetPyramidi, asetukset.RankingAsetuksetPyramidi, Laji.Pyramidi);
-                    LataaRankingAsetukset(this.RankingAsetuksetHeyball, asetukset.RankingAsetuksetHeyball, Laji.Heyball);
-
-                    LataaKisaAsetukset(this.OletusAsetuksetKaisa, asetukset.OletusAsetuksetKaisa);
-                    LataaKisaAsetukset(this.OletusAsetuksetKara, asetukset.OletusAsetuksetKara);
-                    LataaKisaAsetukset(this.OletusAsetuksetPyramidi, asetukset.OletusAsetuksetPyramidi);
-                    LataaKisaAsetukset(this.OletusAsetuksetPool, asetukset.OletusAsetuksetPool);
-                    LataaKisaAsetukset(this.OletusAsetuksetHeyball, asetukset.OletusAsetuksetHeyball);
-                    LataaKisaAsetukset(this.OletusAsetuksetSnooker, asetukset.OletusAsetuksetSnooker);
                 }
+            }
+            catch
+            {
+                // TODO!!!! Asetusten varmuuskopiointi ja palautus
+
             }
         }
 

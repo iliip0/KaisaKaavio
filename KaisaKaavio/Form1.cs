@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaisaKaavio.Tyypit;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -238,6 +239,13 @@ namespace KaisaKaavio
             {
                 this.kilpailu.Tallenna();
                 this.loki.Kirjoita(string.Format("Tallennettu onnistuneesti!{0}{1}", Environment.NewLine, this.kilpailu.Tiedosto), null, false);
+
+#if DEBUG
+                if (this.kilpailu.SivustonPaivitysTarvitaan)
+                {
+                    Integraatio.KaisaKaavioFi.TallennaKilpailuServerille(this.kilpailu, this.kilpailu.Id, this.kilpailu.Tiedosto, this.loki);
+                }
+#endif
             }
             catch (Exception ex)
             {
@@ -476,6 +484,24 @@ namespace KaisaKaavio
 
                     this.kilpailu.Palkinnot = string.Empty;
                     this.kilpailu.Ilmoittautuminen = string.Empty;
+
+                    if (this.asetukset.Sali != null)
+                    {
+                        if (!string.IsNullOrEmpty(this.asetukset.Sali.Lyhenne))
+                        {
+                            this.kilpailu.Paikka = this.asetukset.Sali.Lyhenne;
+                        }
+                        else if (!string.IsNullOrEmpty(this.asetukset.Sali.Nimi))
+                        {
+                            this.kilpailu.Paikka = this.asetukset.Sali.Nimi;
+                        }
+                        else if (!string.IsNullOrEmpty(this.asetukset.Sali.Seura))
+                        {
+                            this.kilpailu.Paikka = this.asetukset.Sali.Seura;
+                        }
+
+                        this.kilpailu.JarjestavaSeura = this.asetukset.Sali.Seura;
+                    }
 
                     if (popup.LuoViikkokisa)
                     {
@@ -1326,7 +1352,7 @@ namespace KaisaKaavio
                 this.kilpailu.TallennusAjastin -= 1;
             }
 
-            if ((this.kilpailu.TallennusAjastin <= 1) && this.kilpailu.TallennusTarvitaan)
+            if ((this.kilpailu.TallennusAjastin <= 1) && (this.kilpailu.TallennusTarvitaan || this.kilpailu.SivustonPaivitysTarvitaan))
             {
                 Tallenna();
             }
@@ -1508,6 +1534,15 @@ namespace KaisaKaavio
                     if (algoritmi.UusiHakuTarvitaan && bLisattiinPeleja)
                     {
                         this.kilpailu.HakuTarvitaan = true;
+                    }
+                }
+
+                if (bLisattiinPeleja)
+                {
+                    this.kilpailu.TallennusTarvitaan = true;
+                    if (this.kilpailu.Nakyvyys != Nakyvyys.Offline)
+                    {
+                        this.kilpailu.SivustonPaivitysTarvitaan = true;
                     }
                 }
 

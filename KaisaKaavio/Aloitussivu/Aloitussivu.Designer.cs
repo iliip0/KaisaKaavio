@@ -51,10 +51,10 @@
             this.avaaKilpailuButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.viimeisimmatComboBox = new System.Windows.Forms.ComboBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.viimeisimmatPictureBox = new System.Windows.Forms.PictureBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.avaaTiedostoButton = new System.Windows.Forms.Button();
-            this.viimeisimmatPictureBox = new System.Windows.Forms.PictureBox();
+            this.avaaTiedostostaPictureBox = new System.Windows.Forms.PictureBox();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.testiKilpailuButton = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -78,12 +78,12 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.viimeisimmatPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.viimeisimmatPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.avaaTiedostostaPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
@@ -125,7 +125,7 @@
             this.versioLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versioLabel.Location = new System.Drawing.Point(1124, 49);
             this.versioLabel.Name = "versioLabel";
-            this.versioLabel.Size = new System.Drawing.Size(92, 16);
+            this.versioLabel.Size = new System.Drawing.Size(91, 16);
             this.versioLabel.TabIndex = 2;
             this.versioLabel.Text = "versio 1.0.0.15";
             // 
@@ -386,7 +386,7 @@
             this.splitContainer3.Panel1.Controls.Add(this.avaaKilpailuButton);
             this.splitContainer3.Panel1.Controls.Add(this.label2);
             this.splitContainer3.Panel1.Controls.Add(this.viimeisimmatComboBox);
-            this.splitContainer3.Panel1.Controls.Add(this.pictureBox2);
+            this.splitContainer3.Panel1.Controls.Add(this.viimeisimmatPictureBox);
             this.splitContainer3.Panel1.ForeColor = System.Drawing.Color.White;
             // 
             // splitContainer3.Panel2
@@ -434,14 +434,14 @@
             this.viimeisimmatComboBox.Size = new System.Drawing.Size(301, 28);
             this.viimeisimmatComboBox.TabIndex = 4;
             // 
-            // pictureBox2
+            // viimeisimmatPictureBox
             // 
-            this.pictureBox2.Image = global::KaisaKaavio.Properties.Resources.Viimeisimmat128;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 87);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(119, 110);
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
+            this.viimeisimmatPictureBox.Image = global::KaisaKaavio.Properties.Resources.Viimeisimmat128;
+            this.viimeisimmatPictureBox.Location = new System.Drawing.Point(5, 87);
+            this.viimeisimmatPictureBox.Name = "viimeisimmatPictureBox";
+            this.viimeisimmatPictureBox.Size = new System.Drawing.Size(119, 110);
+            this.viimeisimmatPictureBox.TabIndex = 0;
+            this.viimeisimmatPictureBox.TabStop = false;
             // 
             // splitContainer4
             // 
@@ -457,7 +457,7 @@
             // 
             this.splitContainer4.Panel1.BackColor = System.Drawing.Color.DarkGreen;
             this.splitContainer4.Panel1.Controls.Add(this.avaaTiedostoButton);
-            this.splitContainer4.Panel1.Controls.Add(this.viimeisimmatPictureBox);
+            this.splitContainer4.Panel1.Controls.Add(this.avaaTiedostostaPictureBox);
             this.splitContainer4.Panel1.ForeColor = System.Drawing.Color.White;
             // 
             // splitContainer4.Panel2
@@ -484,15 +484,15 @@
             this.avaaTiedostoButton.UseVisualStyleBackColor = false;
             this.avaaTiedostoButton.Click += new System.EventHandler(this.avaaTiedostoButton_Click);
             // 
-            // viimeisimmatPictureBox
+            // avaaTiedostostaPictureBox
             // 
-            this.viimeisimmatPictureBox.BackColor = System.Drawing.Color.DarkGreen;
-            this.viimeisimmatPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("viimeisimmatPictureBox.Image")));
-            this.viimeisimmatPictureBox.Location = new System.Drawing.Point(11, 3);
-            this.viimeisimmatPictureBox.Name = "viimeisimmatPictureBox";
-            this.viimeisimmatPictureBox.Size = new System.Drawing.Size(109, 111);
-            this.viimeisimmatPictureBox.TabIndex = 7;
-            this.viimeisimmatPictureBox.TabStop = false;
+            this.avaaTiedostostaPictureBox.BackColor = System.Drawing.Color.DarkGreen;
+            this.avaaTiedostostaPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("avaaTiedostostaPictureBox.Image")));
+            this.avaaTiedostostaPictureBox.Location = new System.Drawing.Point(11, 3);
+            this.avaaTiedostostaPictureBox.Name = "avaaTiedostostaPictureBox";
+            this.avaaTiedostostaPictureBox.Size = new System.Drawing.Size(109, 111);
+            this.avaaTiedostostaPictureBox.TabIndex = 7;
+            this.avaaTiedostostaPictureBox.TabStop = false;
             // 
             // splitContainer6
             // 
@@ -610,12 +610,12 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.viimeisimmatPictureBox)).EndInit();
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.viimeisimmatPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.avaaTiedostostaPictureBox)).EndInit();
             this.splitContainer6.Panel1.ResumeLayout(false);
             this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
@@ -648,14 +648,14 @@
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.Button testiKilpailuButton;
-        private System.Windows.Forms.PictureBox viimeisimmatPictureBox;
+        private System.Windows.Forms.PictureBox avaaTiedostostaPictureBox;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Button jatkaButton;
         private System.Windows.Forms.Button heyballViikkokisaButton;
         private System.Windows.Forms.Button snookerViikkokisaButton;
         private System.Windows.Forms.SplitContainer splitContainer6;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox viimeisimmatPictureBox;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button avaaTiedostoButton;

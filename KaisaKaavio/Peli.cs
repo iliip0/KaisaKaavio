@@ -401,6 +401,15 @@ namespace KaisaKaavio
                             this.Paattyi = DateTime.Now.ToShortTimeString();
                         }
                     }
+
+                    if (this.Kilpailu != null)
+                    {
+                        this.Kilpailu.TallennusTarvitaan = true;
+                        if (this.Kilpailu.Nakyvyys != Nakyvyys.Offline)
+                        {
+                            this.Kilpailu.SivustonPaivitysTarvitaan = true;
+                        }
+                    }
                 }
             }
         }
@@ -456,6 +465,11 @@ namespace KaisaKaavio
                     if (this.Kilpailu != null)
                     {
                         this.Kilpailu.PaivitaKilpailuUi();
+                        this.Kilpailu.TallennusTarvitaan = true;
+                        if (this.Kilpailu.Nakyvyys != Nakyvyys.Offline)
+                        {
+                            this.Kilpailu.SivustonPaivitysTarvitaan = true;
+                        }
                     }
                 }
             }
