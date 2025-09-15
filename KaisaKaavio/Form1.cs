@@ -157,13 +157,16 @@ namespace KaisaKaavio
 
             this.paivitaOhjelmaAutomaattisestiSuljettaessaToolStripMenuItem.Checked = this.asetukset.PaivitaAutomaattisesti;
 
-#if DEBUG
-            this.testaaToolStripMenuItem.Visible = true;
-            this.testiajoBackgroundWorker1.DoWork += testiajoBackgroundWorker1_DoWork;
-            this.testiajoBackgroundWorker1.RunWorkerCompleted += testiajoBackgroundWorker1_RunWorkerCompleted;
-#else
-            this.testaaToolStripMenuItem.Visible = false;
-#endif
+            if (Program.DebugMoodi)
+            {
+                this.testaaToolStripMenuItem.Visible = true;
+                this.testiajoBackgroundWorker1.DoWork += testiajoBackgroundWorker1_DoWork;
+                this.testiajoBackgroundWorker1.RunWorkerCompleted += testiajoBackgroundWorker1_RunWorkerCompleted;
+            }
+            else
+            {
+                this.testaaToolStripMenuItem.Visible = false;
+            }
 
             this.kayttoopasToolStripMenuItem.Visible = false; // Käyttöopas on vanhentunut eikä kukaan lue sitä muutenkaan
 
@@ -240,12 +243,13 @@ namespace KaisaKaavio
                 this.kilpailu.Tallenna();
                 this.loki.Kirjoita(string.Format("Tallennettu onnistuneesti!{0}{1}", Environment.NewLine, this.kilpailu.Tiedosto), null, false);
 
-#if DEBUG
-                if (this.kilpailu.SivustonPaivitysTarvitaan)
+                if (Program.DebugMoodi)
                 {
-                    Integraatio.KaisaKaavioFi.TallennaKilpailuServerille(this.kilpailu, this.kilpailu.Id, this.kilpailu.Tiedosto, this.loki);
+                    if (this.kilpailu.SivustonPaivitysTarvitaan)
+                    {
+                        Integraatio.KaisaKaavioFi.TallennaKilpailuServerille(this.kilpailu, this.kilpailu.Id, this.kilpailu.Tiedosto, this.loki);
+                    }
                 }
-#endif
             }
             catch (Exception ex)
             {
@@ -4914,66 +4918,67 @@ namespace KaisaKaavio
 
         private void pelaaTestikaaviotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if DEBUG
-            using (var popup = new Testaus.TestiPopup())
+            if (Program.DebugMoodi)
             {
-                if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                using (var popup = new Testaus.TestiPopup())
                 {
-                    try
+                    if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        DirectoryInfo kansio = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-                        var juuri = kansio.Parent.Parent;
-                        var testiKansio = Path.Combine(juuri.FullName, "TestiData");
-                        if (!Directory.Exists(testiKansio))
+                        try
                         {
-                            this.folderBrowserDialog1.SelectedPath = juuri.FullName;
-                            if (this.folderBrowserDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                            DirectoryInfo kansio = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                            var juuri = kansio.Parent.Parent;
+                            var testiKansio = Path.Combine(juuri.FullName, "TestiData");
+                            if (!Directory.Exists(testiKansio))
+                            {
+                                this.folderBrowserDialog1.SelectedPath = juuri.FullName;
+                                if (this.folderBrowserDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                                {
+                                    return;
+                                }
+                                testiKansio = this.folderBrowserDialog1.SelectedPath;
+                            }
+
+                            if (!Directory.Exists(testiKansio))
                             {
                                 return;
                             }
-                            testiKansio = this.folderBrowserDialog1.SelectedPath;
-                        }
 
-                        if (!Directory.Exists(testiKansio))
+                            Testaus.ITestiAjo testi = null;
+
+                            if (popup.MonteCarloTestaus)
+                            {
+                                testi = new Testaus.MonteCarloTestiAjo(
+                                    popup.PoytienMaara,
+                                    popup.SatunnainenPeliJarjestys,
+                                    popup.MonteCarloKisoja,
+                                    popup.MonteCarloMinPelaajia,
+                                    popup.MonteCarloMaxPelaajia,
+                                    this);
+                            }
+                            else
+                            {
+                                testi = new Testaus.TestiAjo(
+                                    testiKansio,
+                                    popup.PoytienMaara,
+                                    popup.SatunnainenPeliJarjestys,
+                                    this);
+                            }
+
+                            this.Enabled = false;
+                            this.testiajoBackgroundWorker1.RunWorkerAsync(testi);
+                        }
+                        catch (Exception ex)
                         {
-                            return;
+                            MessageBox.Show(
+                                string.Format("Testi epäonnistui: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace),
+                                "Virhe",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                         }
-
-                        Testaus.ITestiAjo testi = null;
-
-                        if (popup.MonteCarloTestaus)
-                        {
-                            testi = new Testaus.MonteCarloTestiAjo(
-                                popup.PoytienMaara,
-                                popup.SatunnainenPeliJarjestys,
-                                popup.MonteCarloKisoja,
-                                popup.MonteCarloMinPelaajia,
-                                popup.MonteCarloMaxPelaajia,
-                                this);
-                        }
-                        else
-                        {
-                            testi = new Testaus.TestiAjo(
-                                testiKansio,
-                                popup.PoytienMaara,
-                                popup.SatunnainenPeliJarjestys,
-                                this);
-                        }
-
-                        this.Enabled = false;
-                        this.testiajoBackgroundWorker1.RunWorkerAsync(testi);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(
-                            string.Format("Testi epäonnistui: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace),
-                            "Virhe",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
                     }
                 }
             }
-#endif
         }
 
         private void pelaaKaavioUudelleenToolStripMenuItem_Click(object sender, EventArgs e)

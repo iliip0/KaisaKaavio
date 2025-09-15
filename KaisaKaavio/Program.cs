@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -13,6 +14,15 @@ namespace KaisaKaavio
         /// Ainoastaan ensimmäinen ohjelma tallentaa käyttäjän asetukset ja Ranking tietueet
         /// </summary>
         public static bool UseampiKaisaKaavioAvoinna = false;
+
+        /// <summary>
+        /// Tämä muuttuja kertoo, ollaanko ohjelmaa debuggaamassa tämän ajon aikana
+        /// </summary>
+#if DEBUG
+        public static bool DebugMoodi = true;
+#else
+        public static bool DebugMoodi = false;
+#endif
 
 #if !LITE_VERSION
         /// <summary>
@@ -56,6 +66,13 @@ namespace KaisaKaavio
         [STAThread]
         static void Main()
         {
+#if !DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                Program.DebugMoodi = true;
+            }
+#endif
+
 #if !LITE_VERSION
             string kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
