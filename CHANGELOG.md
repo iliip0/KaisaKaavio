@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.42		(työn alla)
+## Versio 1.0.0.42		(julkaistu 15.09.2025)
 
 * Korjauksia ja parannuksia hakualgoritmiin
 * Korjattu hakubugi usean pelipaikan kilpailuissa. Aiempi versio ei osannut hakea viimeistä usean pelipaikan kierrosta oikein
