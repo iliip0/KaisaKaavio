@@ -73,6 +73,8 @@ namespace KaisaKaavio.Integraatio
                 string teksti = File.ReadAllText(tiedot.Tiedosto);
 
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                ServicePointManager.ServerCertificateValidationCallback
+                                = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
 
                 using (WebClient client = new WebClient())
                 {
