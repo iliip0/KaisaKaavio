@@ -70,7 +70,7 @@ namespace KaisaKaavio.Integraatio
 
             try
             {
-                string teksti = File.ReadAllText(tiedot.Tiedosto);
+                byte[] teksti = File.ReadAllBytes(tiedot.Tiedosto);
 
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 ServicePointManager.ServerCertificateValidationCallback
@@ -85,7 +85,7 @@ namespace KaisaKaavio.Integraatio
                         HttpUtility.UrlEncode(tiedot.Id),
                         HttpUtility.UrlEncode(tiedot.TiedostonNimi));
 
-                    client.UploadString(address, teksti);
+                    client.UploadData(address, teksti);
 
                     tiedot.Kilpailu.SivustonPaivitysTarvitaan = false;
                 }
