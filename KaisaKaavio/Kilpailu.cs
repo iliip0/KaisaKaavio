@@ -1331,6 +1331,8 @@ namespace KaisaKaavio
                 this.Nakyvyys = kilpailu.Nakyvyys;
                 this.Paikka = kilpailu.Paikka;
 
+                this.OhjelmaVersio = Assembly.GetEntryAssembly().GetName().Version.ToString();
+
                 this.RankingOsakilpailu = null;
 
                 VarmistaEttaKilpailullaOnId();
