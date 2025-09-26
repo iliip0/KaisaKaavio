@@ -39,7 +39,8 @@ namespace KaisaKaavio.Testaus
                 TavoitePistemaara = 60,
                 PelaajiaEnintaan = pelaajia + 1,
                 RankingKisa = false,
-                Nimi = nimi
+                Nimi = nimi,
+                TestiKilpailu = true
             };
 
             this.TestattavaKilpailu.Loki = loki;

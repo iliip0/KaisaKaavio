@@ -63,6 +63,7 @@ namespace KaisaKaavio.Testaus
                 Loki loki = new Loki(kansio);
                 testiKilpailu.Loki = loki;
                 testiKilpailu.Avaa(tiedosto.FullName, false);
+                testiKilpailu.TestiKilpailu = true;
 
                 TestiKilpailu testi = new TestiKilpailu(this.PoytienMaara, this.SatunnainenPelienJarjestys, loki, testiKilpailu);
 

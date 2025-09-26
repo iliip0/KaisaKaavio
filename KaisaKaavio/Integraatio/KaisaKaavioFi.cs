@@ -12,7 +12,7 @@ namespace KaisaKaavio.Integraatio
 {
     public class KaisaKaavioFi
     {
-        public class KilpailunTiedot
+        private class KilpailunTiedot
         {
             public Kilpailu Kilpailu = null;
             public string Id = string.Empty;

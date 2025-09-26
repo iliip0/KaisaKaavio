@@ -276,6 +276,35 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool TallennusTarvitaan = false;
 
+        [XmlIgnore]
+        public bool TallennusTaiSivustonPaivitysTarvitaan
+        {
+            get
+            {
+                if (this.Nakyvyys != Nakyvyys.Offline && this.SivustonPaivitysTarvitaan)
+                {
+                    return true;
+                }
+
+                return this.TallennusTarvitaan;
+            }
+        }
+
+        public void AjastaTallennus(bool tallennus, bool sivustonPaivitys)
+        {
+            if (tallennus)
+            {
+                this.TallennusTarvitaan = true;
+                this.TallennusAjastin = 30;
+            }
+
+            if (sivustonPaivitys && this.Nakyvyys != Nakyvyys.Offline)
+            {
+                this.SivustonPaivitysTarvitaan = true;
+                this.TallennusAjastin = 30;
+            }
+        }
+
         [DefaultValue(false)]
         public bool SivustonPaivitysTarvitaan { get; set; } = false;
 
@@ -347,6 +376,7 @@ namespace KaisaKaavio
 
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             TallennusTarvitaan = false;
+            SivustonPaivitysTarvitaan = false;
 
             TestiKilpailu = false;
 
@@ -407,10 +437,10 @@ namespace KaisaKaavio
 
         void Pelit_ListChanged(object sender, ListChangedEventArgs e)
         {
-            this.TallennusTarvitaan = true;
-            if (this.Nakyvyys != Nakyvyys.Offline)
+            if (e.ListChangedType == ListChangedType.ItemAdded ||
+                e.ListChangedType == ListChangedType.ItemDeleted)
             {
-                this.SivustonPaivitysTarvitaan = true;
+                AjastaTallennus(true, true);
             }
 
             this.PelienTilannePaivitysTarvitaan = true;
@@ -1141,11 +1171,7 @@ namespace KaisaKaavio
             RaisePropertyChanged("VoiLisataPelaajia");
             RaisePropertyChanged("VoiPoistaaPelaajia");
 
-            TallennusTarvitaan = true;
-            if (this.Nakyvyys != Nakyvyys.Offline)
-            {
-                this.SivustonPaivitysTarvitaan = true;
-            }
+            AjastaTallennus(true, false);
         }
 
         /// <summary>
@@ -1239,10 +1265,7 @@ namespace KaisaKaavio
 
                 this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
                 this.TallennusTarvitaan = false;
-                if (this.Nakyvyys != Nakyvyys.Offline)
-                {
-                    this.SivustonPaivitysTarvitaan = true;
-                }
+                AjastaTallennus(false, true);
             }
         }
 
@@ -3739,6 +3762,7 @@ namespace KaisaKaavio
             {
                 JoukkueKilpailu = new Kilpailu();
                 JoukkueKilpailu.JoukkueKilpailunVarsinainenKilpailu = this;
+                JoukkueKilpailu.TestiKilpailu = this.TestiKilpailu;
             }
 
             JoukkueKilpailu.KaavioidenYhdistaminenKierroksesta = this.KaavioidenYhdistaminenKierroksesta;

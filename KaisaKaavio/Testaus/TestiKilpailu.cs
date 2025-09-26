@@ -29,6 +29,7 @@ namespace KaisaKaavio.Testaus
             this.loki = loki;
             this.OikeaKilpailu = oikeaKilpailu;
             this.TestattavaKilpailu = new Kilpailu();
+            this.TestattavaKilpailu.TestiKilpailu = true;
             this.TestattavaKilpailu.Loki = loki;
             this.Arpa = new Random();
 

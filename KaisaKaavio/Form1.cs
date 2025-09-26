@@ -243,9 +243,12 @@ namespace KaisaKaavio
                 this.kilpailu.Tallenna();
                 this.loki.Kirjoita(string.Format("Tallennettu onnistuneesti!{0}{1}", Environment.NewLine, this.kilpailu.Tiedosto), null, false);
 
-                if (Program.DebugMoodi)
+                if (this.kilpailu.SivustonPaivitysTarvitaan && 
+                    this.kilpailu.Nakyvyys != Nakyvyys.Offline)
                 {
-                    if (this.kilpailu.SivustonPaivitysTarvitaan)
+#if !DEBUG
+                    if (!this.kilpailu.TestiKilpailu)
+#endif
                     {
                         Integraatio.KaisaKaavioFi.TallennaKilpailuServerille(this.kilpailu, this.kilpailu.Id, this.kilpailu.Tiedosto, this.loki);
                     }
@@ -887,7 +890,7 @@ namespace KaisaKaavio
             }
         }
 
-        #endregion
+#endregion
 
         // ========={( Ikkunan päivitys ja välilehdet )}======================================================= //
         #region Ikkuna ja täbit
@@ -1356,9 +1359,10 @@ namespace KaisaKaavio
                 this.kilpailu.TallennusAjastin -= 1;
             }
 
-            if ((this.kilpailu.TallennusAjastin <= 1) && (this.kilpailu.TallennusTarvitaan || this.kilpailu.SivustonPaivitysTarvitaan))
+            if ((this.kilpailu.TallennusAjastin <= 1) && (this.kilpailu.TallennusTaiSivustonPaivitysTarvitaan))
             {
                 Tallenna();
+                this.kilpailu.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
             }
         }
 
@@ -1543,11 +1547,7 @@ namespace KaisaKaavio
 
                 if (bLisattiinPeleja)
                 {
-                    this.kilpailu.TallennusTarvitaan = true;
-                    if (this.kilpailu.Nakyvyys != Nakyvyys.Offline)
-                    {
-                        this.kilpailu.SivustonPaivitysTarvitaan = true;
-                    }
+                    this.kilpailu.AjastaTallennus(true, true);
                 }
 
                 //this.kilpailu.PaivitaKilpailuUi();

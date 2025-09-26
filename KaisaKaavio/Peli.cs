@@ -404,11 +404,7 @@ namespace KaisaKaavio
 
                     if (this.Kilpailu != null)
                     {
-                        this.Kilpailu.TallennusTarvitaan = true;
-                        if (this.Kilpailu.Nakyvyys != Nakyvyys.Offline)
-                        {
-                            this.Kilpailu.SivustonPaivitysTarvitaan = true;
-                        }
+                        this.Kilpailu.AjastaTallennus(true, true);
                     }
                 }
             }
@@ -465,11 +461,7 @@ namespace KaisaKaavio
                     if (this.Kilpailu != null)
                     {
                         this.Kilpailu.PaivitaKilpailuUi();
-                        this.Kilpailu.TallennusTarvitaan = true;
-                        if (this.Kilpailu.Nakyvyys != Nakyvyys.Offline)
-                        {
-                            this.Kilpailu.SivustonPaivitysTarvitaan = true;
-                        }
+                        this.Kilpailu.AjastaTallennus(true, true);
                     }
                 }
             }
