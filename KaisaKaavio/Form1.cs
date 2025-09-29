@@ -406,7 +406,7 @@ namespace KaisaKaavio
                 KeskeytaHaku();
                 Tallenna();
 
-                using (var popup = new UusiKilpailuPopup())
+                using (var popup = new UusiKilpailuPopup(this.asetukset))
                 {
                     var result = popup.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)

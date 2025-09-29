@@ -111,6 +111,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -246,6 +247,8 @@
     <Compile Include="Tyypit\EvaluointiTietokanta.cs" />
     <Compile Include="Tyypit\Luku.cs" />
     <Compile Include="Tyypit\Nimi.cs" />
+    <Compile Include="Tyypit\PoytaTietue.cs" />
+    <Compile Include="Tyypit\SaliTietue.cs" />
     <Compile Include="Tyypit\Teksti.cs" />
     <Compile Include="Tyypit\Tiedosto.cs" />
     <Compile Include="UseanPelipaikanHakuAlgoritmi.cs" />
@@ -421,6 +424,7 @@
     <None Include="Resources\SnookerMV.png" />
     <None Include="Resources\Tulosta.png" />
     <None Include="Resources\Kansio.png" />
+    <None Include="Resources\Online.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

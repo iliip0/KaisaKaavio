@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace KaisaKaavio
@@ -10,11 +12,15 @@ namespace KaisaKaavio
         private string oletusNimi = string.Empty;
         private bool nimeaMuokattuManuaalisesti = false;
         private Asetukset.KisaOletusasetukset asetukset = null;
+        private Asetukset yleisAsetukset = null;
+        private AutoCompleteStringCollection pelipaikkojenNimet = null;
 
         public bool LuoTestikilpailu { get; private set; }
 
-        public UusiKilpailuPopup()
+        public UusiKilpailuPopup(Asetukset asetukset)
         {
+            this.yleisAsetukset = asetukset;
+
             InitializeComponent();
 
             this.uusiKilpailuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
@@ -22,6 +28,9 @@ namespace KaisaKaavio
 
             this.kilpaSarjaComboBox.DataSource = Enum.GetValues(typeof(KilpaSarja));
             this.kilpaSarjaComboBox.SelectedIndex = 0;
+
+            this.nakyvyysComboBox.DataSource = Enum.GetValues(typeof(Nakyvyys));
+            this.nakyvyysComboBox.SelectedIndex = 3;
 
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
             this.kaavioComboBox.SelectedIndex = 2;
@@ -36,6 +45,8 @@ namespace KaisaKaavio
             this.virheLabel.Visible = false;
 
             this.LuoTestikilpailu = false;
+
+            this.pelipaikkojenNimet = new AutoCompleteStringCollection();
 
             PaivitaKilpailunOletusNimi();
         }
@@ -209,10 +220,19 @@ namespace KaisaKaavio
                 if (luoTestiKilpailu)
                 {
                     this.Text = "Luo uusi testikilpailu";
+                    this.nakyvyysComboBox.SelectedIndex = 0;
+                    //this.nakyvyysComboBox.Enabled = false;
+                    this.onlineGroupBox.Visible = false;
+
+                    this.Paikka = this.yleisAsetukset.TestiPelipaikka;
                 }
                 else
                 {
                     this.Text = "Luo uusi kilpailu";
+                    this.nakyvyysComboBox.SelectedIndex = 3;
+                    this.nakyvyysComboBox.Enabled = true;
+                    this.onlineGroupBox.Visible = true;
+                    this.Paikka = this.yleisAsetukset.Pelipaikka;
                 }
 
                 this.kansioTextBox.Visible = !luoTestiKilpailu;
@@ -341,6 +361,17 @@ namespace KaisaKaavio
             get { return this.kansioTextBox.Text; }
         }
 
+        public string Paikka
+        {
+            get { return this.peliPaikkaComboBox.Text; }
+            private set { this.peliPaikkaComboBox.Text = value != null ? value : string.Empty; }
+        }
+
+        public Nakyvyys Nakyvyys
+        {
+            get { return (Nakyvyys)Enum.GetValues(typeof(Nakyvyys)).GetValue(this.nakyvyysComboBox.SelectedIndex); }
+        }
+
         public bool RankingKisa { get { return this.rankingCheckBox.Checked; } }
         public string Aika { get { return Tyypit.Aika.DateTimeToString(this.alkamisAikaDateTimePicker.Value); } }
         public decimal Tavoite { get { return this.tavoiteNumericUpDown.Value; } }
@@ -382,18 +413,25 @@ namespace KaisaKaavio
         private void uusiKilpailuButton_Click(object sender, EventArgs e)
         {
             if (this.asetukset != null && 
-                this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa &&
-                !this.LuoTestikilpailu)
+                this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa)
             {
                 try
                 {
-                    this.asetukset.Alalaji = this.alaLajiComboBox.SelectedItem != null ? this.alaLajiComboBox.SelectedItem.ToString() : string.Empty;
-                    this.asetukset.Peliaika = (int)this.peliAikaNumericUpDown.Value;
-                    this.asetukset.PeliaikaRajattu = this.peliAikaCheckBox.Checked;
-                    this.asetukset.RankingSarja = this.rankingCheckBox.Checked;
-                    this.asetukset.Tavoite = (int)this.tavoiteNumericUpDown.Value;
-                    this.asetukset.RankingSarjanTyyppi = this.RankingKisatyyppi;
-                    this.asetukset.KaavioTyyppi = this.KaavioTyyppi;
+                    if (!this.LuoTestikilpailu)
+                    {
+                        this.asetukset.Alalaji = this.alaLajiComboBox.SelectedItem != null ? this.alaLajiComboBox.SelectedItem.ToString() : string.Empty;
+                        this.asetukset.Peliaika = (int)this.peliAikaNumericUpDown.Value;
+                        this.asetukset.PeliaikaRajattu = this.peliAikaCheckBox.Checked;
+                        this.asetukset.RankingSarja = this.rankingCheckBox.Checked;
+                        this.asetukset.Tavoite = (int)this.tavoiteNumericUpDown.Value;
+                        this.asetukset.RankingSarjanTyyppi = this.RankingKisatyyppi;
+                        this.asetukset.KaavioTyyppi = this.KaavioTyyppi;
+                        this.yleisAsetukset.Pelipaikka = this.Paikka;
+                    }
+                    else
+                    {
+                        this.yleisAsetukset.TestiPelipaikka = this.Paikka;
+                    }
                 }
                 catch
                 { 
@@ -406,7 +444,7 @@ namespace KaisaKaavio
 
         private void kilpailunNimiTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.uusiKilpailuButton.Enabled = !string.IsNullOrEmpty(this.kilpailunNimiTextBox.Text);
+            TarkistaTiedot();
         }
 
         private void kilpailunTyyppiComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -419,6 +457,8 @@ namespace KaisaKaavio
 
                 this.kilpasarjaLabel.Visible = false;
                 this.kilpaSarjaComboBox.Visible = false;
+
+                this.kaavioComboBox.Enabled = true;
             }
             
             // Avoin kisa tai SBiL kisa
@@ -431,6 +471,13 @@ namespace KaisaKaavio
                 this.kilpaSarjaComboBox.Visible = true;
 
                 this.kaavioComboBox.SelectedIndex = 0;
+                this.kaavioComboBox.Enabled = this.Laji != Laji.Kaisa || this.kilpailunTyyppiComboBox.SelectedIndex <= 1;
+                
+                if (this.Laji == Laji.Kaisa)
+                {
+                    this.peliAikaNumericUpDown.Value = 60;
+                    this.tavoiteNumericUpDown.Value = 60;
+                }
             }
 
             PaivitaKilpailunOletusNimi();
@@ -508,9 +555,25 @@ namespace KaisaKaavio
 
         private void UusiKilpailuPopup_Shown(object sender, EventArgs e)
         {
+            var nimet = this.yleisAsetukset.SaliTietueet
+                .Where(x => !string.IsNullOrEmpty(x.Lyhenne))
+                .OrderBy(x => x.Lyhenne)
+                .Select(x => x.Lyhenne)
+                .Distinct()
+                .ToArray();
+
+            this.pelipaikkojenNimet.Clear();
+            this.pelipaikkojenNimet.AddRange(nimet);
+
+            this.peliPaikkaComboBox.AutoCompleteMode = AutoCompleteMode.Suggest;
+            this.peliPaikkaComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.peliPaikkaComboBox.DataSource = pelipaikkojenNimet;
+            //this.peliPaikkaComboBox.AutoCompleteCustomSource = this.pelipaikkojenNimet;
+
             this.avattu = true;
             this.oletusNimi = this.kilpailunNimiTextBox.Text;
             PaivitaUiLajille((KaisaKaavio.Laji)uusiKilpailuLajiComboBox.SelectedItem, true);
+            TarkistaTiedot();
         }
 
         private void uusiKilpailuLajiComboBox_SelectionChangeCommitted(object sender, EventArgs e)
@@ -556,11 +619,17 @@ namespace KaisaKaavio
             TarkistaTiedot();
         }
 
-        private bool NaytaVirhe(string teksti)
+        private bool NaytaVirhe(Control namiska, string teksti)
         {
             this.uusiKilpailuButton.Enabled = false;
             this.virheLabel.Text = teksti;
             this.virheLabel.Visible = true;
+
+            if (namiska != null)
+            {
+                this.errorProvider1.SetError(namiska, teksti);
+            }
+
             return false;
         }
 
@@ -568,6 +637,21 @@ namespace KaisaKaavio
         {
             this.uusiKilpailuButton.Enabled = true;
             this.virheLabel.Visible = false;
+            this.errorProvider1.SetError(this.peliPaikkaComboBox, string.Empty);
+            this.errorProvider1.SetError(this.kilpailunTyyppiComboBox, string.Empty);
+            this.errorProvider1.SetError(this.kilpaSarjaComboBox, string.Empty);
+            this.errorProvider1.SetError(this.kaavioComboBox, string.Empty);
+            this.errorProvider1.SetError(this.kilpailunNimiTextBox, string.Empty);
+
+            if (string.IsNullOrEmpty(this.peliPaikkaComboBox.Text))
+            {
+                return NaytaVirhe(this.peliPaikkaComboBox, "Kirjoita pelipaikan lyhenne \"Pelipaikka\" kenttään (esim EBK tai PVK)");
+            }
+
+            if (string.IsNullOrEmpty(this.kilpailunNimiTextBox.Text))
+            {
+                return NaytaVirhe(this.kilpailunNimiTextBox, "Kilpailun nimi ei voi olla tyhjä");
+            }
 
             switch (this.KilpaSarja)
             {
@@ -575,7 +659,7 @@ namespace KaisaKaavio
                     if (this.Laji != KaisaKaavio.Laji.Kaisa ||
                         this.KilpailunTyyppi != KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
                     {
-                        return NaytaVirhe("Joukkuekilpailuominaisuus toimii ainoastaan Kaisan Joukkue SM-kilpailussa!");
+                        return NaytaVirhe(this.kilpaSarjaComboBox, "Joukkuekilpailuominaisuus toimii ainoastaan Kaisan Joukkue SM-kilpailussa!");
                     }
                     break;
 
@@ -584,7 +668,7 @@ namespace KaisaKaavio
                     if (this.Laji != KaisaKaavio.Laji.Kaisa ||
                         this.KilpailunTyyppi != KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
                     {
-                        return NaytaVirhe("Parikilpailuominaisuus toimii ainoastaan Kaisan Pari- ja Mixed Doubles SM-kilpailuissa!");
+                        return NaytaVirhe(this.kilpaSarjaComboBox, "Parikilpailuominaisuus toimii ainoastaan Kaisan Pari- ja Mixed Doubles SM-kilpailuissa!");
                     }
                     break;
             }
@@ -594,14 +678,14 @@ namespace KaisaKaavio
                 case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu:
                     if (this.Laji != KaisaKaavio.Laji.Kaisa)
                     {
-                        return NaytaVirhe("SBiL SM-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
+                        return NaytaVirhe(this.kilpailunTyyppiComboBox, "SBiL SM-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
                     }
                     break;
 
                 case KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu:
                     if (this.Laji != KaisaKaavio.Laji.Kaisa)
                     {
-                        return NaytaVirhe("SBiL RG-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
+                        return NaytaVirhe(this.kilpailunTyyppiComboBox, "SBiL RG-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
                     }
                     break;
             }
@@ -617,12 +701,12 @@ namespace KaisaKaavio
                 default:
                     if (this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu)
                     {
-                        return NaytaVirhe("Kaisan RG-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
+                        return NaytaVirhe(this.kaavioComboBox, "Kaisan RG-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
                     }
 
                     if (this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
                     {
-                        return NaytaVirhe("Kaisan SM-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
+                        return NaytaVirhe(this.kaavioComboBox, "Kaisan SM-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
                     }
                     break;
             }
@@ -633,6 +717,54 @@ namespace KaisaKaavio
         private void kaavioComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             TarkistaTiedot();
+        }
+
+        private void nakyvyysComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            Nakyvyys n = (Nakyvyys)e.ListItem;
+
+            var field = typeof(Nakyvyys).GetField(n.ToString());
+            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            e.Value = attributes.Length == 0 ? n.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+        }
+
+        private void peliPaikkaComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TarkistaTiedot();
+        }
+
+        private void peliPaikkaComboBox_TextUpdate(object sender, EventArgs e)
+        {
+            TarkistaTiedot();
+        }
+
+        private void peliPaikkaComboBox_Validating(object sender, CancelEventArgs e)
+        {
+            var teksti = this.peliPaikkaComboBox.Text;
+
+            if (!string.IsNullOrEmpty(teksti))
+            {
+                var sali = this.yleisAsetukset.SaliTietueet.FirstOrDefault(x => string.Equals(x.Lyhenne, teksti, StringComparison.OrdinalIgnoreCase));
+                if (sali != null)
+                {
+                    if (!string.Equals(teksti, sali.Lyhenne))
+                    {
+                        this.peliPaikkaComboBox.Text = sali.Lyhenne;
+                    }
+                }
+
+                var alias = this.yleisAsetukset.SaliTietueet.FirstOrDefault(x => string.Equals(x.Alias, teksti, StringComparison.OrdinalIgnoreCase));
+                if (alias != null)
+                {
+                    this.peliPaikkaComboBox.Text = alias.Lyhenne;
+                }
+            }
+
+            TarkistaTiedot();
+        }
+
+        private void peliPaikkaComboBox_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }

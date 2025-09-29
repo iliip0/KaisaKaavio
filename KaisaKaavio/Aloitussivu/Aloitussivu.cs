@@ -149,7 +149,7 @@ namespace KaisaKaavio.Aloitussivu
             {
                 Hide();
 
-                using (var popup = new UusiKilpailuPopup())
+                using (var popup = new UusiKilpailuPopup(this.asetukset))
                 {
                     popup.AsetaOletusarvot(this.asetukset.OletusAsetukset(laji), laji, tyyppi, salliVaihtaa, testiKilpailu);
 

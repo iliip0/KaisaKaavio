@@ -1,7 +1,10 @@
-﻿using System;
+﻿using KaisaKaavio.Tyypit;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Xml.Serialization;
 
 namespace KaisaKaavio
@@ -47,8 +50,12 @@ namespace KaisaKaavio
 
         /// <summary>
         /// Salin/pelipaikan tiedot. Nämä tallennetaan asetuksiin sillä eivät muutu kilpailujen välillä suuresti
+        /// TODO!! Poista tämä kun KaisaKaavio sivusto toimii kunnolla
         /// </summary>
         public Sali Sali { get; set; }
+
+        public List<Tyypit.SaliTietue> SaliTietueet { get; set; } = new List<SaliTietue>();
+        public List<Tyypit.PoytaTietue> PoytaTietueet { get; set; } = new List<PoytaTietue>();
 
         /// <summary>
         /// Kisoihin osallistuneet pelaajat
@@ -78,6 +85,10 @@ namespace KaisaKaavio
         public bool PaivitaAutomaattisesti { get; set; }
 
 
+        public string Pelipaikka { get; set; } = string.Empty;
+
+        public string TestiPelipaikka { get; set; } = string.Empty;
+
         /// <summary>
         /// X viimeksi aukaistua kilpailutiedostoa
         /// </summary>
@@ -89,40 +100,29 @@ namespace KaisaKaavio
         {
             [XmlAttribute]
             [DefaultValue(0)]
-            public int Peliaika { get; set; }
+            public int Peliaika { get; set; } = 0;
 
             [XmlAttribute]
             [DefaultValue(0)]
-            public int Tavoite { get; set; }
+            public int Tavoite { get; set; } = 0;
 
             [XmlAttribute]
             [DefaultValue(false)]
-            public bool PeliaikaRajattu { get; set; }
+            public bool PeliaikaRajattu { get; set; } = false;
 
             [XmlAttribute]
             [DefaultValue("")]
-            public string Alalaji { get; set; }
+            public string Alalaji { get; set; } = string.Empty;
 
             [XmlAttribute]
             [DefaultValue(false)]
-            public bool RankingSarja { get; set; }
+            public bool RankingSarja { get; set; } = false;
 
             [XmlAttribute]
-            public Ranking.RankingSarjanPituus RankingSarjanTyyppi { get; set; }
+            public Ranking.RankingSarjanPituus RankingSarjanTyyppi { get; set; } = Ranking.RankingSarjanPituus.Kuukausi;
 
             [XmlAttribute]
-            public KaavioTyyppi KaavioTyyppi { get; set; }
-
-            public KisaOletusasetukset()
-            {
-                this.Tavoite = 0;
-                this.Peliaika = 0;
-                this.PeliaikaRajattu = false;
-                this.Alalaji = string.Empty;
-                this.RankingSarja = false;
-                this.RankingSarjanTyyppi = Ranking.RankingSarjanPituus.Kuukausi;
-                this.KaavioTyyppi = KaisaKaavio.KaavioTyyppi.Pudari3Kierros;
-            }
+            public KaavioTyyppi KaavioTyyppi { get; set; } = KaavioTyyppi.Pudari3Kierros;
         }
 
         public KisaOletusasetukset OletusAsetuksetKaisa { get; set; }
@@ -192,6 +192,8 @@ namespace KaisaKaavio
                 Alalaji = "Snooker"
             };
 
+            LisaaOletusSaliTietueet();
+
             this.tiedosto = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaavioAsetukset.xml");
         }
 
@@ -231,8 +233,41 @@ namespace KaisaKaavio
                         this.ViimeisinKilpailu = asetukset.ViimeisinKilpailu;
                         this.ViimeisimmanPaivityksenPaiva = asetukset.ViimeisimmanPaivityksenPaiva;
                         this.PaivitaAutomaattisesti = asetukset.PaivitaAutomaattisesti;
+                        this.Pelipaikka = asetukset.Pelipaikka;
+                        this.TestiPelipaikka = asetukset.TestiPelipaikka;
 
                         this.Sali.KopioiSalista(asetukset.Sali);
+
+                        this.SaliTietueet.Clear();
+                        if (asetukset.SaliTietueet != null)
+                        {
+                            foreach (var s in asetukset.SaliTietueet)
+                            {
+                                if (!this.SaliTietueet.Any(x => 
+                                    string.Equals(x.Lyhenne, s.Lyhenne) && 
+                                    string.Equals(x.Nimi, s.Nimi) && 
+                                    string.Equals(x.Alias, s.Alias)))
+                                {
+                                    this.SaliTietueet.Add(s);
+                                }
+                            }
+                        }
+
+                        this.PoytaTietueet.Clear();
+                        if (asetukset.PoytaTietueet != null)
+                        {
+                            foreach (var p in asetukset.PoytaTietueet)
+                            {
+                                if (!this.PoytaTietueet.Any(x => 
+                                    string.Equals(x.SalinLyhenne, p.SalinLyhenne) && 
+                                    string.Equals(x.Nimi, p.Nimi)))
+                                {
+                                    this.PoytaTietueet.Add(p);
+                                }
+                            }
+                        }
+
+                        LisaaOletusSaliTietueet();
 
                         this.Pelaajat.Clear();
                         foreach (var pelaaja in asetukset.Pelaajat)
@@ -293,6 +328,36 @@ namespace KaisaKaavio
             {
                 // TODO!!!! Asetusten varmuuskopiointi ja palautus
 
+            }
+        }
+
+        public void LisaaOletusSaliTietueet()
+        {
+            if (!this.SaliTietueet.Any())
+            {
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "CFC", KaisaPoytia = 1 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "EBK", KaisaPoytia = 3 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "HBK", KaisaPoytia = 4 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "HyvBK", KaisaPoytia = 5 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "JoKK", KaisaPoytia = 4 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "KaKa", KaisaPoytia = 4 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "KeMK", KaisaPoytia = 2 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "KouBK", KaisaPoytia = 4 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "KymKe", KaisaPoytia = 6 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "KBK", KaisaPoytia = 5 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "PRSK", KaisaPoytia = 5 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "PVK", KaisaPoytia = 6 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "RBK", KaisaPoytia = 3 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "RB", KaisaPoytia = 4 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "RKS", KaisaPoytia = 2 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "SaiBi", KaisaPoytia = 4 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "TBO", KaisaPoytia = 7 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "TAK", KaisaPoytia = 2 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "TKS", KaisaPoytia = 2 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "TSK", KaisaPoytia = 2 });
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "ToK", KaisaPoytia = 4 });
+
+                this.SaliTietueet.Add(new SaliTietue() { Lyhenne = "PVK", Alias="puhveli" });
             }
         }
 
