@@ -16,25 +16,25 @@ namespace KaisaKaavio
         /// Kilpailun ID joka identifioi sen yksiselitteisesti
         /// </summary>
         [DefaultValue("")]
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string Nimi { get; set; }
+        public string Nimi { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string KilpailunJohtaja { get; set; }
+        public string KilpailunJohtaja { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string JarjestavaSeura { get; set; }
+        public string JarjestavaSeura { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string Paikka { get; set; }
+        public string Paikka { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string PuhelinNumero { get; set; }
+        public string PuhelinNumero { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string AlkamisAika { get; set; }
+        public string AlkamisAika { get; set; } = string.Empty;
 
         [XmlIgnore]
         public DateTime AlkamisAikaDt 
@@ -50,25 +50,28 @@ namespace KaisaKaavio
         }
 
         [DefaultValue("")]
-        public string KellonAika { get; set; }
-        
+        public string KellonAika { get; set; } = string.Empty;
+
         [DefaultValue(true)]
-        public bool Yksipaivainen { get; set; }
+        public bool Yksipaivainen { get; set; } = true;
 
         [DefaultValue(false)]
-        public bool TestiKilpailu { get; set; }
+        public bool TestiKilpailu { get; set; } = false;
+
+        [DefaultValue(true)]
+        public bool SalliOnlineIlmoittautuminen { get; set; } = true;
 
         [DefaultValue("")]
-        public string KaavioidenYhdistaminenKierroksesta { get; set; }
+        public string KaavioidenYhdistaminenKierroksesta { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string BiljardiOrgId { get; set; }
+        public string BiljardiOrgId { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string EdellisenBiljardiOrgHaunPvm { get; set; }
+        public string EdellisenBiljardiOrgHaunPvm { get; set; } = string.Empty;
 
         [XmlAttribute]
-        public string OhjelmaVersio { get; set; }
+        public string OhjelmaVersio { get; set; } = string.Empty;
 
         [XmlIgnore]
         public int KaavioidenYhdistaminenKierroksestaInt 
@@ -78,6 +81,24 @@ namespace KaisaKaavio
                 int k = 0;
                 Int32.TryParse(this.KaavioidenYhdistaminenKierroksesta, out k);
                 return k;
+            }
+        }
+
+        [XmlIgnore]
+        public string SeurantaLinkki
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    return string.Format("{0}/Kilpailut/Details/{1}",
+                        Asetukset.KaisaKaavioServeri,
+                        this.Id);
+                }
+                else
+                {
+                    return Asetukset.KaisaKaavioServeri;
+                }
             }
         }
 
@@ -157,49 +178,46 @@ namespace KaisaKaavio
             }
         }
 
-        public SijoitustenMaaraytyminen SijoitustenMaaraytyminen { get; set; }
+        public SijoitustenMaaraytyminen SijoitustenMaaraytyminen { get; set; } = SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
 
         [DefaultValue(true)]
-        public bool PeliaikaOnRajattu { get; set; }
+        public bool PeliaikaOnRajattu { get; set; } = true;
 
-        public decimal PeliAika { get; set; }
-        public decimal RankkareidenMaara { get; set; }
-        public decimal TavoitePistemaara { get; set; }
-        public decimal PelaajiaEnintaan { get; set; }
-
-        [DefaultValue("")]
-        public string LisenssiVaatimus { get; set; }
-
-        public KaavioTyyppi KaavioTyyppi { get; set; }
+        public decimal PeliAika { get; set; } = 40;
+        public decimal RankkareidenMaara { get; set; } = 3;
+        public decimal TavoitePistemaara { get; set; } = 60;
+        public decimal PelaajiaEnintaan { get; set; } = 32;
 
         [DefaultValue("")]
-        public string LisaTietoa { get; set; }
+        public string LisenssiVaatimus { get; set; } = string.Empty;
+
+        public KaavioTyyppi KaavioTyyppi { get; set; } = KaavioTyyppi.Pudari3Kierros;
 
         [DefaultValue("")]
-        public string OsallistumisMaksu { get; set; }
+        public string LisaTietoa { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string OsallistumisOikeus { get; set; }
+        public string OsallistumisMaksu { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string MaksuTapa { get; set; }
+        public string OsallistumisOikeus { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string Pukeutuminen { get; set; }
+        public string MaksuTapa { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string Palkinnot { get; set; }
+        public string Pukeutuminen { get; set; } = string.Empty;
 
         [DefaultValue("")]
-        public string Ilmoittautuminen { get; set; }
+        public string Palkinnot { get; set; } = string.Empty;
+
+        [DefaultValue("")]
+        public string Ilmoittautuminen { get; set; } = string.Empty;
         
         [XmlIgnore]
         public bool KilpailuOnViikkokisa { get { return this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa; } }
 
-        public Nakyvyys Nakyvyys { get; set; }
-
-       // [DefaultValue(true)]
-        //public bool HaeLoppupelitHuolellisesti { get; set; }
+        public Nakyvyys Nakyvyys { get; set; } = Nakyvyys.Kaikille;
 
         [XmlIgnore]
         public bool KilpailuOnTasurikisa 
@@ -216,10 +234,10 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool Tyhja { get { return string.IsNullOrEmpty(this.Id) && string.IsNullOrEmpty(this.Nimi); } }
 
-        public Laji Laji { get; set; }
-        public KilpailunTyyppi KilpailunTyyppi { get; set; }
-        public KilpaSarja KilpaSarja { get; set; }
-        public Sijoittaminen Sijoittaminen { get; set; }
+        public Laji Laji { get; set; } = Laji.Kaisa;
+        public KilpailunTyyppi KilpailunTyyppi { get; set; } = KilpailunTyyppi.Viikkokisa;
+        public KilpaSarja KilpaSarja { get; set; } = KilpaSarja.Yleinen;
+        public Sijoittaminen Sijoittaminen { get; set; } = Sijoittaminen.EiSijoittamista;
 
         public BindingList<Pelaaja> Osallistujat { get; set; }
         public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
@@ -262,7 +280,7 @@ namespace KaisaKaavio
         }
 
         [XmlIgnore]
-        public string Tiedosto { get; set; }
+        public string Tiedosto { get; set; } = string.Empty;
 
         [XmlIgnore]
         public bool HakuTarvitaan = false;
@@ -274,7 +292,7 @@ namespace KaisaKaavio
         public int TallennusAjastin = 0;
 
         [XmlIgnore]
-        public bool TallennusTarvitaan = false;
+        public bool TallennusTarvitaan = true;
 
         [XmlIgnore]
         public bool TallennusTaiSivustonPaivitysTarvitaan
@@ -326,7 +344,6 @@ namespace KaisaKaavio
         public Kilpailu()
         {
             OhjelmaVersio = Assembly.GetEntryAssembly().GetName().Version.ToString();
-            Nakyvyys = Nakyvyys.Kaikille;
 
             Osallistujat = new BindingList<Pelaaja>();
             Osallistujat.ListChanged += Osallistujat_ListChanged;
@@ -340,48 +357,14 @@ namespace KaisaKaavio
             Pelit = new BindingList<Peli>();
             Pelit.ListChanged += Pelit_ListChanged;
 
-            Id = string.Empty;
-            Nimi = string.Empty;
-
             AlkamisAikaDt = DateTime.Today;
-            KellonAika = string.Empty;
-            Yksipaivainen = true;
 
             this.RankingOsakilpailu = null;
 
-            OsallistumisMaksu = string.Empty;
-            OsallistumisOikeus = string.Empty;
-            KaavioTyyppi = KaavioTyyppi.Pudari3Kierros;
-            JarjestavaSeura = string.Empty;
-            PeliAika = 40;
-            PeliaikaOnRajattu = true;
-            TavoitePistemaara = 60;
-            RankkareidenMaara = 3;
-            Tiedosto = string.Empty;
-            LisaTietoa = string.Empty;
-            KilpailunJohtaja = string.Empty;
-            LisenssiVaatimus = string.Empty;
-            MaksuTapa = string.Empty;
-            Palkinnot = string.Empty;
-            Pukeutuminen = string.Empty;
-            Ilmoittautuminen = string.Empty;
-            PelaajiaEnintaan = 32;
-            Laji = KaisaKaavio.Laji.Kaisa;
-            KilpailunTyyppi = KaisaKaavio.KilpailunTyyppi.Viikkokisa;
-            Sijoittaminen = KaisaKaavio.Sijoittaminen.EiSijoittamista;
-            KilpaSarja = KaisaKaavio.KilpaSarja.Yleinen;
-            SijoitustenMaaraytyminen = KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
-            BiljardiOrgId = string.Empty;
-            EdellisenBiljardiOrgHaunPvm = string.Empty;
-
             TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
-            TallennusTarvitaan = false;
-            SivustonPaivitysTarvitaan = false;
-
-            TestiKilpailu = false;
 
             this.Sali = null;
-            this.KaavioidenYhdistaminenKierroksesta = "5";
+            this.KaavioidenYhdistaminenKierroksesta = "5"; // TODO? Voisi olla tyhjä
         }
 
 #region Pelit
@@ -1353,6 +1336,7 @@ namespace KaisaKaavio
                 this.OhjelmaVersio = kilpailu.OhjelmaVersio;
                 this.Nakyvyys = kilpailu.Nakyvyys;
                 this.Paikka = kilpailu.Paikka;
+                this.SalliOnlineIlmoittautuminen = kilpailu.SalliOnlineIlmoittautuminen;
 
                 this.OhjelmaVersio = Assembly.GetEntryAssembly().GetName().Version.ToString();
 

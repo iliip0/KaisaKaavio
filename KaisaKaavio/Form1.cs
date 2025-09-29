@@ -123,6 +123,7 @@ namespace KaisaKaavio
             this.kilpasarjaComboBox.DataSource = Enum.GetValues(typeof(KilpaSarja));
             this.sijoitustenMaaraytyminenComboBox.DataSource = Enum.GetValues(typeof(SijoitustenMaaraytyminen));
             this.tuloksetSijoitustenMaaraytyminenComboBox.DataSource = Enum.GetValues(typeof(SijoitustenMaaraytyminen));
+            this.nakyvyysComboBox.DataSource = Enum.GetValues(typeof(Nakyvyys));
 
             this.rankingKisaTyyppiComboBox.DataSource = Enum.GetValues(typeof(Ranking.RankingSarjanPituus));
             this.rankingVuosiComboBox.Items.AddRange(this.ranking.Vuodet.Select(x => (object)x).ToArray());
@@ -472,6 +473,12 @@ namespace KaisaKaavio
                     //this.pelitDataGridView.Rows.Clear();
 
                     this.kilpailu.Nimi = popup.Nimi;
+                    this.kilpailu.Paikka = popup.Paikka;
+                    this.kilpailu.Nakyvyys = popup.Nakyvyys;
+                    this.kilpailu.SalliOnlineIlmoittautuminen =
+                        (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa || this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu) &&
+                        (this.kilpailu.Nakyvyys == Nakyvyys.VainLinkinKautta || this.kilpailu.Nakyvyys == Nakyvyys.Kaikille);
+
                     this.kilpailu.Laji = popup.Laji;
                     this.kilpailu.KilpailunTyyppi = popup.KilpailunTyyppi;
                     this.kilpailu.KaavioTyyppi = popup.KaavioTyyppi;
@@ -6085,5 +6092,14 @@ namespace KaisaKaavio
         }
 
         #endregion
+
+        private void nakyvyysComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            Nakyvyys n = (Nakyvyys)e.ListItem;
+
+            var field = typeof(Nakyvyys).GetField(n.ToString());
+            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            e.Value = attributes.Length == 0 ? n.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+        }
     }
 }
