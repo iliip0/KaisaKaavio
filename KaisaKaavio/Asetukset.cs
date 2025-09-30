@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 using System.Xml.Serialization;
 
 namespace KaisaKaavio
@@ -60,7 +61,7 @@ namespace KaisaKaavio
         /// <summary>
         /// Kisoihin osallistuneet pelaajat
         /// </summary>
-        public BindingList<PelaajaTietue> Pelaajat { get; set; }
+        public List<PelaajaTietue> Pelaajat { get; set; } = new List<PelaajaTietue>();
 
         /// <summary>
         /// Rankingkisojen (viikkokisat) viimeisimmät pisteytysasetukset.
@@ -139,7 +140,6 @@ namespace KaisaKaavio
             this.PaivitaAutomaattisesti = true;
 
             this.Sali = new Sali();
-            this.Pelaajat = new BindingList<PelaajaTietue>();
             this.ViimeisimmatKilpailut = new BindingList<Tyypit.Tiedosto>();
 
             this.RankingAsetuksetKaisa = new Ranking.RankingAsetukset(Laji.Kaisa);
@@ -511,12 +511,7 @@ namespace KaisaKaavio
                     }
                 }
 
-                var pelaajatJarjestyksessa = this.Pelaajat.OrderBy(x => x.Nimi).ToArray();
-                this.Pelaajat.Clear();
-                foreach (var p in pelaajatJarjestyksessa)
-                {
-                    this.Pelaajat.Add(p);
-                }
+                this.Pelaajat.Sort((x, y) => { return string.Compare(x.Nimi, y.Nimi); });
             }
         }
 
@@ -548,6 +543,76 @@ namespace KaisaKaavio
 
                 default: throw new NotImplementedException(string.Format("Laji {0}", laji));
             }
+        }
+
+        public void HaeSalitPalvelimelta(System.Windows.Forms.Control invoker, Loki loki)
+        {
+            Integraatio.KaisaKaavioFi.HaeDataa("Salit", string.Empty, invoker, loki, (tietue) => 
+            {
+                if (tietue != null && tietue.Rivit.Any())
+                {
+                    this.SaliTietueet.Clear();
+                    
+                    foreach (var rivi in tietue.Rivit)
+                    {
+                        this.SaliTietueet.Add(new SaliTietue()
+                        {
+                            Lyhenne = rivi.Get("Lyhenne", string.Empty),
+                            Nimi = rivi.Get("Nimi", string.Empty),
+                            Alias = rivi.Get("Alias", string.Empty),
+                            KaisaPoytia = rivi.GetInt("KaisaPoytia", 0)
+                        });
+                    }
+                }
+            });
+        }
+
+        public void HaePelaajatPalvelimelta(System.Windows.Forms.Control invoker, Loki loki)
+        {
+            Integraatio.KaisaKaavioFi.HaeDataa("Pelaajat", string.Empty, invoker, loki, (tietue) =>
+            {
+                bool lisattiinJotain = false;
+
+                if (tietue != null && tietue.Rivit.Any())
+                {
+                    foreach (var rivi in tietue.Rivit)
+                    {
+                        string nimi = rivi.Get("Nimi", string.Empty);
+                        string seura = rivi.Get("Seura", string.Empty);
+
+                        var pelaaja = this.Pelaajat.FirstOrDefault(x => Nimi.Equals(x.Nimi, nimi));
+                        if (pelaaja == null)
+                        {
+                            pelaaja = new PelaajaTietue()
+                            {
+                                Nimi = nimi,
+                                Seura = seura
+                            };
+
+                            this.Pelaajat.Add(pelaaja);
+                            lisattiinJotain = true;
+                        }
+                        else
+                        {
+                            if (!string.Equals(pelaaja.Nimi, nimi))
+                            {
+                                pelaaja.Nimi = nimi;
+                                lisattiinJotain = true;
+                            }
+
+                            if (!string.IsNullOrEmpty(seura))
+                            {
+                                pelaaja.Seura = seura;
+                            }
+                        }
+
+                        if (lisattiinJotain)
+                        {
+                            this.Pelaajat.Sort((x, y) => { return string.Compare(x.Nimi, y.Nimi); });
+                        }
+                    }
+                }
+            });
         }
     }
 }

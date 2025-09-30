@@ -38,6 +38,10 @@ namespace KaisaKaavio.Aloitussivu
             }
 
             this.versioLabel.Text = string.Format("versio {0}", Assembly.GetEntryAssembly().GetName().Version);
+
+#if DEBUG
+            this.TopMost = false;
+#endif
         }
 
         private void jatkaButton_Click(object sender, EventArgs e)

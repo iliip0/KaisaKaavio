@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Web;
 using System.Windows.Forms;
 
 namespace KaisaKaavio
@@ -105,6 +106,8 @@ namespace KaisaKaavio
             kilpailu.Osallistujat.ListChanged += Osallistujat_ListChanged;
 
             asetukset.Lataa();
+            asetukset.HaeSalitPalvelimelta(this, this.loki);
+            asetukset.HaePelaajatPalvelimelta(this, this.loki);
 
             NaytaAloitussivu();
 
@@ -942,6 +945,8 @@ namespace KaisaKaavio
         void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Tallenna();
+
+            Thread.Sleep(3000); // Anna taustaajoille aikaa valmistua
 
 #if !DEBUG // Päivitetään ohjelma uusimpaan versioon suljettaessa
 #if !LITE_VERSION
@@ -1784,6 +1789,34 @@ namespace KaisaKaavio
                         {
                             PaivitaPelaajienRankingPisteetOsallistujalistaan();
 
+                            if (this.TasoitusColumn.Visible)
+                            {
+                                if (!string.IsNullOrEmpty(pelaaja.Nimi) &&
+                                    !string.IsNullOrEmpty(this.kilpailu.Paikka))
+                                {
+                                    string query = string.Format("pelaaja={0}&paikka={1}&laji={2}",
+                                        HttpUtility.UrlEncode(pelaaja.Nimi),
+                                        HttpUtility.UrlEncode(this.kilpailu.Paikka),
+                                        HttpUtility.UrlEncode(this.kilpailu.Laji.ToString()));
+
+                                    Integraatio.KaisaKaavioFi.HaeDataa("Tasoitukset", query, this, this.loki, (tietue) =>
+                                    {
+                                        if (tietue != null && tietue.Rivit.Count == 1)
+                                        {
+                                            if (tietue.Rivit[0].GetInt("OnTasoitus", 0) == 1)
+                                            {
+                                                pelaaja.Tasoitus = tietue.Rivit[0].Get("Tasoitus", string.Empty);
+                                            }
+                                            else
+                                            {
+                                                pelaaja.Tasoitus = string.Empty;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+
+                            /*
                             var tietue = this.asetukset.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
                             if (tietue != null)
                             {
@@ -1798,6 +1831,7 @@ namespace KaisaKaavio
                             else
                             {
                             }
+                            */
                         }
                     }
                 }

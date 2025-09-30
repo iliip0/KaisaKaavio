@@ -6,46 +6,38 @@ namespace KaisaKaavio
     public class PelaajaTietue
     {
         [XmlAttribute]
-        public string Nimi { get; set; }
+        public string Nimi { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string Seura { get; set; }
+        public string Seura { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string TasoitusPool { get; set; }
+        public string TasoitusPool { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string TasoitusKara { get; set; }
+        public string TasoitusKara { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string TasoitusPyramidi { get; set; }
+        public string TasoitusPyramidi { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string TasoitusHeyball { get; set; }
+        public string TasoitusHeyball { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string TasoitusSnooker { get; set; }
+        public string TasoitusSnooker { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string TasoitusKaisa { get; set; }
+        public string TasoitusKaisa { get; set; } = string.Empty;
 
         public PelaajaTietue()
         {
-            this.Nimi = string.Empty;
-            this.Seura = string.Empty;
-            this.TasoitusHeyball = string.Empty;
-            this.TasoitusPool = string.Empty;
-            this.TasoitusKaisa = string.Empty;
-            this.TasoitusKara = string.Empty;
-            this.TasoitusSnooker = string.Empty;
-            this.TasoitusPyramidi = string.Empty;
         }
 
         public string Tasoitus(Laji laji)

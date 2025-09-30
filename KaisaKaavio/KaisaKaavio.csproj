@@ -113,6 +113,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -244,6 +245,8 @@
       <DependentUpon>TulostaPoytakirjojaPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="Tyypit\Aika.cs" />
+    <Compile Include="Tyypit\CsvRivi.cs" />
+    <Compile Include="Tyypit\CsvTietue.cs" />
     <Compile Include="Tyypit\EvaluointiTietokanta.cs" />
     <Compile Include="Tyypit\Luku.cs" />
     <Compile Include="Tyypit\Nimi.cs" />
