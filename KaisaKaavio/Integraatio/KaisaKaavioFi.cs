@@ -156,9 +156,6 @@ namespace KaisaKaavio.Integraatio
                         tiedot.Query);
 
                     var teksti = client.GetStringAsync(address).GetAwaiter().GetResult();
-                    //var response = client.GetAsync(address).GetAwaiter().GetResult();
-
-                    //var teksti = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
                     CsvTietue tietue = new CsvTietue();
                     tietue.Lue(teksti);
