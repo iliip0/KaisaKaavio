@@ -220,9 +220,13 @@ namespace KaisaKaavio
                 if (luoTestiKilpailu)
                 {
                     this.Text = "Luo uusi testikilpailu";
+#if DEBUG
+                    this.nakyvyysComboBox.SelectedIndex = 3;
+                    this.onlineGroupBox.Visible = true;
+#else
                     this.nakyvyysComboBox.SelectedIndex = 0;
-                    //this.nakyvyysComboBox.Enabled = false;
                     this.onlineGroupBox.Visible = false;
+#endif
 
                     this.Paikka = this.yleisAsetukset.TestiPelipaikka;
                 }

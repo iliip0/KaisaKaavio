@@ -208,6 +208,7 @@
     <Compile Include="Ranking\RankingPisteytysSijoituksesta.cs" />
     <Compile Include="Ranking\RankingSarja.cs" />
     <Compile Include="Ranking\RankingSarjanPituus.cs" />
+    <Compile Include="Ranking\RankingSarjanTyyppi.cs" />
     <Compile Include="Sali.cs" />
     <Compile Include="SalinTiedotPanel.cs">
       <SubType>UserControl</SubType>
