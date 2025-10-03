@@ -50,6 +50,7 @@ namespace KaisaKaavio
         private Color biljardiOrgVari = Color.FromArgb(255, 180, 22, 111);
 
         private AutoCompleteStringCollection pelaajienNimet = null;
+        private AutoCompleteStringCollection seurojenNimet = null;
         private AutoCompleteStringCollection pelipaikkojenNimet = null;
 
         private Brush rajaHarja = null;
@@ -853,6 +854,9 @@ namespace KaisaKaavio
         // Tallenna
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            this.kilpailu.TallennusTarvitaan = true;
+            this.kilpailu.SivustonPaivitysTarvitaan = true;
+
             try
             {
                 if (string.IsNullOrEmpty(kilpailu.Tiedosto) || !File.Exists(kilpailu.Tiedosto))
@@ -875,6 +879,9 @@ namespace KaisaKaavio
         // Tallenna nimella
         private void tallennaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.kilpailu.TallennusTarvitaan = true;
+            this.kilpailu.SivustonPaivitysTarvitaan = true;
+
             try
             {
                 string vanhaTiedosto = this.kilpailu.Tiedosto;
@@ -914,9 +921,27 @@ namespace KaisaKaavio
             }
 
             this.pelaajienNimet = new AutoCompleteStringCollection();
-            this.pelaajienNimet.AddRange(this.asetukset.Pelaajat.Select(x => x.Nimi).ToArray());
+            this.pelaajienNimet.AddRange(this.asetukset.Pelaajat
+                .Select(x => x.Nimi)
+                .OrderBy(x => x)
+                .Distinct()
+                .ToArray());
+
+            this.seurojenNimet = new AutoCompleteStringCollection();
+            this.seurojenNimet.AddRange(this.asetukset.Pelaajat
+                .Where(x => !string.IsNullOrEmpty(x.Seura))
+                .Select(x => x.Seura)
+                .OrderBy(x => x)
+                .Distinct()
+                .ToArray());
 
             this.pelipaikkojenNimet = new AutoCompleteStringCollection();
+            this.pelipaikkojenNimet.AddRange(this.asetukset.SaliTietueet
+                .Where(x => !string.IsNullOrEmpty(x.Lyhenne))
+                .Select(x => x.Lyhenne)
+                .OrderBy(x => x)
+                .Distinct()
+                .ToArray());
 
             PaivitaStatusRivi(string.Empty, false, 0, 0);
             PaivitaArvontaTabi();
@@ -946,7 +971,21 @@ namespace KaisaKaavio
         {
             Tallenna();
 
-            Thread.Sleep(3000); // Anna taustaajoille aikaa valmistua
+            // Odotetaan hetki jos kilpailun päivitys sivustolle on kesken
+            if (this.kilpailu != null && this.kilpailu.SivustonPaivitysTarvitaan)
+            {
+                int i = 0;
+                while (this.kilpailu.SivustonPaivitysTarvitaan)
+                {
+                    Thread.Sleep(250);
+                    i++;
+
+                    if (i > 6)
+                    {
+                        break;
+                    }
+                }
+            }
 
 #if !DEBUG // Päivitetään ohjelma uusimpaan versioon suljettaessa
 #if !LITE_VERSION
@@ -1816,28 +1855,18 @@ namespace KaisaKaavio
                                 }
                             }
 
-                            /*
-                            var tietue = this.asetukset.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
-                            if (tietue != null)
+                            var pelaajatietue = this.asetukset.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
+                            if (pelaajatietue != null)
                             {
-                                pelaaja.Nimi = Tyypit.Nimi.MuotoileNimi(pelaaja.Nimi);
-                                pelaaja.Seura = tietue.Seura;
-
-                                if (this.kilpailu.KilpailuOnTasurikisa)
-                                {
-                                    pelaaja.Tasoitus = tietue.Tasoitus(this.kilpailu.Laji);
-                                }
+                                pelaaja.Nimi = pelaajatietue.Nimi;
+                                pelaaja.Seura = pelaajatietue.Seura;
                             }
-                            else
-                            {
-                            }
-                            */
                         }
                     }
                 }
             }
             catch
-            { 
+            {
             }
         }
 
@@ -2104,13 +2133,17 @@ namespace KaisaKaavio
             {
                 if (osallistujatDataGridView.CurrentCell != null)
                 {
-                    if (osallistujatDataGridView.CurrentCell.ColumnIndex == this.PeliPaikkaColumn.Index)
+                    if (osallistujatDataGridView.CurrentCell.ColumnIndex == this.seuraDataGridViewTextBoxColumn.Index)
                     {
-                        EhdotaPelipaikkoja(e, osallistujatDataGridView.CurrentCell.ColumnIndex, this.PeliPaikkaColumn.Index);
+                        EhdotaSeuroja(e, osallistujatDataGridView.CurrentCell.ColumnIndex, this.seuraDataGridViewTextBoxColumn.Index);
                     }
                     else if (osallistujatDataGridView.CurrentCell.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
                     {
                         EhdotaPelaajienNimia(e, osallistujatDataGridView.CurrentCell.ColumnIndex, this.nimiDataGridViewTextBoxColumn.Index);
+                    }
+                    else
+                    {
+                        PoistaNimiEhdottaminenKaytosta(e);
                     }
                 }
             }
@@ -2132,6 +2165,60 @@ namespace KaisaKaavio
 #endif
         }
 
+        private void EhdotaSeuroja(DataGridViewEditingControlShowingEventArgs e, int nykySarake, int nimiSarake)
+        {
+            try
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    int column = nykySarake;
+                    if (column == nimiSarake)
+                    {
+                        List<string> nimet = new List<string>();
+
+                        nimet.AddRange(this.asetukset.Pelaajat
+                            .Where(x => !string.IsNullOrEmpty(x.Seura))
+                            .Select(x => x.Seura)
+                            .OrderBy(x => x)
+                            .Distinct()
+                            .ToArray());
+
+                        nimet.AddRange(this.asetukset.SaliTietueet
+                            .Where(x => !string.IsNullOrEmpty(x.Lyhenne))
+                            .Select(x => x.Lyhenne)
+                            .OrderBy(x => x)
+                            .Distinct()
+                            .ToArray());
+
+                        if (nimet.Any())
+                        {
+                            this.seurojenNimet.Clear();
+                            this.seurojenNimet.AddRange(nimet.
+                                Distinct().
+                                OrderBy(x => x).
+                                ToArray());
+
+                            tb.AutoCompleteMode = AutoCompleteMode.Suggest;
+                            tb.AutoCompleteCustomSource = this.seurojenNimet;
+                            tb.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        }
+                        else
+                        {
+                            tb.AutoCompleteMode = AutoCompleteMode.None;
+                        }
+                    }
+                    else
+                    {
+                        tb.AutoCompleteMode = AutoCompleteMode.None;
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
         private void EhdotaPelipaikkoja(DataGridViewEditingControlShowingEventArgs e, int nykySarake, int nimiSarake)
         {
             try
@@ -2142,17 +2229,14 @@ namespace KaisaKaavio
                     int column = nykySarake;
                     if (column == nimiSarake)
                     {
-                        if (this.kilpailu.PeliPaikat.Any(x => !x.Tyhja))
+                        List<string> nimet = new List<string>();
+                        nimet.AddRange(asetukset.SaliTietueet
+                            .OrderBy(x => x.Lyhenne)
+                            .Select(x => x.Lyhenne)
+                            .Distinct());
+
+                        if (nimet.Any())
                         {
-                            List<string> nimet = new List<string>();
-
-                            nimet.Add(this.asetukset.Sali.LyhytNimi);
-
-                            foreach (var sali in this.kilpailu.PeliPaikat)
-                            {
-                                nimet.Add(sali.LyhytNimi);
-                            }
-
                             this.pelipaikkojenNimet.Clear();
                             this.pelipaikkojenNimet.AddRange(nimet.ToArray());
 
@@ -2169,6 +2253,20 @@ namespace KaisaKaavio
                     {
                         tb.AutoCompleteMode = AutoCompleteMode.None;
                     }
+                }
+            }
+            catch
+            {
+            }
+        }
+        private void PoistaNimiEhdottaminenKaytosta(DataGridViewEditingControlShowingEventArgs e)
+        {
+            try
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.AutoCompleteMode = AutoCompleteMode.None;
                 }
             }
             catch

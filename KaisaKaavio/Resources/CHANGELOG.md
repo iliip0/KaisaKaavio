@@ -2,6 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.43		(työn alla)
+
+* Korjaus ilmoittautumissivun automaattiseen nimien ehdotukseen
+* Alustava integraation KaisaKaavio.fi sivuston kanssa
+
 ## Versio 1.0.0.42		(julkaistu 15.09.2025)
 
 * Korjauksia ja parannuksia hakualgoritmiin
