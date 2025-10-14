@@ -90,7 +90,7 @@ namespace KaisaKaavio.Integraatio
                     client.Headers.Add(HttpRequestHeader.ContentType, "application/xml");
 
                     string address = string.Format("{0}/api/TallennaKilpailu?Id={1}&TiedostonNimi={2}", 
-                        Asetukset.KaisaKaavioServeri, 
+                        Asetukset.KaisaKaavioServeriHttps, 
                         HttpUtility.UrlEncode(tiedot.Id),
                         HttpUtility.UrlEncode(tiedot.TiedostonNimi));
 
@@ -162,7 +162,7 @@ namespace KaisaKaavio.Integraatio
                 using (HttpClient client = new HttpClient())
                 {
                     string address = string.Format("{0}/api/QueryCsv/{1}?{2}",
-                        Asetukset.KaisaKaavioServeri,
+                        Asetukset.KaisaKaavioServeriHttps,
                         HttpUtility.UrlEncode(tiedot.Id),
                         tiedot.Query);
 
@@ -218,7 +218,7 @@ namespace KaisaKaavio.Integraatio
                     client.Headers.Add(HttpRequestHeader.ContentType, "application/octet-stream");
 
                     string address = string.Format("{0}/api/LataaOhjelma?versio={1}",
-                        Asetukset.KaisaKaavioServeri,
+                        Asetukset.KaisaKaavioServeriHttps,
                         versio.ToString());
 
                     client.DownloadFile(address, tiedostonNimi);

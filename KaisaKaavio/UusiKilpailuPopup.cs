@@ -574,6 +574,8 @@ namespace KaisaKaavio
             this.peliPaikkaComboBox.DataSource = pelipaikkojenNimet;
             //this.peliPaikkaComboBox.AutoCompleteCustomSource = this.pelipaikkojenNimet;
 
+            this.peliPaikkaComboBox.Text = this.yleisAsetukset.Pelipaikka;
+
             this.avattu = true;
             this.oletusNimi = this.kilpailunNimiTextBox.Text;
             PaivitaUiLajille((KaisaKaavio.Laji)uusiKilpailuLajiComboBox.SelectedItem, true);

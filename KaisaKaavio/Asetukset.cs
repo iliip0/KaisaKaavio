@@ -42,7 +42,8 @@ namespace KaisaKaavio
         public static readonly string KaisaKaavioServeri = "https://localhost:5001";
 #else
         //public static readonly string KaisaKaavioServeri = "http://localhost:5000";
-        public static readonly string KaisaKaavioServeri = "https://kaisakaavio.fi";
+        public static readonly string KaisaKaavioServeriHttp = "http://kaisakaavio.fi";
+        public static readonly string KaisaKaavioServeriHttps = "https://kaisakaavio.fi";
 #endif
 
         /// <summary>

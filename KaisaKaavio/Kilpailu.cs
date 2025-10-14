@@ -92,12 +92,12 @@ namespace KaisaKaavio
                 if (!string.IsNullOrEmpty(this.Id))
                 {
                     return string.Format("{0}/Kilpailut/Details/{1}",
-                        Asetukset.KaisaKaavioServeri,
+                        Asetukset.KaisaKaavioServeriHttp,
                         this.Id);
                 }
                 else
                 {
-                    return Asetukset.KaisaKaavioServeri;
+                    return Asetukset.KaisaKaavioServeriHttp;
                 }
             }
         }
