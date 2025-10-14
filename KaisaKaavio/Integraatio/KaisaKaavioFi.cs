@@ -68,7 +68,7 @@ namespace KaisaKaavio.Integraatio
             }
         }
 
-        public static void TallennaKilpailuServerilleAsync(object param)
+        private static void TallennaKilpailuServerilleAsync(object param)
         {
             KilpailunTiedot tiedot = (KilpailunTiedot)param;
 
@@ -77,8 +77,13 @@ namespace KaisaKaavio.Integraatio
                 byte[] teksti = File.ReadAllBytes(tiedot.Tiedosto);
 
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+#if DEBUG
+                ServicePointManager.ServerCertificateValidationCallback
+                                = ((sender, cert, chain, errors) => true);
+#else
                 ServicePointManager.ServerCertificateValidationCallback
                                 = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
+#endif
 
                 using (WebClient client = new WebClient())
                 {
@@ -145,8 +150,14 @@ namespace KaisaKaavio.Integraatio
             try
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+#if DEBUG
+                ServicePointManager.ServerCertificateValidationCallback
+                                = ((sender, cert, chain, errors) => true);
+#else
                 ServicePointManager.ServerCertificateValidationCallback
                                 = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
+#endif
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -180,6 +191,50 @@ namespace KaisaKaavio.Integraatio
             finally
             {
             }
+        }
+
+        /// <summary>
+        /// Lataa ohjelmaversion serveriltä väliaikaiseen tiedostoon ja palauttaa tiedoston nimen
+        /// </summary>
+        public static string LataaOhjelmaVersioServerilta(int versio, out string virhe)
+        {
+            virhe = string.Empty;
+
+            string tiedostonNimi = Path.GetTempFileName();
+
+            try
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+#if DEBUG
+                ServicePointManager.ServerCertificateValidationCallback
+                                = ((sender, cert, chain, errors) => true);
+#else
+                ServicePointManager.ServerCertificateValidationCallback
+                                = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
+#endif
+
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/octet-stream");
+
+                    string address = string.Format("{0}/api/LataaOhjelma?versio={1}",
+                        Asetukset.KaisaKaavioServeri,
+                        versio.ToString());
+
+                    client.DownloadFile(address, tiedostonNimi);
+
+                    return tiedostonNimi;
+                }
+            }
+            catch (Exception ex)
+            {
+                virhe = ex.Message;
+            }
+            finally
+            {
+            }
+
+            return string.Empty;
         }
     }
 }

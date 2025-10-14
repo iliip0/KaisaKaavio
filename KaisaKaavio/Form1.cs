@@ -23,6 +23,7 @@ namespace KaisaKaavio
 
         private Rahanjako rahanjako = new Rahanjako();
         private Loki loki = null;
+        public Loki Loki { get { return this.loki; } }
 
 #if DEBUG
         private Testaus.UudelleenPelaaminen uudelleenPelaaminen = null;

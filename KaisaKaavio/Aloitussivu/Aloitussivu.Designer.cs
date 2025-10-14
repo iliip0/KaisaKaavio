@@ -61,6 +61,10 @@
             this.jatkaButton = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.ylaPalkkiSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.lataaUusinVersioButton = new System.Windows.Forms.Button();
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -90,6 +94,10 @@
             this.splitContainer6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ylaPalkkiSplitContainer)).BeginInit();
+            this.ylaPalkkiSplitContainer.Panel1.SuspendLayout();
+            this.ylaPalkkiSplitContainer.Panel2.SuspendLayout();
+            this.ylaPalkkiSplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -105,10 +113,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.DarkGreen;
-            this.splitContainer1.Panel1.Controls.Add(this.versioLabel);
-            this.splitContainer1.Panel1.Controls.Add(this.label3);
-            this.splitContainer1.Panel1.Controls.Add(this.label1);
-            this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.ylaPalkkiSplitContainer);
             this.splitContainer1.Panel1.ForeColor = System.Drawing.Color.White;
             // 
             // splitContainer1.Panel2
@@ -123,7 +128,7 @@
             this.versioLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.versioLabel.AutoSize = true;
             this.versioLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.versioLabel.Location = new System.Drawing.Point(1124, 49);
+            this.versioLabel.Location = new System.Drawing.Point(795, 49);
             this.versioLabel.Name = "versioLabel";
             this.versioLabel.Size = new System.Drawing.Size(91, 16);
             this.versioLabel.TabIndex = 2;
@@ -133,7 +138,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(440, 41);
+            this.label3.Location = new System.Drawing.Point(388, 34);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(365, 24);
             this.label3.TabIndex = 3;
@@ -143,7 +148,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Constantia", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(87, 14);
+            this.label1.Location = new System.Drawing.Point(83, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(276, 59);
             this.label1.TabIndex = 1;
@@ -152,9 +157,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.KaisaKaavio64;
-            this.pictureBox1.Location = new System.Drawing.Point(7, 6);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(74, 132);
+            this.pictureBox1.Size = new System.Drawing.Size(74, 68);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -573,6 +578,61 @@
             this.pictureBox4.TabIndex = 1;
             this.pictureBox4.TabStop = false;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.toolTip1.ForeColor = System.Drawing.Color.White;
+            this.toolTip1.IsBalloon = true;
+            // 
+            // ylaPalkkiSplitContainer
+            // 
+            this.ylaPalkkiSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ylaPalkkiSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.ylaPalkkiSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.ylaPalkkiSplitContainer.Name = "ylaPalkkiSplitContainer";
+            // 
+            // ylaPalkkiSplitContainer.Panel1
+            // 
+            this.ylaPalkkiSplitContainer.Panel1.Controls.Add(this.pictureBox1);
+            this.ylaPalkkiSplitContainer.Panel1.Controls.Add(this.versioLabel);
+            this.ylaPalkkiSplitContainer.Panel1.Controls.Add(this.label1);
+            this.ylaPalkkiSplitContainer.Panel1.Controls.Add(this.label3);
+            // 
+            // ylaPalkkiSplitContainer.Panel2
+            // 
+            this.ylaPalkkiSplitContainer.Panel2.Controls.Add(this.lataaUusinVersioButton);
+            this.ylaPalkkiSplitContainer.Size = new System.Drawing.Size(1226, 74);
+            this.ylaPalkkiSplitContainer.SplitterDistance = 901;
+            this.ylaPalkkiSplitContainer.TabIndex = 4;
+            // 
+            // lataaUusinVersioButton
+            // 
+            this.lataaUusinVersioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lataaUusinVersioButton.BackColor = System.Drawing.Color.DodgerBlue;
+            this.lataaUusinVersioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lataaUusinVersioButton.ForeColor = System.Drawing.Color.White;
+            this.lataaUusinVersioButton.Location = new System.Drawing.Point(3, 3);
+            this.lataaUusinVersioButton.Name = "lataaUusinVersioButton";
+            this.lataaUusinVersioButton.Size = new System.Drawing.Size(315, 68);
+            this.lataaUusinVersioButton.TabIndex = 0;
+            this.lataaUusinVersioButton.Text = "Lataa uusin ohjelmaversio";
+            this.lataaUusinVersioButton.UseVisualStyleBackColor = false;
+            this.lataaUusinVersioButton.Click += new System.EventHandler(this.lataaUusinVersioButton_Click);
+            // 
+            // toolTip2
+            // 
+            this.toolTip2.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.toolTip2.ForeColor = System.Drawing.Color.White;
+            this.toolTip2.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip2.ToolTipTitle = "Päivitys saatavilla";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.RestoreDirectory = true;
+            this.saveFileDialog1.Title = "Tallenna KaisaKaavio-ohjelma koneellesi:";
+            // 
             // Aloitussivu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -591,8 +651,8 @@
             this.Text = "Aloitussivu";
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Aloitussivu_FormClosed);
+            this.Shown += new System.EventHandler(this.Aloitussivu_Shown);
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -622,6 +682,11 @@
             this.splitContainer6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.ylaPalkkiSplitContainer.Panel1.ResumeLayout(false);
+            this.ylaPalkkiSplitContainer.Panel1.PerformLayout();
+            this.ylaPalkkiSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ylaPalkkiSplitContainer)).EndInit();
+            this.ylaPalkkiSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -659,5 +724,9 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button avaaTiedostoButton;
+        private System.Windows.Forms.SplitContainer ylaPalkkiSplitContainer;
+        private System.Windows.Forms.Button lataaUusinVersioButton;
+        private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
