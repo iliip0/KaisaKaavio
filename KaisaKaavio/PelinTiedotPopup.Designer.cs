@@ -48,8 +48,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.luovutusTextBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.luovutusTextBox2 = new System.Windows.Forms.TextBox();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.lyontivuorojaTextBox = new System.Windows.Forms.TextBox();
+            this.lyontivuorojaLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.alkamisAikaTextBox = new System.Windows.Forms.TextBox();
             this.mitatoiOtteluButton = new System.Windows.Forms.Button();
@@ -61,11 +66,6 @@
             this.tallennaButton = new System.Windows.Forms.Button();
             this.peruutaButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.lyontivuorojaLabel = new System.Windows.Forms.Label();
-            this.lyontivuorojaTextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.luovutusTextBox1 = new System.Windows.Forms.TextBox();
-            this.luovutusTextBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -335,6 +335,32 @@
             this.splitContainer3.SplitterDistance = 421;
             this.splitContainer3.TabIndex = 0;
             // 
+            // luovutusTextBox1
+            // 
+            this.luovutusTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.luovutusTextBox1.Location = new System.Drawing.Point(334, 69);
+            this.luovutusTextBox1.Name = "luovutusTextBox1";
+            this.luovutusTextBox1.Size = new System.Drawing.Size(72, 24);
+            this.luovutusTextBox1.TabIndex = 6;
+            this.luovutusTextBox1.TextChanged += new System.EventHandler(this.luovutusTextBox1_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(142, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(185, 18);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Pelin luovutus (esim DNS):";
+            // 
+            // luovutusTextBox2
+            // 
+            this.luovutusTextBox2.Location = new System.Drawing.Point(13, 69);
+            this.luovutusTextBox2.Name = "luovutusTextBox2";
+            this.luovutusTextBox2.Size = new System.Drawing.Size(74, 24);
+            this.luovutusTextBox2.TabIndex = 7;
+            this.luovutusTextBox2.TextChanged += new System.EventHandler(this.luovutusTextBox2_TextChanged);
+            // 
             // splitContainer5
             // 
             this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -387,6 +413,24 @@
             this.splitContainer4.SplitterDistance = 200;
             this.splitContainer4.TabIndex = 20;
             // 
+            // lyontivuorojaTextBox
+            // 
+            this.lyontivuorojaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lyontivuorojaTextBox.Location = new System.Drawing.Point(146, 99);
+            this.lyontivuorojaTextBox.Name = "lyontivuorojaTextBox";
+            this.lyontivuorojaTextBox.Size = new System.Drawing.Size(47, 24);
+            this.lyontivuorojaTextBox.TabIndex = 21;
+            this.lyontivuorojaTextBox.Text = "20";
+            // 
+            // lyontivuorojaLabel
+            // 
+            this.lyontivuorojaLabel.AutoSize = true;
+            this.lyontivuorojaLabel.Location = new System.Drawing.Point(3, 102);
+            this.lyontivuorojaLabel.Name = "lyontivuorojaLabel";
+            this.lyontivuorojaLabel.Size = new System.Drawing.Size(100, 18);
+            this.lyontivuorojaLabel.TabIndex = 20;
+            this.lyontivuorojaLabel.Text = "Lyöntivuoroja:";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -400,6 +444,7 @@
             // 
             this.alkamisAikaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.alkamisAikaTextBox.Location = new System.Drawing.Point(147, 9);
+            this.alkamisAikaTextBox.MaxLength = 5;
             this.alkamisAikaTextBox.Name = "alkamisAikaTextBox";
             this.alkamisAikaTextBox.Size = new System.Drawing.Size(46, 24);
             this.alkamisAikaTextBox.TabIndex = 14;
@@ -429,6 +474,7 @@
             // 
             this.paattymisAikaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.paattymisAikaTextBox.Location = new System.Drawing.Point(147, 39);
+            this.paattymisAikaTextBox.MaxLength = 5;
             this.paattymisAikaTextBox.Name = "paattymisAikaTextBox";
             this.paattymisAikaTextBox.Size = new System.Drawing.Size(46, 24);
             this.paattymisAikaTextBox.TabIndex = 15;
@@ -448,6 +494,7 @@
             // 
             this.poytaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.poytaTextBox.Location = new System.Drawing.Point(146, 69);
+            this.poytaTextBox.MaxLength = 8;
             this.poytaTextBox.Name = "poytaTextBox";
             this.poytaTextBox.Size = new System.Drawing.Size(47, 24);
             this.poytaTextBox.TabIndex = 16;
@@ -514,50 +561,6 @@
             // toolTip1
             // 
             this.toolTip1.ShowAlways = true;
-            // 
-            // lyontivuorojaLabel
-            // 
-            this.lyontivuorojaLabel.AutoSize = true;
-            this.lyontivuorojaLabel.Location = new System.Drawing.Point(3, 102);
-            this.lyontivuorojaLabel.Name = "lyontivuorojaLabel";
-            this.lyontivuorojaLabel.Size = new System.Drawing.Size(100, 18);
-            this.lyontivuorojaLabel.TabIndex = 20;
-            this.lyontivuorojaLabel.Text = "Lyöntivuoroja:";
-            // 
-            // lyontivuorojaTextBox
-            // 
-            this.lyontivuorojaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lyontivuorojaTextBox.Location = new System.Drawing.Point(146, 99);
-            this.lyontivuorojaTextBox.Name = "lyontivuorojaTextBox";
-            this.lyontivuorojaTextBox.Size = new System.Drawing.Size(47, 24);
-            this.lyontivuorojaTextBox.TabIndex = 21;
-            this.lyontivuorojaTextBox.Text = "20";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(142, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(185, 18);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Pelin luovutus (esim DNS):";
-            // 
-            // luovutusTextBox1
-            // 
-            this.luovutusTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.luovutusTextBox1.Location = new System.Drawing.Point(334, 69);
-            this.luovutusTextBox1.Name = "luovutusTextBox1";
-            this.luovutusTextBox1.Size = new System.Drawing.Size(72, 24);
-            this.luovutusTextBox1.TabIndex = 6;
-            this.luovutusTextBox1.TextChanged += new System.EventHandler(this.luovutusTextBox1_TextChanged);
-            // 
-            // luovutusTextBox2
-            // 
-            this.luovutusTextBox2.Location = new System.Drawing.Point(13, 69);
-            this.luovutusTextBox2.Name = "luovutusTextBox2";
-            this.luovutusTextBox2.Size = new System.Drawing.Size(74, 24);
-            this.luovutusTextBox2.TabIndex = 7;
-            this.luovutusTextBox2.TextChanged += new System.EventHandler(this.luovutusTextBox2_TextChanged);
             // 
             // PelinTiedotPopup
             // 

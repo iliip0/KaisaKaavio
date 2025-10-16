@@ -1199,6 +1199,17 @@ namespace KaisaKaavio
                         this.pelaajiaEnintaanNumericUpDown.Increment = 1;
                         this.tavoitePistemaaraNumericUpDown.Increment = 1;
                     }
+
+                    if (this.pelipaikkojenNimet.Count > 0)
+                    {
+                        paikkaTextBox.AutoCompleteMode = AutoCompleteMode.Suggest;
+                        paikkaTextBox.AutoCompleteCustomSource = this.pelipaikkojenNimet;
+                        paikkaTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    }
+                    else
+                    {
+                        paikkaTextBox.AutoCompleteMode = AutoCompleteMode.None;
+                    }
                 }
                 else if (this.tabControl1.SelectedTab == this.pelitTabPage)
                 {
@@ -2155,7 +2166,6 @@ namespace KaisaKaavio
 
         private void jalkiIlmoittautuneetDataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-#if !DEBUG
             try
             {
                 EhdotaPelaajienNimia(e, jalkiIlmoittautuneetDataGridView.CurrentCell.ColumnIndex, this.nimiDataGridViewTextBoxColumn2.Index);
@@ -2163,7 +2173,6 @@ namespace KaisaKaavio
             catch
             { 
             }
-#endif
         }
 
         private void EhdotaSeuroja(DataGridViewEditingControlShowingEventArgs e, int nykySarake, int nimiSarake)

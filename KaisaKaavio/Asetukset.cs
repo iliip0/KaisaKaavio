@@ -39,7 +39,8 @@ namespace KaisaKaavio
         public static readonly int ViimeisimpiaKilpailuja = 15;
 
 #if DEBUG
-        public static readonly string KaisaKaavioServeri = "https://localhost:5001";
+        public static readonly string KaisaKaavioServeriHttp = "https://localhost:5001";
+        public static readonly string KaisaKaavioServeriHttps = "https://localhost:5001";
 #else
         //public static readonly string KaisaKaavioServeri = "http://localhost:5000";
         public static readonly string KaisaKaavioServeriHttp = "http://kaisakaavio.fi";

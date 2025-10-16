@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.salinSeuraTextBox = new System.Windows.Forms.TextBox();
+            this.saliBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.salinLyhenneTextBox = new System.Windows.Forms.TextBox();
             this.salinPuhelinnumeroTextBox = new System.Windows.Forms.TextBox();
             this.salinOsoiteTextBox = new System.Windows.Forms.TextBox();
@@ -47,48 +48,47 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.toimitsijatDataGridView = new System.Windows.Forms.DataGridView();
+            this.toimitsijaBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.toimitsijaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.saliLinkitDataGridView = new System.Windows.Forms.DataGridView();
+            this.linkkiBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label7 = new System.Windows.Forms.Label();
             this.poydatDataGridView = new System.Windows.Forms.DataGridView();
+            this.poytaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label8 = new System.Windows.Forms.Label();
-            this.saliBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.rooliDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.toimitsijaBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.puhelinNumeroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toimitsijaBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tekstiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.osoiteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.linkkiBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.numeroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.kaytossaDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.striimiLinkkiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tulosLinkkiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.poytaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tekstiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.osoiteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.saliBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.toimitsijatDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saliLinkitDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.poydatDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.saliBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.linkkiBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.poydatDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.poytaBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -149,9 +149,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.salinSeuraTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.saliBindingSource, "Seura", true));
             this.salinSeuraTextBox.Location = new System.Drawing.Point(568, 39);
+            this.salinSeuraTextBox.MaxLength = 64;
             this.salinSeuraTextBox.Name = "salinSeuraTextBox";
             this.salinSeuraTextBox.Size = new System.Drawing.Size(92, 26);
             this.salinSeuraTextBox.TabIndex = 10;
+            // 
+            // saliBindingSource
+            // 
+            this.saliBindingSource.DataSource = typeof(KaisaKaavio.Sali);
             // 
             // salinLyhenneTextBox
             // 
@@ -159,6 +164,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.salinLyhenneTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.saliBindingSource, "Lyhenne", true));
             this.salinLyhenneTextBox.Location = new System.Drawing.Point(568, 8);
+            this.salinLyhenneTextBox.MaxLength = 8;
             this.salinLyhenneTextBox.Name = "salinLyhenneTextBox";
             this.salinLyhenneTextBox.Size = new System.Drawing.Size(92, 26);
             this.salinLyhenneTextBox.TabIndex = 9;
@@ -177,6 +183,7 @@
             // 
             this.salinOsoiteTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.saliBindingSource, "Osoite", true));
             this.salinOsoiteTextBox.Location = new System.Drawing.Point(225, 39);
+            this.salinOsoiteTextBox.MaxLength = 128;
             this.salinOsoiteTextBox.Name = "salinOsoiteTextBox";
             this.salinOsoiteTextBox.Size = new System.Drawing.Size(265, 26);
             this.salinOsoiteTextBox.TabIndex = 7;
@@ -185,6 +192,7 @@
             // 
             this.salinNimiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.saliBindingSource, "Nimi", true));
             this.salinNimiTextBox.Location = new System.Drawing.Point(225, 8);
+            this.salinNimiTextBox.MaxLength = 64;
             this.salinNimiTextBox.Name = "salinNimiTextBox";
             this.salinNimiTextBox.Size = new System.Drawing.Size(187, 26);
             this.salinNimiTextBox.TabIndex = 6;
@@ -266,14 +274,22 @@
             this.toimitsijatDataGridView.Size = new System.Drawing.Size(570, 106);
             this.toimitsijatDataGridView.TabIndex = 2;
             // 
+            // toimitsijaBindingSource1
+            // 
+            this.toimitsijaBindingSource1.DataSource = typeof(KaisaKaavio.Toimitsija);
+            // 
+            // toimitsijaBindingSource
+            // 
+            this.toimitsijaBindingSource.DataSource = typeof(KaisaKaavio.Toimitsija);
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(86, 13);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(266, 20);
+            this.label6.Size = new System.Drawing.Size(444, 20);
             this.label6.TabIndex = 1;
-            this.label6.Text = "Pelipaikan toimitsijat kilpailun aikana:";
+            this.label6.Text = "Pelipaikan toimitsijat kilpailun aikana (sijoitetaan omalle salille):";
             // 
             // pictureBox2
             // 
@@ -331,6 +347,10 @@
             this.saliLinkitDataGridView.Size = new System.Drawing.Size(322, 215);
             this.saliLinkitDataGridView.TabIndex = 1;
             // 
+            // linkkiBindingSource
+            // 
+            this.linkkiBindingSource.DataSource = typeof(KaisaKaavio.Linkki);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -367,6 +387,10 @@
             this.poydatDataGridView.Size = new System.Drawing.Size(333, 215);
             this.poydatDataGridView.TabIndex = 1;
             // 
+            // poytaBindingSource
+            // 
+            this.poytaBindingSource.DataSource = typeof(KaisaKaavio.Poyta);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -375,10 +399,6 @@
             this.label8.Size = new System.Drawing.Size(281, 20);
             this.label8.TabIndex = 0;
             this.label8.Text = "Kilpailussa käytettävissä olevat pöydät:";
-            // 
-            // saliBindingSource
-            // 
-            this.saliBindingSource.DataSource = typeof(KaisaKaavio.Sali);
             // 
             // rooliDataGridViewTextBoxColumn
             // 
@@ -391,15 +411,12 @@
             this.rooliDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.rooliDataGridViewTextBoxColumn.Width = 172;
             // 
-            // toimitsijaBindingSource1
-            // 
-            this.toimitsijaBindingSource1.DataSource = typeof(KaisaKaavio.Toimitsija);
-            // 
             // nimiDataGridViewTextBoxColumn
             // 
             this.nimiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.nimiDataGridViewTextBoxColumn.DataPropertyName = "Nimi";
             this.nimiDataGridViewTextBoxColumn.HeaderText = "Nimi";
+            this.nimiDataGridViewTextBoxColumn.MaxInputLength = 128;
             this.nimiDataGridViewTextBoxColumn.Name = "nimiDataGridViewTextBoxColumn";
             // 
             // puhelinNumeroDataGridViewTextBoxColumn
@@ -410,29 +427,6 @@
             this.puhelinNumeroDataGridViewTextBoxColumn.Name = "puhelinNumeroDataGridViewTextBoxColumn";
             this.puhelinNumeroDataGridViewTextBoxColumn.Width = 172;
             // 
-            // toimitsijaBindingSource
-            // 
-            this.toimitsijaBindingSource.DataSource = typeof(KaisaKaavio.Toimitsija);
-            // 
-            // tekstiDataGridViewTextBoxColumn
-            // 
-            this.tekstiDataGridViewTextBoxColumn.DataPropertyName = "Teksti";
-            this.tekstiDataGridViewTextBoxColumn.HeaderText = "Teksti";
-            this.tekstiDataGridViewTextBoxColumn.MinimumWidth = 170;
-            this.tekstiDataGridViewTextBoxColumn.Name = "tekstiDataGridViewTextBoxColumn";
-            this.tekstiDataGridViewTextBoxColumn.Width = 170;
-            // 
-            // osoiteDataGridViewTextBoxColumn
-            // 
-            this.osoiteDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.osoiteDataGridViewTextBoxColumn.DataPropertyName = "Osoite";
-            this.osoiteDataGridViewTextBoxColumn.HeaderText = "Osoite";
-            this.osoiteDataGridViewTextBoxColumn.Name = "osoiteDataGridViewTextBoxColumn";
-            // 
-            // linkkiBindingSource
-            // 
-            this.linkkiBindingSource.DataSource = typeof(KaisaKaavio.Linkki);
-            // 
             // numeroDataGridViewTextBoxColumn
             // 
             this.numeroDataGridViewTextBoxColumn.DataPropertyName = "Numero";
@@ -440,6 +434,7 @@
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numeroDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.numeroDataGridViewTextBoxColumn.HeaderText = "Nro";
+            this.numeroDataGridViewTextBoxColumn.MaxInputLength = 8;
             this.numeroDataGridViewTextBoxColumn.MinimumWidth = 48;
             this.numeroDataGridViewTextBoxColumn.Name = "numeroDataGridViewTextBoxColumn";
             this.numeroDataGridViewTextBoxColumn.Width = 48;
@@ -462,6 +457,7 @@
             this.striimiLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.striimiLinkkiDataGridViewTextBoxColumn.DataPropertyName = "StriimiLinkki";
             this.striimiLinkkiDataGridViewTextBoxColumn.HeaderText = "Striimi";
+            this.striimiLinkkiDataGridViewTextBoxColumn.MaxInputLength = 512;
             this.striimiLinkkiDataGridViewTextBoxColumn.Name = "striimiLinkkiDataGridViewTextBoxColumn";
             // 
             // tulosLinkkiDataGridViewTextBoxColumn
@@ -469,11 +465,24 @@
             this.tulosLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.tulosLinkkiDataGridViewTextBoxColumn.DataPropertyName = "TulosLinkki";
             this.tulosLinkkiDataGridViewTextBoxColumn.HeaderText = "Tulostaulu";
+            this.tulosLinkkiDataGridViewTextBoxColumn.MaxInputLength = 512;
             this.tulosLinkkiDataGridViewTextBoxColumn.Name = "tulosLinkkiDataGridViewTextBoxColumn";
             // 
-            // poytaBindingSource
+            // tekstiDataGridViewTextBoxColumn
             // 
-            this.poytaBindingSource.DataSource = typeof(KaisaKaavio.Poyta);
+            this.tekstiDataGridViewTextBoxColumn.DataPropertyName = "Teksti";
+            this.tekstiDataGridViewTextBoxColumn.HeaderText = "Teksti";
+            this.tekstiDataGridViewTextBoxColumn.MinimumWidth = 170;
+            this.tekstiDataGridViewTextBoxColumn.Name = "tekstiDataGridViewTextBoxColumn";
+            this.tekstiDataGridViewTextBoxColumn.Width = 170;
+            // 
+            // osoiteDataGridViewTextBoxColumn
+            // 
+            this.osoiteDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.osoiteDataGridViewTextBoxColumn.DataPropertyName = "Osoite";
+            this.osoiteDataGridViewTextBoxColumn.HeaderText = "Osoite";
+            this.osoiteDataGridViewTextBoxColumn.MaxInputLength = 512;
+            this.osoiteDataGridViewTextBoxColumn.Name = "osoiteDataGridViewTextBoxColumn";
             // 
             // SalinTiedotPanel
             // 
@@ -490,6 +499,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.saliBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
@@ -497,6 +507,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.toimitsijatDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.PerformLayout();
@@ -505,11 +517,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.saliLinkitDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.poydatDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.saliBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toimitsijaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.linkkiBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.poydatDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.poytaBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -538,19 +547,19 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataGridView saliLinkitDataGridView;
         private System.Windows.Forms.DataGridView poydatDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tekstiDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn osoiteDataGridViewTextBoxColumn;
         public System.Windows.Forms.BindingSource toimitsijaBindingSource;
         public System.Windows.Forms.BindingSource linkkiBindingSource;
         public System.Windows.Forms.BindingSource poytaBindingSource;
         public System.Windows.Forms.BindingSource saliBindingSource;
-        private System.Windows.Forms.DataGridViewComboBoxColumn rooliDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource toimitsijaBindingSource1;
+        private System.Windows.Forms.DataGridViewComboBoxColumn rooliDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nimiDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn puhelinNumeroDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn numeroDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn kaytossaDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn striimiLinkkiDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tulosLinkkiDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tekstiDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn osoiteDataGridViewTextBoxColumn;
     }
 }
