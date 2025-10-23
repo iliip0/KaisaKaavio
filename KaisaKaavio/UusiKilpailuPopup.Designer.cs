@@ -229,15 +229,15 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer4);
             this.splitContainer1.Panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.splitContainer1.Size = new System.Drawing.Size(962, 580);
-            this.splitContainer1.SplitterDistance = 423;
+            this.splitContainer1.Size = new System.Drawing.Size(962, 592);
+            this.splitContainer1.SplitterDistance = 437;
             this.splitContainer1.TabIndex = 11;
             // 
             // splitContainer2
             // 
             this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer2.IsSplitterFixed = true;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
@@ -254,8 +254,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.rankingCheckBox);
             this.splitContainer2.Panel2.Controls.Add(this.rankingComboBox);
             this.splitContainer2.Panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.splitContainer2.Size = new System.Drawing.Size(962, 423);
-            this.splitContainer2.SplitterDistance = 362;
+            this.splitContainer2.Size = new System.Drawing.Size(962, 437);
+            this.splitContainer2.SplitterDistance = 375;
             this.splitContainer2.TabIndex = 9;
             // 
             // splitContainer3
@@ -296,8 +296,8 @@
             this.splitContainer3.Panel2.Controls.Add(this.label5);
             this.splitContainer3.Panel2.Controls.Add(this.tavoiteNumericUpDown);
             this.splitContainer3.Panel2.Controls.Add(this.tavoiteLabel);
-            this.splitContainer3.Size = new System.Drawing.Size(962, 362);
-            this.splitContainer3.SplitterDistance = 274;
+            this.splitContainer3.Size = new System.Drawing.Size(962, 375);
+            this.splitContainer3.SplitterDistance = 287;
             this.splitContainer3.TabIndex = 24;
             // 
             // onlineGroupBox
@@ -305,16 +305,17 @@
             this.onlineGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.onlineGroupBox.BackColor = System.Drawing.SystemColors.Control;
             this.onlineGroupBox.Controls.Add(this.label8);
             this.onlineGroupBox.Controls.Add(this.nakyvyysComboBox);
             this.onlineGroupBox.Controls.Add(this.label7);
             this.onlineGroupBox.Controls.Add(this.peliPaikkaComboBox);
             this.onlineGroupBox.Controls.Add(this.pictureBox1);
-            this.onlineGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.onlineGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.onlineGroupBox.ForeColor = System.Drawing.Color.Black;
             this.onlineGroupBox.Location = new System.Drawing.Point(4, 201);
             this.onlineGroupBox.Name = "onlineGroupBox";
-            this.onlineGroupBox.Size = new System.Drawing.Size(951, 66);
+            this.onlineGroupBox.Size = new System.Drawing.Size(951, 79);
             this.onlineGroupBox.TabIndex = 23;
             this.onlineGroupBox.TabStop = false;
             this.onlineGroupBox.Text = "Online asetukset (KaisaKaavio.fi sivustolla)";
@@ -324,7 +325,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(317, 24);
+            this.label8.Location = new System.Drawing.Point(307, 28);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(166, 24);
             this.label8.TabIndex = 26;
@@ -332,8 +333,7 @@
             // 
             // nakyvyysComboBox
             // 
-            this.nakyvyysComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nakyvyysComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nakyvyysComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.nakyvyysComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nakyvyysComboBox.FormattingEnabled = true;
@@ -342,17 +342,18 @@
             "Vain ylläpitäjille",
             "Vain linkin saaneille",
             "Kaikille"});
-            this.nakyvyysComboBox.Location = new System.Drawing.Point(489, 21);
+            this.nakyvyysComboBox.Location = new System.Drawing.Point(472, 25);
             this.nakyvyysComboBox.Name = "nakyvyysComboBox";
-            this.nakyvyysComboBox.Size = new System.Drawing.Size(458, 32);
+            this.nakyvyysComboBox.Size = new System.Drawing.Size(473, 32);
             this.nakyvyysComboBox.TabIndex = 25;
+            this.nakyvyysComboBox.SelectedIndexChanged += new System.EventHandler(this.nakyvyysComboBox_SelectedIndexChanged);
             this.nakyvyysComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.nakyvyysComboBox_Format);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(57, 24);
+            this.label7.Location = new System.Drawing.Point(57, 28);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(99, 24);
             this.label7.TabIndex = 24;
@@ -366,7 +367,7 @@
             this.peliPaikkaComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.peliPaikkaComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.peliPaikkaComboBox.FormattingEnabled = true;
-            this.peliPaikkaComboBox.Location = new System.Drawing.Point(162, 24);
+            this.peliPaikkaComboBox.Location = new System.Drawing.Point(162, 28);
             this.peliPaikkaComboBox.MaxLength = 8;
             this.peliPaikkaComboBox.Name = "peliPaikkaComboBox";
             this.peliPaikkaComboBox.Size = new System.Drawing.Size(125, 28);
@@ -379,7 +380,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::KaisaKaavio.Properties.Resources.Online;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 28);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(41, 44);
             this.pictureBox1.TabIndex = 22;
@@ -601,7 +602,7 @@
             this.splitContainer4.Panel2.Controls.Add(this.virheLabel);
             this.splitContainer4.Panel2.Controls.Add(this.uusiKilpailuButton);
             this.splitContainer4.Panel2.Controls.Add(this.peruutaButton);
-            this.splitContainer4.Size = new System.Drawing.Size(962, 153);
+            this.splitContainer4.Size = new System.Drawing.Size(962, 151);
             this.splitContainer4.SplitterDistance = 56;
             this.splitContainer4.TabIndex = 3;
             // 
@@ -659,7 +660,7 @@
             this.virheLabel.Location = new System.Drawing.Point(197, 6);
             this.virheLabel.Name = "virheLabel";
             this.virheLabel.ReadOnly = true;
-            this.virheLabel.Size = new System.Drawing.Size(487, 76);
+            this.virheLabel.Size = new System.Drawing.Size(487, 74);
             this.virheLabel.TabIndex = 2;
             this.virheLabel.Text = "Virhe";
             // 
@@ -667,7 +668,7 @@
             // 
             this.uusiKilpailuButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.uusiKilpailuButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
-            this.uusiKilpailuButton.Location = new System.Drawing.Point(691, 8);
+            this.uusiKilpailuButton.Location = new System.Drawing.Point(691, 6);
             this.uusiKilpailuButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uusiKilpailuButton.Name = "uusiKilpailuButton";
             this.uusiKilpailuButton.Size = new System.Drawing.Size(263, 74);
@@ -682,7 +683,7 @@
             this.peruutaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.peruutaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.peruutaButton.Image = global::KaisaKaavio.Properties.Resources.Peruuta;
-            this.peruutaButton.Location = new System.Drawing.Point(4, 8);
+            this.peruutaButton.Location = new System.Drawing.Point(4, 6);
             this.peruutaButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.peruutaButton.Name = "peruutaButton";
             this.peruutaButton.Size = new System.Drawing.Size(186, 74);
@@ -711,16 +712,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.peruutaButton;
-            this.ClientSize = new System.Drawing.Size(962, 580);
+            this.ClientSize = new System.Drawing.Size(962, 592);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(982, 623);
+            this.MaximumSize = new System.Drawing.Size(982, 635);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(982, 623);
+            this.MinimumSize = new System.Drawing.Size(982, 635);
             this.Name = "UusiKilpailuPopup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Luo uusi kilpailu";

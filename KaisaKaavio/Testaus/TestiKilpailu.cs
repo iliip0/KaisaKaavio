@@ -30,6 +30,8 @@ namespace KaisaKaavio.Testaus
             this.OikeaKilpailu = oikeaKilpailu;
             this.TestattavaKilpailu = new Kilpailu();
             this.TestattavaKilpailu.TestiKilpailu = true;
+            this.TestattavaKilpailu.PoistaTallennusKaytosta = true;
+            this.TestattavaKilpailu.PoistaPaivitysKaytosta = true;
             this.TestattavaKilpailu.Loki = loki;
             this.Arpa = new Random();
 

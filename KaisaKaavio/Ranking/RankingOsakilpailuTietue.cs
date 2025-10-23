@@ -248,7 +248,7 @@ namespace KaisaKaavio.Ranking
 
                         if (this.OnRankingOsakilpailu)
                         {
-                            this.Kilpailu.TallennaNimella(tiedosto, false);
+                            this.Kilpailu.TallennaNimella(tiedosto, false, true);
                             this.KilpailunTarkistusSumma = Guid.NewGuid().GetHashCode().ToString("X");
                         }
                         else

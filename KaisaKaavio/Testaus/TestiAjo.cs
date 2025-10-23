@@ -64,6 +64,8 @@ namespace KaisaKaavio.Testaus
                 testiKilpailu.Loki = loki;
                 testiKilpailu.Avaa(tiedosto.FullName, false);
                 testiKilpailu.TestiKilpailu = true;
+                testiKilpailu.PoistaPaivitysKaytosta = true;
+                testiKilpailu.PoistaTallennusKaytosta = true;
 
                 TestiKilpailu testi = new TestiKilpailu(this.PoytienMaara, this.SatunnainenPelienJarjestys, loki, testiKilpailu);
 
@@ -81,8 +83,8 @@ namespace KaisaKaavio.Testaus
                     {
                         loki.Kirjoita(string.Format("Testi {0} epäonnistui: {1}", testiKilpailu.Nimi, ee.Message), ee, false);
 
-                        testi.OikeaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + ".xml"), false);
-                        testi.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + "_VIRHE.xml"), false);
+                        testi.OikeaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + ".xml"), false, false);
+                        testi.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, testiKilpailu.Nimi + "_VIRHE.xml"), false, false);
                     }
                     catch
                     { 

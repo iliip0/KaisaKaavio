@@ -9,16 +9,16 @@ namespace KaisaKaavio
 {
     public enum Nakyvyys
     {
-        [Description("Kilpailua ei tallenneta KaisaKaavio.fi sivustolle")]
-        Offline,            // < Kilpailua ei lähetetä KaisaKaavio.fi sivustolle
-
-        [Description("Kilpailu näkyy vain sivuston ylläpitäjille")]
-        VainYllapitajille,  // < Kilpailu näkyy vain KaisaKaavio.fi sivuston ylläpitäjille
+        [Description("Kilpailu näkyy kaikille KaisaKaavio.fi sivustolla")]
+        Kaikille,
 
         [Description("Kilpailu näkyy vain linkin saaneille")]
-        VainLinkinKautta,   // < Kilpailu näkyy vain linkin kautta. Ei näy KaisaKaavio.fi sivuston linkkien kautta
+        VainLinkinKautta,
 
-        [Description("Kilpailu näkyy kaikille KaisaKaavio.fi sivustolla")]
-        Kaikille            // < Kilpailu näkyy kaikille KaisaKaavio.fi sivuston käyttäjille
+        [Description("Kilpailu näkyy vain sivuston ylläpitäjille")]
+        VainYllapitajille,
+
+        [Description("Kilpailua ei tallenneta KaisaKaavio.fi sivustolle")]
+        Offline
     }
 }

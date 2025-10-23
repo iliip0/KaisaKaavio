@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -98,12 +99,20 @@ namespace KaisaKaavio.Integraatio
 
                     tiedot.Kilpailu.SivustonPaivitysTarvitaan = false;
                 }
+
+                tiedot.Loki.Kirjoita(string.Format("Kilpailu tallennettu serverille ({0})", DateTime.Now.ToLongTimeString()));
             }
             catch (Exception e)
             {
                 if (tiedot != null && tiedot.Loki != null)
                 {
-                    tiedot.Loki.Kirjoita("Kilpailun tallennus serverille epäonnistui taustalla", e, false);
+                    tiedot.Loki.Kirjoita("Kilpailun tallennus serverille epäonnistui taustalla. Yritetään uudelleen 300s kuluttua...", e, false);
+                }
+
+                if (tiedot != null && tiedot.Kilpailu != null)
+                {
+                    tiedot.Kilpailu.SivustonPaivitysTarvitaan = true;
+                    tiedot.Kilpailu.SivustonPaivitysAjastin = 300;
                 }
             }
             finally

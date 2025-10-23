@@ -33,6 +33,8 @@ namespace KaisaKaavio.Testaus
                 this.vanhaKilpailu = new Kilpailu();
                 this.vanhaKilpailu.Avaa(tiedosto, false);
                 this.vanhaKilpailu.TestiKilpailu = true;
+                this.vanhaKilpailu.PoistaPaivitysKaytosta = true;
+                this.vanhaKilpailu.PoistaTallennusKaytosta = true;
 
                 this.kilpailu.Nimi = this.vanhaKilpailu.Nimi + "(Uusinta)";
                 this.kilpailu.Tiedosto = this.vanhaKilpailu.Tiedosto.Replace(".xml", "(Uusinta).xml");
@@ -74,7 +76,6 @@ namespace KaisaKaavio.Testaus
                 this.kilpailu.PelinTulosMuuttunutNumerolla = Int32.MaxValue;
                 this.kilpailu.KilpailuPaattyiJuuri = false;
                 this.kilpailu.MaxKierros = 0;
-                this.kilpailu.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
                 this.kilpailu.TallennusTarvitaan = false;
                 this.kilpailu.HakuTarvitaan = false;
 

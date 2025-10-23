@@ -147,6 +147,9 @@
     </Compile>
     <Compile Include="HakuAlgoritmi.cs" />
     <Compile Include="IHakuAlgoritmi.cs" />
+    <Compile Include="IlmoittautumisenAlkaminen.cs" />
+    <Compile Include="IlmoittautumisenPaattyminen.cs" />
+    <Compile Include="IlmoittautumisFlags.cs" />
     <Compile Include="Integraatio\BiljardiOrg.cs" />
     <Compile Include="Integraatio\BiljardiOrgKilpailu.cs" />
     <Compile Include="Integraatio\HaeOsallistujatBiljardiOrgistaPopup.cs">
@@ -175,6 +178,8 @@
     <Compile Include="Loki.cs" />
     <Compile Include="Nakyvyys.cs" />
     <Compile Include="NotifyPropertyChanged,.cs" />
+    <Compile Include="OnlineFlags.cs" />
+    <Compile Include="OnlineIlmoittautuminen.cs" />
     <Compile Include="Pelaaja.cs" />
     <Compile Include="PelaajaTietue.cs" />
     <Compile Include="Peli.cs" />

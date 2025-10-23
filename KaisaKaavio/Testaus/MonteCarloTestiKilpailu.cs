@@ -40,7 +40,9 @@ namespace KaisaKaavio.Testaus
                 PelaajiaEnintaan = pelaajia + 1,
                 RankingKisa = false,
                 Nimi = nimi,
-                TestiKilpailu = true
+                TestiKilpailu = true,
+                PoistaTallennusKaytosta = true,
+                PoistaPaivitysKaytosta = true
             };
 
             this.TestattavaKilpailu.Loki = loki;

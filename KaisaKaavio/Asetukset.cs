@@ -31,7 +31,7 @@ namespace KaisaKaavio
         /// <summary>
         /// Tämä asetus määrää kuinka usein automaattinen tallennus tapahtuu (sekunteja)
         /// </summary>
-        public static readonly int AutomaattisenTallennuksenTaajuus = 5 * 60;
+        //public static readonly int AutomaattisenTallennuksenTaajuus = 5 * 60;
 
         /// <summary>
         /// Tämä asetus määrää montako viimeksi avattua kilpailua listataan 'Viimeisimmät kilpailut' valikossa
@@ -127,6 +127,24 @@ namespace KaisaKaavio
 
             [XmlAttribute]
             public KaavioTyyppi KaavioTyyppi { get; set; } = KaavioTyyppi.Pudari3Kierros;
+
+            [XmlAttribute]
+            [DefaultValue(true)]
+            public bool KaksiOsainenArvonta { get; set; } = true;
+
+            [XmlAttribute]
+            [DefaultValue("")]
+            public string EnsimmainenArvonta { get; set; } = string.Empty;
+
+            [XmlAttribute]
+            [DefaultValue("")]
+            public string ToinenArvonta { get; set; } = string.Empty;
+
+            [XmlAttribute]
+            public IlmoittautumisenAlkaminen IlmoittautuminenAlkaa { get; set; } = IlmoittautumisenAlkaminen.Nyt;
+
+            [XmlAttribute]
+            public IlmoittautumisenPaattyminen IlmoittautuminenPaattyy { get; set; } = IlmoittautumisenPaattyminen.KunKaavioArvotaan;
         }
 
         public KisaOletusasetukset OletusAsetuksetKaisa { get; set; }
@@ -436,6 +454,11 @@ namespace KaisaKaavio
             omatAsetukset.Tavoite = ladatutAsetukset.Tavoite;
             omatAsetukset.RankingSarjanTyyppi = ladatutAsetukset.RankingSarjanTyyppi;
             omatAsetukset.KaavioTyyppi = ladatutAsetukset.KaavioTyyppi;
+            omatAsetukset.IlmoittautuminenAlkaa = ladatutAsetukset.IlmoittautuminenAlkaa;
+            omatAsetukset.IlmoittautuminenPaattyy = ladatutAsetukset.IlmoittautuminenPaattyy;
+            omatAsetukset.EnsimmainenArvonta = ladatutAsetukset.EnsimmainenArvonta;
+            omatAsetukset.ToinenArvonta = ladatutAsetukset.ToinenArvonta;
+            omatAsetukset.KaksiOsainenArvonta = ladatutAsetukset.KaksiOsainenArvonta;
         }
 
         private static void LataaRankingAsetukset(Ranking.RankingAsetukset omatAsetukset, Ranking.RankingAsetukset ladatutAsetukset, Laji laji)

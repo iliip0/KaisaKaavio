@@ -30,7 +30,7 @@ namespace KaisaKaavio
             this.kilpaSarjaComboBox.SelectedIndex = 0;
 
             this.nakyvyysComboBox.DataSource = Enum.GetValues(typeof(Nakyvyys));
-            this.nakyvyysComboBox.SelectedIndex = 3;
+            this.nakyvyysComboBox.SelectedIndex = 0;
 
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
             this.kaavioComboBox.SelectedIndex = 2;
@@ -221,10 +221,10 @@ namespace KaisaKaavio
                 {
                     this.Text = "Luo uusi testikilpailu";
 #if DEBUG
-                    this.nakyvyysComboBox.SelectedIndex = 3;
+                    this.nakyvyysComboBox.SelectedIndex = (int)Nakyvyys.Kaikille;
                     this.onlineGroupBox.Visible = true;
 #else
-                    this.nakyvyysComboBox.SelectedIndex = 0;
+                    this.nakyvyysComboBox.SelectedIndex = (int)Nakyvyys.Offline;
                     this.onlineGroupBox.Visible = false;
 #endif
 
@@ -233,7 +233,7 @@ namespace KaisaKaavio
                 else
                 {
                     this.Text = "Luo uusi kilpailu";
-                    this.nakyvyysComboBox.SelectedIndex = 3;
+                    this.nakyvyysComboBox.SelectedIndex = (int)Nakyvyys.Kaikille;
                     this.nakyvyysComboBox.Enabled = true;
                     this.onlineGroupBox.Visible = true;
                     this.Paikka = this.yleisAsetukset.Pelipaikka;
@@ -306,7 +306,10 @@ namespace KaisaKaavio
 
                 this.lajiSplitContainer.Panel2Collapsed = this.alaLajiComboBox.DataSource == null;
                 this.nimeaMuokattuManuaalisesti = false;
+
                 PaivitaKilpailunOletusNimi();
+
+                PaivitaOnlineKenttienNakyvyys();
             }
             catch
             { 
@@ -406,6 +409,22 @@ namespace KaisaKaavio
             get
             {
                 return (Laji)this.uusiKilpailuLajiComboBox.SelectedItem;
+            }
+        }
+
+        public string Alalaji
+        {
+            get
+            {
+                var result = this.alaLajiComboBox.SelectedItem;
+                if (result != null)
+                {
+                    return result.ToString();
+                }
+                else 
+                {
+                    return string.Empty;
+                } 
             }
         }
 
@@ -578,6 +597,9 @@ namespace KaisaKaavio
 
             this.avattu = true;
             this.oletusNimi = this.kilpailunNimiTextBox.Text;
+
+            PaivitaOnlineKenttienNakyvyys();
+
             PaivitaUiLajille((KaisaKaavio.Laji)uusiKilpailuLajiComboBox.SelectedItem, true);
             TarkistaTiedot();
         }
@@ -771,6 +793,59 @@ namespace KaisaKaavio
 
         private void peliPaikkaComboBox_TextChanged(object sender, EventArgs e)
         {
+        }
+
+        private void ilmoAlkaaComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            try
+            {
+                IlmoittautumisenAlkaminen s = (IlmoittautumisenAlkaminen)e.ListItem;
+
+                var field = typeof(IlmoittautumisenAlkaminen).GetField(s.ToString());
+                var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                e.Value = attributes.Length == 0 ? s.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+            }
+            catch
+            {
+            }
+        }
+
+        private void ilmoPaattyyComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            try
+            {
+                IlmoittautumisenPaattyminen s = (IlmoittautumisenPaattyminen)e.ListItem;
+
+                var field = typeof(IlmoittautumisenPaattyminen).GetField(s.ToString());
+                var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                e.Value = attributes.Length == 0 ? s.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+            }
+            catch
+            {
+            }
+        }
+
+        private void nakyvyysComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (nakyvyysComboBox.SelectedIndex == 2)
+            {
+            }
+
+            PaivitaOnlineKenttienNakyvyys();
+        }
+
+        private void PaivitaOnlineKenttienNakyvyys()
+        {
+        }
+
+        private void onlineIlmoComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PaivitaOnlineKenttienNakyvyys();
+        }
+
+        private void kaksiosainenArvontaCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            PaivitaOnlineKenttienNakyvyys();
         }
     }
 }

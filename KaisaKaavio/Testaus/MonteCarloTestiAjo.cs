@@ -110,7 +110,7 @@ namespace KaisaKaavio.Testaus
                             testiKilpailu.EdellaHakuvirheita > 0)
                         {
                             this.VirheellisiaKisoja++;
-                            testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_HAKUVIRHE.xml"), false);
+                            testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_HAKUVIRHE.xml"), false, false);
                         }
                         else
                         {
@@ -130,7 +130,7 @@ namespace KaisaKaavio.Testaus
                     {
                         loki.Kirjoita(string.Format("Testi {0} epäonnistui: {1}", nimi, ee.Message), ee, false);
 
-                        testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_VIRHE.xml"), false);
+                        testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_VIRHE.xml"), false, false);
                     }
                     catch
                     { 

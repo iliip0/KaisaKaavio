@@ -1,10 +1,12 @@
-﻿using System;
+﻿using KaisaKaavio.Ranking;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms.VisualStyles;
 using System.Xml.Serialization;
 
 namespace KaisaKaavio
@@ -57,9 +59,6 @@ namespace KaisaKaavio
 
         [DefaultValue(false)]
         public bool TestiKilpailu { get; set; } = false;
-
-        [DefaultValue(true)]
-        public bool SalliOnlineIlmoittautuminen { get; set; } = true;
 
         [DefaultValue("")]
         public string KaavioidenYhdistaminenKierroksesta { get; set; } = string.Empty;
@@ -217,7 +216,275 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool KilpailuOnViikkokisa { get { return this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa; } }
 
-        public Nakyvyys Nakyvyys { get; set; } = Nakyvyys.Kaikille;
+        //public OnlineIlmoittautuminen OnlineIlmoittautuminen { get; set; } = OnlineIlmoittautuminen.Kaikille;
+
+        private string salasana = string.Empty;
+
+        [DefaultValue("")]
+        public string Salasana 
+        {
+            get { return this.salasana; }
+            set
+            {
+                if (!string.Equals(this.salasana, value))
+                {
+                    this.salasana = value;
+                    AjastaTallennus(true, true);
+                }
+            }
+        }
+
+        private Byte onlineFlags = 0;
+
+        [DefaultValue(0)]
+        public Byte OnlineFlags 
+        {
+            get { return this.onlineFlags; }
+            set
+            {
+                if (this.onlineFlags != value)
+                {
+                    this.onlineFlags = value;
+                    AjastaTallennus(true, true);
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public KaisaKaavio.OnlineFlags OnlineFlagsEnum 
+        {
+            get
+            {
+                return (KaisaKaavio.OnlineFlags)this.OnlineFlags;
+            }
+
+            set
+            {
+                this.OnlineFlags = (Byte)value;
+            }
+        }
+
+        [XmlIgnore]
+        public Nakyvyys Nakyvyys 
+        {
+            get
+            {
+                Byte mask = (Byte)KaisaKaavio.OnlineFlags.NakyvyysMask;
+                Byte flags = this.OnlineFlags;
+                Byte result = (Byte)(flags & mask);
+
+                return (KaisaKaavio.Nakyvyys)result;
+                //return (KaisaKaavio.Nakyvyys)(this.OnlineFlags & (Byte)KaisaKaavio.OnlineFlags.NakyvyysMask);
+            }
+            set
+            {
+                this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.Nakyvyys1;
+                this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.Nakyvyys2;
+                this.OnlineFlags |= ((Byte)value);
+
+                this.RaisePropertyChanged("KilpailuOnOnline");
+                this.RaisePropertyChanged("OnlineIlmoittautuminenMahdollista");
+                this.RaisePropertyChanged("OnlineIlmoittautuminenKaytossa");
+                this.RaisePropertyChanged("KaksiArvontaa");
+            }
+        }
+
+        [XmlIgnore]
+        public OnlineIlmoittautuminen OnlineIlmoittautuminen
+        {
+            get
+            {
+                if (this.OnlineIlmoittautuminenMahdollista)
+                {
+                    return (KaisaKaavio.OnlineIlmoittautuminen)((this.OnlineFlags & ((Byte)KaisaKaavio.OnlineFlags.OnlineIlmoMask)) >> 2);
+                }
+                else
+                {
+                    return OnlineIlmoittautuminen.EiKaytossa;
+                }
+            }
+
+            set
+            {
+                this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.OnlineIlmo1;
+                this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.OnlineIlmo2;
+                this.OnlineFlags |= (Byte)(((Byte)value) << 2);
+
+                this.RaisePropertyChanged("OnlineIlmoittautuminenKaytossa");
+                this.RaisePropertyChanged("KaksiArvontaa");
+            }
+        }
+
+        [XmlIgnore]
+        public bool KaksiArvontaa
+        {
+            get
+            {
+                return 
+                    this.OnlineIlmoittautuminenKaytossa &&
+                    this.OnlineFlagsEnum.HasFlag(KaisaKaavio.OnlineFlags.KaksiArvontaa);
+            }
+            set
+            {
+                if (value)
+                {
+                    this.OnlineFlags |= (Byte)KaisaKaavio.OnlineFlags.KaksiArvontaa;
+                }
+                else
+                {
+                    this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.KaksiArvontaa;
+                }
+
+                this.RaisePropertyChanged("KaksiArvontaa");
+            }
+        }
+
+        [XmlIgnore]
+        public bool SalliIlmoittautumisKommentti
+        {
+            get
+            {
+                return this.OnlineFlagsEnum.HasFlag(KaisaKaavio.OnlineFlags.SalliKommentti);
+            }
+            set
+            {
+                if (value)
+                {
+                    this.OnlineFlags |= (Byte)KaisaKaavio.OnlineFlags.SalliKommentti;
+                }
+                else
+                {
+                    this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.SalliKommentti;
+                }
+
+                this.RaisePropertyChanged("SalliIlmoittautumisKommentti");
+            }
+        }
+
+        [XmlIgnore]
+        public bool SalliKaverinIlmoittautuminen
+        {
+            get
+            {
+                return this.OnlineFlagsEnum.HasFlag(KaisaKaavio.OnlineFlags.SalliKaveriIlmo);
+            }
+            set
+            {
+                if (value)
+                {
+                    this.OnlineFlags |= (Byte)KaisaKaavio.OnlineFlags.SalliKaveriIlmo;
+                }
+                else
+                {
+                    this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.SalliKaveriIlmo;
+                }
+
+                this.RaisePropertyChanged("SalliKaverinIlmoittautuminen");
+            }
+        }
+
+        private IlmoittautumisenAlkaminen ilmoittautuminenAlkaa = IlmoittautumisenAlkaminen.Nyt;
+
+        public IlmoittautumisenAlkaminen IlmoittautuminenAlkaa 
+        {
+            get { return this.ilmoittautuminenAlkaa; }
+            set
+            {
+                if (this.ilmoittautuminenAlkaa != value)
+                {
+                    this.ilmoittautuminenAlkaa = value;
+                    AjastaTallennus(true, true);
+                }
+            }
+        }
+
+        private IlmoittautumisenPaattyminen ilmoittautuminenPaattyy = IlmoittautumisenPaattyminen.KunKaavioArvotaan;
+        public IlmoittautumisenPaattyminen IlmoittautuminenPaattyy 
+        {
+            get { return this.ilmoittautuminenPaattyy; }
+            set
+            {
+                if (this.ilmoittautuminenPaattyy != value)
+                {
+                    this.ilmoittautuminenPaattyy = value;
+                    AjastaTallennus(true, true);
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public bool KilpailuOnOnline
+        {
+            get
+            {
+                return this.Nakyvyys != Nakyvyys.Offline;
+            }
+        }
+
+        [XmlIgnore]
+        public bool OnlineIlmoittautuminenMahdollista
+        {
+            get
+            {
+                return
+                    (this.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa || this.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu) &&
+                    (this.Nakyvyys != Nakyvyys.Offline && this.Nakyvyys != Nakyvyys.VainYllapitajille);
+            }
+        }
+
+        [XmlIgnore]
+        public bool OnlineIlmoittautuminenKaytossa
+        {
+            get
+            {
+                return OnlineIlmoittautuminenMahdollista && 
+                    this.OnlineIlmoittautuminen != OnlineIlmoittautuminen.EiKaytossa;
+            }
+        }
+
+        //[DefaultValue("")]
+        //public string OnlineIlmoittautuminenAlkaa { get; set; } = string.Empty;
+
+        //[DefaultValue("")]
+        //public string OnlineIlmoittautuminenPaattyy { get; set; } = string.Empty;
+
+
+        private string ensimmaisenArvonnanAika = string.Empty;
+
+        [DefaultValue("")]
+        public string EnsimmaisenArvonnanAika 
+        {
+            get { return this.ensimmaisenArvonnanAika; }
+            set 
+            {
+                if (!string.Equals(this.ensimmaisenArvonnanAika, value))
+                {
+                    this.ensimmaisenArvonnanAika = value;
+                    AjastaTallennus(true, true);
+                }
+            }
+        }
+
+        private string toisenArvonnanAika = string.Empty;
+
+        [DefaultValue("")]
+        public string ToisenArvonnanAika 
+        {
+            get { return this.toisenArvonnanAika; }
+            set 
+            {
+                if (!string.Equals(this.toisenArvonnanAika, value))
+                {
+                    this.toisenArvonnanAika = value;
+                    AjastaTallennus(true, true);
+                }
+            }
+        }
+
+        public RankingSarjanTyyppi RankingSarjanTyyppi { get; set; } = RankingSarjanTyyppi.EiRankingSarjaa;
+
+        [DefaultValue("")]
+        public string RankingSarjanNimi { get; set; } = string.Empty;
 
         [XmlIgnore]
         public bool KilpailuOnTasurikisa 
@@ -235,6 +502,10 @@ namespace KaisaKaavio
         public bool Tyhja { get { return string.IsNullOrEmpty(this.Id) && string.IsNullOrEmpty(this.Nimi); } }
 
         public Laji Laji { get; set; } = Laji.Kaisa;
+
+        [DefaultValue("")]
+        public string Alalaji { get; set; } = string.Empty;
+
         public KilpailunTyyppi KilpailunTyyppi { get; set; } = KilpailunTyyppi.Viikkokisa;
         public KilpaSarja KilpaSarja { get; set; } = KilpaSarja.Yleinen;
         public Sijoittaminen Sijoittaminen { get; set; } = Sijoittaminen.EiSijoittamista;
@@ -243,7 +514,7 @@ namespace KaisaKaavio
         public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
         public BindingList<Sali> PeliPaikat { get; set; }
         public BindingList<Peli> Pelit { get; set; }
-        
+
         [XmlIgnore]
         public BindingList<Pelaaja> OsallistujatJarjestyksessa { get; set; }
 
@@ -288,43 +559,79 @@ namespace KaisaKaavio
         [XmlIgnore]
         public int PelinTulosMuuttunutNumerolla = Int32.MaxValue;
 
-        [XmlIgnore]
-        public int TallennusAjastin = 0;
+        private int TallennusAjastin = 0;
 
         [XmlIgnore]
         public bool TallennusTarvitaan = true;
 
+        public int SivustonPaivitysAjastin = 0;
+
         [XmlIgnore]
-        public bool TallennusTaiSivustonPaivitysTarvitaan
+        public bool SivustonPaivitysTarvitaan = true;
+
+        [XmlIgnore]
+        public bool PoistaTallennusKaytosta = false; // Testaukseen ja kisan uudelleen pelaamiseen
+
+        [XmlIgnore]
+        public bool PoistaPaivitysKaytosta = false; // Testaukseen ja kisan uudelleen pelaamiseen
+
+        /// <summary>
+        /// Taikanumero, joka lisätään ilmoittautumissivun osoitteeseen jotta
+        /// käyttäjät eivät voi helposti arvata mikä on ilmoittautumissivun osoite
+        /// </summary>
+        [XmlIgnore]
+        public UInt16 IlmoittautumisenTaikanumero
+        {
+            get 
+            {
+                UInt16 n = 0;
+
+                if (!string.IsNullOrEmpty(this.Id))
+                {
+                    int i = 1;
+                    foreach (var c in this.Id)
+                    {
+                        n += (UInt16)(i * 111 + c);
+                    }
+                }
+
+                return n;
+            }
+        }
+
+        [XmlIgnore]
+        public string IlmoittautumisenLinkki
         {
             get
             {
-                if (this.Nakyvyys != Nakyvyys.Offline && this.SivustonPaivitysTarvitaan)
-                {
-                    return true;
-                }
-
-                return this.TallennusTarvitaan;
+                return string.Format("{0}/Ilmo/{1}?tn={2}", 
+                    Asetukset.KaisaKaavioServeriHttps,
+                    this.Id,
+                    this.IlmoittautumisenTaikanumero);
             }
         }
 
-        public void AjastaTallennus(bool tallennus, bool sivustonPaivitys)
+        public void TallennaKilpailuPalvelimelle()
         {
-            if (tallennus)
+            try
             {
-                this.TallennusTarvitaan = true;
-                this.TallennusAjastin = 30;
+                if (this.Nakyvyys != Nakyvyys.Offline && !this.PoistaPaivitysKaytosta)
+                {
+#if !DEBUG
+                    if (!this.kilpailu.TestiKilpailu)
+#endif
+                    {
+#if DEBUG
+                        Debug.WriteLine(string.Format("Tallennetaan kilpailu palvelimelle... ({0})", DateTime.Now.ToLongTimeString()));
+#endif
+                        Integraatio.KaisaKaavioFi.TallennaKilpailuServerille(this, this.Id, this.Tiedosto, this.Loki);
+                    }
+                }
             }
-
-            if (sivustonPaivitys && this.Nakyvyys != Nakyvyys.Offline)
+            catch
             {
-                this.SivustonPaivitysTarvitaan = true;
-                this.TallennusAjastin = 30;
             }
         }
-
-        [DefaultValue(false)]
-        public bool SivustonPaivitysTarvitaan { get; set; } = false;
 
         [XmlIgnore]
         public bool PelienTilannePaivitysTarvitaan = false;
@@ -347,6 +654,7 @@ namespace KaisaKaavio
 
             Osallistujat = new BindingList<Pelaaja>();
             Osallistujat.ListChanged += Osallistujat_ListChanged;
+            Osallistujat.RaiseListChangedEvents = true;
 
             OsallistujatJarjestyksessa = new BindingList<Pelaaja>();
 
@@ -361,13 +669,72 @@ namespace KaisaKaavio
 
             this.RankingOsakilpailu = null;
 
-            TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
+            //TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
 
             this.Sali = null;
             this.KaavioidenYhdistaminenKierroksesta = "5"; // TODO? Voisi olla tyhjä
         }
 
-#region Pelit
+        public void AjastaTallennus(bool tallennus, bool sivustonPaivitys)
+        {
+            if (tallennus)
+            {
+                this.TallennusAjastin = Math.Max(30, this.TallennusAjastin);
+
+                if (!this.TallennusTarvitaan)
+                {
+                    this.TallennusTarvitaan = true;
+#if DEBUG
+                    Debug.WriteLine(string.Format("Tiedoston tallennus ajastettu {0}s... ({1})", this.TallennusAjastin, DateTime.Now.ToLongTimeString()));
+#endif
+                }
+            }
+
+            if (sivustonPaivitys && this.Nakyvyys != Nakyvyys.Offline)
+            {
+                this.SivustonPaivitysAjastin = Math.Max(30, this.SivustonPaivitysAjastin);
+
+                if (!this.SivustonPaivitysTarvitaan)
+                {
+                    this.SivustonPaivitysTarvitaan = true;
+
+#if DEBUG
+                    Debug.WriteLine(string.Format("Sivuston päivitys ajastettu {0}s... ({1})", this.SivustonPaivitysAjastin, DateTime.Now.ToLongTimeString()));
+#endif
+                }
+            }
+        }
+
+        public void TallennusTick()
+        {
+            if (this.TallennusTarvitaan && !this.PoistaTallennusKaytosta)
+            {
+                this.TallennusAjastin--;
+                if (this.TallennusAjastin <= 0)
+                {
+                    this.TallennusAjastin = 0;
+                    Tallenna(true);
+                }
+            }
+
+            if (this.SivustonPaivitysTarvitaan && !this.PoistaPaivitysKaytosta)
+            {
+                this.SivustonPaivitysAjastin--;
+                if (this.SivustonPaivitysAjastin <= 0)
+                {
+                    this.SivustonPaivitysAjastin = 0;
+
+                    if (this.TallennusTarvitaan)
+                    {
+                        Tallenna(true);
+                    }
+
+                    TallennaKilpailuPalvelimelle();
+                }
+            }
+        }
+
+        #region Pelit
 
         void LisaaPeli(Peli peli)
         {
@@ -420,11 +787,11 @@ namespace KaisaKaavio
 
         void Pelit_ListChanged(object sender, ListChangedEventArgs e)
         {
-            if (e.ListChangedType == ListChangedType.ItemAdded ||
-                e.ListChangedType == ListChangedType.ItemDeleted)
-            {
-                AjastaTallennus(true, true);
-            }
+            //if (e.ListChangedType == ListChangedType.ItemAdded ||
+            //    e.ListChangedType == ListChangedType.ItemDeleted)
+            //{
+            AjastaTallennus(true, true);
+            //}
 
             this.PelienTilannePaivitysTarvitaan = true;
 
@@ -501,6 +868,8 @@ namespace KaisaKaavio
                     }
                 }
             }
+
+            AjastaTallennus(true, true);
         }
 
         private void PoistaTyhjatPelit(int kierroksestaAlkaen)
@@ -1154,7 +1523,7 @@ namespace KaisaKaavio
             RaisePropertyChanged("VoiLisataPelaajia");
             RaisePropertyChanged("VoiPoistaaPelaajia");
 
-            AjastaTallennus(true, false);
+            AjastaTallennus(true, true);
         }
 
         /// <summary>
@@ -1222,41 +1591,61 @@ namespace KaisaKaavio
             return false;
         }
 
-        public void TallennaNimella(string nimi, bool muutaKilpailunSijainti)
+        public void TallennaNimella(string nimi, bool muutaKilpailunSijainti, bool onAutomaattinenTallennus)
         {
-            if (this.Loki != null)
+            if (onAutomaattinenTallennus && this.PoistaTallennusKaytosta)
             {
-                Loki.Kirjoita(string.Format("Tallennetaan kilpailu tiedostoon {0}", nimi));
+                return;
             }
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Kilpailu));
-
-            string nimiTmp = Path.GetTempFileName();
-
-            using (TextWriter writer = new StreamWriter(nimiTmp))
+            try
             {
-                serializer.Serialize(writer, this);
-                writer.Close();
-            }
+                if (this.Loki != null)
+                {
+                    Loki.Kirjoita(string.Format("Tallennetaan kilpailu tiedostoon {0}", nimi));
+                }
 
-            File.Copy(nimiTmp, nimi, true);
-            File.Delete(nimiTmp);
+                XmlSerializer serializer = new XmlSerializer(typeof(Kilpailu));
 
-            if (muutaKilpailunSijainti)
-            {
-                Tiedosto = nimi;
+                string nimiTmp = Path.GetTempFileName();
 
-                this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
+                using (TextWriter writer = new StreamWriter(nimiTmp))
+                {
+                    serializer.Serialize(writer, this);
+                    writer.Close();
+                }
+
+                File.Copy(nimiTmp, nimi, true);
+                File.Delete(nimiTmp);
+
                 this.TallennusTarvitaan = false;
-                AjastaTallennus(false, true);
+
+                if (muutaKilpailunSijainti)
+                {
+                    if (!string.Equals(Tiedosto, nimi))
+                    {
+                        Tiedosto = nimi;
+                        AjastaTallennus(true, true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita("Tiedoston tallennus epäonnistui. Yritetään uudellen 30s kuluttua...", ex, false);
+                }
+
+                this.TallennusTarvitaan = true;
+                this.TallennusAjastin = 30;
             }
         }
 
-        public void Tallenna()
+        public void Tallenna(bool onAutomaattinenTallennus)
         {
             if (!string.IsNullOrEmpty(Tiedosto))
             {
-                TallennaNimella(Tiedosto, true);
+                TallennaNimella(Tiedosto, true, onAutomaattinenTallennus);
             }
         }
 
@@ -1334,9 +1723,15 @@ namespace KaisaKaavio
                 this.EdellisenBiljardiOrgHaunPvm = kilpailu.EdellisenBiljardiOrgHaunPvm;
                 this.SivustonPaivitysTarvitaan = kilpailu.SivustonPaivitysTarvitaan;
                 this.OhjelmaVersio = kilpailu.OhjelmaVersio;
-                this.Nakyvyys = kilpailu.Nakyvyys;
                 this.Paikka = kilpailu.Paikka;
-                this.SalliOnlineIlmoittautuminen = kilpailu.SalliOnlineIlmoittautuminen;
+                this.OnlineFlags = kilpailu.OnlineFlags;
+                this.Salasana = kilpailu.Salasana;
+                this.IlmoittautuminenAlkaa = kilpailu.IlmoittautuminenAlkaa;
+                this.IlmoittautuminenPaattyy = kilpailu.IlmoittautuminenPaattyy;
+                this.EnsimmaisenArvonnanAika = kilpailu.EnsimmaisenArvonnanAika;
+                this.ToisenArvonnanAika = kilpailu.ToisenArvonnanAika;
+                this.RankingSarjanTyyppi = kilpailu.RankingSarjanTyyppi;
+                this.RankingSarjanNimi = kilpailu.RankingSarjanNimi;
 
                 this.OhjelmaVersio = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
@@ -1400,7 +1795,12 @@ namespace KaisaKaavio
                     PaivitaJoukkueKisa();
                 }
 
-                this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
+                //this.TallennusAjastin = Asetukset.AutomaattisenTallennuksenTaajuus;
+
+                if (editoitavaksi)
+                {
+                    AjastaTallennus(true, true);
+                }
             }
         }
 
@@ -1710,6 +2110,7 @@ namespace KaisaKaavio
                         }
 
                         PaivitaPelitJoukkueKisasta();
+                        AjastaTallennus(true, true);
                         return true;
                     }
                     else 
@@ -2299,6 +2700,9 @@ namespace KaisaKaavio
             PaivitaOsakilpailujenHaut(osakilpailut);
 
             virhe = string.Empty;
+
+            AjastaTallennus(true, true);
+
             return true;
         }
 
@@ -2473,6 +2877,7 @@ namespace KaisaKaavio
                     LisaaPeli(hakija, vastustajat.First());
                 }
 
+                AjastaTallennus(true, true);
                 return true;
             }
         }
