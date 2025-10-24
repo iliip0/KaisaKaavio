@@ -134,6 +134,8 @@ namespace KaisaKaavio
             this.onlineIlmoittautuminenComboBox.DataSource = Enum.GetValues(typeof(OnlineIlmoittautuminen));
             this.ilmoAlkaaComboBox.DataSource = Enum.GetValues(typeof(IlmoittautumisenAlkaminen));
             this.ilmoPaattyyComboBox.DataSource = Enum.GetValues(typeof(IlmoittautumisenPaattyminen));
+            this.ekaArvontaComboBox.DataSource = Enum.GetValues(typeof(ArvonnanAika));
+            this.tokaArvontaComboBox.DataSource = Enum.GetValues(typeof(ArvonnanAika));
 
             this.rankingKisaTyyppiComboBox.DataSource = Enum.GetValues(typeof(Ranking.RankingSarjanPituus));
             this.rankingVuosiComboBox.Items.AddRange(this.ranking.Vuodet.Select(x => (object)x).ToArray());
@@ -661,9 +663,6 @@ namespace KaisaKaavio
                         this.kilpailu.KilpaSarja == KilpaSarja.MixedDoubles)
                     {
                         this.kilpailu.OnlineIlmoittautuminen = OnlineIlmoittautuminen.EiKaytossa;
-                        this.kilpailu.KaksiArvontaa = false;
-                        this.kilpailu.EnsimmaisenArvonnanAika = string.Empty;
-                        this.kilpailu.ToisenArvonnanAika = string.Empty;
                     }
                     else
                     {
@@ -673,17 +672,8 @@ namespace KaisaKaavio
 
                             this.kilpailu.IlmoittautuminenAlkaa = oletusAsetukset.IlmoittautuminenAlkaa;
                             this.kilpailu.IlmoittautuminenPaattyy = oletusAsetukset.IlmoittautuminenPaattyy;
-                            this.kilpailu.KaksiArvontaa = oletusAsetukset.KaksiOsainenArvonta;
-                            if (this.kilpailu.KaksiArvontaa)
-                            {
-                                this.kilpailu.EnsimmaisenArvonnanAika = oletusAsetukset.EnsimmainenArvonta;
-                                this.kilpailu.ToisenArvonnanAika = oletusAsetukset.ToinenArvonta;
-                            }
-                            else 
-                            {
-                                this.kilpailu.EnsimmaisenArvonnanAika = string.Empty;
-                                this.kilpailu.ToisenArvonnanAika = string.Empty;
-                            }
+                            this.kilpailu.EnsimmaisenArvonnanAika = oletusAsetukset.EnsimmainenArvonta;
+                            this.kilpailu.ToisenArvonnanAika = oletusAsetukset.ToinenArvonta;
                         }
                         else
                         {
@@ -709,7 +699,7 @@ namespace KaisaKaavio
                         if (popup.RankingKisa)
                         {
                             MessageBox.Show(
-                                string.Format("Ranking pisteitä ja taulukoita ei voida tallenneta KaisaKaavioMulti.exe ohjelman kautta.\nVoit avata kisan myöhemmin KaisaKaavio.exe ohjelmalla tallentaaksesi rankingpisteet"),
+                                string.Format("Ranking pisteitä ja taulukoita ei voida tallenneta kun useampi KaisaKaavio.exe ohjelma on avattuna.\nVoit avata kisan myöhemmin tallentaaksesi rankingpisteet"),
                                 "Varoitus",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
@@ -6397,7 +6387,7 @@ namespace KaisaKaavio
         private void PaivitaOnlineControllienNakyvyys()
         {
             this.onlineIlmoGroupBox.Visible = this.kilpailu.OnlineIlmoittautuminenMahdollista;
-            this.kaksiOsainenArvontaGroupBox.Visible = this.kilpailu.OnlineIlmoittautuminenKaytossa;
+            //this.kaksiOsainenArvontaGroupBox.Visible = this.kilpailu.OnlineIlmoittautuminenKaytossa;
             this.kisaKutsuGroupBox.Visible = this.kilpailu.OnlineIlmoittautuminenKaytossa;
             this.onlineMuokkaaminenGroupBox.Visible = this.kilpailu.KilpailuOnOnline;
 
@@ -6410,10 +6400,12 @@ namespace KaisaKaavio
             this.ilmoPaattyyComboBox.Visible = this.kilpailu.OnlineIlmoittautuminenKaytossa;
             this.ilmoPaattyyLabel.Visible = this.kilpailu.OnlineIlmoittautuminenKaytossa;
 
-            this.ensimmainenArvontaTextBox.Visible = this.kilpailu.KaksiArvontaa;
+            this.ekaArvontaComboBox.Visible = this.kilpailu.KaksiArvontaa;
             this.ekaArvontaLabel.Visible = this.kilpailu.KaksiArvontaa;
-            this.toinenArvontaTextBox.Visible = this.kilpailu.KaksiArvontaa;
+            this.tokaArvontaComboBox.Visible = this.kilpailu.KaksiArvontaa;
             this.tokaArvontaLabel.Visible = this.kilpailu.KaksiArvontaa;
+
+            this.salliKommenttiCheckBox.Visible = this.kilpailu.OnlineIlmoittautuminenKaytossa;
 
             this.ilmoLinkkiPanel.Visible = this.kilpailu.OnlineIlmoittautuminen == OnlineIlmoittautuminen.VainLinkinSaaneille;
             this.ilmoLinkkiLabel.Visible = this.kilpailu.OnlineIlmoittautuminen == OnlineIlmoittautuminen.VainLinkinSaaneille;
@@ -6445,6 +6437,26 @@ namespace KaisaKaavio
         {
             System.Windows.Forms.Clipboard.SetText(this.kilpailuLinkki.Text);
             MessageBox.Show(string.Format("Seurantalinkki kopiotu leikepöydälle!\n{0}", this.kilpailuLinkki.Text));
+        }
+
+        private void ekaArvontaComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            try
+            {
+                ArvonnanAika n = (ArvonnanAika)e.ListItem;
+
+                var field = typeof(ArvonnanAika).GetField(n.ToString());
+                var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                e.Value = attributes.Length == 0 ? n.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+            }
+            catch
+            {
+            }
+        }
+
+        private void ilmoPaattyyComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PaivitaOnlineControllienNakyvyys();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace KaisaKaavio
         Nakyvyys2       = 0x02, // 
         OnlineIlmo1     = 0x04, // OnlineIlmoittautuminen pakattu bitteihin 2-3
         OnlineIlmo2     = 0x08, //
-        KaksiArvontaa   = 0x10, // Arvonta tehdään kahdessa osassa. Yläkaavio voi aloittaa pelit vaikka ilmo on kesken
+        //KaksiArvontaa   = 0x10, // Arvonta tehdään kahdessa osassa. Yläkaavio voi aloittaa pelit vaikka ilmo on kesken
         SalliKommentti  = 0x20, // Ilmoittautumisen yhteyteen saa laittaa kommentin kisanvetäjälle
         SalliKaveriIlmo = 0x40, // Kaverin puolesta saa ilmoittautua
         // Yksi bitti vielä käyttämättä

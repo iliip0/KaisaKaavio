@@ -9,14 +9,14 @@ namespace KaisaKaavio
 {
     public enum IlmoittautumisenPaattyminen
     {
-        [Description("Kun kaavio arvotaan")]
-        KunKaavioArvotaan,
+        [Description("Kaksiosainen arvonta")]
+        KaksiOsainenArvonta,
 
-        [Description("Kun toinen kierros alkaa")]
-        KunToinenKierrosAlkaa,
+        [Description("Kilpailun merkittynä alkamisaikana")]
+        KunKilpailuAlkaa,
 
         [Description("5 minuuttia ennen kilpailun alkua")]
-        ViisiMinuuttiaEnnenKisanAlkua,
+        ViisiMinuutiaEnnenKisanAlkua,
 
         [Description("15 minuuttia ennen kilpailun alkua")]
         VarttiaEnnenKisanAlkua,

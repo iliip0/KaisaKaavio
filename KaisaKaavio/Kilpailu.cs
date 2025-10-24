@@ -315,27 +315,14 @@ namespace KaisaKaavio
             }
         }
 
+        
         [XmlIgnore]
         public bool KaksiArvontaa
         {
             get
             {
-                return 
-                    this.OnlineIlmoittautuminenKaytossa &&
-                    this.OnlineFlagsEnum.HasFlag(KaisaKaavio.OnlineFlags.KaksiArvontaa);
-            }
-            set
-            {
-                if (value)
-                {
-                    this.OnlineFlags |= (Byte)KaisaKaavio.OnlineFlags.KaksiArvontaa;
-                }
-                else
-                {
-                    this.OnlineFlagsEnum = this.OnlineFlagsEnum & ~KaisaKaavio.OnlineFlags.KaksiArvontaa;
-                }
-
-                this.RaisePropertyChanged("KaksiArvontaa");
+                return this.OnlineIlmoittautuminenKaytossa &&
+                    this.IlmoittautuminenPaattyy == IlmoittautumisenPaattyminen.KaksiOsainenArvonta;
             }
         }
 
@@ -398,7 +385,7 @@ namespace KaisaKaavio
             }
         }
 
-        private IlmoittautumisenPaattyminen ilmoittautuminenPaattyy = IlmoittautumisenPaattyminen.KunKaavioArvotaan;
+        private IlmoittautumisenPaattyminen ilmoittautuminenPaattyy = IlmoittautumisenPaattyminen.KaksiOsainenArvonta;
         public IlmoittautumisenPaattyminen IlmoittautuminenPaattyy 
         {
             get { return this.ilmoittautuminenPaattyy; }
@@ -442,22 +429,13 @@ namespace KaisaKaavio
             }
         }
 
-        //[DefaultValue("")]
-        //public string OnlineIlmoittautuminenAlkaa { get; set; } = string.Empty;
-
-        //[DefaultValue("")]
-        //public string OnlineIlmoittautuminenPaattyy { get; set; } = string.Empty;
-
-
-        private string ensimmaisenArvonnanAika = string.Empty;
-
-        [DefaultValue("")]
-        public string EnsimmaisenArvonnanAika 
+        private ArvonnanAika ensimmaisenArvonnanAika = ArvonnanAika.TuntiaEnnen;
+        public ArvonnanAika EnsimmaisenArvonnanAika 
         {
             get { return this.ensimmaisenArvonnanAika; }
             set 
             {
-                if (!string.Equals(this.ensimmaisenArvonnanAika, value))
+                if (this.ensimmaisenArvonnanAika != value)
                 {
                     this.ensimmaisenArvonnanAika = value;
                     AjastaTallennus(true, true);
@@ -465,15 +443,13 @@ namespace KaisaKaavio
             }
         }
 
-        private string toisenArvonnanAika = string.Empty;
-
-        [DefaultValue("")]
-        public string ToisenArvonnanAika 
+        private ArvonnanAika toisenArvonnanAika = ArvonnanAika.PuoliTuntiaEnnen;
+        public ArvonnanAika ToisenArvonnanAika 
         {
             get { return this.toisenArvonnanAika; }
             set 
             {
-                if (!string.Equals(this.toisenArvonnanAika, value))
+                if (this.toisenArvonnanAika != value)
                 {
                     this.toisenArvonnanAika = value;
                     AjastaTallennus(true, true);

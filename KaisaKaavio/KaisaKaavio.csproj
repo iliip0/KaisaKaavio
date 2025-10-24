@@ -132,6 +132,7 @@
     <Compile Include="Aloitussivu\Aloitussivu.Designer.cs">
       <DependentUpon>Aloitussivu.cs</DependentUpon>
     </Compile>
+    <Compile Include="ArvonnanAika.cs" />
     <Compile Include="ArvontaPopup.cs">
       <SubType>Form</SubType>
     </Compile>
