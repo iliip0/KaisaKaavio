@@ -671,7 +671,7 @@ namespace KaisaKaavio
 
             if (sivustonPaivitys && this.Nakyvyys != Nakyvyys.Offline)
             {
-                this.SivustonPaivitysAjastin = Math.Max(30, this.SivustonPaivitysAjastin);
+                this.SivustonPaivitysAjastin = Math.Max(5, this.SivustonPaivitysAjastin);
 
                 if (!this.SivustonPaivitysTarvitaan)
                 {
@@ -691,8 +691,11 @@ namespace KaisaKaavio
                 string query = string.Format("kilpailu={0}", HttpUtility.UrlEncode(this.Id));
                 Integraatio.KaisaKaavioFi.HaeDataa("Ilmoittautumiset", query, invoker, this.Loki, (tietue) =>
                 {
+                    List<string> nimet = new List<string>();
+
                     if (tietue != null && tietue.Rivit.Any())
                     {
+
                         foreach (var rivi in tietue.Rivit)
                         {
                             string etunimi = rivi.Get("Etunimi", string.Empty);
@@ -703,6 +706,7 @@ namespace KaisaKaavio
                             int id = rivi.GetInt("Id", -1);
 
                             string nimi = string.Format("{0} {1}", sukunimi, etunimi).Trim();
+                            nimet.Add(nimi);
 
                             bool onJoIlmoittautunut =
                                 this.Osallistujat.Any(x => Tyypit.Nimi.Equals(nimi, x.Nimi)) ||
@@ -720,6 +724,27 @@ namespace KaisaKaavio
                                 AjastaTallennus(true, true);
                             }
                         }
+                    }
+
+                    // Peruutetut online ilmot
+                    var peruutukset = this.Osallistujat
+                        .Where(x => x.OnlineIlmoId >= 0 && !nimet.Any(y => Tyypit.Nimi.Equals(y, x.Nimi)))
+                        .ToArray();
+
+                    foreach (var p in peruutukset)
+                    {
+                        invoker.PoistaOnlineIlmo(p);
+                        AjastaTallennus(true, true);
+                    }
+
+                    peruutukset = this.JalkiIlmoittautuneet
+                        .Where(x => x.OnlineIlmoId >= 0 && !nimet.Any(y => Tyypit.Nimi.Equals(y, x.Nimi)))
+                        .ToArray();
+
+                    foreach (var p in peruutukset)
+                    {
+                        invoker.PoistaOnlineIlmo(p);
+                        AjastaTallennus(true, true);
                     }
                 });
             }

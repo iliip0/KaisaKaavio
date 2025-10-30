@@ -6474,14 +6474,30 @@ namespace KaisaKaavio
                     !this.splitContainer10.Panel2Collapsed)
                 {
                     jalkiIlmoBindingSource.Add(pelaaja);
+                    jalkiIlmoittautuneetDataGridView.Refresh();
                 }
                 else
                 {
                     pelaajaBindingSource.Add(pelaaja);
+                    osallistujatDataGridView.Refresh();
                 }
             }
             catch
             {
+            }
+        }
+
+        public void PoistaOnlineIlmo(Pelaaja pelaaja)
+        {
+            try
+            {
+                jalkiIlmoBindingSource.Remove(pelaaja);
+                pelaajaBindingSource.Remove(pelaaja);
+                jalkiIlmoittautuneetDataGridView.Refresh();
+                osallistujatDataGridView.Refresh();
+            }
+            catch
+            { 
             }
         }
 
