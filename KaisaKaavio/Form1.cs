@@ -211,6 +211,7 @@ namespace KaisaKaavio
                         PaivitaKilpailuTyyppi();
 
                         this.tallennusTimer.Enabled = true;
+                        this.onlineIlmoTimer.Enabled = true;
                     }
                     else
                     {
@@ -1461,6 +1462,8 @@ namespace KaisaKaavio
             {
                 this.kilpailu.KilpailuPaattyiJuuri = false;
 
+                Tallenna(false);
+
                 var voittaja = this.kilpailu.KilpailunVoittaja;
                 if (voittaja != null)
                 {
@@ -1852,14 +1855,17 @@ namespace KaisaKaavio
                         }
                         else
                         {
-                            var osallistujat = this.kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
-                            if (osallistujat.Count() == 1)
+                            var osallistujia = 
+                                this.kilpailu.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi)).Count() + 
+                                this.kilpailu.JalkiIlmoittautuneet.Where(x => !string.IsNullOrEmpty(x.Nimi)).Count();
+                            
+                            if (osallistujia == 1)
                             {
-                                osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistuja", osallistujat.Count());
+                                osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistuja", osallistujia);
                             }
                             else
                             {
-                                osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistujaa", osallistujat.Count());
+                                osallistujaMaaraRichTextBox.Text = string.Format("{0} Osallistujaa", osallistujia);
                             }
                         }
 
@@ -6457,6 +6463,47 @@ namespace KaisaKaavio
         private void ilmoPaattyyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PaivitaOnlineControllienNakyvyys();
+        }
+
+        public void LisaaOnlineIlmo(Pelaaja pelaaja, bool jalkimmaiseenArvontaan)
+        {
+            try
+            {
+                if (jalkimmaiseenArvontaan && 
+                    this.kilpailu.Pelit.Count == 0 &&
+                    !this.splitContainer10.Panel2Collapsed)
+                {
+                    jalkiIlmoBindingSource.Add(pelaaja);
+                }
+                else
+                {
+                    pelaajaBindingSource.Add(pelaaja);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void onlineIlmoTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.tabControl1.SelectedTab != this.arvontaTabPage ||
+                    (!this.osallistujatDataGridView.IsCurrentCellInEditMode &&
+                    !this.jalkiIlmoittautuneetDataGridView.IsCurrentCellInEditMode))
+                {
+                    Debug.WriteLine("### OnlineIlmoTick");
+                    this.kilpailu.OnlineIlmoTick(this);
+                }
+                else
+                {
+                    Debug.WriteLine("### OnlineIlmoTick ohitettu");
+                }
+            }
+            catch
+            { 
+            }
         }
     }
 }

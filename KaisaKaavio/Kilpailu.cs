@@ -1,4 +1,5 @@
 ﻿using KaisaKaavio.Ranking;
+using KaisaKaavio.Tyypit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,8 +7,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Windows.Forms.VisualStyles;
 using System.Xml.Serialization;
+using static KaisaKaavio.HakuAlgoritmi;
 
 namespace KaisaKaavio
 {
@@ -678,6 +681,47 @@ namespace KaisaKaavio
                     Debug.WriteLine(string.Format("Sivuston päivitys ajastettu {0}s... ({1})", this.SivustonPaivitysAjastin, DateTime.Now.ToLongTimeString()));
 #endif
                 }
+            }
+        }
+
+        public void OnlineIlmoTick(Form1 invoker)
+        {
+            if (this.OnlineIlmoittautuminenKaytossa && !this.ToinenKierrosAlkanut) // TODO!!! Tarkista onko ilmo päättynyt
+            {
+                string query = string.Format("kilpailu={0}", HttpUtility.UrlEncode(this.Id));
+                Integraatio.KaisaKaavioFi.HaeDataa("Ilmoittautumiset", query, invoker, this.Loki, (tietue) =>
+                {
+                    if (tietue != null && tietue.Rivit.Any())
+                    {
+                        foreach (var rivi in tietue.Rivit)
+                        {
+                            string etunimi = rivi.Get("Etunimi", string.Empty);
+                            string sukunimi = rivi.Get("Sukunimi", string.Empty);
+                            string seura = rivi.Get("Seura", string.Empty);
+                            bool jalkimmaiseen = false;
+                            bool.TryParse(rivi.Get("JalkimmaiseenArvontaan", bool.FalseString), out jalkimmaiseen);
+                            int id = rivi.GetInt("Id", -1);
+
+                            string nimi = string.Format("{0} {1}", sukunimi, etunimi).Trim();
+
+                            bool onJoIlmoittautunut =
+                                this.Osallistujat.Any(x => Tyypit.Nimi.Equals(nimi, x.Nimi)) ||
+                                this.JalkiIlmoittautuneet.Any(x => Tyypit.Nimi.Equals(nimi, x.Nimi));
+
+                            if (!onJoIlmoittautunut)
+                            {
+                                invoker.LisaaOnlineIlmo(new Pelaaja()
+                                {
+                                    Nimi = nimi,
+                                    Seura = seura,
+                                    OnlineIlmoId = id
+                                }, jalkimmaiseen);
+
+                                AjastaTallennus(true, true);
+                            }
+                        }
+                    }
+                });
             }
         }
 
