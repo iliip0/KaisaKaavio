@@ -274,7 +274,7 @@ namespace KaisaKaavio
 
         [XmlAttribute]
         [DefaultValue(-1)]
-        public int OnlineIlmoId { get; set; } = -1;
+        public int OnlineIlmoKayttajaId { get; set; } = -1;
 
         /// <summary>
         /// Tietorakenne, jolla pelit esitetään 'Kaavio'-näkymässä

@@ -691,7 +691,7 @@ namespace KaisaKaavio
                 string query = string.Format("kilpailu={0}", HttpUtility.UrlEncode(this.Id));
                 Integraatio.KaisaKaavioFi.HaeDataa("Ilmoittautumiset", query, invoker, this.Loki, (tietue) =>
                 {
-                    List<string> nimet = new List<string>();
+                    List<int> onlineIlmot = new List<int>();
 
                     if (tietue != null && tietue.Rivit.Any())
                     {
@@ -706,43 +706,116 @@ namespace KaisaKaavio
                             int id = rivi.GetInt("Id", -1);
 
                             string nimi = string.Format("{0} {1}", sukunimi, etunimi).Trim();
-                            nimet.Add(nimi);
+                            onlineIlmot.Add(id);
 
                             bool onJoIlmoittautunut =
-                                this.Osallistujat.Any(x => Tyypit.Nimi.Equals(nimi, x.Nimi)) ||
-                                this.JalkiIlmoittautuneet.Any(x => Tyypit.Nimi.Equals(nimi, x.Nimi));
+                                this.Osallistujat.Any(x => x.OnlineIlmoKayttajaId == id) ||
+                                this.JalkiIlmoittautuneet.Any(x => x.OnlineIlmoKayttajaId == id);
 
                             if (!onJoIlmoittautunut)
                             {
+                                if (this.Loki != null)
+                                {
+                                    Loki.Kirjoita(string.Format("Lisättiin online ilmoittautuminen {0} ({1}) {2} arvontaan", nimi, id, jalkimmaiseen ? "ekaan" : "tokaan"));
+                                }
+
                                 invoker.LisaaOnlineIlmo(new Pelaaja()
                                 {
                                     Nimi = nimi,
                                     Seura = seura,
-                                    OnlineIlmoId = id
+                                    OnlineIlmoKayttajaId = id
                                 }, jalkimmaiseen);
 
                                 AjastaTallennus(true, true);
+                            }
+                            else
+                            {
+                                var ekassa = this.Osallistujat.FirstOrDefault(x => x.OnlineIlmoKayttajaId == id);
+                                var tokassa = this.JalkiIlmoittautuneet.FirstOrDefault(x => x.OnlineIlmoKayttajaId == id);
+
+                                if (ekassa != null && jalkimmaiseen)
+                                {
+                                    if (this.Loki != null)
+                                    {
+                                        Loki.Kirjoita(string.Format("Siirrettiin online ilmoittautuminen {0} ({1}) ekasta arvonnasta tokaan arvontaan", nimi, id));
+                                    }
+
+                                    invoker.PoistaOnlineIlmo(ekassa);
+                                    invoker.LisaaOnlineIlmo(new Pelaaja()
+                                    {
+                                        Nimi = nimi,
+                                        Seura = seura,
+                                        OnlineIlmoKayttajaId = id
+                                    }, jalkimmaiseen);
+
+                                    AjastaTallennus(true, true);
+                                }
+                                else if (tokassa != null && !jalkimmaiseen)
+                                {
+                                    if (this.Loki != null)
+                                    {
+                                        Loki.Kirjoita(string.Format("Siirrettiin online ilmoittautuminen {0} ({1}) tokasta arvonnasta ekaan arvontaan", nimi, id));
+                                    }
+
+                                    invoker.PoistaOnlineIlmo(tokassa);
+                                    invoker.LisaaOnlineIlmo(new Pelaaja()
+                                    {
+                                        Nimi = nimi,
+                                        Seura = seura,
+                                        OnlineIlmoKayttajaId = id
+                                    }, jalkimmaiseen);
+
+                                    AjastaTallennus(true, true);
+                                }
+                                else
+                                {
+                                    var pelaaja = ekassa != null ? ekassa : tokassa;
+
+                                    if (!string.Equals(pelaaja.Nimi, nimi) ||
+                                        !string.Equals(pelaaja.Seura, seura))
+                                    {
+                                        if (this.Loki != null)
+                                        {
+                                            Loki.Kirjoita(string.Format("Päivitettiin online ilmoittautumisen {0} ({1}) nimi ja/tai seura", nimi, id));
+                                        }
+
+                                        pelaaja.Nimi = nimi;
+                                        pelaaja.Seura = seura;
+
+                                        AjastaTallennus(true, true);
+                                    }
+                                }
                             }
                         }
                     }
 
                     // Peruutetut online ilmot
                     var peruutukset = this.Osallistujat
-                        .Where(x => x.OnlineIlmoId >= 0 && !nimet.Any(y => Tyypit.Nimi.Equals(y, x.Nimi)))
+                        .Where(x => x.OnlineIlmoKayttajaId >= 0 && !onlineIlmot.Contains(x.OnlineIlmoKayttajaId))
                         .ToArray();
 
                     foreach (var p in peruutukset)
                     {
+                        if (this.Loki != null)
+                        {
+                            Loki.Kirjoita(string.Format("Poistetaan peruutettu online ilmoittautuminen {0} ({1})", p.Nimi, p.OnlineIlmoKayttajaId));
+                        }
+
                         invoker.PoistaOnlineIlmo(p);
                         AjastaTallennus(true, true);
                     }
 
                     peruutukset = this.JalkiIlmoittautuneet
-                        .Where(x => x.OnlineIlmoId >= 0 && !nimet.Any(y => Tyypit.Nimi.Equals(y, x.Nimi)))
+                        .Where(x => x.OnlineIlmoKayttajaId >= 0 && !onlineIlmot.Contains(x.OnlineIlmoKayttajaId))
                         .ToArray();
 
                     foreach (var p in peruutukset)
                     {
+                        if (this.Loki != null)
+                        {
+                            Loki.Kirjoita(string.Format("Poistetaan peruutettu online ilmoittautuminen {0} ({1})", p.Nimi, p.OnlineIlmoKayttajaId));
+                        }
+
                         invoker.PoistaOnlineIlmo(p);
                         AjastaTallennus(true, true);
                     }
