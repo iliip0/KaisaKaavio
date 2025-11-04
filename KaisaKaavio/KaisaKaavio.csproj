@@ -161,6 +161,12 @@
     </Compile>
     <Compile Include="Integraatio\HtmlLukija.cs" />
     <Compile Include="Integraatio\KaisaKaavioFi.cs" />
+    <Compile Include="Integraatio\LataaOnlineKilpailuPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Integraatio\LataaOnlineKilpailuPopup.Designer.cs">
+      <DependentUpon>LataaOnlineKilpailuPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="IStatusRivi.cs" />
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kayttoliittyma\Mukauttaja.cs" />
@@ -255,6 +261,7 @@
     <Compile Include="Tyypit\CsvRivi.cs" />
     <Compile Include="Tyypit\CsvTietue.cs" />
     <Compile Include="Tyypit\EvaluointiTietokanta.cs" />
+    <Compile Include="Tyypit\KilpailuTietue.cs" />
     <Compile Include="Tyypit\Luku.cs" />
     <Compile Include="Tyypit\Nimi.cs" />
     <Compile Include="Tyypit\OhjelmaVersioTietue.cs" />
@@ -280,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Integraatio\HaeOsallistujatBiljardiOrgistaPopup.resx">
       <DependentUpon>HaeOsallistujatBiljardiOrgistaPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integraatio\LataaOnlineKilpailuPopup.resx">
+      <DependentUpon>LataaOnlineKilpailuPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Kayttoliittyma\TekstiIkkuna.resx">
       <DependentUpon>TekstiIkkuna.cs</DependentUpon>
@@ -318,6 +328,7 @@
     <None Include="Properties\DataSources\KaisaKaavio.Ranking.Ranking.datasource" />
     <None Include="Properties\DataSources\KaisaKaavio.Ranking.RankingPelaajaTietue.datasource" />
     <None Include="Properties\DataSources\KaisaKaavio.Ranking.RankingSarja.datasource" />
+    <None Include="Properties\DataSources\KaisaKaavio.Tyypit.KilpailuTietue.datasource" />
     <None Include="Properties\DataSources\Kilpailu.datasource" />
     <None Include="Properties\DataSources\Linkki.datasource" />
     <None Include="Properties\DataSources\Pelaaja.datasource" />
@@ -436,6 +447,8 @@
     <None Include="Resources\Tulosta.png" />
     <None Include="Resources\Kansio.png" />
     <None Include="Resources\Online.png" />
+    <None Include="Resources\Online128.png" />
+    <None Include="Resources\Online16.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

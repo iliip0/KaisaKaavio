@@ -43,5 +43,22 @@ namespace KaisaKaavio.Tyypit
 
             return Int32.TryParse(lukuString.ToString(), out luku);
         }
+
+        public static int LaskeTaikanumero(string s)
+        {
+            int n = 0;
+
+            if (!string.IsNullOrEmpty(s))
+            {
+                int i = 1;
+                foreach (var c in s)
+                {
+                    n += i * 123 + ((int)c) * 456;
+                    i++;
+                }
+            }
+
+            return n;
+        }
     }
 }

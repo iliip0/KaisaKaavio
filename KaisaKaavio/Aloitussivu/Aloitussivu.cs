@@ -1,4 +1,6 @@
-﻿using KaisaKaavio.Tyypit;
+﻿using KaisaKaavio.Integraatio;
+using KaisaKaavio.Testaus;
+using KaisaKaavio.Tyypit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -178,7 +180,6 @@ namespace KaisaKaavio.Aloitussivu
             catch
             {
             }
-
         }
 
         private void Aloitussivu_FormClosed(object sender, FormClosedEventArgs e)
@@ -291,6 +292,33 @@ namespace KaisaKaavio.Aloitussivu
             {
                 MessageBox.Show(string.Format("Tiedoston lataus epäonnistui: {0}", ex.Message), "Virhe", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void avaaOnlineKisaButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Hide();
+
+                using (var popup = new LataaOnlineKilpailuPopup(this.ikkuna.Loki))
+                {
+                    if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+                        !string.IsNullOrEmpty(popup.LadattuTiedosto))
+                    {
+                        if (this.ikkuna.AvaaOnlineKilpailuValiaikaisestaTiedostosta(popup.LadatunKilpailunId, popup.LadattuTiedosto))
+                        {
+                            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                            this.Close();
+                            return;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            Show();
         }
     }
 }

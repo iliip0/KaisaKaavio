@@ -245,5 +245,48 @@ namespace KaisaKaavio.Integraatio
 
             return string.Empty;
         }
+
+        /// <summary>
+        /// Lataa kilpailutiedoston serveriltä annettuun kansioon
+        /// </summary>
+        public static bool LataaKilpailuServerilta(string id, string tiedostonNimi, int tn, out string virhe)
+        {
+            virhe = string.Empty;
+
+            try
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+#if DEBUG
+                ServicePointManager.ServerCertificateValidationCallback
+                                = ((sender, cert, chain, errors) => true);
+#else
+                ServicePointManager.ServerCertificateValidationCallback
+                                = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
+#endif
+
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/xml");
+
+                    string address = string.Format("{0}/api/LataaKilpailu/{1}?tn={2}",
+                        Asetukset.KaisaKaavioServeriHttps,
+                        id,
+                        tn);
+
+                    client.DownloadFile(address, tiedostonNimi);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                virhe = ex.Message;
+            }
+            finally
+            {
+            }
+
+            return false;
+        }
     }
 }

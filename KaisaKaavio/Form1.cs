@@ -1,4 +1,5 @@
-﻿using KaisaKaavio.Tyypit;
+﻿using KaisaKaavio.Integraatio;
+using KaisaKaavio.Tyypit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,8 @@ namespace KaisaKaavio
 #endif
 
         private string kansio = string.Empty;
+        public string OnlineKansio { get; private set; } = string.Empty;
+
         private string exeKansio = string.Empty;
         private string varmuuskopioKansio = string.Empty;
 
@@ -72,6 +75,9 @@ namespace KaisaKaavio
         {
             this.kansio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KaisaKaaviot");
             Directory.CreateDirectory(this.kansio);
+
+            this.OnlineKansio = Path.Combine(this.kansio, "OnlineKilpailut", DateTime.Now.Year.ToString());
+            Directory.CreateDirectory(this.OnlineKansio);
 
             this.exeKansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -320,6 +326,45 @@ namespace KaisaKaavio
                     this.loki.Kirjoita("Varmuuskopiointi epäonnistui", ex, false);
                 }
             }
+        }
+
+        public bool AvaaOnlineKilpailuValiaikaisestaTiedostosta(string kilpailunId, string tiedosto)
+        {
+            try
+            {
+                KeskeytaHaku();
+                SuspenAllDataBinding();
+
+                string kilpailuTiedosto = Path.Combine(this.OnlineKansio, string.Format("{0}.xml", kilpailunId));
+
+                File.Copy(tiedosto, kilpailuTiedosto, true);
+
+                AvaaKilpailu(kilpailuTiedosto);
+
+                if (this.loki != null)
+                {
+                    this.loki.Kirjoita(string.Format("Online tiedosto {0} avattu", kilpailunId));
+                }
+
+                return true;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(tiedosto);
+                }
+                catch 
+                {
+                }
+
+                ResumeAllDataBinding();
+            }
+
+            return false;
         }
 
         public void AvaaKilpailu(string tiedosto)
@@ -890,6 +935,8 @@ namespace KaisaKaavio
         {
             if (File.Exists(tiedosto))
             {
+                KeskeytaHaku();
+
                 this.tabControl1.SelectedTab = this.kisaInfoTabPage;
 
                 SuspenAllDataBinding();
@@ -6519,6 +6566,22 @@ namespace KaisaKaavio
             }
             catch
             { 
+            }
+        }
+
+        private void avaaKilpailuPalvelimeltaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var popup = new LataaOnlineKilpailuPopup(this.loki))
+            {
+                if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+                    !string.IsNullOrEmpty(popup.LadattuTiedosto))
+                {
+                    if (this.AvaaOnlineKilpailuValiaikaisestaTiedostosta(popup.LadatunKilpailunId, popup.LadattuTiedosto))
+                    {
+                        this.tabControl1.SelectedTab = this.kisaInfoTabPage;
+                        BringToFront();
+                    }
+                }
             }
         }
     }
