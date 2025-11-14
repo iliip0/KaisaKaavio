@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaisaKaavio.Ranking;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -35,9 +36,8 @@ namespace KaisaKaavio
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
             this.kaavioComboBox.SelectedIndex = 2;
 
+            this.rankingComboBox.DataSource = Enum.GetValues(typeof(RankingSarjanTyyppi));
             this.rankingComboBox.SelectedIndex = 0;
-            this.rankingCheckBox.Checked = false;
-            this.rankingComboBox.Visible = false;
 
             this.alkamisAikaDateTimePicker.Value = DateTime.Today;
 
@@ -79,8 +79,7 @@ namespace KaisaKaavio
                         this.peliAikaCheckBox.Checked = true;
                         this.peliAikaNumericUpDown.Value = viikkokisa ? 20 : 40;
                         this.tavoiteNumericUpDown.Value = viikkokisa ? 20 : 30;
-                        this.rankingCheckBox.Checked = viikkokisa;
-                        this.rankingComboBox.SelectedIndex = 0;
+                        this.rankingComboBox.SelectedIndex = viikkokisa ? 1 : 0;
                         this.kaavioComboBox.SelectedIndex = viikkokisa ? 2 : 0;
                     }
                     break;
@@ -95,8 +94,7 @@ namespace KaisaKaavio
                         this.peliAikaCheckBox.Checked = true;
                         this.peliAikaNumericUpDown.Value = viikkokisa ? 40 : 60;
                         this.tavoiteNumericUpDown.Value = 60;
-                        this.rankingCheckBox.Checked = viikkokisa;
-                        this.rankingComboBox.SelectedIndex = 0;
+                        this.rankingComboBox.SelectedIndex = viikkokisa ? 1 : 0;
                         this.kaavioComboBox.SelectedIndex = viikkokisa ? 2 : 0;
                     }
                     break;
@@ -111,8 +109,7 @@ namespace KaisaKaavio
                         this.tavoiteNumericUpDown.Value = 3;
                         this.peliAikaCheckBox.Checked = true;
                         this.peliAikaNumericUpDown.Value = 40;
-                        this.rankingCheckBox.Checked = viikkokisa;
-                        this.rankingComboBox.SelectedIndex = 0;
+                        this.rankingComboBox.SelectedIndex = viikkokisa ? 1 : 0;
                         this.kaavioComboBox.SelectedIndex = 2;
                     }
                     break;
@@ -132,7 +129,6 @@ namespace KaisaKaavio
                         this.tavoiteNumericUpDown.Value = 4;
                         this.peliAikaCheckBox.Checked = false;
                         this.peliAikaNumericUpDown.Value = 0;
-                        this.rankingCheckBox.Checked = false;
                         this.rankingComboBox.SelectedIndex = 0;
                         this.kaavioComboBox.SelectedIndex = 2;
                     }
@@ -148,7 +144,6 @@ namespace KaisaKaavio
                         this.tavoiteNumericUpDown.Value = 3;
                         this.peliAikaCheckBox.Checked = false;
                         this.peliAikaNumericUpDown.Value = 0;
-                        this.rankingCheckBox.Checked = false;
                         this.rankingComboBox.SelectedIndex = 0;
                         this.kaavioComboBox.SelectedIndex = 2;
                     }
@@ -164,7 +159,6 @@ namespace KaisaKaavio
                         this.tavoiteNumericUpDown.Value = 2;
                         this.peliAikaCheckBox.Checked = false;
                         this.peliAikaNumericUpDown.Value = 0;
-                        this.rankingCheckBox.Checked = false;
                         this.rankingComboBox.SelectedIndex = 0;
                         this.kaavioComboBox.SelectedIndex = 2;
                     }
@@ -254,10 +248,12 @@ namespace KaisaKaavio
                 if (kilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.Viikkokisa)
                 {
                     this.kaavioComboBox.SelectedIndex = 2;
+                    this.kelloTextBox.Text = "18:00";
                 }
                 else
                 {
                     this.kaavioComboBox.SelectedIndex = 0;
+                    this.kelloTextBox.Text = "10:00";
                 }
 
                 if (laji == KaisaKaavio.Laji.Kaisa &&
@@ -290,11 +286,19 @@ namespace KaisaKaavio
                     !this.LuoTestikilpailu)
                 {
                     this.tavoiteNumericUpDown.Value = this.asetukset.Tavoite;
-                    this.rankingCheckBox.Checked = this.asetukset.RankingSarja;
                     this.peliAikaCheckBox.Checked = this.asetukset.PeliaikaRajattu;
                     this.peliAikaNumericUpDown.Value = this.asetukset.Peliaika;
                     this.rankingComboBox.SelectedIndex = (int)this.asetukset.RankingSarjanTyyppi;
+                    this.nakyvyysComboBox.SelectedIndex = (int)this.asetukset.Nakyvyys;
+                    this.kelloTextBox.Text = this.asetukset.AlkamisAika;
+                    
+                    if (this.rankingComboBox.SelectedIndex == (int)RankingSarjanTyyppi.Vapaamuotoinen)
+                    {
+                        this.rankingSarjanNimiTextBox.Text = this.asetukset.RankingSarjanNimi;
+                    }
+
                     this.kaavioComboBox.SelectedIndex = (int)this.asetukset.KaavioTyyppi;
+
                     try
                     {
                         this.alaLajiComboBox.SelectedItem = asetukset.Alalaji;
@@ -379,7 +383,15 @@ namespace KaisaKaavio
             get { return (Nakyvyys)Enum.GetValues(typeof(Nakyvyys)).GetValue(this.nakyvyysComboBox.SelectedIndex); }
         }
 
-        public bool RankingKisa { get { return this.rankingCheckBox.Checked; } }
+        public string Kellonaika
+        {
+            get
+            {
+                return this.kelloTextBox.Text;
+            }
+        }
+
+        public bool RankingKisa { get { return this.rankingComboBox.SelectedIndex != (int)RankingSarjanTyyppi.EiRankingSarjaa; } }
         public string Aika { get { return Tyypit.Aika.DateTimeToString(this.alkamisAikaDateTimePicker.Value); } }
         public decimal Tavoite { get { return this.tavoiteNumericUpDown.Value; } }
 
@@ -391,19 +403,22 @@ namespace KaisaKaavio
             }
         }
 
-        public Ranking.RankingSarjanPituus RankingKisatyyppi 
+        public Ranking.RankingSarjanTyyppi RankingKisatyyppi 
         {
             get
             {
-                switch (this.rankingComboBox.SelectedIndex)
-                {
-                    case 0: default: return Ranking.RankingSarjanPituus.Kuukausi;
-                    case 1: return Ranking.RankingSarjanPituus.Vuodenaika;
-                    case 2: return Ranking.RankingSarjanPituus.Puolivuotta;
-                    case 3: return Ranking.RankingSarjanPituus.Vuosi;
-                }
+                return (Ranking.RankingSarjanTyyppi)this.rankingComboBox.SelectedItem;
             }
         }
+
+        public string RankingSarjanNimi
+        {
+            get
+            {
+                return this.rankingSarjanNimiTextBox.Text;
+            }
+        }
+
         public Laji Laji
         {
             get
@@ -445,9 +460,16 @@ namespace KaisaKaavio
                         this.asetukset.Alalaji = this.alaLajiComboBox.SelectedItem != null ? this.alaLajiComboBox.SelectedItem.ToString() : string.Empty;
                         this.asetukset.Peliaika = (int)this.peliAikaNumericUpDown.Value;
                         this.asetukset.PeliaikaRajattu = this.peliAikaCheckBox.Checked;
-                        this.asetukset.RankingSarja = this.rankingCheckBox.Checked;
                         this.asetukset.Tavoite = (int)this.tavoiteNumericUpDown.Value;
                         this.asetukset.RankingSarjanTyyppi = this.RankingKisatyyppi;
+                        this.asetukset.Nakyvyys = this.Nakyvyys;
+                        this.asetukset.AlkamisAika = this.kelloTextBox.Text;
+
+                        if (this.RankingKisatyyppi == RankingSarjanTyyppi.Vapaamuotoinen)
+                        {
+                            this.asetukset.RankingSarjanNimi = this.RankingSarjanNimi;
+                        }
+
                         this.asetukset.KaavioTyyppi = this.KaavioTyyppi;
                         this.yleisAsetukset.Pelipaikka = this.Paikka;
                     }
@@ -475,8 +497,10 @@ namespace KaisaKaavio
             // Viikkokisa
             if (this.kilpailunTyyppiComboBox.SelectedIndex == 0)
             {
-                this.rankingCheckBox.Visible = true;
-                this.rankingComboBox.Visible = this.rankingCheckBox.Checked;
+                this.rankingLabel.Visible = true;
+                this.rankingComboBox.Visible = true;
+                this.rankingSarjanNimiLabel.Visible = this.rankingComboBox.SelectedIndex == (int)RankingSarjanTyyppi.Vapaamuotoinen;
+                this.rankingSarjanNimiTextBox.Visible = this.rankingComboBox.SelectedIndex == (int)RankingSarjanTyyppi.Vapaamuotoinen;
 
                 this.kilpasarjaLabel.Visible = false;
                 this.kilpaSarjaComboBox.Visible = false;
@@ -487,8 +511,10 @@ namespace KaisaKaavio
             // Avoin kisa tai SBiL kisa
             else
             {
-                this.rankingCheckBox.Visible = false;
+                this.rankingLabel.Visible = false;
                 this.rankingComboBox.Visible = false;
+                this.rankingSarjanNimiTextBox.Visible = false;
+                this.rankingSarjanNimiLabel.Visible = false;
 
                 this.kilpasarjaLabel.Visible = true;
                 this.kilpaSarjaComboBox.Visible = true;
@@ -506,11 +532,6 @@ namespace KaisaKaavio
             PaivitaKilpailunOletusNimi();
             PaivitaOletusKansio(this.Laji);
             TarkistaTiedot();
-        }
-
-        private void rankingCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.rankingComboBox.Visible = this.rankingCheckBox.Checked;
         }
 
         private void PaivitaKilpailunOletusNimi()
@@ -600,7 +621,7 @@ namespace KaisaKaavio
 
             PaivitaOnlineKenttienNakyvyys();
 
-            PaivitaUiLajille((KaisaKaavio.Laji)uusiKilpailuLajiComboBox.SelectedItem, true);
+            PaivitaUiLajille((KaisaKaavio.Laji)uusiKilpailuLajiComboBox.SelectedItem, false);
             TarkistaTiedot();
         }
 
@@ -670,6 +691,13 @@ namespace KaisaKaavio
             this.errorProvider1.SetError(this.kilpaSarjaComboBox, string.Empty);
             this.errorProvider1.SetError(this.kaavioComboBox, string.Empty);
             this.errorProvider1.SetError(this.kilpailunNimiTextBox, string.Empty);
+            this.errorProvider1.SetError(this.rankingSarjanNimiTextBox, string.Empty);
+            this.errorProvider1.SetError(this.kelloTextBox, string.Empty);
+
+            if (string.IsNullOrEmpty(this.kelloTextBox.Text))
+            {
+                return NaytaVirhe(this.kelloTextBox, "Kilpailun alkamisaika tarvitaan");
+            }
 
             if (string.IsNullOrEmpty(this.peliPaikkaComboBox.Text))
             {
@@ -737,6 +765,14 @@ namespace KaisaKaavio
                         return NaytaVirhe(this.kaavioComboBox, "Kaisan SM-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
                     }
                     break;
+            }
+
+            if (this.RankingKisatyyppi == RankingSarjanTyyppi.Vapaamuotoinen)
+            {
+                if (string.IsNullOrEmpty(this.RankingSarjanNimi))
+                {
+                    return NaytaVirhe(this.rankingSarjanNimiTextBox, "Anna rankingsarjalle nimi!");
+                }
             }
 
             return true;
@@ -846,6 +882,33 @@ namespace KaisaKaavio
         private void kaksiosainenArvontaCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             PaivitaOnlineKenttienNakyvyys();
+        }
+
+        private void rankingComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.rankingSarjanNimiLabel.Visible = this.rankingComboBox.SelectedIndex == (int)RankingSarjanTyyppi.Vapaamuotoinen;
+            this.rankingSarjanNimiTextBox.Visible = this.rankingComboBox.SelectedIndex == (int)RankingSarjanTyyppi.Vapaamuotoinen;
+
+            TarkistaTiedot();
+        }
+
+        private void rankingSarjanNimiTextBox_TextChanged(object sender, EventArgs e)
+        {
+            TarkistaTiedot();
+        }
+
+        private void rankingComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            RankingSarjanTyyppi r = (RankingSarjanTyyppi)e.ListItem;
+
+            var field = typeof(RankingSarjanTyyppi).GetField(r.ToString());
+            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            e.Value = attributes.Length == 0 ? r.ToString() : ((DescriptionAttribute)attributes[0]).Description;
+        }
+
+        private void kelloTextBox_TextChanged(object sender, EventArgs e)
+        {
+            TarkistaTiedot();
         }
     }
 }

@@ -34,7 +34,6 @@
             this.kilpailunTyyppiComboBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.kilpailunNimiTextBox = new System.Windows.Forms.TextBox();
-            this.rankingCheckBox = new System.Windows.Forms.CheckBox();
             this.rankingComboBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.uusiKilpailuLajiComboBox = new System.Windows.Forms.ComboBox();
@@ -75,6 +74,11 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.rankingSarjanNimiTextBox = new System.Windows.Forms.TextBox();
+            this.rankingLabel = new System.Windows.Forms.Label();
+            this.rankingSarjanNimiLabel = new System.Windows.Forms.Label();
+            this.kelloTextBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -161,32 +165,23 @@
             this.kilpailunNimiTextBox.TextChanged += new System.EventHandler(this.kilpailunNimiTextBox_TextChanged);
             this.kilpailunNimiTextBox.Validated += new System.EventHandler(this.kilpailunNimiTextBox_Validated);
             // 
-            // rankingCheckBox
-            // 
-            this.rankingCheckBox.AutoSize = true;
-            this.rankingCheckBox.Location = new System.Drawing.Point(295, 14);
-            this.rankingCheckBox.Name = "rankingCheckBox";
-            this.rankingCheckBox.Size = new System.Drawing.Size(338, 28);
-            this.rankingCheckBox.TabIndex = 6;
-            this.rankingCheckBox.Text = "Liitä kilpailu viikkokisarankingsarjaan?";
-            this.rankingCheckBox.UseVisualStyleBackColor = true;
-            this.rankingCheckBox.CheckedChanged += new System.EventHandler(this.rankingCheckBox_CheckedChanged);
-            // 
             // rankingComboBox
             // 
-            this.rankingComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.rankingComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rankingComboBox.FormattingEnabled = true;
             this.rankingComboBox.Items.AddRange(new object[] {
+            "Kilpailu ei kuulu ranking sarjaan",
             "Kuukausittainen ranking sarja",
             "Kolmen kuukauden välein vaihtuva sarja",
             "Puolen vuoden välein vaihtuva sarja",
-            "Vuoden kestävä sarja"});
-            this.rankingComboBox.Location = new System.Drawing.Point(639, 12);
+            "Vuoden kestävä sarja",
+            "Nimetty, vapaamuotoinen sarja"});
+            this.rankingComboBox.Location = new System.Drawing.Point(226, 12);
             this.rankingComboBox.Name = "rankingComboBox";
-            this.rankingComboBox.Size = new System.Drawing.Size(316, 32);
+            this.rankingComboBox.Size = new System.Drawing.Size(380, 32);
             this.rankingComboBox.TabIndex = 8;
+            this.rankingComboBox.SelectedIndexChanged += new System.EventHandler(this.rankingComboBox_SelectedIndexChanged);
+            this.rankingComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.rankingComboBox_Format);
             // 
             // label3
             // 
@@ -250,8 +245,10 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.rankingSarjanNimiLabel);
+            this.splitContainer2.Panel2.Controls.Add(this.rankingLabel);
+            this.splitContainer2.Panel2.Controls.Add(this.rankingSarjanNimiTextBox);
             this.splitContainer2.Panel2.Controls.Add(this.pictureBox2);
-            this.splitContainer2.Panel2.Controls.Add(this.rankingCheckBox);
             this.splitContainer2.Panel2.Controls.Add(this.rankingComboBox);
             this.splitContainer2.Panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.splitContainer2.Size = new System.Drawing.Size(962, 437);
@@ -271,6 +268,8 @@
             // splitContainer3.Panel1
             // 
             this.splitContainer3.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer3.Panel1.Controls.Add(this.label9);
+            this.splitContainer3.Panel1.Controls.Add(this.kelloTextBox);
             this.splitContainer3.Panel1.Controls.Add(this.onlineGroupBox);
             this.splitContainer3.Panel1.Controls.Add(this.kaavioComboBox);
             this.splitContainer3.Panel1.Controls.Add(this.label6);
@@ -422,9 +421,9 @@
             this.kilpaSarjaComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kilpaSarjaComboBox.FormattingEnabled = true;
             this.errorProvider1.SetIconAlignment(this.kilpaSarjaComboBox, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
-            this.kilpaSarjaComboBox.Location = new System.Drawing.Point(708, 121);
+            this.kilpaSarjaComboBox.Location = new System.Drawing.Point(778, 121);
             this.kilpaSarjaComboBox.Name = "kilpaSarjaComboBox";
-            this.kilpaSarjaComboBox.Size = new System.Drawing.Size(247, 32);
+            this.kilpaSarjaComboBox.Size = new System.Drawing.Size(177, 32);
             this.kilpaSarjaComboBox.TabIndex = 15;
             this.kilpaSarjaComboBox.SelectedIndexChanged += new System.EventHandler(this.kilpaSarjaComboBox_SelectedIndexChanged);
             // 
@@ -435,15 +434,15 @@
             this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label4.Location = new System.Drawing.Point(311, 123);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 24);
+            this.label4.Size = new System.Drawing.Size(113, 24);
             this.label4.TabIndex = 12;
-            this.label4.Text = "Alkamispäivä:";
+            this.label4.Text = "Alkamisaika:";
             // 
             // kilpasarjaLabel
             // 
             this.kilpasarjaLabel.AutoSize = true;
             this.kilpasarjaLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.kilpasarjaLabel.Location = new System.Drawing.Point(607, 123);
+            this.kilpasarjaLabel.Location = new System.Drawing.Point(687, 124);
             this.kilpasarjaLabel.Name = "kilpasarjaLabel";
             this.kilpasarjaLabel.Size = new System.Drawing.Size(95, 24);
             this.kilpasarjaLabel.TabIndex = 14;
@@ -706,6 +705,57 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // rankingSarjanNimiTextBox
+            // 
+            this.rankingSarjanNimiTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.errorProvider1.SetIconAlignment(this.rankingSarjanNimiTextBox, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
+            this.rankingSarjanNimiTextBox.Location = new System.Drawing.Point(726, 12);
+            this.rankingSarjanNimiTextBox.MaxLength = 64;
+            this.rankingSarjanNimiTextBox.Name = "rankingSarjanNimiTextBox";
+            this.rankingSarjanNimiTextBox.Size = new System.Drawing.Size(225, 29);
+            this.rankingSarjanNimiTextBox.TabIndex = 10;
+            this.rankingSarjanNimiTextBox.TextChanged += new System.EventHandler(this.rankingSarjanNimiTextBox_TextChanged);
+            // 
+            // rankingLabel
+            // 
+            this.rankingLabel.AutoSize = true;
+            this.rankingLabel.Location = new System.Drawing.Point(61, 15);
+            this.rankingLabel.Name = "rankingLabel";
+            this.rankingLabel.Size = new System.Drawing.Size(159, 24);
+            this.rankingLabel.TabIndex = 11;
+            this.rankingLabel.Text = "Viikkokisaranking:";
+            // 
+            // rankingSarjanNimiLabel
+            // 
+            this.rankingSarjanNimiLabel.AutoSize = true;
+            this.rankingSarjanNimiLabel.Location = new System.Drawing.Point(612, 15);
+            this.rankingSarjanNimiLabel.Name = "rankingSarjanNimiLabel";
+            this.rankingSarjanNimiLabel.Size = new System.Drawing.Size(108, 24);
+            this.rankingSarjanNimiLabel.TabIndex = 12;
+            this.rankingSarjanNimiLabel.Text = "Sarjan nimi:";
+            // 
+            // kelloTextBox
+            // 
+            this.kelloTextBox.Location = new System.Drawing.Point(617, 122);
+            this.kelloTextBox.MaxLength = 5;
+            this.kelloTextBox.Name = "kelloTextBox";
+            this.kelloTextBox.Size = new System.Drawing.Size(57, 29);
+            this.kelloTextBox.TabIndex = 24;
+            this.kelloTextBox.Text = "18:00";
+            this.kelloTextBox.TextChanged += new System.EventHandler(this.kelloTextBox_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Black;
+            this.label9.Location = new System.Drawing.Point(588, 129);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(28, 16);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "klo:";
+            // 
             // UusiKilpailuPopup
             // 
             this.AcceptButton = this.uusiKilpailuButton;
@@ -773,7 +823,6 @@
         private System.Windows.Forms.ComboBox kilpailunTyyppiComboBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox kilpailunNimiTextBox;
-        private System.Windows.Forms.CheckBox rankingCheckBox;
         private System.Windows.Forms.ComboBox rankingComboBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox uusiKilpailuLajiComboBox;
@@ -812,5 +861,10 @@
         private System.Windows.Forms.ComboBox nakyvyysComboBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.TextBox rankingSarjanNimiTextBox;
+        private System.Windows.Forms.Label rankingSarjanNimiLabel;
+        private System.Windows.Forms.Label rankingLabel;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox kelloTextBox;
     }
 }

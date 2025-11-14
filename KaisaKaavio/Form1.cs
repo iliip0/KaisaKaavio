@@ -147,7 +147,7 @@ namespace KaisaKaavio
             this.rankingVuosiComboBox.Items.AddRange(this.ranking.Vuodet.Select(x => (object)x).ToArray());
             this.rankingPituusComboBox.DataSource = Enum.GetValues(typeof(Ranking.RankingSarjanPituus));
             this.rankingOsakilpailuComboBox.DataSource = this.ranking.KilpailutBindingSource;
-            this.rankingSarjanLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
+            //this.rankingSarjanLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
             this.rankingHakuLajiComboBox.DataSource = Enum.GetValues(typeof(Laji));
 
             this.haeBiljardOrgSivultaButton.BackColor = this.biljardiOrgVari;
@@ -548,6 +548,8 @@ namespace KaisaKaavio
                     this.kilpailu.Palkinnot = string.Empty;
                     this.kilpailu.Ilmoittautuminen = string.Empty;
 
+                    this.kilpailu.KellonAika = popup.Kellonaika;
+
                     if (string.IsNullOrEmpty(this.kilpailu.Paikka) && this.asetukset.Sali != null)
                     {
                         if (!string.IsNullOrEmpty(this.asetukset.Sali.Lyhenne))
@@ -572,7 +574,6 @@ namespace KaisaKaavio
                     if (popup.LuoViikkokisa)
                     {
                         this.kilpailu.RankkareidenMaara = 3;
-                        this.kilpailu.KellonAika = "18:00";
                         this.kilpailu.Yksipaivainen = true;
                         this.kilpailu.RankingOsakilpailu = this.ranking.AvaaRankingTietueKilpailulle(this.kilpailu);
                         this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista;
@@ -587,7 +588,6 @@ namespace KaisaKaavio
                     else
                     {
                         this.kilpailu.RankkareidenMaara = 5;
-                        this.kilpailu.KellonAika = "10:00";
                         this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
 
                         if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu)
@@ -683,22 +683,33 @@ namespace KaisaKaavio
                     }
 
                     this.kilpailu.RankingKisa = popup.RankingKisa;
-                    this.kilpailu.RankingKisaTyyppi = popup.RankingKisatyyppi;
-                    this.kilpailu.RankingKisaLaji = popup.Laji;
-                    this.kilpailu.RankingSarjanNimi = string.Empty; // TODO
+                    this.kilpailu.RankingSarjanTyyppi = popup.RankingKisatyyppi;
+                    this.kilpailu.RankingSarjanNimi = popup.RankingKisatyyppi == Ranking.RankingSarjanTyyppi.Vapaamuotoinen ? popup.RankingSarjanNimi : string.Empty;
 
-                    // KaisaKaavio.fi sivuston käyttämä rankingsarjatieto
-                    this.kilpailu.RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.EiRankingSarjaa;
-                    if (this.kilpailu.RankingKisa)
+                    switch (popup.RankingKisatyyppi)
                     {
-                        switch (this.kilpailu.RankingKisaTyyppi)
-                        {
-                            case Ranking.RankingSarjanPituus.Kuukausi: this.kilpailu.RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.Kuukausi; break;
-                            case Ranking.RankingSarjanPituus.Vuodenaika: this.kilpailu.RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.Vuodenaika; break;
-                            case Ranking.RankingSarjanPituus.Puolivuotta: this.kilpailu.RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.Puolivuotta; break;
-                            case Ranking.RankingSarjanPituus.Vuosi: this.kilpailu.RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.Vuosi; break;
-                        }
+                        case Ranking.RankingSarjanTyyppi.EiRankingSarjaa:
+                            break;
+
+                        case Ranking.RankingSarjanTyyppi.Kuukausi:
+                            this.kilpailu.RankingKisaTyyppi = Ranking.RankingSarjanPituus.Kuukausi; 
+                            break;
+
+                        case Ranking.RankingSarjanTyyppi.Vuodenaika:
+                            this.kilpailu.RankingKisaTyyppi = Ranking.RankingSarjanPituus.Vuodenaika;
+                            break;
+
+                        case Ranking.RankingSarjanTyyppi.Puolivuotta:
+                            this.kilpailu.RankingKisaTyyppi = Ranking.RankingSarjanPituus.Puolivuotta;
+                            break;
+
+                        case Ranking.RankingSarjanTyyppi.Vuosi:
+                        case Ranking.RankingSarjanTyyppi.Vapaamuotoinen:
+                            this.kilpailu.RankingKisaTyyppi = Ranking.RankingSarjanPituus.Vuosi;
+                            break;
                     }
+
+                    this.kilpailu.RankingKisaLaji = popup.Laji;
 
                     if (this.kilpailu.Nakyvyys == Nakyvyys.Offline ||
                         this.kilpailu.Nakyvyys == Nakyvyys.VainYllapitajille ||
@@ -5498,16 +5509,23 @@ namespace KaisaKaavio
             PaivitaRankingKontrollienNakyvyys();
         }
 
+        private void rankingSarjanNimiTextBox_TextChanged(object sender, EventArgs e)
+        {
+            this.kilpailu.RankingSarjanNimi = this.rankingSarjanNimiTextBox.Text;
+            PaivitaRankingKontrollienNakyvyys();
+        }
+
         private void PaivitaRankingKontrollienNakyvyys()
         {
             try
             {
                 PaivitaSijoitettuSarake();
 
-                this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
-                this.rankingSarjanLajiComboBox.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
+                this.rankingKisaTyyppiComboBox.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked && !this.kilpailu.RankingSarjallaOnNimi;
+                //this.rankingSarjanLajiComboBox.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
                 this.rankingSarjanLajiLabel.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
-                this.rankingSarjanTyyppiLabel.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
+                this.rankingSarjanTyyppiLabel.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked && !this.kilpailu.RankingSarjallaOnNimi;
+                this.rankingSarjanNimiTextBox.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
                 this.rankingKisaPisteytysButton.Visible = this.rankingKisaCheckBox.Visible && this.rankingKisaCheckBox.Checked;
             }
             catch

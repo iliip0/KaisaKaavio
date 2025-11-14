@@ -119,18 +119,21 @@ namespace KaisaKaavio
             public string Alalaji { get; set; } = string.Empty;
 
             [XmlAttribute]
-            [DefaultValue(false)]
-            public bool RankingSarja { get; set; } = false;
+            public Ranking.RankingSarjanTyyppi RankingSarjanTyyppi { get; set; } = Ranking.RankingSarjanTyyppi.Kuukausi;
 
             [XmlAttribute]
-            public Ranking.RankingSarjanPituus RankingSarjanTyyppi { get; set; } = Ranking.RankingSarjanPituus.Kuukausi;
+            [DefaultValue("")]
+            public string RankingSarjanNimi { get; set; } = string.Empty;
+
+            [XmlAttribute]
+            [DefaultValue("18:00")]
+            public string AlkamisAika { get; set; } = "18:00";
 
             [XmlAttribute]
             public KaavioTyyppi KaavioTyyppi { get; set; } = KaavioTyyppi.Pudari3Kierros;
 
-            //[XmlAttribute]
-            //[DefaultValue(true)]
-            //public bool KaksiOsainenArvonta { get; set; } = true;
+            [XmlAttribute]
+            public Nakyvyys Nakyvyys { get; set; } = Nakyvyys.Kaikille;
 
             [XmlAttribute]
             public ArvonnanAika EnsimmainenArvonta { get; set; } = ArvonnanAika.TuntiaEnnen;
@@ -171,7 +174,7 @@ namespace KaisaKaavio
             this.OletusAsetuksetKaisa = new KisaOletusasetukset()
             {
                 Peliaika = 40,
-                RankingSarja = true,
+                RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.Kuukausi,
                 PeliaikaRajattu = true,
                 Tavoite = 60
             };
@@ -179,7 +182,7 @@ namespace KaisaKaavio
             this.OletusAsetuksetKara = new KisaOletusasetukset()
             {
                 Peliaika = 40,
-                RankingSarja = true,
+                RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.Kuukausi,
                 PeliaikaRajattu = true,
                 Tavoite = 20,
                 Alalaji = "Kolmen vallin kara"
@@ -188,7 +191,7 @@ namespace KaisaKaavio
             this.OletusAsetuksetPyramidi = new KisaOletusasetukset()
             {
                 Peliaika = 40,
-                RankingSarja = true,
+                RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.Kuukausi,
                 PeliaikaRajattu = true,
                 Tavoite = 3,
                 Alalaji = "Amerikanka"
@@ -197,18 +200,21 @@ namespace KaisaKaavio
             this.OletusAsetuksetPool = new KisaOletusasetukset()
             {
                 Tavoite = 4,
+                RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.EiRankingSarjaa,
                 Alalaji = "9-ball"
             };
 
             this.OletusAsetuksetHeyball = new KisaOletusasetukset()
             {
-                Tavoite = 4
+                Tavoite = 4,
+                RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.EiRankingSarjaa,
             };
 
             this.OletusAsetuksetSnooker = new KisaOletusasetukset()
             {
                 Tavoite = 2,
-                Alalaji = "Snooker"
+                Alalaji = "Snooker",
+                RankingSarjanTyyppi = Ranking.RankingSarjanTyyppi.EiRankingSarjaa,
             };
 
             LisaaOletusSaliTietueet();
@@ -448,7 +454,8 @@ namespace KaisaKaavio
             omatAsetukset.Alalaji = ladatutAsetukset.Alalaji;
             omatAsetukset.Peliaika = ladatutAsetukset.Peliaika;
             omatAsetukset.PeliaikaRajattu = ladatutAsetukset.PeliaikaRajattu;
-            omatAsetukset.RankingSarja = ladatutAsetukset.RankingSarja;
+            omatAsetukset.RankingSarjanTyyppi = ladatutAsetukset.RankingSarjanTyyppi;
+            omatAsetukset.RankingSarjanNimi = ladatutAsetukset.RankingSarjanNimi;
             omatAsetukset.Tavoite = ladatutAsetukset.Tavoite;
             omatAsetukset.RankingSarjanTyyppi = ladatutAsetukset.RankingSarjanTyyppi;
             omatAsetukset.KaavioTyyppi = ladatutAsetukset.KaavioTyyppi;
@@ -456,7 +463,8 @@ namespace KaisaKaavio
             omatAsetukset.IlmoittautuminenPaattyy = ladatutAsetukset.IlmoittautuminenPaattyy;
             omatAsetukset.EnsimmainenArvonta = ladatutAsetukset.EnsimmainenArvonta;
             omatAsetukset.ToinenArvonta = ladatutAsetukset.ToinenArvonta;
-            //omatAsetukset.KaksiOsainenArvonta = ladatutAsetukset.KaksiOsainenArvonta;
+            omatAsetukset.AlkamisAika = ladatutAsetukset.AlkamisAika;
+            omatAsetukset.Nakyvyys = ladatutAsetukset.Nakyvyys;
         }
 
         private static void LataaRankingAsetukset(Ranking.RankingAsetukset omatAsetukset, Ranking.RankingAsetukset ladatutAsetukset, Laji laji)

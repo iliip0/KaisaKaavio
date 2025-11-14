@@ -462,8 +462,32 @@ namespace KaisaKaavio
 
         public RankingSarjanTyyppi RankingSarjanTyyppi { get; set; } = RankingSarjanTyyppi.EiRankingSarjaa;
 
+        private string rankingSarjanNimi = string.Empty;
+
         [DefaultValue("")]
-        public string RankingSarjanNimi { get; set; } = string.Empty;
+        public string RankingSarjanNimi
+        {
+            get
+            {
+                return this.rankingSarjanNimi;
+            }
+            set
+            {
+                this.rankingSarjanNimi = value != null ? value : string.Empty;
+
+                RaisePropertyChanged("RankingSarjanNimi");
+                RaisePropertyChanged("RankingSarjallaOnNimi");
+            }
+        }
+
+        [XmlIgnore]
+        public bool RankingSarjallaOnNimi
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(RankingSarjanNimi);
+            }
+        }
 
         [XmlIgnore]
         public bool KilpailuOnTasurikisa 
@@ -1721,6 +1745,28 @@ namespace KaisaKaavio
                 if (this.Loki != null)
                 {
                     Loki.Kirjoita(string.Format("Tallennetaan kilpailu tiedostoon {0}", nimi));
+                }
+
+                if (this.RankingKisa && this.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa)
+                {
+                    if (RankingSarjallaOnNimi)
+                    {
+                        this.RankingSarjanTyyppi = RankingSarjanTyyppi.Vapaamuotoinen;
+                    }
+                    else
+                    {
+                        switch (this.RankingKisaTyyppi)
+                        {
+                            case RankingSarjanPituus.Kuukausi: this.RankingSarjanTyyppi = RankingSarjanTyyppi.Kuukausi; break;
+                            case RankingSarjanPituus.Vuodenaika: this.RankingSarjanTyyppi = RankingSarjanTyyppi.Vuodenaika; break;
+                            case RankingSarjanPituus.Puolivuotta: this.RankingSarjanTyyppi = RankingSarjanTyyppi.Puolivuotta; break;
+                            case RankingSarjanPituus.Vuosi: this.RankingSarjanTyyppi = RankingSarjanTyyppi.Vuosi; break;
+                        }
+                    }
+                }
+                else 
+                {
+                    this.RankingSarjanTyyppi = RankingSarjanTyyppi.EiRankingSarjaa;
                 }
 
                 XmlSerializer serializer = new XmlSerializer(typeof(Kilpailu));
@@ -3961,20 +4007,6 @@ namespace KaisaKaavio
             else
             {
                 return string.Format("{0} klo:{1}", this.AlkamisAika, this.KellonAika);
-            }
-        }
-
-        public int RankingSarjanNumero()
-        {
-            var aika = this.AlkamisAikaDt;
-
-            switch (this.RankingKisaTyyppi)
-            {
-                case Ranking.RankingSarjanPituus.Kuukausi: return aika.Month;
-                case Ranking.RankingSarjanPituus.Vuodenaika: return (aika.Month - 1) / 3;
-                case Ranking.RankingSarjanPituus.Puolivuotta: return (aika.Month - 1) / 6;
-                case Ranking.RankingSarjanPituus.Vuosi: return 0;
-                default: return 0;
             }
         }
 
