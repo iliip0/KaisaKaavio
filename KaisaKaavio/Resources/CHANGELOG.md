@@ -2,6 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.44		(työn alla)
+* Online ilmoittautuminen
+* Online viikkokisaranking
+* Lisätty mahdollisuus luoda nimetty rankingsarja, johon voi laittaa mitä vaan viikkokisoja
+
 ## Versio 1.0.0.43		(julkaistu 14.10.2025)
 
 * Korjaus ilmoittautumissivun automaattiseen nimien ehdotukseen

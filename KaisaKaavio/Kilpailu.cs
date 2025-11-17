@@ -277,7 +277,6 @@ namespace KaisaKaavio
                 Byte result = (Byte)(flags & mask);
 
                 return (KaisaKaavio.Nakyvyys)result;
-                //return (KaisaKaavio.Nakyvyys)(this.OnlineFlags & (Byte)KaisaKaavio.OnlineFlags.NakyvyysMask);
             }
             set
             {
@@ -621,7 +620,7 @@ namespace KaisaKaavio
                 if (this.Nakyvyys != Nakyvyys.Offline && !this.PoistaPaivitysKaytosta)
                 {
 #if !DEBUG
-                    if (!this.kilpailu.TestiKilpailu)
+                    if (!this.TestiKilpailu)
 #endif
                     {
 #if DEBUG
