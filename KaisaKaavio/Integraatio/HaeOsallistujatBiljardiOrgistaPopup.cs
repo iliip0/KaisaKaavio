@@ -33,31 +33,6 @@ namespace KaisaKaavio.Integraatio
             this.splitContainer1.Panel1.BackColor = biljardiOrgVari;
 
             this.haeOsallistujatatButton.Enabled = !string.IsNullOrEmpty(this.kilpailunNumeroTextBox.Text);
-
-            var k = Integraatio.BiljardiOrg.LataaTulevatKisat(this.loki, this.kilpailu.Laji, this.kilpailu.KilpaSarja);
-            if (k.Any())
-            {
-                this.kisat.Add(new BiljardiOrgKilpailu() { Nimi = "(valitse kilpailu)" });
-                this.kisat.AddRange(k);
-
-                this.kisatComboBox.DataSource = this.kisat;
-                this.kisatComboBox.SelectedIndex = 0;
-                this.kisatComboBox.DisplayMember = "Nimi";
-
-                if (!string.IsNullOrEmpty(this.kilpailu.BiljardiOrgId))
-                {
-                    var kisa = this.kisat.FirstOrDefault(x => string.Equals(x.Id, this.kilpailu.BiljardiOrgId));
-                    if (kisa != null)
-                    {
-                        this.kisatComboBox.SelectedIndex = this.kisat.IndexOf(kisa);
-                    }
-                }
-            }
-            else 
-            {
-                this.kisatLabel.Visible = false;
-                this.kisatComboBox.Visible = false;
-            }
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -294,6 +269,34 @@ namespace KaisaKaavio.Integraatio
             {
                 this.pelaajat.Clear();
                 this.richTextBox2.Text = string.Empty;
+            }
+        }
+
+        private void HaeOsallistujatBiljardiOrgistaPopup_Shown(object sender, EventArgs e)
+        {
+            var k = Integraatio.BiljardiOrg.LataaTulevatKisat(this.loki, this.kilpailu.Laji, this.kilpailu.KilpaSarja);
+            if (k.Any())
+            {
+                this.kisat.Add(new BiljardiOrgKilpailu() { Nimi = "(valitse kilpailu)" });
+                this.kisat.AddRange(k);
+
+                this.kisatComboBox.DataSource = this.kisat;
+                this.kisatComboBox.SelectedIndex = 0;
+                this.kisatComboBox.DisplayMember = "Nimi";
+
+                if (!string.IsNullOrEmpty(this.kilpailu.BiljardiOrgId))
+                {
+                    var kisa = this.kisat.FirstOrDefault(x => string.Equals(x.Id, this.kilpailu.BiljardiOrgId));
+                    if (kisa != null)
+                    {
+                        this.kisatComboBox.SelectedIndex = this.kisat.IndexOf(kisa);
+                    }
+                }
+            }
+            else
+            {
+                this.kisatLabel.Visible = false;
+                this.kisatComboBox.Visible = false;
             }
         }
     }

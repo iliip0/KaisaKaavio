@@ -293,6 +293,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hae osallistujat Biljardi.Org sivustolta";
             this.TopMost = true;
+            this.Shown += new System.EventHandler(this.HaeOsallistujatBiljardiOrgistaPopup_Shown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
