@@ -40,6 +40,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label9 = new System.Windows.Forms.Label();
+            this.kelloTextBox = new System.Windows.Forms.TextBox();
             this.onlineGroupBox = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.nakyvyysComboBox = new System.Windows.Forms.ComboBox();
@@ -62,6 +64,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tavoiteNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.tavoiteLabel = new System.Windows.Forms.Label();
+            this.rankingSarjanNimiLabel = new System.Windows.Forms.Label();
+            this.rankingLabel = new System.Windows.Forms.Label();
+            this.rankingSarjanNimiTextBox = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.kansioTextBox = new System.Windows.Forms.TextBox();
@@ -74,11 +79,6 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.rankingSarjanNimiTextBox = new System.Windows.Forms.TextBox();
-            this.rankingLabel = new System.Windows.Forms.Label();
-            this.rankingSarjanNimiLabel = new System.Windows.Forms.Label();
-            this.kelloTextBox = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -299,6 +299,27 @@
             this.splitContainer3.SplitterDistance = 287;
             this.splitContainer3.TabIndex = 24;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Black;
+            this.label9.Location = new System.Drawing.Point(588, 129);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(28, 16);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "klo:";
+            // 
+            // kelloTextBox
+            // 
+            this.kelloTextBox.Location = new System.Drawing.Point(617, 122);
+            this.kelloTextBox.MaxLength = 5;
+            this.kelloTextBox.Name = "kelloTextBox";
+            this.kelloTextBox.Size = new System.Drawing.Size(57, 29);
+            this.kelloTextBox.TabIndex = 24;
+            this.kelloTextBox.Text = "18:00";
+            this.kelloTextBox.TextChanged += new System.EventHandler(this.kelloTextBox_TextChanged);
+            // 
             // onlineGroupBox
             // 
             this.onlineGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -402,6 +423,7 @@
             this.kaavioComboBox.Size = new System.Drawing.Size(479, 32);
             this.kaavioComboBox.TabIndex = 21;
             this.kaavioComboBox.SelectedIndexChanged += new System.EventHandler(this.kaavioComboBox_SelectedIndexChanged);
+            this.kaavioComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.kaavioComboBox_Format);
             // 
             // label6
             // 
@@ -570,6 +592,36 @@
             this.tavoiteLabel.TabIndex = 19;
             this.tavoiteLabel.Text = "voittoon";
             // 
+            // rankingSarjanNimiLabel
+            // 
+            this.rankingSarjanNimiLabel.AutoSize = true;
+            this.rankingSarjanNimiLabel.Location = new System.Drawing.Point(612, 15);
+            this.rankingSarjanNimiLabel.Name = "rankingSarjanNimiLabel";
+            this.rankingSarjanNimiLabel.Size = new System.Drawing.Size(108, 24);
+            this.rankingSarjanNimiLabel.TabIndex = 12;
+            this.rankingSarjanNimiLabel.Text = "Sarjan nimi:";
+            // 
+            // rankingLabel
+            // 
+            this.rankingLabel.AutoSize = true;
+            this.rankingLabel.Location = new System.Drawing.Point(61, 15);
+            this.rankingLabel.Name = "rankingLabel";
+            this.rankingLabel.Size = new System.Drawing.Size(159, 24);
+            this.rankingLabel.TabIndex = 11;
+            this.rankingLabel.Text = "Viikkokisaranking:";
+            // 
+            // rankingSarjanNimiTextBox
+            // 
+            this.rankingSarjanNimiTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.errorProvider1.SetIconAlignment(this.rankingSarjanNimiTextBox, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
+            this.rankingSarjanNimiTextBox.Location = new System.Drawing.Point(726, 12);
+            this.rankingSarjanNimiTextBox.MaxLength = 64;
+            this.rankingSarjanNimiTextBox.Name = "rankingSarjanNimiTextBox";
+            this.rankingSarjanNimiTextBox.Size = new System.Drawing.Size(225, 29);
+            this.rankingSarjanNimiTextBox.TabIndex = 10;
+            this.rankingSarjanNimiTextBox.TextChanged += new System.EventHandler(this.rankingSarjanNimiTextBox_TextChanged);
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::KaisaKaavio.Properties.Resources.Ranking32;
@@ -704,57 +756,6 @@
             // 
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
-            // 
-            // rankingSarjanNimiTextBox
-            // 
-            this.rankingSarjanNimiTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.errorProvider1.SetIconAlignment(this.rankingSarjanNimiTextBox, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
-            this.rankingSarjanNimiTextBox.Location = new System.Drawing.Point(726, 12);
-            this.rankingSarjanNimiTextBox.MaxLength = 64;
-            this.rankingSarjanNimiTextBox.Name = "rankingSarjanNimiTextBox";
-            this.rankingSarjanNimiTextBox.Size = new System.Drawing.Size(225, 29);
-            this.rankingSarjanNimiTextBox.TabIndex = 10;
-            this.rankingSarjanNimiTextBox.TextChanged += new System.EventHandler(this.rankingSarjanNimiTextBox_TextChanged);
-            // 
-            // rankingLabel
-            // 
-            this.rankingLabel.AutoSize = true;
-            this.rankingLabel.Location = new System.Drawing.Point(61, 15);
-            this.rankingLabel.Name = "rankingLabel";
-            this.rankingLabel.Size = new System.Drawing.Size(159, 24);
-            this.rankingLabel.TabIndex = 11;
-            this.rankingLabel.Text = "Viikkokisaranking:";
-            // 
-            // rankingSarjanNimiLabel
-            // 
-            this.rankingSarjanNimiLabel.AutoSize = true;
-            this.rankingSarjanNimiLabel.Location = new System.Drawing.Point(612, 15);
-            this.rankingSarjanNimiLabel.Name = "rankingSarjanNimiLabel";
-            this.rankingSarjanNimiLabel.Size = new System.Drawing.Size(108, 24);
-            this.rankingSarjanNimiLabel.TabIndex = 12;
-            this.rankingSarjanNimiLabel.Text = "Sarjan nimi:";
-            // 
-            // kelloTextBox
-            // 
-            this.kelloTextBox.Location = new System.Drawing.Point(617, 122);
-            this.kelloTextBox.MaxLength = 5;
-            this.kelloTextBox.Name = "kelloTextBox";
-            this.kelloTextBox.Size = new System.Drawing.Size(57, 29);
-            this.kelloTextBox.TabIndex = 24;
-            this.kelloTextBox.Text = "18:00";
-            this.kelloTextBox.TextChanged += new System.EventHandler(this.kelloTextBox_TextChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(588, 129);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(28, 16);
-            this.label9.TabIndex = 25;
-            this.label9.Text = "klo:";
             // 
             // UusiKilpailuPopup
             // 

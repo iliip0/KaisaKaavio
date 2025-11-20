@@ -11,43 +11,73 @@ namespace KaisaKaavio
         : NotifyPropertyChanged
     {
         [XmlIgnore]
-        public Kilpailu Kilpailu { get; set; }
+        public Kilpailu Kilpailu { get; set; } = null;
 
         [XmlAttribute]
-        public int Kierros { get; set; }
+        public int Kierros { get; set; } = 0;
 
         [XmlIgnore]
         public string KierrosTeksti 
         { 
             get 
             {
-                return OnPudotusPeliJommalleKummallePelaajalle() ? string.Format("{0} (CUP)", Kierros) : Kierros.ToString();
+                if (this.Kilpailu != null && 
+                    this.Kilpailu.CupKoko > 0 &&
+                    this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                    this.Kierros > 2)
+                {
+                    int koko = this.Kilpailu.CupKoko;
+                    for (int i = 3; i < this.Kierros; ++i)
+                    {
+                        koko /= 2;
+                    }
+
+                    if (koko == 2)
+                    {
+                        return "Finaali";
+                    }
+                    else
+                    {
+                        return string.Format("{0}-CUP", koko);
+                    }
+                }
+                else
+                {
+                    return OnPudotusPeliJommalleKummallePelaajalle() ? string.Format("{0} (CUP)", Kierros) : Kierros.ToString();
+                }
             }    
         }
 
         [XmlAttribute]
-        public int KierrosPelaaja1 { get; set; }
+        [DefaultValue(0)]
+        public int KierrosPelaaja1 { get; set; } = 0;
 
         [XmlAttribute]
-        public int KierrosPelaaja2 { get; set; }
-
-        [XmlAttribute]
-        [DefaultValue("")]
-        public string LuovutusPelaaja1 { get; set; }
+        [DefaultValue(0)]
+        public int KierrosPelaaja2 { get; set; } = 0;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string LuovutusPelaaja2 { get; set; }
+        public string LuovutusPelaaja1 { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        [DefaultValue("")]
+        public string LuovutusPelaaja2 { get; set; } = string.Empty;
 
         [XmlIgnore]
-        public int PeliNumero { get; set; }
+        public int PeliNumero { get; set; } = 0;
+
+        [XmlAttribute]
+        [DefaultValue(0)]
+        public int PeliNumeroKierroksella { get; set; } = 0;
 
         [XmlIgnore]
-        public int JoukkuePeliNumero { get; set; }
+        public int JoukkuePeliNumero { get; set; } = 0;
 
         private string pelaajaId1 = string.Empty;
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string PelaajaId1 
         {
             get { return this.pelaajaId1; }
@@ -66,6 +96,7 @@ namespace KaisaKaavio
         private string pelaajaId2 = string.Empty;
 
         [XmlAttribute]
+        [DefaultValue("")]
         public string PelaajaId2 
         {
             get { return this.pelaajaId2; } 
@@ -335,11 +366,11 @@ namespace KaisaKaavio
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string Paikka { get; set; }
+        public string Paikka { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string ArvioituAlkamisAika { get; set; }
+        public string ArvioituAlkamisAika { get; set; } = string.Empty;
 
         [XmlIgnore]
         public string PaikkaTeksti 
@@ -416,7 +447,7 @@ namespace KaisaKaavio
         /// Kommentit liittyeen tämän pelin hakuun kaaviossa. Näissä on selitettyna syy, mikäli haussa jouduttiin hyppäämään
         /// yhden tai useamman pelaajan yli.
         /// </summary>
-        public string HakuKommentti { get; set; }
+        public string HakuKommentti { get; set; } = string.Empty;
 
         private void PaivitaPelinAlkamisAika()
         {
@@ -468,22 +499,22 @@ namespace KaisaKaavio
         }
 
         [XmlIgnore]
-        public string VirheTuloksessa { get; set; }
+        public string VirheTuloksessa { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string Alkoi { get; set; }
+        public string Alkoi { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string Paattyi { get; set; }
+        public string Paattyi { get; set; } = string.Empty;
 
         [XmlIgnore]
         public string Pelaaja1 
         { 
             get 
             { 
-                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, true, this.Kierros); 
+                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, true, this.Kierros, this); 
             } 
         }
 
@@ -492,7 +523,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, true, this.Kierros);
+                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, true, this.Kierros, this);
             }
         }
 
@@ -541,7 +572,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, false, this.Kierros);
+                return this.Kilpailu == null ? this.pelaajaId1 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId1, false, this.Kierros, this);
             }
         }
 
@@ -550,7 +581,7 @@ namespace KaisaKaavio
         {
             get
             {
-                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, false, this.Kierros);
+                return this.Kilpailu == null ? this.pelaajaId2 : this.Kilpailu.PelaajanNimiKaaviossa(this.pelaajaId2, false, this.Kierros, this);
             }
         }
 
@@ -658,6 +689,13 @@ namespace KaisaKaavio
         {
             get 
             {
+                if (this.Kilpailu != null && 
+                    this.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu && 
+                    !this.JoukkueParitArvottu)
+                {
+                    return "Arvo peliparit";
+                }
+
                 switch (this.tilanne)
                 {
                     case PelinTilanne.Tyhja: return string.Empty;
@@ -750,21 +788,6 @@ namespace KaisaKaavio
 
         public Peli()
         {
-            Kierros = 0;
-            PeliNumero = 0;
-            JoukkuePeliNumero = 0;
-            Alkoi = string.Empty;
-            Paattyi = string.Empty;
-            Kilpailu = null;
-            Tulos = PelinTulos.EiTiedossa;
-            VirheTuloksessa = string.Empty;
-            PisinSarja1 = string.Empty;
-            ToiseksiPisinSarja1 = string.Empty;
-            PisinSarja2 = string.Empty;
-            ToiseksiPisinSarja2 = string.Empty;
-            Paikka = string.Empty;
-            HakuKommentti = string.Empty;
-            ArvioituAlkamisAika = string.Empty;
         }
 
         /// <summary>
@@ -788,19 +811,23 @@ namespace KaisaKaavio
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string PisinSarja1 { get; set; }
+        public string PisinSarja1 { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string ToiseksiPisinSarja1 { get; set; }
+        public string ToiseksiPisinSarja1 { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string PisinSarja2 { get; set; }
+        public string PisinSarja2 { get; set; } = string.Empty;
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string ToiseksiPisinSarja2 { get; set; }
+        public string ToiseksiPisinSarja2 { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        [DefaultValue(false)]
+        public bool JoukkueParitArvottu { get; set; } = false;
 
         public bool SisaltaaPelaajan(int id)
         {
@@ -1642,6 +1669,23 @@ namespace KaisaKaavio
                     Tyypit.Aika.AikaeroMinuutteina(this.Alkoi, this.Paattyi, out kesto);
                 }
                 return kesto;
+            }
+        }
+
+        [XmlIgnore]
+        public Peli JoukkuePeli
+        {
+            get
+            {
+                if (this.Kilpailu != null && this.Kilpailu.JoukkueKilpailu != null)
+                {
+                    return this.Kilpailu.JoukkueKilpailu.Pelit.FirstOrDefault(x =>
+                        x.Kierros == this.Kierros &&
+                        string.Equals(x.Pelaaja1, this.Joukkue1) &&
+                        string.Equals(x.Pelaaja2, this.Joukkue2));
+                }
+
+                return null;
             }
         }
 

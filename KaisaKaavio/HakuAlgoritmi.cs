@@ -23,6 +23,7 @@ namespace KaisaKaavio
             public Pelaaja Pelaaja1 = null;
             public Pelaaja Pelaaja2 = null;
             public int Kierros = 0;
+            public int PelinumeroKierroksella = 0;
             public List<Hyppy> Hypyt = null;
 
             public bool SisaltaaPelaajan(Pelaaja pelaaja)

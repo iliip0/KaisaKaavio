@@ -365,5 +365,10 @@ namespace KaisaKaavio
 
             this.Sijoitus = new TulosTietue() { Pelaaja = this };
         }
+
+        public override string ToString()
+        {
+            return this.Nimi;
+        }
     }
 }

@@ -140,6 +140,7 @@
       <DependentUpon>ArvontaPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="Asetukset.cs" />
+    <Compile Include="CupKaavio\CupKaavioHaku.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +169,12 @@
       <DependentUpon>LataaOnlineKilpailuPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="IStatusRivi.cs" />
+    <Compile Include="JoukkuePeliparienArvontaPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JoukkuePeliparienArvontaPopup.Designer.cs">
+      <DependentUpon>JoukkuePeliparienArvontaPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="KaavioTyyppi.cs" />
     <Compile Include="Kayttoliittyma\Mukauttaja.cs" />
     <Compile Include="Kayttoliittyma\TekstiIkkuna.cs">
@@ -290,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Integraatio\LataaOnlineKilpailuPopup.resx">
       <DependentUpon>LataaOnlineKilpailuPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JoukkuePeliparienArvontaPopup.resx">
+      <DependentUpon>JoukkuePeliparienArvontaPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Kayttoliittyma\TekstiIkkuna.resx">
       <DependentUpon>TekstiIkkuna.cs</DependentUpon>

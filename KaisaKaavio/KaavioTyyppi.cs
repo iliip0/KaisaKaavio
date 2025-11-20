@@ -15,5 +15,8 @@ namespace KaisaKaavio
 
         [Description("Pudotuspelit 4.kierroksesta alkaen")]
         Pudari4Kierros,
+
+        [Description("2 alkukierrosta ja CUP")]
+        KaksiKierrostaJaCup
     }
 }

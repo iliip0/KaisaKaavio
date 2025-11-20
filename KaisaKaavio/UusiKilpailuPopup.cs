@@ -34,10 +34,12 @@ namespace KaisaKaavio
             this.nakyvyysComboBox.SelectedIndex = 0;
 
             this.kilpailunTyyppiComboBox.SelectedIndex = 0;
-            this.kaavioComboBox.SelectedIndex = 2;
 
             this.rankingComboBox.DataSource = Enum.GetValues(typeof(RankingSarjanTyyppi));
             this.rankingComboBox.SelectedIndex = 0;
+
+            this.kaavioComboBox.DataSource = Enum.GetValues(typeof(KaavioTyyppi));
+            this.kaavioComboBox.SelectedIndex = 2;
 
             this.alkamisAikaDateTimePicker.Value = DateTime.Today;
 
@@ -341,14 +343,7 @@ namespace KaisaKaavio
         {
             get
             {
-                if (this.kaavioComboBox.SelectedIndex >= 0)
-                {
-                    return (KaavioTyyppi)Enum.GetValues(typeof(KaavioTyyppi)).GetValue(this.kaavioComboBox.SelectedIndex);
-                }
-                else
-                {
-                    return KaavioTyyppi.Pudari3Kierros;
-                }
+                return (KaavioTyyppi)this.kaavioComboBox.SelectedItem;
             }
         }
 
@@ -909,6 +904,15 @@ namespace KaisaKaavio
         private void kelloTextBox_TextChanged(object sender, EventArgs e)
         {
             TarkistaTiedot();
+        }
+
+        private void kaavioComboBox_Format(object sender, ListControlConvertEventArgs e)
+        {
+            KaavioTyyppi k = (KaavioTyyppi)e.ListItem;
+
+            var field = typeof(KaavioTyyppi).GetField(k.ToString());
+            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            e.Value = attributes.Length == 0 ? k.ToString() : ((DescriptionAttribute)attributes[0]).Description;
         }
     }
 }

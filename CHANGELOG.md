@@ -2,7 +2,12 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.44		(työn alla)
+## Versio 1.0.0.45		(työn alla)
+
+* Lisätty peliparien arvontaominaisuus joukkuekilpailuun
+
+## Versio 1.0.0.44		(julkaistu 20.11.2025)
+
 * Online ilmoittautuminen
 * Online viikkokisaranking
 * Lisätty mahdollisuus luoda nimetty rankingsarja, johon voi laittaa mitä vaan viikkokisoja

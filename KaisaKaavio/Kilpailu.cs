@@ -1,4 +1,5 @@
-﻿using KaisaKaavio.Ranking;
+﻿using KaisaKaavio.CupKaavio;
+using KaisaKaavio.Ranking;
 using KaisaKaavio.Tyypit;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,9 @@ namespace KaisaKaavio
         [DefaultValue("")]
         public string EdellisenBiljardiOrgHaunPvm { get; set; } = string.Empty;
 
+        [DefaultValue(0)]
+        public int CupKoko { get; set; } = 0;
+
         [XmlAttribute]
         public string OhjelmaVersio { get; set; } = string.Empty;
 
@@ -108,10 +112,10 @@ namespace KaisaKaavio
         public Sali Sali { get; set; }
 
         [XmlIgnore]
-        private Kilpailu JoukkueKilpailu = null;
+        public Kilpailu JoukkueKilpailu { get; private set; } = null;
 
         [XmlIgnore]
-        private Kilpailu JoukkueKilpailunVarsinainenKilpailu = null;
+        public Kilpailu JoukkueKilpailunVarsinainenKilpailu { get; private set; } = null;
 
         [XmlIgnore]
         public bool OnJoukkuekilpailunJoukkueKilpailu
@@ -1116,7 +1120,7 @@ namespace KaisaKaavio
             int kierros = Math.Max(kierros1, kierros2);
             string paikka = string.Empty;
 
-            if (OnUseanPelipaikanKilpailu)
+            if (OnUseanPelipaikanKilpailu && pelaaja != null && vastustaja != null)
             {
                 if (kierros < this.KaavioidenYhdistaminenKierroksestaInt)
                 {
@@ -1162,6 +1166,22 @@ namespace KaisaKaavio
             if (TarkistaVoikoPeliAlkaa(peli))
             {
                 peli.Tilanne = PelinTilanne.ValmiinaAlkamaan;
+            }
+
+            if (kierros == 3 && this.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+            {
+                if (pelaaja == null && vastustaja != null)
+                {
+                    peli.Tilanne = PelinTilanne.Pelattu;
+                    peli.Tulos = PelinTulos.Pelaaja2Voitti;
+                    peli.Pisteet2 = "v";
+                }
+                else if (pelaaja != null && vastustaja == null)
+                {
+                    peli.Tilanne = PelinTilanne.Pelattu;
+                    peli.Tulos = PelinTulos.Pelaaja1Voitti;
+                    peli.Pisteet1 = "v";
+                }
             }
 
 #if DEBUG
@@ -1371,6 +1391,11 @@ namespace KaisaKaavio
 
         public Peli LisaaPeli(Pelaaja pelaaja, Pelaaja vastustaja)
         {
+            if (pelaaja == null && vastustaja != null)
+            {
+                return LisaaPeli(vastustaja, pelaaja);
+            }
+
             if (this.JoukkueKilpailu != null)
             {
                 if (this.JoukkueKilpailu.Osallistujat.Any(x => string.Equals(x.Nimi, pelaaja.Nimi)) &&
@@ -1401,12 +1426,14 @@ namespace KaisaKaavio
                 int kierros2 = vastustaja == null ? 0 : Pelit.Count(x =>
                     x.SisaltaaPelaajan(vastustaja.Id)) + 1;
 
-                if (kierros2 < kierros1)
+                if (kierros2 > 0 && kierros1 > 0 && kierros2 < kierros1)
                 {
                     return LisaaPeli(vastustaja, kierros2, pelaaja, kierros1);
                 }
 
-                else if ((kierros1 == kierros2) && (vastustaja.Id < pelaaja.Id))
+                else if ((kierros1 == kierros2) && 
+                    (vastustaja != null && pelaaja != null) &&
+                    (vastustaja.Id < pelaaja.Id))
                 {
                     return LisaaPeli(vastustaja, kierros2, pelaaja, kierros1);
                 }
@@ -1682,11 +1709,16 @@ namespace KaisaKaavio
                 return false; // Ei saa muokata jos peleissä on virheellisiä tuloksia (voittaja ei selvillä)
             }
 
+            if (this.KilpaSarja == KilpaSarja.Joukkuekilpailu && !peli.JoukkueParitArvottu)
+            {
+                return false;
+            }
+
             if (this.KaavioTyyppi == KaavioTyyppi.Pudari2Kierros && peli.Tilanne == PelinTilanne.ValmiinaAlkamaan)
             {
                 if (peli.Kierros == 2)
                 {
-                    if (this.Pelit.Any(x =>                    
+                    if (this.Pelit.Any(x =>
                         x.PeliNumero < peli.PeliNumero &&
                         x.Tilanne != PelinTilanne.Pelattu &&
                         x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
@@ -1967,7 +1999,7 @@ namespace KaisaKaavio
             }
         }
 
-        public string PelaajanNimiKaaviossa(string idString, bool detaljit, int kierros)
+        public string PelaajanNimiKaaviossa(string idString, bool detaljit, int kierros, Peli peli)
         {
             int id = -1;
             if (!Int32.TryParse(idString, out id))
@@ -1982,7 +2014,7 @@ namespace KaisaKaavio
             }
 
             string nimi = pelaaja.Nimi;
- 
+
             if (!detaljit &&
                 (this.KilpaSarja == KaisaKaavio.KilpaSarja.Parikilpailu ||
                 this.KilpaSarja == KaisaKaavio.KilpaSarja.MixedDoubles))
@@ -2066,6 +2098,13 @@ namespace KaisaKaavio
                         nimi += " (" + pelaaja.Tasoitus.Trim() + ")";
                     }
                 }
+            }
+
+            if (this.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
+                peli != null &&
+                !peli.JoukkueParitArvottu)
+            {
+                nimi = pelaaja.Joukkue;
             }
 
             return nimi;
@@ -3328,7 +3367,14 @@ namespace KaisaKaavio
 
         private IHakuAlgoritmi Haku(int kierros, IStatusRivi status)
         {
-            return new HakuAlgoritmi(this, Loki, status);
+            if (this.KaavioTyyppi == KaisaKaavio.KaavioTyyppi.KaksiKierrostaJaCup)
+            {
+                return new CupKaavioHaku(this, Loki, status);
+            }
+            else
+            {
+                return new HakuAlgoritmi(this, Loki, status);
+            }
         }
 
         private void PaivitaPelinumerot()

@@ -1700,6 +1700,7 @@ namespace KaisaKaavio
                         var uusiPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
                         if (uusiPeli != null)
                         {
+                            uusiPeli.PeliNumeroKierroksella = peli.PelinumeroKierroksella;
                             bLisattiinPeleja = true;
 
                             if (peli.Hypyt != null && peli.Hypyt.Any())
@@ -2749,23 +2750,32 @@ namespace KaisaKaavio
                     // Pelaajan 1 nimi
                     if (cell.ColumnIndex == this.pelaaja1DataGridViewTextBoxColumn.Index)
                     {
-                        int tappiot1 = peli.TappiotPeliRivilla1();
-                        if (tappiot1 >= 2)
+                        if (peli.Id1 < 0)
                         {
-                            e.CellStyle.ForeColor = Color.Red;
-                        }
-                        else
-                        {
+                            e.Value = "w.o.";
+                            e.CellStyle.Font = this.ohutFontti;
                             e.CellStyle.ForeColor = Color.Black;
                         }
-
-                        if (tappiot1 == 1)
-                        {
-                            e.CellStyle.Font = this.ohutFontti;
-                        }
                         else
                         {
-                            e.CellStyle.Font = this.paksuFontti;
+                            int tappiot1 = peli.TappiotPeliRivilla1();
+                            if (tappiot1 >= 2)
+                            {
+                                e.CellStyle.ForeColor = Color.Red;
+                            }
+                            else
+                            {
+                                e.CellStyle.ForeColor = Color.Black;
+                            }
+
+                            if (tappiot1 == 1)
+                            {
+                                e.CellStyle.Font = this.ohutFontti;
+                            }
+                            else
+                            {
+                                e.CellStyle.Font = this.paksuFontti;
+                            }
                         }
                     }
 
@@ -2928,6 +2938,22 @@ namespace KaisaKaavio
                     // Pelin "Käynnistä" painike
                     if (e.ColumnIndex == this.TilanneTeksti.Index)
                     {
+                        if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
+                            !peli.JoukkueParitArvottu)
+                        {
+                            using (var popup = new JoukkuePeliparienArvontaPopup(this.kilpailu, this.loki, peli, peli.Joukkue1, peli.Joukkue2))
+                            {
+                                if (popup.ShowDialog() == DialogResult.OK)
+                                {
+                                    peli.JoukkueParitArvottu = true;
+                                    this.pelitDataGridView.Refresh();
+                                    //this.pelaajaBindingSource.ResetBindings(false);
+                                }
+                            }
+
+                            return;
+                        }
+
                         if (peli.Kierros == 2 && this.piilotaToinenKierrosCheckBox.Checked)
                         {
                             return;
@@ -4360,7 +4386,7 @@ namespace KaisaKaavio
                 teksti.RivinVaihto();
 
                 foreach (var peli in kilpa.Pelit
-                    .Where(x => x.Id2 >= 0)
+                    .Where(x => (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup) || x.Id2 >= 0)
                     .ToArray())
                 {
                     if (peli.Kierros != kierros || !string.Equals(peli.Paikka, pelipaikka))
@@ -4475,24 +4501,27 @@ namespace KaisaKaavio
                     {
                         bool osapeliTulostettu = false;
 
-                        foreach (var osapeli in this.kilpailu.Pelit.Where(x => 
+                        foreach (var osapeli in this.kilpailu.Pelit.Where(x =>
                             x.KierrosPelaaja1 == peli.KierrosPelaaja1 &&
                             x.KierrosPelaaja2 == peli.KierrosPelaaja2 &&
                             string.Equals(x.Joukkue1, peli.Pelaaja1) &&
                             string.Equals(x.Joukkue2, peli.Pelaaja2)))
                         {
-                            teksti.NormaaliTeksti("  ");
-                            osapeli.RichTextKuvaus(sali, teksti, 0);
-
-                            int kesto = osapeli.Kesto;
-                            if (kesto > 5)
+                            if (osapeli.JoukkueParitArvottu)
                             {
-                                keskimaarainenPelinKesto += kesto;
-                                pelejaKeskimaaranLaskemiseksi++;
-                                pelienKestot.Add(kesto);
-                            }
+                                teksti.NormaaliTeksti("  ");
+                                osapeli.RichTextKuvaus(sali, teksti, 0);
 
-                            osapeliTulostettu = true;
+                                int kesto = osapeli.Kesto;
+                                if (kesto > 5)
+                                {
+                                    keskimaarainenPelinKesto += kesto;
+                                    pelejaKeskimaaranLaskemiseksi++;
+                                    pelienKestot.Add(kesto);
+                                }
+
+                                osapeliTulostettu = true;
+                            }
                         }
 
                         if (osapeliTulostettu)
