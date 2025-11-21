@@ -5,6 +5,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.45		(työn alla)
 
 * Lisätty peliparien arvontaominaisuus joukkuekilpailuun
+* Bugikorjaus ottelupöytäkirjojen tulostukseen
 
 ## Versio 1.0.0.44		(julkaistu 20.11.2025)
 

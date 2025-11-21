@@ -4,6 +4,7 @@ using KaisaKaavio.Tyypit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -1389,11 +1390,44 @@ namespace KaisaKaavio
             }
         }
 
-        public Peli LisaaPeli(Pelaaja pelaaja, Pelaaja vastustaja)
+        public void PaivitaCupPeli(Pelaaja pelaaja, Pelaaja vastustaja, int kierros, int pelinumero)
+        {
+            var peli = this.Pelit.FirstOrDefault(x => x.Kierros == kierros && x.PeliNumeroKierroksella == pelinumero);
+            if (peli != null)
+            {
+                bool lisattiin = false;
+
+                if (peli.Id1 <= 0 && pelaaja != null)
+                {
+                    peli.PelaajaId1 = pelaaja.Id.ToString();
+                    lisattiin = true;
+                }
+                
+
+                if (peli.Id2 <= 0 && vastustaja != null)
+                {
+                    peli.PelaajaId2 = vastustaja.Id.ToString();
+                    lisattiin = true;
+                }
+
+                if (lisattiin)
+                {
+                    if (peli.Id1 > 0 && peli.Id2 > 0)
+                    {
+                        peli.Tilanne = PelinTilanne.ValmiinaAlkamaan;
+                    }
+
+                    PelienTilannePaivitysTarvitaan = true;
+                    HakuTarvitaan = true;
+                }
+            }
+        }
+
+        public Peli LisaaPeli(Pelaaja pelaaja, Pelaaja vastustaja, int kierros)
         {
             if (pelaaja == null && vastustaja != null)
             {
-                return LisaaPeli(vastustaja, pelaaja);
+                return LisaaPeli(vastustaja, pelaaja, kierros);
             }
 
             if (this.JoukkueKilpailu != null)
@@ -1401,7 +1435,7 @@ namespace KaisaKaavio
                 if (this.JoukkueKilpailu.Osallistujat.Any(x => string.Equals(x.Nimi, pelaaja.Nimi)) &&
                     this.JoukkueKilpailu.Osallistujat.Any(x => string.Equals(x.Nimi, vastustaja.Nimi)))
                 {
-                    var peli = this.JoukkueKilpailu.LisaaPeli(pelaaja, vastustaja);
+                    var peli = this.JoukkueKilpailu.LisaaPeli(pelaaja, vastustaja, kierros);
 
                     PaivitaPelitJoukkueKisasta();
 
@@ -1420,10 +1454,10 @@ namespace KaisaKaavio
             using (new Testaus.Profileri("Kilpailu.LisaaPeli"))
 #endif
             {
-                int kierros1 = pelaaja == null ? 0 : Pelit.Count(x =>
+                int kierros1 = pelaaja == null ? kierros : Pelit.Count(x =>
                     x.SisaltaaPelaajan(pelaaja.Id)) + 1;
 
-                int kierros2 = vastustaja == null ? 0 : Pelit.Count(x =>
+                int kierros2 = vastustaja == null ? kierros : Pelit.Count(x =>
                     x.SisaltaaPelaajan(vastustaja.Id)) + 1;
 
                 if (kierros2 > 0 && kierros1 > 0 && kierros2 < kierros1)
@@ -3011,7 +3045,7 @@ namespace KaisaKaavio
                         return false;
                     }
 
-                    LisaaPeli(hakija, vastustajat.First());
+                    LisaaPeli(hakija, vastustajat.First(), 1);
                 }
 
                 if (this.Loki != null)
@@ -3029,11 +3063,11 @@ namespace KaisaKaavio
                     {
                         var a = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 5];
                         var b = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 2];
-                        LisaaPeli(a, b);
+                        LisaaPeli(a, b, 2);
 
                         var c = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 3];
                         var d = this.OsallistujatJarjestyksessa[this.Osallistujat.Count - 1];
-                        LisaaPeli(c, d);
+                        LisaaPeli(c, d, 2);
                     }
                 }
 
@@ -3076,7 +3110,7 @@ namespace KaisaKaavio
                     Debug.WriteLine(string.Format("# Vastustajat {0}", string.Join(",", vastustajat.Select(x => ("(" + x.Id + " " + x.Nimi + ")")))));
 #endif
 
-                    LisaaPeli(hakija, vastustajat.First());
+                    LisaaPeli(hakija, vastustajat.First(), 2);
                 }
 
                 AjastaTallennus(true, true);

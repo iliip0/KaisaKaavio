@@ -798,6 +798,13 @@ namespace KaisaKaavio
         {
             get 
             {
+                if (this.Kilpailu != null && 
+                    this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                    this.Kierros > 2)
+                {
+                    return Kierros * 100000000 + PeliNumeroKierroksella;
+                }
+
                 if (this.Kilpailu != null && this.Kilpailu.OnUseanPelipaikanKilpailu)
                 {
                     return Kierros * 100000000 + this.Kilpailu.PelipaikanIndeksi(this.Paikka) * 10000000 + KierrosPelaaja1 * 1000000 + Id1 * 1000 + Id2;

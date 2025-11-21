@@ -122,7 +122,7 @@ namespace KaisaKaavio.Testaus
 
                     foreach (var peli in haku.UudetPelit)
                     {
-                        this.TestattavaKilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
+                        this.TestattavaKilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
                     }
                 }
 

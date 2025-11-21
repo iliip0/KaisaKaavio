@@ -70,6 +70,7 @@ namespace KaisaKaavio.Tulostus
 
             InitializeComponent();
 
+            this.printDocument1.BeginPrint += PrintDocument1_BeginPrint;
             this.printDocument1.PrintPage += printDocument1_PrintPage;
 
             this.printDocument1.DefaultPageSettings.Landscape = true;
@@ -77,6 +78,11 @@ namespace KaisaKaavio.Tulostus
             this.printDocument1.DefaultPageSettings.Margins.Top = 0;
             this.printDocument1.DefaultPageSettings.Margins.Left = 0;
             this.printDocument1.DefaultPageSettings.Margins.Right = 0;
+        }
+
+        private void PrintDocument1_BeginPrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            LuoTulostettavatPelit();
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -239,7 +245,7 @@ namespace KaisaKaavio.Tulostus
 
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void LuoTulostettavatPelit()
         {
             this.tulostettavatPelit.Clear();
 
@@ -253,7 +259,7 @@ namespace KaisaKaavio.Tulostus
                     {
                         Peli peli = (Peli)row.DataBoundItem;
                         tulostettavatPelit.Add(peli);
-                    }                    
+                    }
                 }
                 catch
                 {
@@ -264,6 +270,11 @@ namespace KaisaKaavio.Tulostus
             {
                 tulostettavatPelit.Add(null);
             }
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            LuoTulostettavatPelit();
 
             this.printPreviewDialog1.ClientSize = new System.Drawing.Size(800, 600);
             this.printPreviewDialog1.Document.DefaultPageSettings.Landscape = true;
@@ -297,7 +308,15 @@ namespace KaisaKaavio.Tulostus
                 x.Tilanne == PelinTilanne.ValmiinaAlkamaan ||
                 x.Tilanne == PelinTilanne.Kaynnissa))
             {
-                this.pelit.Add(peli);
+                if (peli.Kilpailu != null &&
+                    peli.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
+                    !peli.JoukkueParitArvottu)
+                {
+                }
+                else
+                {
+                    this.pelit.Add(peli);
+                }
             }
 
             this.peliBindingSource.DataSource = this.pelit;

@@ -105,7 +105,8 @@ namespace KaisaKaavio.Testaus
                 {
                     this.kilpailu.LisaaPeli(
                         this.kilpailu.Osallistujat.First(x => x.Id == peli.Id1),
-                        this.kilpailu.Osallistujat.First(x => x.Id == peli.Id2));
+                        this.kilpailu.Osallistujat.First(x => x.Id == peli.Id2),
+                        peli.Kierros);
                     
                 }
 

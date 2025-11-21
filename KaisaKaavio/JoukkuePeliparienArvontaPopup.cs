@@ -37,37 +37,6 @@ namespace KaisaKaavio
 
             this.joukkueLabel1.Text = joukkue1;
             this.joukkueLabel2.Text = joukkue2;
-
-            pelaajat1.AddRange(this.kilpailu.Osallistujat.Where(x => string.Equals(x.Joukkue, joukkue1)));
-            pelaajat2.AddRange(this.kilpailu.Osallistujat.Where(x => string.Equals(x.Joukkue, joukkue2)));
-
-            pelaajaComboBox1.DataSource = pelaajat1.ToList();
-            pelaajaComboBox2.DataSource = pelaajat1.ToList();
-            pelaajaComboBox3.DataSource = pelaajat1.ToList();
-            pelaajaComboBox4.DataSource = pelaajat2.ToList();
-            pelaajaComboBox5.DataSource = pelaajat2.ToList();
-            pelaajaComboBox6.DataSource = pelaajat2.ToList();
-
-            if (pelit.Count == 3)
-            {
-                pelaajaComboBox1.SelectedIndex = pelaajat1.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[0].Id1));
-                pelaajaComboBox2.SelectedIndex = pelaajat1.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[1].Id1));
-                pelaajaComboBox3.SelectedIndex = pelaajat1.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[2].Id1));
-                pelaajaComboBox4.SelectedIndex = pelaajat2.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[0].Id2));
-                pelaajaComboBox5.SelectedIndex = pelaajat2.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[1].Id2));
-                pelaajaComboBox6.SelectedIndex = pelaajat2.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[2].Id2));
-            }
-            else
-            {
-                pelaajaComboBox1.SelectedIndex = 0;
-                pelaajaComboBox2.SelectedIndex = 1;
-                pelaajaComboBox3.SelectedIndex = 2;
-                pelaajaComboBox4.SelectedIndex = 0;
-                pelaajaComboBox5.SelectedIndex = 1;
-                pelaajaComboBox6.SelectedIndex = 2;
-            }
-
-            Tarkista();
         }
 
         private void pelaajaComboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,6 +46,24 @@ namespace KaisaKaavio
 
         private void Tarkista()
         {
+            this.virheLabel.Text = string.Empty;
+
+            if (this.pelit.Any(x => x.Tilanne == PelinTilanne.Pelattu))
+            {
+                this.okButton.Enabled = false;
+                this.arvoButton.Enabled = false;
+                this.pelaajaComboBox1.Enabled = false;
+                this.pelaajaComboBox2.Enabled = false;
+                this.pelaajaComboBox3.Enabled = false;
+                this.pelaajaComboBox4.Enabled = false;
+                this.pelaajaComboBox5.Enabled = false;
+                this.pelaajaComboBox6.Enabled = false;
+
+                this.virheLabel.Text = "Yksi tai useampi peli on jo pelattu. Pareja ei voi enää arpoa";
+
+                return;
+            }
+
             if (pelaajaComboBox1.SelectedIndex == pelaajaComboBox2.SelectedIndex ||
                 pelaajaComboBox1.SelectedIndex == pelaajaComboBox3.SelectedIndex ||
                 pelaajaComboBox2.SelectedIndex == pelaajaComboBox3.SelectedIndex ||
@@ -84,6 +71,9 @@ namespace KaisaKaavio
                 pelaajaComboBox4.SelectedIndex == pelaajaComboBox6.SelectedIndex ||
                 pelaajaComboBox5.SelectedIndex == pelaajaComboBox6.SelectedIndex)
             {
+
+                this.virheLabel.Text = "Sama pelaaja ei voi olla useassa ottelussa";
+
                 this.okButton.Enabled = false;
             }
             else
@@ -156,6 +146,45 @@ namespace KaisaKaavio
             catch 
             {
             }
+        }
+
+        private void JoukkuePeliparienArvontaPopup_Shown(object sender, EventArgs e)
+        {
+
+        }
+
+        private void JoukkuePeliparienArvontaPopup_Load(object sender, EventArgs e)
+        {
+            pelaajat1.AddRange(this.kilpailu.Osallistujat.Where(x => string.Equals(x.Joukkue, this.joukkueLabel1.Text)));
+            pelaajat2.AddRange(this.kilpailu.Osallistujat.Where(x => string.Equals(x.Joukkue, this.joukkueLabel2.Text)));
+
+            pelaajaComboBox1.DataSource = pelaajat1.ToList();
+            pelaajaComboBox2.DataSource = pelaajat1.ToList();
+            pelaajaComboBox3.DataSource = pelaajat1.ToList();
+            pelaajaComboBox4.DataSource = pelaajat2.ToList();
+            pelaajaComboBox5.DataSource = pelaajat2.ToList();
+            pelaajaComboBox6.DataSource = pelaajat2.ToList();
+
+            if (pelit.Count == 3)
+            {
+                pelaajaComboBox1.SelectedIndex = pelaajat1.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[0].Id1));
+                pelaajaComboBox2.SelectedIndex = pelaajat1.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[1].Id1));
+                pelaajaComboBox3.SelectedIndex = pelaajat1.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[2].Id1));
+                pelaajaComboBox4.SelectedIndex = pelaajat2.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[0].Id2));
+                pelaajaComboBox5.SelectedIndex = pelaajat2.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[1].Id2));
+                pelaajaComboBox6.SelectedIndex = pelaajat2.IndexOf(this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == pelit[2].Id2));
+            }
+            else
+            {
+                pelaajaComboBox1.SelectedIndex = 0;
+                pelaajaComboBox2.SelectedIndex = 1;
+                pelaajaComboBox3.SelectedIndex = 2;
+                pelaajaComboBox4.SelectedIndex = 0;
+                pelaajaComboBox5.SelectedIndex = 1;
+                pelaajaComboBox6.SelectedIndex = 2;
+            }
+
+            Tarkista();
         }
     }
 }

@@ -130,7 +130,6 @@ namespace KaisaKaavio.CupKaavio
             }
 
             var sijoitettavat = mukana.OrderBy(x => x.SijoitusAlkupeleissaArvalla).ToArray();
-            // Todo, arvo järjestys tasapisteissä
 
             int peliNumero = 1;
 
@@ -154,6 +153,25 @@ namespace KaisaKaavio.CupKaavio
                 LisaaPeli(p1, p2, 3, peliNumero++);
             }
 
+            // Lisätään "tyhjät pelit loppu cuppiin
+            {
+                int k = 4;
+                int koko = cupinKoko / 2;
+
+                while (koko >= 2)
+                {
+                    int numero = 1;
+
+                    for (int ii = 0; ii < koko / 2; ++ii)
+                    {
+                        LisaaPeli(null, null, k, numero++);
+                    }
+
+                    k++;
+                    koko /= 2;
+                }
+            }
+
             // Arvotaan loput cup kierrokset
             foreach (var peli in this.kilpailu.Pelit.Where(x => x.Kierros >= 3))
             {
@@ -170,7 +188,7 @@ namespace KaisaKaavio.CupKaavio
                     return;
                 }
 
-                foreach (var eka in pelit.Where(x => x.PeliNumeroKierroksella % 2 == 0))
+                foreach (var eka in pelit.Where(x => x.PeliNumeroKierroksella % 2 == 1))
                 {
                     Peluri p1 = null;
                     Peluri p2 = null;
@@ -212,6 +230,7 @@ namespace KaisaKaavio.CupKaavio
 
         private void LisaaPeli(Peluri p1, Peluri p2, int kierros, int pelinumero)
         {
+            /*
             var peli = this.kilpailu.Pelit.FirstOrDefault(x => x.Kierros == kierros && x.PeliNumeroKierroksella == pelinumero);
             if (peli != null)
             {
@@ -239,6 +258,7 @@ namespace KaisaKaavio.CupKaavio
 
                 return;
             }
+            */
 
             UudetPelit.Add(new HakuAlgoritmi.Pelaajat()
             {

@@ -1697,7 +1697,11 @@ namespace KaisaKaavio
                             }
                         }
 
-                        var uusiPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2);
+                        if (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+                        { 
+                        }
+
+                        var uusiPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
                         if (uusiPeli != null)
                         {
                             uusiPeli.PeliNumeroKierroksella = peli.PelinumeroKierroksella;
@@ -4011,7 +4015,8 @@ namespace KaisaKaavio
 
                 var peli = kilpa.LisaaPeli(
                     kilpa.Osallistujat.FirstOrDefault(x => x.Id == pelaaja),
-                    kilpa.Osallistujat.FirstOrDefault(x => x.Id == vastustaja));
+                    kilpa.Osallistujat.FirstOrDefault(x => x.Id == vastustaja),
+                    0);
 
                 if (peli != null)
                 {
