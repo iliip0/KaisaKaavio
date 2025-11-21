@@ -689,13 +689,6 @@ namespace KaisaKaavio
         {
             get 
             {
-                if (this.Kilpailu != null && 
-                    this.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu && 
-                    !this.JoukkueParitArvottu)
-                {
-                    return "Arvo peliparit";
-                }
-
                 switch (this.tilanne)
                 {
                     case PelinTilanne.Tyhja: return string.Empty;

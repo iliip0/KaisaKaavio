@@ -914,6 +914,7 @@ namespace KaisaKaavio
             }
 
             this.TasoitusColumn.Visible = this.kilpailu.KilpailuOnTasurikisa;
+            this.ArvoPeliparitColumn.Visible = this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu;
         }
 
         public bool AvaaTiedostoDialogista()
@@ -2762,23 +2763,35 @@ namespace KaisaKaavio
                         }
                         else
                         {
-                            int tappiot1 = peli.TappiotPeliRivilla1();
-                            if (tappiot1 >= 2)
+                            if (peli.Kierros > 2 &&
+                                peli.Tilanne != PelinTilanne.Kaynnissa &&
+                                peli.Tilanne != PelinTilanne.Pelattu &&
+                                peli.Kilpailu != null &&
+                                peli.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
+                                !peli.JoukkueParitArvottu)
                             {
-                                e.CellStyle.ForeColor = Color.Red;
+                                e.CellStyle.ForeColor = Color.Gray;
                             }
                             else
                             {
-                                e.CellStyle.ForeColor = Color.Black;
-                            }
+                                int tappiot1 = peli.TappiotPeliRivilla1();
+                                if (tappiot1 >= 2)
+                                {
+                                    e.CellStyle.ForeColor = Color.Red;
+                                }
+                                else
+                                {
+                                    e.CellStyle.ForeColor = Color.Black;
+                                }
 
-                            if (tappiot1 == 1)
-                            {
-                                e.CellStyle.Font = this.ohutFontti;
-                            }
-                            else
-                            {
-                                e.CellStyle.Font = this.paksuFontti;
+                                if (tappiot1 == 1)
+                                {
+                                    e.CellStyle.Font = this.ohutFontti;
+                                }
+                                else
+                                {
+                                    e.CellStyle.Font = this.paksuFontti;
+                                }
                             }
                         }
                     }
@@ -2814,31 +2827,43 @@ namespace KaisaKaavio
                     // Pelaajan 2 nimi
                     if (e.ColumnIndex == this.pelaaja2DataGridViewTextBoxColumn.Index)
                     {
-                        if (peli.Id2 < 0)
+                        if (peli.Kierros > 2 &&
+                            peli.Tilanne != PelinTilanne.Kaynnissa &&
+                            peli.Tilanne != PelinTilanne.Pelattu &&
+                            peli.Kilpailu != null &&
+                            peli.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
+                            !peli.JoukkueParitArvottu)
                         {
-                            e.Value = "w.o.";
-                            e.CellStyle.Font = this.ohutFontti;
-                            e.CellStyle.ForeColor = Color.Black;
+                            e.CellStyle.ForeColor = Color.Gray;
                         }
                         else
                         {
-                            int tappiot2 = peli.TappiotPeliRivilla2();
-                            if (tappiot2 >= 2)
+                            if (peli.Id2 < 0)
                             {
-                                e.CellStyle.ForeColor = Color.Red;
-                            }
-                            else
-                            {
+                                e.Value = "w.o.";
+                                e.CellStyle.Font = this.ohutFontti;
                                 e.CellStyle.ForeColor = Color.Black;
                             }
-
-                            if (tappiot2 == 1)
-                            {
-                                e.CellStyle.Font = this.ohutFontti;
-                            }
                             else
                             {
-                                e.CellStyle.Font = this.paksuFontti;
+                                int tappiot2 = peli.TappiotPeliRivilla2();
+                                if (tappiot2 >= 2)
+                                {
+                                    e.CellStyle.ForeColor = Color.Red;
+                                }
+                                else
+                                {
+                                    e.CellStyle.ForeColor = Color.Black;
+                                }
+
+                                if (tappiot2 == 1)
+                                {
+                                    e.CellStyle.Font = this.ohutFontti;
+                                }
+                                else
+                                {
+                                    e.CellStyle.Font = this.paksuFontti;
+                                }
                             }
                         }
                     }
@@ -2939,25 +2964,25 @@ namespace KaisaKaavio
                         }
                     }
 
-                    // Pelin "Käynnistä" painike
-                    if (e.ColumnIndex == this.TilanneTeksti.Index)
+                    // Peliparien arvontapainike
+                    if (e.ColumnIndex == this.ArvoPeliparitColumn.Index)
                     {
-                        if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
-                            !peli.JoukkueParitArvottu)
+                        if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
                         {
                             using (var popup = new JoukkuePeliparienArvontaPopup(this.kilpailu, this.loki, peli, peli.Joukkue1, peli.Joukkue2))
                             {
                                 if (popup.ShowDialog() == DialogResult.OK)
                                 {
-                                    peli.JoukkueParitArvottu = true;
                                     this.pelitDataGridView.Refresh();
-                                    //this.pelaajaBindingSource.ResetBindings(false);
                                 }
                             }
-
                             return;
                         }
+                    }
 
+                    // Pelin "Käynnistä" painike
+                    if (e.ColumnIndex == this.TilanneTeksti.Index)
+                    {
                         if (peli.Kierros == 2 && this.piilotaToinenKierrosCheckBox.Checked)
                         {
                             return;
@@ -4512,7 +4537,9 @@ namespace KaisaKaavio
                             string.Equals(x.Joukkue1, peli.Pelaaja1) &&
                             string.Equals(x.Joukkue2, peli.Pelaaja2)))
                         {
-                            if (osapeli.JoukkueParitArvottu)
+                            if (osapeli.JoukkueParitArvottu ||
+                                osapeli.Tilanne == PelinTilanne.Kaynnissa ||
+                                osapeli.Tilanne == PelinTilanne.Pelattu)
                             {
                                 teksti.NormaaliTeksti("  ");
                                 osapeli.RichTextKuvaus(sali, teksti, 0);
@@ -4633,7 +4660,8 @@ namespace KaisaKaavio
             }
 
             // Loppuun selvennykset erikoisista hauista
-            if (hakuKommentit.Any())
+            if (this.kilpailu.KilpaSarja != KilpaSarja.Joukkuekilpailu &&
+                hakuKommentit.Any())
             {
                 teksti.RivinVaihto();
                 teksti.Otsikko("Poikkeavat haut:");

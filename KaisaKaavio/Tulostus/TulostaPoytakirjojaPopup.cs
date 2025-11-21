@@ -308,15 +308,7 @@ namespace KaisaKaavio.Tulostus
                 x.Tilanne == PelinTilanne.ValmiinaAlkamaan ||
                 x.Tilanne == PelinTilanne.Kaynnissa))
             {
-                if (peli.Kilpailu != null &&
-                    peli.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
-                    !peli.JoukkueParitArvottu)
-                {
-                }
-                else
-                {
-                    this.pelit.Add(peli);
-                }
+                this.pelit.Add(peli);
             }
 
             this.peliBindingSource.DataSource = this.pelit;

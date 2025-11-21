@@ -1743,10 +1743,10 @@ namespace KaisaKaavio
                 return false; // Ei saa muokata jos peleissä on virheellisiä tuloksia (voittaja ei selvillä)
             }
 
-            if (this.KilpaSarja == KilpaSarja.Joukkuekilpailu && !peli.JoukkueParitArvottu)
-            {
-                return false;
-            }
+            //if (this.KilpaSarja == KilpaSarja.Joukkuekilpailu && !peli.JoukkueParitArvottu)
+            //{
+            //    return false;
+            //}
 
             if (this.KaavioTyyppi == KaavioTyyppi.Pudari2Kierros && peli.Tilanne == PelinTilanne.ValmiinaAlkamaan)
             {
@@ -2134,12 +2134,14 @@ namespace KaisaKaavio
                 }
             }
 
+            /*
             if (this.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
                 peli != null &&
                 !peli.JoukkueParitArvottu)
             {
                 nimi = pelaaja.Joukkue;
             }
+            */
 
             return nimi;
         }
@@ -4057,6 +4059,11 @@ namespace KaisaKaavio
                 if (mukana.Count() > 1 && mukana.Count() < 6)
                 {
                     mukanaString = string.Format("Mukana {0} pelaajaa ({1}).", mukana.Count(), string.Join(", ", mukana.Select(x => x.Nimi).ToArray()));
+                }
+
+                if (this.JoukkueKilpailunVarsinainenKilpailu != null)
+                {
+                    mukanaString = mukanaString.Replace("pelaajaa", "joukkuetta");
                 }
 
                 if (pelejaKaynnissa > 0)
