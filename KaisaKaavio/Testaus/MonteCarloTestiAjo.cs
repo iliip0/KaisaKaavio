@@ -24,6 +24,7 @@ namespace KaisaKaavio.Testaus
         private Dictionary<int, int> UusintaHakuVirheitaPelaajaMaaranMukaan = new Dictionary<int, int>();
         private int EdellaHakuvirheita = 0;
         private int VirheellisiaKisoja = 0;
+        private int KaksiPerassaHakuvirheita = 0;
 
         private int Peleja = 0;
         private DateTime aloitusAika;
@@ -84,6 +85,7 @@ namespace KaisaKaavio.Testaus
                     testiKilpailu.PelaaKilpailu(this.status, i * 3, this.Kisoja * 3);
 
                     this.UusintaHakuvirheita += testiKilpailu.UusintaHakuvirheita;
+                    this.KaksiPerassaHakuvirheita += testiKilpailu.KaksiPerassaHakuvirheita;
 
                     foreach (var u in testiKilpailu.UusintaHakuvirheitaPelaajaMaaranMukaan)
                     {
@@ -160,7 +162,7 @@ namespace KaisaKaavio.Testaus
                 StringBuilder raportti = new StringBuilder();
 
                 raportti.AppendLine(string.Format("======((   Ajo {0}, kisoja {1}, pelaajia {2}-{3}, pöytiä {4}:   ))======", 
-                    DateTime.Now.ToShortTimeString(), 
+                    DateTime.Now.ToString(), 
                     this.Kisoja,
                     this.MinPelaajia,
                     this.MaxPelaajia,
@@ -181,6 +183,10 @@ namespace KaisaKaavio.Testaus
                     raportti.AppendLine(string.Format("Kierrosvirheitä: {0} ({1}%)",
                         this.EdellaHakuvirheita,
                         (int)((this.EdellaHakuvirheita / ((float)this.Kisoja)) * 100)));
+
+                    raportti.AppendLine(string.Format("Kaksi perässä hakuvirheitä: {0} ({1}%)",
+                        this.KaksiPerassaHakuvirheita,
+                        (int)((this.KaksiPerassaHakuvirheita / ((float)this.Kisoja)) * 100)));
                 }
 
                 if (this.Kisoja > 0)

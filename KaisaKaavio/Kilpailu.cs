@@ -622,7 +622,10 @@ namespace KaisaKaavio
         {
             try
             {
-                if (this.Nakyvyys != Nakyvyys.Offline && !this.PoistaPaivitysKaytosta)
+                if (this.Nakyvyys != Nakyvyys.Offline && 
+                    !this.PoistaPaivitysKaytosta &&
+                    !string.IsNullOrEmpty(this.Id) &&
+                    !string.IsNullOrEmpty(this.Nimi))
                 {
 #if !DEBUG
                     if (!this.TestiKilpailu)
@@ -3706,7 +3709,7 @@ namespace KaisaKaavio
                     sali = salit.FirstOrDefault(x => string.Equals(peli.Paikka, x.LyhytNimi));
                 }
             }
-            else
+            else if (asetukset != null)
             {
                 sali = asetukset.Sali;
             }

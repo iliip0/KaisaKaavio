@@ -15,9 +15,10 @@ namespace KaisaKaavio.Testaus
 
         private Loki loki = null;
 
-        public int UusintaHakuvirheita { get; private set; }    // < Hakuvirheitä, joissa tulee sama pelipari uudestaan ennen finaalia
+        public int UusintaHakuvirheita { get; private set; } = 0;   // < Hakuvirheitä, joissa tulee sama pelipari uudestaan ennen finaalia
         public Dictionary<int, int> UusintaHakuvirheitaPelaajaMaaranMukaan { get; private set; }
-        public int EdellaHakuvirheita { get; private set; }     // < Hakuvirheitä, joissa toinen pelaaja on yli kierroksen vastustajaa edellä kaaviossa
+        public int EdellaHakuvirheita { get; private set; } = 0;     // < Hakuvirheitä, joissa toinen pelaaja on yli kierroksen vastustajaa edellä kaaviossa
+        public int KaksiPerassaHakuvirheita { get; private set; } = 0; // < Hakuvirheitä, joissa kaksi pelaajaa kaavion lopusta hakee seuraavan kierroksen alusta vastustajan
 
         public MonteCarloTestiKilpailu(string nimi, int poytienMaara, bool satunnainenPelienJarjestys, int pelaajia, Loki loki)
         {
@@ -42,10 +43,11 @@ namespace KaisaKaavio.Testaus
                 Nimi = nimi,
                 TestiKilpailu = true,
                 PoistaTallennusKaytosta = true,
-                PoistaPaivitysKaytosta = true
+                PoistaPaivitysKaytosta = true,
             };
 
             this.TestattavaKilpailu.Loki = loki;
+
             this.Arpa = new Random();
 
             for (int p = 0; p < pelaajia; ++p)
@@ -96,13 +98,15 @@ namespace KaisaKaavio.Testaus
                     {
                         this.TestattavaKilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
                         var uusiPeli = this.TestattavaKilpailu.Pelit.Last();
-                        if (this.TestattavaKilpailu.MukanaOlevatPelaajatEnnenPelia(uusiPeli).Count() > 2)
+
+                        var mukanaEnnenPelia = this.TestattavaKilpailu.MukanaOlevatPelaajatEnnenPelia(uusiPeli);
+                        if (mukanaEnnenPelia.Count() > 2)
                         {
                             if (this.TestattavaKilpailu.Pelit.Any(x => 
                                 x.PeliNumero < uusiPeli.PeliNumero &&
                                 x.SisaltaaPelaajat(uusiPeli.Id1, uusiPeli.Id2)))
                             {
-                                int mukana = this.TestattavaKilpailu.MukanaOlevatPelaajatEnnenPelia(uusiPeli).Count();
+                                int mukana = mukanaEnnenPelia.Count();
 
                                 if (this.UusintaHakuvirheitaPelaajaMaaranMukaan.ContainsKey(mukana))
                                 {
@@ -115,11 +119,17 @@ namespace KaisaKaavio.Testaus
 
                                 this.UusintaHakuvirheita++;
                             }
-                        }
 
-                        if (Math.Abs(uusiPeli.KierrosPelaaja1 - uusiPeli.KierrosPelaaja2) > 1)
-                        {
-                            this.EdellaHakuvirheita++;
+                            if (uusiPeli.KierrosPelaaja1 != uusiPeli.KierrosPelaaja2)
+                            {
+                                if (this.TestattavaKilpailu.Pelit.Any(x => 
+                                    x.Kierros == uusiPeli.Kierros && 
+                                    x != uusiPeli &&
+                                    x.KierrosPelaaja1 != x.KierrosPelaaja2))
+                                {
+                                    this.KaksiPerassaHakuvirheita++;
+                                }
+                            }
                         }
                     }
                 }
