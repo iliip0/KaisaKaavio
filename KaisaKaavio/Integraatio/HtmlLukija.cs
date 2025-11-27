@@ -17,8 +17,10 @@ namespace KaisaKaavio.Integraatio
         {
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; 
-                
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                ServicePointManager.ServerCertificateValidationCallback
+                 = ((sender, cert, chain, errors) => true);
+
                 using (WebClient client = new WebClient())
                 {
                     string html = client.DownloadString(osoite);
