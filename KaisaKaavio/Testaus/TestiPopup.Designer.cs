@@ -218,6 +218,11 @@
             this.mcKisojaNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mcKisojaNumericUpDown.Location = new System.Drawing.Point(156, 29);
+            this.mcKisojaNumericUpDown.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.mcKisojaNumericUpDown.Minimum = new decimal(new int[] {
             5,
             0,

@@ -655,8 +655,8 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool KilpailuPaattyiJuuri = false;
 
-        [XmlIgnore]
-        public Tyypit.EvaluointiTietokanta EvaluointiTietokanta = null;
+        //[XmlIgnore]
+        //public Tyypit.EvaluointiTietokanta EvaluointiTietokanta = null;
 
         public Kilpailu()
         {
@@ -717,7 +717,9 @@ namespace KaisaKaavio
 
         public void OnlineIlmoTick(Form1 invoker)
         {
-            if (this.TestiKilpailu)
+            if (this.TestiKilpailu ||
+                string.IsNullOrEmpty(this.Nimi) ||
+                string.IsNullOrEmpty(this.Id))
             {
                 return;
             }
@@ -920,7 +922,7 @@ namespace KaisaKaavio
                 peli.Kilpailu = null;
             }
 
-            this.EvaluointiTietokanta = null;
+            //this.EvaluointiTietokanta = null;
         }
 
         public void PoistaKaikkiPelit()
@@ -4119,7 +4121,7 @@ namespace KaisaKaavio
             peli.Alkoi = string.Empty;
             peli.Paattyi = string.Empty;
 
-            this.EvaluointiTietokanta = null;
+            //this.EvaluointiTietokanta = null;
         }
 
         /// <summary>
@@ -4220,7 +4222,7 @@ namespace KaisaKaavio
 
             this.HakuTarvitaan = true;
 
-            this.EvaluointiTietokanta = null;
+            //this.EvaluointiTietokanta = null;
         }
 
         public List<Sali> Salit()
@@ -4773,11 +4775,13 @@ namespace KaisaKaavio
         /// </summary>
         public void VapautaTarpeetonMuisti()
         {
+            /*
             if (this.EvaluointiTietokanta != null)
             {
                 this.EvaluointiTietokanta.Tyhjenna();
                 this.EvaluointiTietokanta = null;
             }
+            */
         }
 
         public int PieninKaynnissaOlevaKierros()

@@ -16,29 +16,32 @@ namespace KaisaKaavio.Tyypit
         public class Evaluointi
         {
             /// <summary>
-            /// Kaavion evaluoitu arvo. Mitä pienempi, sitä parempi
+            /// Kaavion tilanteen evaluoitu arvo. Mitä pienempi, sitä parempi
             /// </summary>
-            public float Pisteytys;
+            public float Pisteytys = float.MaxValue;
+
+            /// <summary>
+            /// Mahdolliseen hakuvirheeseen liittyvä pelaaja 1
+            /// </summary>
+            public Pelaaja Pelaaja1 = null;
+
+            /// <summary>
+            /// Mahdolliseen hakuvirheeseen liittyvä pelaaja 2
+            /// </summary>
+            public Pelaaja Pelaaja2 = null;
 
             /// <summary>
             /// Evaluoidun kaaviotilanteen kuvaus
             /// </summary>
-            public string Kuvaus;
-
-            public Pelaaja Pelaaja1;
-            public Pelaaja Pelaaja2;
-
-#if DEBUG
-            public Pelaaja[] Mukana = null;
-#endif
+            public string Kuvaus = string.Empty;
         }
 
         public int AlkuKierros { get; private set; }
 
         private Dictionary<string, Evaluointi> evaluoinnit = new Dictionary<string, Evaluointi>();
-        private Dictionary<string, int> haut = new Dictionary<string, int>();
-        private int EvaluoitujaTilanteita = 0;
-        private int Osumia = 0;
+        private static Dictionary<string, int> haut = new Dictionary<string, int>();
+        private static int EvaluoitujaTilanteita = 0;
+        private static int Osumia = 0;
 
         public EvaluointiTietokanta(int kierros)
         {
@@ -49,7 +52,7 @@ namespace KaisaKaavio.Tyypit
         {
             if (this.evaluoinnit.TryGetValue(avain, out evaluointi))
             {
-                this.Osumia++;
+                Osumia++;
                 return true;
             }
 
@@ -57,11 +60,11 @@ namespace KaisaKaavio.Tyypit
             return false;
         }
 
-        public bool HaeVastustaja(string avain, out int vastustajanIndeksi)
+        public static bool HaeVastustaja(string avain, out int vastustajanIndeksi)
         {
-            if (this.haut.TryGetValue(avain, out vastustajanIndeksi))
+            if (haut.TryGetValue(avain, out vastustajanIndeksi))
             {
-                this.Osumia++;
+                Osumia++;
                 return true;
             }
 
@@ -69,24 +72,24 @@ namespace KaisaKaavio.Tyypit
             return false;
         }
 
-        public void TallennaHaku(string avain, int vastustajanIndeksi)
+        public static void TallennaHaku(string avain, int vastustajanIndeksi)
         {
-            this.haut.Add(avain, vastustajanIndeksi);
-            this.EvaluoitujaTilanteita++;
+            haut.Add(avain, vastustajanIndeksi);
+            EvaluoitujaTilanteita++;
         }
 
         public void TallennaEvaluointi(string avain, Evaluointi evaluointi)
         {
             this.evaluoinnit.Add(avain, evaluointi);
-            this.EvaluoitujaTilanteita++;
+            EvaluoitujaTilanteita++;
         }
 
-        public void Tulosta()
+        public static void Tulosta()
         {
 #if DEBUG
             Debug.WriteLine(string.Format("### Evaluoituja tilanteita {0}, osumia {1}",
-                this.EvaluoitujaTilanteita,
-                this.Osumia));
+                EvaluoitujaTilanteita,
+                Osumia));
 #endif
         }
 
