@@ -22,9 +22,14 @@ namespace KaisaKaavio.Testaus
 
         private int UusintaHakuvirheita = 0;
         private Dictionary<int, int> UusintaHakuVirheitaPelaajaMaaranMukaan = new Dictionary<int, int>();
+
         private int EdellaHakuvirheita = 0;
-        private int VirheellisiaKisoja = 0;
+        private Dictionary<int, int> EdellaHakuVirheitaPelaajaMaaranMukaan = new Dictionary<int, int>();
+
         private int KaksiPerassaHakuvirheita = 0;
+        private Dictionary<int, int> KaksiPerassaHakuvirheitaPelaajaMaaranMukaan = new Dictionary<int, int>();
+
+        private int VirheellisiaKisoja = 0;
 
         private int Peleja = 0;
         private DateTime aloitusAika;
@@ -86,6 +91,19 @@ namespace KaisaKaavio.Testaus
 
                     this.UusintaHakuvirheita += testiKilpailu.UusintaHakuvirheita;
                     this.KaksiPerassaHakuvirheita += testiKilpailu.KaksiPerassaHakuvirheita;
+                    this.EdellaHakuvirheita += testiKilpailu.EdellaHakuvirheita;
+
+                    foreach (var e in testiKilpailu.EdellaHakuvirheitaPelaajaMaaranMukaan)
+                    {
+                        if (this.EdellaHakuVirheitaPelaajaMaaranMukaan.ContainsKey(e.Key))
+                        {
+                            this.EdellaHakuVirheitaPelaajaMaaranMukaan[e.Key] += e.Value;
+                        }
+                        else
+                        {
+                            this.EdellaHakuVirheitaPelaajaMaaranMukaan.Add(e.Key, e.Value);
+                        }
+                    }
 
                     foreach (var u in testiKilpailu.UusintaHakuvirheitaPelaajaMaaranMukaan)
                     {
@@ -99,7 +117,18 @@ namespace KaisaKaavio.Testaus
                         }
                     }
 
-                    this.EdellaHakuvirheita += testiKilpailu.EdellaHakuvirheita;
+                    foreach (var k in testiKilpailu.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan)
+                    {
+                        if (this.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan.ContainsKey(k.Key))
+                        {
+                            this.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan[k.Key] += k.Value;
+                        }
+                        else
+                        {
+                            this.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan.Add(k.Key, k.Value);
+                        }
+                    }
+
                     this.Peleja += testiKilpailu.TestattavaKilpailu.Pelit.Count();
 
                     this.OnnistuneitaTesteja++;
@@ -109,10 +138,30 @@ namespace KaisaKaavio.Testaus
                     try
                     {
                         if (testiKilpailu.UusintaHakuvirheita > 0 ||
-                            testiKilpailu.EdellaHakuvirheita > 0)
+                            testiKilpailu.EdellaHakuvirheita > 0 ||
+                            testiKilpailu.KaksiPerassaHakuvirheita > 0)
                         {
+                            string nimenJatke = string.Empty;
+
+                            if (testiKilpailu.UusintaHakuvirheita > 0)
+                            {
+                                nimenJatke += "-U" + testiKilpailu.UusintaHakuvirhePelaajia;
+                            }
+
+                            if (testiKilpailu.EdellaHakuvirheita > 0)
+                            {
+                                nimenJatke += "-E" + testiKilpailu.EdellaHakuvirhePelaajia;
+                            }
+
+                            if (testiKilpailu.KaksiPerassaHakuvirheita > 0)
+                            {
+                                nimenJatke += "-K" + testiKilpailu.KaksiPerassaHakuvirheitaPelaajia;
+                            }
+
                             this.VirheellisiaKisoja++;
-                            testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_HAKUVIRHE.xml"), false, false);
+
+                            testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(kansio, nimi + "_HAKUVIRHE" + nimenJatke + ".xml"), false, false);
+                            testiKilpailu.TestattavaKilpailu.TallennaNimella(Path.Combine(this.VirheKansio, nimi + "_HAKUVIRHE" + nimenJatke + ".xml"), false, false);
                         }
                         else
                         {
@@ -184,9 +233,10 @@ namespace KaisaKaavio.Testaus
                         this.EdellaHakuvirheita,
                         (int)((this.EdellaHakuvirheita / ((float)this.Kisoja)) * 100)));
 
-                    raportti.AppendLine(string.Format("Kaksi perässä hakuvirheitä: {0} ({1}%)",
+                    raportti.AppendLine(string.Format("Kaksi perällä virheitä: {0} ({1}%)  -- ({2})",
                         this.KaksiPerassaHakuvirheita,
-                        (int)((this.KaksiPerassaHakuvirheita / ((float)this.Kisoja)) * 100)));
+                        (int)((this.KaksiPerassaHakuvirheita / ((float)this.Kisoja)) * 100),
+                        string.Join(",", this.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan.Select(x => string.Format("[{0}]:{1}", x.Key, x.Value)))));
                 }
 
                 if (this.Kisoja > 0)

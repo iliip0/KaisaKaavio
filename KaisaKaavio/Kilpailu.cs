@@ -717,6 +717,11 @@ namespace KaisaKaavio
 
         public void OnlineIlmoTick(Form1 invoker)
         {
+            if (this.TestiKilpailu)
+            {
+                return;
+            }
+
             if (this.OnlineIlmoittautuminenKaytossa && !this.ToinenKierrosAlkanut) // TODO!!! Tarkista onko ilmo päättynyt
             {
                 string query = string.Format("kilpailu={0}", HttpUtility.UrlEncode(this.Id));

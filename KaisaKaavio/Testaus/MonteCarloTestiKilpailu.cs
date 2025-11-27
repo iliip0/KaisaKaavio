@@ -16,16 +16,19 @@ namespace KaisaKaavio.Testaus
         private Loki loki = null;
 
         public int UusintaHakuvirheita { get; private set; } = 0;   // < Hakuvirheitä, joissa tulee sama pelipari uudestaan ennen finaalia
-        public Dictionary<int, int> UusintaHakuvirheitaPelaajaMaaranMukaan { get; private set; }
+        public int UusintaHakuvirhePelaajia { get; private set; } = 0;
+        public Dictionary<int, int> UusintaHakuvirheitaPelaajaMaaranMukaan { get; private set; } = new Dictionary<int, int>();
+
         public int EdellaHakuvirheita { get; private set; } = 0;     // < Hakuvirheitä, joissa toinen pelaaja on yli kierroksen vastustajaa edellä kaaviossa
+        public int EdellaHakuvirhePelaajia { get; private set; } = 0;
+        public Dictionary<int, int> EdellaHakuvirheitaPelaajaMaaranMukaan { get; private set; } = new Dictionary<int, int>();
+
         public int KaksiPerassaHakuvirheita { get; private set; } = 0; // < Hakuvirheitä, joissa kaksi pelaajaa kaavion lopusta hakee seuraavan kierroksen alusta vastustajan
+        public int KaksiPerassaHakuvirheitaPelaajia { get; private set; } = 0;
+        public Dictionary<int, int> KaksiPerassaHakuvirheitaPelaajaMaaranMukaan { get; private set; } = new Dictionary<int, int>();
 
         public MonteCarloTestiKilpailu(string nimi, int poytienMaara, bool satunnainenPelienJarjestys, int pelaajia, Loki loki)
         {
-            this.UusintaHakuvirheita = 0;
-            this.UusintaHakuvirheitaPelaajaMaaranMukaan = new Dictionary<int, int>();
-            this.EdellaHakuvirheita = 0;
-
             this.PoytienMaara = Math.Max(1, poytienMaara);
             this.Pelaajia = Math.Max(4, pelaajia);
             this.SatunnainenPelienJarjestys = satunnainenPelienJarjestys;
@@ -99,6 +102,25 @@ namespace KaisaKaavio.Testaus
                         this.TestattavaKilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
                         var uusiPeli = this.TestattavaKilpailu.Pelit.Last();
 
+                        if (Math.Abs(uusiPeli.KierrosPelaaja1 - uusiPeli.KierrosPelaaja2) > 1)
+                        {
+                            int mukanaa = this.TestattavaKilpailu.MukanaOlevatPelaajatEnnenPelia(uusiPeli).Count();
+                            this.EdellaHakuvirheita++;
+
+                            if (this.EdellaHakuvirheitaPelaajaMaaranMukaan.ContainsKey(mukanaa))
+                            {
+                                this.EdellaHakuvirheitaPelaajaMaaranMukaan[mukanaa]++;
+                            }
+                            else
+                            {
+                                this.EdellaHakuvirheitaPelaajaMaaranMukaan.Add(mukanaa, 1);
+                            }
+
+                            this.EdellaHakuvirhePelaajia = Math.Max(
+                                this.EdellaHakuvirhePelaajia, 
+                                this.TestattavaKilpailu.MukanaOlevatPelaajatEnnenPelia(uusiPeli).Count());
+                        }
+
                         var mukanaEnnenPelia = this.TestattavaKilpailu.MukanaOlevatPelaajatEnnenPelia(uusiPeli);
                         if (mukanaEnnenPelia.Count() > 2)
                         {
@@ -118,6 +140,7 @@ namespace KaisaKaavio.Testaus
                                 }
 
                                 this.UusintaHakuvirheita++;
+                                this.UusintaHakuvirhePelaajia = Math.Max(this.UusintaHakuvirhePelaajia, mukana);
                             }
 
                             if (uusiPeli.KierrosPelaaja1 != uusiPeli.KierrosPelaaja2)
@@ -127,7 +150,19 @@ namespace KaisaKaavio.Testaus
                                     x != uusiPeli &&
                                     x.KierrosPelaaja1 != x.KierrosPelaaja2))
                                 {
+                                    int mukana = mukanaEnnenPelia.Count();
+
+                                    if (this.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan.ContainsKey(mukana))
+                                    {
+                                        this.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan[mukana]++;
+                                    }
+                                    else
+                                    {
+                                        this.KaksiPerassaHakuvirheitaPelaajaMaaranMukaan.Add(mukana, 1);
+                                    }
+
                                     this.KaksiPerassaHakuvirheita++;
+                                    this.KaksiPerassaHakuvirheitaPelaajia = Math.Max(this.KaksiPerassaHakuvirheitaPelaajia, mukana);
                                 }
                             }
                         }

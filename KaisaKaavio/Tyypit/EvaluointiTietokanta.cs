@@ -27,11 +27,16 @@ namespace KaisaKaavio.Tyypit
 
             public Pelaaja Pelaaja1;
             public Pelaaja Pelaaja2;
+
+#if DEBUG
+            public Pelaaja[] Mukana = null;
+#endif
         }
 
         public int AlkuKierros { get; private set; }
 
         private Dictionary<string, Evaluointi> evaluoinnit = new Dictionary<string, Evaluointi>();
+        private Dictionary<string, int> haut = new Dictionary<string, int>();
         private int EvaluoitujaTilanteita = 0;
         private int Osumia = 0;
 
@@ -50,6 +55,24 @@ namespace KaisaKaavio.Tyypit
 
             evaluointi = null;
             return false;
+        }
+
+        public bool HaeVastustaja(string avain, out int vastustajanIndeksi)
+        {
+            if (this.haut.TryGetValue(avain, out vastustajanIndeksi))
+            {
+                this.Osumia++;
+                return true;
+            }
+
+            vastustajanIndeksi = -1;
+            return false;
+        }
+
+        public void TallennaHaku(string avain, int vastustajanIndeksi)
+        {
+            this.haut.Add(avain, vastustajanIndeksi);
+            this.EvaluoitujaTilanteita++;
         }
 
         public void TallennaEvaluointi(string avain, Evaluointi evaluointi)

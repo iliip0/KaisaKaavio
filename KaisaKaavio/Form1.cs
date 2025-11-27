@@ -6636,12 +6636,12 @@ namespace KaisaKaavio
                     (!this.osallistujatDataGridView.IsCurrentCellInEditMode &&
                     !this.jalkiIlmoittautuneetDataGridView.IsCurrentCellInEditMode))
                 {
-                    Debug.WriteLine("### OnlineIlmoTick");
+                    //Debug.WriteLine("### OnlineIlmoTick");
                     this.kilpailu.OnlineIlmoTick(this);
                 }
                 else
                 {
-                    Debug.WriteLine("### OnlineIlmoTick ohitettu");
+                    //Debug.WriteLine("### OnlineIlmoTick ohitettu");
                 }
             }
             catch
