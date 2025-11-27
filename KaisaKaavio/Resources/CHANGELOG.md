@@ -2,9 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.45		(työn alla)
+## Versio 1.0.0.45		(julkaistu 27.11.2025)
 
-
+* Korjaus kilpailijoiden hakuun biljardi.org sivulta. Saattoi epäonnistua SSL tarkistukseen aiemmin
+* Korjaus hakualgoritmiin, jotta ei jätä kierroksen perälle kahta jo keskenään pelannutta
 
 ## Versio 1.0.0.44		(julkaistu 20.11.2025)
 
