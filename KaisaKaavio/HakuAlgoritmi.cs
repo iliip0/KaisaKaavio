@@ -53,7 +53,10 @@ namespace KaisaKaavio
         public class HakuPelaaja
         {
             public Pelaaja Pelaaja = null;
+            public List<Peli> Pelit = null;
+            public int Id = 0;
             public int Tappioita = 0;
+            public int Kierros = 0;
         }
 
         public class HakuPeli
@@ -103,27 +106,23 @@ namespace KaisaKaavio
 
         public List<Pelaajat> UudetPelit { get; private set; }
         public Exception HakuVirhe { get; private set; }
-        public bool PeruutaHaku { get; set; }
-        public bool UusiHakuTarvitaan { get; private set; }
-        public bool AutomaattinenTestausMenossa { get; set; }
+        public bool PeruutaHaku { get; set; } = false;
+        public bool UusiHakuTarvitaan { get; private set; } = false;
+        public bool AutomaattinenTestausMenossa { get; set; } = false;
 
         Kilpailu Kilpailu = null;
         int EkaPudariKierros = 0;
         bool HakuKesken = true;
 
         // Tällä estetään hakeminen "Kaavioiden yhdistäminen"-kierroksen yli kun pelataan usealla pelipaikalla
-        public int MaxKierros { get; set; }
+        public int MaxKierros { get; set; } = Int32.MaxValue;
 
         public HakuAlgoritmi(Kilpailu kilpailu, Loki loki, IStatusRivi status)
         {
             this.status = status;
             this.Kilpailu = kilpailu;
             this.HakuVirhe = null;
-            this.PeruutaHaku = false;
             this.UudetPelit = new List<Pelaajat>();
-            this.UusiHakuTarvitaan = false;
-            this.AutomaattinenTestausMenossa = false;
-            this.MaxKierros = Int32.MaxValue;
 
             switch (this.Kilpailu.KaavioTyyppi)
             {
@@ -998,14 +997,6 @@ namespace KaisaKaavio
             var parasPisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi() { Pisteytys = float.MaxValue, Kuvaus = polku };
             Pelaaja parasHaku = null;
 
-            if (this.PeruutaHaku)
-            {
-#if DEBUG
-                DebugSisenna(-1);
-#endif
-                return null;
-            }
-
             List<Hyppy> paikallisetHypyt = null;
             if (hypyt != null)
             {
@@ -1020,6 +1011,14 @@ namespace KaisaKaavio
 
             foreach (var vastustaja in vastustajat)
             {
+                if (this.PeruutaHaku)
+                {
+#if DEBUG
+                    DebugSisenna(-1);
+#endif
+                    return null;
+                }
+
 #if DEBUG
                 StringBuilder lokiRivi = null;
                 if (hypyt != null && !this.AutomaattinenTestausMenossa)
@@ -1222,10 +1221,7 @@ namespace KaisaKaavio
             IEnumerable<Pelaaja> pelaajat,
             Pelaaja hakija,
             Pelaaja vastustaja,
-//            string tilanneAvain,
-            string polku
-//            Tyypit.EvaluointiTietokanta evaluoidutTilanteet
-            )
+            string polku)
         {
 #if DEBUG
             DebugSisenna(1);
@@ -1252,9 +1248,7 @@ namespace KaisaKaavio
                 pelatutPelit,
                 uudetPelit,
                 mukanaA,
-                //string.Format("{0} {1}", tilanneAvain, avainA),
                 string.Format("{0} {1}", polku, avainA));
-                //evaluoidutTilanteet);
 
             // Jos A haarassa tulee kierrosvirhe, ei tarvitse evaluoida B haaraa
             if (pisteytysA.Pisteytys >= PisteytysSakkoKierrosVirheesta)
@@ -1283,9 +1277,7 @@ namespace KaisaKaavio
                 pelatutPelit,
                 uudetPelit,
                 mukanaB,
-                // string.Format("{0} {1}", tilanneAvain, avainB),
                 string.Format("{0} {1}", polku, avainB));
-                //evaluoidutTilanteet);
             
             pelatutPelit.RemoveAt(pelatutPelit.Count - 1);
             uudetPelit.RemoveAt(uudetPelit.Count - 1);
@@ -1316,21 +1308,7 @@ namespace KaisaKaavio
         {
 #if DEBUG
             DebugSisenna(1);
-            //Tyypit.EvaluointiTietokanta.Evaluointi tallennettuEvaluointi = null;
 #endif
-            /*
-            string tilanneAvain = TilanneAvain(pelatutPelit, mukana);
-
-            if (evaluoidutTilanteet.HaeEvaluointi(tilanneAvain, out Tyypit.EvaluointiTietokanta.Evaluointi evaluointi))
-            {
-#if DEBUG
-                DebugViesti("PisteytaTilanne {0} = {1} (cached)", polku, evaluointi.Pisteytys);
-                //DebugSisenna(-1);
-                tallennettuEvaluointi = evaluointi;
-#endif
-                //return evaluointi;
-            }
-            */
 
             Tyypit.EvaluointiTietokanta.Evaluointi pisteytys = null;
 
@@ -1369,101 +1347,13 @@ namespace KaisaKaavio
                     polku,
                     null);
 
-                /*
-                if (parasPisteytys == null || (parasPisteytys.Pisteytys.Pisteytys > 0.0f))
-                {
-                    foreach (var hakija in hakijat.Skip(1))
-                    {
-                        var p = HaeVastustajaHuolellisesti(pelatutPelit, uudetPelit, mukana, hakija, polku, null);
-                        if (p != null)
-                        {
-                            if (parasPisteytys == null || (p.Pisteytys.Pisteytys < parasPisteytys.Pisteytys.Pisteytys))
-                            {
-                                parasPisteytys = p;
-
-                                if (p.Pisteytys.Pisteytys <= 0.0f)
-                                {
-                                    break; // 
-                                }
-                            }
-                        }
-                    }
-                }
-                */
                 if (parasPisteytys != null)
                 {
                     pisteytys = parasPisteytys.Pisteytys;
                 }
-                /*
-                var pisteytys1 = HaeVastustajaHuolellisesti(
-                    pelatutPelit, 
-                    uudetPelit, 
-                    mukana, 
-                    hakijat.First(), 
-                    //tilanneAvain, 
-                    polku, 
-                    //evaluoidutTilanteet, 
-                    null);
-                //if (pisteytys1 != null)
-                //{
-                //    pisteytys = pisteytys1.Pisteytys;
-                //}
-
-                HuolellisenHaunTulos pisteytys2 = null;
-
-                if (pisteytys1 != null && pisteytys1.Pisteytys.Pisteytys <= 0.0f)
-                {
-                    // Jos eka haku on täydellinen, ei tarvitse tarkistaa seuraavaa
-                    pisteytys = pisteytys1.Pisteytys;
-                }
-
-                // Käsitellään loppupelitapaus, jossa voi olla tarpeen hypätä "hakijan" yli
-                else
-                {
-                    pisteytys2 = HaeVastustajaHuolellisesti(
-                        pelatutPelit, 
-                        uudetPelit, 
-                        mukana, 
-                        hakijat.ElementAt(1), 
-                        //tilanneAvain, 
-                        polku, 
-                        //evaluoidutTilanteet, 
-                        null);
-
-                    if (pisteytys1 != null && pisteytys2 == null)
-                    {
-                        pisteytys = pisteytys1.Pisteytys;
-                    }
-                    else if (pisteytys1 == null && pisteytys2 != null)
-                    {
-                        pisteytys = pisteytys2.Pisteytys;
-                    }
-                    else if (pisteytys1 == null && pisteytys2 == null)
-                    {
-                    }
-                    else
-                    {
-                        if (pisteytys1.Pisteytys.Pisteytys < pisteytys2.Pisteytys.Pisteytys)
-                        {
-                            pisteytys = pisteytys1.Pisteytys;
-                        }
-                        else
-                        {
-#if DEBUG
-                            DebugViesti("# Hypättiin ekan hakijan yli");
-#endif
-                            pisteytys = pisteytys2.Pisteytys;
-                        }
-                    }
-                }
-                */
             }
 
-            if (pisteytys != null)
-            {
-                //evaluoidutTilanteet.TallennaEvaluointi(tilanneAvain, pisteytys);
-            }
-            else
+            if (pisteytys == null)
             {
 #if DEBUG
                 DebugViesti("# Ei löytynyt vastustajaa huolellisella haulla!!!");
