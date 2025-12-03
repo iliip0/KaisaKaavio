@@ -16,6 +16,7 @@ namespace KaisaKaavio.Tyypit
     /// </summary>
     public class EvaluointiTietokanta
     {
+        /*
         public class Evaluointi
         {
             /// <summary>
@@ -42,6 +43,7 @@ namespace KaisaKaavio.Tyypit
             public string DebugKuvaus = string.Empty;
 #endif
         }
+        */
 
         public class ParasHaku
         {
