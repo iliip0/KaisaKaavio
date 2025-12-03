@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
 
 namespace KaisaKaavio.Tyypit
 {
@@ -34,12 +36,23 @@ namespace KaisaKaavio.Tyypit
             /// Evaluoidun kaaviotilanteen kuvaus
             /// </summary>
             public string Kuvaus = string.Empty;
+
+#if DEBUG
+            public string DebugKuvaus = string.Empty;
+#endif
+        }
+
+        public class ParasHaku
+        {
+            public int Hakija = -1;
+            public int Vastustaja = -1;
+            public float Pisteytys = float.MaxValue;
         }
 
         public int AlkuKierros { get; private set; }
 
         private Dictionary<string, Evaluointi> evaluoinnit = new Dictionary<string, Evaluointi>();
-        private static Dictionary<string, int> haut = new Dictionary<string, int>();
+        private static Dictionary<string, ParasHaku> haut = new Dictionary<string, ParasHaku>();
         private static int EvaluoitujaTilanteita = 0;
         private static int Osumia = 0;
 
@@ -60,22 +73,30 @@ namespace KaisaKaavio.Tyypit
             return false;
         }
 
-        public static bool HaeVastustaja(string avain, out int vastustajanIndeksi)
+        public static ParasHaku AnnaParasHakuTilanteessa(string avain)
         {
-            if (haut.TryGetValue(avain, out vastustajanIndeksi))
+            ParasHaku haku = null;
+            if (haut.TryGetValue(avain, out haku))
             {
                 Osumia++;
-                return true;
+                return haku;
             }
 
-            vastustajanIndeksi = -1;
-            return false;
+            return null;
         }
 
-        public static void TallennaHaku(string avain, int vastustajanIndeksi)
+        public static void TallennaHaku(string avain, int hakijanIndeksi, int vastustajanIndeksi, float pisteytys)
         {
-            haut.Add(avain, vastustajanIndeksi);
+            haut.Add(avain, new ParasHaku() 
+            {
+                Hakija = hakijanIndeksi,
+                Vastustaja = vastustajanIndeksi,
+                Pisteytys = pisteytys
+            });
+
             EvaluoitujaTilanteita++;
+
+            //Debug.WriteLine(string.Format("# {0} = {1}, {2}", avain, vastustajanIndeksi, pisteytys));
         }
 
         public void TallennaEvaluointi(string avain, Evaluointi evaluointi)

@@ -26,7 +26,19 @@ namespace KaisaKaavio
         /// Tämä asetus määrää, missä vaiheessa kisaa ruvetaan hakemaan pelejä paremmalla, mutta hitaammalla
         /// algoritmilla hakuvirheiden minimoimiseksi
         /// </summary>
-        public static readonly int HuolellisenHaunPelaajamaara = 6;
+        public static readonly int HuolellisenHaunPelaajamaara = 8;
+
+        /// <summary>
+        /// Tämä asetus määrää, montako pykälää vuorossa olevan hakijan yli saa hypätä
+        /// </summary>
+        public static readonly int SallittujaHakijanYliHyppyjaHuolellisessaHaussa = 1;
+        public static readonly int MaxPelaajiaJottaSaaHyppiaHakijanYli = 5;
+
+        /// <summary>
+        /// Tämä asetus määrää kuinka monen pelaajan haut tallennetaan. Isompi luku nopeuttaa hakua, mutta
+        /// vaatii enemmän muistia
+        /// </summary>
+        public static readonly int MaxPelaajiaJottaHautTallennetaan = 8;
 
         /// <summary>
         /// Tämä asetus määrää kuinka usein automaattinen tallennus tapahtuu (sekunteja)

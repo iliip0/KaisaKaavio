@@ -210,12 +210,15 @@ namespace KaisaKaavio.Testaus
 
                 StringBuilder raportti = new StringBuilder();
 
-                raportti.AppendLine(string.Format("======((   Ajo {0}, kisoja {1}, pelaajia {2}-{3}, pöytiä {4}:   ))======", 
+                raportti.AppendLine(string.Format("======((   Ajo {0}, kisoja {1}, pelaajia {2}-{3}, pöytiä {4}:  Huolellinen haku {5}, Hakijan yli hyppyjä {6}, MaxPelaajiaHakijanHypyiisa {7} ))======", 
                     DateTime.Now.ToString(), 
                     this.Kisoja,
                     this.MinPelaajia,
                     this.MaxPelaajia,
-                    this.PoytienMaara));
+                    this.PoytienMaara,
+                    Asetukset.HuolellisenHaunPelaajamaara,
+                    Asetukset.SallittujaHakijanYliHyppyjaHuolellisessaHaussa,
+                    Asetukset.MaxPelaajiaJottaSaaHyppiaHakijanYli));
 
                 if (this.Peleja > 0)
                 {

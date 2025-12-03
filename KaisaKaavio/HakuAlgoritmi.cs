@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using static KaisaKaavio.HakuAlgoritmi;
+using static KaisaKaavio.Tyypit.EvaluointiTietokanta;
 
 namespace KaisaKaavio
 { 
@@ -11,7 +12,8 @@ namespace KaisaKaavio
     {
         private static readonly float PisteytysSakkoKierrosVirheesta = 1000.0f;
         private static readonly float PisteytysSakkoUusintaOttelusta = 1.0f;
-        private static readonly float PisteytysSakkoSeuraavaltaKierrokseltaHausta = 0.001f;
+        private static readonly float PisteytysSakkoSeuraavaltaKierrokseltaHausta = 0.01f;
+        private static readonly float PisteytysSakkoHakijanYliHypysta = 0.001f;
 
         public class Hyppy
         {
@@ -53,10 +55,11 @@ namespace KaisaKaavio
         public class HakuPelaaja
         {
             public Pelaaja Pelaaja = null;
-            public List<Peli> Pelit = null;
+            public List<HakuPeli> Pelit = null;
             public int Id = 0;
+            public string Nimi = string.Empty;
             public int Tappioita = 0;
-            public int Kierros = 0;
+            public int PelattujaPeleja = 0;
         }
 
         public class HakuPeli
@@ -586,6 +589,116 @@ namespace KaisaKaavio
             public string Polku;
         }
 
+        private float MaxPisteytys { get; set; } = float.MaxValue;
+
+        private HakuPeli HaeSeuraavaPeliKierrokselleHuolellisesti(
+            int kierros,
+            List<HakuPeli> kaikkiPelit,
+            List<HakuPeli> pelatutPelit,
+            List<HakuPeli> arvotutPelit,
+            List<Pelaaja> pelaajat,
+            IOrderedEnumerable<Pelaaja> mukana)
+        {
+            List<HakuPeli> uudetPelit = new List<HakuPeli>();
+            List<Hyppy> hypyt = new List<Hyppy>();
+            List<HakuPelaaja> haussaMukana = new List<HakuPelaaja>();
+
+            foreach (var p in mukana)
+            {
+                HakuPelaaja hakuPelaaja = new HakuPelaaja()
+                {
+                    Pelaaja = p,
+                    Id = p.Id,
+                    Nimi = p.Nimi,
+                    PelattujaPeleja = LaskePelit(kaikkiPelit, p.Id),
+                    Tappioita = LaskeTappiot(kaikkiPelit, p.Id, 9999),
+                    Pelit = new List<HakuPeli>()
+                };
+
+                foreach (var peli in kaikkiPelit.Where(x => x.SisaltaaPelaajan(p.Id)))
+                {
+                    hakuPelaaja.Pelit.Add(peli);
+                }
+
+                haussaMukana.Add(hakuPelaaja);
+            }
+
+            if (PelitKesken.Any())
+            {
+                // Jos kaaviossa on pelejä kesken niin ei haeta pelejä jotka saattaa jättää kaavion hännille 2 pelaajaa jotka ovat jo pelanneet
+                this.MaxPisteytys = PisteytysSakkoSeuraavaltaKierrokseltaHausta;
+            }
+            else
+            {
+                this.MaxPisteytys = PisteytysSakkoKierrosVirheesta;
+            }
+
+            var haku = HaeHuolellisesti(pelatutPelit, uudetPelit, haussaMukana, string.Empty, hypyt, 0.0f);
+            if (haku == null)
+            {
+                return null;
+            }
+
+            if (!VarmastiMukana(pelatutPelit, arvotutPelit, haku.Hakija.Pelaaja.Id, kierros))
+            {
+                return null;
+            }
+
+            if (!VarmastiMukana(pelatutPelit, arvotutPelit, haku.Vastustaja.Pelaaja.Id, kierros))
+            {
+                return null;
+            }
+
+            if (PelitKesken.Any() && haku.Pisteytys.Pisteytys >= this.MaxPisteytys)
+            {
+                // Ei haeta huonoja hakuja jos pelejä on vielä kesken
+                return null;
+            }
+
+            var uusiPeli = LisaaPeli(kaikkiPelit, pelatutPelit, arvotutPelit, haku.Hakija.Pelaaja, haku.Vastustaja.Pelaaja);
+
+            if (uusiPeli.Kierros > this.MaxKierros)
+            {
+#if DEBUG
+                DebugViesti("Algoritmi haki pelin {0} - {1} jossa toinen pelaaja liian pitkällä (MaxKierros). Hylätään tämä haku", 
+                    haku.Hakija.Nimi,
+                    haku.Vastustaja.Nimi);
+                DebugSisenna(-1);
+#endif
+                return null;
+            }
+
+            if (Math.Abs(uusiPeli.KierrosPelaaja1 - uusiPeli.KierrosPelaaja2) > 1)
+            {
+                if (PelitKesken.Any())
+                {
+#if DEBUG
+                   // DebugViesti("Algoritmi haki pelin jossa toinen pelaaja on kaksi kierrosta edellä {0} - {1}. Pelejä on vielä kesken joten hylätään tämä haku ja haetaan myöhemmin uudelleen", hakija.Nimi, vastustaja.Nimi);
+                    DebugSisenna(-1);
+#endif
+                    return null;
+                }
+                else
+                {
+#if DEBUG
+                    //Debug.WriteLine(string.Format("## Hakuvirhe !!! Haettiin peli jossa toinen pelaaja on kaksi kierrosta edellä {0} - {1} !!!", hakija.Nimi, vastustaja.Nimi));
+#endif
+                }
+            }
+
+            if (hypyt.Any())
+            {
+                uusiPeli.Hypyt = hypyt;
+            }
+
+#if DEBUG
+            DebugSisenna(-1);
+            //DebugViesti("-{0} haki {1}", hakija.Nimi, vastustaja.Nimi);
+#endif
+
+            return uusiPeli;
+        }
+
         private HakuPeli HaeSeuraavaPeliKierrokselle(
             int kierros,
             List<HakuPeli> kaikkiPelit, 
@@ -601,6 +714,11 @@ namespace KaisaKaavio
             var mukana = pelaajat
                 .Where(x => Mukana(pelatutPelit, arvotutPelit, x.Id, 99999))
                 .OrderBy(x => x.Id);
+
+            if (mukana.Count() < Asetukset.HuolellisenHaunPelaajamaara)
+            {
+                return HaeSeuraavaPeliKierrokselleHuolellisesti(kierros, kaikkiPelit, pelatutPelit, arvotutPelit, pelaajat, mukana);
+            }
 
             // Erikoistapaus kun on kolme pelaajaa jäljellä. Saatetaan joutua "hyppäämään hakijan yli"
             if (mukana.Count() == 3)
@@ -699,8 +817,9 @@ namespace KaisaKaavio
             }
             else if (haeHuolellisesti)
             {
-                StringBuilder polku = new StringBuilder();
+                //StringBuilder polku = new StringBuilder();
 
+                /*
                 foreach (var peli in pelatutPelit.Where(x => x.Kierros >= kierros - 1))
                 {
                     if (!peli.PeliOnPelattuKaaviossa)
@@ -713,16 +832,46 @@ namespace KaisaKaavio
                         polku.Append(avain);
                     }
                 }
+                */
 
                 List<HakuPeli> uudetPelit = new List<HakuPeli>();
+
+                List<HakuPelaaja> haussaMukana = new List<HakuPelaaja>();
+                HakuPelaaja hakijaPelaaja = null;
+
+                foreach (var p in mukana)
+                {
+                    HakuPelaaja hakuPelaaja = new HakuPelaaja()
+                    {
+                        Pelaaja = p,
+                        Id = p.Id,
+                        Nimi = p.Nimi,
+                        PelattujaPeleja = LaskePelit(kaikkiPelit, p.Id),
+                        Tappioita = LaskeTappiot(kaikkiPelit, p.Id, 9999),
+                        Pelit = new List<HakuPeli>()
+                    };
+
+                    foreach (var peli in kaikkiPelit.Where(x => x.SisaltaaPelaajan(p.Id)))
+                    {
+                        hakuPelaaja.Pelit.Add(peli);
+                    }
+
+                    haussaMukana.Add(hakuPelaaja);
+
+                    if (p == hakija)
+                    {
+                        hakijaPelaaja = hakuPelaaja;
+                    }
+                }
 
                 HuolellisenHaunTulos parasHaku = HaeVastustajaHuolellisesti(
                     pelatutPelit,
                     uudetPelit,
-                    mukana,
-                    hakija,
-                    polku.ToString(),
-                    hypyt);
+                    haussaMukana,
+                    hakijaPelaaja,
+                    string.Empty,
+                    hypyt,
+                    0.0f);
 
                 /*
                 foreach (var hakijaEhdokas in hakijat)
@@ -772,7 +921,7 @@ namespace KaisaKaavio
                     }
                     else
                     {
-                        vastustaja = parasHaku.Vastustaja;
+                        vastustaja = parasHaku.Vastustaja.Pelaaja;
                     }
                 }
                 else
@@ -954,33 +1103,411 @@ namespace KaisaKaavio
 
         public class HuolellisenHaunTulos
         {
-            public Pelaaja Vastustaja { get; set; } = null;
+            public HakuPelaaja Hakija { get; set; } = null;
+            public HakuPelaaja Vastustaja { get; set; } = null;
             public Tyypit.EvaluointiTietokanta.Evaluointi Pisteytys { get; set; } = null;
+        }
+
+        public class HaunPisteytys
+        {
+            public int Haku { get; set; } = -1;
+            public Tyypit.EvaluointiTietokanta.Evaluointi Pisteytys { get; set; } = null;
+        }
+
+        private HuolellisenHaunTulos HaeHuolellisesti(
+            List<HakuPeli> pelatutPelit,
+            List<HakuPeli> uudetPelit,
+            IEnumerable<HakuPelaaja> mukana,
+            string polku,
+            List<Hyppy> hypyt,
+            float pisteytysSumma)
+        {
+#if DEBUG
+            DebugSisenna(1);
+
+            HakuPelaaja tallennettuHakija = null;
+            HakuPelaaja tallennettuVastustaja = null;
+#endif
+
+            string hakuAvain = string.Empty;
+            Tyypit.EvaluointiTietokanta.ParasHaku tallennettuHaku = null;
+
+            if (mukana.Count() <= Asetukset.MaxPelaajiaJottaHautTallennetaan)
+            {
+                hakuAvain = TilanneAvain(pelatutPelit, mukana);
+                tallennettuHaku = Tyypit.EvaluointiTietokanta.AnnaParasHakuTilanteessa(hakuAvain);
+                if (tallennettuHaku != null)
+                {
+                    var pelaajat = mukana.OrderBy(x => x.Id);
+                    var hakija = pelaajat.ElementAt(tallennettuHaku.Hakija);
+                    var vastustaja = pelaajat.ElementAt(tallennettuHaku.Vastustaja);
+
+#if DEBUG
+                    tallennettuHakija = hakija;
+                    tallennettuVastustaja = vastustaja;
+
+                    if (hypyt != null)
+                    {
+                        DebugViesti("-# ==> Haettiin {0} - {1} ({2})(cached avaimella {3})", hakija.Nimi, vastustaja.Nimi, tallennettuHaku.Pisteytys, hakuAvain);
+                    }
+
+                    DebugSisenna(-1);
+#endif
+                    return new HuolellisenHaunTulos()
+                    {
+                        Hakija = hakija,
+                        Vastustaja = vastustaja,
+                        Pisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi()
+                        {
+                            Pisteytys = pisteytysSumma + tallennettuHaku.Pisteytys
+                        }
+                    };
+                }
+            }
+
+            var parasPisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi() { Pisteytys = float.MaxValue, Kuvaus = polku };
+            HakuPelaaja parasHakija = null;
+            HakuPelaaja parasVastustaja = null;
+            //HakuPelaaja parasHaku = null;
+
+            List<Hyppy> paikallisetHypyt = null;
+            if (hypyt != null)
+            {
+                paikallisetHypyt = new List<Hyppy>();
+            }
+
+            // TODO!!! Tarviiko lajitella vai ovatko jo oikein
+            var hakijat = mukana
+//                .Where(x => x != hakija && LaskePelit(pelatutPelit, x.Id) >= LaskePelit(pelatutPelit, hakija.Id))
+                .OrderBy(x => x.Id)
+                .OrderBy(x => x.PelattujaPeleja) //LaskePelit(pelatutPelit, x.Id))
+                .ToArray();
+
+            float sakko = 0.0f;
+
+            int minKierros = hakijat.Select(x => x.PelattujaPeleja).Min(); //LaskePelit(pelatutPelit, x.Id)).Min();
+
+            /*
+            if (hakijat.Count() > 2)
+            {
+                var perassa = hakijat.Where(x => x.PelattujaPeleja == minKierros);
+                if (perassa.Count() == 2)
+                {
+                    if (LaskeKeskenaisetPelit(pelatutPelit, perassa.First().Id, perassa.Last().Id) > 0)
+                    {
+                        sakko += PisteytysSakkoSeuraavaltaKierrokseltaHausta;
+                        sakko += PisteytysSakkoSeuraavaltaKierrokseltaHausta * mukana.Count() * 0.01f;
+                    }
+                }
+            }
+            */
+            int maxI = 1;
+
+            if (mukana.Count() <= Asetukset.MaxPelaajiaJottaSaaHyppiaHakijanYli)
+            {
+                maxI = Math.Min(hakijat.Length - 1, Asetukset.SallittujaHakijanYliHyppyjaHuolellisessaHaussa + 1);
+            }
+
+            for (int i = 0; i < maxI; ++i)
+            {
+                if (parasPisteytys.Pisteytys > 0.0f)
+                {
+                    var hakija = hakijat[i];
+                    if (hakija.PelattujaPeleja > minKierros + 1)
+                    {
+                        break;
+                    }
+
+                    //for (int j = i + i; j < hakijat.Length; ++j)
+                    foreach (var vastustaja in hakijat.Skip(i + 1).Where(x => 
+                        x != hakija && 
+                        x.PelattujaPeleja >= hakija.PelattujaPeleja &&
+                        x.PelattujaPeleja <= hakija.PelattujaPeleja + 1))
+                    {
+                        if (this.PeruutaHaku)
+                        {
+#if DEBUG
+                            DebugSisenna(-1);
+#endif
+                            return null;
+                        }
+
+                        //int vastustajanKierros = LaskePelit(pelatutPelit, vastustaja.Id);
+                        if (vastustaja.PelattujaPeleja > minKierros + 1)
+                        {
+                            break;
+                        }
+
+                        var pisteytys = PisteytaHaku(
+                            pelatutPelit,
+                            uudetPelit,
+                            mukana,
+                            hakija,
+                            vastustaja,
+                            polku);//,
+                                   //0.0f);
+
+                        if (pisteytys != null)
+                        {
+                            pisteytys.Pisteytys += i * PisteytysSakkoHakijanYliHypysta; // TODO?
+                            pisteytys.Pisteytys += sakko;
+
+                            if (pisteytys.Pisteytys < parasPisteytys.Pisteytys)
+                            {
+                                parasPisteytys = pisteytys;
+                                parasHakija = hakija;
+                                parasVastustaja = vastustaja;
+                            }
+
+                            if (pisteytys.Pisteytys <= 0.0f) // Täydellinen haku, ei tarvitse etsiä kauempaa
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+/*
+            foreach (var vastustaja in vastustajat)
+            {
+                if (this.PeruutaHaku)
+                {
+#if DEBUG
+                    DebugSisenna(-1);
+#endif
+                    return null;
+                }
+
+#if DEBUG
+                StringBuilder lokiRivi = null;
+                if (hypyt != null && !this.AutomaattinenTestausMenossa)
+                {
+                    lokiRivi = new StringBuilder();
+                    lokiRivi.Append(string.Format("- ({0} - {1}) = ", hakija.Nimi, vastustaja.Nimi));
+                }
+#endif
+                var pisteytys = PisteytaHaku(
+                    pelatutPelit,
+                    uudetPelit,
+                    mukana,
+                    hakija,
+                    vastustaja,
+                    polku,
+                    0.0f);
+
+                if (pisteytys.Pisteytys < parasPisteytys.Pisteytys)
+                {
+                    parasPisteytys = pisteytys;
+                    parasHaku = vastustaja;
+                }
+
+                if (pisteytys.Pisteytys <= 0.0f) // Heti kun löydetään virheetön haku, voidaan lopettaa
+                {
+                    break;
+                }
+
+                if (!this.AutomaattinenTestausMenossa) // Ei tarvitse kerätä hakujen selityksiä kun testataan
+                {
+#if DEBUG
+                    if (hypyt != null)
+                    {
+                        lokiRivi.Append(string.Format("{0}      ({1})", pisteytys.Pisteytys, pisteytys.Kuvaus));
+                        DebugViesti(lokiRivi.ToString());
+                    }
+#endif
+
+                    if (paikallisetHypyt != null)
+                    {
+                        string kuvaus = pisteytys.Kuvaus;
+                        string syy = string.Empty;
+
+                        if (pisteytys.Pisteytys >= PisteytysSakkoKierrosVirheesta)
+                        {
+                            if (pisteytys.Pelaaja1 != null && pisteytys.Pelaaja2 != null)
+                            {
+                                syy = string.Format("Toinen pelaaja kaksi kierrosta edellä pelissä {1}-{2} jos pelit etenee {0}", kuvaus, pisteytys.Pelaaja1.Id, pisteytys.Pelaaja2.Id);
+                            }
+                            else
+                            {
+
+                                syy = string.Format("Toinen pelaaja kaksi kierrosta edellä jos pelit etenee {0}", kuvaus);
+                            }
+                        }
+                        else if (pisteytys.Pisteytys >= PisteytysSakkoUusintaOttelusta)
+                        {
+                            if (pisteytys.Pelaaja1 != null && pisteytys.Pelaaja2 != null)
+                            {
+                                syy = string.Format("Uusintaottelu {1}-{2} jos pelit etenee {0}", kuvaus, pisteytys.Pelaaja1.Id, pisteytys.Pelaaja2.Id);
+                            }
+                            else
+                            {
+                                syy = string.Format("Uusintaottelu jos pelit etenee {0}", kuvaus);
+                            }
+                        }
+                        else if (pisteytys.Pisteytys >= PisteytysSakkoSeuraavaltaKierrokseltaHausta)
+                        {
+                            if (pisteytys.Pelaaja1 != null && pisteytys.Pelaaja2 != null)
+                            {
+                                syy = string.Format("Kaksi pelaajaa {1} ja {2} hakisi ylhäältä jos pelit etenee {0}", kuvaus, pisteytys.Pelaaja1.Id, pisteytys.Pelaaja2.Id);
+                            }
+                            else
+                            {
+                                syy = string.Format("Useampi pelaaja hakisi ylkäältä jos pelit etenee {0}", kuvaus);
+                            }
+                        }
+
+                        paikallisetHypyt.Add(new Hyppy()
+                        {
+                            Pelaaja = vastustaja.Pelaaja,
+                            Syy = syy
+                        });
+                    }
+                }
+            }
+            */
+/*
+            if (hypyt != null && parasHaku != null && !this.AutomaattinenTestausMenossa)
+            {
+#if DEBUG
+                DebugViesti("-# ==> Haettiin {0}", parasHaku.Nimi);
+#endif
+                foreach (var vastustaja in vastustajat)
+                {
+                    if (vastustaja == parasHaku)
+                    {
+                        break;
+                    }
+
+                    var hyppy = paikallisetHypyt.FirstOrDefault(x => x.Pelaaja == vastustaja.Pelaaja);
+                    if (hyppy != null)
+                    {
+                        hypyt.Add(hyppy);
+                    }
+                }
+            }
+*/
+#if DEBUG
+            DebugSisenna(-1);
+#endif
+
+            if (parasHakija == null)
+            {
+                return null;
+            }
+
+            {
+#if DEBUG
+                if (tallennettuVastustaja == null)
+#endif
+                {
+                    var pelaajat = mukana.OrderBy(x => x.Id).ToList();
+                    Tyypit.EvaluointiTietokanta.TallennaHaku(hakuAvain, 
+                        pelaajat.IndexOf(parasHakija),
+                        pelaajat.IndexOf(parasVastustaja),
+                        parasPisteytys.Pisteytys);
+
+#if DEBUG
+                    if (pelaajat.Count <= 3)
+                    {
+                        Debug.WriteLine(string.Format("### {0} => {1} - {2} => {3}", 
+                            hakuAvain,
+                            pelaajat.IndexOf(parasHakija),
+                            pelaajat.IndexOf(parasVastustaja),
+                            parasPisteytys.Pisteytys));
+                    }
+#endif
+                }
+#if DEBUG
+                else
+                {
+                    if (tallennettuVastustaja != parasVastustaja)
+                    {
+                        int iii = 0; //"BUGSU!!!";
+                    }
+
+                    if (tallennettuHakija != parasHakija)
+                    {
+                        int kkk = 0;
+                    }
+
+                    if (tallennettuHaku.Pisteytys != parasPisteytys.Pisteytys)
+                    {
+                        int jjj = 0;
+                    }
+                }
+#endif
+            }
+
+            return new HuolellisenHaunTulos()
+            {
+                Hakija = parasHakija,
+                Vastustaja = parasVastustaja,
+                Pisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi()
+                {
+                    Pelaaja1 = parasPisteytys.Pelaaja1,
+                    Pelaaja2 = parasPisteytys.Pelaaja2,
+                    //                    DebugKuvaus = parasPisteytys.DebugKuvaus,
+                    Kuvaus = parasPisteytys.Kuvaus,
+                    Pisteytys = parasPisteytys.Pisteytys + pisteytysSumma
+                }
+            };
         }
 
         private HuolellisenHaunTulos HaeVastustajaHuolellisesti(
             List<HakuPeli> pelatutPelit,
             List<HakuPeli> uudetPelit,
-            IEnumerable<Pelaaja> mukana, 
-            Pelaaja hakija,
+            IEnumerable<HakuPelaaja> mukana, 
+            HakuPelaaja hakija,
             string polku,
-            List<Hyppy> hypyt)
+            List<Hyppy> hypyt,
+            float pisteytysSumma)
         {
 #if DEBUG
             DebugSisenna(1);
-#endif
 
+            HakuPelaaja tallennettuHakuVastustaja = null;
+            //Tyypit.EvaluointiTietokanta.Evaluointi tallennetunHaunPisteytys = null;
+            float tallennettuPisteytys = 0.0f;
+#endif
             string hakuAvain = TilanneAvain(pelatutPelit, mukana, hakija);
-            if (Tyypit.EvaluointiTietokanta.HaeVastustaja(hakuAvain, out int tallennettuHaku))
+            if (false)//Tyypit.EvaluointiTietokanta.HaeVastustaja(hakuAvain, out int tallennettuHaku, out float tallennettuPisteytys))
             {
-                var pelaajat = mukana.OrderBy(x => x.Id);
-                var vastustaja = pelaajat.ElementAt(tallennettuHaku);
+                //var pelaajat = mukana.OrderBy(x => x.Id);
+                //var vastustaja = pelaajat.ElementAt(tallennettuHaku);
 
 #if DEBUG
-                DebugViesti("-# ==> Haettiin {0} (cached)", vastustaja.Nimi);
+                //tallennettuHakuVastustaja = vastustaja;
+#endif
+                /*
+                tallennetunHaunPisteytys = PisteytaHaku(
+                        pelatutPelit,
+                        uudetPelit,
+                        mukana,
+                        hakija,
+                        vastustaja,
+                        polku,
+                        pisteytysSumma);
+                */
+#if DEBUG
+                if (hypyt != null)
+                {
+             //       DebugViesti("-# ==> Haettiin {0} ({1})(cached avaimella {2})", vastustaja.Nimi, tallennettuPisteytys, hakuAvain);
+                }
+
                 DebugSisenna(-1);
 #endif
 
+                /*
+                return new HuolellisenHaunTulos()
+                {
+                    Vastustaja = vastustaja,
+                    Pisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi() 
+                    {
+                        Pisteytys = pisteytysSumma + tallennettuPisteytys
+                    }
+                };
+                */
+                /*
                 return new HuolellisenHaunTulos()
                 {
                     Vastustaja = vastustaja,
@@ -992,10 +1519,11 @@ namespace KaisaKaavio
                         vastustaja,
                         polku)
                 };
+                */
             }
 
             var parasPisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi() { Pisteytys = float.MaxValue, Kuvaus = polku };
-            Pelaaja parasHaku = null;
+            HakuPelaaja parasHaku = null;
 
             List<Hyppy> paikallisetHypyt = null;
             if (hypyt != null)
@@ -1033,7 +1561,8 @@ namespace KaisaKaavio
                     mukana,
                     hakija,
                     vastustaja,
-                    polku);
+                    polku);//,
+                    //0.0f);
 
                 if (pisteytys.Pisteytys < parasPisteytys.Pisteytys)
                 {
@@ -1098,7 +1627,7 @@ namespace KaisaKaavio
 
                         paikallisetHypyt.Add(new Hyppy()
                         {
-                            Pelaaja = vastustaja,
+                            Pelaaja = vastustaja.Pelaaja,
                             Syy = syy
                         });
                     }
@@ -1117,7 +1646,7 @@ namespace KaisaKaavio
                         break;
                     }
 
-                    var hyppy = paikallisetHypyt.FirstOrDefault(x => x.Pelaaja == vastustaja);
+                    var hyppy = paikallisetHypyt.FirstOrDefault(x => x.Pelaaja == vastustaja.Pelaaja);
                     if (hyppy != null)
                     {
                         hypyt.Add(hyppy);
@@ -1135,38 +1664,123 @@ namespace KaisaKaavio
             }
 
             {
-                var pelaajat = mukana.OrderBy(x => x.Id).ToList();
-                Tyypit.EvaluointiTietokanta.TallennaHaku(hakuAvain, pelaajat.IndexOf(parasHaku));
+#if DEBUG
+                if (tallennettuHakuVastustaja == null)
+#endif
+                {
+                    //var pelaajat = mukana.OrderBy(x => x.Id).ToList();
+                    //Tyypit.EvaluointiTietokanta.TallennaHaku(hakuAvain, pelaajat.IndexOf(parasHaku), parasPisteytys.Pisteytys);
+                }
+#if DEBUG
+                else
+                {
+                    if (tallennettuHakuVastustaja != parasHaku)
+                    {
+                        int iii = 0; //"BUGSU!!!";
+                    }
+
+                    if (tallennettuPisteytys != parasPisteytys.Pisteytys)
+                    {
+                        int jjj = 0;
+                    }
+                }
+#endif
             }
 
             return new HuolellisenHaunTulos() 
             {
                 Vastustaja = parasHaku,
-                Pisteytys = parasPisteytys
+                Pisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi() 
+                {
+                    Pelaaja1 = parasPisteytys.Pelaaja1,
+                    Pelaaja2 = parasPisteytys.Pelaaja2,
+//                    DebugKuvaus = parasPisteytys.DebugKuvaus,
+                    Kuvaus = parasPisteytys.Kuvaus,
+                    Pisteytys = parasPisteytys.Pisteytys + pisteytysSumma
+                }
             }; 
         }
 
-        private string PelinAvain(HakuPeli peli)
+        private string PelinAvain(HakuPeli peli, bool kierrosVirhe, bool uusintaOttelu)
         {
-            switch (peli.Tulos)
+            if (kierrosVirhe)
             {
-                case PelinTulos.Pelaaja1Voitti: return string.Format("({0}v-{1})", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
-                case PelinTulos.Pelaaja2Voitti: return string.Format("({0}-{1}v)", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
-                default: return string.Format("({0}-{1})", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                switch (peli.Tulos)
+                {
+                    case PelinTulos.Pelaaja1Voitti: return string.Format("[[{0}v-{1}]]", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                    case PelinTulos.Pelaaja2Voitti: return string.Format("[[{0}-{1}v]]", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                    default: return string.Format("[[{0}-{1}]]", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                }
+            }
+            else if (uusintaOttelu)
+            {
+                switch (peli.Tulos)
+                {
+                    case PelinTulos.Pelaaja1Voitti: return string.Format("[{0}v-{1}]", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                    case PelinTulos.Pelaaja2Voitti: return string.Format("[{0}-{1}v]", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                    default: return string.Format("[{0}-{1}]", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                }
+            }
+            else
+            {
+                switch (peli.Tulos)
+                {
+                    case PelinTulos.Pelaaja1Voitti: return string.Format("({0}v-{1})", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                    case PelinTulos.Pelaaja2Voitti: return string.Format("({0}-{1}v)", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                    default: return string.Format("({0}-{1})", peli.Pelaaja1.Id, peli.Pelaaja2.Id);
+                }
             }
         }
 
-        private string TilanneAvain(List<HakuPeli> pelatutPelit, IEnumerable<Pelaaja> pelaajat, Pelaaja hakija)
+        private string TilanneAvain(List<HakuPeli> pelatutPelit, IEnumerable<HakuPelaaja> pelaajat)
         {
             StringBuilder sb = new StringBuilder();
 
             var mukana = pelaajat.OrderBy(x => x.Id);
 
-            int minPeleja = mukana.Select(x => LaskePelit(pelatutPelit, x.Id)).Min();
+            int minPeleja = mukana.Select(x => LaskePelit(pelatutPelit, x.Id, 99999)).Min();
 
             foreach (var pelaaja in mukana)
             {
-                int peleja = LaskePelit(pelatutPelit, pelaaja.Id);
+                int peleja = LaskePelit(pelatutPelit, pelaaja.Id, 99999);
+
+                // Pelaajan kierros (suhteessa muihinpelaajiin)
+                sb.Append(peleja - minPeleja);
+
+                // Pelaaja puhtaalla vai ei:
+                if ((peleja >= EkaPudariKierros - 1) ||
+                    LaskeTappiotHuolellisessaHaussa(pelatutPelit, pelaaja.Id) > 0)
+                {
+                    sb.Append("H");
+                }
+                else
+                {
+                    sb.Append("V");
+                }
+
+                // Miten pelannut muita vastaan
+                foreach (var vastustaja in mukana.Where(x => x != pelaaja))
+                {
+                    sb.Append(LaskeKeskenaisetPelit(pelatutPelit, pelaaja.Id, vastustaja.Id));
+                }
+
+                sb.Append("_");
+            }
+
+            return sb.ToString();
+        }
+
+        private string TilanneAvain(List<HakuPeli> pelatutPelit, IEnumerable<HakuPelaaja> pelaajat, HakuPelaaja hakija)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            var mukana = pelaajat.OrderBy(x => x.Id);
+
+            int minPeleja = mukana.Select(x => LaskePelit(pelatutPelit, x.Id, 99999)).Min();
+
+            foreach (var pelaaja in mukana)
+            {
+                int peleja = LaskePelit(pelatutPelit, pelaaja.Id, 99999);
 
                 // Pelaajan kierros (suhteessa muihinpelaajiin)
                 sb.Append(peleja - minPeleja);
@@ -1185,16 +1799,27 @@ namespace KaisaKaavio
                 // Miten pelannut muita vastaan
                 foreach (var vastustaja in mukana.Where(x => x != pelaaja))
                 {
-                    if (LaskeKeskenaisetPelit(pelatutPelit, pelaaja.Id, vastustaja.Id) > 0)
-                    {
-                        sb.Append("1");
-                    }
-                    else
-                    {
-                        sb.Append("0");
-                    }
+                    sb.Append(LaskeKeskenaisetPelit(pelatutPelit, pelaaja.Id, vastustaja.Id));
                 }
 
+                // Pelaajan aiemmat kierrosvirheet
+                /*
+                var virheet = pelatutPelit.Where(x => x.SisaltaaPelaajan(pelaaja.Id) && Math.Abs(x.KierrosPelaaja1 - x.KierrosPelaaja2) > 1);
+                if (virheet.Any())
+                {
+                    sb.Append("_K" + virheet.Count());
+                }
+
+                // Pelaajan aiemmat uusintaottelut
+                var uusinnat = pelatutPelit.Where(x => 
+                    x.SisaltaaPelaajan(pelaaja.Id) &&
+                    pelatutPelit.Any(y => y.PeliNumero < x.PeliNumero && y.SisaltaaPelaajat(x.Pelaaja1.Id, x.Pelaaja2.Id)));
+
+                if (uusinnat.Any())
+                {
+                    sb.Append("_U" + uusinnat.Count());
+                }
+                */
                 sb.Append("_");
             }
 
@@ -1218,24 +1843,93 @@ namespace KaisaKaavio
         private Tyypit.EvaluointiTietokanta.Evaluointi PisteytaHaku(
             List<HakuPeli> pelatutPelit,
             List<HakuPeli> uudetPelit,
-            IEnumerable<Pelaaja> pelaajat,
-            Pelaaja hakija,
-            Pelaaja vastustaja,
-            string polku)
+            IEnumerable<HakuPelaaja> pelaajat,
+            HakuPelaaja hakija,
+            HakuPelaaja vastustaja,
+            string polku)//,
+//            float pisteytys)
         {
 #if DEBUG
             DebugSisenna(1);
 #endif
 
-            HakuPeli peli = LisaaPeli(null, pelatutPelit, null, hakija, vastustaja);
+            HakuPeli peli = LisaaPeli(null, pelatutPelit, null, hakija.Pelaaja, vastustaja.Pelaaja);
+
+            // Toinen pelaaja on kaksi kierrosta edellä. Välitön ei
+            if (Math.Abs(peli.KierrosPelaaja1 - peli.KierrosPelaaja2) > 1)
+            {
+#if DEBUG
+                DebugViesti(string.Format("Toinen pelaaja on kaksi kierrosta edellä pelissä {0}-{1}. Pysäytetään haku", hakija.Nimi, vastustaja.Nimi));
+                DebugSisenna(-1);
+#endif
+
+                return new Tyypit.EvaluointiTietokanta.Evaluointi()
+                {
+                    Pelaaja1 = hakija.Pelaaja,
+                    Pelaaja2 = vastustaja.Pelaaja,
+                    Kuvaus = polku,
+                    Pisteytys = PisteytysSakkoKierrosVirheesta
+                };
+            }
+
+            // Enää kaksi pelaajaa tai vähemmän jäljellä. Ei ole hakuvaihtoehtoja, joten pisteytys aina 0
+            if (pelaajat.Count() < 3)
+            {
+#if DEBUG
+                DebugViesti(string.Format("Finaali {0}-{1}", hakija.Nimi, vastustaja.Nimi));
+                DebugSisenna(-1);
+#endif
+
+                return new Tyypit.EvaluointiTietokanta.Evaluointi()
+                {
+                    Pelaaja1 = hakija.Pelaaja,
+                    Pelaaja2 = vastustaja.Pelaaja,
+                    Kuvaus = polku,
+                    Pisteytys = 0.0f
+                };
+            }
+
+            float pisteet = 0.0f;
+            bool uusinta = false;
+
+            // Uusintaottelu ennen finaalia, sakko
+            int keskenaisiaPeleja = LaskeKeskenaisetPelit(pelatutPelit, hakija.Pelaaja.Id, vastustaja.Pelaaja.Id);
+            if (keskenaisiaPeleja == 2)
+            {
+                uusinta = true;
+                // Jättisakko jos tulee kaks uusintapeliä ennen finaalia
+                pisteet += PisteytysSakkoUusintaOttelusta * 10;
+            }
+            else if (keskenaisiaPeleja == 1)
+            {
+                uusinta = true;
+                pisteet += PisteytysSakkoUusintaOttelusta;
+                pisteet += PisteytysSakkoUusintaOttelusta * pelaajat.Count() * 0.01f; // Sitä isompi sakko mitä aiemmin uusintaottelu tulee
+            }
+
+            // Kaksi tai useampi pelaajaa hakee ylhäältä, sakko
+            if (peli.KierrosPelaaja1 != peli.KierrosPelaaja2)
+            {
+                int pelejaMin = Math.Min(hakija.PelattujaPeleja, vastustaja.PelattujaPeleja);
+                if (pelaajat.Any(x => 
+                    x != hakija &&
+                    x != vastustaja &&
+                    x.PelattujaPeleja == pelejaMin))
+                {
+                    pisteet += PisteytysSakkoSeuraavaltaKierrokseltaHausta;
+                    pisteet += PisteytysSakkoSeuraavaltaKierrokseltaHausta * pelaajat.Count() * 0.01f;
+                }
+            }
 
             pelatutPelit.Add(peli);
             uudetPelit.Add(peli);
+            hakija.PelattujaPeleja++;
+            vastustaja.PelattujaPeleja++;
 
             peli.Tilanne = PelinTilanne.Pelattu;
             peli.Tulos = PelinTulos.Pelaaja1Voitti;
 
-            List<Pelaaja> mukanaA = new List<Pelaaja>();
+            List<HakuPelaaja> mukanaA = new List<HakuPelaaja>();
             mukanaA.AddRange(pelaajat);
 
             if (!MukanaHuolellisessaHaussa(pelatutPelit, vastustaja.Id))
@@ -1243,12 +1937,13 @@ namespace KaisaKaavio
                 mukanaA.Remove(vastustaja);
             }
 
-            string avainA = PelinAvain(peli);
+            string avainA = PelinAvain(peli, false, uusinta);
             var pisteytysA = PisteytaTilanne(
                 pelatutPelit,
                 uudetPelit,
                 mukanaA,
-                string.Format("{0} {1}", polku, avainA));
+                string.Format("{0} {1}", polku, avainA),
+                pisteet);
 
             // Jos A haarassa tulee kierrosvirhe, ei tarvitse evaluoida B haaraa
             if (pisteytysA.Pisteytys >= PisteytysSakkoKierrosVirheesta)
@@ -1259,12 +1954,15 @@ namespace KaisaKaavio
 #endif
                 pelatutPelit.RemoveAt(pelatutPelit.Count - 1);
                 uudetPelit.RemoveAt(uudetPelit.Count - 1);
+                hakija.PelattujaPeleja--;
+                vastustaja.PelattujaPeleja--;
+
                 return pisteytysA;
             }
 
             peli.Tulos = PelinTulos.Pelaaja2Voitti;
 
-            List<Pelaaja> mukanaB = new List<Pelaaja>();
+            List<HakuPelaaja> mukanaB = new List<HakuPelaaja>();
             mukanaB.AddRange(pelaajat);
 
             if (!MukanaHuolellisessaHaussa(pelatutPelit, hakija.Id))
@@ -1272,15 +1970,18 @@ namespace KaisaKaavio
                 mukanaB.Remove(hakija);
             }
 
-            string avainB = PelinAvain(peli);
+            string avainB = PelinAvain(peli, false, uusinta);
             var pisteytysB = PisteytaTilanne(
                 pelatutPelit,
                 uudetPelit,
                 mukanaB,
-                string.Format("{0} {1}", polku, avainB));
+                string.Format("{0} {1}", polku, avainB),
+                pisteet);
             
             pelatutPelit.RemoveAt(pelatutPelit.Count - 1);
             uudetPelit.RemoveAt(uudetPelit.Count - 1);
+            hakija.PelattujaPeleja--;
+            vastustaja.PelattujaPeleja--;
 
             if (pisteytysA.Pisteytys > pisteytysB.Pisteytys)
             {
@@ -1289,6 +1990,16 @@ namespace KaisaKaavio
                 DebugSisenna(-1);
 #endif
                 return pisteytysA;
+                /*
+                return new Tyypit.EvaluointiTietokanta.Evaluointi()
+                {
+                    Pelaaja1 = pisteytysA.Pelaaja1,
+                    Pelaaja2 = pisteytysA.Pelaaja2,
+//                    DebugKuvaus = pisteytysA.DebugKuvaus,
+                    Kuvaus = pisteytysA.Kuvaus,
+                    Pisteytys = pisteet + pisteytysA.Pisteytys
+                };
+                */
             }
             else 
             {
@@ -1297,26 +2008,62 @@ namespace KaisaKaavio
                 DebugSisenna(-1);
 #endif
                 return pisteytysB;
+                /*
+                return new Tyypit.EvaluointiTietokanta.Evaluointi()
+                {
+                    Pelaaja1 = pisteytysB.Pelaaja1,
+                    Pelaaja2 = pisteytysB.Pelaaja2,
+//                    DebugKuvaus = pisteytysB.DebugKuvaus,
+                    Kuvaus = pisteytysB.Kuvaus,
+                    Pisteytys = pisteet + pisteytysB.Pisteytys
+                };
+                */
             }
         }
 
         private Tyypit.EvaluointiTietokanta.Evaluointi PisteytaTilanne(
             List<HakuPeli> pelatutPelit,
             List<HakuPeli> uudetPelit,
-            IEnumerable<Pelaaja> mukana,
-            string polku)
+            IEnumerable<HakuPelaaja> mukana,
+            string polku,
+            float pisteytysSumma)
         {
 #if DEBUG
             DebugSisenna(1);
 #endif
 
-            Tyypit.EvaluointiTietokanta.Evaluointi pisteytys = null;
-
             if (mukana.Count() == 2)
             {
+#if DEBUG
+                DebugSisenna(-1);
+#endif
+                var haku = PisteytaHaku(pelatutPelit, uudetPelit, mukana, mukana.First(), mukana.Last(), polku);//, pisteytysSumma);
+                return new Evaluointi()
+                {
+                    //Pelaaja1 = haku.Pelaaja1,
+                    //Pelaaja2 = haku.Pelaaja2,
+                    Pisteytys = pisteytysSumma + haku.Pisteytys
+                };
+            }
+
+            Tyypit.EvaluointiTietokanta.Evaluointi pisteytys = null;
+
+            if (mukana.Count() < 2)
+            {
+#if DEBUG
+                DebugSisenna(-1);
+#endif
+
+                return new Tyypit.EvaluointiTietokanta.Evaluointi()
+                {
+                    Pisteytys = pisteytysSumma
+                };
+                /*
+                // Ei pitäis päätyä tähän ikinä
+                //return null;
                 // Finaali(t) menossa. Ei tarvitse evaluoida syvemmälle
 
-                HakuPeli finaali = LisaaPeli(null, pelatutPelit, null, mukana.First(), mukana.Last());
+                HakuPeli finaali = LisaaPeli(null, pelatutPelit, null, mukana.First().Pelaaja, mukana.Last().Pelaaja);
                 finaali.Tilanne = PelinTilanne.Pelattu;
                 finaali.Tulos = PelinTulos.Pelaaja2Voitti; // Evaluoinnin kannalta ei ole väliä onko tämä viimeinen finaali tai kumpi voitti
 
@@ -1327,30 +2074,53 @@ namespace KaisaKaavio
 
                 pelatutPelit.RemoveAt(pelatutPelit.Count - 1);
                 uudetPelit.RemoveAt(uudetPelit.Count - 1);
+                */
             }
+            /*
             else if (mukana.Count() < 2)
             {
                 // Kisa päättynyt, pisteytetään haku
                 pisteytys = PisteytaLopputilanne(pelatutPelit, uudetPelit, polku);
             }
+            */
             else
             {
+                var haku = HaeHuolellisesti(pelatutPelit, uudetPelit, mukana, polku, null, pisteytysSumma);
+                if (haku != null)
+                {
+                    pisteytys = haku.Pisteytys;
+                }
+
+                /*
                 var hakijat = mukana
                     .OrderBy(x => x.Id)
                     .OrderBy(x => LaskePelit(pelatutPelit, x.Id));
 
-                var parasPisteytys = HaeVastustajaHuolellisesti(
-                    pelatutPelit,
-                    uudetPelit,
-                    mukana,
-                    hakijat.First(),
-                    polku,
-                    null);
-
-                if (parasPisteytys != null)
+                foreach (var h in hakijat)
                 {
-                    pisteytys = parasPisteytys.Pisteytys;
+                    var hp = HaeVastustajaHuolellisesti(
+                        pelatutPelit,
+                        uudetPelit,
+                        mukana,
+                        h,
+                        polku,
+                        null,
+                        pisteytysSumma);
+
+                    if (hp != null)
+                    {
+                        if (pisteytys == null || hp.Pisteytys.Pisteytys < pisteytys.Pisteytys)
+                        {
+                            pisteytys = hp.Pisteytys;
+                        }
+
+                        //if (pisteytys.Pisteytys <= 0.0f)
+                        {
+                            break;
+                        }
+                    }
                 }
+                */
             }
 
             if (pisteytys == null)
@@ -1366,7 +2136,11 @@ namespace KaisaKaavio
             DebugViesti("PisteytäTilanne {0} = {1}", polku, pisteytys.Pisteytys);
             DebugSisenna(-1);
 #endif
-            return pisteytys;
+            return new Tyypit.EvaluointiTietokanta.Evaluointi()
+            {
+                Pisteytys = pisteytysSumma + pisteytys.Pisteytys
+            };
+            //return pisteytys;
         }
 
         private static Tyypit.EvaluointiTietokanta.Evaluointi PisteytaLopputilanne(
@@ -1374,7 +2148,6 @@ namespace KaisaKaavio
             List<HakuPeli> uudetPelit,
             string polku)
         {
-            /*
 #if DEBUG
             StringBuilder sb = new StringBuilder();
 
@@ -1396,7 +2169,6 @@ namespace KaisaKaavio
 
             sb.Append(" ==> ");
 #endif
-            */
 
             Tyypit.EvaluointiTietokanta.Evaluointi pisteytys = new Tyypit.EvaluointiTietokanta.Evaluointi()
             {
@@ -1405,7 +2177,19 @@ namespace KaisaKaavio
             };
 
             HakuPeli finaaliPeli = pelatutPelit.Last();
-            int finaaliKierros = finaaliPeli.Kierros;
+            int finaaliPelinNumero = finaaliPeli.PeliNumero;
+
+            if (finaaliPelinNumero != pelatutPelit.Count)
+            {
+                int iii = 0;
+            }
+
+            if (finaaliPelinNumero != pelatutPelit.Select(x => x.PeliNumero).Max())
+            {
+                int iii = 0;
+            }
+
+            //int finaaliKierros = pelatutPelit.Select(x => x.Kierros).Max();
 
             Pelaaja p1Edella = null;
             Pelaaja p2Edella = null;
@@ -1427,7 +2211,7 @@ namespace KaisaKaavio
                     {
                         if (uudetPelit.Contains(peli))
                         {
-                            if (peli.Kierros < (finaaliKierros - 1))
+                            if (peli.PeliNumero < finaaliPelinNumero)
                             {
                                 var ekaPeli = kierroksenPerassaPeli.First();
                                 if (ekaPeli.KierrosPelaaja1 < ekaPeli.KierrosPelaaja2)
@@ -1449,9 +2233,9 @@ namespace KaisaKaavio
                                 }
 
                                 pisteytys.Pisteytys += PisteytysSakkoSeuraavaltaKierrokseltaHausta;
-                                pisteytys.Pisteytys += (PisteytysSakkoSeuraavaltaKierrokseltaHausta * ((finaaliKierros - 2) - peli.Kierros)) * 0.1f;
+                                //pisteytys.Pisteytys += (PisteytysSakkoSeuraavaltaKierrokseltaHausta * (finaaliPelinNumero - peli.PeliNumero)) * 0.1f;
 #if DEBUG
-                                //sb.Append(string.Format("Useampi ylhäältä haku [{2}] {0}-{1}, ", peli.Pelaaja1.Nimi, peli.Pelaaja2.Nimi, peli.Kierros));
+                                sb.Append(string.Format("Useampi ylhäältä haku [{2}] {0}-{1}, ", peli.Pelaaja1.Nimi, peli.Pelaaja2.Nimi, peli.Kierros));
 #endif
                             }
                         }
@@ -1461,15 +2245,20 @@ namespace KaisaKaavio
 
             foreach (var peli in uudetPelit)
             {
+                //if (peli.Kierros > finaaliKierros)
+                //{
+                //    int iii = 0;
+                //}
+
                 // Valtava sakko jos toinen pelaaja on 2 kierrosta edellä
                 if (Math.Abs(peli.KierrosPelaaja1 - peli.KierrosPelaaja2) > 1)
                 {
                     pisteytys.Pisteytys += PisteytysSakkoKierrosVirheesta;
-                    pisteytys.Pisteytys += PisteytysSakkoKierrosVirheesta * (finaaliKierros - peli.Kierros) * 0.1f;
+                    pisteytys.Pisteytys += PisteytysSakkoKierrosVirheesta * (finaaliPelinNumero - peli.PeliNumero) * 0.1f;
                     p1Edella = peli.Pelaaja1;
                     p2Edella = peli.Pelaaja2;
 #if DEBUG
-                    //sb.Append(string.Format("Toinen 2 kierrosta edellä pelissä [{2}] {0}-{1}, ", peli.Pelaaja1.Nimi, peli.Pelaaja2.Nimi, peli.Kierros));
+                    sb.Append(string.Format("Toinen 2 kierrosta edellä pelissä [{2}] {0}-{1}, ", peli.Pelaaja1.Nimi, peli.Pelaaja2.Nimi, peli.Kierros));
 #endif
                 }
 
@@ -1481,11 +2270,11 @@ namespace KaisaKaavio
                     if (p != finaaliPeli && peli != finaaliPeli && p != peli)
                     {
                         pisteytys.Pisteytys += PisteytysSakkoUusintaOttelusta;
-                        pisteytys.Pisteytys += PisteytysSakkoUusintaOttelusta * (finaaliKierros - peli.Kierros) * 0.1f; // Sitä isompi sakko mitä aiemmin kaaviossa uusintaottelu tulee
+                        pisteytys.Pisteytys += PisteytysSakkoUusintaOttelusta * (finaaliPelinNumero - peli.PeliNumero) * 0.1f; // Sitä isompi sakko mitä aiemmin kaaviossa uusintaottelu tulee
                         p1Uusinta = peli.Pelaaja1;
                         p2Uusinta = peli.Pelaaja2;
 #if DEBUG
-                        //sb.Append(string.Format("Uusintaottelu [{2}] {0}-{1}, ", peli.Pelaaja1.Nimi, peli.Pelaaja2.Nimi, peli.Kierros));
+                        sb.Append(string.Format("Uusintaottelu [{2}] {0}-{1}, ", peli.Pelaaja1.Nimi, peli.Pelaaja2.Nimi, peli.Kierros));
 #endif
                     }
                 }
@@ -1518,8 +2307,14 @@ namespace KaisaKaavio
             }
 
 #if DEBUG
-            //pisteytys.Kuvaus = sb.ToString();
+            pisteytys.DebugKuvaus = sb.ToString();
 #endif
+
+            // Jos tulee kierrosvirhe niin ei ole väliä mitä muuta kaaviossa tapahtuu. Annetaan vakiosakko
+            if (pisteytys.Pisteytys > PisteytysSakkoKierrosVirheesta)
+            {
+                pisteytys.Pisteytys = PisteytysSakkoKierrosVirheesta;
+            }
 
             return pisteytys;
         }
@@ -1720,6 +2515,13 @@ namespace KaisaKaavio
         private int LaskeKeskenaisetPelit(IEnumerable<HakuPeli> pelit, int pelaaja1, int pelaaja2)
         {
             return pelit.Count(x => x.SisaltaaPelaajat(pelaaja1, pelaaja2));
+        }
+
+        private int LaskeKeskenaisetPelit(IEnumerable<HakuPeli> pelit, IEnumerable<HakuPeli> arvotutPelit, int pelaaja1, int pelaaja2)
+        {
+            return 
+                pelit.Count(x => x.SisaltaaPelaajat(pelaaja1, pelaaja2)) +
+                arvotutPelit.Count(x => x.SisaltaaPelaajat(pelaaja1, pelaaja2));
         }
 
         private bool TarkistaKeskenaisetPelit(int kierros, IEnumerable<HakuPeli> pelit, int pelaaja1, int pelaaja2, bool rekursiossa)
