@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime;
-using System.Text;
-using static KaisaKaavio.HakuAlgoritmi;
-using static KaisaKaavio.Tyypit.EvaluointiTietokanta;
 
 namespace KaisaKaavio
 { 
@@ -518,7 +513,9 @@ namespace KaisaKaavio
                     return false;
                 }
 
-                var peli = HaeSeuraavaPeliKierrokselle(kierros, pelit, pelatutPelit, arvotutPelit, pelaajat);
+                bool haettiinHuolellisesti = false;
+
+                var peli = HaeSeuraavaPeliKierrokselle(kierros, pelit, pelatutPelit, arvotutPelit, pelaajat, out haettiinHuolellisesti);
                 if (peli != null)
                 {
                     if (pelit.Any(x => x.Tilanne != PelinTilanne.Pelattu && x.SisaltaaJommankummanPelaaja(peli.Pelaaja1.Id, peli.Pelaaja2.Id)))
@@ -561,7 +558,7 @@ namespace KaisaKaavio
                         break;
                     }
 
-                    if (mukana.Count() <= Asetukset.HuolellisenHaunPelaajamaara)
+                    if (haettiinHuolellisesti)
                     {
 #if DEBUG
                         DebugViesti("Haettiin peli kaavion loppupuolella. Haku keskeytetään tältä erää");
@@ -637,15 +634,6 @@ namespace KaisaKaavio
                 .OrderBy(x => x.PelattujaPeleja)
                 .Where(x => x != hakija);
 
-            // Usean pelipaikan kilpailussa estettävä hakemasta "pelipaikkojen yhdistäminen" kierroksen yli
-            /*
-            if ((this.MaxKierros < Int32.MaxValue) &&
-                hakija.PelattujaPeleja < this.MaxKierros)
-            {
-                vastustajat = vastustajat.Where(x => x.PelattujaPeleja < this.MaxKierros);
-            }
-            */
-
             if (!vastustajat.Any())
             {
 #if DEBUG
@@ -681,6 +669,15 @@ namespace KaisaKaavio
                     hakijat,
                     vastustajat,
                     hakujenPisteytys);
+            }
+
+            if (vastustaja == null)
+            {
+#if DEBUG
+                DebugViesti("Ei löytynyt vastustajaa. Pysäytetään haku");
+                DebugSisenna(-1);
+#endif
+                return;
             }
 
             if (!VarmastiMukana(vastustaja))
@@ -771,8 +768,11 @@ namespace KaisaKaavio
             List<HakuPeli> kaikkiPelit, 
             List<HakuPeli> pelatutPelit, 
             List<HakuPeli> arvotutPelit, 
-            List<Pelaaja> pelaajat)
+            List<Pelaaja> pelaajat,
+            out bool haettiinHuolellisesti)
         {
+            haettiinHuolellisesti = false;
+
 #if DEBUG
             DebugViesti("---==( Haetaan seuraava peli )==---");
             DebugSisenna(1);
@@ -843,14 +843,27 @@ namespace KaisaKaavio
             Pelaaja hakija = null;
             Pelaaja vastustaja = null;
 
-            if (mukana.Count() <= Asetukset.HuolellisenHaunPelaajamaara)
+            if (mukana.Count() < 2)
             {
 #if DEBUG
+                DebugViesti("Mukana alle 2 pelaajaa. Ei saada hakuja");
+                DebugSisenna(-1);
+#endif
+                return null;
+            }
+
+            if (mukana.Count() <= Asetukset.HuolellisenHaunPelaajamaara)
+            {
                 if (arvotutPelit.Any())
                 {
-                    throw new Exception("Bugi");
-                }
+#if DEBUG
+                    DebugViesti("Pelaajamäärä on niin pieni että pitäisi hakea huolellisesti ja kaavioon on arvottu uusi peli. Pysäytetään haku tällä kertaa");
+                    DebugSisenna(-1);
 #endif
+                    this.UusiHakuTarvitaan = true;
+                    return null;
+                }
+
                 HaeSeuraavaPeliKierrokselleHuolellisesti(
                     kierros, 
                     kaikkiPelit, 
@@ -859,6 +872,8 @@ namespace KaisaKaavio
                     hakujenPisteytys, 
                     out hakija, 
                     out vastustaja);
+
+                haettiinHuolellisesti = true;
             }
             else 
             {
@@ -1216,10 +1231,6 @@ namespace KaisaKaavio
                 }
             }
 
-#if DEBUG
-            DebugSisenna(-1);
-#endif
-
             if (parasHakija == null)
             {
 #if DEBUG
@@ -1332,7 +1343,7 @@ namespace KaisaKaavio
             DebugSisenna(1);
 #endif
 
-            HakuPeli peli = LisaaPeli(hakija, vastustaja);// null, pelatutPelit, null, hakija.Pelaaja, vastustaja.Pelaaja);
+            HakuPeli peli = LisaaPeli(hakija, vastustaja);
 
             // Toinen pelaaja on kaksi kierrosta edellä. Välitön ei
             if (Math.Abs(peli.KierrosPelaaja1 - peli.KierrosPelaaja2) > 1)
@@ -1423,6 +1434,10 @@ namespace KaisaKaavio
                 hakija.Pelit.Remove(peli);
                 vastustaja.Pelit.Remove(peli);
 
+#if DEBUG
+                DebugViesti(" -{0}V - {1} = <{2}> (optimointi)", hakija.Nimi, vastustaja.Nimi, pisteytysA);
+                DebugSisenna(-1);
+#endif
                 return pisteytysA;
             }
 
@@ -1446,6 +1461,18 @@ namespace KaisaKaavio
             hakija.Pelit.Remove(peli);
             vastustaja.Pelit.Remove(peli);
             hakija.Tappioita--;
+
+#if DEBUG
+            if (pisteytysA > pisteytysB)
+            {
+                DebugViesti(" -{0}V - {1} = <{2}>", hakija.Nimi, vastustaja.Nimi, pisteytysA);
+            }
+            else
+            {
+                DebugViesti(" -{0} - {1}V = <{2}>", hakija.Nimi, vastustaja.Nimi, pisteytysB);
+            }
+            DebugSisenna(-1);
+#endif
 
             return Math.Max(pisteytysA, pisteytysB);
         }
@@ -1496,7 +1523,6 @@ namespace KaisaKaavio
             }
 
 #if DEBUG
-            //DebugViesti("PisteytäTilanne {0} = {1}", polku, pisteytys.Pisteytys);
             DebugSisenna(-1);
 #endif
             return Math.Min(PisteytysSakkoKierrosVirheesta, pisteytysSumma + pisteytys.Value);

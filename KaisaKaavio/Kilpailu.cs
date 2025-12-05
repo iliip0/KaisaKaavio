@@ -3142,7 +3142,7 @@ namespace KaisaKaavio
             {
                 int kierros = PieninKaynnissaOlevaKierros();
 
-                if (!this.Pelit.Any(x => x.Tilanne != PelinTilanne.Pelattu))
+                if (!this.Pelit.Any(x => x.Kierros <= kierros && x.Tilanne != PelinTilanne.Pelattu))
                 {
                     kierros++; // Yhdistetyn kaavion arvonta kun kaikki "alkupelit" on pelattu
                 }
