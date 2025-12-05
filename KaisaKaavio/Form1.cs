@@ -913,6 +913,22 @@ namespace KaisaKaavio
                 }
             }
 
+            if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu ||
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu)
+            {
+                if (this.tabControl1.Contains(this.rahanJakoTabPage))
+                {
+                    this.tabControl1.Controls.Remove(this.rahanJakoTabPage);
+                }
+            }
+            else
+            {
+                if (!this.tabControl1.Contains(this.rahanJakoTabPage))
+                {
+                    this.tabControl1.Controls.Add(this.rahanJakoTabPage);
+                }
+            }
+
             this.TasoitusColumn.Visible = this.kilpailu.KilpailuOnTasurikisa;
             this.ArvoPeliparitColumn.Visible = this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu;
         }
