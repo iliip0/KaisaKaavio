@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.46		(työn alla)
+## Versio 1.0.0.46		(julkaistu 5.12.2025)
 
 * Hakualgoritmin optimointia
 * Poistettu "Rahanjako" tab kun pelataan SBiL alaisia SM tai RG kilpailuja
