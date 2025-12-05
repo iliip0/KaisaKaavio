@@ -1719,7 +1719,7 @@ namespace KaisaKaavio
                                         {
                                             uusiPeli.HakuKommentti += "#";
                                         }
-                                        uusiPeli.HakuKommentti += string.Format("{0} hypätty yli - {1}", hyppy.Pelaaja.Id, hyppy.Syy);
+                                        uusiPeli.HakuKommentti += hyppy.Syy;
                                     }
                                 }
                             }
