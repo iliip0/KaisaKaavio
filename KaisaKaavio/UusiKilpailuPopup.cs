@@ -707,17 +707,17 @@ namespace KaisaKaavio
             switch (this.KilpaSarja)
             {
                 case KilpaSarja.Joukkuekilpailu:
-                    if (this.Laji != KaisaKaavio.Laji.Kaisa ||
-                        this.KilpailunTyyppi != KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
+                    if (this.Laji != Laji.Kaisa ||
+                        this.KilpailunTyyppi != KilpailunTyyppi.KaisanSMKilpailu)
                     {
                         return NaytaVirhe(this.kilpaSarjaComboBox, "Joukkuekilpailuominaisuus toimii ainoastaan Kaisan Joukkue SM-kilpailussa!");
                     }
                     break;
 
-                case KaisaKaavio.KilpaSarja.MixedDoubles:
-                case KaisaKaavio.KilpaSarja.Parikilpailu:
-                    if (this.Laji != KaisaKaavio.Laji.Kaisa ||
-                        this.KilpailunTyyppi != KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
+                case KilpaSarja.MixedDoubles:
+                case KilpaSarja.Parikilpailu:
+                    if (this.Laji != Laji.Kaisa ||
+                        this.KilpailunTyyppi != KilpailunTyyppi.KaisanSMKilpailu)
                     {
                         return NaytaVirhe(this.kilpaSarjaComboBox, "Parikilpailuominaisuus toimii ainoastaan Kaisan Pari- ja Mixed Doubles SM-kilpailuissa!");
                     }
@@ -726,15 +726,15 @@ namespace KaisaKaavio
 
             switch (this.KilpailunTyyppi)
             {
-                case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu:
-                    if (this.Laji != KaisaKaavio.Laji.Kaisa)
+                case KilpailunTyyppi.KaisanSMKilpailu:
+                    if (this.Laji != Laji.Kaisa)
                     {
                         return NaytaVirhe(this.kilpailunTyyppiComboBox, "SBiL SM-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
                     }
                     break;
 
-                case KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu:
-                    if (this.Laji != KaisaKaavio.Laji.Kaisa)
+                case KilpailunTyyppi.KaisanRGKilpailu:
+                    if (this.Laji != Laji.Kaisa)
                     {
                         return NaytaVirhe(this.kilpailunTyyppiComboBox, "SBiL RG-kilpailuominaisuus toimii ainoastaan Kaisa-lajissa!");
                     }
@@ -743,19 +743,20 @@ namespace KaisaKaavio
 
             switch (this.KaavioTyyppi)
             {
-                case KaisaKaavio.KaavioTyyppi.TuplaKaavio:
+                case KaavioTyyppi.TuplaKaavio:
                     break;
 
-                case KaisaKaavio.KaavioTyyppi.Pudari4Kierros:
-                case KaisaKaavio.KaavioTyyppi.Pudari3Kierros:
-                case KaisaKaavio.KaavioTyyppi.Pudari2Kierros:
+                case KaavioTyyppi.Pudari4Kierros:
+                case KaavioTyyppi.Pudari3Kierros:
+                case KaavioTyyppi.Pudari2Kierros:
+                case KaavioTyyppi.KaksiKierrostaJaCup:
                 default:
-                    if (this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu)
+                    if (this.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu)
                     {
                         return NaytaVirhe(this.kaavioComboBox, "Kaisan RG-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
                     }
 
-                    if (this.KilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
+                    if (this.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
                     {
                         return NaytaVirhe(this.kaavioComboBox, "Kaisan SM-kilpailussa täytyy pelata tuplakaaviolla loppuun asti!");
                     }

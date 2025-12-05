@@ -141,6 +141,14 @@ namespace KaisaKaavio
                     this.EkaPudariKierros = 4;
                     break;
 
+                case KaavioTyyppi.Pudari5Kierros:
+                    this.EkaPudariKierros = 5;
+                    break;
+
+                case KaavioTyyppi.Pudari6Kierros:
+                    this.EkaPudariKierros = 6;
+                    break;
+
                 default:
                     this.EkaPudariKierros = 999;
                     break;

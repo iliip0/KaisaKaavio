@@ -808,8 +808,9 @@ namespace KaisaKaavio
                 this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
 
             this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled =
-                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa ||
-                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
+                (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa ||
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu) &&
+                this.kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup;
 
             PaivitaSijoitettuSarake();
 
@@ -6269,6 +6270,16 @@ namespace KaisaKaavio
             VaihdaKaaviotyyppi(KaavioTyyppi.Pudari4Kierros);
         }
 
+        private void pudotuspelit5KierroksestaAlkaenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VaihdaKaaviotyyppi(KaavioTyyppi.Pudari5Kierros);
+        }
+
+        private void pudotuspelit6KierroksestaAlkaenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VaihdaKaaviotyyppi(KaavioTyyppi.Pudari6Kierros);
+        }
+
         private void VaihdaKaaviotyyppi(KaavioTyyppi tyyppi)
         {
             try
@@ -6286,6 +6297,8 @@ namespace KaisaKaavio
                         case KaavioTyyppi.Pudari2Kierros: ekaPudari = 2; break;
                         case KaavioTyyppi.Pudari3Kierros: ekaPudari = 3; break;
                         case KaavioTyyppi.Pudari4Kierros: ekaPudari = 4; break;
+                        case KaavioTyyppi.Pudari5Kierros: ekaPudari = 5; break;
+                        case KaavioTyyppi.Pudari6Kierros: ekaPudari = 6; break;
                     }
 
                     if (this.kilpailu.Pelit.Any(x => x.Kierros >= ekaPudari && x.Tilanne == PelinTilanne.Pelattu))
@@ -6398,14 +6411,14 @@ namespace KaisaKaavio
                 if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu ||
                     this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu)
                 {
-                    this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled = this.kilpailu.KaavioTyyppi != KaavioTyyppi.TuplaKaavio;
+                    //this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled = this.kilpailu.KaavioTyyppi != KaavioTyyppi.TuplaKaavio;
                     this.arvoKaavioUudelleenToolStripMenuItem.Enabled = 
                         this.kilpailu.KaavioArvottu &&
                         !this.kilpailu.KilpailuAlkanut;
                 }
                 else
                 {
-                    this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled = true;
+                    //this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled = true;
                     this.arvoKaavioUudelleenToolStripMenuItem.Enabled = this.kilpailu.KaavioArvottu;
                 }
 
@@ -6435,10 +6448,32 @@ namespace KaisaKaavio
         {
             try
             {
+                int kierros = this.kilpailu.Pelit
+                    .Where(x => x.Tilanne == PelinTilanne.Kaynnissa || x.Tilanne == PelinTilanne.Pelattu)
+                    .Select(x => x.Kierros)
+                    .Max();
+
+                bool jokuPudonnut = this.kilpailu.Osallistujat
+                    .Where(x => x.Id > 0)
+                    .Any(x => !this.kilpailu.Mukana(x));
+
                 this.tuplakaavioLoppuunAstiToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.TuplaKaavio;
+                this.tuplakaavioLoppuunAstiToolStripMenuItem.Enabled = !jokuPudonnut;
+
                 this.pudotuspelit2kierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari2Kierros;
+                this.pudotuspelit2kierroksestaAlkaenToolStripMenuItem.Enabled = kierros < 3;
+
                 this.pudotuspelit3KierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari3Kierros;
+                this.pudotuspelit3KierroksestaAlkaenToolStripMenuItem.Enabled = kierros < 4;
+
                 this.pudotuspelit4KierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari4Kierros;
+                this.pudotuspelit4KierroksestaAlkaenToolStripMenuItem.Enabled = kierros < 5;
+
+                this.pudotuspelit5KierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari5Kierros;
+                this.pudotuspelit5KierroksestaAlkaenToolStripMenuItem.Enabled = kierros < 6;
+
+                this.pudotuspelit6KierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari6Kierros;
+                this.pudotuspelit6KierroksestaAlkaenToolStripMenuItem.Enabled = kierros < 7;
             }
             catch
             {
