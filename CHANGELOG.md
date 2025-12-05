@@ -6,6 +6,7 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 * Hakualgoritmin optimointia
 * Poistettu "Rahanjako" tab kun pelataan SBiL alaisia SM tai RG kilpailuja
+* Poistettu "Osallistumismaksu" ja "Veloitettu" sarakkeet pelaajalistalta kun pelataan SBiL alaisia SM tai RG kilpailuja
 
 ## Versio 1.0.0.45		(julkaistu 27.11.2025)
 

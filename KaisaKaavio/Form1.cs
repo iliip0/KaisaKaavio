@@ -850,6 +850,9 @@ namespace KaisaKaavio
 
             this.seuraDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpaSarja != KilpaSarja.Joukkuekilpailu;
             this.JoukkueColumn.Visible = this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu;
+
+            this.osMaksuDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa || this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
+            this.veloitettuDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa || this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
             
             this.yksipaivainenCheckBox.Visible = !this.kilpailu.KilpailuOnViikkokisa;
 
@@ -865,10 +868,11 @@ namespace KaisaKaavio
             this.rankkarienMaaraLabel.Visible = this.kilpailu.Laji == Laji.Kaisa;
             this.rankkarienMaaraNumericUpDown.Visible = this.kilpailu.Laji == Laji.Kaisa;
 
-            this.kabikeMaksuDataGridViewTextBoxColumn.Visible =
-                (this.kilpailu.Laji == Laji.Kaisa) &&
-                (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu ||
-                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu);
+            this.kabikeMaksuDataGridViewTextBoxColumn.Visible = false;
+            //    (this.kilpailu.Laji == Laji.Kaisa) &&
+            //    (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanRGKilpailu ||
+            //    this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.KaisanSMKilpailu);
+
             this.piilotaToinenKierrosCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
 
             this.rankingKisaCheckBox.Visible = this.kilpailu.KilpailuOnViikkokisa;
