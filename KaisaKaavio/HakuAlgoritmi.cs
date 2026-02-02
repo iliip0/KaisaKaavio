@@ -127,6 +127,11 @@ namespace KaisaKaavio
             this.HakuVirhe = null;
             this.UudetPelit = new List<Pelaajat>();
 
+            if (kilpailu.TestiKilpailu)
+            {
+                this.AutomaattinenTestausMenossa = true;
+            }
+
             switch (this.Kilpailu.KaavioTyyppi)
             {
                 case KaavioTyyppi.Pudari2Kierros:

@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.47		(työn alla)
+
+* Lisätty kommentti "Haettu käsin" käsin haettuihin peleihin 'Tulokset' osiossa
+
 ## Versio 1.0.0.46		(julkaistu 5.12.2025)
 
 * Hakualgoritmin optimointia

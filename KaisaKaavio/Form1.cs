@@ -4069,6 +4069,8 @@ namespace KaisaKaavio
                     this.loki.Kirjoita(string.Format("Lisättiin peli {0} kaavioon manuaalisesti", peli.Kuvaus()));
                 }
 
+                peli.HakuKommentti = "Haettu käsin";
+
                 this.kaavioDataGridView.SuspendLayout();
 
                 this.kilpailu.PaivitaKaavioData();

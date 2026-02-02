@@ -620,6 +620,11 @@ namespace KaisaKaavio
 
         public void TallennaKilpailuPalvelimelle()
         {
+            if (Debugger.IsAttached)
+            {
+                return;
+            }
+
             try
             {
                 if (this.Nakyvyys != Nakyvyys.Offline && 

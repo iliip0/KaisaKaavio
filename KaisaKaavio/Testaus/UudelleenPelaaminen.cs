@@ -79,6 +79,10 @@ namespace KaisaKaavio.Testaus
                 this.kilpailu.TallennusTarvitaan = false;
                 this.kilpailu.HakuTarvitaan = false;
 
+                this.kilpailu.TestiKilpailu = true;
+                this.kilpailu.PoistaTallennusKaytosta = true;
+                this.kilpailu.PoistaPaivitysKaytosta = true;
+
                 foreach (var osallistuja in this.vanhaKilpailu.Osallistujat)
                 {
                     this.kilpailu.Osallistujat.Add(new Pelaaja() 
