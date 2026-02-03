@@ -6721,5 +6721,36 @@ namespace KaisaKaavio
                 }
             }
         }
+
+        private void haeKasinButton_Click(object sender, EventArgs e)
+        {
+            this.kaavioDataGridView.SuspendLayout();
+            bool virkista = false;
+
+            try
+            {
+                using (var popup = new ManuaalinenHaku.ManuaalinenHaku(this.kilpailu))
+                {
+                    popup.ShowDialog();
+                    if (popup.HaettiinJotain)
+                    {
+                        this.kilpailu.PaivitaKaavioData();
+                        PaivitaKaavioSolut();
+                        virkista = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                loki.Kirjoita("Käsin haku epäonnistui", ex, true);
+            }
+
+            this.kaavioDataGridView.ResumeLayout();
+
+            if (virkista)
+            {
+                this.kaavioDataGridView.Refresh();
+            }
+        }
     }
 }

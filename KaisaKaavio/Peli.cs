@@ -404,6 +404,7 @@ namespace KaisaKaavio
                     this.tilanne = value;
                     RaisePropertyChanged("Tilanne");
                     RaisePropertyChanged("TilanneTeksti");
+                    RaisePropertyChanged("TilanneTekstiManuaalisessaHaussa");
 
                     // Laita tilanteeksi 0 - 0 kun peli käynnistyy (mikäli pisteitä ei ole jo merkitty)
                     if (this.tilanne == PelinTilanne.Kaynnissa ||
@@ -695,6 +696,25 @@ namespace KaisaKaavio
                     case PelinTilanne.ValmiinaAlkamaan: return "Käynnistä peli";
                     case PelinTilanne.Kaynnissa: return string.IsNullOrEmpty(this.Poyta) ? "Käynnissä" : string.Format("Pöytä {0}", this.Poyta);
                     case PelinTilanne.Pelattu: return "Pelattu";
+                    default: return string.Empty;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public string TilanneTekstiManuaalisessaHaussa
+        {
+            get
+            {
+                switch (this.tilanne)
+                {
+                    case PelinTilanne.Tyhja:
+                    case PelinTilanne.ValmiinaAlkamaan: 
+                        return "Haettu";
+                    case PelinTilanne.Kaynnissa:
+                        return "Käynnissä";
+                    case PelinTilanne.Pelattu: 
+                        return "Pelattu";
                     default: return string.Empty;
                 }
             }

@@ -3492,6 +3492,28 @@ namespace KaisaKaavio
             return true;
         }
 
+        public bool VoiHakea(Pelaaja pelaaja)
+        {
+            var tappiot = Pelit.Where(x => x.SisaltaaPelaajan(pelaaja.Id) && x.Havisi(pelaaja.Id));
+            if (tappiot.Any(x => x.OnPudotusPeli(pelaaja.Id)))
+            {
+                return false;
+            }
+
+            var kaynnissa = Pelit.Where(x => x.SisaltaaPelaajan(pelaaja.Id) && x.Tilanne != PelinTilanne.Pelattu);
+            if (kaynnissa.Any(x => x.OnPudotusPeli(pelaaja.Id)))
+            {
+                return false;
+            }
+
+            if (kaynnissa.Count() + tappiot.Count() > 1)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public bool MukanaEnnenPelia(Pelaaja pelaaja, Peli peli)
         {
             int tappiot = Pelit.Count(x => 

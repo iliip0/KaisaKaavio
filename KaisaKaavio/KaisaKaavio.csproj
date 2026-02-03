@@ -190,6 +190,12 @@
     <Compile Include="Laji.cs" />
     <Compile Include="Linkki.cs" />
     <Compile Include="Loki.cs" />
+    <Compile Include="ManuaalinenHaku\ManuaalinenHaku.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManuaalinenHaku\ManuaalinenHaku.Designer.cs">
+      <DependentUpon>ManuaalinenHaku.cs</DependentUpon>
+    </Compile>
     <Compile Include="Nakyvyys.cs" />
     <Compile Include="NotifyPropertyChanged,.cs" />
     <Compile Include="OnlineFlags.cs" />
@@ -303,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Kayttoliittyma\TekstiIkkuna.resx">
       <DependentUpon>TekstiIkkuna.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManuaalinenHaku\ManuaalinenHaku.resx">
+      <DependentUpon>ManuaalinenHaku.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PelinTiedotPopup.resx">
       <DependentUpon>PelinTiedotPopup.cs</DependentUpon>
