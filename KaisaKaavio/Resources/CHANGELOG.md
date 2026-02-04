@@ -2,10 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.47		(työn alla)
+## Versio 1.0.0.47		(julkaistu 4.2.2026)
 
 * Lisätty kommentti "Haettu käsin" käsin haettuihin peleihin 'Tulokset'-osiossa
 * Lisätty uusi "Hae pelejä käsin" nappi 'Kaavio'-osioon
+* Käsin haku mahdolliseksi myös joukkuekilpailussa
 
 ## Versio 1.0.0.46		(julkaistu 5.12.2025)
 
