@@ -2941,6 +2941,25 @@ namespace KaisaKaavio
                             e.CellStyle.ForeColor = Color.Gray;
                         }
                     }
+
+                    if (cell.ColumnIndex == this.ArvoPeliparitColumn.Index)
+                    {
+                        if (peli.Tilanne == PelinTilanne.Pelattu ||
+                            peli.Tilanne == PelinTilanne.Kaynnissa)
+                        {
+                            e.Value = string.Empty;
+                        }
+                        else if (peli.JoukkueParitArvottu)
+                        {
+                            e.Value = "Arvo uudelleen";
+                            e.CellStyle.ForeColor = Color.DarkGray;
+                        }
+                        else
+                        {
+                            e.Value = "Arvo peliparit";
+                            e.CellStyle.ForeColor = Color.Black;
+                        }
+                    }
                 }
             }
             catch
@@ -6729,11 +6748,16 @@ namespace KaisaKaavio
 
             try
             {
-                using (var popup = new ManuaalinenHaku.ManuaalinenHaku(this.kilpailu))
+                using (var popup = new ManuaalinenHaku.ManuaalinenHaku(this.kilpailu.KilpailuKaavioon))
                 {
                     popup.ShowDialog();
                     if (popup.HaettiinJotain)
                     {
+                        if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
+                        {
+                            this.kilpailu.PaivitaPelitJoukkueKisasta();
+                        }
+
                         this.kilpailu.PaivitaKaavioData();
                         PaivitaKaavioSolut();
                         virkista = true;
@@ -6750,6 +6774,7 @@ namespace KaisaKaavio
             if (virkista)
             {
                 this.kaavioDataGridView.Refresh();
+                this.peliBindingSource.ResetBindings(false);
             }
         }
     }

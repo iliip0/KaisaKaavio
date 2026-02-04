@@ -1063,6 +1063,7 @@ namespace KaisaKaavio
         {
             if (this.Kilpailu != null && this.Tilanne == PelinTilanne.ValmiinaAlkamaan)
             {
+                // Tarkista että kumpikaan pelaaja ei pelaa muuta peliä parhaillaan
                 if (this.Kilpailu.Pelit.Any(x => 
                     (x != this) &&
                     (x.Tilanne == PelinTilanne.Kaynnissa) &&
@@ -1084,6 +1085,16 @@ namespace KaisaKaavio
                     if (vapaaPoyta != null)
                     {
                         this.Poyta = vapaaPoyta;
+                    }
+                }
+
+                // Merkitse joukkuekisan peliparit arvotuiksi
+                if (this.Kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
+                    this.JoukkuePeli != null)
+                {
+                    foreach (var peli in this.Kilpailu.Pelit.Where(x => x.JoukkuePeli == this.JoukkuePeli))
+                    {
+                        peli.JoukkueParitArvottu = true;
                     }
                 }
 

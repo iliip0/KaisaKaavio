@@ -58,33 +58,46 @@ namespace KaisaKaavio.ManuaalinenHaku
             if (this.vastustajat.Count > 1)
             {
                 this.hakijaComboBox.SelectedIndex = 0;
-                this.vastustajaComboBox.SelectedIndex = 0;
+                this.vastustajaComboBox.SelectedIndex = 1;
 
                 this.hakijaComboBox.Enabled = true;
                 this.vastustajaComboBox.Enabled = true;
                 this.haeButton.Enabled = true;
                 this.tilanneLabel.Text = string.Empty;
 
-                while ((vastustajaComboBox.SelectedIndex < (vastustajaComboBox.Items.Count - 1)) && !TarkistaHaku())
+                int parasHakuIndeksi = 1;
+                int parhaanHaunTulos = TarkistaHaku();
+
+                while ((parhaanHaunTulos < 2) && (vastustajaComboBox.SelectedIndex < (vastustajaComboBox.Items.Count - 1)))
                 {
                     vastustajaComboBox.SelectedIndex = vastustajaComboBox.SelectedIndex + 1;
+                    int tulos = TarkistaHaku();
+                    if (tulos > parhaanHaunTulos)
+                    {
+                        parhaanHaunTulos = tulos;
+                        parasHakuIndeksi = vastustajaComboBox.SelectedIndex;
+                    }
                 }
 
-                TarkistaHaku();
+                if (vastustajaComboBox.SelectedIndex != parasHakuIndeksi)
+                {
+                    vastustajaComboBox.SelectedIndex = parasHakuIndeksi;
+                    TarkistaHaku();
+                }
             }
             else
             {
                 this.hakijaComboBox.Enabled = false;
                 this.vastustajaComboBox.Enabled = false;
                 this.haeButton.Enabled = false;
-                this.tilanneLabel.Text = "Ei mahdollisia hakuja tässä vaiheessa kilpailua";
+                this.tilanneLabel.Text = "Ei mahdollisia hakuja";
                 this.tilanneLabel.ForeColor = Color.DarkGray;
             }
 
             this.rekursiossa--;
         }
 
-        private bool TarkistaHaku()
+        private int TarkistaHaku()
         {
             var hakija = (Pelaaja)this.hakijaComboBox.SelectedItem;
             var vastustaja = (Pelaaja)this.vastustajaComboBox.SelectedItem;
@@ -94,7 +107,7 @@ namespace KaisaKaavio.ManuaalinenHaku
                 this.tilanneLabel.Text = "Pelaaja ei voi hakea itseään";
                 this.tilanneLabel.ForeColor = Color.Red;
                 this.haeButton.Enabled = false;
-                return false;
+                return 0;
             }
 
             var keskenaiset = this.kilpailu.Pelit.Where(x => x.SisaltaaPelaajat(hakija.Id, vastustaja.Id));
@@ -111,9 +124,9 @@ namespace KaisaKaavio.ManuaalinenHaku
                     this.tilanneLabel.Text = "Ovat pelanneet jo vastakkain";
                 }
 
-                this.tilanneLabel.ForeColor = Color.Red;
-                this.haeButton.Enabled = false;
-                return false;
+                this.tilanneLabel.ForeColor = Color.Orange;
+                this.haeButton.Enabled = true;
+                return 1;
             }
 
             int peleja1 = this.kilpailu.LaskePelit(hakija.Id);
@@ -122,22 +135,22 @@ namespace KaisaKaavio.ManuaalinenHaku
             {
                 if (peleja1 > peleja2)
                 {
-                    this.tilanneLabel.Text = string.Format("{0} on kaksi kierrosta edellä", hakija.LyhytNimi);
+                    this.tilanneLabel.Text = string.Format("{0} on 2 kierrosta edellä", hakija.LyhytNimi);
                 }
                 else
                 {
-                    this.tilanneLabel.Text = string.Format("{0} on kaksi kierrosta edellä", vastustaja.LyhytNimi);
+                    this.tilanneLabel.Text = string.Format("{0} on 2 kierrosta edellä", vastustaja.LyhytNimi);
                 }
 
                 this.tilanneLabel.ForeColor = Color.Red;
                 this.haeButton.Enabled = false;
-                return false;
+                return 0;
             }
 
             this.tilanneLabel.Text = string.Empty;
             this.tilanneLabel.ForeColor = Color.Black;
             this.haeButton.Enabled = true;
-            return true;
+            return 2;
         }
 
         private void PaivitaHaetutPelit()
@@ -222,6 +235,14 @@ namespace KaisaKaavio.ManuaalinenHaku
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void haetutPelitDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == viivaColumn.Index)
+            {
+                e.Value = "-";
             }
         }
     }

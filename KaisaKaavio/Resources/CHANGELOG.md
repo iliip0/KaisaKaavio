@@ -4,7 +4,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 
 ## Versio 1.0.0.47		(työn alla)
 
-* Lisätty kommentti "Haettu käsin" käsin haettuihin peleihin 'Tulokset' osiossa
+* Lisätty kommentti "Haettu käsin" käsin haettuihin peleihin 'Tulokset'-osiossa
+* Lisätty uusi "Hae pelejä käsin" nappi 'Kaavio'-osioon
 
 ## Versio 1.0.0.46		(julkaistu 5.12.2025)
 

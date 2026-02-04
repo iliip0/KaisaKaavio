@@ -2021,7 +2021,8 @@ namespace KaisaKaavio
 
                 foreach (var p in kilpailu.Pelit)
                 {
-                    if (p.Kierros < 3 ||
+                    if ((p.Kierros < 3) ||
+                        (kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu) ||
                         (p.Tilanne == PelinTilanne.Pelattu || p.Tilanne == PelinTilanne.Kaynnissa))
                     {
                         p.PeliNumero = pelinNumero++;
@@ -4424,8 +4425,19 @@ namespace KaisaKaavio
             {
                 JoukkueKilpailu = new Kilpailu();
                 JoukkueKilpailu.JoukkueKilpailunVarsinainenKilpailu = this;
-                JoukkueKilpailu.TestiKilpailu = this.TestiKilpailu;
             }
+
+            JoukkueKilpailu.TestiKilpailu = this.TestiKilpailu;
+
+#if DEBUG
+            if (Debugger.IsAttached)
+            {
+                JoukkueKilpailu.TestiKilpailu = true;
+            }
+#endif
+
+            JoukkueKilpailu.PoistaPaivitysKaytosta = this.PoistaPaivitysKaytosta;
+            JoukkueKilpailu.PoistaTallennusKaytosta = this.PoistaTallennusKaytosta;
 
             JoukkueKilpailu.KaavioidenYhdistaminenKierroksesta = this.KaavioidenYhdistaminenKierroksesta;
             JoukkueKilpailu.KaavioTyyppi = this.KaavioTyyppi;
@@ -4698,9 +4710,30 @@ namespace KaisaKaavio
 
         public void PaivitaPelitJoukkueKisasta()
         {
+            bool poistettiinPeli = false;
             bool lisattiinPeli = false;
 
             Random r = new Random(DateTime.Now.Millisecond);
+
+            while (true)
+            {
+                var orpoPeli = Pelit.FirstOrDefault(x => x.JoukkuePeli == null);
+                if (orpoPeli != null)
+                {
+                    if (this.Loki != null)
+                    {
+                        this.Loki.Kirjoita(string.Format("Poistettaan orpo peli {0} - {1}", orpoPeli.Pelaaja1, orpoPeli.Pelaaja2));
+                    }
+
+                    PoistaPeli(orpoPeli, true);
+
+                    poistettiinPeli = true;
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             foreach (var p in JoukkueKilpailu.Pelit)
             {
@@ -4755,7 +4788,7 @@ namespace KaisaKaavio
                 }
             }
 
-            if (lisattiinPeli)
+            if (lisattiinPeli || poistettiinPeli)
             {
                 PaivitaPelinumerot();
             }

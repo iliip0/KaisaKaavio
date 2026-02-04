@@ -37,6 +37,29 @@ namespace KaisaKaavio
 
             this.joukkueLabel1.Text = joukkue1;
             this.joukkueLabel2.Text = joukkue2;
+
+            if (this.pelit.Any(x => x.Tilanne == PelinTilanne.Kaynnissa))
+            {
+                this.arvoButton.Enabled = false;
+
+                if (pelit.Count >= 1 && pelit[0].Tilanne == PelinTilanne.Kaynnissa)
+                {
+                    pelaajaComboBox1.Enabled = false;
+                    pelaajaComboBox4.Enabled = false;
+                }
+
+                if (pelit.Count >= 2 && pelit[1].Tilanne == PelinTilanne.Kaynnissa)
+                {
+                    pelaajaComboBox2.Enabled = false;
+                    pelaajaComboBox5.Enabled = false;
+                }
+
+                if (pelit.Count >= 3 && pelit[2].Tilanne == PelinTilanne.Kaynnissa)
+                {
+                    pelaajaComboBox3.Enabled = false;
+                    pelaajaComboBox6.Enabled = false;
+                }
+            }
         }
 
         private void pelaajaComboBox1_SelectedIndexChanged(object sender, EventArgs e)
