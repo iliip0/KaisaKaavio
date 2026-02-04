@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavio", "KaisaKaavio.csproj", "{EA3A78F0-876A-4ECB-9607-290F750997A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaisaKaavioUpdater", "..\KaisaKaavioUpdater\KaisaKaavioUpdater.csproj", "{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "KaisaKaavioInstaller", "..\KaisaKaavioInstaller\KaisaKaavioInstaller.vdproj", "{FD4E2C59-215A-47AE-C86D-11D2531A3214}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Profile|Any CPU.ActiveCfg = Profile|Any CPU
 		{C7EA7892-6CB0-4CE6-B9C7-53F50C50FE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD4E2C59-215A-47AE-C86D-11D2531A3214}.Debug|Any CPU.ActiveCfg = Debug
+		{FD4E2C59-215A-47AE-C86D-11D2531A3214}.Profile|Any CPU.ActiveCfg = Release
+		{FD4E2C59-215A-47AE-C86D-11D2531A3214}.Release|Any CPU.ActiveCfg = Release
+		{FD4E2C59-215A-47AE-C86D-11D2531A3214}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

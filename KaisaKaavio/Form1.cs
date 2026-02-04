@@ -119,6 +119,11 @@ namespace KaisaKaavio
 
             NaytaAloitussivu();
 
+            if (this.suljeOhjelmaHeti)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+
             this.kilpailuBindingSource.DataSource = this.kilpailu;
             this.pelaajaBindingSource.DataSource = this.kilpailu.Osallistujat;
             this.jalkiIlmoBindingSource.DataSource = this.kilpailu.JalkiIlmoittautuneet;

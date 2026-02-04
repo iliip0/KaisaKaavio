@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManuaalinenHaku));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -46,11 +46,11 @@
             this.okButton = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.peliBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.pelaajanNimi1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.viivaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pelaajanNimi2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.poistaPeliColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.pelaajanNimi1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pelaajanNimi2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peliBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -80,8 +80,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tilanneLabel);
             this.splitContainer1.Panel2.Controls.Add(this.okButton);
-            this.splitContainer1.Size = new System.Drawing.Size(543, 499);
-            this.splitContainer1.SplitterDistance = 426;
+            this.splitContainer1.Size = new System.Drawing.Size(534, 496);
+            this.splitContainer1.SplitterDistance = 423;
             this.splitContainer1.TabIndex = 0;
             // 
             // groupBox2
@@ -94,9 +94,9 @@
             this.groupBox2.Controls.Add(this.vastustajaComboBox);
             this.groupBox2.Controls.Add(this.hakijaComboBox);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(10, 317);
+            this.groupBox2.Location = new System.Drawing.Point(10, 314);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(519, 102);
+            this.groupBox2.Size = new System.Drawing.Size(510, 102);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Hae uusi peli:";
@@ -106,7 +106,7 @@
             this.haeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.haeButton.BackColor = System.Drawing.Color.LightGreen;
             this.haeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.haeButton.Location = new System.Drawing.Point(424, 25);
+            this.haeButton.Location = new System.Drawing.Point(415, 25);
             this.haeButton.Name = "haeButton";
             this.haeButton.Size = new System.Drawing.Size(89, 71);
             this.haeButton.TabIndex = 5;
@@ -142,7 +142,7 @@
             this.vastustajaComboBox.FormattingEnabled = true;
             this.vastustajaComboBox.Location = new System.Drawing.Point(121, 62);
             this.vastustajaComboBox.Name = "vastustajaComboBox";
-            this.vastustajaComboBox.Size = new System.Drawing.Size(297, 28);
+            this.vastustajaComboBox.Size = new System.Drawing.Size(288, 28);
             this.vastustajaComboBox.TabIndex = 1;
             this.vastustajaComboBox.SelectedIndexChanged += new System.EventHandler(this.vastustajaComboBox_SelectedIndexChanged);
             // 
@@ -154,7 +154,7 @@
             this.hakijaComboBox.FormattingEnabled = true;
             this.hakijaComboBox.Location = new System.Drawing.Point(121, 28);
             this.hakijaComboBox.Name = "hakijaComboBox";
-            this.hakijaComboBox.Size = new System.Drawing.Size(297, 28);
+            this.hakijaComboBox.Size = new System.Drawing.Size(288, 28);
             this.hakijaComboBox.TabIndex = 0;
             this.hakijaComboBox.SelectedIndexChanged += new System.EventHandler(this.hakijaComboBox_SelectedIndexChanged);
             // 
@@ -168,7 +168,7 @@
             this.groupBox1.Location = new System.Drawing.Point(10, 10);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(16);
-            this.groupBox1.Size = new System.Drawing.Size(519, 301);
+            this.groupBox1.Size = new System.Drawing.Size(510, 298);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Haetut pelit:";
@@ -205,7 +205,7 @@
             this.haetutPelitDataGridView.RowHeadersVisible = false;
             this.haetutPelitDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.haetutPelitDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.haetutPelitDataGridView.Size = new System.Drawing.Size(487, 250);
+            this.haetutPelitDataGridView.Size = new System.Drawing.Size(478, 247);
             this.haetutPelitDataGridView.TabIndex = 0;
             this.haetutPelitDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.haetutPelitDataGridView_CellContentClick);
             this.haetutPelitDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.haetutPelitDataGridView_CellFormatting);
@@ -224,7 +224,7 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okButton.Location = new System.Drawing.Point(417, 14);
+            this.okButton.Location = new System.Drawing.Point(408, 14);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(112, 41);
             this.okButton.TabIndex = 0;
@@ -253,22 +253,6 @@
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 256;
             // 
-            // peliBindingSource
-            // 
-            this.peliBindingSource.DataSource = typeof(KaisaKaavio.Peli);
-            // 
-            // pelaajanNimi1DataGridViewTextBoxColumn
-            // 
-            this.pelaajanNimi1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.pelaajanNimi1DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja1";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.pelaajanNimi1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.pelaajanNimi1DataGridViewTextBoxColumn.DividerWidth = 1;
-            this.pelaajanNimi1DataGridViewTextBoxColumn.HeaderText = "Hakija";
-            this.pelaajanNimi1DataGridViewTextBoxColumn.Name = "pelaajanNimi1DataGridViewTextBoxColumn";
-            this.pelaajanNimi1DataGridViewTextBoxColumn.ReadOnly = true;
-            this.pelaajanNimi1DataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
             // viivaColumn
             // 
             this.viivaColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -279,16 +263,6 @@
             this.viivaColumn.ReadOnly = true;
             this.viivaColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.viivaColumn.Width = 16;
-            // 
-            // pelaajanNimi2DataGridViewTextBoxColumn
-            // 
-            this.pelaajanNimi2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.pelaajanNimi2DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja2";
-            this.pelaajanNimi2DataGridViewTextBoxColumn.DividerWidth = 4;
-            this.pelaajanNimi2DataGridViewTextBoxColumn.HeaderText = "Vastustaja";
-            this.pelaajanNimi2DataGridViewTextBoxColumn.Name = "pelaajanNimi2DataGridViewTextBoxColumn";
-            this.pelaajanNimi2DataGridViewTextBoxColumn.ReadOnly = true;
-            this.pelaajanNimi2DataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // poistaPeliColumn
             // 
@@ -308,18 +282,44 @@
             this.poistaPeliColumn.UseColumnTextForButtonValue = true;
             this.poistaPeliColumn.Width = 90;
             // 
+            // pelaajanNimi1DataGridViewTextBoxColumn
+            // 
+            this.pelaajanNimi1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.pelaajanNimi1DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja1";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.pelaajanNimi1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.pelaajanNimi1DataGridViewTextBoxColumn.DividerWidth = 1;
+            this.pelaajanNimi1DataGridViewTextBoxColumn.HeaderText = "Hakija";
+            this.pelaajanNimi1DataGridViewTextBoxColumn.Name = "pelaajanNimi1DataGridViewTextBoxColumn";
+            this.pelaajanNimi1DataGridViewTextBoxColumn.ReadOnly = true;
+            this.pelaajanNimi1DataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // pelaajanNimi2DataGridViewTextBoxColumn
+            // 
+            this.pelaajanNimi2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.pelaajanNimi2DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja2";
+            this.pelaajanNimi2DataGridViewTextBoxColumn.DividerWidth = 4;
+            this.pelaajanNimi2DataGridViewTextBoxColumn.HeaderText = "Vastustaja";
+            this.pelaajanNimi2DataGridViewTextBoxColumn.Name = "pelaajanNimi2DataGridViewTextBoxColumn";
+            this.pelaajanNimi2DataGridViewTextBoxColumn.ReadOnly = true;
+            this.pelaajanNimi2DataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // peliBindingSource
+            // 
+            this.peliBindingSource.DataSource = typeof(KaisaKaavio.Peli);
+            // 
             // ManuaalinenHaku
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 499);
+            this.ClientSize = new System.Drawing.Size(534, 496);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(563, 479);
+            this.MinimumSize = new System.Drawing.Size(463, 350);
             this.Name = "ManuaalinenHaku";
             this.Text = "Manuaalinen pelien haku";
             this.splitContainer1.Panel1.ResumeLayout(false);
