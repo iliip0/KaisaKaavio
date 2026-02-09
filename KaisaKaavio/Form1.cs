@@ -814,8 +814,7 @@ namespace KaisaKaavio
 
             this.vaihdaKaaviotyyppiToolStripMenuItem.Enabled =
                 (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa ||
-                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu) &&
-                this.kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup;
+                this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu);
 
             PaivitaSijoitettuSarake();
 
@@ -1709,12 +1708,19 @@ namespace KaisaKaavio
                 this.kilpailu.Pelit.RaiseListChangedEvents = false;
 
                 bool bLisattiinPeleja = false;
+                bool bCupPeliMuuttui = false;
 
                 lock (this.kilpailu)
                 {
+                    if (this.kilpailu.Pelit.Count(x => x.Kierros == 3) !=
+                        algoritmi.UudetPelit.Count(x => x.Kierros == 3))
+                    {
+                        this.kilpailu.PoistaCupPelit(); // Cup koko on muuttunut, poistetaan kaikki vanhat cup pelit
+                    }
+
                     foreach (var peli in algoritmi.UudetPelit)
                     {
-                        if (peli.Kierros == 3)
+                        if (peli.Kierros == 3 && kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup)
                         {
                             if (!this.kilpailu.Pelit.Any(x => 
                                 x.Kierros == 2 &&
@@ -1725,27 +1731,93 @@ namespace KaisaKaavio
                         }
 
                         if (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
-                        { 
-                        }
-
-                        var uusiPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
-                        if (uusiPeli != null)
                         {
-                            uusiPeli.PeliNumeroKierroksella = peli.PelinumeroKierroksella;
-                            bLisattiinPeleja = true;
+                            var kaavioPeli = this.kilpailu.Pelit.FirstOrDefault(x => 
+                                x.Kierros == peli.Kierros && 
+                                x.PeliNumeroKierroksella == peli.PelinumeroKierroksella);
 
-                            if (peli.Hypyt != null && peli.Hypyt.Any())
+                            if (kaavioPeli == null)
                             {
-                                uusiPeli.HakuKommentti = string.Empty;
-                                if (uusiPeli.Kierros > 3)
+                                kaavioPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
+                                kaavioPeli.PeliNumeroKierroksella = peli.PelinumeroKierroksella;
+                                bLisattiinPeleja = true;
+                            }
+                            else
+                            {
+                                if (peli.Id1 != kaavioPeli.Id1)
                                 {
-                                    foreach (var hyppy in peli.Hypyt)
+                                    if (kaavioPeli.Tilanne == PelinTilanne.Pelattu)
                                     {
-                                        if (uusiPeli.HakuKommentti.Length > 0)
+                                        throw new Exception("Bugi! Pelatussa cup kaaviopelissä väärä pelaaja");
+                                    }
+
+                                    if (kaavioPeli.Id1 > 0)
+                                    {
+                                        bCupPeliMuuttui = true;
+                                    }
+
+                                    kaavioPeli.PelaajaId1 = peli.Pelaaja1 != null ? peli.Pelaaja1.Id.ToString() : string.Empty;
+                                    kaavioPeli.Tyhjenna();
+                                    bLisattiinPeleja = true;
+                                }
+
+                                if (peli.Id2 != kaavioPeli.Id2)
+                                {
+                                    if (kaavioPeli.Tilanne == PelinTilanne.Pelattu)
+                                    {
+                                        throw new Exception("Bugi! Pelatussa cup kaaviopelissä väärä pelaaja");
+                                    }
+
+                                    if (kaavioPeli.Id2 > 0)
+                                    {
+                                        bCupPeliMuuttui = true;
+                                    }
+
+                                    kaavioPeli.PelaajaId2 = peli.Pelaaja2 != null ? peli.Pelaaja2.Id.ToString() : string.Empty;
+                                    kaavioPeli.Tyhjenna();
+                                    bLisattiinPeleja = true;
+                                }
+                            }
+
+                            // Päivitetään ekan cup kierroksen w.o.t
+                            if (kaavioPeli.Tilanne != PelinTilanne.Pelattu &&
+                                peli.PeliOnPelattu)
+                            {
+                                if (kaavioPeli.Id1 > 0 && kaavioPeli.Id2 <= 0)
+                                {
+                                    kaavioPeli.Pisteet1 = "v";
+                                    kaavioPeli.Tilanne = PelinTilanne.Pelattu;
+                                    kaavioPeli.Tulos = PelinTulos.Pelaaja1Voitti;
+                                }
+                                else if (kaavioPeli.Id2 > 0 && kaavioPeli.Id1 <= 0)
+                                {
+                                    kaavioPeli.Pisteet2 = "v";
+                                    kaavioPeli.Tilanne = PelinTilanne.Pelattu;
+                                    kaavioPeli.Tulos = PelinTulos.Pelaaja2Voitti;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var uusiPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
+                            if (uusiPeli != null)
+                            {
+                                uusiPeli.PeliNumeroKierroksella = peli.PelinumeroKierroksella;
+                                bLisattiinPeleja = true;
+
+                                if (peli.Hypyt != null && peli.Hypyt.Any())
+                                {
+                                    uusiPeli.HakuKommentti = string.Empty;
+                                    if (uusiPeli.Kierros > 3)
+                                    {
+                                        foreach (var hyppy in peli.Hypyt)
                                         {
-                                            uusiPeli.HakuKommentti += "#";
+                                            if (uusiPeli.HakuKommentti.Length > 0)
+                                            {
+                                                uusiPeli.HakuKommentti += "#";
+                                            }
+                                            uusiPeli.HakuKommentti += hyppy.Syy;
                                         }
-                                        uusiPeli.HakuKommentti += hyppy.Syy;
                                     }
                                 }
                             }
@@ -1756,6 +1828,20 @@ namespace KaisaKaavio
                     {
                         this.kilpailu.HakuTarvitaan = true;
                     }
+                }
+
+                if (kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+                {
+                    kilpailu.TarkistaCupOikeellisuus();
+                }
+
+                if (bCupPeliMuuttui)
+                {
+                    MessageBox.Show(
+                        "Huomaa, että yksi tai useampi CUP peli muuttui pistepäivityksen myötä",
+                        "Huom",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
                 }
 
                 if (bLisattiinPeleja)
@@ -6306,10 +6392,20 @@ namespace KaisaKaavio
             VaihdaKaaviotyyppi(KaavioTyyppi.Pudari6Kierros);
         }
 
+        private void kaksiAlkukierrostaJaCUPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VaihdaKaaviotyyppi(KaavioTyyppi.KaksiKierrostaJaCup);
+        }
+
         private void VaihdaKaaviotyyppi(KaavioTyyppi tyyppi)
         {
             try
             {
+                if (this.kilpailu.KaavioTyyppi == tyyppi)
+                {
+                    return;
+                }
+
                 if (!this.kilpailu.ToinenKierrosAlkanut)
                 {
                 }
@@ -6322,6 +6418,7 @@ namespace KaisaKaavio
                     {
                         case KaavioTyyppi.Pudari2Kierros: ekaPudari = 2; break;
                         case KaavioTyyppi.Pudari3Kierros: ekaPudari = 3; break;
+                        case KaavioTyyppi.KaksiKierrostaJaCup: ekaPudari = 3; break;
                         case KaavioTyyppi.Pudari4Kierros: ekaPudari = 4; break;
                         case KaavioTyyppi.Pudari5Kierros: ekaPudari = 5; break;
                         case KaavioTyyppi.Pudari6Kierros: ekaPudari = 6; break;
@@ -6500,6 +6597,9 @@ namespace KaisaKaavio
 
                 this.pudotuspelit6KierroksestaAlkaenToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.Pudari6Kierros;
                 this.pudotuspelit6KierroksestaAlkaenToolStripMenuItem.Enabled = kierros < 7;
+
+                this.kaksiAlkukierrostaJaCUPToolStripMenuItem.Checked = this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup;
+                this.kaksiAlkukierrostaJaCUPToolStripMenuItem.Enabled = kierros < 3;
             }
             catch
             {

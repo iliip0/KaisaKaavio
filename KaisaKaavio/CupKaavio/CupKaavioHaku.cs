@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Management.Instrumentation;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace KaisaKaavio.CupKaavio
     public class CupKaavioHaku : IHakuAlgoritmi
     {
         private Kilpailu kilpailu = null;
+        private CupKaavio cupKaavio = null;
 
         public int MaxKierros { get; set; } = 3;
 
@@ -29,7 +31,10 @@ namespace KaisaKaavio.CupKaavio
         public List<HakuAlgoritmi.Pelaajat> UudetPelit { get; private set; } = new List<HakuAlgoritmi.Pelaajat>();
         private List<int> CupSijoitus { get; set; } = new List<int>();
 
-        private class Peluri
+        private readonly int PisteytysVoitosta = 100000;
+        private readonly int PisteytysPisteesta = 1;
+
+        public class Peluri
         {
             public Pelaaja Pelaaja = null;
             public int PelatutPelit = 0;
@@ -40,8 +45,11 @@ namespace KaisaKaavio.CupKaavio
             public int Lyontivuorot = 0;
 
             public int Pisteytys = 0;
+            public int MaxPisteytys = 0;
             public int SijoitusAlkupeleissa = 0;
             public double SijoitusAlkupeleissaArvalla = 0.0f;
+
+            public bool SijoitusOnLopullinen = false;
 
             public List<Peli> Pelit = new List<Peli>();
         }
@@ -53,6 +61,72 @@ namespace KaisaKaavio.CupKaavio
             this.kilpailu = kilpailu;
         }
 
+        private int LaskeCupinKoko()
+        {
+            if (this.pelurit.Any(x => x.PelatutPelit == 0))
+            {
+                return 0; // Alotetaan cup koon laskeminen vasta kun 1 kierros on pelattu
+            }
+
+            int mukana = this.pelurit
+                .Where(x => (x.PelatutPelit >= 2) && (x.Tappiot < 2))
+                .Count();
+
+            int mukanaMin = mukana;
+            int mukanaMax = mukana;
+
+            var peluritKesken = this.pelurit.Where(x => (x.PelatutPelit < 2));
+            if (peluritKesken.Any())
+            {
+                foreach (var peli in this.kilpailu.Pelit.Where(x => x.Kierros <= 2 && x.Tilanne != PelinTilanne.Pelattu))
+                {
+                    var peluri1 = peluritKesken.First(x => x.Pelaaja.Id == peli.Id1);
+                    var peluri2 = peluritKesken.First(x => x.Pelaaja.Id == peli.Id2);
+
+                    if (peluri1.Tappiot == 0 && peluri2.Tappiot == 0)
+                    {
+                        // Molemmat cuppiin
+                        mukanaMax += 2;
+                        mukanaMin += 2;
+                    }
+                    else if (peluri1.Tappiot == 1 && peluri2.Tappiot == 1)
+                    {
+                        // Vain toinen cuppiin
+                        mukanaMax += 1;
+                        mukanaMin += 1;
+                    }
+                    else
+                    {
+                        // Toinen tai molemmat cuppiin
+                        mukanaMax += 2;
+                        mukanaMin += 1;
+                    }
+                }
+            }
+
+            int cupinKokoMax = 2;
+            while (cupinKokoMax < mukanaMax)
+            {
+                cupinKokoMax *= 2;
+            }
+
+            int cupinKokoMin = 2;
+            while (cupinKokoMin < mukanaMin)
+            {
+                cupinKokoMin *= 2;
+            }
+
+            if (cupinKokoMin != cupinKokoMax)
+            {
+#if DEBUG
+                Debug.WriteLine("Cup koko ei vielä selvillä");
+#endif
+                return 0; // Cupin koko ei vielä varmuudella tiedossa
+            }
+
+            return cupinKokoMin;
+        }
+
         public void Hae()
         {
             // Alkukierrokset
@@ -61,41 +135,110 @@ namespace KaisaKaavio.CupKaavio
                 LuePeli(peli);
             }
 
-            if (pelurit.Any(x => x.PelatutPelit < 2))
+            foreach (var peluri in pelurit)
             {
-                return;
-                // Alkupelit kesken
+                if (peluri.Pelit.Count != 2)
+                {
+                    throw new Exception(string.Format("Pelaajalla {0} on liian vähän alkukierrosten pelejä", peluri.Pelaaja.Nimi));
+                }
             }
 
-            // Arvo eka cup kierros
-
-            var mukana = this.pelurit.Where(x => x.Tappiot < 2);
-
-            foreach (var peluri in mukana)
+            int cupinKoko = LaskeCupinKoko();
+            if (cupinKoko <= 0)
             {
-                peluri.Pisteytys = (peluri.Voitot * 100000) + peluri.Pisteet;
+#if DEBUG
+                Debug.WriteLine("Cup koko ei vielä selvillä");
+#endif
+                return; // Cupin koko ei vielä varmuudella tiedossa
             }
+
+            var mukana = this.pelurit.Where(x => (x.PelatutPelit < 2) || (x.Tappiot < 2));
 
             Debug.WriteLine("CUPPIIN:");
 
-            int i = 1;
+            // Arvotaan tasapisteissä olevien pelaajien sijoitus
+            int sijoitus = 0;
             foreach (var peluri in mukana.OrderByDescending(x => x.Pisteytys))
             {
 #if DEBUG
-                Debug.WriteLine(string.Format("  {0}. {1} [{2}]", i, peluri.Pelaaja.Nimi, peluri.Pisteytys));
+                Debug.WriteLine(string.Format("  {0}. {1} [{2}]", sijoitus, peluri.Pelaaja.Nimi, peluri.Pisteytys));
 #endif
-                peluri.SijoitusAlkupeleissa = i++;
+                peluri.SijoitusAlkupeleissa = sijoitus++;
                 peluri.SijoitusAlkupeleissaArvalla = peluri.SijoitusAlkupeleissa + new Random().NextDouble() * 0.5; // Arpoo järjestyksen jos on tasapisteet
             }
-
-            int cupinKoko = 2;
-            while (cupinKoko < mukana.Count())
+            sijoitus = 0;
+            foreach (var peluri in mukana.OrderBy(x => x.SijoitusAlkupeleissaArvalla))
             {
-                cupinKoko *= 2;
+                peluri.SijoitusAlkupeleissa = sijoitus++;
+                peluri.SijoitusOnLopullinen = true;
+            }
+
+            // Tarkistetaan onko sijoitus lopullinen jos alkupelejä on kesken
+            if (pelurit.Any(x => x.PelatutPelit < 2))
+            {
+                for (int i = 0; i < pelurit.Count; ++i)
+                {
+                    var peluri = pelurit[i];
+
+                    if (peluri.Voitot > 0)
+                    {
+                        peluri.SijoitusOnLopullinen = true;
+
+                        if (pelurit.Count(x => x.Pisteytys == peluri.Pisteytys) > 1)
+                        {
+                            peluri.SijoitusOnLopullinen = false; // Tasapisteissä on muita pelaajia, sijoitus ei ole varma
+                        }
+                        else
+                        {
+                            var paremmat = pelurit.Where(x => x.Pisteytys > peluri.Pisteytys);
+                            if (paremmat.Any(x => x.Pisteytys <= peluri.MaxPisteytys))
+                            {
+                                peluri.SijoitusOnLopullinen = false; // Pelaaja voi vielä kiriä toisen pelaajan edelle
+                            }
+                            else
+                            {
+                                var huonommat = pelurit.Where(x => x.Pisteytys < pelurit[i].Pisteytys);
+                                if (huonommat.Any(x => x.MaxPisteytys >= peluri.Pisteytys))
+                                {
+                                    peluri.SijoitusOnLopullinen = false; // Joku voi vielä tulla takaa ohi
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        peluri.SijoitusOnLopullinen = false;
+                    }
+                }
             }
 
             this.kilpailu.CupKoko = cupinKoko;
+            this.cupKaavio = new CupKaavio(cupinKoko);
 
+            this.cupKaavio.SijoitaEkaCupKierros(pelurit);
+
+            if (!this.kilpailu.Pelit.Any(x => x.Kierros <= 2 && x.Tilanne != PelinTilanne.Pelattu))
+            {
+                this.cupKaavio.PaivitaCupPelit(kilpailu);
+            }
+
+            foreach (var kierros in cupKaavio.Pelit)
+            {
+                foreach (var peli in kierros)
+                {
+                    HakuAlgoritmi.Pelaajat pelaajat = new HakuAlgoritmi.Pelaajat();
+
+                    pelaajat.Pelaaja1 = peli.Pelaaja1;
+                    pelaajat.Pelaaja2 = peli.Pelaaja2;
+                    pelaajat.Kierros = peli.Kierros;
+                    pelaajat.PelinumeroKierroksella = peli.PelinNumero;
+                    pelaajat.PeliOnPelattu = peli.Pelattu;
+
+                    this.UudetPelit.Add(pelaajat);
+                }
+            }
+
+            /*
             List<int> sijoittamattomat = new List<int>();
 
             for (int k = 3; k <= cupinKoko; k++)
@@ -128,7 +271,9 @@ namespace KaisaKaavio.CupKaavio
                 CupSijoitus.Add(p.Item1);
                 CupSijoitus.Add(p.Item2);
             }
+            */
 
+            /*
             var sijoitettavat = mukana.OrderBy(x => x.SijoitusAlkupeleissaArvalla).ToArray();
 
             int peliNumero = 1;
@@ -171,8 +316,10 @@ namespace KaisaKaavio.CupKaavio
                     koko /= 2;
                 }
             }
+            */
 
             // Arvotaan loput cup kierrokset
+            /*
             foreach (var peli in this.kilpailu.Pelit.Where(x => x.Kierros >= 3))
             {
                 LuePeli(peli);
@@ -226,6 +373,7 @@ namespace KaisaKaavio.CupKaavio
 
                 kierros++;
             }
+            */
         }
 
         private void LisaaPeli(Peluri p1, Peluri p2, int kierros, int pelinumero)
@@ -292,9 +440,15 @@ namespace KaisaKaavio.CupKaavio
                 {
                     peluri1.PelatutPelit++;
 
+                    peluri1.Pisteytys += peluri1.Pisteet * PisteytysPisteesta;
+                    peluri1.MaxPisteytys += peluri1.Pisteet * PisteytysPisteesta;
+
                     if (peli.Voitti(pelaaja1.Id))
                     {
                         peluri1.Voitot++;
+
+                        peluri1.Pisteytys += 1 * PisteytysVoitosta;
+                        peluri1.MaxPisteytys += 1 * PisteytysVoitosta;
                     }
                     else if (peli.Havisi(pelaaja1.Id))
                     {
@@ -304,6 +458,8 @@ namespace KaisaKaavio.CupKaavio
                 else
                 {
                     peluri1.KeskeneraisetPelit++;
+
+                    peluri1.MaxPisteytys += 1 * PisteytysVoitosta + ((int)kilpailu.TavoitePistemaara) * PisteytysPisteesta;
                 }
             }
 
@@ -325,9 +481,15 @@ namespace KaisaKaavio.CupKaavio
                 {
                     peluri2.PelatutPelit++;
 
+                    peluri2.Pisteytys += peluri2.Pisteet * PisteytysPisteesta;
+                    peluri2.MaxPisteytys += peluri2.Pisteet * PisteytysPisteesta;
+
                     if (peli.Voitti(pelaaja2.Id))
                     {
                         peluri2.Voitot++;
+
+                        peluri2.Pisteytys += 1 * PisteytysVoitosta;
+                        peluri2.MaxPisteytys += 1 * PisteytysVoitosta;
                     }
                     else if (peli.Havisi(pelaaja2.Id))
                     {
@@ -337,6 +499,8 @@ namespace KaisaKaavio.CupKaavio
                 else
                 {
                     peluri2.KeskeneraisetPelit++;
+
+                    peluri2.MaxPisteytys += 1 * PisteytysVoitosta + ((int)kilpailu.TavoitePistemaara) * PisteytysPisteesta;
                 }
             }
         }

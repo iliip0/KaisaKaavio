@@ -160,6 +160,11 @@ namespace KaisaKaavio.ManuaalinenHaku
             haetutPelit.Clear();
             foreach (var peli in this.kilpailu.Pelit.Where(x => x.Tilanne != PelinTilanne.Pelattu && x.Kierros > 2))
             {
+                if (kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup && peli.Kierros > 3)
+                {
+                    continue; // Cup kaavio tyypissä manuaalinen haku sallittua ainoastaan ekalle cup kierrokselle
+                }
+
                 haetutPelit.Add(peli);
             }
 

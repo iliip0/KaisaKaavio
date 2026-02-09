@@ -26,6 +26,10 @@ namespace KaisaKaavio
             public int Kierros = 0;
             public int PelinumeroKierroksella = 0;
             public List<Hyppy> Hypyt = null;
+            public bool PeliOnPelattu = false; // Välittää tiedon CUP kaavion W.O.ista jotka on valmiita
+
+            public int Id1 => Pelaaja1 != null ? Pelaaja1.Id : -1;
+            public int Id2 => Pelaaja2 != null ? Pelaaja2.Id : -1;
 
             public bool SisaltaaPelaajan(Pelaaja pelaaja)
             {
@@ -139,6 +143,7 @@ namespace KaisaKaavio
                     break;
 
                 case KaavioTyyppi.Pudari3Kierros:
+                case KaavioTyyppi.KaksiKierrostaJaCup:
                     this.EkaPudariKierros = 3;
                     break;
 

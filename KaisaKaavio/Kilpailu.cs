@@ -1063,6 +1063,96 @@ namespace KaisaKaavio
             }
         }
 
+        public void PoistaCupPelit()
+        {
+            bool poistettiinJotain = false;
+
+            while (true)
+            {
+                var tyhja = Pelit.FirstOrDefault(x => x.Kierros > 2);
+                if (tyhja != null)
+                {
+                    if ((!tyhja.OnWalkOver) && (tyhja.Tilanne == PelinTilanne.Pelattu))
+                    {
+                        throw new Exception(string.Format("Bugi! Poistettava cup peli {0} - {1} on jo pelattu", tyhja.Pelaaja1, tyhja.Pelaaja2));
+                    }
+#if DEBUG
+                    if (this.Loki != null)
+                    {
+                        this.Loki.Kirjoita(string.Format("Poistetaan cup peli {0} - {1} kierrokselta {2}", tyhja.Pelaaja1, tyhja.Pelaaja2, tyhja.Kierros));
+                    }
+#endif
+                    PoistaPeli(tyhja, true);
+                    poistettiinJotain = true;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (poistettiinJotain)
+            {
+                PaivitaPelinumerot();
+            }
+        }
+
+        public void TarkistaCupOikeellisuus()
+        {
+            foreach (var peli in Pelit.Where(x => x.Kierros > 2))
+            {
+                if (peli.Id1 > 0)
+                {
+                    var pelaaja1 = Osallistujat.First(x => string.Equals(x.Id, peli.Id1));
+
+                    if (Pelit.Count(x => x.Kierros < 3 && x.Havisi(peli.Id1)) > 1)
+                    {
+                        throw new Exception(string.Format("Bugi! Pelaajan {0} ei pitäisi olla cupissa", peli.Pelaaja1));
+                    }
+
+                    if (Pelit.Any(x => 
+                        (x.Kierros > 2) && 
+                        (x.Kierros < peli.Kierros) && 
+                        (x.Havisi(peli.Id1))))
+                    {
+                        throw new Exception(string.Format("Bugi! Pelaajan {0} ei pitäisi olla cupissa kierroksella {1}", peli.Pelaaja1, peli.Kierros));
+                    }
+
+                    if (Pelit.Count(x =>
+                        (x.Kierros == peli.Kierros) &&
+                        (x.SisaltaaPelaajan(peli.Id1))) > 1)
+                    {
+                        throw new Exception(string.Format("Bugi! Pelaaja {0} on useassa pelissä cup kierroksella {1}", peli.Pelaaja1, peli.Kierros));
+                    }
+                }
+
+                if (peli.Id2 > 0)
+                {
+                    var pelaaja2 = Osallistujat.First(x => string.Equals(x.Id, peli.Id2));
+
+                    if (Pelit.Count(x => x.Kierros < 3 && x.Havisi(peli.Id2)) > 1)
+                    {
+                        throw new Exception(string.Format("Bugi! Pelaajan {0} ei pitäisi olla cupissa", peli.Pelaaja2));
+                    }
+
+                    if (Pelit.Any(x =>
+                        (x.Kierros > 2) &&
+                        (x.Kierros < peli.Kierros) &&
+                        (x.Havisi(peli.Id2))))
+                    {
+                        throw new Exception(string.Format("Bugi! Pelaajan {0} ei pitäisi olla cupissa kierroksella {1}", peli.Pelaaja2, peli.Kierros));
+                    }
+
+                    if (Pelit.Count(x =>
+                        (x.Kierros == peli.Kierros) &&
+                        (x.SisaltaaPelaajan(peli.Id2))) > 1)
+                    {
+                        throw new Exception(string.Format("Bugi! Pelaaja {0} on useassa pelissä cup kierroksella {1}", peli.Pelaaja2, peli.Kierros));
+                    }
+                }
+            }
+        }
+
         public void PoistaTyhjatPelitAlkaenNumerosta(int numerostaAlkaen)
         {
             // Joukkuekilpailussa poistetaan tyhjät joukkuepelit, ei yksittäisiä osaotteluita
@@ -1171,6 +1261,7 @@ namespace KaisaKaavio
                 PelaajaId1 = pelaaja == null ? string.Empty : pelaaja.Id.ToString(),
                 PelaajaId2 = vastustaja == null ? string.Empty : vastustaja.Id.ToString(),
                 PeliNumero = Pelit.Count() + 1,
+                PeliNumeroKierroksella = Pelit.Count(x => x.Kierros == kierros),
                 Pisteet1 = string.Empty,
                 Pisteet2 = string.Empty,
                 Poyta = string.Empty,
@@ -1184,6 +1275,7 @@ namespace KaisaKaavio
                 peli.Tilanne = PelinTilanne.ValmiinaAlkamaan;
             }
 
+            /*
             if (kierros == 3 && this.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
             {
                 if (pelaaja == null && vastustaja != null)
@@ -1199,6 +1291,7 @@ namespace KaisaKaavio
                     peli.Pisteet1 = "v";
                 }
             }
+            */
 
 #if DEBUG
             int peleja = Pelit.Count;
@@ -1482,7 +1575,8 @@ namespace KaisaKaavio
 
                 else if ((kierros1 == kierros2) && 
                     (vastustaja != null && pelaaja != null) &&
-                    (vastustaja.Id < pelaaja.Id))
+                    (vastustaja.Id < pelaaja.Id) &&
+                    (KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup))
                 {
                     return LisaaPeli(vastustaja, kierros2, pelaaja, kierros1);
                 }
@@ -1773,6 +1867,31 @@ namespace KaisaKaavio
                         x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)))
                     {
                         return false;
+                    }
+                }
+            }
+
+            if (this.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+            {
+                if (peli.OnWalkOver)
+                {
+                    return false;
+                }
+                else if (peli.Kierros <= 2)
+                {
+                    if (this.Pelit.Any(x => 
+                        (x.Kierros > 2) && 
+                        (!x.OnWalkOver) &&
+                        (x.Tilanne == PelinTilanne.Pelattu)))
+                    {
+                        return false; // Alkupelejä ei voi enää muokata cupin käynnistyttyä
+                    }
+                }
+                else
+                {
+                    if (this.Pelit.Any(x => x.Kierros <= 2 && x.Tilanne != PelinTilanne.Pelattu))
+                    {
+                        return false; // Cup pelejä ei voi aloittaa ennen kuin alkupelit on pelattu
                     }
                 }
             }
@@ -3510,6 +3629,14 @@ namespace KaisaKaavio
             if (kaynnissa.Count() + tappiot.Count() > 1)
             {
                 return false;
+            }
+
+            if (KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+            {
+                if (Pelit.Where(x => x.SisaltaaPelaajan(pelaaja.Id)).Count() > 2)
+                {
+                    return false; // Cup kaaviotyypissä manuaalinen haku sallittu ainoastaan ekalle cup kierrokselle
+                }
             }
 
             return true;

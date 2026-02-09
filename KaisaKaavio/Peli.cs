@@ -266,6 +266,14 @@ namespace KaisaKaavio
                         RaisePropertyChanged("Keskiarvo1");
                         RaisePropertyChanged("KeskiarvoTeksti1");
                     }
+
+                    if (this.Kilpailu != null && this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+                    {
+                        if (this.Kierros < 3)
+                        {
+                            this.Kilpailu.HakuTarvitaan = true; // Mikä tahansa pistemuutos voi muuttaa CUP järjestyksen
+                        }
+                    }
                 }
             }
         }
@@ -296,6 +304,14 @@ namespace KaisaKaavio
                     {
                         RaisePropertyChanged("Keskiarvo2");
                         RaisePropertyChanged("KeskiarvoTeksti2");
+                    }
+
+                    if (this.Kilpailu != null && this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+                    {
+                        if (this.Kierros < 3)
+                        {
+                            this.Kilpailu.HakuTarvitaan = true; // Mikä tahansa pistemuutos voi muuttaa CUP järjestyksen
+                        }
                     }
                 }
             }
@@ -798,6 +814,15 @@ namespace KaisaKaavio
 
         [XmlIgnore]
         public bool PaivitaRivinUlkoasu = false;
+
+        [XmlIgnore]
+        public bool OnWalkOver
+        {
+            get
+            {
+                return Id1 <= 0 || Id2 <= 0;
+            }
+        }
 
         public Peli()
         {
@@ -1527,6 +1552,7 @@ namespace KaisaKaavio
                     case KaavioTyyppi.Pudari4Kierros: return this.Kierros >= 4;
                     case KaavioTyyppi.Pudari5Kierros: return this.Kierros >= 5;
                     case KaavioTyyppi.Pudari6Kierros: return this.Kierros >= 6;
+                    case KaavioTyyppi.KaksiKierrostaJaCup: return this.Kierros >= 3;
                     default: return false;
                 }
             }
@@ -1547,6 +1573,7 @@ namespace KaisaKaavio
                         case KaavioTyyppi.Pudari4Kierros: return this.KierrosPelaaja1 >= 4;
                         case KaavioTyyppi.Pudari5Kierros: return this.KierrosPelaaja1 >= 5;
                         case KaavioTyyppi.Pudari6Kierros: return this.KierrosPelaaja1 >= 6;
+                        case KaavioTyyppi.KaksiKierrostaJaCup: return this.KierrosPelaaja1 >= 3;
                         default: return false;
                     }
                 }
@@ -1559,6 +1586,7 @@ namespace KaisaKaavio
                         case KaavioTyyppi.Pudari4Kierros: return this.KierrosPelaaja2 >= 4;
                         case KaavioTyyppi.Pudari5Kierros: return this.KierrosPelaaja2 >= 5;
                         case KaavioTyyppi.Pudari6Kierros: return this.KierrosPelaaja2 >= 6;
+                        case KaavioTyyppi.KaksiKierrostaJaCup: return this.KierrosPelaaja2 >= 3;
                         default: return false;
                     }
                 }
@@ -1724,6 +1752,33 @@ namespace KaisaKaavio
 
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Tyhjentää pelistä kaiken datan paitsi pelaajat
+        /// </summary>
+        public void Tyhjenna()
+        {
+            Pisteet1 = string.Empty;
+            Pisteet2 = string.Empty;
+            PisinSarja1 = string.Empty;
+            PisinSarja2 = string.Empty;
+            ToiseksiPisinSarja1 = string.Empty;
+            ToiseksiPisinSarja2 = string.Empty;
+            HakuKommentti = string.Empty;
+            Alkoi = string.Empty;
+            Paattyi = string.Empty;
+            Paikka = string.Empty;
+            Poyta = string.Empty;
+            VirheTuloksessa = string.Empty;
+            ArvioituAlkamisAika = string.Empty;
+            JoukkueParitArvottu = false;
+            LuovutusPelaaja1 = string.Empty;
+            LuovutusPelaaja2 = string.Empty;
+            Lyontivuoroja = string.Empty;
+
+            Tilanne = PelinTilanne.Tyhja;
+            Tulos = PelinTulos.EiTiedossa;
         }
 
         public void PaivitaTulos()
