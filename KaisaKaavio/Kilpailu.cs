@@ -2192,6 +2192,8 @@ namespace KaisaKaavio
                 return idString;
             }
 
+            bool pelaaja1 = pelaaja.Id == peli.Id1;
+
             string nimi = pelaaja.Nimi;
 
             if (!detaljit &&
@@ -2279,14 +2281,19 @@ namespace KaisaKaavio
                 }
             }
 
-            /*
-            if (this.KilpaSarja == KilpaSarja.Joukkuekilpailu &&
-                peli != null &&
-                !peli.JoukkueParitArvottu)
+            if (detaljit &&
+                this.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                peli.Kierros == 3)
             {
-                nimi = pelaaja.Joukkue;
+                if (pelaaja1)
+                {
+                    nimi = string.Format("[{0}] {1}", peli.CupSijoitusPelaaja1 + 1, nimi);
+                }
+                else
+                {
+                    nimi = string.Format("[{0}] {1}", peli.CupSijoitusPelaaja2 + 1, nimi);
+                }
             }
-            */
 
             return nimi;
         }

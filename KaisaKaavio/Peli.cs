@@ -466,6 +466,15 @@ namespace KaisaKaavio
         /// </summary>
         public string HakuKommentti { get; set; } = string.Empty;
 
+        [XmlIgnore]
+        public int CupSijoitusPelaaja1 { get; set; } = 0;
+
+        [XmlIgnore]
+        public int CupSijoitusPelaaja2 { get; set; } = 0;
+
+        [XmlIgnore]
+        public bool CupWalkOverOnVarma { get; set; } = false;
+
         private void PaivitaPelinAlkamisAika()
         {
             this.Alkoi = DateTime.Now.ToShortTimeString();

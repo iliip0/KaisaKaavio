@@ -1745,6 +1745,10 @@ namespace KaisaKaavio
                             {
                                 kaavioPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
                                 kaavioPeli.PeliNumeroKierroksella = peli.PelinumeroKierroksella;
+                                kaavioPeli.CupSijoitusPelaaja1 = peli.CupSijoitus1;
+                                kaavioPeli.CupSijoitusPelaaja2 = peli.CupSijoitus2;
+                                kaavioPeli.CupWalkOverOnVarma = peli.PeliOnPelattu;
+
                                 bLisattiinPeleja = true;
                             }
                             else
@@ -1788,6 +1792,8 @@ namespace KaisaKaavio
                             if (kaavioPeli.Tilanne != PelinTilanne.Pelattu &&
                                 peli.PeliOnPelattu)
                             {
+                                kaavioPeli.CupWalkOverOnVarma = true;
+
                                 if (kaavioPeli.Id1 > 0 && kaavioPeli.Id2 <= 0)
                                 {
                                     kaavioPeli.Pisteet1 = "v";
@@ -2872,9 +2878,18 @@ namespace KaisaKaavio
                     // Pelaajan 1 nimi
                     if (cell.ColumnIndex == this.pelaaja1DataGridViewTextBoxColumn.Index)
                     {
-                        if (peli.Id1 < 0)
+                        if (peli.Id1 <= 0)
                         {
-                            e.Value = "w.o.";
+                            if ((kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup) ||
+                                peli.CupWalkOverOnVarma)
+                            {
+                                e.Value = "w.o.";
+                            }
+                            else
+                            {
+                                e.Value = string.Empty;
+                            }
+
                             e.CellStyle.Font = this.ohutFontti;
                             e.CellStyle.ForeColor = Color.Black;
                         }
@@ -2955,9 +2970,18 @@ namespace KaisaKaavio
                         }
                         else
                         {
-                            if (peli.Id2 < 0)
+                            if (peli.Id2 <= 0)
                             {
-                                e.Value = "w.o.";
+                                if ((kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup) ||
+                                    peli.CupWalkOverOnVarma)
+                                {
+                                    e.Value = "w.o.";
+                                }
+                                else
+                                {
+                                    e.Value = string.Empty;
+                                }
+
                                 e.CellStyle.Font = this.ohutFontti;
                                 e.CellStyle.ForeColor = Color.Black;
                             }

@@ -27,6 +27,8 @@ namespace KaisaKaavio
             public int PelinumeroKierroksella = 0;
             public List<Hyppy> Hypyt = null;
             public bool PeliOnPelattu = false; // Välittää tiedon CUP kaavion W.O.ista jotka on valmiita
+            public int CupSijoitus1 = 0;
+            public int CupSijoitus2 = 0;
 
             public int Id1 => Pelaaja1 != null ? Pelaaja1.Id : -1;
             public int Id2 => Pelaaja2 != null ? Pelaaja2.Id : -1;
