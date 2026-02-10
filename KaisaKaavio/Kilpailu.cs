@@ -930,6 +930,16 @@ namespace KaisaKaavio
             //this.EvaluointiTietokanta = null;
         }
 
+        /// <summary>
+        /// Poistaa pelaajat, sekä kaiken muun datan pelistä, mutta jättää pelin kaavioon
+        /// </summary>
+        public void TyhjennaCupPeli(Peli peli)
+        {
+            peli.Tyhjenna();
+            peli.PelaajaId1 = string.Empty;
+            peli.PelaajaId2 = string.Empty;
+        }
+
         public void PoistaKaikkiPelit()
         {
             if (Pelit.Any())
@@ -4268,15 +4278,8 @@ namespace KaisaKaavio
                 this.Loki.Kirjoita(string.Format("Peruutetaan ottelun {0} käynnistys (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));
             }
 
-            peli.Tilanne = PelinTilanne.Tyhja;
-            peli.Tulos = PelinTulos.EiTiedossa;
-            peli.Pisteet1 = string.Empty;
-            peli.Pisteet2 = string.Empty;
-            peli.Poyta = string.Empty;
-            peli.Alkoi = string.Empty;
-            peli.Paattyi = string.Empty;
-
-            //this.EvaluointiTietokanta = null;
+            peli.Tyhjenna();
+            PelienTilannePaivitysTarvitaan = true;
         }
 
         /// <summary>
@@ -4292,13 +4295,7 @@ namespace KaisaKaavio
                     this.Loki.Kirjoita(string.Format("Peruutetaan ottelun {0} käynnistys (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));
                 }
 
-                peli.Tilanne = PelinTilanne.Tyhja;
-                peli.Tulos = PelinTulos.EiTiedossa;
-                peli.Pisteet1 = string.Empty;
-                peli.Pisteet2 = string.Empty;
-                peli.Poyta = string.Empty;
-                peli.Alkoi = string.Empty;
-                peli.Paattyi = string.Empty;
+                peli.Tyhjenna();
                 return;
             }
 
@@ -4378,6 +4375,50 @@ namespace KaisaKaavio
             this.HakuTarvitaan = true;
 
             //this.EvaluointiTietokanta = null;
+        }
+
+        /// <summary>
+        /// Muuttaa jo pelatun CUP pelin tulosta kaaviossa, sekä poistaa kummankin pelaajan pelit pidemmällä cupissa
+        /// </summary>
+        public void PaivitaPelatunCupPelinTulos(Peli peli, PelinTulos uusiTulos, PelinTilanne uusiTilanne)
+        {
+            if (peli.Kierros <= 2)
+            {
+                throw new Exception("Bugi! Päivitetään alkukierroksen peliä CUP pelinä");
+            }
+
+            if (uusiTilanne == PelinTilanne.Tyhja && uusiTulos == PelinTulos.EiTiedossa)
+            {
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("Mitätöidään CUP ottelu {0} (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));
+                }
+
+                peli.Tyhjenna();
+            }
+            else
+            {
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("Päivitetään CUP pelin {0} tulos (manuaalinen muutos kisanvetäjältä).", peli.Kuvaus()));
+                }
+            }
+
+            // Poista kaikki myöhemmät CUP pelit joissa on jompi kumpi pelaaja
+            var poistettavatPelit = this.Pelit.Where(x =>
+                    x.Kierros > peli.Kierros &&
+                    x.SisaltaaJommanKummanPelaajan(peli.Id1, peli.Id2)).ToArray();
+
+            foreach (var poistettavaPeli in poistettavatPelit)
+            {
+                if (this.Loki != null)
+                {
+                    this.Loki.Kirjoita(string.Format("  -Tyhjennetään CUP peli {0}", poistettavaPeli.Kuvaus()));
+                }
+                this.TyhjennaCupPeli(poistettavaPeli);
+            }
+
+            this.HakuTarvitaan = true;
         }
 
         public List<Sali> Salit()

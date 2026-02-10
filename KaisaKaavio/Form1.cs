@@ -816,6 +816,8 @@ namespace KaisaKaavio
                 (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa ||
                 this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu);
 
+            this.haeKasinButton.Visible = this.kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup;
+
             PaivitaSijoitettuSarake();
 
             if (this.kilpailu.Laji == Laji.Pool)
@@ -1712,10 +1714,13 @@ namespace KaisaKaavio
 
                 lock (this.kilpailu)
                 {
-                    if (this.kilpailu.Pelit.Count(x => x.Kierros == 3) !=
-                        algoritmi.UudetPelit.Count(x => x.Kierros == 3))
+                    if (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
                     {
-                        this.kilpailu.PoistaCupPelit(); // Cup koko on muuttunut, poistetaan kaikki vanhat cup pelit
+                        if (this.kilpailu.Pelit.Count(x => x.Kierros == 3) !=
+                            algoritmi.UudetPelit.Count(x => x.Kierros == 3))
+                        {
+                            this.kilpailu.PoistaCupPelit(); // Cup koko on muuttunut, poistetaan kaikki vanhat cup pelit
+                        }
                     }
 
                     foreach (var peli in algoritmi.UudetPelit)
@@ -1837,11 +1842,11 @@ namespace KaisaKaavio
 
                 if (bCupPeliMuuttui)
                 {
-                    MessageBox.Show(
-                        "Huomaa, että yksi tai useampi CUP peli muuttui pistepäivityksen myötä",
-                        "Huom",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation);
+                //    MessageBox.Show(
+                //        "Huomaa, että yksi tai useampi CUP peli muuttui pistepäivityksen myötä",
+                //        "Huom",
+                //        MessageBoxButtons.OK,
+                //        MessageBoxIcon.Exclamation);
                 }
 
                 if (bLisattiinPeleja)
@@ -5683,7 +5688,9 @@ namespace KaisaKaavio
 
                 if (maxVisibleColumn > 4)
                 {
-                    this.rankingDataGridView.FirstDisplayedScrollingColumnIndex = maxVisibleColumn;
+                    this.rankingDataGridView.FirstDisplayedScrollingColumnIndex = Math.Min(
+                        this.rankingDataGridView.ColumnCount - 1, 
+                        maxVisibleColumn);
                 }
             }
             catch
@@ -6455,6 +6462,8 @@ namespace KaisaKaavio
                 this.kilpailu.HakuTarvitaan = true;
 
                 this.kilpailu.PaivitaPelitValmiinaAlkamaan();
+
+                this.haeKasinButton.Visible = this.kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup;
 
                 this.loki.Kirjoita(string.Format("Kaaviotyyppi vaihdettu kesken kisan {0}", this.kilpailu.KaavioTyyppi));
             }

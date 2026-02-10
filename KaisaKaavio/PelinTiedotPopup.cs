@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace KaisaKaavio
@@ -68,12 +69,35 @@ namespace KaisaKaavio
             this.luovutusTextBox2.Text = peli.LuovutusPelaaja2;
 
             this.pelidetaljiPelaaja1Sarja1textBox.Focus();
+
+            if (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                this.peli.Kierros <= 2)
+            {
+                if (this.kilpailu.Pelit.Any(x => 
+                    (x.Kierros > 2) && 
+                    (!x.OnWalkOver) &&
+                    (x.Tilanne == PelinTilanne.Pelattu)))
+                {
+                    this.pisteet1TextBox.Enabled = false;
+                    this.pisteet2TextBox.Enabled = false;
+                    this.lyontivuorojaTextBox.Enabled = false;
+                    this.luovutusTextBox1.Enabled = false;
+                    this.luovutusTextBox2.Enabled = false;
+                    this.mitatoiOtteluButton.Enabled = false;
+
+                    AsetaInfonVarit(Color.LightPink, Color.Red);
+                    this.infoRichTextBox.Text =
+                        "Ensimmäisen ja toisen kierroksen pelien pisteitä ei voi enää muokata kun CUP pelejä on jo pelattu";
+                }
+            }
         }
 
         void PelinTiedotPopup_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.tallenna)
             {
+                bool pisteitaMuokattu = false;
+
                 this.peli.PisinSarja1 = this.pelidetaljiPelaaja1Sarja1textBox.Text;
                 this.peli.PisinSarja2 = this.pelidetaljiPelaaja2Sarja1textBox.Text;
                 this.peli.ToiseksiPisinSarja1 = this.pelidetaljiPelaaja1Sarja2textBox.Text;
@@ -82,32 +106,63 @@ namespace KaisaKaavio
                 this.peli.Poyta = this.poytaTextBox.Text;
                 this.peli.Alkoi = this.alkamisAikaTextBox.Text;
                 this.peli.Paattyi = this.paattymisAikaTextBox.Text;
-                this.peli.Lyontivuoroja = this.lyontivuorojaTextBox.Text;
 
-                this.peli.LuovutusPelaaja1 = this.luovutusTextBox1.Text;
-                this.peli.LuovutusPelaaja2 = this.luovutusTextBox2.Text;
-
-                if (this.loki != null)
+                if (!string.Equals(this.peli.Lyontivuoroja, this.lyontivuorojaTextBox.Text))
                 {
-                    if (!string.Equals(this.peli.Pisteet1, this.pisteet1TextBox.Text))
+                    this.peli.Lyontivuoroja = this.lyontivuorojaTextBox.Text;
+                    pisteitaMuokattu = true;
+                }
+
+                if (!string.Equals(this.peli.LuovutusPelaaja1, this.luovutusTextBox1.Text))
+                {
+                    this.peli.LuovutusPelaaja1 = this.luovutusTextBox1.Text;
+                    pisteitaMuokattu = true;
+                }
+
+                if (!string.Equals(this.peli.LuovutusPelaaja2, this.luovutusTextBox2.Text))
+                {
+                    this.peli.LuovutusPelaaja2 = this.luovutusTextBox2.Text;
+                    pisteitaMuokattu = true;
+                }
+
+                if (!string.Equals(this.peli.Pisteet1, this.pisteet1TextBox.Text))
+                {
+                    if (this.loki != null)
                     {
-                        this.loki.Kirjoita(string.Format("Pelin {0} pelaajan 1 pisteitä muokattu manuaalisesti pelin jälkeen {1} => {2}", 
+                        this.loki.Kirjoita(string.Format("Pelin {0} pelaajan 1 pisteitä muokattu manuaalisesti pelin jälkeen {1} => {2}",
                             this.peli.Kuvaus(),
-                            this.peli.Pisteet1, 
+                            this.peli.Pisteet1,
                             this.pisteet1TextBox.Text));
                     }
 
-                    if (!string.Equals(this.peli.Pisteet2, this.pisteet2TextBox.Text))
+                    this.peli.Pisteet1 = this.pisteet1TextBox.Text;
+                    pisteitaMuokattu = true;
+                }
+
+
+                if (!string.Equals(this.peli.Pisteet2, this.pisteet2TextBox.Text))
+                {
+                    if (this.loki != null)
                     {
                         this.loki.Kirjoita(string.Format("Pelin {0} pelaajan 2 pisteitä muokattu manuaalisesti pelin jälkeen {1} => {2}",
                             this.peli.Kuvaus(),
                             this.peli.Pisteet2,
                             this.pisteet2TextBox.Text));
                     }
+
+                    this.peli.Pisteet2 = this.pisteet2TextBox.Text;
+                    pisteitaMuokattu = true;
                 }
 
-                this.peli.Pisteet1 = this.pisteet1TextBox.Text;
-                this.peli.Pisteet2 = this.pisteet2TextBox.Text;
+                if (pisteitaMuokattu &&
+                    this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+                {
+                    if (this.peli.Kierros <= 2)
+                    {
+                        this.kilpailu.PoistaCupPelit(); // Cup pitää arpoa uusiksi jos alkupelejä sörkitään
+                        this.kilpailu.HakuTarvitaan = true;
+                    }
+                }
 
                 if (this.tilanne == PelinTilanne.Kaynnissa && this.muokattuTilanne == PelinTilanne.Tyhja)
                 {
@@ -115,7 +170,17 @@ namespace KaisaKaavio
                 }
                 else if (this.tulos != this.muokattuTulos || this.tilanne != this.muokattuTilanne)
                 {
-                    this.kilpailu.PaivitaPelatunPelinTulos(peli, this.muokattuTulos, this.muokattuTilanne);
+                    if (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+                    {
+                        if (this.peli.Kierros > 2)
+                        {
+                            this.kilpailu.PaivitaPelatunCupPelinTulos(peli, this.muokattuTulos, this.muokattuTilanne);
+                        }
+                    }
+                    else
+                    {
+                        this.kilpailu.PaivitaPelatunPelinTulos(peli, this.muokattuTulos, this.muokattuTilanne);
+                    }
                 }
             }
         }
