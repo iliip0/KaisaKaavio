@@ -25,6 +25,15 @@ namespace KaisaKaavio.CupKaavio
             public CupPeli EdellinenPeli2 = null;
 
             public bool Pelattu = false;
+
+            public string Id 
+            {
+                get
+                {
+                    char kierros = (char)('A' + (Kierros - 3));
+                    return string.Format("{0}{1}", kierros, PelinNumero + 1);
+                }
+            }
         }
 
         public List<List<CupPeli>> Pelit { get; private set; } = new List<List<CupPeli>>();

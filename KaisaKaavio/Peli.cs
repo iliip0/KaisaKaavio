@@ -472,8 +472,14 @@ namespace KaisaKaavio
         [XmlIgnore]
         public int CupSijoitusPelaaja2 { get; set; } = 0;
 
+        /// <summary>
+        /// Teksti pelin kohdalla Cup pelissä, kun pelaaja ei ole vielä selvillä (esim "w.o.")
+        /// </summary>
         [XmlIgnore]
-        public bool CupWalkOverOnVarma { get; set; } = false;
+        public string CupTeksti1 { get; set; } = string.Empty;
+
+        [XmlIgnore]
+        public string CupTeksti2 { get; set; } = string.Empty;
 
         private void PaivitaPelinAlkamisAika()
         {
@@ -1373,7 +1379,18 @@ namespace KaisaKaavio
 
         private void Pelaaja1Rtf(Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus, bool tulostaSijoitus)
         {
-            if (this.Kilpailu == null || this.Id1 < 0)
+            if ((this.Kilpailu != null) && 
+                (this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup) &&
+                (this.Kierros >= 3) &&
+                (this.Id1 <= 0))
+            {
+                if (!string.IsNullOrEmpty(this.CupTeksti1))
+                {
+                    teksti.PieniTeksti(this.CupTeksti1);
+                }
+            }
+
+            if (this.Kilpailu == null || this.Id1 <= 0)
             {
                 return;
             }
@@ -1384,13 +1401,30 @@ namespace KaisaKaavio
                 return;
             }
 
+            if (this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                this.Kierros == 3)
+            {
+                teksti.PieniTeksti(string.Format("[{0}]", this.CupSijoitusPelaaja1 + 1));
+            }
+
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id1, PeliNumero);
             PelaajaRtf(pelaaja, tappiot, Pisteet1Tuloksissa, teksti, tulostaPisteet, tulostaSeura, tulostaTasoitus, tulostaSijoitus);
         }
 
         private void Pelaaja2Rtf(Tyypit.Teksti teksti, bool tulostaPisteet, bool tulostaSeura, bool tulostaTasoitus, bool tulostaSijoitus)
         {
-            if (this.Kilpailu == null || this.Id2 < 0)
+            if ((this.Kilpailu != null) &&
+                (this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup) &&
+                (this.Kierros >= 3) &&
+                (this.Id2 <= 0))
+            {
+                if (!string.IsNullOrEmpty(this.CupTeksti2))
+                {
+                    teksti.PieniTeksti(this.CupTeksti2);
+                }
+            }
+
+            if (this.Kilpailu == null || this.Id2 <= 0)
             {
                 return;
             }
@@ -1399,6 +1433,12 @@ namespace KaisaKaavio
             if (pelaaja == null)
             {
                 return;
+            }
+
+            if (this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                this.Kierros == 3)
+            {
+                teksti.PieniTeksti(string.Format("[{0}]", this.CupSijoitusPelaaja2 + 1));
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id2, PeliNumero);
@@ -1425,6 +1465,13 @@ namespace KaisaKaavio
             if (this.Kilpailu == null)
             {
                 return;
+            }
+
+            if (this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                this.Kierros >= 3)
+            {
+                char kierros = (char)('A' + (this.Kierros - 3));
+                teksti.PieniTeksti(string.Format("{0}{1}: ", kierros, this.PeliNumeroKierroksella + 1));
             }
 
             if (this.Tilanne == PelinTilanne.Kaynnissa)

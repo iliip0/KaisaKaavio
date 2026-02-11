@@ -29,10 +29,9 @@ namespace KaisaKaavio.CupKaavio
         public bool AutomaattinenTestausMenossa { get; set; } = false;
 
         public List<HakuAlgoritmi.Pelaajat> UudetPelit { get; private set; } = new List<HakuAlgoritmi.Pelaajat>();
-        private List<int> CupSijoitus { get; set; } = new List<int>();
 
-        private readonly int PisteytysVoitosta = 100000;
-        private readonly int PisteytysPisteesta = 1;
+        private readonly float PisteytysVoitosta = 100000;
+        private readonly float PisteytysPisteesta = 1;
 
         public class Peluri
         {
@@ -44,10 +43,10 @@ namespace KaisaKaavio.CupKaavio
             public int Pisteet = 0;
             public int Lyontivuorot = 0;
 
-            public int Pisteytys = 0;
-            public int MaxPisteytys = 0;
+            public float Pisteytys = 0;
+            public float MinPisteytys = 0;
+            public float MaxPisteytys = 0;
             public int SijoitusAlkupeleissa = 0;
-            public double SijoitusAlkupeleissaArvalla = 0.0f;
 
             public bool SijoitusOnLopullinen = false;
 
@@ -55,6 +54,8 @@ namespace KaisaKaavio.CupKaavio
         }
 
         private List<Peluri> pelurit = new List<Peluri>();
+        private int pelaajiaMukanaVahintaan = 0;
+        private int pelaajiaMukanaEnintaan = 0;
 
         public CupKaavioHaku(Kilpailu kilpailu, Loki loki, IStatusRivi status)
         {
@@ -124,6 +125,9 @@ namespace KaisaKaavio.CupKaavio
                 return 0; // Cupin koko ei vielä varmuudella tiedossa
             }
 
+            pelaajiaMukanaVahintaan = mukanaMin;
+            pelaajiaMukanaEnintaan = mukanaMax;
+
             return cupinKokoMin;
         }
 
@@ -137,6 +141,10 @@ namespace KaisaKaavio.CupKaavio
 
             foreach (var peluri in pelurit)
             {
+                peluri.MinPisteytys += peluri.Pelaaja.CupKaavioArpa;
+                peluri.MaxPisteytys += peluri.Pelaaja.CupKaavioArpa;
+                peluri.Pisteytys += peluri.Pelaaja.CupKaavioArpa;
+
                 if (peluri.Pelit.Count != 2)
                 {
                     throw new Exception(string.Format("Pelaajalla {0} on liian vähän alkukierrosten pelejä", peluri.Pelaaja.Nimi));
@@ -161,14 +169,13 @@ namespace KaisaKaavio.CupKaavio
             foreach (var peluri in mukana.OrderByDescending(x => x.Pisteytys))
             {
 #if DEBUG
-                Debug.WriteLine(string.Format("  {0}. {1} [{2}]", sijoitus, peluri.Pelaaja.Nimi, peluri.Pisteytys));
+                Debug.WriteLine(string.Format("  {0}. {1} [{2}] ({3}-{4})",
+                    sijoitus + 1,
+                    peluri.Pelaaja.Nimi,
+                    (int)peluri.Pisteytys,
+                    (int)peluri.MinPisteytys,
+                    (int)peluri.MaxPisteytys));
 #endif
-                peluri.SijoitusAlkupeleissa = sijoitus++;
-                peluri.SijoitusAlkupeleissaArvalla = peluri.SijoitusAlkupeleissa + new Random().NextDouble() * 0.5; // Arpoo järjestyksen jos on tasapisteet
-            }
-            sijoitus = 0;
-            foreach (var peluri in mukana.OrderBy(x => x.SijoitusAlkupeleissaArvalla))
-            {
                 peluri.SijoitusAlkupeleissa = sijoitus++;
                 peluri.SijoitusOnLopullinen = true;
             }
@@ -176,38 +183,15 @@ namespace KaisaKaavio.CupKaavio
             // Tarkistetaan onko sijoitus lopullinen jos alkupelejä on kesken
             if (pelurit.Any(x => x.PelatutPelit < 2))
             {
-                for (int i = 0; i < pelurit.Count; ++i)
+                foreach (var peluri in pelurit)
                 {
-                    var peluri = pelurit[i];
-
+                    peluri.SijoitusOnLopullinen = false;
                     if (peluri.Voitot > 0)
                     {
-                        peluri.SijoitusOnLopullinen = true;
+                        var paremmat = pelurit.Where(x => (x != peluri) && (x.MinPisteytys > peluri.MaxPisteytys));
+                        var huonommat = pelurit.Where(x => (x != peluri) && (x.MaxPisteytys < peluri.MinPisteytys));
 
-                        if (pelurit.Count(x => x.Pisteytys == peluri.Pisteytys) > 1)
-                        {
-                            peluri.SijoitusOnLopullinen = false; // Tasapisteissä on muita pelaajia, sijoitus ei ole varma
-                        }
-                        else
-                        {
-                            var paremmat = pelurit.Where(x => x.Pisteytys > peluri.Pisteytys);
-                            if (paremmat.Any(x => x.Pisteytys <= peluri.MaxPisteytys))
-                            {
-                                peluri.SijoitusOnLopullinen = false; // Pelaaja voi vielä kiriä toisen pelaajan edelle
-                            }
-                            else
-                            {
-                                var huonommat = pelurit.Where(x => x.Pisteytys < pelurit[i].Pisteytys);
-                                if (huonommat.Any(x => x.MaxPisteytys >= peluri.Pisteytys))
-                                {
-                                    peluri.SijoitusOnLopullinen = false; // Joku voi vielä tulla takaa ohi
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        peluri.SijoitusOnLopullinen = false;
+                        peluri.SijoitusOnLopullinen = (paremmat.Count() + huonommat.Count()) == (pelurit.Count - 1);
                     }
                 }
             }
@@ -234,6 +218,54 @@ namespace KaisaKaavio.CupKaavio
                     pelaajat.PelinumeroKierroksella = peli.PelinNumero;
                     pelaajat.PeliOnPelattu = peli.Pelattu;
 
+                    if (pelaajat.Pelaaja1 == null)
+                    {
+                        if (peli.Pelattu)
+                        {
+                            pelaajat.CupTeksti1 = "w.o.";
+                        }
+                        else if (peli.Kierros == 3 && peli.Sijoitus1 >= pelaajiaMukanaEnintaan)
+                        {
+                            pelaajat.CupTeksti1 = "w.o.";
+                        }
+                        else if (peli.Kierros > 3)
+                        {
+                            pelaajat.CupTeksti1 = string.Format("Voittaja pelistä {0}", peli.EdellinenPeli1.Id);
+                        }
+                        else
+                        {
+                            pelaajat.CupTeksti1 = string.Format("Alkukierrosten {0}.", peli.Sijoitus1 + 1);
+                            if (peli.Sijoitus1 >= pelaajiaMukanaVahintaan)
+                            {
+                                pelaajat.CupTeksti1 += " tai w.o.";
+                            }
+                        }
+                    }
+
+                    if (pelaajat.Pelaaja2 == null)
+                    {
+                        if (peli.Pelattu)
+                        {
+                            pelaajat.CupTeksti2 = "w.o.";
+                        }
+                        else if (peli.Kierros == 3 && peli.Sijoitus2 >= pelaajiaMukanaEnintaan)
+                        {
+                            pelaajat.CupTeksti2 = "w.o.";
+                        }
+                        else if (peli.Kierros > 3)
+                        {
+                            pelaajat.CupTeksti2 = string.Format("Voittaja pelistä {0}", peli.EdellinenPeli2.Id);
+                        }
+                        else
+                        {
+                            pelaajat.CupTeksti2 = string.Format("Alkukierrosten {0}.", peli.Sijoitus2 + 1);
+                            if (peli.Sijoitus2 >= pelaajiaMukanaVahintaan)
+                            {
+                                pelaajat.CupTeksti2 += " tai w.o.";
+                            }
+                        }
+                    }
+
                     if (peli.Kierros == 3)
                     {
                         pelaajat.CupSijoitus1 = peli.Sijoitus1;
@@ -250,6 +282,18 @@ namespace KaisaKaavio.CupKaavio
             var pelaaja1 = this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == peli.Id1);
             var pelaaja2 = this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == peli.Id2);
 
+            Random r = new Random();
+
+            if (pelaaja1.CupKaavioArpa <= 0)
+            {
+                pelaaja1.CupKaavioArpa = (float)r.NextDouble();
+            }
+
+            if (pelaaja2.CupKaavioArpa <= 0)
+            {
+                pelaaja2.CupKaavioArpa = (float)r.NextDouble();
+            }
+
             Peluri peluri1 = null;
             if (pelaaja1 != null)
             {
@@ -262,20 +306,22 @@ namespace KaisaKaavio.CupKaavio
 
                 peluri1.Pelit.Add(peli);
                 peluri1.Pisteet += peli.Pisteet(pelaaja1.Id);
+                peluri1.Pisteytys += peli.Pisteet(pelaaja1.Id) * PisteytysPisteesta;
                 peluri1.Lyontivuorot += peli.LyontivuorojaInt;
 
                 if (peli.Tilanne == PelinTilanne.Pelattu)
                 {
                     peluri1.PelatutPelit++;
 
-                    peluri1.Pisteytys += peluri1.Pisteet * PisteytysPisteesta;
-                    peluri1.MaxPisteytys += peluri1.Pisteet * PisteytysPisteesta;
+                    peluri1.MinPisteytys += peli.Pisteet(pelaaja1.Id) * PisteytysPisteesta;
+                    peluri1.MaxPisteytys += peli.Pisteet(pelaaja1.Id) * PisteytysPisteesta;
 
                     if (peli.Voitti(pelaaja1.Id))
                     {
                         peluri1.Voitot++;
 
                         peluri1.Pisteytys += 1 * PisteytysVoitosta;
+                        peluri1.MinPisteytys += 1 * PisteytysVoitosta;
                         peluri1.MaxPisteytys += 1 * PisteytysVoitosta;
                     }
                     else if (peli.Havisi(pelaaja1.Id))
@@ -286,7 +332,6 @@ namespace KaisaKaavio.CupKaavio
                 else
                 {
                     peluri1.KeskeneraisetPelit++;
-
                     peluri1.MaxPisteytys += 1 * PisteytysVoitosta + ((int)kilpailu.TavoitePistemaara) * PisteytysPisteesta;
                 }
             }
@@ -303,20 +348,22 @@ namespace KaisaKaavio.CupKaavio
 
                 peluri2.Pelit.Add(peli);
                 peluri2.Pisteet += peli.Pisteet(pelaaja2.Id);
+                peluri2.Pisteytys += peli.Pisteet(pelaaja2.Id) * PisteytysPisteesta;
                 peluri2.Lyontivuorot += peli.LyontivuorojaInt;
 
                 if (peli.Tilanne == PelinTilanne.Pelattu)
                 {
                     peluri2.PelatutPelit++;
 
-                    peluri2.Pisteytys += peluri2.Pisteet * PisteytysPisteesta;
-                    peluri2.MaxPisteytys += peluri2.Pisteet * PisteytysPisteesta;
+                    peluri2.MinPisteytys += peli.Pisteet(pelaaja2.Id) * PisteytysPisteesta;
+                    peluri2.MaxPisteytys += peli.Pisteet(pelaaja2.Id) * PisteytysPisteesta;
 
                     if (peli.Voitti(pelaaja2.Id))
                     {
                         peluri2.Voitot++;
 
                         peluri2.Pisteytys += 1 * PisteytysVoitosta;
+                        peluri2.MinPisteytys += 1 * PisteytysVoitosta;
                         peluri2.MaxPisteytys += 1 * PisteytysVoitosta;
                     }
                     else if (peli.Havisi(pelaaja2.Id))
@@ -327,7 +374,6 @@ namespace KaisaKaavio.CupKaavio
                 else
                 {
                     peluri2.KeskeneraisetPelit++;
-
                     peluri2.MaxPisteytys += 1 * PisteytysVoitosta + ((int)kilpailu.TavoitePistemaara) * PisteytysPisteesta;
                 }
             }

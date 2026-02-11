@@ -1776,12 +1776,16 @@ namespace KaisaKaavio
 
                     if (peli.Tilanne == PelinTilanne.Pelattu)
                     {
-                        if (!peli.Havisi(peli.Id1))
+                        if (peli.Voitti(peli.Id1))
                         {
                             p1.Voitto = true;
-                            osallistuja1.Sijoitus.Voitot++;
+
+                            if ((KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup) || (!peli.OnWalkOver))
+                            {
+                                osallistuja1.Sijoitus.Voitot++;
+                            }
                         }
-                        else
+                        else if (peli.Havisi(peli.Id1))
                         {
                             osallistuja1.Sijoitus.Tappiot++;
                             if (osallistuja1.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli(peli.Id1))
@@ -1811,12 +1815,15 @@ namespace KaisaKaavio
 
                     if (peli.Tilanne == PelinTilanne.Pelattu)
                     {
-                        if (!peli.Havisi(peli.Id2))
+                        if (peli.Voitti(peli.Id2))
                         {
                             p2.Voitto = true;
-                            osallistuja2.Sijoitus.Voitot++;
+                            if ((KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup) || (!peli.OnWalkOver))
+                            {
+                                osallistuja2.Sijoitus.Voitot++;
+                            }
                         }
-                        else
+                        else if (peli.Havisi(peli.Id2))
                         {
                             osallistuja2.Sijoitus.Tappiot++;
                             if (osallistuja2.Sijoitus.Tappiot >= 2 || peli.OnPudotusPeli(peli.Id2))
@@ -2983,11 +2990,20 @@ namespace KaisaKaavio
 
         public int LaskeVoitot(int pelaaja, int kierros)
         {
-            return Pelit.Count(x =>
+            var voitetutPelit = Pelit.Where(x =>
                 x.Kierros < kierros &&
                 x.Tilanne == PelinTilanne.Pelattu &&
                 x.SisaltaaPelaajan(pelaaja) &&
-                !x.Havisi(pelaaja));
+                x.Voitti(pelaaja));
+
+            if (KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+            {
+                return voitetutPelit.Where(x => !x.OnWalkOver).Count();
+            }
+            else
+            {
+                return voitetutPelit.Count();
+            }
         }
 
         public int LaskePisteet(int pelaaja, int kierros)

@@ -1745,10 +1745,6 @@ namespace KaisaKaavio
                             {
                                 kaavioPeli = this.kilpailu.LisaaPeli(peli.Pelaaja1, peli.Pelaaja2, peli.Kierros);
                                 kaavioPeli.PeliNumeroKierroksella = peli.PelinumeroKierroksella;
-                                kaavioPeli.CupSijoitusPelaaja1 = peli.CupSijoitus1;
-                                kaavioPeli.CupSijoitusPelaaja2 = peli.CupSijoitus2;
-                                kaavioPeli.CupWalkOverOnVarma = peli.PeliOnPelattu;
-
                                 bLisattiinPeleja = true;
                             }
                             else
@@ -1788,12 +1784,15 @@ namespace KaisaKaavio
                                 }
                             }
 
+                            kaavioPeli.CupSijoitusPelaaja1 = peli.CupSijoitus1;
+                            kaavioPeli.CupSijoitusPelaaja2 = peli.CupSijoitus2;
+                            kaavioPeli.CupTeksti1 = peli.CupTeksti1;
+                            kaavioPeli.CupTeksti2 = peli.CupTeksti2;
+
                             // Päivitetään ekan cup kierroksen w.o.t
                             if (kaavioPeli.Tilanne != PelinTilanne.Pelattu &&
                                 peli.PeliOnPelattu)
                             {
-                                kaavioPeli.CupWalkOverOnVarma = true;
-
                                 if (kaavioPeli.Id1 > 0 && kaavioPeli.Id2 <= 0)
                                 {
                                     kaavioPeli.Pisteet1 = "v";
@@ -2880,18 +2879,18 @@ namespace KaisaKaavio
                     {
                         if (peli.Id1 <= 0)
                         {
-                            if ((kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup) ||
-                                peli.CupWalkOverOnVarma)
+                            if (kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
                             {
-                                e.Value = "w.o.";
+                                e.Value = peli.CupTeksti1;
+                                e.CellStyle.Font = this.ohutPieniFontti;
+                                e.CellStyle.ForeColor = Color.Gray;
                             }
                             else
                             {
-                                e.Value = string.Empty;
+                                e.Value = "w.o.";
+                                e.CellStyle.Font = this.ohutFontti;
+                                e.CellStyle.ForeColor = Color.Black;
                             }
-
-                            e.CellStyle.Font = this.ohutFontti;
-                            e.CellStyle.ForeColor = Color.Black;
                         }
                         else
                         {
@@ -2972,18 +2971,18 @@ namespace KaisaKaavio
                         {
                             if (peli.Id2 <= 0)
                             {
-                                if ((kilpailu.KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup) ||
-                                    peli.CupWalkOverOnVarma)
+                                if (kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
                                 {
-                                    e.Value = "w.o.";
+                                    e.Value = peli.CupTeksti2;
+                                    e.CellStyle.Font = this.ohutPieniFontti;
+                                    e.CellStyle.ForeColor = Color.Gray;
                                 }
                                 else
                                 {
-                                    e.Value = string.Empty;
+                                    e.Value = "w.o.";
+                                    e.CellStyle.Font = this.ohutFontti;
+                                    e.CellStyle.ForeColor = Color.Black;
                                 }
-
-                                e.CellStyle.Font = this.ohutFontti;
-                                e.CellStyle.ForeColor = Color.Black;
                             }
                             else
                             {
@@ -3047,6 +3046,23 @@ namespace KaisaKaavio
                         else
                         {
                             e.CellStyle.Font = this.ohutFontti;
+                        }
+                    }
+
+                    if (cell.ColumnIndex == this.pelaajaId1DataGridViewTextBoxColumn.Index ||
+                        cell.ColumnIndex == this.pelaajaId2DataGridViewTextBoxColumn.Index)
+                    {
+                        if (kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                            peli.Kierros > 2)
+                        {
+                            // CUP:issa näytetään CUP pelin "id" pelaajan id:n sijaan
+                            char kierros = (char)('A' + (peli.Kierros - 3));
+                            e.Value = string.Format("{0}{1}", kierros, peli.PeliNumeroKierroksella + 1);
+                            e.CellStyle.Font = ohutPieniFontti;
+                        }
+                        else
+                        {
+                            e.CellStyle.Font = ohutFontti;
                         }
                     }
 
@@ -4595,23 +4611,43 @@ namespace KaisaKaavio
                         kierros = peli.Kierros;
                         pelipaikka = peli.Paikka;
 
-                        if (this.kilpailu.OnUseanPelipaikanKilpailu)
+                        if (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
+                            peli.Kierros > 2)
                         {
-                            teksti.PaksuTeksti(string.Format("{0}. Kierros - {1}", kierros, pelipaikka));
+                            int peleja = this.kilpailu.Pelit.Count(x => x.Kierros == peli.Kierros);
+                            if (peleja == 1)
+                            {
+                                teksti.PaksuTeksti("Finaali");
+                            }
+                            else if (peleja == 2)
+                            {
+                                teksti.PaksuTeksti("Semifinaalit");
+                            }
+                            else
+                            {
+                                teksti.PaksuTeksti(string.Format("{0} CUP", peleja * 2));
+                            }
                         }
                         else
                         {
-                            teksti.PaksuTeksti(string.Format("{0}. Kierros", kierros));
-                        }
+                            if (this.kilpailu.OnUseanPelipaikanKilpailu)
+                            {
+                                teksti.PaksuTeksti(string.Format("{0}. Kierros - {1}", kierros, pelipaikka));
+                            }
+                            else
+                            {
+                                teksti.PaksuTeksti(string.Format("{0}. Kierros", kierros));
+                            }
 
-                        var mukana = kilpa.MukanaOlevatPelaajatEnnenPelia(peli);
-                        if (mukana.Count() == 2)
-                        {
-                            teksti.NormaaliTeksti(" (finaali)");
-                        }
-                        else if (peli.OnPudotusPeliJommalleKummallePelaajalle())
-                        {
-                            teksti.NormaaliTeksti(" (pudari)");
+                            var mukana = kilpa.MukanaOlevatPelaajatEnnenPelia(peli);
+                            if (mukana.Count() == 2)
+                            {
+                                teksti.NormaaliTeksti(" (finaali)");
+                            }
+                            else if (peli.OnPudotusPeliJommalleKummallePelaajalle())
+                            {
+                                teksti.NormaaliTeksti(" (pudari)");
+                            }
                         }
 
                         if (kierros != 1)

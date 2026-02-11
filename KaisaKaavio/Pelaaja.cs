@@ -277,6 +277,12 @@ namespace KaisaKaavio
         public int OnlineIlmoKayttajaId { get; set; } = -1;
 
         /// <summary>
+        /// Satunnaisluku välillä [0..1], joka ratkaisee cup järjestyksen jos useampi pelaaja on alkupeleissä yhtä hyviä
+        /// </summary>
+        [XmlIgnore]
+        public float CupKaavioArpa { get; set; } = 0;
+
+        /// <summary>
         /// Tietorakenne, jolla pelit esitetään 'Kaavio'-näkymässä
         /// </summary>
         public class PeliTietue
