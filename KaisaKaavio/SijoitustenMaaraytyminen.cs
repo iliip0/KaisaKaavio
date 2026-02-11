@@ -12,5 +12,8 @@ namespace KaisaKaavio
 
         [Description("Sijat 1-3 kierrosten perusteella, loput voittojen ja pisteiden")]
         KolmeParastaKierroksistaLoputPisteista,
+
+        [Description("CUP")]
+        Cup,
     }
 }

@@ -5057,14 +5057,36 @@ namespace KaisaKaavio
             int kolmostenKierros = -1;
             int kolmosia = 0;
 
+            int edellinenCupSija = 1;
+
             foreach (var osallistuja in tulosluettelo)
             {
+                if (kilpailu.SijoitustenMaaraytyminen == SijoitustenMaaraytyminen.Cup)
+                {
+                    if (osallistuja.Sijoitus >= (edellinenCupSija / 2 + 1))
+                    {
+                        if (edellinenCupSija < 3)
+                        {
+                            teksti.PaksuTeksti(string.Format("{0}.", edellinenCupSija));
+                        }
+                        else
+                        {
+                            teksti.PaksuTeksti(string.Format("{0}-{1}.", edellinenCupSija / 2 + 1, Math.Min(edellinenCupSija, tulosluettelo.Count())));
+                        }
+                        edellinenCupSija *= 2;
+                    }
+                }
+
                 if (osallistuja.SijoitusOnVarma)
                 {
+                    if (kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.Cup)
+                    {
+                        teksti.NormaaliTeksti(string.Format("{0}. ", osallistuja.Sijoitus));
+                    }
+
                     if (this.kilpailu.Laji == Laji.Kara && osallistuja.Lyontivuoroja > 0)
                     {
-                        teksti.NormaaliTeksti(string.Format("{0}. {1} ",
-                            osallistuja.Sijoitus,
+                        teksti.NormaaliTeksti(string.Format("{0} ",
                             this.kilpailu.KilpailuKaavioon.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString())));
 
 #if DEBUG
@@ -5094,8 +5116,7 @@ namespace KaisaKaavio
                     {
                         if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
                         {
-                            teksti.NormaaliTeksti(string.Format("{0}. {1} - {2}/{3}/{4}",
-                                osallistuja.Sijoitus,
+                            teksti.NormaaliTeksti(string.Format("{0} - {1}/{2}/{3}",
                                 this.kilpailu.KilpailuKaavioon.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
                                 osallistuja.Voitot,
                                 osallistuja.Pisteet,
@@ -5103,8 +5124,7 @@ namespace KaisaKaavio
                         }
                         else
                         {
-                            teksti.NormaaliTeksti(string.Format("{0}. {1} - {2}/{3}",
-                                osallistuja.Sijoitus,
+                            teksti.NormaaliTeksti(string.Format("{0} - {1}/{2}",
                                 this.kilpailu.KilpailuKaavioon.PelaajanNimiTulosluettelossa(osallistuja.Pelaaja.Id.ToString()),
                                 osallistuja.Voitot,
                                 osallistuja.Pisteet));
@@ -5134,7 +5154,10 @@ namespace KaisaKaavio
                 }
                 else 
                 {
-                    teksti.NormaaliTeksti(string.Format("{0}.", osallistuja.Sijoitus));
+                    if (kilpailu.SijoitustenMaaraytyminen != SijoitustenMaaraytyminen.Cup)
+                    {
+                        teksti.NormaaliTeksti(string.Format("{0}.", osallistuja.Sijoitus));
+                    }
                 }
 
                 teksti.RivinVaihto();

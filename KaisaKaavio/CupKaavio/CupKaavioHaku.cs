@@ -286,16 +286,27 @@ namespace KaisaKaavio.CupKaavio
             var pelaaja1 = this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == peli.Id1);
             var pelaaja2 = this.kilpailu.Osallistujat.FirstOrDefault(x => x.Id == peli.Id2);
 
-            Random r = new Random();
-
+            // Arvotaan pelaajille cup arvat niin, että ei voi tulla sama arpa kahdelle
             if (pelaaja1.CupKaavioArpa <= 0)
             {
-                pelaaja1.CupKaavioArpa = (float)r.NextDouble();
-            }
+                Random r = new Random();
+                List<float> arvat = new List<float>();
 
-            if (pelaaja2.CupKaavioArpa <= 0)
-            {
-                pelaaja2.CupKaavioArpa = (float)r.NextDouble();
+                float d = 0.9f / this.kilpailu.Osallistujat.Count();
+                float arpa = 0.01f;
+
+                foreach (var p in this.kilpailu.Osallistujat)
+                {
+                    arvat.Add(arpa);
+                    arpa += d;
+                }
+
+                foreach (var p in this.kilpailu.Osallistujat)
+                {
+                    int i = r.Next(0, arvat.Count - 1);
+                    p.CupKaavioArpa = arvat[i];
+                    arvat.RemoveAt(i);
+                }
             }
 
             Peluri peluri1 = null;

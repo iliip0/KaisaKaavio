@@ -3985,6 +3985,23 @@ namespace KaisaKaavio
                     o.Sijoitus.SijoitusPisteet += o.Sijoitus.Pisteet;
                 }
 
+                if (SijoitustenMaaraytyminen == SijoitustenMaaraytyminen.Cup)
+                {
+                    if (o.Sijoitus.Voitot == 0)
+                    {
+                        o.Sijoitus.SijoitusPisteet = 0;
+                    }
+                    else
+                    {
+                        o.Sijoitus.SijoitusPisteet = this.Pelit.Count(x => x.SisaltaaPelaajan(o.Id));
+                    }
+
+                    if (!o.Sijoitus.Pudotettu)
+                    {
+                        o.Sijoitus.SijoitusPisteet += 100000;
+                    }
+                }
+
                 tulostietueet.Add(o.Sijoitus);
             }
 
@@ -4019,41 +4036,44 @@ namespace KaisaKaavio
             int mukana = tulokset.Count(x => !x.Pudotettu);
 
             // Huomioidaan sijoituksissa kuinka pitkälle pelaaja pääsi (jos näin on asetettu) 
-            if (this.SijoitustenMaaraytyminen != KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista && mukana <= 2)
+            if (KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup)
             {
-                var finaali = this.Pelit.LastOrDefault();
-                if (finaali != null)
+                if (this.SijoitustenMaaraytyminen != KaisaKaavio.SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista && mukana <= 2)
                 {
-                    if (KilpailuOnPaattynyt)
+                    var finaali = this.Pelit.LastOrDefault();
+                    if (finaali != null)
                     {
-                        var finalisti = tulokset.FirstOrDefault(x => x.Pelaaja == finaali.Haviaja());
-                        if (finalisti != null)
+                        if (KilpailuOnPaattynyt)
                         {
-                            finalisti.SijoitusPisteet += 500000000;
-                        }
-                    }
-
-                    if (this.SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista)
-                    {
-                        var t = tulokset
-                            .Where(x => !finaali.SisaltaaPelaajan(x.Pelaaja.Id))
-                            .OrderByDescending(x => x.PudonnutKierroksella);
-
-                        if (t.Count() > 0)
-                        {
-                            int pronssiKierros = t.FirstOrDefault().PudonnutKierroksella;
-                            foreach (var tt in t.Where(x => x.PudonnutKierroksella == pronssiKierros))
+                            var finalisti = tulokset.FirstOrDefault(x => x.Pelaaja == finaali.Haviaja());
+                            if (finalisti != null)
                             {
-                                tt.SijoitusPisteet = 250000000;
+                                finalisti.SijoitusPisteet += 500000000;
+                            }
+                        }
+
+                        if (this.SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista)
+                        {
+                            var t = tulokset
+                                .Where(x => !finaali.SisaltaaPelaajan(x.Pelaaja.Id))
+                                .OrderByDescending(x => x.PudonnutKierroksella);
+
+                            if (t.Count() > 0)
+                            {
+                                int pronssiKierros = t.FirstOrDefault().PudonnutKierroksella;
+                                foreach (var tt in t.Where(x => x.PudonnutKierroksella == pronssiKierros))
+                                {
+                                    tt.SijoitusPisteet = 250000000;
+                                }
                             }
                         }
                     }
-                }
 
-                tulokset = tulokset.ToArray()
-                    .OrderByDescending(x => x.Pisteet)
-                    .OrderByDescending(x => x.Voitot)
-                    .OrderByDescending(x => x.SijoitusPisteet);
+                    tulokset = tulokset.ToArray()
+                        .OrderByDescending(x => x.Pisteet)
+                        .OrderByDescending(x => x.Voitot)
+                        .OrderByDescending(x => x.SijoitusPisteet);
+                }
             }
 
             int sijoitus = 1;
@@ -4085,38 +4105,41 @@ namespace KaisaKaavio
                 {
                     t.SijoitusOnVarma = t.Pudotettu;
 
-                    if (tulokset.Where(x => x.Pelaaja != t.Pelaaja && !x.Pudotettu).Any(y =>
-                        y.Voitot < t.Voitot ||
-                        y.Voitot == t.Voitot && y.Pisteet <= t.Pisteet))
+                    if (KaavioTyyppi != KaavioTyyppi.KaksiKierrostaJaCup)
                     {
+                        if (tulokset.Where(x => x.Pelaaja != t.Pelaaja && !x.Pudotettu).Any(y =>
+                            y.Voitot < t.Voitot ||
+                            y.Voitot == t.Voitot && y.Pisteet <= t.Pisteet))
+                        {
+                            if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
+                                mukana <= 2 &&
+                                t.Sijoitus >= 3)
+                            {
+                            }
+                            else
+                            {
+                                t.SijoitusOnVarma = false; // Joku mukana olevista voi vielä jäädä huonommalle sijalle
+                            }
+                        }
+
+                        if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
+                            mukana > 2 &&
+                            t.Sijoitus <= 3)
+                        {
+                            t.SijoitusOnVarma = false;
+                        }
+
                         if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
-                            mukana <= 2 &&
-                            t.Sijoitus >= 3)
+                            mukana > 2 &&
+                            t.Sijoitus < 3)
                         {
+                            t.SijoitusOnVarma = false;
                         }
-                        else
+
+                        if (mukana == 1 && t.Sijoitus == 1)
                         {
-                            t.SijoitusOnVarma = false; // Joku mukana olevista voi vielä jäädä huonommalle sijalle
+                            t.SijoitusOnVarma = true;
                         }
-                    }
-
-                    if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista &&
-                        mukana > 2 &&
-                        t.Sijoitus <= 3)
-                    {
-                        t.SijoitusOnVarma = false;
-                    }
-
-                    if (SijoitustenMaaraytyminen == KaisaKaavio.SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista &&
-                        mukana > 2 &&
-                        t.Sijoitus < 3)
-                    {
-                        t.SijoitusOnVarma = false;
-                    }
-
-                    if (mukana == 1 && t.Sijoitus == 1)
-                    {
-                        t.SijoitusOnVarma = true;
                     }
                 }
             }
