@@ -151,22 +151,11 @@ namespace KaisaKaavio.CupKaavio
                 }
             }
 
-            int cupinKoko = LaskeCupinKoko();
-            if (cupinKoko <= 0)
-            {
-#if DEBUG
-                Debug.WriteLine("Cup koko ei vielä selvillä");
-#endif
-                return; // Cupin koko ei vielä varmuudella tiedossa
-            }
+            Debug.WriteLine("Alkukierrosten tilanne:");
 
-            var mukana = this.pelurit.Where(x => (x.PelatutPelit < 2) || (x.Tappiot < 2));
-
-            Debug.WriteLine("CUPPIIN:");
-
-            // Arvotaan tasapisteissä olevien pelaajien sijoitus
+            // Lasketaan pelaajien alkupelien jälkeinen sijoitus cuppiin
             int sijoitus = 0;
-            foreach (var peluri in mukana.OrderByDescending(x => x.Pisteytys))
+            foreach (var peluri in pelurit.OrderByDescending(x => x.Pisteytys))
             {
 #if DEBUG
                 Debug.WriteLine(string.Format("  {0}. {1} [{2}] ({3}-{4})",
@@ -177,23 +166,38 @@ namespace KaisaKaavio.CupKaavio
                     (int)peluri.MaxPisteytys));
 #endif
                 peluri.SijoitusAlkupeleissa = sijoitus++;
-                peluri.SijoitusOnLopullinen = true;
+                peluri.SijoitusOnLopullinen = false;
+                peluri.Pelaaja.CupAlkupeliPisteytysTeksti = string.Format("{0}/{1}", peluri.Voitot, peluri.Pisteet);
+                peluri.Pelaaja.CupAlkupeliSijoitus = null;
+                peluri.Pelaaja.CupAlkupeliPisteytys = peluri.Pisteytys;
             }
 
-            // Tarkistetaan onko sijoitus lopullinen jos alkupelejä on kesken
-            if (pelurit.Any(x => x.PelatutPelit < 2))
+            // Tarkistetaan onko sijoitus lopullinen
+            foreach (var peluri in pelurit)
             {
-                foreach (var peluri in pelurit)
-                {
-                    peluri.SijoitusOnLopullinen = false;
-                    if (peluri.Voitot > 0)
-                    {
-                        var paremmat = pelurit.Where(x => (x != peluri) && (x.MinPisteytys > peluri.MaxPisteytys));
-                        var huonommat = pelurit.Where(x => (x != peluri) && (x.MaxPisteytys < peluri.MinPisteytys));
+                var paremmat = pelurit.Where(x => (x != peluri) && (x.MinPisteytys > peluri.MaxPisteytys));
+                var huonommat = pelurit.Where(x => (x != peluri) && (x.MaxPisteytys < peluri.MinPisteytys));
 
-                        peluri.SijoitusOnLopullinen = (paremmat.Count() + huonommat.Count()) == (pelurit.Count - 1);
+                peluri.SijoitusOnLopullinen = (paremmat.Count() + huonommat.Count()) == (pelurit.Count - 1);
+                if (peluri.SijoitusOnLopullinen)
+                {
+                    peluri.Pelaaja.CupAlkupeliSijoitus = peluri.SijoitusAlkupeleissa;
+#if DEBUG
+                    if (peluri.SijoitusAlkupeleissa != paremmat.Count())
+                    {
+                        Debug.WriteLine(string.Format("Bugi! Väärä lopullinen sijoitus pelaajalla {0}", peluri.Pelaaja.Nimi));
                     }
+#endif
                 }
+            }
+
+            int cupinKoko = LaskeCupinKoko();
+            if (cupinKoko <= 0)
+            {
+#if DEBUG
+                Debug.WriteLine("Cup koko ei vielä selvillä");
+#endif
+                return; // Cupin koko ei vielä varmuudella tiedossa
             }
 
             this.kilpailu.CupKoko = cupinKoko;

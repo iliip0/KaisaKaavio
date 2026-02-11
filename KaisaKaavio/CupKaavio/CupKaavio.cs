@@ -10,8 +10,6 @@ namespace KaisaKaavio.CupKaavio
 {
     internal class CupKaavio
     {
-        private int koko = 0;
-
         public class CupPeli
         {
             public int Kierros = 0;
@@ -41,8 +39,6 @@ namespace KaisaKaavio.CupKaavio
 
         public CupKaavio(int koko)
         {
-            this.koko = koko;
-
             int peleja = koko / 2;
             int kierros = 3;
 

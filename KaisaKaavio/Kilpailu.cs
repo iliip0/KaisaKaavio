@@ -660,9 +660,6 @@ namespace KaisaKaavio
         [XmlIgnore]
         public bool KilpailuPaattyiJuuri = false;
 
-        //[XmlIgnore]
-        //public Tyypit.EvaluointiTietokanta EvaluointiTietokanta = null;
-
         public Kilpailu()
         {
             OhjelmaVersio = Assembly.GetEntryAssembly().GetName().Version.ToString();
@@ -3454,6 +3451,13 @@ namespace KaisaKaavio
                 {
 #if DEBUG
                     Debug.WriteLine("Haetaan pelejä käynnissä olevalle kierrokselle {0}", hakuKierros);
+#endif
+                    return Haku(hakuKierros, status);
+                }
+                else if (KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+                {
+#if DEBUG
+                    Debug.WriteLine("Haetaan CUP pelejä");
 #endif
                     return Haku(hakuKierros, status);
                 }

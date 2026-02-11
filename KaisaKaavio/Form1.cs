@@ -4584,6 +4584,15 @@ namespace KaisaKaavio
                 teksti.OsionVaihto();
             }
 
+            // Laitetaan alkukierrosten tulokset alkuun jos kilpailu on kesken
+            else if (kilpa.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup)
+            {
+                teksti.RivinVaihto();
+                KirjoitaAlkupelienTuloksetTeksti(teksti);
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
+            }
+
             List<string> hakuKommentit = new List<string>();
 
             int kierros = 0;
@@ -4779,6 +4788,14 @@ namespace KaisaKaavio
             {
                 teksti.RivinVaihto();
                 KirjoitaTuloksetTeksti(teksti);
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
+            }
+
+            if (this.kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup && kilpa.KilpailuOnPaattynyt)
+            {
+                teksti.RivinVaihto();
+                KirjoitaAlkupelienTuloksetTeksti(teksti);
                 teksti.RivinVaihto();
                 teksti.OsionVaihto();
             }
@@ -5157,6 +5174,76 @@ namespace KaisaKaavio
                 {
                     teksti.NormaaliRivi(string.Format("{0} {1}", s.Key, string.Join(", ", s.Value.ToArray())));
                 }
+            }
+        }
+
+        private void KirjoitaAlkupelienTuloksetTeksti(Tyypit.Teksti teksti)
+        {
+            teksti.PaksuTeksti("Alkukierrosten tulokset");
+            teksti.RivinVaihto();
+
+            /*
+            if (this.kilpailu.Laji == Laji.Kara)
+            {
+                teksti.NormaaliTeksti(" ");
+                teksti.PieniVihreaTeksti("[Pelaajan pistekeskiarvo alkupeleissä ilman tasoituksia]");
+                teksti.RivinVaihto();
+            }
+            */
+
+            teksti.RivinVaihto();
+
+            bool edellinenCupissa = false;
+
+            foreach (var pelaaja in this.kilpailu.Osallistujat
+                .Where(x => x.Id > 0)
+                .OrderByDescending(x => x.CupAlkupeliPisteytys))
+            {
+
+                // Piirretään "pudotuspeliviiva"
+                if (kilpailu.Pelit.Any(x => x.Kierros <= 2 && x.Voitti(pelaaja.Id)))
+                {
+                    edellinenCupissa = true;
+                }
+                else
+                {
+                    if (edellinenCupissa)
+                    {
+                        teksti.PieniTeksti("     --------------------------");
+                        teksti.RivinVaihto();
+                    }
+
+                    edellinenCupissa = false;
+                }
+
+                bool alkupelitPelattu = kilpailu.Pelit.Count(x => 
+                    (x.Kierros <= 2) && 
+                    (x.SisaltaaPelaajan(pelaaja.Id)) &&
+                    (x.Tilanne == PelinTilanne.Pelattu)) == 2;
+
+                if (pelaaja.CupAlkupeliSijoitus.HasValue)
+                {
+                    teksti.PieniTeksti(string.Format("[{0}]: ", pelaaja.CupAlkupeliSijoitus.Value + 1));
+                }
+                else
+                {
+                    teksti.PieniHarmaaTeksti("[?]: ");
+                }
+
+                if (alkupelitPelattu && !edellinenCupissa)
+                {
+                    teksti.HarmaaTeksti(string.Format("{0} ({1})",
+                        this.kilpailu.KilpailuKaavioon.PelaajanNimiTulosluettelossa(pelaaja.Id.ToString()),
+                        pelaaja.CupAlkupeliPisteytysTeksti));
+                }
+                else
+                {
+                    teksti.NormaaliTeksti(string.Format("{0} ({1})",
+                        this.kilpailu.KilpailuKaavioon.PelaajanNimiTulosluettelossa(pelaaja.Id.ToString()),
+                        pelaaja.CupAlkupeliPisteytysTeksti));
+                }
+
+                teksti.RivinVaihto();
             }
         }
 
@@ -6640,10 +6727,11 @@ namespace KaisaKaavio
         {
             try
             {
-                int kierros = this.kilpailu.Pelit
+                var kierrokset = this.kilpailu.Pelit
                     .Where(x => x.Tilanne == PelinTilanne.Kaynnissa || x.Tilanne == PelinTilanne.Pelattu)
-                    .Select(x => x.Kierros)
-                    .Max();
+                    .Select(x => x.Kierros);
+
+                int kierros = kierrokset.Any() ? kierrokset.Max() : 1;
 
                 bool jokuPudonnut = this.kilpailu.Osallistujat
                     .Where(x => x.Id > 0)

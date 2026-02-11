@@ -1386,7 +1386,7 @@ namespace KaisaKaavio
             {
                 if (!string.IsNullOrEmpty(this.CupTeksti1))
                 {
-                    teksti.PieniTeksti(this.CupTeksti1);
+                    teksti.PieniHarmaaVinoTeksti(this.CupTeksti1);
                 }
             }
 
@@ -1404,7 +1404,7 @@ namespace KaisaKaavio
             if (this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
                 this.Kierros == 3)
             {
-                teksti.PieniTeksti(string.Format("[{0}]", this.CupSijoitusPelaaja1 + 1));
+                teksti.PieniHarmaaTeksti(string.Format("[{0}] ", this.CupSijoitusPelaaja1 + 1));
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id1, PeliNumero);
@@ -1420,7 +1420,7 @@ namespace KaisaKaavio
             {
                 if (!string.IsNullOrEmpty(this.CupTeksti2))
                 {
-                    teksti.PieniTeksti(this.CupTeksti2);
+                    teksti.PieniHarmaaVinoTeksti(this.CupTeksti2);
                 }
             }
 
@@ -1438,7 +1438,7 @@ namespace KaisaKaavio
             if (this.Kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup &&
                 this.Kierros == 3)
             {
-                teksti.PieniTeksti(string.Format("[{0}]", this.CupSijoitusPelaaja2 + 1));
+                teksti.PieniHarmaaTeksti(string.Format("[{0}] ", this.CupSijoitusPelaaja2 + 1));
             }
 
             int tappiot = this.Kilpailu.LaskeTappiotPelille(Id2, PeliNumero);

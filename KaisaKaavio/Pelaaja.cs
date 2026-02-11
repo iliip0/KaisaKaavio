@@ -12,7 +12,7 @@ namespace KaisaKaavio
         private string nimi = string.Empty;
 
         [XmlAttribute]
-        public string Nimi 
+        public string Nimi
         {
             get
             {
@@ -78,7 +78,7 @@ namespace KaisaKaavio
 
         [XmlAttribute]
         [DefaultValue("")]
-        public string Seura 
+        public string Seura
         {
             get
             {
@@ -207,7 +207,7 @@ namespace KaisaKaavio
         [XmlAttribute]
         [DefaultValue("")]
         public string Pelaajan2Seura { get; set; }
-        
+
         [XmlAttribute]
         [DefaultValue("")]
         public string KabikeMaksu { get; set; }
@@ -255,7 +255,7 @@ namespace KaisaKaavio
         private int id = 0;
 
         [XmlAttribute]
-        public int Id 
+        public int Id
         {
             get
             {
@@ -281,6 +281,24 @@ namespace KaisaKaavio
         /// </summary>
         [XmlIgnore]
         public float CupKaavioArpa { get; set; } = 0;
+
+        /// <summary>
+        /// Pelaajan pisteytyksen kuvausteksti Cup kaavion 'Tulokset'-osioon
+        /// </summary>
+        [XmlIgnore]
+        public string CupAlkupeliPisteytysTeksti { get; set; } = "0/0";
+
+        /// <summary>
+        /// Pelaajan sijoitus kahden alkupelin jälkeen Cup kaaviossa
+        /// </summary>
+        [XmlIgnore]
+        public int? CupAlkupeliSijoitus { get; set; } = null;
+
+        /// <summary>
+        /// Pelaajan pisteytys kahden alkukierroksen jälkeen Cup kaaviossa
+        /// </summary>
+        [XmlIgnore]
+        public float CupAlkupeliPisteytys { get; set; } = 0;
 
         /// <summary>
         /// Tietorakenne, jolla pelit esitetään 'Kaavio'-näkymässä
