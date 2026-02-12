@@ -98,6 +98,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -425,19 +433,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:KaisaKaavio"
-        "ProductCode" = "8:{EB6659F9-CE14-4395-B3BC-70577476BD2C}"
-        "PackageCode" = "8:{452A45CD-AF3B-4793-8AA9-3939BF2C1B27}"
+        "ProductCode" = "8:{A417A7A8-EAFE-4ACC-8717-4EBC1F9EFFA3}"
+        "PackageCode" = "8:{140042B9-F122-43DA-BDCA-C19A9DBC3054}"
         "UpgradeCode" = "8:{3CF43E18-6FA3-422C-A797-C4BFC8306556}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.47"
+        "ProductVersion" = "8:1.0.48"
         "Manufacturer" = "8:KaisaKaavio"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/iliip0/KaisaKaavio"
-        "Title" = "8:KaisaKaavio installer"
+        "Title" = "8:KaisaKaavio installer versio 1.0.0.48"
         "Subject" = "8:Biljardi"
         "ARPCONTACT" = "8:Ilari Nieminen"
         "Keywords" = "8:Kaisa"
@@ -1245,7 +1253,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_65FCE2715522444EB866F8024D188816"
             {
-            "SourcePath" = "8:..\\KaisaKaavio\\obj\\Release\\KaisaKaavio.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_57C9C286FD6246D1B3AE49ADE72BEBB9"

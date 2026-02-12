@@ -2,6 +2,11 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.48		(julkaistu 12.2.2026)
+
+* Lisätty uusi kaavio tyyppi "Kaksi alkukierrosta ja CUP". Pelaajat sijoitetaa CUP:iin alkupelejen paremmuuden mukaan
+* Lisätty uusi "Sijoitusten määräytyminen"-vaihtoehto: CUP. Tässä pelaajat sijoittuvat kuten normaalisti CUP kaaviossa (esim pool)
+
 ## Versio 1.0.0.47		(julkaistu 4.2.2026)
 
 * Lisätty kommentti "Haettu käsin" käsin haettuihin peleihin 'Tulokset'-osiossa
