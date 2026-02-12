@@ -5071,7 +5071,9 @@ namespace KaisaKaavio
                         }
                         else
                         {
-                            teksti.PaksuTeksti(string.Format("{0}-{1}.", edellinenCupSija / 2 + 1, Math.Min(edellinenCupSija, tulosluettelo.Count())));
+                            int min = edellinenCupSija / 2 + 1;
+                            int max = min + (tulosluettelo.Count(x => x.Sijoitus == osallistuja.Sijoitus) - 1);
+                            teksti.PaksuTeksti(string.Format("{0}-{1}.", min, max));
                         }
                         edellinenCupSija *= 2;
                     }

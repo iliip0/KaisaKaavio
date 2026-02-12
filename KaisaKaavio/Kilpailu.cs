@@ -4075,6 +4075,13 @@ namespace KaisaKaavio
                         .OrderByDescending(x => x.SijoitusPisteet);
                 }
             }
+            else
+            {
+                tulokset = tulokset.ToArray()
+                    .OrderByDescending(x => x.Pisteet)
+                    .OrderByDescending(x => x.Voitot)
+                    .OrderByDescending(x => x.SijoitusPisteet);
+            }
 
             int sijoitus = 1;
 
