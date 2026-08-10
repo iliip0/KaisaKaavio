@@ -517,6 +517,9 @@ namespace KaisaKaavio
         public KilpaSarja KilpaSarja { get; set; } = KilpaSarja.Yleinen;
         public Sijoittaminen Sijoittaminen { get; set; } = Sijoittaminen.EiSijoittamista;
 
+        [DefaultValue(false)]
+        public bool KilpailuOnYtMestaruusKisa { get; set; } = false;
+
         public BindingList<Pelaaja> Osallistujat { get; set; }
         public BindingList<Pelaaja> JalkiIlmoittautuneet { get; set; }
         public BindingList<Sali> PeliPaikat { get; set; }
@@ -2397,6 +2400,15 @@ namespace KaisaKaavio
 #endif
             {
                 virhe = string.Empty;
+
+                if (this.KilpailuOnYtMestaruusKisa)
+                {
+                    if (this.Osallistujat.Any(x => !string.IsNullOrEmpty(x.Nimi) && string.IsNullOrEmpty(x.Joukkue)))
+                    {
+                        virhe = "Kaikilla pelaajilla tulee olla Joukkue määritettynä ennen arvontaa";
+                        return false;
+                    }
+                }
 
                 if (Pelit.Any(x => (x.Kierros > 1) && (x.Tilanne == PelinTilanne.Pelattu || x.Tilanne == PelinTilanne.Kaynnissa)))
                 {

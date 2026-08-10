@@ -16,7 +16,12 @@ namespace KaisaKaavio
         private Asetukset yleisAsetukset = null;
         private AutoCompleteStringCollection pelipaikkojenNimet = null;
 
-        public bool LuoTestikilpailu { get; private set; }
+        public bool LuoTestikilpailu { get; private set; } = false;
+        public bool LuoYtMestaruusKilpailu
+        {
+            get { return this.ytMestaruusCheckBox.Checked; }
+            private set { this.ytMestaruusCheckBox.Checked = value; }
+        }
 
         public UusiKilpailuPopup(Asetukset asetukset)
         {
@@ -209,10 +214,13 @@ namespace KaisaKaavio
             }
         }
 
-        public void AsetaOletusarvot(Asetukset.KisaOletusasetukset asetukset, Laji laji, KilpailunTyyppi kilpailunTyyppi, bool salliVaihtaa, bool luoTestiKilpailu)
+        public void AsetaOletusarvot(Asetukset.KisaOletusasetukset asetukset, Laji laji, KilpailunTyyppi kilpailunTyyppi, bool salliVaihtaa, bool luoTestiKilpailu, bool luoYtKilpailu = false)
         {
             try
             {
+                this.LuoYtMestaruusKilpailu = luoYtKilpailu;
+                this.ytMestaruusCheckBox.Visible = luoTestiKilpailu;
+
                 if (luoTestiKilpailu)
                 {
                     this.Text = "Luo uusi testikilpailu";
@@ -265,10 +273,17 @@ namespace KaisaKaavio
                     this.kaavioComboBox.Enabled = false;
                 }
 
+                if (luoYtKilpailu)
+                {
+                    this.kaavioComboBox.SelectedIndex = 0;
+                    this.kaavioComboBox.Enabled = false;
+                }
+
                 this.kilpailunTyyppiComboBox.SelectedIndex = (int) kilpailunTyyppi;
                 this.kilpailunTyyppiComboBox.Enabled = luoTestiKilpailu;
 
                 if (luoTestiKilpailu ||
+                    luoYtKilpailu ||
                     kilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu ||
                     kilpailunTyyppi == KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu)
                 {
@@ -535,12 +550,19 @@ namespace KaisaKaavio
             {
                 string kilpatyyppi = "kilpailu";
 
-                switch (this.KilpailunTyyppi)
+                if (this.LuoYtMestaruusKilpailu)
                 {
-                    case KilpailunTyyppi.Viikkokisa: kilpatyyppi = "viikkokisa"; break;
-                    case KaisaKaavio.KilpailunTyyppi.AvoinKilpailu: kilpatyyppi = "avoin kilpailu"; break;
-                    case KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu: kilpatyyppi = "RG osakilpailu"; break;
-                    case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu: kilpatyyppi = "SM kilpailu"; break;
+                    kilpatyyppi = "YT-klubien Kaisan SM";
+                }
+                else
+                {
+                    switch (this.KilpailunTyyppi)
+                    {
+                        case KilpailunTyyppi.Viikkokisa: kilpatyyppi = "viikkokisa"; break;
+                        case KaisaKaavio.KilpailunTyyppi.AvoinKilpailu: kilpatyyppi = "avoin kilpailu"; break;
+                        case KaisaKaavio.KilpailunTyyppi.KaisanRGKilpailu: kilpatyyppi = "RG osakilpailu"; break;
+                        case KaisaKaavio.KilpailunTyyppi.KaisanSMKilpailu: kilpatyyppi = "SM kilpailu"; break;
+                    }
                 }
 
                 if (this.KilpaSarja != KaisaKaavio.KilpaSarja.Yleinen)
@@ -561,7 +583,14 @@ namespace KaisaKaavio
                     case KaisaKaavio.Laji.Snooker: laji = "Snookerin"; break;
                 }
 
-                this.kilpailunNimiTextBox.Text = string.Format("{0} {1} {2}", laji, kilpatyyppi, aika);
+                if (this.LuoYtMestaruusKilpailu)
+                {
+                    this.kilpailunNimiTextBox.Text = string.Format("{0} {1}", kilpatyyppi, aika);
+                }
+                else
+                {
+                    this.kilpailunNimiTextBox.Text = string.Format("{0} {1} {2}", laji, kilpatyyppi, aika);
+                }
 
                 if (this.LuoTestikilpailu)
                 {
@@ -768,6 +797,17 @@ namespace KaisaKaavio
                 if (string.IsNullOrEmpty(this.RankingSarjanNimi))
                 {
                     return NaytaVirhe(this.rankingSarjanNimiTextBox, "Anna rankingsarjalle nimi!");
+                }
+            }
+
+            if (this.LuoYtMestaruusKilpailu)
+            {
+                switch (this.KilpaSarja)
+                {
+                    case KilpaSarja.Parikilpailu:
+                    case KilpaSarja.Joukkuekilpailu:
+                    case KilpaSarja.MixedDoubles:
+                        return NaytaVirhe(this.kilpaSarjaComboBox, "Yt-klubien mestaruuskisa ei voi olla pari- tai joukkuekilpailu. Valitse vain ikäraja ja/tai sukupuoli");
                 }
             }
 

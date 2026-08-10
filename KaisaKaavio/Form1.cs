@@ -543,6 +543,8 @@ namespace KaisaKaavio
                     this.kilpailu.PeliaikaOnRajattu = popup.Peliaika > 0;
                     this.kilpailu.TestiKilpailu = popup.LuoTestikilpailu;
 
+                    this.kilpailu.KilpailuOnYtMestaruusKisa = popup.LuoYtMestaruusKilpailu;
+
                     this.kilpailu.LisenssiVaatimus = string.Empty;
                     this.kilpailu.MaksuTapa = string.Empty;
                     this.kilpailu.OsallistumisOikeus = string.Empty;
@@ -855,8 +857,16 @@ namespace KaisaKaavio
                 this.KeskiarvoTeksti2.Visible = false;
             }
 
-            this.seuraDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpaSarja != KilpaSarja.Joukkuekilpailu;
-            this.JoukkueColumn.Visible = this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu;
+            if (this.kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                this.seuraDataGridViewTextBoxColumn.Visible = true;
+                this.JoukkueColumn.Visible = true;
+            }
+            else
+            {
+                this.seuraDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpaSarja != KilpaSarja.Joukkuekilpailu;
+                this.JoukkueColumn.Visible = this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu;
+            }
 
             this.osMaksuDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa || this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
             this.veloitettuDataGridViewTextBoxColumn.Visible = this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.Viikkokisa || this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu;
@@ -5719,6 +5729,17 @@ namespace KaisaKaavio
                 else
                 {
                     this.kilpailu.LisaaPelaaja(Tyypit.Nimi.KeksiNimi(random));
+                }
+            }
+
+            if (this.kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                int i = 3;
+                foreach (var pelaaja in this.kilpailu.Osallistujat)
+                {
+                    pelaaja.Joukkue = string.Format("Jok{0}", i/3);
+                    pelaaja.Seura = pelaaja.Joukkue;
+                    i++;
                 }
             }
 

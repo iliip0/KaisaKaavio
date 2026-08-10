@@ -107,6 +107,11 @@ namespace KaisaKaavio.Aloitussivu
             LuoUusiKilpailu(Laji.Pool, KilpailunTyyppi.AvoinKilpailu, true);
         }
 
+        private void YtMestaruusButton_Click(object sender, EventArgs e)
+        {
+            LuoUusiKilpailu(Laji.Kaisa, KilpailunTyyppi.AvoinKilpailu, false, false, true);
+        }
+
         private void avaaKilpailuButton_Click(object sender, EventArgs e)
         {
             try
@@ -154,7 +159,7 @@ namespace KaisaKaavio.Aloitussivu
             LuoUusiKilpailu(Laji.Kaisa, KilpailunTyyppi.Viikkokisa, true, true);
         }
 
-        private void LuoUusiKilpailu(Laji laji, KilpailunTyyppi tyyppi, bool salliVaihtaa, bool testiKilpailu = false)
+        private void LuoUusiKilpailu(Laji laji, KilpailunTyyppi tyyppi, bool salliVaihtaa, bool testiKilpailu = false, bool ytKilpailu = false)
         {
             try
             {
@@ -162,7 +167,7 @@ namespace KaisaKaavio.Aloitussivu
 
                 using (var popup = new UusiKilpailuPopup(this.asetukset))
                 {
-                    popup.AsetaOletusarvot(this.asetukset.OletusAsetukset(laji), laji, tyyppi, salliVaihtaa, testiKilpailu);
+                    popup.AsetaOletusarvot(this.asetukset.OletusAsetukset(laji), laji, tyyppi, salliVaihtaa, testiKilpailu, ytKilpailu);
 
                     if (popup.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {

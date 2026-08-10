@@ -79,6 +79,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ytMestaruusCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -288,6 +289,7 @@
             // 
             // splitContainer3.Panel2
             // 
+            this.splitContainer3.Panel2.Controls.Add(this.ytMestaruusCheckBox);
             this.splitContainer3.Panel2.Controls.Add(this.pictureBox3);
             this.splitContainer3.Panel2.Controls.Add(this.peliAikaCheckBox);
             this.splitContainer3.Panel2.Controls.Add(this.peliaikaLabel);
@@ -757,6 +759,17 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // ytMestaruusCheckBox
+            // 
+            this.ytMestaruusCheckBox.AutoSize = true;
+            this.ytMestaruusCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ytMestaruusCheckBox.Location = new System.Drawing.Point(106, 44);
+            this.ytMestaruusCheckBox.Name = "ytMestaruusCheckBox";
+            this.ytMestaruusCheckBox.Size = new System.Drawing.Size(148, 28);
+            this.ytMestaruusCheckBox.TabIndex = 25;
+            this.ytMestaruusCheckBox.Text = "Yt-mestaruus?";
+            this.ytMestaruusCheckBox.UseVisualStyleBackColor = true;
+            // 
             // UusiKilpailuPopup
             // 
             this.AcceptButton = this.uusiKilpailuButton;
@@ -867,5 +880,6 @@
         private System.Windows.Forms.Label rankingLabel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox kelloTextBox;
+        private System.Windows.Forms.CheckBox ytMestaruusCheckBox;
     }
 }

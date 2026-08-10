@@ -477,6 +477,7 @@
     <None Include="Resources\Online.png" />
     <None Include="Resources\Online128.png" />
     <None Include="Resources\Online16.png" />
+    <None Include="Resources\YtKlubit.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>
