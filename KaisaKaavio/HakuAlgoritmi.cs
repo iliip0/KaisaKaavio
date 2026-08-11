@@ -12,6 +12,7 @@ namespace KaisaKaavio
         private static readonly int PisteytysSakkoTuplaUusintaOttelusta = 500;
         private static readonly int PisteytysSakkoSeuraavaltaKierrokseltaHausta = 20;
         private static readonly int PisteytysSakkoHakijanYliHypysta = 1;
+        private static readonly int PisteytysSakkoYtKisoissaJoukkueenSisaisestaPelista = 50;
 
         public class Hyppy
         {
@@ -683,14 +684,47 @@ namespace KaisaKaavio
             }
             else
             {
-                vastustaja = HaeVastustajaNopeasti(
-                    kierros,
-                    kaikkiPelit,
-                    mukana,
-                    hakija,
-                    hakijat,
-                    vastustajat,
-                    hakujenPisteytys);
+                if (this.Kilpailu.KilpailuOnYtMestaruusKisa)
+                {
+                    vastustaja = HaeVastustajaNopeasti(
+                        kierros,
+                        kaikkiPelit,
+                        mukana,
+                        hakija,
+                        hakijat,
+                        vastustajat,
+                        hakujenPisteytys,
+                        true);
+
+                    if ((vastustaja == null) && (PelitKesken.Count == 0))
+                    {
+#if DEBUG
+                        DebugViesti("Ei löytynyt vastustajaa eri joukkueesta. Annetaan hakea samasta");
+#endif
+
+                        vastustaja = HaeVastustajaNopeasti(
+                            kierros,
+                            kaikkiPelit,
+                            mukana,
+                            hakija,
+                            hakijat,
+                            vastustajat,
+                            hakujenPisteytys,
+                            false);
+                    }
+                }
+                else
+                {
+                    vastustaja = HaeVastustajaNopeasti(
+                        kierros,
+                        kaikkiPelit,
+                        mukana,
+                        hakija,
+                        hakijat,
+                        vastustajat,
+                        hakujenPisteytys,
+                        false);
+                }
             }
 
             if (vastustaja == null)
@@ -738,6 +772,34 @@ namespace KaisaKaavio
             {
                 // Ei haeta huonoja hakuja jos pelejä on vielä kesken
                 return;
+            }
+
+            // YT-klubien mestaruuskisassa hypätään parhaan haun yli jos pelaajat ovat samassa joukkueessa ja
+            // muita hakuja on tarjolla
+            if (this.Kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                if (string.Equals(haku.Hakija.Pelaaja.Joukkue, haku.Vastustaja.Pelaaja.Joukkue))
+                {
+                    if (hakujenPisteytys != null)
+                    {
+                        var haut = hakujenPisteytys
+                            .Where(x => !string.Equals(x.Hakija.Pelaaja.Joukkue, x.Vastustaja.Pelaaja.Joukkue))
+                            .OrderBy(x => x.Pisteytys);
+
+                        var parasHaku = haut.FirstOrDefault();
+                        if ((parasHaku != null) && (parasHaku.Pisteytys <= PisteytysSakkoUusintaOttelusta))
+                        {
+                            hakija = parasHaku.Hakija.Pelaaja;
+                            vastustaja = parasHaku.Vastustaja.Pelaaja;
+                            return;
+                        }
+                    }
+
+                    if (PelitKesken.Count > 0)
+                    {
+                        return; // Ei löytynyt sopivaa hakua, mutta pelejä on vielä kesken. Haetaan myöhemmin uudestaan
+                    }
+                }
             }
 
             hakija = haku.Hakija.Pelaaja;
@@ -1062,7 +1124,8 @@ namespace KaisaKaavio
             HakuPelaaja hakija, 
             IEnumerable<HakuPelaaja> hakijat,
             IEnumerable<HakuPelaaja> vastustajat,
-            List<HuolellisenHaunTulos> hakujenPisteytys)
+            List<HuolellisenHaunTulos> hakujenPisteytys,
+            bool ytMestaruusHaku)
         {
 #if DEBUG
             DebugSisenna(1);
@@ -1091,7 +1154,8 @@ namespace KaisaKaavio
                     hakija, 
                     vastustajaEhdokas,
                     hakujenPisteytys,
-                    out pistetytys))
+                    out pistetytys,
+                    ytMestaruusHaku))
                 {
 #if DEBUG
                     DebugSisenna(-1);
@@ -1140,29 +1204,38 @@ namespace KaisaKaavio
                     var hakija = pelaajat.ElementAt(tallennettuHaku.Hakija);
                     var vastustaja = pelaajat.ElementAt(tallennettuHaku.Vastustaja);
 
-                    var tulos = new HuolellisenHaunTulos()
+                    if ((!this.Kilpailu.KilpailuOnYtMestaruusKisa) ||
+                        (!string.Equals(hakija.Pelaaja.Joukkue, vastustaja.Pelaaja.Joukkue)))
                     {
-                        Hakija = hakija,
-                        Vastustaja = vastustaja,
-                        Pisteytys = pisteytysSumma + tallennettuHaku.Pisteytys
-                    };
+                        var tulos = new HuolellisenHaunTulos()
+                        {
+                            Hakija = hakija,
+                            Vastustaja = vastustaja,
+                            Pisteytys = pisteytysSumma + tallennettuHaku.Pisteytys
+                        };
 
-                    if (hakujenPisteytys != null)
-                    {
+                        if (hakujenPisteytys != null)
+                        {
 #if DEBUG
-                        DebugViesti(" -haku {0} - {1} = <{2}>", hakija.Nimi, vastustaja.Nimi, tulos.Pisteytys);
+                            DebugViesti(" -haku {0} - {1} = <{2}>", hakija.Nimi, vastustaja.Nimi, tulos.Pisteytys);
 #endif
-                        hakujenPisteytys.Add(tulos);
+                            hakujenPisteytys.Add(tulos);
+                        }
+
+#if DEBUG
+                        tallennettuHakija = hakija;
+                        tallennettuVastustaja = vastustaja;
+
+                        DebugSisenna(-1);
+#endif
+
+                        return tulos;
                     }
-
-#if DEBUG
-                    tallennettuHakija = hakija;
-                    tallennettuVastustaja = vastustaja;
-
-                    DebugSisenna(-1);
-#endif
-
-                    return tulos;
+                    else
+                    {
+                        tallennettuHaku = null; // YT-klubien mestaruuskisassa ei voida hyödyntää tallennettuja hakuja joissa pelaajat ovat samasta joukkueesta
+                        hakuAvain = 0;
+                    }
                 }
             }
 
@@ -1182,6 +1255,11 @@ namespace KaisaKaavio
             if (pelaajiaMukana <= Asetukset.MaxPelaajiaJottaSaaHyppiaHakijanYli)
             {
                 maxI = Math.Min(hakijat.Length - 1, Asetukset.SallittujaHakijanYliHyppyjaHuolellisessaHaussa + 1);
+            }
+
+            if (this.Kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                maxI = hakijat.Length - 1;
             }
 
             for (int i = 0; i < maxI; ++i)
@@ -1245,9 +1323,12 @@ namespace KaisaKaavio
 #endif
                         }
 
-                        if (pisteytys <= 0) // Täydellinen haku, ei tarvitse etsiä kauempaa
+                        if (!this.Kilpailu.KilpailuOnYtMestaruusKisa)
                         {
-                            break;
+                            if (pisteytys <= 0) // Täydellinen haku, ei tarvitse etsiä kauempaa
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -1559,7 +1640,8 @@ namespace KaisaKaavio
             HakuPelaaja hakija,
             HakuPelaaja vastustaja,
             List<HuolellisenHaunTulos> hakujenPisteytys,
-            out int pisteytys)
+            out int pisteytys,
+            bool ytMestaruusHaku)
         {
 #if DEBUG
             DebugSisenna(1);
@@ -1633,6 +1715,31 @@ namespace KaisaKaavio
                 }
             }
 
+            // 4) Yt-klubien mestaruuskisoissa tarkista että saman joukkueen pelaajat ei pelaa vastakkain
+            if (ytMestaruusHaku)
+            {
+                if (string.Equals(hakija.Pelaaja.Joukkue, vastustaja.Pelaaja.Joukkue))
+                {
+                    if (hakujenPisteytys != null)
+                    {
+                        hakujenPisteytys.Add(new HuolellisenHaunTulos()
+                        {
+                            Hakija = hakija,
+                            Vastustaja = vastustaja,
+                            Pisteytys = PisteytysSakkoYtKisoissaJoukkueenSisaisestaPelista
+                        });
+                    }
+
+                    pisteytys = PisteytysSakkoYtKisoissaJoukkueenSisaisestaPelista;
+
+#if DEBUG
+                    DebugViesti(" - !Virhe! - Pelaajat ovat samasta joukkueesta {0} - {1}", hakija.Nimi, vastustaja.Nimi);
+                    DebugSisenna(-1);
+#endif
+                    return false;
+                }
+            }
+
             kaikkiPelit.Add(new HakuPeli() 
             { 
                 Pelaaja1 = hakija.Pelaaja, 
@@ -1694,7 +1801,8 @@ namespace KaisaKaavio
                     seuraavaHakija,
                     seuraavaVastustajaEhdokas,
                     null,
-                    out haunPisteytys))
+                    out haunPisteytys,
+                    ytMestaruusHaku))
                 {
 #if DEBUG
                     DebugViesti(" - Ok - {0} - {1}", seuraavaHakija.Nimi, seuraavaVastustajaEhdokas.Nimi);

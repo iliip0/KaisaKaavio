@@ -95,6 +95,20 @@ namespace KaisaKaavio
             }
         }
 
+        [XmlIgnore]
+        public string SeuraTaiJoukkue
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Joukkue))
+                {
+                    return Joukkue;
+                }
+
+                return this.Seura;
+            }
+        }
+
         private string sijoitettu = string.Empty;
 
         [XmlAttribute]

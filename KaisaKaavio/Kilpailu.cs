@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -2776,8 +2777,52 @@ namespace KaisaKaavio
             }
         }
 
+        private void ArvoYtMestaruusPelaajienIdt()
+        {
+            var pelaajat = this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi) && !string.IsNullOrEmpty(x.Joukkue));
+            var joukkueet = pelaajat
+                .Select(x => x.Joukkue)
+                .Distinct();
+
+            Random r = new Random(DateTime.Now.Millisecond);
+
+            List<Pelaaja> sijoittamattomat = new List<Pelaaja>();
+            sijoittamattomat.AddRange(pelaajat);
+
+            List<Pelaaja> sijoitetut = new List<Pelaaja>();
+
+            int kierros = 1;
+
+            while (sijoittamattomat.Count > 0)
+            {
+                foreach (var joukkue in joukkueet)
+                {
+                    var pelaaja = sijoittamattomat.FirstOrDefault(x => string.Equals(x.Joukkue, joukkue));
+                    if (pelaaja != null)
+                    {
+                        sijoittamattomat.Remove(pelaaja);
+                        pelaaja.Id = (kierros * 1000) + r.Next(999);
+                    }
+                }
+
+                kierros++;
+            }
+
+            int id = 1;
+            foreach (var o in pelaajat.OrderBy(x => x.Id))
+            {
+                o.Id = id++;
+            }
+        }
+
         private void ArvoPelaajienIdt()
         {
+            if (this.KilpailuOnYtMestaruusKisa)
+            {
+                ArvoYtMestaruusPelaajienIdt();
+                return;
+            }
+
             var osallistujat = this.Osallistujat.Where(x => !string.IsNullOrEmpty(x.Nimi));
             int maxId = 0;
             if (osallistujat.Count() > 0)
@@ -3292,9 +3337,70 @@ namespace KaisaKaavio
                     LisaaPeli(hakija, vastustajat.First(), 2);
                 }
 
+                if (this.KilpailuOnYtMestaruusKisa)
+                {
+                    KorjaaKeskenaisetYtPelit();
+                }
+
                 AjastaTallennus(true, true);
                 return true;
             }
+        }
+
+        private void KorjaaKeskenaisetYtPelit()
+        {
+            while (KorjaaKeskenainenYtPeli())
+            {
+            }
+
+#if DEBUG
+            if (this.Osallistujat.Any(x => x.Id > 0 && this.Pelit.Count(y => y.SisaltaaPelaajan(x.Id)) != 2))
+            {
+                throw new Exception("Kaavion arpomisessa virhe. Kaikilla pelaajilla ei ole kahta peliä");
+            }
+#endif
+        }
+
+        private bool KorjaaKeskenainenYtPeli()
+        {
+            var peli = this.Pelit.FirstOrDefault(x => string.Equals(x.Joukkue1, x.Joukkue2));
+            if (peli != null)
+            {
+                var muutPelit = this.Pelit.Where(x => 
+                    (x.Kierros == peli.Kierros) && 
+                    !x.SisaltaaJoukkueen(peli.Joukkue2));
+
+                Random r = new Random(DateTime.Now.Millisecond);
+                int max = muutPelit.Count();
+
+                var muuPeli = muutPelit.ElementAt(r.Next(max));
+                int tmp = 0;
+
+                if (r.Next(100) < 50)
+                {
+                    tmp = peli.Id2;
+                    peli.PelaajaId2 = muuPeli.PelaajaId2;
+                    muuPeli.PelaajaId2 = tmp.ToString();
+
+                    tmp = peli.KierrosPelaaja2;
+                    peli.KierrosPelaaja2 = muuPeli.KierrosPelaaja2;
+                    muuPeli.KierrosPelaaja2 = tmp;
+                }
+                else
+                {
+                    tmp = peli.Id2;
+                    peli.PelaajaId2 = muuPeli.PelaajaId1;
+                    muuPeli.PelaajaId1 = tmp.ToString();
+
+                    tmp = peli.KierrosPelaaja2;
+                    peli.KierrosPelaaja2 = muuPeli.KierrosPelaaja1;
+                    muuPeli.KierrosPelaaja1 = tmp;
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         public IHakuAlgoritmi Haku(IStatusRivi status)

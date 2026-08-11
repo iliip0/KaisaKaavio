@@ -3723,13 +3723,22 @@ namespace KaisaKaavio
                 {
                     this.kaavioDataGridView.Columns[2].Visible = false;
                 }
-                else if (osallistujat.Any(x => !string.IsNullOrEmpty(x.Seura)))
+                else if (osallistujat.Any(x => !string.IsNullOrEmpty(x.SeuraTaiJoukkue)))
                 {
                     this.kaavioDataGridView.Columns[2].Visible = true;
                 }
                 else
                 {
                     this.kaavioDataGridView.Columns[2].Visible = false;
+                }
+
+                if (this.kilpailu.KilpailuOnYtMestaruusKisa)
+                {
+                    this.seuraDataGridViewTextBoxColumn1.HeaderText = "Joukkue";
+                }
+                else
+                {
+                    this.seuraDataGridViewTextBoxColumn1.HeaderText = "Seura";
                 }
 
                 int ylimSarakkeita = kilpa.KilpailuOnPaattynyt ? 0 : 1;
@@ -4973,7 +4982,129 @@ namespace KaisaKaavio
 
         private void KirjoitaTuloksetTeksti(Tyypit.Teksti teksti)
         {
-            teksti.PaksuTeksti("Tulokset");
+            if (this.kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+
+                bool kisaPaattynyt = this.kilpailu.KilpailuOnPaattynyt;
+
+                if (!kisaPaattynyt)
+                {
+                    teksti.PaksuTeksti("Joukkuekohtainen pistetilanne");
+                }
+                else
+                {
+                    teksti.PaksuTeksti("Joukkuekohtaiset tulokset");
+                }
+
+                teksti.RivinVaihto();
+                teksti.RivinVaihto();
+
+                var joukkueet = this.kilpailu.Osallistujat
+                    .Where(x => x.Id > 0 && !string.IsNullOrEmpty(x.Joukkue))
+                    .Select(x => x.Joukkue)
+                    .Distinct();
+
+                Dictionary<string, Pelaaja.TulosTietue> joukkueTulokset = new Dictionary<string, Pelaaja.TulosTietue>();
+
+                foreach (var joukkue in joukkueet)
+                {
+                    joukkueTulokset.Add(joukkue, new Pelaaja.TulosTietue()
+                    {
+                        Pelaaja = new Pelaaja() { Nimi = joukkue }
+                    });
+                }
+
+                foreach (var peli in this.kilpailu.Pelit)
+                {
+                    Pelaaja.TulosTietue joukkue1 = null;
+                    if (joukkueTulokset.TryGetValue(peli.Joukkue1, out joukkue1))
+                    {
+                        if (peli.Tulos == PelinTulos.Pelaaja1Voitti)
+                        {
+                            joukkue1.Voitot++;
+                        }
+
+                        joukkue1.Pisteet += peli.Pisteet(peli.Id1);
+                    }
+
+                    Pelaaja.TulosTietue joukkue2 = null;
+                    if (joukkueTulokset.TryGetValue(peli.Joukkue2, out joukkue2))
+                    {
+                        if (peli.Tulos == PelinTulos.Pelaaja2Voitti)
+                        {
+                            joukkue2.Voitot++;
+                        }
+
+                        joukkue2.Pisteet += peli.Pisteet(peli.Id2);
+                    }
+                }
+
+                int n = 1;
+                int edellinenSijoitus = 0;
+                int edellisetVoitot = -1;
+                int edellisetPisteet = -1;
+                foreach (var tulos in joukkueTulokset.Values
+                    .OrderBy(x => x.Pelaaja.Nimi)
+                    .OrderByDescending(x => x.Pisteet)
+                    .OrderByDescending(x => x.Voitot))
+                {
+                    if (kisaPaattynyt)
+                    {
+                        int sijoitus = edellinenSijoitus;
+
+                        if (edellisetPisteet != tulos.Pisteet ||
+                            edellisetVoitot != tulos.Voitot)
+                        {
+                            edellinenSijoitus = n;
+                            edellisetPisteet = tulos.Pisteet;
+                            edellisetVoitot = tulos.Voitot;
+
+                            sijoitus = n;
+                        }
+
+                        teksti.PaksuTeksti(string.Format("{0}.", sijoitus));
+                        teksti.NormaaliTeksti(string.Format("{0} - {1}/{2} ", 
+                            tulos.Pelaaja.Nimi, 
+                            tulos.Voitot, 
+                            tulos.Pisteet));
+                        teksti.HarmaaTeksti(string.Format(" ({0})",
+                            string.Join(", ", this.kilpailu.Osallistujat.Where(x => string.Equals(x.Joukkue, tulos.Pelaaja.Nimi)))));
+
+                        teksti.RivinVaihto();
+
+                        n++;
+                    }
+                    else
+                    {
+                        if (this.kilpailu.Osallistujat.Any(x =>
+                            string.Equals(x.Joukkue, tulos.Pelaaja.Nimi) &&
+                            this.kilpailu.Mukana(x)))
+                        {
+                            teksti.NormaaliRivi(string.Format(" {0} {1}/{2}", tulos.Pelaaja.Nimi, tulos.Voitot, tulos.Pisteet));
+                        }
+                        else
+                        {
+                            teksti.HarmaaTeksti("*");
+                            teksti.NormaaliTeksti(string.Format("{0} {1}/{2} ", tulos.Pelaaja.Nimi, tulos.Voitot, tulos.Pisteet));
+                            teksti.HarmaaTeksti(" (pudonnut)");
+                            teksti.RivinVaihto();
+                        }
+                    }
+                }
+
+                teksti.RivinVaihto();
+                teksti.OsionVaihto();
+                teksti.RivinVaihto();
+            }
+
+            if (this.kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                teksti.PaksuTeksti("Henkilökohtaiset tulokset");
+            }
+            else
+            {
+                teksti.PaksuTeksti("Tulokset");
+            }
 
             if (this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu)
             {
@@ -5738,7 +5869,7 @@ namespace KaisaKaavio
                 foreach (var pelaaja in this.kilpailu.Osallistujat)
                 {
                     pelaaja.Joukkue = string.Format("Jok{0}", i/3);
-                    pelaaja.Seura = pelaaja.Joukkue;
+                    pelaaja.Seura = string.Format("Seu{0}", i / 3);
                     i++;
                 }
             }
