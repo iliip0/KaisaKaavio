@@ -177,6 +177,7 @@
     <Compile Include="Integraatio\LataaOnlineKilpailuPopup.Designer.cs">
       <DependentUpon>LataaOnlineKilpailuPopup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Integraatio\Turvallisuus.cs" />
     <Compile Include="IStatusRivi.cs" />
     <Compile Include="JoukkuePeliparienArvontaPopup.cs">
       <SubType>Form</SubType>

@@ -77,14 +77,7 @@ namespace KaisaKaavio.Integraatio
             {
                 byte[] teksti = File.ReadAllBytes(tiedot.Tiedosto);
 
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-#if DEBUG
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => true);
-#else
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
-#endif
+                Turvallisuus.AsetaHttpsAsetukset();
 
                 using (WebClient client = new WebClient())
                 {
@@ -158,15 +151,7 @@ namespace KaisaKaavio.Integraatio
 
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-#if DEBUG
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => true);
-#else
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
-#endif
+                Turvallisuus.AsetaHttpsAsetukset();
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -213,14 +198,7 @@ namespace KaisaKaavio.Integraatio
 
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-#if DEBUG
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => true);
-#else
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
-#endif
+                Turvallisuus.AsetaHttpsAsetukset();
 
                 using (WebClient client = new WebClient())
                 {
@@ -255,14 +233,7 @@ namespace KaisaKaavio.Integraatio
 
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-#if DEBUG
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => true);
-#else
-                ServicePointManager.ServerCertificateValidationCallback
-                                = ((sender, cert, chain, errors) => cert.Subject.Contains("KaisaKaavio"));
-#endif
+                Turvallisuus.AsetaHttpsAsetukset();
 
                 using (WebClient client = new WebClient())
                 {
