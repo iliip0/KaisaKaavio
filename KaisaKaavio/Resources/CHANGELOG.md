@@ -2,6 +2,12 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.49		(julkaistu 13.8.2026)
+
+* Lisätty uusi kilpailu moodi "YT-klubien SM kisat". Tämä on yksilökilpailu, mutta samalla myös joukkuekilpailu. Saman joukkueen pelaajat
+  eivät pelaa vastakkain ennen kuin on pakko kilpailun loppupuolella.
+* Korjattu ohjelma toimimaan uuden kaisakaavio.fi TLS-varmenteen kanssa
+
 ## Versio 1.0.0.48		(julkaistu 12.2.2026)
 
 * Lisätty uusi kaavio tyyppi "Kaksi alkukierrosta ja CUP". Pelaajat sijoitetaa CUP:iin alkupelejen paremmuuden mukaan

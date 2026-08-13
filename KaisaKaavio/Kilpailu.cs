@@ -626,7 +626,7 @@ namespace KaisaKaavio
         {
             if (Debugger.IsAttached)
             {
-                //return;
+                return;
             }
 
             try
