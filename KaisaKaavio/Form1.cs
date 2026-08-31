@@ -268,13 +268,28 @@ namespace KaisaKaavio
             try
             {
                 this.kilpailu.Tallenna(onAutomaattinenTallennus);
-                this.kilpailu.TallennaKilpailuPalvelimelle();
-                this.loki.Kirjoita(string.Format("Tallennettu onnistuneesti!{0}{1}", Environment.NewLine, this.kilpailu.Tiedosto), null, false);
+                this.loki.Kirjoita(string.Format("Tallennettu onnistuneesti levylle!{0}{1}", Environment.NewLine, this.kilpailu.Tiedosto), null, false);
             }
             catch (Exception ex)
             {
-                this.loki.Kirjoita("Kaisakaavion tallennus epäonnistui", ex, false);
+                this.loki.Kirjoita("Kaisakaavion tallennus levylle epäonnistui", ex, false);
+                this.kilpailu.TallennusVirhe = ex.Message;
             }
+
+            PaivitaTallennusUi();
+
+            try
+            {
+                this.kilpailu.TallennaKilpailuPalvelimelle();
+                this.loki.Kirjoita(string.Format("Tallennettu onnistuneesti palvelimelle!{0}{1}", Environment.NewLine, this.kilpailu.Tiedosto), null, false);
+            }
+            catch (Exception ex)
+            {
+                this.loki.Kirjoita("Kaisakaavion tallennus palvelimelle epäonnistui", ex, false);
+                this.kilpailu.PaivitysVirhe = ex.Message;
+            }
+
+            PaivitaTallennusUi();
 
             try
             {
@@ -381,6 +396,8 @@ namespace KaisaKaavio
                 try
                 {
                     this.kilpailunLatausKaynnissa = true;
+                    
+                    PaivitaTallennusUi();
 
                     if (!string.IsNullOrEmpty(this.kilpailu.Tiedosto))
                     {
@@ -425,6 +442,7 @@ namespace KaisaKaavio
                 finally
                 {
                     this.kilpailunLatausKaynnissa = false;
+                    PaivitaTallennusUi();
                 }
             }
         }
@@ -994,6 +1012,8 @@ namespace KaisaKaavio
 
                 ResumeAllDataBinding();
 
+                PaivitaTallennusUi();
+
                 try
                 {
                     this.BringToFront();
@@ -1004,11 +1024,94 @@ namespace KaisaKaavio
             }
         }
 
+        private void PaivitaTallennusUi()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(PaivitaTallennusUi));
+            }
+            else
+            {
+                try
+                {
+                    if (this.kilpailunLatausKaynnissa)
+                    {
+                        this.saveStatusImage.Visible = false;
+                        this.uploadStatusImage.Visible = false;
+                    }
+                    else
+                    {
+                        this.saveStatusImage.Visible = !this.kilpailu.PoistaTallennusKaytosta;
+                        this.uploadStatusImage.Visible = !this.kilpailu.PoistaPaivitysKaytosta;
+
+                        if (this.saveStatusImage.Visible)
+                        {
+                            if (this.kilpailu.TallennusTarvitaan)
+                            {
+                                if (!string.IsNullOrEmpty(this.kilpailu.TallennusVirhe) && this.kilpailu.TallennusAjastin > 5)
+                                {
+                                    this.saveStatusImage.Image = Properties.Resources.Error16;
+                                    this.saveStatusImage.ToolTipText = string.Format("Tallennus epäonnistui : {0}", this.kilpailu.TallennusVirhe);
+                                }
+                                else
+                                {
+                                    this.saveStatusImage.Image = Properties.Resources.InProgress16;
+                                    this.saveStatusImage.ToolTipText = "Levylle tallennus on kesken...";
+                                }
+                            }
+                            else if (!string.IsNullOrEmpty(this.kilpailu.TallennusVirhe))
+                            {
+                                this.saveStatusImage.Image = Properties.Resources.Error16;
+                                this.saveStatusImage.ToolTipText = string.Format("Tallennus epäonnistui : {0}", this.kilpailu.TallennusVirhe);
+                            }
+                            else
+                            {
+                                this.saveStatusImage.Image = Properties.Resources.Ok16;
+                                this.saveStatusImage.ToolTipText = "Kilpailu on tallennettu levylle";
+                            }
+                        }
+
+                        if (this.uploadStatusImage.Visible)
+                        {
+                            if (this.kilpailu.SivustonPaivitysTarvitaan)
+                            {
+                                if (!string.IsNullOrEmpty(this.kilpailu.PaivitysVirhe) && this.kilpailu.SivustonPaivitysAjastin > 5)
+                                {
+                                    this.uploadStatusImage.Image = Properties.Resources.Error16;
+                                    this.uploadStatusImage.ToolTipText = string.Format("Palvelimelle tallennus epäonnistui : {0}", this.kilpailu.PaivitysVirhe);
+                                }
+                                else
+                                {
+                                    this.uploadStatusImage.Image = Properties.Resources.InProgress16;
+                                    this.uploadStatusImage.ToolTipText = "Palvelimelle tallennus on kesken...";
+                                }
+                            }
+                            else if (!string.IsNullOrEmpty(this.kilpailu.PaivitysVirhe))
+                            {
+                                this.uploadStatusImage.Image = Properties.Resources.Error16;
+                                this.uploadStatusImage.ToolTipText = string.Format("Palvelimelle tallennus epäonnistui : {0}", this.kilpailu.PaivitysVirhe);
+                            }
+                            else
+                            {
+                                this.uploadStatusImage.Image = Properties.Resources.Ok16;
+                                this.uploadStatusImage.ToolTipText = "Kilpailu on tallennettu palvelimelle";
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                }
+            }
+        }
+
         // Tallenna
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             this.kilpailu.TallennusTarvitaan = true;
             this.kilpailu.SivustonPaivitysTarvitaan = true;
+
+            PaivitaTallennusUi();
 
             try
             {
@@ -1027,6 +1130,8 @@ namespace KaisaKaavio
             {
                 this.loki.Kirjoita("Kaavion tallennus epäonnistui", ex, true);
             }
+
+            PaivitaTallennusUi();
         }
 
         // Tallenna nimella
@@ -1034,6 +1139,8 @@ namespace KaisaKaavio
         {
             this.kilpailu.TallennusTarvitaan = true;
             this.kilpailu.SivustonPaivitysTarvitaan = true;
+
+            PaivitaTallennusUi();
 
             try
             {
@@ -1057,10 +1164,13 @@ namespace KaisaKaavio
             catch (Exception ex)
             {
                 this.loki.Kirjoita("Kaavion tallennus epäonnistui", ex, true);
+                this.kilpailu.TallennusVirhe = ex.Message;
             }
+
+            PaivitaTallennusUi();
         }
 
-#endregion
+        #endregion
 
         // ========={( Ikkunan päivitys ja välilehdet )}======================================================= //
         #region Ikkuna ja täbit
@@ -7074,7 +7184,9 @@ namespace KaisaKaavio
         {
             try
             {
+                PaivitaTallennusUi();
                 this.kilpailu.TallennusTick();
+                PaivitaTallennusUi();
             }
             catch
             { 

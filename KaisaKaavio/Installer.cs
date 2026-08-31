@@ -49,8 +49,9 @@ namespace KaisaKaavio
             {
                 // Käynnistää ohjelman
                 var kansio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                Directory.SetCurrentDirectory(kansio);
-                Process.Start(Path.Combine(kansio, "KaisaKaavio.exe"));
+                //Directory.SetCurrentDirectory(kansio);
+                //Process.Start(Path.Combine(kansio, "KaisaKaavio.exe"));
+                Process.Start("explorer.exe", kansio);
             }
             catch
             {

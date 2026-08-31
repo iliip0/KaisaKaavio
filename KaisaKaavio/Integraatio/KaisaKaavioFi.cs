@@ -44,16 +44,20 @@ namespace KaisaKaavio.Integraatio
 
                     File.Copy(tiedosto, tempTiedostonNimi, true);
 
-                    KilpailunTiedot tiedot = new KilpailunTiedot() 
-                    { 
+                    KilpailunTiedot tiedot = new KilpailunTiedot()
+                    {
                         Kilpailu = kilpailu,
-                        Id = id, 
-                        Tiedosto = tempTiedostonNimi, 
+                        Id = id,
+                        Tiedosto = tempTiedostonNimi,
                         TiedostonNimi = tiedostonNimi,
-                        Loki = loki 
+                        Loki = loki
                     };
-                    
+
                     ThreadPool.QueueUserWorkItem(TallennaKilpailuServerilleAsync, tiedot);
+                }
+                else
+                {
+                    kilpailu.PaivitysVirhe = string.Format("Tiedostoa {0} ei löydy", tiedosto);
                 }
             }
             catch (Exception e) 
@@ -66,6 +70,8 @@ namespace KaisaKaavio.Integraatio
                     loki.Kirjoita("Kilpailun tallennus serverille epäonnistui", e, false);
 #endif
                 }
+
+                kilpailu.PaivitysVirhe = e.Message;
             }
         }
 
@@ -91,6 +97,7 @@ namespace KaisaKaavio.Integraatio
                     client.UploadData(address, teksti);
 
                     tiedot.Kilpailu.SivustonPaivitysTarvitaan = false;
+                    tiedot.Kilpailu.PaivitysVirhe = string.Empty;
                 }
 
                 tiedot.Loki.Kirjoita(string.Format("Kilpailu tallennettu serverille ({0})", DateTime.Now.ToLongTimeString()));
@@ -106,6 +113,8 @@ namespace KaisaKaavio.Integraatio
                 {
                     tiedot.Kilpailu.SivustonPaivitysTarvitaan = true;
                     tiedot.Kilpailu.SivustonPaivitysAjastin = 300;
+
+                    tiedot.Kilpailu.PaivitysVirhe = e.Message;
                 }
             }
             finally

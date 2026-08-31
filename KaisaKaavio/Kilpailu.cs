@@ -570,11 +570,13 @@ namespace KaisaKaavio
         [XmlIgnore]
         public int PelinTulosMuuttunutNumerolla = Int32.MaxValue;
 
-        private int TallennusAjastin = 0;
+        [XmlIgnore]
+        public int TallennusAjastin = 0;
 
         [XmlIgnore]
         public bool TallennusTarvitaan = true;
 
+        [XmlIgnore]
         public int SivustonPaivitysAjastin = 0;
 
         [XmlIgnore]
@@ -585,6 +587,12 @@ namespace KaisaKaavio
 
         [XmlIgnore]
         public bool PoistaPaivitysKaytosta = false; // Testaukseen ja kisan uudelleen pelaamiseen
+
+        [XmlIgnore]
+        public string TallennusVirhe = string.Empty;
+
+        [XmlIgnore]
+        public string PaivitysVirhe = string.Empty;
 
         /// <summary>
         /// Taikanumero, joka lisätään ilmoittautumissivun osoitteeseen jotta
@@ -624,10 +632,12 @@ namespace KaisaKaavio
 
         public void TallennaKilpailuPalvelimelle()
         {
+#if !DEBUG
             if (Debugger.IsAttached)
             {
                 return;
             }
+#endif
 
             try
             {
@@ -2000,6 +2010,7 @@ namespace KaisaKaavio
                 File.Delete(nimiTmp);
 
                 this.TallennusTarvitaan = false;
+                this.TallennusVirhe = string.Empty;
 
                 if (muutaKilpailunSijainti)
                 {
@@ -2018,6 +2029,7 @@ namespace KaisaKaavio
                 }
 
                 this.TallennusTarvitaan = true;
+                this.TallennusVirhe = ex.Message;
                 this.TallennusAjastin = 30;
             }
         }

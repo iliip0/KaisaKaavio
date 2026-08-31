@@ -480,6 +480,13 @@
     <None Include="Resources\Online16.png" />
     <None Include="Resources\YtKlubit.png" />
     <None Include="Resources\MuuOpen.png" />
+    <None Include="Resources\SaveStatus.png" />
+    <None Include="Resources\UploadStatus.png" />
+    <None Include="Resources\Error16.png" />
+    <None Include="Resources\InProgress16.png" />
+    <None Include="Resources\Ok16.png" />
+    <None Include="Resources\SaveStatusBW.png" />
+    <None Include="Resources\UploadStatusBW.png" />
     <Content Include="TestiData\Viikkokisa Kaisa 13.11.2024.xml" />
     <Content Include="Todo.txt" />
   </ItemGroup>

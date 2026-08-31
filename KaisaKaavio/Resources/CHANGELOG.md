@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.50		(työn alla)
+
+* Lisätty ikkunan alareunaan ikonit jotka näyttävät onko kisa tallennettu levylle ja palvelimelle
+
 ## Versio 1.0.0.49		(julkaistu 13.8.2026)
 
 * Lisätty uusi kilpailu moodi "YT-klubien SM kisat". Tämä on yksilökilpailu, mutta samalla myös joukkuekilpailu. Saman joukkueen pelaajat
