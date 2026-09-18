@@ -37,7 +37,7 @@ namespace KaisaKaavio.Tyypit
                 if (files.Count() > sailytaN)
                 {
                     foreach (var file in files
-                        .OrderBy(x => x.CreationTime)
+                        .OrderByDescending(x => x.CreationTime)
                         .Skip(sailytaN))
                     {
                         poistettavat.Add(file.FullName);

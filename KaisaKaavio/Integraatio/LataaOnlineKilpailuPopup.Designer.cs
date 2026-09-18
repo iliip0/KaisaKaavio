@@ -31,18 +31,18 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LataaOnlineKilpailuPopup));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.salasanaTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.naytaSalasanaCheckBox = new System.Windows.Forms.CheckBox();
+            this.salasanaTextBox = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.kilpailutDataGridView = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.okButton = new System.Windows.Forms.Button();
-            this.peruutaButton = new System.Windows.Forms.Button();
             this.pvmDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nimiDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.kilpailutBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.peruutaButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -83,31 +83,15 @@
             this.splitContainer1.SplitterDistance = 70;
             this.splitContainer1.TabIndex = 0;
             // 
-            // richTextBox1
+            // label1
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.BackColor = System.Drawing.Color.DarkGreen;
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.ForeColor = System.Drawing.Color.White;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(585, 32);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "Lataa kilpailu KaisaKaavio.fi serveriltä salasanan perusteella:";
-            // 
-            // salasanaTextBox
-            // 
-            this.salasanaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.salasanaTextBox.Enabled = false;
-            this.salasanaTextBox.Location = new System.Drawing.Point(602, 3);
-            this.salasanaTextBox.MaxLength = 8;
-            this.salasanaTextBox.Name = "salasanaTextBox";
-            this.salasanaTextBox.Size = new System.Drawing.Size(212, 29);
-            this.salasanaTextBox.TabIndex = 2;
-            this.salasanaTextBox.UseSystemPasswordChar = true;
-            this.salasanaTextBox.TextChanged += new System.EventHandler(this.salasanaTextBox_TextChanged);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(384, 16);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Voit asettaa kilpailulle salasanan \'Online-asetukset\' välilehdeltä";
             // 
             // naytaSalasanaCheckBox
             // 
@@ -121,6 +105,33 @@
             this.naytaSalasanaCheckBox.Text = "Näytä salasana?";
             this.naytaSalasanaCheckBox.UseVisualStyleBackColor = true;
             this.naytaSalasanaCheckBox.CheckedChanged += new System.EventHandler(this.naytaSalasanaCheckBox_CheckedChanged);
+            // 
+            // salasanaTextBox
+            // 
+            this.salasanaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.salasanaTextBox.Enabled = false;
+            this.salasanaTextBox.Location = new System.Drawing.Point(602, 3);
+            this.salasanaTextBox.MaxLength = 8;
+            this.salasanaTextBox.Name = "salasanaTextBox";
+            this.salasanaTextBox.Size = new System.Drawing.Size(212, 29);
+            this.salasanaTextBox.TabIndex = 2;
+            this.salasanaTextBox.UseSystemPasswordChar = true;
+            this.salasanaTextBox.TextChanged += new System.EventHandler(this.salasanaTextBox_TextChanged);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.BackColor = System.Drawing.Color.DarkGreen;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.ForeColor = System.Drawing.Color.White;
+            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(585, 32);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "Lataa kilpailu KaisaKaavio.fi serveriltä salasanan perusteella:";
             // 
             // splitContainer2
             // 
@@ -181,54 +192,6 @@
             this.kilpailutDataGridView.TabIndex = 0;
             this.kilpailutDataGridView.SelectionChanged += new System.EventHandler(this.kilpailutDataGridView_SelectionChanged);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(384, 16);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Voit asettaa kilpailulle salasanan \'Online-asetukset\' välilehdeltä";
-            // 
-            // okButton
-            // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.BackColor = System.Drawing.Color.LightGreen;
-            this.okButton.Enabled = false;
-            this.okButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
-            this.okButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.okButton.Location = new System.Drawing.Point(582, 3);
-            this.okButton.Name = "okButton";
-            this.okButton.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this.okButton.Size = new System.Drawing.Size(232, 50);
-            this.okButton.TabIndex = 0;
-            this.okButton.Text = "Lataa kilpailu";
-            this.okButton.UseVisualStyleBackColor = false;
-            this.okButton.Visible = false;
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
-            // 
-            // peruutaButton
-            // 
-            this.peruutaButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.peruutaButton.BackColor = System.Drawing.Color.LightCoral;
-            this.peruutaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.peruutaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.peruutaButton.ForeColor = System.Drawing.Color.White;
-            this.peruutaButton.Image = global::KaisaKaavio.Properties.Resources.Peruuta;
-            this.peruutaButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.peruutaButton.Location = new System.Drawing.Point(3, 3);
-            this.peruutaButton.Name = "peruutaButton";
-            this.peruutaButton.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this.peruutaButton.Size = new System.Drawing.Size(189, 50);
-            this.peruutaButton.TabIndex = 1;
-            this.peruutaButton.Text = "Peruuta";
-            this.peruutaButton.UseVisualStyleBackColor = false;
-            this.peruutaButton.Click += new System.EventHandler(this.peruutaButton_Click);
-            // 
             // pvmDataGridViewTextBoxColumn
             // 
             this.pvmDataGridViewTextBoxColumn.DataPropertyName = "Pvm";
@@ -250,6 +213,44 @@
             // 
             this.kilpailutBindingSource.AllowNew = false;
             this.kilpailutBindingSource.DataSource = typeof(KaisaKaavio.Tyypit.KilpailuTietue);
+            // 
+            // peruutaButton
+            // 
+            this.peruutaButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.peruutaButton.BackColor = System.Drawing.Color.LightCoral;
+            this.peruutaButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.peruutaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.peruutaButton.ForeColor = System.Drawing.Color.White;
+            this.peruutaButton.Image = global::KaisaKaavio.Properties.Resources.Peruuta;
+            this.peruutaButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.peruutaButton.Location = new System.Drawing.Point(3, 3);
+            this.peruutaButton.Name = "peruutaButton";
+            this.peruutaButton.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
+            this.peruutaButton.Size = new System.Drawing.Size(189, 50);
+            this.peruutaButton.TabIndex = 1;
+            this.peruutaButton.Text = "Peruuta";
+            this.peruutaButton.UseVisualStyleBackColor = false;
+            this.peruutaButton.Click += new System.EventHandler(this.peruutaButton_Click);
+            // 
+            // okButton
+            // 
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.BackColor = System.Drawing.Color.LightGreen;
+            this.okButton.Enabled = false;
+            this.okButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.okButton.Image = global::KaisaKaavio.Properties.Resources.Ok;
+            this.okButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.okButton.Location = new System.Drawing.Point(582, 3);
+            this.okButton.Name = "okButton";
+            this.okButton.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
+            this.okButton.Size = new System.Drawing.Size(232, 50);
+            this.okButton.TabIndex = 0;
+            this.okButton.Text = "Lataa kilpailu";
+            this.okButton.UseVisualStyleBackColor = false;
+            this.okButton.Visible = false;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // LataaOnlineKilpailuPopup
             // 

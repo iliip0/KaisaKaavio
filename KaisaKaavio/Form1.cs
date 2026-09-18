@@ -86,7 +86,7 @@ namespace KaisaKaavio
 
             if (!Program.UseampiKaisaKaavioAvoinna)
             {
-                Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.varmuuskopioKansio, 50);
+                Tyypit.Tiedosto.PoistaVanhimmatTiedostotKansiosta(this.varmuuskopioKansio, 100);
             }
 
             this.loki = new Loki(this.kansio);

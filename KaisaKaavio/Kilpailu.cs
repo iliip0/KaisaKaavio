@@ -733,8 +733,7 @@ namespace KaisaKaavio
 
         public void OnlineIlmoTick(Form1 invoker)
         {
-            if (this.TestiKilpailu ||
-                string.IsNullOrEmpty(this.Nimi) ||
+            if (string.IsNullOrEmpty(this.Nimi) ||
                 string.IsNullOrEmpty(this.Id))
             {
                 return;
