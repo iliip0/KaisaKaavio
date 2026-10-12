@@ -95,7 +95,7 @@ namespace KaisaKaavio
                         UseampiKaisaKaavioAvoinna = true;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     UseampiKaisaKaavioAvoinna = true;
                 }

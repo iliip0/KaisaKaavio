@@ -604,20 +604,18 @@ namespace KaisaKaavio
                         this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.KolmeParastaKierroksistaLoputPisteista;
 
                         this.kilpailu.OsallistumisMaksu = "10€";
-
-                        if (this.kilpailu.PelaajiaEnintaan < 48)
-                        {
-                            this.kilpailu.PelaajiaEnintaan = 48;
-                        }
+                        this.kilpailu.PelaajiaEnintaan = 48;
                     }
                     else
                     {
+                        this.kilpailu.PelaajiaEnintaan = 255;
                         this.kilpailu.RankkareidenMaara = 5;
                         this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.VoittajaKierroksistaLoputPisteista;
 
                         if (this.kilpailu.KilpailunTyyppi == KilpailunTyyppi.AvoinKilpailu)
                         {
                             this.kilpailu.Yksipaivainen = true;
+                            this.kilpailu.SijoitustenMaaraytyminen = SijoitustenMaaraytyminen.KaksiParastaKierroksistaLoputPisteista;
                         }
                         else
                         {
@@ -700,11 +698,6 @@ namespace KaisaKaavio
                         }
 
                         this.kilpailu.RankingOsakilpailu = null;
-
-                        if (this.kilpailu.PelaajiaEnintaan < 256)
-                        {
-                            this.kilpailu.PelaajiaEnintaan = 256;
-                        }
                     }
 
                     this.kilpailu.RankingKisa = popup.RankingKisa;

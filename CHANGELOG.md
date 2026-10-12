@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.50		(työn alla)
+## Versio 1.0.0.50		(julkaistu 12.10.2026)
 
 * Lisätty ikkunan alareunaan ikonit jotka näyttävät onko kisa tallennettu levylle ja palvelimelle
 * Korjattu bugi varmuuskopioinnissa. Aiempi säilytti vanhimmat kopiot ja poisti uudet
