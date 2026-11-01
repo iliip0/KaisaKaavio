@@ -1148,10 +1148,11 @@ namespace KaisaKaavio
                 this.openFileDialog1.FileName = fileName + ".xml";
                 if (this.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    this.kilpailu.TallennaNimella(this.openFileDialog1.FileName, true, false);
-                    this.asetukset.ViimeisinKilpailu = this.kilpailu.Tiedosto;
-
-                    this.asetukset.PoistaViimeisimmistaKilpailuista(vanhaTiedosto);
+                    if (this.kilpailu.TallennaNimella(this.openFileDialog1.FileName, true, false))
+                    {
+                        this.asetukset.ViimeisinKilpailu = this.kilpailu.Tiedosto;
+                        this.asetukset.PoistaViimeisimmistaKilpailuista(vanhaTiedosto);
+                    }
                 }
             }
             catch (Exception ex)

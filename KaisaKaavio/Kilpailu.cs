@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Xml.Serialization;
 using static KaisaKaavio.HakuAlgoritmi;
@@ -1959,11 +1960,16 @@ namespace KaisaKaavio
             return false;
         }
 
-        public void TallennaNimella(string nimi, bool muutaKilpailunSijainti, bool onAutomaattinenTallennus)
+        public bool TallennaNimella(string nimi, bool muutaKilpailunSijainti, bool onAutomaattinenTallennus)
         {
+            if (string.IsNullOrEmpty(nimi))
+            {
+                return false;
+            }
+
             if (onAutomaattinenTallennus && this.PoistaTallennusKaytosta)
             {
-                return;
+                return false;
             }
 
             try
@@ -2030,7 +2036,11 @@ namespace KaisaKaavio
                 this.TallennusTarvitaan = true;
                 this.TallennusVirhe = ex.Message;
                 this.TallennusAjastin = 30;
+
+                return false;
             }
+
+            return true;
         }
 
         public void Tallenna(bool onAutomaattinenTallennus)
