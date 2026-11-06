@@ -7322,5 +7322,10 @@ namespace KaisaKaavio
                 this.peliBindingSource.ResetBindings(false);
             }
         }
+
+        private void ilmoLinkkiPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
