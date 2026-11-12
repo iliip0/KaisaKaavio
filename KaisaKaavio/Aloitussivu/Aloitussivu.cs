@@ -40,7 +40,6 @@ namespace KaisaKaavio.Aloitussivu
             else
             {
                 this.viimeisimmatComboBox.Visible = false;
-                this.viimeisimmatPictureBox.Visible = false;
                 this.avaaKilpailuButton.Visible = false;
             }
 

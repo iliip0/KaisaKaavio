@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.51		(työn alla)
+
+* Ikkunan minimikokoa säädetty pienemmäksi, jotta kaavio näkyy paremmin pienillä näytöillä
+
 ## Versio 1.0.0.50		(julkaistu 12.10.2026)
 
 * Lisätty ikkunan alareunaan ikonit jotka näyttävät onko kisa tallennettu levylle ja palvelimelle
