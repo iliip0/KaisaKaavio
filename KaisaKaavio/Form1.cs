@@ -2703,48 +2703,57 @@ namespace KaisaKaavio
                 foreach (DataGridViewCell cell in this.osallistujatDataGridView.SelectedCells)
                 {
                     Pelaaja pelaaja = (Pelaaja)cell.OwningRow.DataBoundItem;
-
-                    if (e.KeyChar == (char)Keys.Back ||
-                        e.KeyChar == (char)Keys.Delete)
+                    if (pelaaja != null)
                     {
-                        if (cell.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
+                        if (e.KeyChar == (char)Keys.Back ||
+                            e.KeyChar == (char)Keys.Delete)
                         {
-                            pelaaja.Nimi = string.Empty;
-                            PaivitaPelaajienRankingPisteetOsallistujalistaan();
-                        }
+                            if (cell.ColumnIndex == this.nimiDataGridViewTextBoxColumn.Index)
+                            {
+                                pelaaja.Nimi = string.Empty;
+                                pelaaja.Seura = string.Empty;
+                                pelaaja.Tasoitus = string.Empty;
+                                pelaaja.Sijoitettu = string.Empty;
+                                pelaaja.OsMaksu = string.Empty;
+                                pelaaja.Veloitettu = string.Empty;
+                                pelaaja.KabikeMaksu = string.Empty;
+                                pelaaja.Joukkue = string.Empty;
+                                pelaaja.LisenssiMaksu = string.Empty;
+                                pelaaja.SeuranJasenMaksu = string.Empty;
+                                PaivitaPelaajienRankingPisteetOsallistujalistaan();
+                            }
 
-                        if (cell.ColumnIndex == this.seuraDataGridViewTextBoxColumn.Index)
-                        {
-                            pelaaja.Seura = string.Empty;
-                        }
+                            if (cell.ColumnIndex == this.seuraDataGridViewTextBoxColumn.Index)
+                            {
+                                pelaaja.Seura = string.Empty;
+                            }
 
-                        if (cell.ColumnIndex == this.TasoitusColumn.Index)
-                        {
-                            pelaaja.Tasoitus = string.Empty;
-                        }
+                            if (cell.ColumnIndex == this.TasoitusColumn.Index)
+                            {
+                                pelaaja.Tasoitus = string.Empty;
+                            }
 
-                        if (cell.ColumnIndex == this.sijoitettuDataGridViewTextBoxColumn.Index)
-                        {
-                            pelaaja.Sijoitettu = string.Empty;
-                        }
+                            if (cell.ColumnIndex == this.sijoitettuDataGridViewTextBoxColumn.Index)
+                            {
+                                pelaaja.Sijoitettu = string.Empty;
+                            }
 
-                        if (cell.ColumnIndex == this.osMaksuDataGridViewTextBoxColumn.Index)
-                        {
-                            pelaaja.OsMaksu = string.Empty;
-                        }
+                            if (cell.ColumnIndex == this.osMaksuDataGridViewTextBoxColumn.Index)
+                            {
+                                pelaaja.OsMaksu = string.Empty;
+                            }
 
-                        if (cell.ColumnIndex == this.veloitettuDataGridViewTextBoxColumn.Index)
-                        {
-                            pelaaja.Veloitettu = string.Empty;
-                        }
+                            if (cell.ColumnIndex == this.veloitettuDataGridViewTextBoxColumn.Index)
+                            {
+                                pelaaja.Veloitettu = string.Empty;
+                            }
 
-                        if (cell.ColumnIndex == this.kabikeMaksuDataGridViewTextBoxColumn.Index)
-                        {
-                            pelaaja.KabikeMaksu = string.Empty;
+                            if (cell.ColumnIndex == this.kabikeMaksuDataGridViewTextBoxColumn.Index)
+                            {
+                                pelaaja.KabikeMaksu = string.Empty;
+                            }
                         }
                     }
-
-                    return;
                 }
             }
             catch

@@ -618,46 +618,25 @@ namespace KaisaKaavio
         {
             Integraatio.KaisaKaavioFi.HaeDataa("Pelaajat", string.Empty, invoker, loki, (tietue) =>
             {
-                bool lisattiinJotain = false;
-
                 if (tietue != null && tietue.Rivit.Any())
                 {
+                    List<PelaajaTietue> pelaajat = new List<PelaajaTietue>();
+
                     foreach (var rivi in tietue.Rivit)
                     {
                         string nimi = rivi.Get("Nimi", string.Empty);
                         string seura = rivi.Get("Seura", string.Empty);
 
-                        var pelaaja = this.Pelaajat.FirstOrDefault(x => Nimi.Equals(x.Nimi, nimi));
-                        if (pelaaja == null)
+                        if (!string.IsNullOrEmpty(nimi))
                         {
-                            pelaaja = new PelaajaTietue()
-                            {
-                                Nimi = nimi,
-                                Seura = seura
-                            };
-
-                            this.Pelaajat.Add(pelaaja);
-                            lisattiinJotain = true;
-                        }
-                        else
-                        {
-                            if (!string.Equals(pelaaja.Nimi, nimi))
-                            {
-                                pelaaja.Nimi = nimi;
-                                lisattiinJotain = true;
-                            }
-
-                            if (!string.IsNullOrEmpty(seura))
-                            {
-                                pelaaja.Seura = seura;
-                            }
-                        }
-
-                        if (lisattiinJotain)
-                        {
-                            this.Pelaajat.Sort((x, y) => { return string.Compare(x.Nimi, y.Nimi); });
+                            pelaajat.Add(new PelaajaTietue() { Nimi = nimi, Seura = seura });
                         }
                     }
+
+                    pelaajat.Sort((x, y) => { return string.Compare(x.Nimi, y.Nimi); });
+
+                    this.Pelaajat.Clear();
+                    this.Pelaajat.AddRange(pelaajat);
                 }
             });
         }
