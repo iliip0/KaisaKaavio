@@ -951,6 +951,16 @@ namespace KaisaKaavio
             peli.PelaajaId2 = string.Empty;
         }
 
+        /*
+        public void PeruutaArvonta()
+        {
+            foreach (var o in Osallistujat)
+            {
+                o.Id = -1;
+            }
+        }
+        */
+
         public void PoistaKaikkiPelit()
         {
             if (Pelit.Any())

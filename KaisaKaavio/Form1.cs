@@ -6793,7 +6793,7 @@ namespace KaisaKaavio
 
                     KeskeytaHaku();
 
-                    this.kilpailu.PoistaKaikkiPelit();
+                    this.kilpailu.PeruutaArvonta();
                     this.kilpailu.Pelit.ResetBindings();
                 }
 
