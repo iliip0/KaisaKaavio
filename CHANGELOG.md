@@ -2,7 +2,7 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
-## Versio 1.0.0.51		(työn alla)
+## Versio 1.0.0.51		(julkaistu 12.11.2026)
 
 * Ikkunan minimikokoa säädetty pienemmäksi, jotta kaavio näkyy paremmin pienillä näytöillä
 * Korjattu pelaajien nimien ehdottaminen KaisaKaavio.fi serveriltä
