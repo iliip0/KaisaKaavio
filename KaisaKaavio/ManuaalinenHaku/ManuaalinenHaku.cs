@@ -29,7 +29,9 @@ namespace KaisaKaavio.ManuaalinenHaku
             PaivitaHaetutPelit();
 
             this.hakijaComboBox.DataSource = this.hakijat;
+            this.hakijaComboBox.DisplayMember = "NimiJaSeuraTaiJoukkue";
             this.vastustajaComboBox.DataSource = this.vastustajat;
+            this.vastustajaComboBox.DisplayMember = "NimiJaSeuraTaiJoukkue";
 
             PaivitaHakijat();
 
@@ -158,7 +160,7 @@ namespace KaisaKaavio.ManuaalinenHaku
             this.rekursiossa++;
 
             haetutPelit.Clear();
-            foreach (var peli in this.kilpailu.Pelit.Where(x => x.Tilanne != PelinTilanne.Pelattu && x.Kierros > 2))
+            foreach (var peli in this.kilpailu.Pelit.Where(x => x.Tilanne != PelinTilanne.Pelattu))// && x.Kierros > 2))
             {
                 if (kilpailu.KaavioTyyppi == KaavioTyyppi.KaksiKierrostaJaCup && peli.Kierros > 3)
                 {

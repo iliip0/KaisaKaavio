@@ -54,6 +54,22 @@ namespace KaisaKaavio
         }
 
         [XmlIgnore]
+        public string NimiJaSeuraTaiJoukkue
+        {
+            get 
+            {
+                if (!string.IsNullOrEmpty(this.SeuraTaiJoukkue))
+                {
+                    return string.Format("{0} {1}", Nimi, SeuraTaiJoukkue);
+                }
+                else 
+                {
+                    return Nimi;
+                }
+            }
+        }
+
+        [XmlIgnore]
         public string PitkaNimi
         {
             get
