@@ -5,6 +5,8 @@ Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman ve
 ## Versio 1.0.0.51		(työn alla)
 
 * Ikkunan minimikokoa säädetty pienemmäksi, jotta kaavio näkyy paremmin pienillä näytöillä
+* Korjattu pelaajien nimien ehdottaminen KaisaKaavio.fi serveriltä
+* Korjattu pelaajan tietojen pyyhkiminen pelaajalistalla painamalla Delete tai Backspace nappia
 
 ## Versio 1.0.0.50		(julkaistu 12.10.2026)
 
