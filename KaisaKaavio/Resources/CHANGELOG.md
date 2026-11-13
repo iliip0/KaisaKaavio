@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.52		(julkaistu 13.11.2026)
+
+* Korjaus Yt-klubien mestaruuskisa-ominaisuuteen. Aiemmin Yt-moodi katosi kisasta kun ohjelman sulkee ja avaa uudelleen
+
 ## Versio 1.0.0.51		(julkaistu 12.11.2026)
 
 * Ikkunan minimikokoa säädetty pienemmäksi, jotta kaavio näkyy paremmin pienillä näytöillä
