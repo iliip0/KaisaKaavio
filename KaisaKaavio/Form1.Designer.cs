@@ -29,53 +29,53 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle93 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle104 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle94 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle95 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle96 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle97 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle98 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle99 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle100 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle101 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle102 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle103 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle105 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle113 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle106 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle107 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle108 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle109 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle110 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle111 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle112 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle114 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle127 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle115 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle116 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle117 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle118 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle119 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle120 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle121 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle122 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle123 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle124 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle125 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle126 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle128 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle129 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle130 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle131 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle132 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle133 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle138 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle134 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle135 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle136 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle137 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.kilpailutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uusiKilpailuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -644,6 +644,8 @@
             this.dataGridViewImageColumn41 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn42 = new System.Windows.Forms.DataGridViewImageColumn();
             this.sarjatBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.kilpailunTyyppiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kilpailuOnYTklubikisaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.arvontaTabPage.SuspendLayout();
@@ -1087,7 +1089,8 @@
             this.lisaaPelaajaKaavioonToolStripMenuItem,
             this.vaihdaKaaviotyyppiToolStripMenuItem,
             this.kaavioidenYhdistaminenKierroksestaToolStripMenuItem,
-            this.arvoKaavioUudelleenToolStripMenuItem});
+            this.arvoKaavioUudelleenToolStripMenuItem,
+            this.kilpailunTyyppiToolStripMenuItem});
             this.muutakorjaaToolStripMenuItem.Name = "muutakorjaaToolStripMenuItem";
             this.muutakorjaaToolStripMenuItem.Size = new System.Drawing.Size(116, 25);
             this.muutakorjaaToolStripMenuItem.Text = "Muuta/korjaa";
@@ -1467,14 +1470,14 @@
             this.osallistujatDataGridView.AutoGenerateColumns = false;
             this.osallistujatDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.osallistujatDataGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.osallistujatDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle93.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle93.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle93.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle93.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle93.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle93.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle93.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.osallistujatDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle93;
             this.osallistujatDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.osallistujatDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nimiDataGridViewTextBoxColumn,
@@ -1498,8 +1501,8 @@
             this.osallistujatDataGridView.Location = new System.Drawing.Point(0, 0);
             this.osallistujatDataGridView.MultiSelect = false;
             this.osallistujatDataGridView.Name = "osallistujatDataGridView";
-            dataGridViewCellStyle12.Padding = new System.Windows.Forms.Padding(1);
-            this.osallistujatDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle104.Padding = new System.Windows.Forms.Padding(1);
+            this.osallistujatDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle104;
             this.osallistujatDataGridView.Size = new System.Drawing.Size(543, 293);
             this.osallistujatDataGridView.TabIndex = 0;
             this.osallistujatDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
@@ -1514,8 +1517,8 @@
             // 
             this.nimiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.nimiDataGridViewTextBoxColumn.DataPropertyName = "Nimi";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.nimiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle94.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nimiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle94;
             this.nimiDataGridViewTextBoxColumn.HeaderText = "Nimi";
             this.nimiDataGridViewTextBoxColumn.MaxInputLength = 128;
             this.nimiDataGridViewTextBoxColumn.Name = "nimiDataGridViewTextBoxColumn";
@@ -1543,8 +1546,8 @@
             // IlmoittautumisNumero
             // 
             this.IlmoittautumisNumero.DataPropertyName = "IlmoittautumisNumero";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.IlmoittautumisNumero.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle95.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.IlmoittautumisNumero.DefaultCellStyle = dataGridViewCellStyle95;
             this.IlmoittautumisNumero.DividerWidth = 3;
             this.IlmoittautumisNumero.HeaderText = "#";
             this.IlmoittautumisNumero.MinimumWidth = 40;
@@ -1565,8 +1568,8 @@
             // sijoitettuDataGridViewTextBoxColumn
             // 
             this.sijoitettuDataGridViewTextBoxColumn.DataPropertyName = "Sijoitettu";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sijoitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle96.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sijoitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle96;
             this.sijoitettuDataGridViewTextBoxColumn.DividerWidth = 3;
             this.sijoitettuDataGridViewTextBoxColumn.HeaderText = "Sijoitet- tu";
             this.sijoitettuDataGridViewTextBoxColumn.MinimumWidth = 72;
@@ -1577,8 +1580,8 @@
             // TasoitusColumn
             // 
             this.TasoitusColumn.DataPropertyName = "Tasoitus";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TasoitusColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle97.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.TasoitusColumn.DefaultCellStyle = dataGridViewCellStyle97;
             this.TasoitusColumn.DividerWidth = 3;
             this.TasoitusColumn.HeaderText = "Tasuri";
             this.TasoitusColumn.MinimumWidth = 54;
@@ -1588,8 +1591,8 @@
             // kabikeMaksuDataGridViewTextBoxColumn
             // 
             this.kabikeMaksuDataGridViewTextBoxColumn.DataPropertyName = "KabikeMaksu";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.kabikeMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle98.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.kabikeMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle98;
             this.kabikeMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
             this.kabikeMaksuDataGridViewTextBoxColumn.HeaderText = "Kabike maksu";
             this.kabikeMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
@@ -1599,8 +1602,8 @@
             // lisenssiMaksuDataGridViewTextBoxColumn
             // 
             this.lisenssiMaksuDataGridViewTextBoxColumn.DataPropertyName = "LisenssiMaksu";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.lisenssiMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle99.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.lisenssiMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle99;
             this.lisenssiMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
             this.lisenssiMaksuDataGridViewTextBoxColumn.HeaderText = "Lisenssi maksut";
             this.lisenssiMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
@@ -1611,8 +1614,8 @@
             // osMaksuDataGridViewTextBoxColumn
             // 
             this.osMaksuDataGridViewTextBoxColumn.DataPropertyName = "OsMaksu";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.osMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle100.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.osMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle100;
             this.osMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
             this.osMaksuDataGridViewTextBoxColumn.HeaderText = "Os. maksu";
             this.osMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
@@ -1622,8 +1625,8 @@
             // seuranJasenMaksuDataGridViewTextBoxColumn
             // 
             this.seuranJasenMaksuDataGridViewTextBoxColumn.DataPropertyName = "SeuranJasenMaksu";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.seuranJasenMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle101.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.seuranJasenMaksuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle101;
             this.seuranJasenMaksuDataGridViewTextBoxColumn.DividerWidth = 3;
             this.seuranJasenMaksuDataGridViewTextBoxColumn.HeaderText = "Seuran jm";
             this.seuranJasenMaksuDataGridViewTextBoxColumn.MinimumWidth = 64;
@@ -1634,8 +1637,8 @@
             // veloitettuDataGridViewTextBoxColumn
             // 
             this.veloitettuDataGridViewTextBoxColumn.DataPropertyName = "Veloitettu";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.veloitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle102.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.veloitettuDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle102;
             this.veloitettuDataGridViewTextBoxColumn.DividerWidth = 3;
             this.veloitettuDataGridViewTextBoxColumn.HeaderText = "Veloitet- tu";
             this.veloitettuDataGridViewTextBoxColumn.MinimumWidth = 64;
@@ -1646,8 +1649,8 @@
             // 
             this.arvontaIdDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.arvontaIdDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.arvontaIdDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle103.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.arvontaIdDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle103;
             this.arvontaIdDataGridViewTextBoxColumn.DividerWidth = 3;
             this.arvontaIdDataGridViewTextBoxColumn.HeaderText = "Id";
             this.arvontaIdDataGridViewTextBoxColumn.MinimumWidth = 48;
@@ -1802,14 +1805,14 @@
             this.kaavioDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
             this.kaavioDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.kaavioDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.kaavioDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle105.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle105.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle105.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle105.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle105.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle105.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle105.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.kaavioDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle105;
             this.kaavioDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.kaavioDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
@@ -1846,14 +1849,14 @@
             this.Pisteet,
             this.Tappiot});
             this.kaavioDataGridView.DataSource = this.kaavioBindingSource;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.kaavioDataGridView.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle113.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle113.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle113.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle113.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle113.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle113.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle113.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.kaavioDataGridView.DefaultCellStyle = dataGridViewCellStyle113;
             this.kaavioDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kaavioDataGridView.Location = new System.Drawing.Point(0, 0);
             this.kaavioDataGridView.Name = "kaavioDataGridView";
@@ -1871,8 +1874,8 @@
             // idDataGridViewTextBoxColumn
             // 
             this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.idDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle106.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.idDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle106;
             this.idDataGridViewTextBoxColumn.HeaderText = "Id";
             this.idDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
@@ -1883,9 +1886,9 @@
             // 
             this.nimiDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.nimiDataGridViewTextBoxColumn1.DataPropertyName = "Nimi";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nimiDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle107.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle107.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nimiDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle107;
             this.nimiDataGridViewTextBoxColumn1.DividerWidth = 3;
             this.nimiDataGridViewTextBoxColumn1.HeaderText = "Nimi";
             this.nimiDataGridViewTextBoxColumn1.MinimumWidth = 8;
@@ -1896,9 +1899,9 @@
             // seuraDataGridViewTextBoxColumn1
             // 
             this.seuraDataGridViewTextBoxColumn1.DataPropertyName = "SeuraTaiJoukkue";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.seuraDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle108.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle108.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seuraDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle108;
             this.seuraDataGridViewTextBoxColumn1.DividerWidth = 3;
             this.seuraDataGridViewTextBoxColumn1.HeaderText = "Seura";
             this.seuraDataGridViewTextBoxColumn1.MinimumWidth = 64;
@@ -2129,13 +2132,13 @@
             // 
             // KaavioKuvaSarake
             // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle17.NullValue = null;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.DarkGray;
-            this.KaavioKuvaSarake.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle109.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle109.BackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle109.ForeColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle109.NullValue = null;
+            dataGridViewCellStyle109.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle109.SelectionForeColor = System.Drawing.Color.DarkGray;
+            this.KaavioKuvaSarake.DefaultCellStyle = dataGridViewCellStyle109;
             this.KaavioKuvaSarake.DividerWidth = 3;
             this.KaavioKuvaSarake.HeaderText = "#";
             this.KaavioKuvaSarake.MinimumWidth = 32;
@@ -2146,9 +2149,9 @@
             // Voitot
             // 
             this.Voitot.DataPropertyName = "Voitot";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Voitot.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle110.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle110.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Voitot.DefaultCellStyle = dataGridViewCellStyle110;
             this.Voitot.DividerWidth = 3;
             this.Voitot.HeaderText = "Voitot";
             this.Voitot.MinimumWidth = 64;
@@ -2159,9 +2162,9 @@
             // Pisteet
             // 
             this.Pisteet.DataPropertyName = "Pisteet";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Pisteet.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle111.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle111.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Pisteet.DefaultCellStyle = dataGridViewCellStyle111;
             this.Pisteet.DividerWidth = 3;
             this.Pisteet.HeaderText = "Pisteet";
             this.Pisteet.MinimumWidth = 64;
@@ -2172,9 +2175,9 @@
             // Tappiot
             // 
             this.Tappiot.DataPropertyName = "Tappiot";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tappiot.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle112.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle112.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tappiot.DefaultCellStyle = dataGridViewCellStyle112;
             this.Tappiot.DividerWidth = 3;
             this.Tappiot.HeaderText = "Tappiot";
             this.Tappiot.MinimumWidth = 64;
@@ -2288,14 +2291,14 @@
             this.pelitDataGridView.AllowUserToResizeRows = false;
             this.pelitDataGridView.AutoGenerateColumns = false;
             this.pelitDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pelitDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle114.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle114.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle114.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle114.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle114.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle114.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle114.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pelitDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle114;
             this.pelitDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.pelitDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.kierrosDataGridViewTextBoxColumn,
@@ -2322,14 +2325,14 @@
             this.pelitDataGridView.Location = new System.Drawing.Point(0, 0);
             this.pelitDataGridView.MultiSelect = false;
             this.pelitDataGridView.Name = "pelitDataGridView";
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle35.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle35.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pelitDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle127.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle127.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle127.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle127.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle127.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle127.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle127.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pelitDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle127;
             this.pelitDataGridView.RowHeadersVisible = false;
             this.pelitDataGridView.ShowCellErrors = false;
             this.pelitDataGridView.ShowEditingIcon = false;
@@ -2349,9 +2352,9 @@
             // kierrosDataGridViewTextBoxColumn
             // 
             this.kierrosDataGridViewTextBoxColumn.DataPropertyName = "KierrosTeksti";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kierrosDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle115.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle115.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kierrosDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle115;
             this.kierrosDataGridViewTextBoxColumn.HeaderText = "Kierros";
             this.kierrosDataGridViewTextBoxColumn.MaxInputLength = 2;
             this.kierrosDataGridViewTextBoxColumn.MinimumWidth = 62;
@@ -2391,8 +2394,8 @@
             // poytaDataGridViewTextBoxColumn
             // 
             this.poytaDataGridViewTextBoxColumn.DataPropertyName = "Poyta";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.poytaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle116.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.poytaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle116;
             this.poytaDataGridViewTextBoxColumn.DividerWidth = 3;
             this.poytaDataGridViewTextBoxColumn.HeaderText = "Pöytä";
             this.poytaDataGridViewTextBoxColumn.MaxInputLength = 2;
@@ -2403,9 +2406,9 @@
             // pelaajaId1DataGridViewTextBoxColumn
             // 
             this.pelaajaId1DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId1";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaajaId1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle117.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle117.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaajaId1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle117;
             this.pelaajaId1DataGridViewTextBoxColumn.HeaderText = "id1";
             this.pelaajaId1DataGridViewTextBoxColumn.MaxInputLength = 3;
             this.pelaajaId1DataGridViewTextBoxColumn.MinimumWidth = 34;
@@ -2417,9 +2420,9 @@
             // 
             this.pelaaja1DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.pelaaja1DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja1";
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle26.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaaja1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle118.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle118.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaaja1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle118;
             this.pelaaja1DataGridViewTextBoxColumn.DividerWidth = 3;
             this.pelaaja1DataGridViewTextBoxColumn.HeaderText = "";
             this.pelaaja1DataGridViewTextBoxColumn.MinimumWidth = 128;
@@ -2430,9 +2433,9 @@
             // pisteet1DataGridViewTextBoxColumn
             // 
             this.pisteet1DataGridViewTextBoxColumn.DataPropertyName = "Pisteet1";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pisteet1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle119.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle119.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pisteet1DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle119;
             this.pisteet1DataGridViewTextBoxColumn.HeaderText = "";
             this.pisteet1DataGridViewTextBoxColumn.MaxInputLength = 3;
             this.pisteet1DataGridViewTextBoxColumn.MinimumWidth = 48;
@@ -2442,8 +2445,8 @@
             // Viiva
             // 
             this.Viiva.DataPropertyName = "Viiva";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Viiva.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle120.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Viiva.DefaultCellStyle = dataGridViewCellStyle120;
             this.Viiva.HeaderText = "";
             this.Viiva.MaxInputLength = 1;
             this.Viiva.MinimumWidth = 24;
@@ -2454,9 +2457,9 @@
             // KeskiarvoTeksti1
             // 
             this.KeskiarvoTeksti1.DataPropertyName = "KeskiarvoTeksti1";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Perpetua", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KeskiarvoTeksti1.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle121.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle121.Font = new System.Drawing.Font("Perpetua", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeskiarvoTeksti1.DefaultCellStyle = dataGridViewCellStyle121;
             this.KeskiarvoTeksti1.DividerWidth = 3;
             this.KeskiarvoTeksti1.HeaderText = "ka";
             this.KeskiarvoTeksti1.MinimumWidth = 37;
@@ -2467,8 +2470,8 @@
             // LyontivuorojaColumn
             // 
             this.LyontivuorojaColumn.DataPropertyName = "Lyontivuoroja";
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.LyontivuorojaColumn.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle122.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.LyontivuorojaColumn.DefaultCellStyle = dataGridViewCellStyle122;
             this.LyontivuorojaColumn.DividerWidth = 3;
             this.LyontivuorojaColumn.HeaderText = "vuoroja";
             this.LyontivuorojaColumn.MinimumWidth = 56;
@@ -2479,9 +2482,9 @@
             // KeskiarvoTeksti2
             // 
             this.KeskiarvoTeksti2.DataPropertyName = "KeskiarvoTeksti2";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle31.Font = new System.Drawing.Font("Perpetua", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KeskiarvoTeksti2.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle123.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle123.Font = new System.Drawing.Font("Perpetua", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeskiarvoTeksti2.DefaultCellStyle = dataGridViewCellStyle123;
             this.KeskiarvoTeksti2.HeaderText = "ka";
             this.KeskiarvoTeksti2.MinimumWidth = 34;
             this.KeskiarvoTeksti2.Name = "KeskiarvoTeksti2";
@@ -2491,9 +2494,9 @@
             // pisteet2DataGridViewTextBoxColumn
             // 
             this.pisteet2DataGridViewTextBoxColumn.DataPropertyName = "Pisteet2";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pisteet2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle124.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle124.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pisteet2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle124;
             this.pisteet2DataGridViewTextBoxColumn.DividerWidth = 3;
             this.pisteet2DataGridViewTextBoxColumn.HeaderText = "";
             this.pisteet2DataGridViewTextBoxColumn.MaxInputLength = 3;
@@ -2505,9 +2508,9 @@
             // 
             this.pelaaja2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.pelaaja2DataGridViewTextBoxColumn.DataPropertyName = "Pelaaja2";
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaaja2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle125.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle125.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaaja2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle125;
             this.pelaaja2DataGridViewTextBoxColumn.HeaderText = "";
             this.pelaaja2DataGridViewTextBoxColumn.MinimumWidth = 128;
             this.pelaaja2DataGridViewTextBoxColumn.Name = "pelaaja2DataGridViewTextBoxColumn";
@@ -2517,9 +2520,9 @@
             // pelaajaId2DataGridViewTextBoxColumn
             // 
             this.pelaajaId2DataGridViewTextBoxColumn.DataPropertyName = "PelaajaId2";
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pelaajaId2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle126.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle126.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pelaajaId2DataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle126;
             this.pelaajaId2DataGridViewTextBoxColumn.DividerWidth = 3;
             this.pelaajaId2DataGridViewTextBoxColumn.HeaderText = "id2";
             this.pelaajaId2DataGridViewTextBoxColumn.MaxInputLength = 3;
@@ -3855,8 +3858,8 @@
             // 
             // palkintosummaColumn
             // 
-            dataGridViewCellStyle36.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.palkintosummaColumn.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle128.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.palkintosummaColumn.DefaultCellStyle = dataGridViewCellStyle128;
             this.palkintosummaColumn.HeaderText = "€";
             this.palkintosummaColumn.MinimumWidth = 72;
             this.palkintosummaColumn.Name = "palkintosummaColumn";
@@ -3865,8 +3868,8 @@
             // 
             // Column2
             // 
-            dataGridViewCellStyle37.ForeColor = System.Drawing.Color.DarkGray;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle129.ForeColor = System.Drawing.Color.DarkGray;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle129;
             this.Column2.HeaderText = "%";
             this.Column2.MinimumWidth = 54;
             this.Column2.Name = "Column2";
@@ -4429,8 +4432,8 @@
             // 
             this.osoiteDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.osoiteDataGridViewTextBoxColumn.DataPropertyName = "Osoite";
-            dataGridViewCellStyle38.ForeColor = System.Drawing.Color.Blue;
-            this.osoiteDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle130.ForeColor = System.Drawing.Color.Blue;
+            this.osoiteDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle130;
             this.osoiteDataGridViewTextBoxColumn.HeaderText = "Osoite";
             this.osoiteDataGridViewTextBoxColumn.MaxInputLength = 512;
             this.osoiteDataGridViewTextBoxColumn.Name = "osoiteDataGridViewTextBoxColumn";
@@ -4559,8 +4562,8 @@
             // 
             this.striimiLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.striimiLinkkiDataGridViewTextBoxColumn.DataPropertyName = "StriimiLinkki";
-            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.Blue;
-            this.striimiLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle131.ForeColor = System.Drawing.Color.Blue;
+            this.striimiLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle131;
             this.striimiLinkkiDataGridViewTextBoxColumn.HeaderText = "Striimilinkki";
             this.striimiLinkkiDataGridViewTextBoxColumn.MaxInputLength = 512;
             this.striimiLinkkiDataGridViewTextBoxColumn.Name = "striimiLinkkiDataGridViewTextBoxColumn";
@@ -4569,8 +4572,8 @@
             // 
             this.tulosLinkkiDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.tulosLinkkiDataGridViewTextBoxColumn.DataPropertyName = "TulosLinkki";
-            dataGridViewCellStyle40.ForeColor = System.Drawing.Color.Blue;
-            this.tulosLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle132.ForeColor = System.Drawing.Color.Blue;
+            this.tulosLinkkiDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle132;
             this.tulosLinkkiDataGridViewTextBoxColumn.HeaderText = "Tuloslinkki";
             this.tulosLinkkiDataGridViewTextBoxColumn.MaxInputLength = 512;
             this.tulosLinkkiDataGridViewTextBoxColumn.Name = "tulosLinkkiDataGridViewTextBoxColumn";
@@ -5260,15 +5263,15 @@
             this.rankingDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.rankingDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.rankingDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle41.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle41.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.Color.DarkGreen;
-            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.Color.DarkGreen;
-            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.rankingDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle133.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle133.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle133.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle133.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle133.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            dataGridViewCellStyle133.SelectionBackColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle133.SelectionForeColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle133.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.rankingDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle133;
             this.rankingDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.rankingDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sijoitusDataGridViewTextBoxColumn,
@@ -5380,15 +5383,15 @@
             this.rankingS52,
             this.rankingP52});
             this.rankingDataGridView.DataSource = this.rankingPelaajaTietueBindingSource;
-            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle46.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle46.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle46.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle46.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            dataGridViewCellStyle46.SelectionBackColor = System.Drawing.Color.LimeGreen;
-            dataGridViewCellStyle46.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.rankingDataGridView.DefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle138.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle138.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle138.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle138.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle138.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            dataGridViewCellStyle138.SelectionBackColor = System.Drawing.Color.LimeGreen;
+            dataGridViewCellStyle138.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle138.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.rankingDataGridView.DefaultCellStyle = dataGridViewCellStyle138;
             this.rankingDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rankingDataGridView.EnableHeadersVisualStyles = false;
             this.rankingDataGridView.Location = new System.Drawing.Point(3, 3);
@@ -5408,8 +5411,8 @@
             // sijoitusDataGridViewTextBoxColumn
             // 
             this.sijoitusDataGridViewTextBoxColumn.DataPropertyName = "Sijoitus";
-            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sijoitusDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle42;
+            dataGridViewCellStyle134.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sijoitusDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle134;
             this.sijoitusDataGridViewTextBoxColumn.DividerWidth = 3;
             this.sijoitusDataGridViewTextBoxColumn.Frozen = true;
             this.sijoitusDataGridViewTextBoxColumn.HeaderText = "#";
@@ -5421,8 +5424,8 @@
             // nimiDataGridViewTextBoxColumn3
             // 
             this.nimiDataGridViewTextBoxColumn3.DataPropertyName = "Nimi";
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.nimiDataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle135.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nimiDataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle135;
             this.nimiDataGridViewTextBoxColumn3.DividerWidth = 3;
             this.nimiDataGridViewTextBoxColumn3.Frozen = true;
             this.nimiDataGridViewTextBoxColumn3.HeaderText = "Pelaaja";
@@ -5434,13 +5437,13 @@
             // rankingPisteetDataGridViewTextBoxColumn
             // 
             this.rankingPisteetDataGridViewTextBoxColumn.DataPropertyName = "RankingPisteet";
-            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle44.BackColor = System.Drawing.Color.LimeGreen;
-            dataGridViewCellStyle44.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle44.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle44.SelectionBackColor = System.Drawing.Color.DarkGreen;
-            dataGridViewCellStyle44.SelectionForeColor = System.Drawing.Color.White;
-            this.rankingPisteetDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle136.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle136.BackColor = System.Drawing.Color.LimeGreen;
+            dataGridViewCellStyle136.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle136.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle136.SelectionBackColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle136.SelectionForeColor = System.Drawing.Color.White;
+            this.rankingPisteetDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle136;
             this.rankingPisteetDataGridViewTextBoxColumn.Frozen = true;
             this.rankingPisteetDataGridViewTextBoxColumn.HeaderText = "Pisteet";
             this.rankingPisteetDataGridViewTextBoxColumn.MinimumWidth = 64;
@@ -5450,12 +5453,12 @@
             // 
             // rankingOsallistumisiaColumn
             // 
-            dataGridViewCellStyle45.BackColor = System.Drawing.Color.Green;
-            dataGridViewCellStyle45.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle45.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle45.SelectionBackColor = System.Drawing.Color.DarkGreen;
-            dataGridViewCellStyle45.SelectionForeColor = System.Drawing.Color.White;
-            this.rankingOsallistumisiaColumn.DefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle137.BackColor = System.Drawing.Color.Green;
+            dataGridViewCellStyle137.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle137.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle137.SelectionBackColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle137.SelectionForeColor = System.Drawing.Color.White;
+            this.rankingOsallistumisiaColumn.DefaultCellStyle = dataGridViewCellStyle137;
             this.rankingOsallistumisiaColumn.DividerWidth = 6;
             this.rankingOsallistumisiaColumn.Frozen = true;
             this.rankingOsallistumisiaColumn.HeaderText = "Kisoja";
@@ -6359,7 +6362,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 52);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(760, 305);
+            this.tabPage2.Size = new System.Drawing.Size(760, 233);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Näytä tekstinä";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -6382,7 +6385,7 @@
             this.splitContainer9.Panel2.Controls.Add(this.rankingOsakilpailuRichTextBox);
             this.splitContainer9.Panel2.Controls.Add(this.kopioOsakilpailuButton);
             this.splitContainer9.Panel2.Controls.Add(this.rankingOsakilpailuComboBox);
-            this.splitContainer9.Size = new System.Drawing.Size(754, 299);
+            this.splitContainer9.Size = new System.Drawing.Size(754, 227);
             this.splitContainer9.SplitterDistance = 406;
             this.splitContainer9.TabIndex = 1;
             // 
@@ -6395,7 +6398,7 @@
             this.rankingKokonaistilanneRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.rankingBindingSource, "KokonaisTilanneSbil", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.rankingKokonaistilanneRichTextBox.Location = new System.Drawing.Point(3, 52);
             this.rankingKokonaistilanneRichTextBox.Name = "rankingKokonaistilanneRichTextBox";
-            this.rankingKokonaistilanneRichTextBox.Size = new System.Drawing.Size(396, 240);
+            this.rankingKokonaistilanneRichTextBox.Size = new System.Drawing.Size(396, 168);
             this.rankingKokonaistilanneRichTextBox.TabIndex = 2;
             this.rankingKokonaistilanneRichTextBox.Text = "";
             // 
@@ -6425,7 +6428,7 @@
             this.rankingOsakilpailuRichTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.rankingBindingSource, "OsakilpailunTilanneSbil", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.rankingOsakilpailuRichTextBox.Location = new System.Drawing.Point(3, 86);
             this.rankingOsakilpailuRichTextBox.Name = "rankingOsakilpailuRichTextBox";
-            this.rankingOsakilpailuRichTextBox.Size = new System.Drawing.Size(334, 206);
+            this.rankingOsakilpailuRichTextBox.Size = new System.Drawing.Size(334, 134);
             this.rankingOsakilpailuRichTextBox.TabIndex = 3;
             this.rankingOsakilpailuRichTextBox.Text = "";
             // 
@@ -7478,6 +7481,22 @@
             // 
             this.sarjatBindingSourceBindingSource.DataSource = this.rankingBindingSource;
             // 
+            // kilpailunTyyppiToolStripMenuItem
+            // 
+            this.kilpailunTyyppiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kilpailuOnYTklubikisaToolStripMenuItem});
+            this.kilpailunTyyppiToolStripMenuItem.Name = "kilpailunTyyppiToolStripMenuItem";
+            this.kilpailunTyyppiToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.kilpailunTyyppiToolStripMenuItem.Text = "Kilpailun tyyppi";
+            this.kilpailunTyyppiToolStripMenuItem.DropDownOpening += new System.EventHandler(this.kilpailunTyyppiToolStripMenuItem_DropDownOpening);
+            // 
+            // kilpailuOnYTklubikisaToolStripMenuItem
+            // 
+            this.kilpailuOnYTklubikisaToolStripMenuItem.Name = "kilpailuOnYTklubikisaToolStripMenuItem";
+            this.kilpailuOnYTklubikisaToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.kilpailuOnYTklubikisaToolStripMenuItem.Text = "Kilpailu on YT-klubikisa?";
+            this.kilpailuOnYTklubikisaToolStripMenuItem.Click += new System.EventHandler(this.kilpailuOnYTklubikisaToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -8282,6 +8301,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Tappiot;
         private System.Windows.Forms.ToolStripStatusLabel saveStatusImage;
         private System.Windows.Forms.ToolStripStatusLabel uploadStatusImage;
+        private System.Windows.Forms.ToolStripMenuItem kilpailunTyyppiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kilpailuOnYTklubikisaToolStripMenuItem;
     }
 }
 

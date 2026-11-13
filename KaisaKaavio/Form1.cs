@@ -7336,5 +7336,16 @@ namespace KaisaKaavio
         {
 
         }
+
+        private void kilpailunTyyppiToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            this.kilpailuOnYTklubikisaToolStripMenuItem.Checked = this.kilpailu.KilpailuOnYtMestaruusKisa;
+        }
+
+        private void kilpailuOnYTklubikisaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.kilpailu.KilpailuOnYtMestaruusKisa = !this.kilpailu.KilpailuOnYtMestaruusKisa;
+            this.kilpailuOnYTklubikisaToolStripMenuItem.Checked = this.kilpailu.KilpailuOnYtMestaruusKisa;
+        }
     }
 }
