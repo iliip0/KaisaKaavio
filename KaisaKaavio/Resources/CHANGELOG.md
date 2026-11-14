@@ -2,8 +2,14 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.53		(julkaistu 14.11.2026)
+
+* Bugikorjauksia Yt-klubimestaruuskisa-moodiin.
+* Korjattu niin, että pelaajien nimiä ja seuroja voi vapaasti muuttaa sen jälkeen kun ohjelma on kerran ehdottanut oikeaa kirjoitusasua palvelimelta.
+
 ## Versio 1.0.0.52		(julkaistu 13.11.2026)
 
+* Yt-klubi mestaruuskisa-moodin voi nyt laittaa päälle/pois kesken kisan "Muuta/korjaa" valikosta
 * Korjaus Yt-klubien mestaruuskisa-ominaisuuteen. Aiemmin Yt-moodi katosi kisasta kun ohjelman sulkee ja avaa uudelleen
 
 ## Versio 1.0.0.51		(julkaistu 12.11.2026)
