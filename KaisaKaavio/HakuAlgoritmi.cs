@@ -129,6 +129,11 @@ namespace KaisaKaavio
         // Tällä estetään hakeminen "Kaavioiden yhdistäminen"-kierroksen yli kun pelataan usealla pelipaikalla
         public int MaxKierros { get; set; } = Int32.MaxValue;
 
+        /// <summary>
+        /// Kertoo, onko käytössä Yt-klubien mestaruuskisahaku
+        /// </summary>
+        public bool YtMestaruusHaku = false;
+
         public HakuAlgoritmi(Kilpailu kilpailu, Loki loki, IStatusRivi status)
         {
             this.status = status;
@@ -139,6 +144,17 @@ namespace KaisaKaavio
             if (kilpailu.TestiKilpailu)
             {
                 this.AutomaattinenTestausMenossa = true;
+            }
+
+            this.YtMestaruusHaku = this.Kilpailu.KilpailuOnYtMestaruusKisa;
+
+            // Poistetaan Yt-klubihaku jos mukana on joukkueettomia pelaajia
+            if (kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                if (kilpailu.Osallistujat.Any(x => x.Id > 0 && string.IsNullOrEmpty(x.Joukkue)))
+                {
+                    this.YtMestaruusHaku = false;
+                }
             }
 
             switch (this.Kilpailu.KaavioTyyppi)
@@ -684,7 +700,7 @@ namespace KaisaKaavio
             }
             else
             {
-                if (this.Kilpailu.KilpailuOnYtMestaruusKisa)
+                if (this.YtMestaruusHaku)
                 {
                     vastustaja = HaeVastustajaNopeasti(
                         kierros,
@@ -776,7 +792,7 @@ namespace KaisaKaavio
 
             // YT-klubien mestaruuskisassa hypätään parhaan haun yli jos pelaajat ovat samassa joukkueessa ja
             // muita hakuja on tarjolla
-            if (this.Kilpailu.KilpailuOnYtMestaruusKisa)
+            if (this.YtMestaruusHaku)
             {
                 if (string.Equals(haku.Hakija.Pelaaja.Joukkue, haku.Vastustaja.Pelaaja.Joukkue))
                 {
@@ -1204,7 +1220,7 @@ namespace KaisaKaavio
                     var hakija = pelaajat.ElementAt(tallennettuHaku.Hakija);
                     var vastustaja = pelaajat.ElementAt(tallennettuHaku.Vastustaja);
 
-                    if ((!this.Kilpailu.KilpailuOnYtMestaruusKisa) ||
+                    if ((!this.YtMestaruusHaku) ||
                         (!string.Equals(hakija.Pelaaja.Joukkue, vastustaja.Pelaaja.Joukkue)))
                     {
                         var tulos = new HuolellisenHaunTulos()
@@ -1257,7 +1273,7 @@ namespace KaisaKaavio
                 maxI = Math.Min(hakijat.Length - 1, Asetukset.SallittujaHakijanYliHyppyjaHuolellisessaHaussa + 1);
             }
 
-            if (this.Kilpailu.KilpailuOnYtMestaruusKisa)
+            if (this.YtMestaruusHaku)
             {
                 maxI = hakijat.Length - 1;
             }
@@ -1323,7 +1339,7 @@ namespace KaisaKaavio
 #endif
                         }
 
-                        if (!this.Kilpailu.KilpailuOnYtMestaruusKisa)
+                        if (!this.YtMestaruusHaku)
                         {
                             if (pisteytys <= 0) // Täydellinen haku, ei tarvitse etsiä kauempaa
                             {

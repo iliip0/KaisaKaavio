@@ -7358,10 +7358,7 @@ namespace KaisaKaavio
             this.kilpailu.KilpailuOnYtMestaruusKisa = !this.kilpailu.KilpailuOnYtMestaruusKisa;
             this.kilpailuOnYTklubikisaToolStripMenuItem.Checked = this.kilpailu.KilpailuOnYtMestaruusKisa;
 
-            if (this.kilpailu.KilpailuOnYtMestaruusKisa)
-            {
-                this.JoukkueColumn.Visible = true;
-            }
+            this.JoukkueColumn.Visible = this.kilpailu.KilpailuOnYtMestaruusKisa || this.kilpailu.KilpaSarja == KilpaSarja.Joukkuekilpailu;
         }
     }
 }
