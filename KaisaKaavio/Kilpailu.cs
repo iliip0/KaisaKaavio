@@ -2145,11 +2145,13 @@ namespace KaisaKaavio
                 this.RankingSarjanTyyppi = kilpailu.RankingSarjanTyyppi;
                 this.RankingSarjanNimi = kilpailu.RankingSarjanNimi;
                 this.KilpailuOnYtMestaruusKisa = kilpailu.KilpailuOnYtMestaruusKisa;
-
+                
+                /*
                 if (!this.KilpailuOnYtMestaruusKisa && this.Nimi.ToLower().Contains("yt-klubi"))
                 {
                     this.KilpailuOnYtMestaruusKisa = true;
                 }
+                */
 
                 this.OhjelmaVersio = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
