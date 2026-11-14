@@ -331,6 +331,13 @@ namespace KaisaKaavio
         public float CupAlkupeliPisteytys { get; set; } = 0;
 
         /// <summary>
+        /// Muistaa onko pelaajan nimi jo kertaalleen automaattisesti korjattu kaisakaavio.fi palvelimelta saatujen nimien mukaan.
+        /// Automaattinen korjaus tehdään vain kerran, jonka jälkeen pelaajan nimeä tai muita tietoja voi muuttaa vapaasti.
+        /// </summary>
+        [XmlIgnore]
+        public bool NimiKorjattuPalvelimeltaKerran { get; set; } = false;
+
+        /// <summary>
         /// Tietorakenne, jolla pelit esitetään 'Kaavio'-näkymässä
         /// </summary>
         public class PeliTietue

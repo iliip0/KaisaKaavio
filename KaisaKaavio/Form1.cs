@@ -1603,7 +1603,14 @@ namespace KaisaKaavio
 
         private void PaivitaJoukkueSarake()
         {
-            this.JoukkueColumn.ReadOnly = this.kilpailu.KaavioArvottu;
+            if (this.kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                this.JoukkueColumn.ReadOnly = false;
+            }
+            else
+            {
+                this.JoukkueColumn.ReadOnly = this.kilpailu.KaavioArvottu;
+            }
         }
 
         private void PaivitaPelipaikkaSarakkeenNakyvyys()
@@ -2235,8 +2242,12 @@ namespace KaisaKaavio
                             var pelaajatietue = this.asetukset.Pelaajat.FirstOrDefault(x => Tyypit.Nimi.Equals(x.Nimi, pelaaja.Nimi));
                             if (pelaajatietue != null)
                             {
-                                pelaaja.Nimi = pelaajatietue.Nimi;
-                                pelaaja.Seura = pelaajatietue.Seura;
+                                if (!pelaaja.NimiKorjattuPalvelimeltaKerran)
+                                {
+                                    pelaaja.Nimi = pelaajatietue.Nimi;
+                                    pelaaja.Seura = pelaajatietue.Seura;
+                                    pelaaja.NimiKorjattuPalvelimeltaKerran = true;
+                                }
                             }
                         }
                     }
@@ -7346,6 +7357,11 @@ namespace KaisaKaavio
         {
             this.kilpailu.KilpailuOnYtMestaruusKisa = !this.kilpailu.KilpailuOnYtMestaruusKisa;
             this.kilpailuOnYTklubikisaToolStripMenuItem.Checked = this.kilpailu.KilpailuOnYtMestaruusKisa;
+
+            if (this.kilpailu.KilpailuOnYtMestaruusKisa)
+            {
+                this.JoukkueColumn.Visible = true;
+            }
         }
     }
 }
