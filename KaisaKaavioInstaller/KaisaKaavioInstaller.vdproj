@@ -759,7 +759,7 @@
                             "ContextData" = "8:Unchecked=;Checked=1"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:1"
+                            "Value" = "8:"
                             "DefaultValue" = "8:"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -772,7 +772,7 @@
                             "ContextData" = "8:1;True=1;False=0"
                             "Attributes" = "3:0"
                             "Setting" = "3:0"
-                            "Value" = "3:1"
+                            "Value" = "3:0"
                             "DefaultValue" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1253,7 +1253,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_65FCE2715522444EB866F8024D188816"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\KaisaKaavio\\obj\\Release\\KaisaKaavio.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_57C9C286FD6246D1B3AE49ADE72BEBB9"
