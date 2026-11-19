@@ -5276,19 +5276,19 @@ namespace KaisaKaavio
                 }
 
                 int sarja = 0;
-                if (Int32.TryParse(peli.PisinSarja1, out sarja) && sarja > 0)
+                if (Luku.ParsiKokonaisluku(peli.PisinSarja1, out sarja) && sarja > 0)
                 {
                     sarjat[peli.Pelaaja1].Add(sarja);
                 }
-                if (Int32.TryParse(peli.ToiseksiPisinSarja1, out sarja) && sarja > 0)
+                if (Luku.ParsiKokonaisluku(peli.ToiseksiPisinSarja1, out sarja) && sarja > 0)
                 {
                     sarjat[peli.Pelaaja1].Add(sarja);
                 }
-                if (Int32.TryParse(peli.PisinSarja2, out sarja) && sarja > 0)
+                if (Luku.ParsiKokonaisluku(peli.PisinSarja2, out sarja) && sarja > 0)
                 {
                     sarjat[peli.Pelaaja2].Add(sarja);
                 }
-                if (Int32.TryParse(peli.ToiseksiPisinSarja2, out sarja) && sarja > 0)
+                if (Luku.ParsiKokonaisluku(peli.ToiseksiPisinSarja2, out sarja) && sarja > 0)
                 {
                     sarjat[peli.Pelaaja2].Add(sarja);
                 }

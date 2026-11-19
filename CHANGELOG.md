@@ -2,6 +2,10 @@
 
 Tämä dokumentti sisältää ytimekkään kuvauksen mitä muutoksia ohjelman versiot sisältävät verrattuna aiempiin versioihin,
 
+## Versio 1.0.0.54		(työn alla)
+
+* Korjattu pisimmät sarjat niin, että näkyy tuloksissa vaikka sisältäisi tekstiä, esim "60ap"
+
 ## Versio 1.0.0.53		(julkaistu 14.11.2026)
 
 * Bugikorjauksia Yt-klubimestaruuskisa-moodiin.
